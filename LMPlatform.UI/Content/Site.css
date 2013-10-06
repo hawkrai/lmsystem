@@ -1,0 +1,423 @@
+﻿/* Common
+----------------------------------------------------------*/
+html {
+	margin: 0 auto;
+	padding: 0;
+}
+
+body {
+	margin: 0 auto;
+	padding: 0;
+	overflow-y: scroll;
+}
+
+header, footer, hgroup,
+nav, section {
+	display: block;
+}
+
+mark {
+	background-color: #a6dbed;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.float-left {
+	float: left;
+	margin: 0 auto;
+}
+
+.float-right {
+	float: right;
+}
+
+.clear-fix:after {
+	content: ".";
+	clear: both;
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+
+footer {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	margin: 0 auto;
+	height: 20px;
+}
+h1 {
+	font-size: 35px;
+}
+
+
+/* main layout
+----------------------------------------------------------*/
+.content-wrapper {
+	margin: 0 auto;
+	max-width: 1000px;
+}
+
+#body {
+	clear: both;
+	padding-bottom: 35px;
+}
+
+.main-content {
+	padding-top: 5px;
+}
+
+header .site-logo {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: x-large;
+	text-align: right;
+	background-color: rgb(25, 163, 216);
+	padding-right: 5px;
+	color: #FBFDDB;
+}
+
+/* login
+----------------------------------------------------------*/
+#login {
+	font-size: .85em;
+}
+
+/* login page */
+#loginForm {
+    height: 200px;
+}
+
+#loginForm.hero-unit {
+	background-color: #E8E8E8;
+    padding: 120px;
+    padding-top: 50px;
+}
+
+#loginForm .login-fields {
+    width: 70%;
+}
+
+	#loginForm .validation-error {
+		display: block;
+		margin-left: 15px;
+	}
+
+	#loginForm .validation-summary-errors ul {
+		margin: 0;
+		padding: 0;
+	}
+
+	#loginForm .validation-summary-errors li {
+		display: inline;
+		list-style: none;
+		margin: 0;
+	}
+
+	#loginForm input {
+		width: 250px;
+	}
+
+		#loginForm input[type="checkbox"],
+		#loginForm input[type="submit"],
+		#loginForm input[type="button"],
+		#loginForm button {
+			width: auto;
+		}
+
+#logoutForm {
+	display: inline;
+	margin-left: 15px;
+}
+
+/* page elements
+----------------------------------------------------------*/
+input, textarea {
+	font-size: 1.2em;
+	margin: 5px 0 6px 0;
+	padding: 5px;
+	width: 500px;
+}
+
+textarea {
+	font-family: inherit;
+	width: 500px;
+	height: 200px;
+}
+
+.dataTables_wrapper input {
+	font-family: inherit;
+	width: 220px;
+}
+
+input:focus, textarea:focus {
+	border: 1px solid #7ac0da;
+}
+
+input[type="checkbox"] {
+	background: transparent;
+	border: inherit;
+	width: auto;
+}
+
+
+td input[type="submit"],
+td input[type="button"],
+td button {
+	font-size: 1em;
+	padding: 4px;
+	margin-right: 4px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+	color: red;
+	font-weight: bold;
+}
+
+.field-validation-valid {
+	display: none;
+}
+
+input.input-validation-error {
+	border: 1px solid red;
+}
+
+input[type="checkbox"].input-validation-error {
+	border: 0 none;
+}
+
+.validation-summary-errors {
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.validation-summary-valid {
+	display: none;
+}
+
+
+fieldset.scheduler-border {
+	border: 1px solid #ddd !important;
+	padding: 0 1.4em 1.4em 1.4em !important;
+	margin: 0 0 1.5em 0 !important;
+	-webkit-box-shadow: 0px 0px 0px 0px #000;
+	box-shadow: 0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+	font-size: 1.2em !important;
+	font-weight: bold !important;
+	text-align: left !important;
+	width: auto;
+	padding: 0 10px;
+	border-bottom: none;
+}
+
+/* jQuery controls*/
+/* waiting indicator*/
+
+.waiting-container {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.opacity-background {
+	opacity: 0.2;
+	background-color: white;
+}
+
+.fill-allsize {
+	position: fixed;
+}
+
+.fill-partial {
+	position: absolute;
+}
+
+.indicator-by-fill {
+	position: absolute;
+}
+
+.indicator-by-append {
+	position: static;
+}
+
+.large {
+	width: 50px;
+	height: 50px;
+	background: url('../Images/ajax-loader.gif');
+	margin: -8px 0 0 -8px;
+	background-repeat: no-repeat;
+}
+
+.mini {
+	width: 20px;
+	height: 20px;
+	background: url('../Images/ajax-loader-mini.gif');
+	background-repeat: no-repeat;
+	margin: 0;
+	display: inline-block;
+}
+
+.left {
+	float: left;
+}
+
+.center {
+	top: 50%;
+	left: 50%;
+}
+
+
+/* other*/
+.helperMessage {
+	display: none;
+}
+
+.appendItem {
+	margin-bottom: 15px;
+}
+
+.editableSelect {
+	width: 200px;
+	margin-right: 15px;
+}
+
+.row-action {
+	text-align: right !important;
+}
+
+/*Datatables styles*/
+.dataTables_info {
+	float: left;
+}
+
+.dataTables_filter {
+	float: right;
+}
+
+.dataTables_wrapper {
+    position: relative;
+}
+
+.dataTables_info {
+	margin-right: 150px;
+}
+
+.dataTables_empty {
+    text-align: center!important;
+}
+
+.modal {
+	width: 700px;
+}
+
+.modal-body {
+	max-height: 450px;
+}
+
+.alert-error {
+	color: #ffffff;
+	background-color: red;
+	border-color: transparent;
+}
+
+.addItemButton {
+	float: right;
+	margin: 8px;
+	margin-bottom: 10px;
+}
+
+.btn.editItemButton {
+	margin-right: 2px;
+}
+
+.removeItemButton {
+}
+
+.editableListContainer {
+}
+
+.btn-mini {
+	background-color: white;
+}
+
+.edit-dropdown-value {
+	margin-left: -5px;
+	margin-bottom: 5px;
+}
+
+.editable {
+	margin-bottom: 5px;
+	margin-right: 10px!important;
+}
+
+.tooltip-button {
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+
+.btn-info {
+	background-color: white;
+}
+
+	.btn-info:hover {
+		background-color: #339966;
+	}
+
+.text-underline {
+	margin-bottom: 15px;
+	border-bottom: 1px solid #ddd;
+	font-weight: bold;
+}
+
+.image-field {
+	margin-bottom: 60px;
+}
+
+.upload-view {
+	height: 150px;
+}
+
+.default-text-container {
+	font-size: small;
+	color: #333333;
+	text-align: center;
+	background-color: #dddddd;
+	padding: 20px;
+}
+
+#saveSubCollectionItemButton {
+	margin-right: 5px;
+}
+
+.loading-caption {
+	margin-top: -5px;
+	margin-left: 5px;
+	float: right;
+	color: gray;
+	font-size: medium;
+}
+
+.editLookupField {
+	position: absolute;
+	top: 25px;
+	left: 870px;
+}
+
+.close {
+	width: 20px!important;
+	height: 20px;
+}
+.unread-notification {
+	font-weight: bold;
+}
+.addButtonMini {
+    background-color: #000000;
+    color: #ffffff;
+    width: 100px
+}
