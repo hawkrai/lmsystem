@@ -18,6 +18,11 @@ namespace LMPlatform.UI
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
+                "~/Scripts/DataTables-1.9.4/media/js/jquery.dataTables.js",
+                "~/Scripts/application/datatable-bootstrappagination.js",
+                "~/Scripts/application/dataTables.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(

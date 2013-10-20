@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title LMP разработка</title>
     <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/Content/datatable-bootstrap.css">
+
     @Styles.Render("~/Content/bootstrap")
     @Styles.Render("~/Content/css")
 
@@ -17,10 +19,50 @@
 </head>
 <body>
     <div id="body">
+        <div class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header" style="margin-top: 10px">
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" class="navbar-brand">LMPlatform</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-top: 10px">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">Система управления учебным процессом</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Дополнительные модули <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Система управления ошибками</a></li>
+                                <li><a href="#">Тестирование знаний</a></li>
+                                <li><a href="#">Методические материалы</a></li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Проекты</li>
+                                <li><a href="#">Курсовое проектирование</a></li>
+                                <li><a href="#">Дипломное проектирование</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left">
+                        <input type="text" class="form-control col-lg-8 search" placeholder="Поиск">
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        @Html.Partial("_LoginPartial")
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         @RenderSection("featured", required: false)
         @RenderSection("specificScripts", required: false)
         <section class="content-wrapper main-content clear-fix">
-            @RenderBody()
+            <div>
+                @RenderBody()
+            </div>
+
         </section>
     </div>
 
@@ -28,7 +70,8 @@
         <div class="content-wrapper">
             <div class="float-left">
                 <p>
-                    &copy; @DateTime.Now.Year - LMP разработка/p>
+                    &copy; @DateTime.Now.Year - LMP разработка
+                </p>
             </div>
         </div>
     </footer>

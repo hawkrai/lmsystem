@@ -1,9 +1,14 @@
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.ServiceLocation;
-
+using Application.Infrastructure.AccountManagement;
 
 namespace LMPlatform.UI
 {
+    using Application.Infrastructure.UserManagement;
+
+    using LMPlatform.Data.Repositories;
+    using LMPlatform.Data.Repositories.RepositoryContracts;
+
     public static class Bootstrapper
     {
         public static void Initialize()
@@ -15,6 +20,11 @@ namespace LMPlatform.UI
 
         public static IUnityContainer RegisterTypes(IUnityContainer container)
         {
+            container.RegisterType<IAccountManagementService, AccountManagementService>();
+            container.RegisterType<IGroupsRepository, GroupsRepository>();
+            container.RegisterType<IStudentsRepository, StudentsRepository>();
+            container.RegisterType<IUsersRepository, UsersRepository>();
+            container.RegisterType<IUsersManagementService, UsersManagementService>();
             return container;
         }
 

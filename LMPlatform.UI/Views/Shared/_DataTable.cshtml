@@ -1,0 +1,31 @@
+﻿@model Application.Core.UI.HtmlHelpers.DataTableViewModel
+<table class="table table-bordered table-striped table-hover" id="@Model.DataTable.Id">
+	<thead>
+		<tr>
+			@foreach (var column in Model.DataTable.Columns)
+			{
+				<th>@column.DisplayName</th>
+			}
+		</tr>
+		@if (Model.DataTable.ColumnFilter)
+		{
+			<tr>
+				@foreach (var column in Model.DataTable.Columns)
+				{
+					<th>@column.DisplayName</th>
+				}
+			</tr>
+		}
+	</thead>
+	<tbody>
+		<tr>
+			<td colspan="@Model.DataTable.Columns.Count()" class="dataTables_empty"></td>
+		</tr>
+	</tbody>
+</table>
+
+<script type="text/javascript">
+	var datatable = dataTables.createDataTable("@Model.DataTable.Id", "@Model.DataTable.AjaxUrl", '@Model.DataTableOptions.Pagination.ToString().ToLower()', '@Model.DataTableOptions.Filterable.ToString().ToLower()', '@Model.DataTableOptions.Sortable.ToString().ToLower()', '@Model.DataTableOptions.Info.ToString().ToLower()', '@Model.DataTableOptions.OnCompleteCallbackName', @Model.JsonSerialize(Model.DataTableOptions.InvisibleColumnsNumbers));
+</script>
+
+

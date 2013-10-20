@@ -1,303 +1,338 @@
-﻿/* Common
-----------------------------------------------------------*/
-html {
-	margin: 0 auto;
-	padding: 0;
-}
-
-body {
-	margin: 0 auto;
-	padding: 0;
-	overflow-y: scroll;
+﻿html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f5f7;
+    /*background-image: -moz-linear-gradient(top, #f9fafb, #edeff3);
+    background-image: -ms-linear-gradient(top, #f9fafb, #edeff3);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9fafb), to(#edeff3));
+    background-image: -webkit-linear-gradient(top, #f9fafb, #edeff3);
+    background-image: -o-linear-gradient(top, #f9fafb, #edeff3);
+    background-image: linear-gradient(top, #f9fafb, #edeff3);
+    ba*/
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF9FAFB', endColorstr='#FFEDEFF3', GradientType=0);
+    border-color: #edeff3 #edeff3 #bfc6d4;
 }
 
 header, footer, hgroup,
 nav, section {
-	display: block;
+    display: block;
 }
 
 mark {
-	background-color: #a6dbed;
-	padding-left: 5px;
-	padding-right: 5px;
+    background-color: #a6dbed;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .float-left {
-	float: left;
-	margin: 0 auto;
+    float: left;
+    margin: 0 auto;
 }
 
 .float-right {
-	float: right;
+    float: right;
 }
 
 .clear-fix:after {
-	content: ".";
-	clear: both;
-	display: block;
-	height: 0;
-	visibility: hidden;
+    content: ".";
+    clear: both;
+    display: block;
+    height: 0;
+    visibility: hidden;
 }
 
 footer {
-	width: 100%;
-	position: fixed;
-	bottom: 0;
-	margin: 0 auto;
-	height: 20px;
-}
-h1 {
-	font-size: 35px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    margin: 0 auto;
+    height: 20px;
 }
 
+h1 {
+    font-size: 35px;
+}
+
+.hero-unit {
+    padding: 60px;
+    margin-bottom: 30px;
+    font-weight: 200;
+    line-height: 30px;
+    color: inherit;
+    background-color: #eeeeee;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.search {
+    height: 40px
+}
+/* login layout
+----------------------------------------------------------*/
+
+#login {
+    width: 440px;
+    margin: 0 auto 0 auto;
+    background: white;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.08);
+    *zoom: 1;
+    margin-top: -20px;
+}
+
+    #login input {
+        width: 300px;
+    }
+
+        #login input[type="checkbox"],
+        #login input[type="submit"],
+        #login input[type="button"],
+        #login button {
+            width: auto;
+        }
+
+    #login .registration {
+        font-size: 14px;
+    }
+    #login h1 {
+        font-size: 60px;
+        color: #bfc6d4
+        
+    }
+#logoutForm {
+	display: inline;
+	margin-left: 15px;
+    color: white
+}
+/* registration layout
+----------------------------------------------------------*/
+
+#registration {
+    width: 600px;
+    margin: 0 auto 0 auto;
+    background: white;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.08);
+    *zoom: 1;
+    margin-top: -20px;
+}
+
+    #registration input {
+        width: 500px;
+    }
+
+        #registration input[type="checkbox"],
+        #registration input[type="submit"],
+        #registration input[type="button"],
+        #registration button {
+            width: auto;
+        }
+
+.error-limit-login {
+    width: 440px;
+    margin: 0 auto 0 auto;
+}
+
+.error-limit-registr {
+    width: 600px;
+    margin: 0 auto 0 auto;
+}
 
 /* main layout
 ----------------------------------------------------------*/
 .content-wrapper {
-	margin: 0 auto;
-	max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.08);
+    max-width: 1000px;
 }
 
 #body {
-	clear: both;
-	padding-bottom: 35px;
+    clear: both;
+    padding-bottom: 35px;
 }
 
 .main-content {
-	padding-top: 5px;
+    padding-top: 5px;
 }
 
 header .site-logo {
-	padding-top: 20px;
-	padding-bottom: 20px;
-	font-size: x-large;
-	text-align: right;
-	background-color: rgb(25, 163, 216);
-	padding-right: 5px;
-	color: #FBFDDB;
-}
-
-/* login
-----------------------------------------------------------*/
-#login {
-	font-size: .85em;
-}
-
-/* login page */
-#loginForm {
-    height: 200px;
-}
-
-#loginForm.hero-unit {
-	background-color: #E8E8E8;
-    padding: 120px;
-    padding-top: 50px;
-}
-
-#loginForm .login-fields {
-    width: 70%;
-}
-
-	#loginForm .validation-error {
-		display: block;
-		margin-left: 15px;
-	}
-
-	#loginForm .validation-summary-errors ul {
-		margin: 0;
-		padding: 0;
-	}
-
-	#loginForm .validation-summary-errors li {
-		display: inline;
-		list-style: none;
-		margin: 0;
-	}
-
-	#loginForm input {
-		width: 250px;
-	}
-
-		#loginForm input[type="checkbox"],
-		#loginForm input[type="submit"],
-		#loginForm input[type="button"],
-		#loginForm button {
-			width: auto;
-		}
-
-#logoutForm {
-	display: inline;
-	margin-left: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: x-large;
+    text-align: right;
+    background-color: rgb(25, 163, 216);
+    padding-right: 5px;
+    color: #FBFDDB;
 }
 
 /* page elements
 ----------------------------------------------------------*/
 input, textarea {
-	font-size: 1.2em;
-	margin: 5px 0 6px 0;
-	padding: 5px;
-	width: 500px;
+    font-size: 1.2em;
+    margin: 5px 0 6px 0;
+    padding: 5px;
+    width: 500px;
 }
 
 textarea {
-	font-family: inherit;
-	width: 500px;
-	height: 200px;
+    font-family: inherit;
+    width: 500px;
+    height: 200px;
 }
 
 .dataTables_wrapper input {
-	font-family: inherit;
-	width: 220px;
+    font-family: inherit;
+    width: 220px;
 }
 
 input:focus, textarea:focus {
-	border: 1px solid #7ac0da;
+    border: 1px solid #7ac0da;
 }
 
 input[type="checkbox"] {
-	background: transparent;
-	border: inherit;
-	width: auto;
+    background: transparent;
+    border: inherit;
+    width: auto;
 }
 
 
 td input[type="submit"],
 td input[type="button"],
 td button {
-	font-size: 1em;
-	padding: 4px;
-	margin-right: 4px;
+    font-size: 1em;
+    padding: 4px;
+    margin-right: 4px;
 }
 
 /* styles for validation helpers */
 .field-validation-error {
-	color: red;
-	font-weight: bold;
+    color: red;
+    font-weight: bold;
 }
 
 .field-validation-valid {
-	display: none;
+    display: none;
 }
 
 input.input-validation-error {
-	border: 1px solid red;
+    border: 1px solid red;
 }
 
 input[type="checkbox"].input-validation-error {
-	border: 0 none;
+    border: 0 none;
 }
 
 .validation-summary-errors {
-	color: #ffffff;
-	font-weight: bold;
-	font-size: 1.1em;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.1em;
 }
 
 .validation-summary-valid {
-	display: none;
+    display: none;
 }
 
 
 fieldset.scheduler-border {
-	border: 1px solid #ddd !important;
-	padding: 0 1.4em 1.4em 1.4em !important;
-	margin: 0 0 1.5em 0 !important;
-	-webkit-box-shadow: 0px 0px 0px 0px #000;
-	box-shadow: 0px 0px 0px 0px #000;
+    border: 1px solid #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
 }
 
 legend.scheduler-border {
-	font-size: 1.2em !important;
-	font-weight: bold !important;
-	text-align: left !important;
-	width: auto;
-	padding: 0 10px;
-	border-bottom: none;
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width: auto;
+    padding: 0 10px;
+    border-bottom: none;
 }
 
 /* jQuery controls*/
 /* waiting indicator*/
 
 .waiting-container {
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .opacity-background {
-	opacity: 0.2;
-	background-color: white;
+    opacity: 0.2;
+    background-color: white;
 }
 
 .fill-allsize {
-	position: fixed;
+    position: fixed;
 }
 
 .fill-partial {
-	position: absolute;
+    position: absolute;
 }
 
 .indicator-by-fill {
-	position: absolute;
+    position: absolute;
 }
 
 .indicator-by-append {
-	position: static;
+    position: static;
 }
 
 .large {
-	width: 50px;
-	height: 50px;
-	background: url('../Images/ajax-loader.gif');
-	margin: -8px 0 0 -8px;
-	background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    background: url('../Images/ajax-loader.gif');
+    margin: -8px 0 0 -8px;
+    background-repeat: no-repeat;
 }
 
 .mini {
-	width: 20px;
-	height: 20px;
-	background: url('../Images/ajax-loader-mini.gif');
-	background-repeat: no-repeat;
-	margin: 0;
-	display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url('../Images/ajax-loader-mini.gif');
+    background-repeat: no-repeat;
+    margin: 0;
+    display: inline-block;
 }
 
 .left {
-	float: left;
+    float: left;
 }
 
 .center {
-	top: 50%;
-	left: 50%;
+    top: 50%;
+    left: 50%;
 }
 
 
 /* other*/
 .helperMessage {
-	display: none;
+    display: none;
 }
 
 .appendItem {
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .editableSelect {
-	width: 200px;
-	margin-right: 15px;
+    width: 200px;
+    margin-right: 15px;
 }
 
 .row-action {
-	text-align: right !important;
+    text-align: right !important;
 }
 
 /*Datatables styles*/
 .dataTables_info {
-	float: left;
+    float: left;
 }
 
 .dataTables_filter {
-	float: right;
+    float: right;
 }
 
 .dataTables_wrapper {
@@ -305,7 +340,7 @@ legend.scheduler-border {
 }
 
 .dataTables_info {
-	margin-right: 150px;
+    margin-right: 150px;
 }
 
 .dataTables_empty {
@@ -313,27 +348,27 @@ legend.scheduler-border {
 }
 
 .modal {
-	width: 700px;
+    width: 700px;
 }
 
 .modal-body {
-	max-height: 450px;
+    max-height: 450px;
 }
 
 .alert-error {
-	color: #ffffff;
-	background-color: red;
-	border-color: transparent;
+    color: #ffffff;
+    background-color: red;
+    border-color: transparent;
 }
 
 .addItemButton {
-	float: right;
-	margin: 8px;
-	margin-bottom: 10px;
+    float: right;
+    margin: 8px;
+    margin-bottom: 10px;
 }
 
 .btn.editItemButton {
-	margin-right: 2px;
+    margin-right: 2px;
 }
 
 .removeItemButton {
@@ -343,81 +378,87 @@ legend.scheduler-border {
 }
 
 .btn-mini {
-	background-color: white;
+    background-color: white;
 }
 
 .edit-dropdown-value {
-	margin-left: -5px;
-	margin-bottom: 5px;
+    margin-left: -5px;
+    margin-bottom: 5px;
 }
 
 .editable {
-	margin-bottom: 5px;
-	margin-right: 10px!important;
+    margin-bottom: 5px;
+    margin-right: 10px!important;
 }
 
 .tooltip-button {
-	margin-bottom: 5px;
-	margin-left: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
 }
 
 .btn-info {
-	background-color: white;
+    background-color: white;
 }
 
-	.btn-info:hover {
-		background-color: #339966;
-	}
+    .btn-info:hover {
+        background-color: #339966;
+    }
 
 .text-underline {
-	margin-bottom: 15px;
-	border-bottom: 1px solid #ddd;
-	font-weight: bold;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
 }
 
 .image-field {
-	margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .upload-view {
-	height: 150px;
+    height: 150px;
 }
 
 .default-text-container {
-	font-size: small;
-	color: #333333;
-	text-align: center;
-	background-color: #dddddd;
-	padding: 20px;
+    font-size: small;
+    color: #333333;
+    text-align: center;
+    background-color: #dddddd;
+    padding: 20px;
 }
 
 #saveSubCollectionItemButton {
-	margin-right: 5px;
+    margin-right: 5px;
 }
 
 .loading-caption {
-	margin-top: -5px;
-	margin-left: 5px;
-	float: right;
-	color: gray;
-	font-size: medium;
+    margin-top: -5px;
+    margin-left: 5px;
+    float: right;
+    color: gray;
+    font-size: medium;
 }
 
 .editLookupField {
-	position: absolute;
-	top: 25px;
-	left: 870px;
+    position: absolute;
+    top: 25px;
+    left: 870px;
 }
 
 .close {
-	width: 20px!important;
-	height: 20px;
+    width: 20px!important;
+    height: 20px;
 }
+
 .unread-notification {
-	font-weight: bold;
+    font-weight: bold;
 }
+
 .addButtonMini {
     background-color: #000000;
     color: #ffffff;
-    width: 100px
+    width: 100px;
+}
+
+.username {
+    color: white
 }
