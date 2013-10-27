@@ -58,12 +58,45 @@
 
         @RenderSection("featured", required: false)
         @RenderSection("specificScripts", required: false)
-        <section class="content-wrapper main-content clear-fix">
-            <div>
-                @RenderBody()
+        <div class="row" style="margin: 5px">
+            <div class="panel-wrapper col-md-3">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">Новости</a>
+                    <a href="#" class="list-group-item">Лекции</a>
+                    <a href="#" class="list-group-item">Лабораторные работы</a>
+                    <a href="#" class="list-group-item">График защиты</a>
+                    <a href="#" class="list-group-item">Статистика посещения</a>
+                    <a href="#" class="list-group-item">Результаты</a>
+                    <a href="#" class="list-group-item">Файлы</a>
+                    <a href="#" class="list-group-item">Архив</a>
+                    <a href="#" class="list-group-item">Проекты</a>
+                    <a href="#" class="list-group-item">Назначение проектов</a>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Навигатор по модулям</h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="#">Система управления ошибками</a>
+                        <div class="clear-fix"></div>
+                        <a href="#">Тестирование знаний</a>
+                        <div class="clear-fix"></div>
+                        <a href="#">Методические материалы</a>
+                        <div class="clear-fix"></div>
+                        <a href="#">Курсовое проектирование</a>
+                        <div class="clear-fix"></div>
+                        <a href="#">Дипломное проектирование</a>
+                    </div>
+                </div>
             </div>
-
-        </section>
+            <div class="col-md-9">
+                <section class="content-wrapper main-content clear-fix">
+                    <div>
+                        @RenderBody()
+                    </div>
+                </section>
+            </div>
+        </div>
     </div>
 
     <footer>

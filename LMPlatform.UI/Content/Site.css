@@ -1,6 +1,6 @@
 ﻿html, body {
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
     background-color: #f4f5f7;
     /*background-image: -moz-linear-gradient(top, #f9fafb, #edeff3);
     background-image: -ms-linear-gradient(top, #f9fafb, #edeff3);
@@ -73,16 +73,15 @@ h1 {
 
 #login {
     width: 440px;
-    margin: 0 auto 0 auto;
+    margin: 600px auto 0 auto;
     background: white;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.08);
     *zoom: 1;
     margin-top: -20px;
-}
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
 
-    #login input {
-        width: 300px;
-    }
+}
 
         #login input[type="checkbox"],
         #login input[type="submit"],
@@ -114,6 +113,8 @@ h1 {
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.08);
     *zoom: 1;
     margin-top: -20px;
+        -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
 }
 
     #registration input {
@@ -140,10 +141,12 @@ h1 {
 /* main layout
 ----------------------------------------------------------*/
 .content-wrapper {
-    margin: 0 auto;
     background: white;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.08);
-    max-width: 1000px;
+}
+
+.panel-wrapper {
+    
 }
 
 #body {
