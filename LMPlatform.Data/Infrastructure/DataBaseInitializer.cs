@@ -1,7 +1,5 @@
-﻿using System;
-using System.Data.Entity.Infrastructure;
+﻿using System.Data.Entity.Infrastructure;
 using LMPlatform.Models;
-
 
 namespace LMPlatform.Data.Infrastructure
 {

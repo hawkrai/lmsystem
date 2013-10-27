@@ -1,6 +1,6 @@
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.ServiceLocation;
 using Application.Infrastructure.AccountManagement;
+using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Unity;
 
 namespace LMPlatform.UI
 {

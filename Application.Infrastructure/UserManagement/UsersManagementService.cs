@@ -32,6 +32,7 @@ namespace Application.Infrastructure.UserManagement
             {
                 return true;
             }
+
             return false;
         }
     }

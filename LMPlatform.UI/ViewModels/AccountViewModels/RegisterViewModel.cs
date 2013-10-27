@@ -31,7 +31,6 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             }
         }
 
-
         public IGroupsRepository GroupsRepository
         {
             get
@@ -39,7 +38,6 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 return _groupsRepository.Value;
             }
         }
-
 
         public IAccountManagementService AccountRegistrationService
         {

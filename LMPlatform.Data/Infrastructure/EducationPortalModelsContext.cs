@@ -60,7 +60,6 @@ namespace LMPlatform.Data.Infrastructure
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Membership>().Map(m => m.ToTable("webpages_Membership"))
                 .Property(m => m.Id)
                 .HasColumnName("UserId")

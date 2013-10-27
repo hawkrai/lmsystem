@@ -8,6 +8,5 @@
 
     public class StudentsRepository : RepositoryBase<LmPlatformModelsContext, Student>, IStudentsRepository
     {
-         
     }
 }

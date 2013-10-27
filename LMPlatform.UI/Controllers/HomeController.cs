@@ -12,6 +12,7 @@ namespace LMPlatform.UI.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+
             return RedirectToAction("Index", "Lms");
         }
     }
