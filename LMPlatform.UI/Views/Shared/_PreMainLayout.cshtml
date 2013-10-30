@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+}
+
+@section css
+{
+    @RenderSection("css", false)
+}
+
+@section scripts{
+    @RenderSection("scripts", false)
+}
+
+@section body
+{
+    <section class="@*content-wrapper main-content *@ clear-fix" style="max-width: 1000px;margin: 0 auto;">
+        @RenderBody()
+    </section>
+}

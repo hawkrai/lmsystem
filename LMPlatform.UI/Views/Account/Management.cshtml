@@ -1,5 +1,24 @@
 ﻿@{
     ViewBag.Title = "Management";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_PreMainLayout.cshtml";
 }
-@Html.Partial("UnderConstruction")
+
+<div style="padding: 20px">
+    <div style="clear: both;"></div>
+    <ul class="nav nav-tabs" id="tabs">
+        <li class="active"><a href="#tab_1" data-toggle="pill">Первый таб</a></li>
+        <li><a href="#tab_2" data-toggle="pill">Второй таб</a></li>
+        <li><a href="#tab_3" data-toggle="pill">Третий таб</a></li>
+    </ul>
+    <div class="tab-content tabbable">
+        <div class="tab-pane  active" id="tab_1">
+            
+        </div>
+        <div class="tab-pane" id="tab_2">
+            
+        </div>
+        <div class="tab-pane" id="tab_3">
+            
+        </div>
+    </div>
+</div>
