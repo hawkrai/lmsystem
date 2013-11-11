@@ -456,7 +456,6 @@
     <Content Include="Views\BTS\Projects.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\ErrorManagement.cshtml" />
-    <Content Include="Views\Shared\_ProjectsLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

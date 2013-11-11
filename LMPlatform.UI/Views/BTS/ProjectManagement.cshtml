@@ -1,90 +1,95 @@
 ﻿@{
-    Layout = "~/Views/Shared/_ProjectsLayout.cshtml";
+    Layout = "~/Views/Shared/_BTSLayout.cshtml";
 }
 
-@section projectFeatures
-{
+<div class="container" style="margin: 10px">
     <div class="row">
-        <div class="col-md-offset-1 col-md-10">
-            
-            <table class="table">
-                <tr>
-                    <td style="width: 40%">Тема проекта :</td>
-                    <td class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Проект 1<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>Проект 1</li>
-                            <li>Проект 2</li>
-                            <li>Проект 3</li>
-                        </ul>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Создатель :</td>
-                    <td>test</td>
-                </tr>
-                <tr>
-                    <td>Дата создания :</td>
-                    <td>11 сентября 1990</td>
-                </tr>
-            </table>
-            
+        <div class="col-md-8">
             <div class="row">
-                    <div class="col-md-7">
-                        <h4>Участники проекта</h4>
-                    </div>
-                    <div class="col-md-5">
-                        <button type="button" class="btn btn-primary" style="margin-left: 30px">Добавить участника</button>
-                    </div>
-                            
-                </div>
+                <div class="col-md-offset-1 col-md-10">
             
-            <table class="table">
-                <tr>
-                    <td style="width: 55%">User1</td> 
-                    <td style="width: 40%">разработчик</td> 
-                    <td style="width: 5%"><img src="/Content/images/trash_blue.png"/></td> 
-                </tr>
-                <tr>
-                    <td>User2</td> 
-                    <td>разработчик</td> 
-                    <td><img src="/Content/images/trash_blue.png"/></td> 
-                </tr>
-                <tr>
-                    <td>User3</td> 
-                    <td>тестировщик</td> 
-                    <td><img src="/Content/images/trash_blue.png"/></td> 
-                </tr>
-            </table>
-        </div>
-    </div>
-}
+                    <table class="table">
+                        <tr>
+                            <td style="width: 40%">Тема проекта :</td>
+                            <td class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Проект 1<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>Проект 1</li>
+                                    <li>Проект 2</li>
+                                    <li>Проект 3</li>
+                                </ul>
+                            </td>
+                        </tr>
 
-@section projectErrors
-{
-        <div class="row">
-            <div class="col-md-offset-1 col-md-10">
-                <p>Новые</p>
-                <p>Разрешенные</p>
-                <p>Закрытые</p>
+                        <tr>
+                            <td>Создатель :</td>
+                            <td>test</td>
+                        </tr>
+                        <tr>
+                            <td>Дата создания :</td>
+                            <td>11 сентября 1990</td>
+                        </tr>
+                    </table>
+            
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h4>Участники проекта</h4>
+                        </div>
+                        <div class="col-md-5">
+                            <button type="button" class="btn btn-primary" style="margin-left: 30px">Добавить участника</button>
+                        </div>
+                            
+                    </div>
+            
+                    <table class="table">
+                        <tr>
+                            <td style="width: 55%">User1</td> 
+                            <td style="width: 40%">разработчик</td> 
+                            <td style="width: 5%"><img src="/Content/images/trash_blue.png"/></td> 
+                        </tr>
+                        <tr>
+                            <td>User2</td> 
+                            <td>разработчик</td> 
+                            <td><img src="/Content/images/trash_blue.png"/></td> 
+                        </tr>
+                        <tr>
+                            <td>User3</td> 
+                            <td>тестировщик</td> 
+                            <td><img src="/Content/images/trash_blue.png"/></td> 
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-offset-1 col-md-10">
-                <h4>Важность ошибок</h4>
-                <p>Высокая</p>
-                <p>Средняя</p>
-                <p>Низкая</p>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title" align="center">Анализ ошибок проекта</h3>
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <p>Новые</p>
+                    <p>Разрешенные</p>
+                    <p>Закрытые</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <h4>Важность ошибок</h4>
+                    <p>Высокая</p>
+                    <p>Средняя</p>
+                    <p>Низкая</p>
+                </div>
+            </div>
     
-    <div class="row" align="center">
-        <button type="button" class="btn btn-primary">Перейти к ошибкам проекта</button>
+            <div class="row" align="center">
+                <button type="button" class="btn btn-primary">Перейти к ошибкам проекта</button>
+            </div>
+        </div>
+
     </div>
-
-
-}
+</div>
 
 
