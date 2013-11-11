@@ -155,6 +155,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -255,6 +256,9 @@
     <Content Include="Content\images\sort_both.png" />
     <Content Include="Content\images\sort_desc.png" />
     <Content Include="Content\images\sort_desc_disabled.png" />
+    <Content Include="Content\images\star_blue.png" />
+    <Content Include="Content\images\star_white.png" />
+    <Content Include="Content\images\trash_blue.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -448,6 +452,11 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Shared\_LayoutBase.cshtml" />
     <Content Include="Views\Shared\_PreMainLayout.cshtml" />
+    <Content Include="Views\Shared\_BTSLayout.cshtml" />
+    <Content Include="Views\BTS\Projects.cshtml" />
+    <Content Include="Views\BTS\ProjectManagement.cshtml" />
+    <Content Include="Views\BTS\ErrorManagement.cshtml" />
+    <Content Include="Views\Shared\_ProjectsLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -492,9 +501,9 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>43365</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:20612/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

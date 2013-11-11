@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Views/Shared/_PreMainLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title Система управления ошибками</title>
+    </head>
+    
+    <body>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" align="center">Система управления ошибками</h3>
+            </div>
+            
+            <div class="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Проекты", "Projects","BTS")</li>
+                        <li>@Html.ActionLink("Управление проектами", "ProjectManagement","BTS")</li>
+                        <li>@Html.ActionLink("Управление ошибками", "ErrorManagement","BTS")</li>
+                    </ul>
+            </div>
+        </div>
+        
+        <div>
+            @RenderBody()
+        </div>
+
+    </body>
+</html>

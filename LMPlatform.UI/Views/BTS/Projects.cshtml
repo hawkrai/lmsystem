@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "~/Views/Shared/_BTSLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#allProjects" data-toggle="tab">Список проектов</a></li>
+                <li><a href="#electProjects" data-toggle="tab">Избранные проекты</a></li>
+                <li><button type="button" class="btn btn-primary" style="margin-left: 335%">Добавить проект</button></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="allProjects">
+        
+                    <table class="table table-hover">
+                        <tr>
+                            <td style="width: 10%; text-align: center"><img src="/Content/images/star_blue.png"/></td>
+                            <td>Проект 1. "Тестовый проект, находящийся в стадии разработки"</td>
+                            <td style="width: 20%; text-align: left">11 января 1990</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center"><img src="/Content/images/star_blue.png"/></td>
+                            <td>LMS. "Система управления учебным процессом"</td>
+                            <td style="text-align: left">20 декабря 2012</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center"><img src="/Content/images/star_white.png"/></td>
+                            <td>Дипломное проектирование</td>
+                            <td style="text-align: left">21 сентября 2011</td>
+                        </tr>
+                    </table>
+        
+                </div>
+                <div class="tab-pane" id="electProjects">
+        
+                    <table class="table table-hover">
+                        <tr>
+                            <td style="width: 10%; text-align: center"><img src="/Content/images/star_blue.png"/></td>
+                            <td>Проект 1. "Тестовый проект, находящийся в стадии разработки"</td>
+                            <td style="width: 20%; text-align: left">11 января 1990</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center"><img src="/Content/images/star_blue.png"/></td>
+                            <td>LMS. "Система управления учебным процессом"</td>
+                            <td style="text-align: left">20 декабря 2012</td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
