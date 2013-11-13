@@ -157,6 +157,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KnowledgeTestingController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -456,6 +457,10 @@
     <Content Include="Views\BTS\Projects.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\ErrorManagement.cshtml" />
+    <Content Include="Views\KnowledgeTesting\Index.cshtml" />
+    <Content Include="Views\KnowledgeTesting\_KnowledgeTestingSubnavbar.cshtml" />
+    <Content Include="Views\KnowledgeTesting\Tests.cshtml" />
+    <Content Include="Views\KnowledgeTesting\TestResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

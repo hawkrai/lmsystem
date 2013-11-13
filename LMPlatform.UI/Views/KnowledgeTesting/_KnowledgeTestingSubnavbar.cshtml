@@ -1,0 +1,20 @@
+﻿<div class="list-group">
+    @Html.ActionLink("Тесты", "Tests", "KnowledgeTesting", null, new {@class="list-group-item"})
+    @Html.ActionLink("Результаты", "TestResults", "KnowledgeTesting", null, new {@class="list-group-item"})
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Навигатор по модулям</h3>
+    </div>
+    <div class="panel-body">
+        @Html.ActionLink("Система управления учебным процессом", "Index", "Lms")
+        <div class="clear-fix"></div>
+        @Html.ActionLink("Система управления ошибками", "Projects","BTS")
+        <div class="clear-fix"></div>
+        <a href="#">Методические материалы</a>
+        <div class="clear-fix"></div>
+        <a href="#">Курсовое проектирование</a>
+        <div class="clear-fix"></div>
+        <a href="#">Дипломное проектирование</a>
+    </div>
+</div>
