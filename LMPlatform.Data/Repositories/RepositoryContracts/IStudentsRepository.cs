@@ -1,4 +1,7 @@
-﻿namespace LMPlatform.Data.Repositories.RepositoryContracts
+﻿using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+
+namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     using Application.Core.Data;
 
@@ -6,5 +9,8 @@
 
     public interface IStudentsRepository : IRepositoryBase<Student>
     {
+        Student GetStudent(int id);
+
+        List<Student> GetStudents(int groupId);
     }
 }

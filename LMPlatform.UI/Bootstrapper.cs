@@ -1,4 +1,6 @@
 using Application.Infrastructure.AccountManagement;
+using Application.Infrastructure.StudentManagement;
+using Application.Infrastructure.SubjectManagement;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 
@@ -25,6 +27,9 @@ namespace LMPlatform.UI
             container.RegisterType<IStudentsRepository, StudentsRepository>();
             container.RegisterType<IUsersRepository, UsersRepository>();
             container.RegisterType<IUsersManagementService, UsersManagementService>();
+            container.RegisterType<ISubjectRepository, SubjecRepository>();
+            container.RegisterType<IStudentManagementService, StudentManagementService>();
+            container.RegisterType<ISubjectManagementService, SubjectManagementService>();
             return container;
         }
 

@@ -17,7 +17,7 @@ namespace LMPlatform.UI.App_Start
             BundleTable.Bundles.Add(new StyleBundle("~/Content/bootstrap").Include("~/Content/bootstrap.css"));
 
             BundleTable.Bundles.Add(new StyleBundle("~/Content/bootstrapcontrols").Include(
-                "~/Content/bootstrap-datepicker.css"));
+                "~/Content/datepicker.css"));
 		}
 	}
 }

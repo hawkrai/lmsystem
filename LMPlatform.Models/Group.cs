@@ -36,5 +36,11 @@
             get;
             set;
         }
+
+        public ICollection<SubjectGroup> SubjectGroups
+        {
+            get; 
+            set;
+        }
     }
 }

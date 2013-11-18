@@ -1,0 +1,24 @@
+﻿@model LMPlatform.UI.ViewModels.SubjectViewModels.SubjectManagementViewModel
+@{
+    ViewBag.Title = Model.SubjectName;
+}
+
+@section subnavbar
+{
+    <div>
+        <a href="#" class="list-group-item">Новости</a>
+        <a href="#" class="list-group-item">Лекции</a>
+        <a href="#" class="list-group-item">Лабораторные работы</a>
+        <a href="#" class="list-group-item">График защиты</a>
+        <a href="#" class="list-group-item">Статистика посещения</a>
+        <a href="#" class="list-group-item">Результаты</a>
+        <a href="#" class="list-group-item">Файлы</a>
+        <a href="#" class="list-group-item">Архив</a>
+        <a href="#" class="list-group-item">Проекты</a>
+        <a href="#" class="list-group-item">Назначение проектов</a>
+    </div>
+}
+
+<div style="margin: 10px">
+    @Html.Partial("UnderConstruction")
+</div>

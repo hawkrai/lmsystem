@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/Content/datatable-bootstrap.css">
 
     @Styles.Render("~/Content/bootstrap")
+	@Styles.Render("~/Content/bootstrapcontrols")
     @Styles.Render("~/Content/css")
 
     @RenderSection("css", false)
@@ -16,6 +17,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/shared")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/bootstrapcontrols")
 
@@ -43,10 +45,6 @@
                                 <li>@Html.ActionLink("Система управления ошибками", "Projects","BTS")</li>
                                 <li>@Html.ActionLink("Тестирование знаний", "Index","KnowledgeTesting")</li>
                                 <li><a href="#">Методические материалы</a></li>
-                                <li class="divider"></li>
-                                <li class="dropdown-header">Проекты</li>
-                                <li><a href="#">Курсовое проектирование</a></li>
-                                <li><a href="#">Дипломное проектирование</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -11,7 +11,7 @@
     <AssemblyName>LMPlatform.Models</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-	<StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,10 +43,13 @@
   <ItemGroup>
     <Compile Include="Group.cs" />
     <Compile Include="Membership.cs" />
+    <Compile Include="Module.cs" />
     <Compile Include="OAuthMembership.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roles.cs" />
     <Compile Include="Student.cs" />
+    <Compile Include="Subject.cs" />
+    <Compile Include="SubjectGroup.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

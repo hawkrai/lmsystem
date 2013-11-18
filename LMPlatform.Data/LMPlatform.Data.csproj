@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-	<StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -53,8 +53,10 @@
     <Compile Include="Repositories\GroupsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IGroupsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IStudentsRepository.cs" />
+    <Compile Include="Repositories\RepositoryContracts\ISubjectRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IUsersRepository.cs" />
     <Compile Include="Repositories\StudentsRepository.cs" />
+    <Compile Include="Repositories\SubjecRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
   </ItemGroup>
   <ItemGroup>

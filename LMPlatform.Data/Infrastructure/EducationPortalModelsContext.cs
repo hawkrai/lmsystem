@@ -54,6 +54,24 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<Subject> Subjects
+        {
+            get; 
+            set;
+        }
+
+        public DbSet<Module> Modules
+        {
+            get; 
+            set;
+        }
+
+        public DbSet<SubjectGroup> SubjectGroups
+        {
+            get; 
+            set;
+        } 
+
         #endregion DataContext Members
 
         #region Protected Members
@@ -76,7 +94,10 @@ namespace LMPlatform.Data.Infrastructure
                 .HasColumnName("UserId")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<Group>().Map(m => m.ToTable("Groups"));
-           
+            modelBuilder.Entity<Subject>().Map(m => m.ToTable("Subjects"));
+            modelBuilder.Entity<Module>().Map(m => m.ToTable("Modules"));
+            modelBuilder.Entity<SubjectGroup>().Map(m => m.ToTable("SubjectGroups"));
+
             modelBuilder.Entity<Membership>()
               .HasMany<Role>(r => r.Roles)
               .WithMany(u => u.Members)
@@ -99,6 +120,18 @@ namespace LMPlatform.Data.Infrastructure
             modelBuilder.Entity<User>()
                 .HasRequired<Student>(e => e.Student)
                 .WithRequiredPrincipal(e => e.User);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany<SubjectGroup>(e => e.SubjectGroups)
+                .WithRequired(e => e.Subject)
+                .HasForeignKey(e => e.SubjectId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Group>()
+               .HasMany<SubjectGroup>(e => e.SubjectGroups)
+               .WithRequired(e => e.Group)
+               .HasForeignKey(e => e.GroupId)
+               .WillCascadeOnDelete(false);
         }
 
         #endregion Protected Members
