@@ -21,14 +21,14 @@
             <h3 class="panel-title">Предметы</h3>
         </div>
         <div class="panel-body">
+            @if (!Model.Subjects.Any())
+            {
+                <p class="text-primary">Список предметов пуст</p>
+            }
             @foreach (var subject in Model.Subjects)
             {
-                <a href="#" class="btn btn-primary btn-subject">@subject.DisplayName</a>        
+                @Html.ActionLink(subject.DisplayName,"Index","Subject", new {subjectId = subject.SubjectId}, new {@class = "btn btn-primary btn-subject"})
             }
-@*            <a href="#" class="btn btn-primary btn-subject">Базы данных</a>
-            <a href="#" class="btn btn-primary btn-subject">Языки программирования</a>
-            <a href="#" class="btn btn-primary btn-subject">Надежность ПО</a>
-            <a href="#" class="btn btn-primary btn-subject">Компьютерные сети и системы</a>*@
         </div>
     </div>
     <div class="span3">

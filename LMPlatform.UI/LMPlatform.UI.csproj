@@ -155,6 +155,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KnowledgeTestingController.cs" />
@@ -451,15 +452,15 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\UnderConstruction.cshtml" />
     <Content Include="Views\Shared\_DataTable.cshtml" />
-    <Content Include="Views\Shared\_LimitLayout.cshtml" />
+    <Content Include="Views\Shared\Layouts\_LimitLayout.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Management.cshtml" />
-    <Content Include="Views\Shared\_MainLayout.cshtml" />
-    <Content Include="Views\Shared\_LayoutBase.cshtml" />
-    <Content Include="Views\Shared\_PreMainLayout.cshtml" />
-    <Content Include="Views\Shared\_BTSLayout.cshtml" />
+    <Content Include="Views\Shared\Layouts\_MainLayout.cshtml" />
+    <Content Include="Views\Shared\Layouts\_LayoutBase.cshtml" />
+    <Content Include="Views\Shared\Layouts\_PreMainLayout.cshtml" />
+    <Content Include="Views\Shared\Layouts\_BTSLayout.cshtml" />
     <Content Include="Views\BTS\Projects.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\ErrorManagement.cshtml" />
@@ -468,6 +469,9 @@
     <Content Include="Views\KnowledgeTesting\Tests.cshtml" />
     <Content Include="Views\KnowledgeTesting\TestResults.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
+    <Content Include="Views\Administration\Index.cshtml" />
+    <Content Include="Views\Shared\Layouts\_AdministrationLayout.cshtml" />
+    <Content Include="Views\Shared\Layouts\_MainUsingNavLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

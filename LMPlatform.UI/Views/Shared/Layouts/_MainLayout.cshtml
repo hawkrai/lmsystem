@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Views/Shared/Layouts/_LayoutBase.cshtml";
+}
+
+@section css
+{
+    @RenderSection("css", false)
+}
+
+@section scripts{
+    @RenderSection("scripts", false)
+}
+
+@section body
+{
+    <div class="row" style="margin: 5px">
+        <div class="panel-wrapper col-md-3">
+            @RenderSection("subnavbar", false)
+        </div>
+        <div class="col-md-9">
+
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+
+        </div>
+    </div>
+}
+
+
+
+

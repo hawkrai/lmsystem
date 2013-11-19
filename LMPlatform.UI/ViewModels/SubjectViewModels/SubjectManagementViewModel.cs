@@ -31,6 +31,8 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 
         public SubjectManagementViewModel(int modelId)
         {
+            var model = SubjectManagementService.GetSubject(modelId);
+            SubjectName = model.Name;
         }
     }
 }

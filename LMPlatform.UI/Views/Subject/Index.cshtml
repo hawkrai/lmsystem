@@ -1,6 +1,7 @@
 ﻿@model LMPlatform.UI.ViewModels.SubjectViewModels.SubjectManagementViewModel
 @{
     ViewBag.Title = Model.SubjectName;
+    Layout = "../Shared/Layouts/_MainUsingNavLayout.cshtml";
 }
 
 @section subnavbar
@@ -17,6 +18,11 @@
         <a href="#" class="list-group-item">Проекты</a>
         <a href="#" class="list-group-item">Назначение проектов</a>
     </div>
+}
+
+@section navpanel
+{
+    @Model.SubjectName
 }
 
 <div style="margin: 10px">

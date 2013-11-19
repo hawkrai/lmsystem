@@ -13,6 +13,11 @@ namespace LMPlatform.UI.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            if (User.IsInRole("admin"))
+            {
+                return RedirectToAction("Index", "Administration");
+            }
+
             return RedirectToAction("Index", "Lms");
         }
     }

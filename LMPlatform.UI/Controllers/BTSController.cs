@@ -2,6 +2,7 @@
 
 namespace LMPlatform.UI.Controllers
 {
+    [Authorize(Roles = "student, lector")]
     public class BTSController : Controller
     {
         public ActionResult Projects()

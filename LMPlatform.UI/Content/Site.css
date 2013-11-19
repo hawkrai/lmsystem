@@ -145,6 +145,10 @@ h1 {
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.08);
 }
 
+.content-wrapper-fix {
+    margin: 0 auto;
+	max-width: 1000px;
+}
 .panel-wrapper {
     
 }

@@ -26,6 +26,11 @@ namespace LMPlatform.UI.Controllers
 
             if (ModelState.IsValid && model.Login())
             {
+                if (User.IsInRole("admin"))
+                {
+                    result = RedirectToAction("Management");                
+                }
+
                 result = _RedirectToLocal(returnUrl);
             }
             else

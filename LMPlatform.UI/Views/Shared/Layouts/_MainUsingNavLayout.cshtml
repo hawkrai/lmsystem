@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+    Layout = "~/Views/Shared/Layouts/_LayoutBase.cshtml";
 }
 
 @section css
@@ -18,6 +18,14 @@
             @RenderSection("subnavbar", false)
         </div>
         <div class="col-md-9">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title text-center" style="font-size: 25px">
+                        @RenderSection("navpanel", false)
+                    </h1>
+                </div>
+            </div>
 
             <section class="content-wrapper main-content clear-fix">
                 @RenderBody()

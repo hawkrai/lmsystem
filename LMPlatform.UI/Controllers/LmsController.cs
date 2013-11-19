@@ -5,7 +5,8 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
-   public class LmsController : BasicController
+    [Authorize(Roles = "student, lector")]
+    public class LmsController : BasicController
     {
         public ActionResult Index()
         {

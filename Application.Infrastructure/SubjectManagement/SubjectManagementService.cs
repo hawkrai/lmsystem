@@ -33,5 +33,13 @@ namespace Application.Infrastructure.SubjectManagement
             var student = StudentManagementService.GetStudent(userId);
             return SubjectRepository.GetSubjects(student.Group.Id);
         }
+
+        public Subject GetSubject(int id)
+        {
+            return SubjectRepository.GetSingle(new Subject
+            {
+                Id = id
+            });
+        }
     }
 }
