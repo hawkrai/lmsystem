@@ -28,6 +28,11 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/datatable-bootstrappagination.js", 
                 "~/Scripts/application/dataTables.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/knockoutBundles").Include(
+                "~/Scripts/knockout-3.0.0.js",
+                "~/Scripts/knockoutWrapper.js",
+                "~/Scripts/knockout.mapping-latest.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(

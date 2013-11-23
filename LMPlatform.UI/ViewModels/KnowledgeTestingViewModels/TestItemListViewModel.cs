@@ -1,0 +1,17 @@
+﻿namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
+{
+    public class TestItemListViewModel
+    {
+        public int Id
+        {
+            get;
+            set;
+        }
+
+        public string Title
+        {
+            get;
+            set;
+        }
+    }
+}
