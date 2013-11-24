@@ -1,4 +1,5 @@
 using Application.Infrastructure.AccountManagement;
+using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using Microsoft.Practices.ServiceLocation;
@@ -26,10 +27,12 @@ namespace LMPlatform.UI
             container.RegisterType<IGroupsRepository, GroupsRepository>();
             container.RegisterType<IStudentsRepository, StudentsRepository>();
             container.RegisterType<IUsersRepository, UsersRepository>();
+            container.RegisterType<ITestsRepository, TestsRepository>();
             container.RegisterType<IUsersManagementService, UsersManagementService>();
             container.RegisterType<ISubjectRepository, SubjecRepository>();
             container.RegisterType<IStudentManagementService, StudentManagementService>();
             container.RegisterType<ISubjectManagementService, SubjectManagementService>();
+            container.RegisterType<ITestsManagementService, TestsManagementService>();
             return container;
         }
 

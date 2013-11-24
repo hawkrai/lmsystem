@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
+using Application.Core;
 using Application.Core.UI.Controllers;
-using Application.Core.UI.HtmlHelpers;
+using Application.Infrastructure.KnowledgeTestsManagement;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
 using Mvc.JQuery.Datatables;
 
@@ -29,46 +29,44 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
-        [HttpPost]
-        public DataTablesResult<TestItemListViewModel> GetTests(DataTablesParam dataTableParam)
+        [HttpGet]
+        public JsonResult GetTest(int id)
         {
-            var testViewModels = new List<TestItemListViewModel>
-            {
-                new TestItemListViewModel
-                {
-                    Id = 0,
-                    Title = "First"
-                },
-                new TestItemListViewModel
-                {
-                    Id = 1,
-                    Title = "Second"
-                },
-                new TestItemListViewModel
-                {
-                    Id = 2,
-                    Title = "Second"
-                },
-                new TestItemListViewModel
-                {
-                    Id = 3,
-                    Title = "Second"
-                },
-                new TestItemListViewModel
-                {
-                    Id = 4,
-                    Title = "Second"
-                },
-                new TestItemListViewModel
-                {
-                    Id = 5,
-                    Title = "Second"
-                }
-            };
+            var test = id == 0 
+                ? new TestViewModel()
+                : TestViewModel.FromTest(TestsManagementService.GetTest(id));
+
+            return Json(test, JsonRequestBehavior.AllowGet);
+        }        
+        
+        [HttpPost]
+        public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam)
+        {
+            var testViewModels = TestsManagementService.GetAllTests()
+                .Select(TestItemListViewModel.FromTest)
+                .AsQueryable();
 
             dataTableParam.sSearch = string.Empty;
 
-            return DataTableExtensions.GetResults(testViewModels, dataTableParam, testViewModels.Count);
+            return DataTablesResult.Create(testViewModels, dataTableParam);
         }
+
+        [HttpPost]
+        public JsonResult SaveTest(TestViewModel testViewModel)
+        {
+            var savedTeat = TestsManagementService.SaveTest(testViewModel.ToTest());
+            return Json(savedTeat);
+        }
+
+        #region Dependencies
+
+        public ITestsManagementService TestsManagementService
+        {
+            get
+            {
+                return ApplicationService<ITestsManagementService>();
+            }
+        }
+        #endregion
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Application.Core.Data;
+using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.Models
 {
@@ -20,6 +21,12 @@ namespace LMPlatform.Models
         public ICollection<SubjectGroup> SubjectGroups
         {
             get; 
+            set;
+        }
+
+        public ICollection<Test> SubjectTests
+        {
+            get;
             set;
         } 
     }

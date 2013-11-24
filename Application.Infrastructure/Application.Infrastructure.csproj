@@ -56,6 +56,8 @@
     <Compile Include="AccountManagement\AccountManagementService.cs" />
     <Compile Include="AccountManagement\IAccountManagementService.cs" />
     <Compile Include="AccountManagement\SimpleMembershipInitializer.cs" />
+    <Compile Include="KnowledgeTestsManagement\ITestsManagementService.cs" />
+    <Compile Include="KnowledgeTestsManagement\TestsManagementService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StudentManagement\IStudentManagementService.cs" />
     <Compile Include="StudentManagement\StudentManagementService.cs" />

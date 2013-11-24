@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
 {
@@ -16,6 +17,15 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
         {
             get;
             set;
+        }
+
+        public static TestItemListViewModel FromTest(Test test)
+        {
+            return new TestItemListViewModel
+            {
+                Id = test.Id,
+                Title = test.Title
+            };
         }
     }
 }

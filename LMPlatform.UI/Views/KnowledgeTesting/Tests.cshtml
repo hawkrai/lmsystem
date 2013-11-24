@@ -19,14 +19,12 @@
     @Html.Partial("UnderConstruction")
 </div>
 
-<table id="testsDataTable"></table>
-
-
+<input type="button" id="addNewTestButton" value="Добавить" class="btn btn-primary col-lg-12"/>
 
 <div>
     @Html.Partial("_DataTable", new DataTableViewModel
 				{
-					DataTable = Html.DataTable("collectionsList", (KnowledgeTestingController controller) => controller.GetTests(null)),
+					DataTable = Html.DataTable("testsList", (KnowledgeTestingController controller) => controller.GetTestsList(null)),
 					DataTableOptions = new DataTableOptions
 					{
 						Filterable = true,
@@ -38,7 +36,5 @@
 					}
 				})
 </div>
-
-
 
 @Html.Partial("TestDetails")

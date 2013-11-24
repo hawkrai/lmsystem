@@ -169,6 +169,7 @@
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestItemListViewModel.cs" />
+    <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectManagementViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectModuleListIetmViewModel.cs" />

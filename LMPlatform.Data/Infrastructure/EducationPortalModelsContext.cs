@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.Data.Infrastructure
 {
@@ -132,6 +133,18 @@ namespace LMPlatform.Data.Infrastructure
                .WithRequired(e => e.Group)
                .HasForeignKey(e => e.GroupId)
                .WillCascadeOnDelete(false);
+
+            MapKnowledgeTestingEntities(modelBuilder);
+        }
+
+        private void MapKnowledgeTestingEntities(DbModelBuilder modelBuilder)
+        {
+            var testEntity = modelBuilder.Entity<Test>();
+            
+            testEntity.Property(test => test.Title).IsRequired();
+            testEntity.HasRequired(test => test.Subject)
+                .WithMany(subject => subject.SubjectTests)
+                .HasForeignKey(test => test.SubjectId);
         }
 
         #endregion Protected Members
