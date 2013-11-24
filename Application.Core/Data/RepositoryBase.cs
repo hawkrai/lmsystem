@@ -1,203 +1,259 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using Application.Core.Exceptions;
+using DataException = System.Data.DataException;
 
 namespace Application.Core.Data
 {
-    public class RepositoryBase<TDataContext, TModel> : IRepositoryBase<TModel>, IRepositoryBaseExtended<TModel>
-        where TModel : ModelBase
-        where TDataContext : DbContext, new()
-    {
-        #region RepositoryBase Members
+	public class RepositoryBase<TDataContext, TModel> : IRepositoryBase<TModel>
+		where TModel : ModelBase, new()
+		where TDataContext : DbContext
+	{
+		private readonly TDataContext _dataContext;
 
-        public virtual void Add(TModel model)
+		public RepositoryBase(TDataContext dataContext)
+		{
+			_dataContext = dataContext;
+		}
+
+		protected TDataContext DataContext
+		{
+			get { return _dataContext; }
+		}
+
+		protected void Add(TModel model)
+		{
+			ProcessMethod(() => PerformAdd(model, DataContext));
+		}
+
+		protected void Add(IEnumerable<TModel> models)
+		{
+			ProcessMethod(() =>
+			{
+				foreach (var model in models)
+				{
+					PerformAdd(model, DataContext);
+				}
+			});
+		}
+
+		public void Delete(TModel model)
+		{
+			ProcessMethod(() => PerformDelete(model, DataContext));
+		}
+
+		public void Delete(IEnumerable<TModel> models)
+		{
+			ProcessMethod(() =>
+			{
+				foreach (var model in models)
+				{
+					PerformDelete(model, DataContext);
+				}
+			});
+		}
+
+		public IPageableList<TModel> GetPageableBy(IPageableQuery<TModel> query = null)
+		{
+			return ProcessMethod(() =>
+			{
+				if (query == null)
+				{
+					query = new PageableQuery<TModel>(new PageInfo());
+				}
+
+				var items = PerformGetBy(query, DataContext).ToPageableList(query.PageInfo.PageNumber, query.PageInfo.PageSize);
+
+				return items;
+			});
+		}
+
+		public IList<TModel> GetAll(IQuery<TModel> query = null)
+		{
+			return ProcessMethod(() => PerformGetAll());
+		}
+
+		protected virtual IList<TModel> PerformGetAll()
+		{
+			return DataContext.Set<TModel>().ToList();
+		}
+
+        public TModel GetBy(IQuery<TModel> query)
         {
-            if (model != null)
+            return ProcessMethod(() =>
             {
-                using (var dbContext = new TDataContext())
-                {
-                    model = PerformAdd(model, dbContext);
-                    OnAdded(model, dbContext);
-
-                    dbContext.SaveChanges();
-                }
-            }
+                var item = PerformSelectSingle(query, DataContext);
+                return item;
+            });
         }
 
-        public virtual void Add(IEnumerable<TModel> models)
-        {
-            foreach (var model in models)
-            {
-                Add(model);
-            }
-        }
+		public void Save(TModel model, Func<TModel, bool> performUpdate = null)
+		{
+			if (model != null)
+			{
+				if (performUpdate == null)
+				{
+					performUpdate = e => !e.IsNew;
+				}
 
-        public virtual void Delete(TModel model)
-        {
-            if (model != null)
-            {
-                using (var dbContext = new TDataContext())
-                {
-                    OnDeleting(model, dbContext);
+				if (performUpdate(model))
+				{
+					Update(model);
+				}
+				else
+				{
+					Add(model);
+				}
+			}
+		}
 
-                    PerformDelete(model, dbContext);
+		public void Save(IEnumerable<TModel> models, Func<TModel, bool> performUpdate = null)
+		{
+			ProcessMethod(() =>
+			{
+				foreach (var model in models)
+				{
+					if (model != null)
+					{
+						if (performUpdate == null)
+						{
+							performUpdate = e => !e.IsNew;
+						}
 
-                    OnDeleted(model, dbContext);
+						if (performUpdate(model))
+						{
+							PerformUpdate(model, _dataContext);
+						}
+						else
+						{
+							PerformAdd(model, _dataContext);
+						}
+					}
+				}
+			});
+		}
 
-                    dbContext.SaveChanges();
-                }
-            }
-        }
+		protected void Update(TModel model)
+		{
+			ProcessMethod(() =>
+			{
+				if (model != null)
+				{
+					PerformUpdate(model, _dataContext);
+				}
+			});
+		}
 
-        public virtual void Delete(IEnumerable<TModel> models)
-        {
-            foreach (var model in models)
-            {
-                Delete(model);
-            }
-        }
+		protected void Update(IEnumerable<TModel> models)
+		{
+			ProcessMethod(() =>
+			{
+				foreach (var model in models)
+				{
+					if (model != null)
+					{
+						PerformUpdate(model, _dataContext);
+					}
+				}
+			});
+		}
 
-        public virtual IEnumerable<TModel> GetAll()
-        {
-            using (var dbContext = new TDataContext())
-            {
-                return PerformSelectAll(dbContext).ToList();
-            }
-        }
+		protected virtual void PerformAdd(TModel model, TDataContext dataContext)
+		{
+			dataContext.Set<TModel>().Add(model);
+		}
 
-        public virtual TModel GetSingle(TModel model)
-        {
-            using (var dbContext = new TDataContext())
-            {
-                var dataModel = PerformSelectSingle(model, dbContext);
+		protected virtual void PerformDelete(TModel model, TDataContext dataContext)
+		{
+			var deletingEntity = dataContext.Set<TModel>().Find(model.Id);
 
-                return dataModel;
-            }
-        }
+			if (deletingEntity != null)
+			{
+				dataContext.Set<TModel>().Remove(deletingEntity);
+			}
+		}
 
-        public virtual void Save(TModel model)
-        {
-            if (model.Id == 0)
-            {
-                Add(model);
-            }
-            else
-            {
-                Update(model);
-            }
-        }
+		protected virtual IOrderedQueryable<TModel> PerformGetBy(IPageableQuery<TModel> query, TDataContext dataContext)
+		{
+			var sequence = ApplyFilters(query, dataContext.Set<TModel>());
 
-        public virtual void Save(IEnumerable<TModel> models)
-        {
-            foreach (var model in models)
-            {
-                Save(model);
-            }
-        }
+			sequence = ApplyIncludedProperties(query, sequence);
 
-        public virtual void Update(TModel model)
-        {
-            if (model != null)
-            {
-                using (var dbContext = new TDataContext())
-                {
-                    var entry = dbContext.Entry(model);
+			sequence = ApplySortCriterias(query, sequence);
 
-                    TModel currentValue = null;
+			return sequence as IOrderedQueryable<TModel>;
+		}
 
-                    if (entry.State == EntityState.Detached)
-                    {
-                        currentValue = dbContext.Set<TModel>().Find(model.Id);
-                    }
+		protected virtual TModel PerformSelectSingle(IQuery<TModel> query, TDataContext dataContext)
+		{
+			var sequence = ApplyFilters(query, dataContext.Set<TModel>());
+			sequence = ApplyIncludedProperties(query, sequence);
 
-                    OnUpdating(model, currentValue, dbContext);
+			return sequence.SingleOrDefault();
+		}
 
-                    PerformUpdate(model, currentValue, dbContext);
+		protected virtual void PerformUpdate(TModel newValue, TDataContext dataContext)
+		{
+			dataContext.Update(newValue);
+		}
 
-                    OnUpdated(model, dbContext);
+		protected TResult ProcessMethod<TResult>(Func<TResult> func)
+		{
+			TResult result;
 
-                    dbContext.SaveChanges();
-                }
-            }
-        }
+			try
+			{
+				result = func();
+			}
+			catch (Exception exception)
+			{
+				throw new DataException("Ошибка уровня доступа к данным", exception);
+			}
 
-        public virtual void Update(IEnumerable<TModel> models)
-        {
-            foreach (var model in models)
-            {
-                Update(model);
-            }
-        }
+			return result;
+		}
 
-        #endregion RepositoryBase Members
+		protected void ProcessMethod(Action action)
+		{
+			try
+			{
+				action();
+			}
+			catch (Exception exception)
+			{
+				throw new DataException("При сохранении данных возникла ошибка.", exception);
+			}
+		}
 
-        #region Protected Members
+		protected IQueryable<TModel> ApplyFilters(IQuery<TModel> searchCritery, IQueryable<TModel> sequence)
+		{
+			if (searchCritery.Filters != null && searchCritery.Filters.Any())
+			{
+				sequence = searchCritery.Filters.Aggregate(sequence, (current, filterClause) => current.Where(filterClause));
+			}
 
-        protected virtual void OnAdded(TModel model, DbContext context)
-        {
-        }
+			return sequence;
+		}
 
-        protected virtual void OnDeleted(TModel model, DbContext context)
-        {
-        }
+		protected IQueryable<TModel> ApplyIncludedProperties(IQuery<TModel> searchCritery, IQueryable<TModel> sequence)
+		{
+			return searchCritery.IncludedProperties.Aggregate(sequence, 
+				(current, includeProperty) => current.Include(includeProperty));
+		}
 
-        protected virtual void OnDeleting(TModel model, DbContext context)
-        {
-        }
+		protected IOrderedQueryable<TModel> ApplySortCriterias(IPageableQuery<TModel> searchCritery, 
+			IQueryable<TModel> sequence)
+		{
+			var result = sequence.OrderBy(e => e.Id);
 
-        protected virtual void OnUpdated(TModel model, DbContext context)
-        {
-        }
-
-        protected virtual void OnUpdating(TModel newValue, TModel currentValue, DbContext context)
-        {
-        }
-
-        protected virtual TModel PerformAdd(TModel model, DbContext context)
-        {
-            context.Set<TModel>().Add(model);
-            context.SaveChanges();
-
-            return model;
-        }
-
-        protected virtual void PerformDelete(TModel model, DbContext context)
-        {
-            var deletingEntity = context.Set<TModel>().Find(model.Id);
-
-            if (deletingEntity != null)
-            {
-                context.Set<TModel>().Remove(deletingEntity);
-            }
-        }
-
-        protected virtual IEnumerable<TModel> PerformSelectAll(DbContext context)
-        {
-            return context.Set<TModel>();
-        }
-
-        protected virtual TModel PerformSelectSingle(TModel model, DbContext context)
-        {
-            var dataModel = context.Set<TModel>().Find(model.Id);
-
-            return dataModel;
-        }
-
-        protected virtual void PerformUpdate(TModel newValue, TModel currentValue, DbContext context)
-        {
-            if (currentValue != null)
-            {
-                var attachedEntry = context.Entry(currentValue);
-
-                attachedEntry.CurrentValues.SetValues(newValue);
-            }
-            else
-            {
-                context.Entry(newValue).State = EntityState.Modified;
-            }
-        }
-
-        #endregion Protected Members
-    }
+			return searchCritery.SortCriterias.Aggregate(result, 
+				(current, sortCriteria) =>
+					sortCriteria.SortDirection == SortDirection.Asc
+						? current.OrderByAsc(sortCriteria.Name)
+						: current.OrderByDesc(sortCriteria.Name));
+		}
+	}
 }

@@ -8,5 +8,8 @@
 
     public class UsersRepository : RepositoryBase<LmPlatformModelsContext, User>, IUsersRepository
     {
+        public UsersRepository(LmPlatformModelsContext dataContext) : base(dataContext)
+        {
+        }
     }
 }

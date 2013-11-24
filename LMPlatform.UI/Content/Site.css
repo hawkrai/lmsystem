@@ -68,6 +68,14 @@ h1 {
 .search {
     height: 40px
 }
+
+.pagination {
+padding-left: 0;
+margin: 0;
+text-align: center;
+list-style: none;
+}
+
 /* login layout
 ----------------------------------------------------------*/
 

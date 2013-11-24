@@ -34,13 +34,7 @@ namespace Application.Core.UI.HtmlHelpers
 			set;
 		}
 
-		public string OnCompleteCallbackName
-		{
-			get;
-			set;
-		}
-
-		public IEnumerable<int> InvisibleColumnsNumbers
+		public string OnComplete
 		{
 			get;
 			set;
@@ -53,7 +47,6 @@ namespace Application.Core.UI.HtmlHelpers
 			Sortable = true;
 			Filterable = true;
 			Info = true;
-			InvisibleColumnsNumbers = new List<int>();
 		}
 	}
 }

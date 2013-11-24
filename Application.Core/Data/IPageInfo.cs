@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.Core.Data
+{
+    public interface IPageInfo
+    {
+        int PageSize { get; set; }
+
+        int PageNumber { get; set; }
+    }
+}

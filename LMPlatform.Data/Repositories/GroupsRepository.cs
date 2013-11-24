@@ -8,5 +8,8 @@
 
     public class GroupsRepository : RepositoryBase<LmPlatformModelsContext, Group>, IGroupsRepository
     {
+        public GroupsRepository(LmPlatformModelsContext dataContext) : base(dataContext)
+        {
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿var dataTables = {
-	createDataTable: function (id, sAjaxSource, pagination, filter, sort, info, drawCallbackName,invisibleColumns) {
+	createDataTable: function (id, sAjaxSource, pagination, filter, sort, info, drawCallbackName) {
 		var $table = $('#' + id);
 		var oTable = $table.dataTable({
 			"sPaginationType": "bootstrap",
@@ -9,6 +9,8 @@
 			"bSort": JSON.parse(sort),
 			"bInfo": JSON.parse(info),
 			"bProcessing": true,
+			'iDisplayLength': 10,
+			'bLengthChange': true,
 			"oLanguage": {
 				"oPaginate": {
 					"sPrevious": "Предыдущая ",
@@ -47,26 +49,39 @@
 			},
 			"fnDrawCallback": function () {
 				$(".dataTables_wrapper").css("margin-bottom", 50);
-			
+			    
+				if (drawCallbackName != null && drawCallbackName != "") {
+				    $.executeFunctionByName(drawCallbackName);
+				}
+
 				shared.setFooter();
 			},
-			"fnInitComplete":function() {
-			    dataTables.hideColumns(id, invisibleColumns);
-			    if (drawCallbackName != null && drawCallbackName != "") {
-			        $.executeFunctionByName(drawCallbackName);
+			"fnInitComplete": function (oSettings, json) {
+			    var currentId = $(this).attr('id');
+			    console.log(currentId);
+			    if (currentId) {
+
+			        var thisLength = $('#' + currentId + '_length');
+			        var thisLengthLabel = $('#' + currentId + '_length');
+			        var thisLengthSelect = $('#' + currentId + '_length select');
+
+			        var thisFilter = $('#' + currentId + '_filter');
+			        var thisFilterLabel = $('#' + currentId + '_filter label');
+			        var thisFilterInput = $('#' + currentId + '_filter label input');
+
+			        // Re-arrange the records selection for a form-horizontal layout
+			        thisLength.addClass('form-group');
+			        thisLengthSelect.addClass('form-control input-sm').attr('id', currentId + '_length_select');
+			        $(thisLengthLabel).attr('style', 'float:left');
+			        // Re-arrange the search input for a form-horizontal layout
+			        thisFilter.addClass('form-group');
+			        thisFilterInput.addClass('form-control input-sm').attr('id', currentId + '_filter_input');
 			    }
 			}
+
 		});
 		
 		return oTable;
-	},
-	
-	hideColumns: function (tableId, invisibleColumns) {
-		var dataTable = $("#" + tableId).dataTable({ "bRetrieve": true });
-
-		$.each(invisibleColumns, function(index,value) {
-			dataTable.fnSetColumnVis(value, false, true);
-		});
 	},
 
 	deleteRow: function (tableId, url) {

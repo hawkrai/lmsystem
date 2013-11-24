@@ -10,6 +10,10 @@ namespace LMPlatform.Data.Repositories
 {
     public class SubjecRepository : RepositoryBase<LmPlatformModelsContext, Subject>, ISubjectRepository
     {
+        public SubjecRepository(LmPlatformModelsContext dataContext) : base(dataContext)
+        {
+        }
+
         public List<Subject> GetSubjects(int gorupId)
         {
             using (var context = new LmPlatformModelsContext())

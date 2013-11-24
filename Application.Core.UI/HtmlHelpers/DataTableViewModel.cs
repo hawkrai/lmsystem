@@ -1,11 +1,10 @@
-﻿using Application.Core.Helpers;
-using Mvc.JQuery.Datatables;
+﻿using Mvc.JQuery.Datatables;
 
 namespace Application.Core.UI.HtmlHelpers
 {
 	public class DataTableViewModel
 	{
-        public DataTableConfigVm DataTable
+		public DataTableVm DataTable
 		{
 			get;
 			set;
@@ -20,11 +19,6 @@ namespace Application.Core.UI.HtmlHelpers
 		public DataTableViewModel()
 		{
 			DataTableOptions = new DataTableOptions();
-		}
-
-		public string JsonSerialize(object serializingObject)
-		{
-			return JsonHelper.SerializeObject(serializingObject);
 		}
 	}
 }

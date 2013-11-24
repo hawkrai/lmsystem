@@ -12,6 +12,10 @@ namespace LMPlatform.Data.Repositories
 
     public class StudentsRepository : RepositoryBase<LmPlatformModelsContext, Student>, IStudentsRepository
     {
+        public StudentsRepository(LmPlatformModelsContext dataContext) : base(dataContext)
+        {
+        }
+
         public Student GetStudent(int id)
         {
             using (var context = new LmPlatformModelsContext())

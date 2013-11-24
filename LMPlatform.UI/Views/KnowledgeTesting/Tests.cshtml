@@ -1,6 +1,5 @@
 ﻿@using Application.Core.UI.HtmlHelpers
 @using LMPlatform.UI.Controllers
-@using Mvc.JQuery.Datatables
 @{
     ViewBag.Title = "title";
 }
@@ -9,28 +8,37 @@
     @Html.Partial("_KnowledgeTestingSubnavbar")
 }
 
+@section scripts
+{
+    @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles")
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/TestsListScript.js",
+                "~/Scripts/application/KnowledgeTesting/TestDetailsScript.js")
+}
+
 <div style="margin: 10px">
     @Html.Partial("UnderConstruction")
 </div>
 
 <table id="testsDataTable"></table>
 
-@Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles")
-@Scripts.Render("~/Scripts/application/KnowledgeTesting/TestsListScript.js", 
-                "~/Scripts/application/KnowledgeTesting/TestDetailsScript.js")
 
-@Html.Partial( "_DataTable", new DataTableViewModel
-            {
-                DataTable = Html.DataTable( "cardsList", (KnowledgeTestingController controller ) => controller.GetTests(new DataTablesParam())),
-                DataTableOptions = new DataTableOptions
-                {
-                    Pagination = false,
-                    Searchable = false,
-                    Sortable = false,
-                    Filterable = false,
-                    Info = false,
-                    InvisibleColumnsNumbers = new List<int>()
-                }
-            } )
+
+<div>
+    @Html.Partial("_DataTable", new DataTableViewModel
+				{
+					DataTable = Html.DataTable("collectionsList", (KnowledgeTestingController controller) => controller.GetTests(null)),
+					DataTableOptions = new DataTableOptions
+					{
+						Filterable = true,
+						Info = true,
+                        OnComplete = null,
+						Pagination = true,
+						Searchable = true,
+						Sortable = false,
+					}
+				})
+</div>
+
+
 
 @Html.Partial("TestDetails")

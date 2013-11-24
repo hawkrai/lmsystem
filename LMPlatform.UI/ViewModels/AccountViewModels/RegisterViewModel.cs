@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Application.Core;
+using Application.Core.Data;
 using Application.Infrastructure.AccountManagement;
 
 namespace LMPlatform.UI.ViewModels.AccountViewModels
@@ -124,7 +125,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
         private void SaveStudent()
         {
             var user = UsersManagementService.GetUser(UserName);
-            StudentsRepository.Add(new Student
+            StudentsRepository.Save(new Student
             {
                 Id = user.Id,
                 FirstName = Name,

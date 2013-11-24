@@ -20,7 +20,7 @@ namespace Application.Core.UI.HtmlHelpers
 
 			if (isbuttonToolTip)
 			{
-				return MvcHtmlString.Create(string.Format(@"<button type=""button"" id=""toolTip{0}"" class=""tooltip-button""></button><span id=""descriptionFor{1}""  class=""helperMessage"">{2}</span>", id, id, metadata.Description));	
+				return MvcHtmlString.Create(string.Format(@"<button type=""button"" id=""toolTip{0}"" class=""tooltip-button""></button><span id=""descriptionFor{1}""  class=""helperMessage"">{2}</span>", id, id, metadata.Description));
 			}
 
 			return MvcHtmlString.Create(string.Format(@"<span id=""descriptionFor{0}""  class=""helperMessage"">{1}</span>", id, metadata.Description));
@@ -40,8 +40,8 @@ namespace Application.Core.UI.HtmlHelpers
 			IEnumerable<SelectListItem> items = from value in values
 												select new SelectListItem
 												{
-													Text = GetEnumDescription(value), 
-													Value = value.ToString(), 
+													Text = GetEnumDescription(value),
+													Value = value.ToString(),
 													Selected = value.Equals(metadata.Model)
 												};
 
@@ -50,7 +50,7 @@ namespace Application.Core.UI.HtmlHelpers
 				items = SingleEmptyItem.Concat(items);
 			}
 
-			return htmlHelper.DropDownListFor(expression, items, htmlAttributes);
+			return htmlHelper.DropDownListFor(expression, items.Where(e => e.Text != null), htmlAttributes);
 		}
 
 		public static string GetEnumDescription<TEnum>(TEnum value)
@@ -61,7 +61,7 @@ namespace Application.Core.UI.HtmlHelpers
 
 			return (attributes.Length > 0)
 				? attributes[0].Description
-				: value.ToString();
+				: null;
 		}
 
 		#endregion CommonExtensions Members

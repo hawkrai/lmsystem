@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Application.Core;
+using Application.Core.Data;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
@@ -36,10 +37,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         public Subject GetSubject(int id)
         {
-            return SubjectRepository.GetSingle(new Subject
-            {
-                Id = id
-            });
+            return SubjectRepository.GetBy(new Query<Subject>(e => e.Id == id));
         }
     }
 }

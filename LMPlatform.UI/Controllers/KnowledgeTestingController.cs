@@ -32,23 +32,43 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public DataTablesResult<TestItemListViewModel> GetTests(DataTablesParam dataTableParam)
         {
-            var testViewModels = (new List<TestItemListViewModel>
+            var testViewModels = new List<TestItemListViewModel>
             {
                 new TestItemListViewModel
                 {
-                    Id = 1,
+                    Id = 0,
                     Title = "First"
                 },
                 new TestItemListViewModel
                 {
                     Id = 1,
                     Title = "Second"
+                },
+                new TestItemListViewModel
+                {
+                    Id = 2,
+                    Title = "Second"
+                },
+                new TestItemListViewModel
+                {
+                    Id = 3,
+                    Title = "Second"
+                },
+                new TestItemListViewModel
+                {
+                    Id = 4,
+                    Title = "Second"
+                },
+                new TestItemListViewModel
+                {
+                    Id = 5,
+                    Title = "Second"
                 }
-            }).AsQueryable();
+            };
 
             dataTableParam.sSearch = string.Empty;
 
-            return DataTablesResult.Create(testViewModels, dataTableParam);
+            return DataTableExtensions.GetResults(testViewModels, dataTableParam, testViewModels.Count);
         }
     }
 }
