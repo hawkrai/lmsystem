@@ -6,13 +6,13 @@ namespace LMPlatform.Models
 {
     public class Bug : ModelBase
     {
-        public Project ProjectID
+        public int ProjectId
         {
             get; 
             set;
         }
 
-        public User UserID
+        public int UserId
         {
             get; 
             set;
@@ -48,21 +48,45 @@ namespace LMPlatform.Models
             set;
         }
 
-        public BugSymptom SymptomID
+        public Project Project
         {
             get; 
             set;
         }
 
-        public BugSeverity SeverityID
+        public int SymptomId
         {
             get; 
             set;
         }
 
-        public BugStatus StatusID
+        public int SeverityId
         {
             get; 
+            set;
+        }
+
+        public int StatusId
+        {
+            get; 
+            set;
+        }
+
+        public BugSymptom BugSymptom
+        {
+            get;
+            set;
+        }
+
+        public BugSeverity BugSeverity
+        {
+            get;
+            set;
+        }
+
+        public BugStatus BugStatus
+        {
+            get;
             set;
         }
     }

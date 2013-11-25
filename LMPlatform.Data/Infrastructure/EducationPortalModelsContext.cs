@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using LMPlatform.Models.BTS;
 using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.Data.Infrastructure
@@ -78,7 +79,7 @@ namespace LMPlatform.Data.Infrastructure
         #region Protected Members
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
+        {   
             modelBuilder.Entity<Membership>().Map(m => m.ToTable("webpages_Membership"))
                 .Property(m => m.Id)
                 .HasColumnName("UserId")
@@ -135,6 +136,7 @@ namespace LMPlatform.Data.Infrastructure
                .WillCascadeOnDelete(false);
 
             MapKnowledgeTestingEntities(modelBuilder);
+            MapBTSEntities(modelBuilder);
         }
 
         private void MapKnowledgeTestingEntities(DbModelBuilder modelBuilder)
@@ -148,5 +150,84 @@ namespace LMPlatform.Data.Infrastructure
         }
 
         #endregion Protected Members
+
+        #region DataContext BTS
+
+        public DbSet<Project> Projects
+        {
+            get;
+            set;
+        }
+
+        public DbSet<Bug> Bugs
+        {
+            get;
+            set;
+        }
+
+        public DbSet<BugStatus> BugStatuses
+        {
+            get;
+            set;
+        }
+
+        public DbSet<BugSeverity> BugSeverities
+        {
+            get;
+            set;
+        }
+
+        public DbSet<BugSymptom> BugSymptoms
+        {
+            get;
+            set;
+        }
+
+        #endregion DataContext BTS
+
+        #region Protected BTS
+
+        private void MapBTSEntities(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Project>().Map(m => m.ToTable("Projects"));
+            modelBuilder.Entity<Bug>().Map(m => m.ToTable("Bugs"));
+            modelBuilder.Entity<ProjectStudent>().Map(m => m.ToTable("ProjectStudents"));
+            modelBuilder.Entity<BugStatus>().Map(m => m.ToTable("BugStatuses"));
+            modelBuilder.Entity<BugSeverity>().Map(m => m.ToTable("BugSeverities"));
+            modelBuilder.Entity<BugSymptom>().Map(m => m.ToTable("BugSymptoms"));
+
+            modelBuilder.Entity<Project>()
+                .HasMany<ProjectStudent>(e => e.ProjectStudents)
+                .WithRequired(e => e.Project)
+                .HasForeignKey(e => e.ProjectId)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Student>()
+                .HasMany<ProjectStudent>(e => e.ProjectStudents)
+                .WithRequired(e => e.Student)
+                .HasForeignKey(e => e.StudentId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+                .HasMany<Project>(e => e.Projects)
+                .WithRequired(e => e.User)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Project>()
+                .HasMany<Bug>(e => e.Bugs)
+                .WithRequired(e => e.Project)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BugStatus>()
+                .HasRequired<Bug>(e => e.Bug)
+                .WithRequiredPrincipal(e => e.BugStatus);
+            modelBuilder.Entity<BugSeverity>()
+                .HasRequired<Bug>(e => e.Bug)
+                .WithRequiredPrincipal(e => e.BugSeverity);
+            modelBuilder.Entity<BugSymptom>()
+                .HasRequired<Bug>(e => e.Bug)
+                .WithRequiredPrincipal(e => e.BugSymptom);
+        }
+
+        #endregion Protected BTS
     }
 }

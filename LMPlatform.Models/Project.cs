@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Application.Core.Data;
 
 namespace LMPlatform.Models
@@ -17,7 +18,7 @@ namespace LMPlatform.Models
             set;
         }
 
-        public User CreatorID
+        public int CreatorId
         {
             get; 
             set; 
@@ -26,6 +27,24 @@ namespace LMPlatform.Models
         public int IsChosen
         {
             get; 
+            set;
+        }
+
+        public User User 
+        { 
+            get; 
+            set; 
+        }
+
+        public ICollection<ProjectStudent> ProjectStudents
+        {
+            get; 
+            set; 
+        }
+
+        public ICollection<Bug> Bugs
+        {
+            get;
             set;
         }
     }

@@ -9,5 +9,11 @@ namespace LMPlatform.Models.BTS
             get; 
             set;
         }
+
+        public Bug Bug
+        {
+            get; 
+            set;
+        }
     }
 }

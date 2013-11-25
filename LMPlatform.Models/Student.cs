@@ -1,4 +1,5 @@
-﻿using Application.Core.Data;
+﻿using System.Collections.Generic;
+using Application.Core.Data;
 
 namespace LMPlatform.Models
 {
@@ -41,6 +42,12 @@ namespace LMPlatform.Models
         }
 
         public Group Group
+        {
+            get;
+            set;
+        }
+
+        public ICollection<ProjectStudent> ProjectStudents
         {
             get;
             set;

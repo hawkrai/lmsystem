@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Application.Core.Data;
 
 namespace LMPlatform.Models
@@ -27,6 +24,12 @@ namespace LMPlatform.Models
         }
 
         public Student Student
+        {
+            get;
+            set;
+        }
+
+        public ICollection<Project> Projects
         {
             get;
             set;

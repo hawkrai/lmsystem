@@ -10,7 +10,7 @@ namespace LMPlatform.Models.BTS
             set;
         }
 
-        public User ChangerID
+        public Bug Bug
         {
             get; 
             set;
