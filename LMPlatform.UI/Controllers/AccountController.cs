@@ -35,7 +35,7 @@ namespace LMPlatform.UI.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Имя пользователя или пароль не является корректными");
+                ModelState.AddModelError(string.Empty, "Имя пользователя или пароль не являются корректными");
 
                 result = View(model);
             }

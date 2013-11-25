@@ -41,11 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BTS\BugSeverity.cs" />
+    <Compile Include="BTS\BugStatus.cs" />
+    <Compile Include="BTS\BugSymptom.cs" />
+    <Compile Include="Bug.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="KnowledgeTesting\Test.cs" />
     <Compile Include="Membership.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="OAuthMembership.cs" />
+    <Compile Include="Project.cs" />
+    <Compile Include="ProjectUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roles.cs" />
     <Compile Include="Student.cs" />

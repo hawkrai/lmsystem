@@ -63,9 +63,8 @@
     <Reference Include="Microsoft.Practices.Unity.Configuration">
       <HintPath>..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Mvc.JQuery.Datatables, Version=1.0.5011.27913, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Mvc.JQuery.Datatables.1.2.61\lib\net40\Mvc.JQuery.Datatables.dll</HintPath>
+    <Reference Include="Mvc.JQuery.Datatables">
+      <HintPath>..\packages\Mvc.JQuery.Datatables.1.2.66\lib\net40\Mvc.JQuery.Datatables.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -168,7 +167,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
-    <Compile Include="ViewModels\KnowledgeTestingViewModels\TestItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectManagementViewModel.cs" />
@@ -323,20 +321,13 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\ajax-loader-mini.gif" />
-    <Content Include="Images\ajax-loader.gif" />
-    <Content Include="Images\collection.png" />
-    <Content Include="Images\no_image.png" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\TestDetailsScript.js" />
     <Content Include="Scripts\application\masterPageManagement.js" />
     <Content Include="Scripts\application\shared.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\TestsListScript.js" />
     <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.min.js.gz" />
     <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.min.js.gz" />
     <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.min.js.gz" />
@@ -348,9 +339,6 @@
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\file_types.psd" />
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\printer.psd" />
     <Content Include="Content\DataTables-1.9.4\media\images\Sorting icons.psd" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -404,11 +392,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-3.0.0.debug.js" />
-    <Content Include="Scripts\knockout-3.0.0.js" />
-    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
-    <Content Include="Scripts\knockout.mapping-latest.js" />
-    <Content Include="Scripts\knockoutWrapper.js" />
+    <Content Include="Scripts\knockout-2.1.0.debug.js" />
+    <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.bg.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.ca.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.cs.js" />
@@ -453,7 +438,9 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Unity.Mvc4.README.txt" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -488,7 +475,6 @@
     <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Shared\Layouts\_AdministrationLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_MainUsingNavLayout.cshtml" />
-    <Content Include="Views\KnowledgeTesting\TestDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
