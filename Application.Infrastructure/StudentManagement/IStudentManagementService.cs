@@ -3,10 +3,12 @@ using LMPlatform.Models;
 
 namespace Application.Infrastructure.StudentManagement
 {
-    public interface IStudentManagementService
-    {
-        Student GetStudent(int userId);
+  public interface IStudentManagementService
+  {
+    Student GetStudent(int userId);
 
-        List<Student> GetGroupStudents(int groupId);
-    }
+    List<Student> GetGroupStudents(int groupId);
+
+    List<Student> GetStudents();
+  }
 }

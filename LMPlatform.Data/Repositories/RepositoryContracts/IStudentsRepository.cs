@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
 namespace LMPlatform.Data.Repositories.RepositoryContracts
@@ -12,5 +13,7 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
         Student GetStudent(int id);
 
         List<Student> GetStudents(int groupId);
+
+        List<Student> GetStudents();
     }
 }

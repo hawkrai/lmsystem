@@ -65,7 +65,7 @@
     </Reference>
     <Reference Include="Mvc.JQuery.Datatables, Version=1.0.5011.27913, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-    <HintPath>..\packages\Mvc.JQuery.Datatables.1.2.61\lib\net40\Mvc.JQuery.Datatables.dll</HintPath>
+      <HintPath>..\packages\Mvc.JQuery.Datatables.1.2.61\lib\net40\Mvc.JQuery.Datatables.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -168,9 +168,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModels\GroupViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModels\LectorViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectManagementViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectModuleListIetmViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectViewModel.cs" />
@@ -490,11 +493,14 @@
     <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Shared\Layouts\_AdministrationLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_MainUsingNavLayout.cshtml" />
+    <Content Include="Views\Administration\Students.cshtml" />
+    <Content Include="Views\Administration\Professors.cshtml" />
+    <Content Include="Views\Administration\Files.cshtml" />
     <Content Include="Views\KnowledgeTesting\TestDetails.cshtml" />
+    <Content Include="Views\Administration\Groups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

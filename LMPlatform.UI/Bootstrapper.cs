@@ -1,4 +1,5 @@
 using Application.Infrastructure.AccountManagement;
+using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
@@ -33,6 +34,7 @@ namespace LMPlatform.UI
             container.RegisterType<IStudentManagementService, StudentManagementService>();
             container.RegisterType<ISubjectManagementService, SubjectManagementService>();
             container.RegisterType<ITestsManagementService, TestsManagementService>();
+            container.RegisterType<IGroupManagementService, GroupManagementService>();
             return container;
         }
 

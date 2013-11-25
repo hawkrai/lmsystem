@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/Content/datatable-bootstrap.css">
 
     @Styles.Render("~/Content/bootstrap")
-	@Styles.Render("~/Content/bootstrapcontrols")
+    @Styles.Render("~/Content/bootstrapcontrols")
     @Styles.Render("~/Content/css")
 
     @RenderSection("css", false)
@@ -18,21 +18,23 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/shared")
+    @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/bootstrapcontrols")
 
     @RenderSection("headScripts", false)
 </head>
-    <body>
-        <div class="content-wrapper-fix">
-            <header>
+<body>
+    <div class="content-wrapper-fix">
+        <header>
             <div class="navbar navbar-inverse">
                 <div class="container">
                     <div class="navbar-collapse collapse navbar-inverse-collapse" style="margin-top: 10px">
                         <ul class="nav navbar-nav">
-                            <li><a href="#">Студенты</a></li>
-                            <li><a href="#">Преподаватели</a></li>
-                            <li><a href="#">Группы</a></li>
+                            <li>@Html.ActionLink("Cтуденты", "Students", "Administration")</li>
+                            <li>@Html.ActionLink("Преподаватели", "Professors", "Administration")</li>
+                            <li>@Html.ActionLink("Файлы", "Files", "Administration")</li>
+                            <li>@Html.ActionLink("Группы", "Groups", "Administration")</li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             @Html.Partial("_LoginPartial")
@@ -59,7 +61,7 @@
             </div>
         </footer>
 
-        @Scripts.Render("~/bundles/bootbox")    
-        </div>
-    </body>
+        @Scripts.Render("~/bundles/bootbox")
+    </div>
+</body>
 </html>

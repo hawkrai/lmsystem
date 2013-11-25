@@ -33,5 +33,14 @@ namespace LMPlatform.Data.Repositories
                 return students;
             } 
         }
+
+        public List<Student> GetStudents()
+        {
+          using (var context = new LmPlatformModelsContext())
+          {
+            var students = context.Set<Student>().Include(e => e.Group).ToList();
+            return students;
+          }
+        }
     }
 }
