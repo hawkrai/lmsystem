@@ -1,0 +1,24 @@
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+@using Mvc.JQuery.Datatables
+@model dynamic
+
+@{
+    ViewBag.Title = "Студенты";
+    Layout = "~/Views/Shared/Layouts/_AdministrationLayout.cshtml";
+}
+
+<h2>Студенты</h2>
+<div>@Html.Partial("_DataTable", new DataTableViewModel
+            {
+                DataTable = Html.DataTable("studentList", (AdministrationController controller) => controller.GetCollectionStudents(new DataTablesParam() { })),
+                DataTableOptions = new DataTableOptions
+                 {
+                     Pagination = true,
+                     Searchable = true,
+                     Sortable = false,
+                     Filterable = true,
+                     Info = false,
+                 }
+            })
+</div>
