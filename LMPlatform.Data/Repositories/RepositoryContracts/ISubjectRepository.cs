@@ -6,6 +6,6 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     public interface ISubjectRepository : IRepositoryBase<Subject>
     {
-        List<Subject> GetSubjects(int gorupId);
+        List<Subject> GetSubjects(int groupId);
     }
 }

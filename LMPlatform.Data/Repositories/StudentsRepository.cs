@@ -12,7 +12,8 @@ namespace LMPlatform.Data.Repositories
 
     public class StudentsRepository : RepositoryBase<LmPlatformModelsContext, Student>, IStudentsRepository
     {
-        public StudentsRepository(LmPlatformModelsContext dataContext) : base(dataContext)
+        public StudentsRepository(LmPlatformModelsContext dataContext)
+            : base(dataContext)
         {
         }
 
@@ -31,16 +32,25 @@ namespace LMPlatform.Data.Repositories
             {
                 var students = context.Set<Student>().Include(e => e.Group).Where(e => e.GroupId == groupId).ToList();
                 return students;
-            } 
+            }
         }
 
         public List<Student> GetStudents()
         {
-          using (var context = new LmPlatformModelsContext())
-          {
-            var students = context.Set<Student>().Include(e => e.Group).ToList();
-            return students;
-          }
+            using (var context = new LmPlatformModelsContext())
+            {
+                var students = context.Set<Student>().Include(e => e.Group).ToList();
+                return students;
+            }
+        }
+
+        public void SaveStudent(Student student)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                Save(student);
+                context.SaveChanges();
+            }   
         }
     }
 }

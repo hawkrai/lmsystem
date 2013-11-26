@@ -1,9 +1,13 @@
-﻿using Application.Core.Data;
+﻿using System.Collections.Generic;
+using Application.Core.Data;
 using LMPlatform.Models;
 
 namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     public interface IBugsRepository : IRepositoryBase<Bug>
     {
+        Bug GetBug(int bugId);
+
+        List<Bug> GetBugs();
     }
 }

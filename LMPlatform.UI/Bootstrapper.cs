@@ -35,6 +35,8 @@ namespace LMPlatform.UI
             container.RegisterType<ISubjectManagementService, SubjectManagementService>();
             container.RegisterType<ITestsManagementService, TestsManagementService>();
             container.RegisterType<IGroupManagementService, GroupManagementService>();
+            container.RegisterType<IBugsRepository, BugsRepository>();
+            container.RegisterType<IProjectsRepository, ProjectsRepository>();
             return container;
         }
 

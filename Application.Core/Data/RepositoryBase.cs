@@ -134,7 +134,12 @@ namespace Application.Core.Data
 			});
 		}
 
-		protected void Update(TModel model)
+	    public void SaveChanges()
+	    {
+	        DataContext.SaveChanges();
+	    }
+
+	    protected void Update(TModel model)
 		{
 			ProcessMethod(() =>
 			{

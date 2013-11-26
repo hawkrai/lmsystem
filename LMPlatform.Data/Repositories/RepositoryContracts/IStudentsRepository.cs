@@ -15,5 +15,7 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
         List<Student> GetStudents(int groupId);
 
         List<Student> GetStudents();
+
+        void SaveStudent(Student student);
     }
 }

@@ -30,7 +30,7 @@ namespace LMPlatform.Models
             set;
         }
 
-        public User User 
+        public User User
         { 
             get; 
             set; 

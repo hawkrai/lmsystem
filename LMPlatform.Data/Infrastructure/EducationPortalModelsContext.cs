@@ -159,6 +159,12 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<ProjectStudent> ProjectStudents
+        {
+            get; 
+            set;
+        }
+
         public DbSet<Bug> Bugs
         {
             get;

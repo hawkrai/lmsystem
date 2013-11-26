@@ -4,6 +4,7 @@ using System.Linq;
 using Application.Core;
 using Application.Core.Data;
 using Application.Infrastructure.AccountManagement;
+using Application.Infrastructure.StudentManagement;
 
 namespace LMPlatform.UI.ViewModels.AccountViewModels
 {
@@ -18,10 +19,11 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
     using WebMatrix.WebData;
 
     public class RegisterViewModel
-	{
-		private readonly LazyDependency<IAccountManagementService> _accountRegistrationService = new LazyDependency<IAccountManagementService>();
+    {
+        private readonly LazyDependency<IAccountManagementService> _accountRegistrationService = new LazyDependency<IAccountManagementService>();
         private readonly LazyDependency<IGroupsRepository> _groupsRepository = new LazyDependency<IGroupsRepository>();
         private readonly LazyDependency<IStudentsRepository> _studentsRepository = new LazyDependency<IStudentsRepository>();
+        private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
         private readonly LazyDependency<IUsersManagementService> _usersManagementService = new LazyDependency<IUsersManagementService>();
 
         public IStudentsRepository StudentsRepository
@@ -29,6 +31,14 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             get
             {
                 return _studentsRepository.Value;
+            }
+        }
+
+        public IStudentManagementService StudentManagementService
+        {
+            get
+            {
+                return _studentManagementService.Value;
             }
         }
 
@@ -83,20 +93,20 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             set;
         }
 
-		[Required(ErrorMessage = "Поле Логин обязательно для заполнения")]
-		[Display(Name = "Логин")]
-		public string UserName { get; set; }
+        [Required(ErrorMessage = "Поле Логин обязательно для заполнения")]
+        [Display(Name = "Логин")]
+        public string UserName { get; set; }
 
-		[Required(ErrorMessage = "Поле Пароль обязательно для заполнения")]
-		[StringLength(100, ErrorMessage = "T{0} должно быть не менее {2} символов.", MinimumLength = 6)]
-		[DataType(DataType.Password)]
-		[Display(Name = "Пароль")]
-		public string Password { get; set; }
+        [Required(ErrorMessage = "Поле Пароль обязательно для заполнения")]
+        [StringLength(100, ErrorMessage = "T{0} должно быть не менее {2} символов.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Пароль")]
+        public string Password { get; set; }
 
-		[DataType(DataType.Password)]
-		[Display(Name = "Подтверждение пароля")]
-		[System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Пароль и подтвержденный пароль не совпадают.")]
-		public string ConfirmPassword { get; set; }
+        [DataType(DataType.Password)]
+        [Display(Name = "Подтверждение пароля")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Пароль и подтвержденный пароль не совпадают.")]
+        public string ConfirmPassword { get; set; }
 
         [Display(Name = "Группа")]
         public string Group
@@ -117,15 +127,15 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
         }
 
         public void RegistrationUser(IList<string> roles)
-		{
-			AccountRegistrationService.CreateAccount(UserName, Password, roles);
+        {
+            AccountRegistrationService.CreateAccount(UserName, Password, roles);
             SaveStudent();
-		}
+        }
 
         private void SaveStudent()
         {
             var user = UsersManagementService.GetUser(UserName);
-            StudentsRepository.Save(new Student
+            StudentsRepository.SaveStudent(new Student
             {
                 Id = user.Id,
                 FirstName = Name,
@@ -134,5 +144,5 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 GroupId = int.Parse(Group)
             });
         }
-	}
+    }
 }

@@ -6,31 +6,37 @@ using LMPlatform.Models;
 
 namespace Application.Infrastructure.StudentManagement
 {
-  public class StudentManagementService : IStudentManagementService
-  {
-    private readonly LazyDependency<IStudentsRepository> _studentsRepository = new LazyDependency<IStudentsRepository>();
-
-    public IStudentsRepository StudentsRepository
+    public class StudentManagementService : IStudentManagementService
     {
-      get
-      {
-        return _studentsRepository.Value;
-      }
-    }
+        private readonly LazyDependency<IStudentsRepository> _studentsRepository = new LazyDependency<IStudentsRepository>();
 
-    public Student GetStudent(int userId)
-    {
-      return StudentsRepository.GetStudent(userId);
-    }
+        public IStudentsRepository StudentsRepository
+        {
+            get
+            {
+                return _studentsRepository.Value;
+            }
+        }
 
-    public List<Student> GetGroupStudents(int groupId)
-    {
-      return StudentsRepository.GetStudents(groupId);
-    }
+        public Student GetStudent(int userId)
+        {
+            return StudentsRepository.GetStudent(userId);
+        }
 
-    public List<Student> GetStudents()
-    {
-      return StudentsRepository.GetStudents();
+        public List<Student> GetGroupStudents(int groupId)
+        {
+            return StudentsRepository.GetStudents(groupId);
+        }
+
+        public List<Student> GetStudents()
+        {
+            return StudentsRepository.GetStudents();
+        }
+
+        public void Save(Student student)
+        {
+            StudentsRepository.Save(student);
+            StudentsRepository.SaveChanges();
+        }
     }
-  }
 }

@@ -56,10 +56,14 @@
     <Compile Include="AccountManagement\AccountManagementService.cs" />
     <Compile Include="AccountManagement\IAccountManagementService.cs" />
     <Compile Include="AccountManagement\SimpleMembershipInitializer.cs" />
+    <Compile Include="BugManagement\BugManagementService.cs" />
+    <Compile Include="BugManagement\IBugManagementService.cs" />
     <Compile Include="GroupManagement\GroupManagementService.cs" />
     <Compile Include="GroupManagement\IGroupManagementService.cs" />
     <Compile Include="KnowledgeTestsManagement\ITestsManagementService.cs" />
     <Compile Include="KnowledgeTestsManagement\TestsManagementService.cs" />
+    <Compile Include="ProjectManagement\IProjectManagementService.cs" />
+    <Compile Include="ProjectManagement\ProjectManagementService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StudentManagement\IStudentManagementService.cs" />
     <Compile Include="StudentManagement\StudentManagementService.cs" />

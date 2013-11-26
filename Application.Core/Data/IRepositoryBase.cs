@@ -21,6 +21,8 @@ namespace Application.Core.Data
 
         void Save(IEnumerable<TModel> models, Func<TModel, bool> performUpdate = null);
 
+        void SaveChanges();
+
         #endregion IRepositoryBase Members
     }
 }
