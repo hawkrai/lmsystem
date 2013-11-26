@@ -36,7 +36,6 @@ namespace Application.Infrastructure.StudentManagement
         public void Save(Student student)
         {
             StudentsRepository.Save(student);
-            StudentsRepository.SaveChanges();
         }
     }
 }

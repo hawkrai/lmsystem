@@ -48,9 +48,9 @@ namespace LMPlatform.Data.Repositories
         {
             using (var context = new LmPlatformModelsContext())
             {
-                Save(student);
+                context.Set<Student>().Add(student);
                 context.SaveChanges();
-            }   
+            }  
         }
     }
 }

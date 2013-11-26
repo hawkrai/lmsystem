@@ -136,7 +136,7 @@ namespace Application.Core.Data
 
 	    public void SaveChanges()
 	    {
-	        DataContext.SaveChanges();
+            _dataContext.SaveChanges();
 	    }
 
 	    protected void Update(TModel model)

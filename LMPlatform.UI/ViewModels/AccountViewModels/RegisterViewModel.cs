@@ -135,7 +135,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
         private void SaveStudent()
         {
             var user = UsersManagementService.GetUser(UserName);
-            StudentsRepository.SaveStudent(new Student
+            StudentManagementService.Save(new Student
             {
                 Id = user.Id,
                 FirstName = Name,
