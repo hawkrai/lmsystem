@@ -4,31 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Core;
+using Application.Core.Data;
+using LMPlatform.Data.Repositories;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
 
 namespace Application.Infrastructure.GroupManagement
 {
-  public class GroupManagementService : IGroupManagementService
-  {
-    private readonly LazyDependency<IGroupsRepository> _groupsRepository = new LazyDependency<IGroupsRepository>();
-
-    public IGroupsRepository GroupsRepository
+    public class GroupManagementService : IGroupManagementService
     {
-      get
-      {
-        return _groupsRepository.Value;
-      }
-    }
+        public Group GetGroup(int groupId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId));
+            }
+        }
 
-    public Group GetGroup(int groupId)
-    {
-      return GroupsRepository.GetGroup(groupId);
+        public List<Group> GetGroups()
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.GroupsRepository.GetAll().ToList();
+            }
+        }
     }
-
-    public List<Group> GetGroups()
-    {
-      return GroupsRepository.GetGroups();
-    }
-  }
 }

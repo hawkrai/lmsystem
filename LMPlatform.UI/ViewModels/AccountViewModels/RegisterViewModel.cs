@@ -4,6 +4,7 @@ using System.Linq;
 using Application.Core;
 using Application.Core.Data;
 using Application.Infrastructure.AccountManagement;
+using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.StudentManagement;
 
 namespace LMPlatform.UI.ViewModels.AccountViewModels
@@ -21,7 +22,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
     public class RegisterViewModel
     {
         private readonly LazyDependency<IAccountManagementService> _accountRegistrationService = new LazyDependency<IAccountManagementService>();
-        private readonly LazyDependency<IGroupsRepository> _groupsRepository = new LazyDependency<IGroupsRepository>();
+        private readonly LazyDependency<IGroupManagementService> _groupManagementService = new LazyDependency<IGroupManagementService>();
         private readonly LazyDependency<IStudentsRepository> _studentsRepository = new LazyDependency<IStudentsRepository>();
         private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
         private readonly LazyDependency<IUsersManagementService> _usersManagementService = new LazyDependency<IUsersManagementService>();
@@ -42,11 +43,11 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             }
         }
 
-        public IGroupsRepository GroupsRepository
+        public IGroupManagementService GroupManagementService
         {
             get
             {
-                return _groupsRepository.Value;
+                return _groupManagementService.Value;
             }
         }
 
@@ -117,7 +118,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 
         public IList<SelectListItem> GetGroups()
         {
-            var groups = GroupsRepository.GetAll();
+            var groups = GroupManagementService.GetGroups();
 
             return groups.Select(v => new SelectListItem
             {

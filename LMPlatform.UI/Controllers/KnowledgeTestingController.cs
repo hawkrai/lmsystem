@@ -39,7 +39,7 @@ namespace LMPlatform.UI.Controllers
             return Json(test, JsonRequestBehavior.AllowGet);
         }        
         
-        [HttpPost]
+        //[HttpPost]
         public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam)
         {
             var testViewModels = TestsManagementService.GetAllTests()

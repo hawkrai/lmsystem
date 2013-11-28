@@ -1,20 +1,11 @@
-using Application.Infrastructure.AccountManagement;
-using Application.Infrastructure.BugManagement;
-using Application.Infrastructure.GroupManagement;
-using Application.Infrastructure.KnowledgeTestsManagement;
-using Application.Infrastructure.ProjectManagement;
-using Application.Infrastructure.StudentManagement;
-using Application.Infrastructure.SubjectManagement;
+using Application.Core;
+using Application.Infrastructure;
+using LMPlatform.Data.Infrastructure;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 
 namespace LMPlatform.UI
 {
-    using Application.Infrastructure.UserManagement;
-
-    using LMPlatform.Data.Repositories;
-    using LMPlatform.Data.Repositories.RepositoryContracts;
-
     public static class Bootstrapper
     {
         public static void Initialize()
@@ -24,33 +15,20 @@ namespace LMPlatform.UI
             ServiceLocator.SetLocatorProvider(() => locator);
         }
 
-        public static IUnityContainer RegisterTypes(IUnityContainer container)
+        public static IUnityContainer RegisterTypes(IUnityContainerWrapper containerWrapper)
         {
-            container.RegisterType<IAccountManagementService, AccountManagementService>();
-            container.RegisterType<IGroupsRepository, GroupsRepository>();
-            container.RegisterType<IStudentsRepository, StudentsRepository>();
-            container.RegisterType<IUsersRepository, UsersRepository>();
-            container.RegisterType<ITestsRepository, TestsRepository>();
-            container.RegisterType<IUsersManagementService, UsersManagementService>();
-            container.RegisterType<ISubjectRepository, SubjecRepository>();
-            container.RegisterType<IStudentManagementService, StudentManagementService>();
-            container.RegisterType<ISubjectManagementService, SubjectManagementService>();
-            container.RegisterType<ITestsManagementService, TestsManagementService>();
-            container.RegisterType<IGroupManagementService, GroupManagementService>();
-            container.RegisterType<IBugsRepository, BugsRepository>();
-            container.RegisterType<IBugManagementService, BugManagementService>();
-            container.RegisterType<IProjectsRepository, ProjectsRepository>();
-            container.RegisterType<IProjectManagementService, ProjectManagementService>();
-            return container;
+            DataModule.Initialize(containerWrapper);
+            ApplicationServiceModule.Initialize(containerWrapper);
+
+            return containerWrapper.Container;
         }
 
         private static IUnityContainer _ConfigureUnityContainer()
         {
             var container = new UnityContainer();
+            var containerWrapper = new UnityContainerWrapper(container);
 
-            RegisterTypes(container);
-
-            return container;
+            return RegisterTypes(containerWrapper);
         }
     }
 }

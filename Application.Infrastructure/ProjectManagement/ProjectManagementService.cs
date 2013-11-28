@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Core;
+using Application.Core.Data;
+using LMPlatform.Data.Repositories;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
 
@@ -11,34 +13,37 @@ namespace Application.Infrastructure.ProjectManagement
 {
     public class ProjectManagementService : IProjectManagementService
     {
-        private readonly LazyDependency<IProjectsRepository> _projectsRepository = new LazyDependency<IProjectsRepository>();
-
-        public IProjectsRepository ProjectsRepository
-        {
-            get
-            {
-                return _projectsRepository.Value;
-            }
-        }
-
         public Project GetProject(int projectId)
         {
-            return ProjectsRepository.GetProject(projectId);
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetBy(new Query<Project>(e => e.Id == projectId));
+            }
         }
 
         public List<Project> GetProjects()
         {
-            return ProjectsRepository.GetProjects();
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetAll().ToList();
+            }
         }
 
         public List<Project> GetChosenProjects()
         {
-            return ProjectsRepository.GetChosenProjects();
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetAll(new Query<Project>(e => e.IsChosen == 1)).ToList();
+            }
         }
 
         public void SaveProject(Project project)
         {
-            ProjectsRepository.SaveProject(project);
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.ProjectsRepository.Save(project);
+                repositoriesContainer.ApplyChanges();
+            }
         }
     }
 }

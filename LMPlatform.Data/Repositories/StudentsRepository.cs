@@ -46,11 +46,7 @@ namespace LMPlatform.Data.Repositories
 
         public void SaveStudent(Student student)
         {
-            using (var context = new LmPlatformModelsContext())
-            {
-                context.Set<Student>().Add(student);
-                context.SaveChanges();
-            }  
+            DataContext.Set<Student>().Add(student);
         }
     }
 }

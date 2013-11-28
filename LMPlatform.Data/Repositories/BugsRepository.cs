@@ -12,23 +12,5 @@ namespace LMPlatform.Data.Repositories
         public BugsRepository(LmPlatformModelsContext dataContext) : base(dataContext)
         {      
         }
-
-        public Bug GetBug(int id)
-        {
-            using (var context = new LmPlatformModelsContext())
-            {
-                var bug = context.Bugs.FirstOrDefault(b => b.Id == id);
-                return bug;
-            }
-        }
-
-        public List<Bug> GetBugs()
-        {
-            using (var context = new LmPlatformModelsContext())
-            {
-                var bugs = context.Bugs.ToList();
-                return bugs;
-            }
-        }
     }
 }

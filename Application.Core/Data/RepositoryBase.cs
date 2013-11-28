@@ -69,14 +69,27 @@ namespace Application.Core.Data
 			});
 		}
 
-		public IList<TModel> GetAll(IQuery<TModel> query = null)
+        public IQueryable<TModel> GetAll(IQuery<TModel> query = null)
 		{
-			return ProcessMethod(() => PerformGetAll());
+            return ProcessMethod(() =>
+            {
+                if (query == null)
+				{
+					query = new Query<TModel>();
+				}
+
+                var item = PerformGetAll(query, DataContext);
+
+                return item;
+            });
 		}
 
-		protected virtual IList<TModel> PerformGetAll()
+        protected virtual IQueryable<TModel> PerformGetAll(IQuery<TModel> query, TDataContext dataContext)
 		{
-			return DataContext.Set<TModel>().ToList();
+            var sequence = ApplyFilters(query, dataContext.Set<TModel>());
+            sequence = ApplyIncludedProperties(query, sequence);
+
+            return sequence;
 		}
 
         public TModel GetBy(IQuery<TModel> query)
@@ -133,11 +146,6 @@ namespace Application.Core.Data
 				}
 			});
 		}
-
-	    public void SaveChanges()
-	    {
-            _dataContext.SaveChanges();
-	    }
 
 	    protected void Update(TModel model)
 		{

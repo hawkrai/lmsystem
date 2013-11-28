@@ -8,9 +8,10 @@ using LMPlatform.Models;
 
 namespace LMPlatform.Data.Repositories
 {
-    public class SubjecRepository : RepositoryBase<LmPlatformModelsContext, Subject>, ISubjectRepository
+    public class SubjectRepository : RepositoryBase<LmPlatformModelsContext, Subject>, ISubjectRepository
     {
-        public SubjecRepository(LmPlatformModelsContext dataContext) : base(dataContext)
+        public SubjectRepository(LmPlatformModelsContext dataContext)
+            : base(dataContext)
         {
         }
 

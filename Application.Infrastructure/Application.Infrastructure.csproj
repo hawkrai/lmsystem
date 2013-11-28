@@ -56,6 +56,7 @@
     <Compile Include="AccountManagement\AccountManagementService.cs" />
     <Compile Include="AccountManagement\IAccountManagementService.cs" />
     <Compile Include="AccountManagement\SimpleMembershipInitializer.cs" />
+    <Compile Include="ApplicationServiceModule.cs" />
     <Compile Include="BugManagement\BugManagementService.cs" />
     <Compile Include="BugManagement\IBugManagementService.cs" />
     <Compile Include="GroupManagement\GroupManagementService.cs" />

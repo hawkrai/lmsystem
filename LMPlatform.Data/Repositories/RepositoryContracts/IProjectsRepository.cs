@@ -6,12 +6,5 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     public interface IProjectsRepository : IRepositoryBase<Project>
     {
-        Project GetProject(int projectId);
-
-        List<Project> GetProjects();
-
-        List<Project> GetChosenProjects();
-
-        void SaveProject(Project project);
     }
 }

@@ -6,8 +6,5 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     public interface IBugsRepository : IRepositoryBase<Bug>
     {
-        Bug GetBug(int bugId);
-
-        List<Bug> GetBugs();
     }
 }
