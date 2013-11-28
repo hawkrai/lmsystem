@@ -483,7 +483,6 @@
     <Content Include="Views\Shared\Layouts\_MainLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_LayoutBase.cshtml" />
     <Content Include="Views\Shared\Layouts\_PreMainLayout.cshtml" />
-    <Content Include="Views\Shared\Layouts\_BTSLayout.cshtml" />
     <Content Include="Views\BTS\Projects.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\ErrorManagement.cshtml" />
@@ -500,7 +499,7 @@
     <Content Include="Views\Administration\Files.cshtml" />
     <Content Include="Views\KnowledgeTesting\TestDetails.cshtml" />
     <Content Include="Views\Administration\Groups.cshtml" />
-    <Content Include="Views\BTS\_ProjectInfo.cshtml" />
+    <Content Include="Views\BTS\_BTSSubnavbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

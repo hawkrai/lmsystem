@@ -3,9 +3,9 @@
 @using Mvc.JQuery.Datatables
 @model LMPlatform.Models.Project
 
-
-@{
-    Layout = "~/Views/Shared/Layouts/_BTSLayout.cshtml";
+@section subnavbar
+{
+    @Html.Partial("_BTSSubnavbar")
 }
 
 <div class="container">
