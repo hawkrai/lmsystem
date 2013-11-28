@@ -1,6 +1,8 @@
 using Application.Infrastructure.AccountManagement;
+using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
+using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using Microsoft.Practices.ServiceLocation;
@@ -36,7 +38,9 @@ namespace LMPlatform.UI
             container.RegisterType<ITestsManagementService, TestsManagementService>();
             container.RegisterType<IGroupManagementService, GroupManagementService>();
             container.RegisterType<IBugsRepository, BugsRepository>();
+            container.RegisterType<IBugManagementService, BugManagementService>();
             container.RegisterType<IProjectsRepository, ProjectsRepository>();
+            container.RegisterType<IProjectManagementService, ProjectManagementService>();
             return container;
         }
 

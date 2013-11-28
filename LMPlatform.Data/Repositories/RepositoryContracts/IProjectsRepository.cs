@@ -9,5 +9,9 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
         Project GetProject(int projectId);
 
         List<Project> GetProjects();
+
+        List<Project> GetChosenProjects();
+
+        void SaveProject(Project project);
     }
 }

@@ -1,4 +1,10 @@
-﻿@{
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+@using Mvc.JQuery.Datatables
+@model LMPlatform.Models.Project
+
+
+@{
     Layout = "~/Views/Shared/Layouts/_BTSLayout.cshtml";
 }
 
@@ -8,24 +14,30 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#allProjects" data-toggle="tab">Список проектов</a></li>
                 <li><a href="#chosenProjects" data-toggle="tab">Избранные проекты</a></li>
-                <li class="pull-right"><button type="button" class="btn btn-primary" >Добавить проект</button></li>
+                <li><a href="#addProject" data-toggle="tab">Добавить проект</a></li>
             </ul>
 
             <div class="tab-content">
                 <div class="tab-pane active" id="allProjects">
-        
-                    <table class="table table-hover">
-                        <tr>
-                            <td style="width: 10%; text-align: center"><img src="/Content/images/star_blue.png"/></td>
-                            <td>Проект 1. "Тестовый проект, находящийся в стадии разработки"</td>
-                            <td style="width: 20%; text-align: left">11 января 1990</td>
-                        </tr>
-                    </table>
-        
+                    
+                   @Html.Partial("_DataTable", new DataTableViewModel
+                    {
+                        DataTable = Html.DataTable("projectList", (BTSController controller) => controller.GetCollectionProjects(new DataTablesParam() { })),
+                        DataTableOptions = new DataTableOptions
+                         {
+                             Pagination = true,
+                             Searchable = true,
+                             Sortable = false,
+                             Filterable = true,
+                             Info = false,
+                         }
+                    })
+
+
                 </div>
                 <div class="tab-pane" id="chosenProjects">
         
-                    <table class="table table-hover">
+                    <table class="table table-hover" style="margin: 10px">
                         <tr>
                             <td style="width: 10%; text-align: center"><img src="/Content/images/star_blue.png"/></td>
                             <td>Проект 1. "Тестовый проект, находящийся в стадии разработки"</td>
@@ -33,9 +45,102 @@
                         </tr>
                     </table>
 
+                </div>
+                <div class="tab-pane" id="addProject">
+                    <div class="col-md-offset-3 col-md-6">
+                        @using (Html.BeginForm())
+                        {
+                            <div class="center" style="margin: 10px">
+                                <div>
+                                    @Html.LabelFor(p => p.Title)
+                                    @Html.TextBoxFor(p => p.Title, new { @class = "form-control" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(p => p.IsChosen)
+                                    @Html.TextBoxFor(p => p.IsChosen, new { @class = "form-control" })
+                                </div>
+                        
+                                <p>
+                                    <input type="submit" class="btn btn-primary" value="Добавить" style="width: 100%"/>
+                                </p>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+@*@using (Html.BeginForm(new { ViewBag.ReturnUrl }))
+{
+    <div class="error-limit-registr">
+        @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
+    </div>
+    
+    @Html.AntiForgeryToken()
+
+    <div id="registration" class="hero-unit center">
+        <hgroup style="text-align: center; margin-bottom: 20px">
+            <h1>@ViewBag.Title</h1>
+        </hgroup>
+
+        <div>
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(e => e.UserName, " ")
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password, " ")
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ConfirmPassword)
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, " ")
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+            <div>
+                @Html.TextBoxFor(m => m.Name,new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.Name, " ")
+            </div>
+            <p></p>
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
+            <div>
+                @Html.TextBoxFor(m => m.Surname,new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.Surname, " ")
+            </div>
+            <p></p>
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Patronymic, new { @class = "control-label" })
+            <div>
+                @Html.TextBoxFor(m => m.Patronymic,new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.Patronymic, " ")
+            </div>
+            <p></p>
+        </div>
+       <div>
+            @Html.LabelFor(e => e.Group, new { @class = "control-label" })
+            <div>
+                @Html.DropDownListFor(e => e.Group, Model.GetGroups(), new { @class = "form-control" })   
+            </div>
+            <p></p>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" value="Регистрация" />
+        </div>
+        <div>
+            <a href=@Url.Action("Login")>
+                <strong>Войти в систему?</strong>
+            </a>
+        </div>
+    </div>
+    <div style="text-align: center; padding-top: 10px">
+        <span id="copyright">Copyright © 2013 BNTU. All rights reserved.</span>
+    </div>
+}*@

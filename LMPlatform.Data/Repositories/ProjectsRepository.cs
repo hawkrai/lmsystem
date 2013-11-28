@@ -30,5 +30,23 @@ namespace LMPlatform.Data.Repositories
                 return projects;
             }
         }
+
+        public List<Project> GetChosenProjects()
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var projects = context.Set<Project>().Where(p => p.IsChosen == 1).ToList();
+                return projects;
+            }
+        }
+
+        public void SaveProject(Project project)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                context.Set<Project>().Add(project);
+                context.SaveChanges();
+            }
+        }
     }
 }

@@ -207,15 +207,17 @@ namespace LMPlatform.Data.Infrastructure
                 .WithRequired(e => e.Project)
                 .HasForeignKey(e => e.ProjectId)
                 .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Student>()
                 .HasMany<ProjectStudent>(e => e.ProjectStudents)
                 .WithRequired(e => e.Student)
                 .HasForeignKey(e => e.StudentId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<User>()
-                .HasMany<Project>(e => e.Projects)
-                .WithRequired(e => e.User)
+           modelBuilder.Entity<Project>()
+                .HasRequired<User>(e => e.Creator)
+                .WithMany(e => e.Projects)
+                .HasForeignKey(e => e.CreatorId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Project>()

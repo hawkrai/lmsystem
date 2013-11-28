@@ -9,7 +9,7 @@ using LMPlatform.Models;
 
 namespace Application.Infrastructure.ProjectManagement
 {
-    public class ProjectManagementService
+    public class ProjectManagementService : IProjectManagementService
     {
         private readonly LazyDependency<IProjectsRepository> _projectsRepository = new LazyDependency<IProjectsRepository>();
 
@@ -29,6 +29,16 @@ namespace Application.Infrastructure.ProjectManagement
         public List<Project> GetProjects()
         {
             return ProjectsRepository.GetProjects();
+        }
+
+        public List<Project> GetChosenProjects()
+        {
+            return ProjectsRepository.GetChosenProjects();
+        }
+
+        public void SaveProject(Project project)
+        {
+            ProjectsRepository.SaveProject(project);
         }
     }
 }

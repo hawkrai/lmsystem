@@ -12,5 +12,9 @@ namespace Application.Infrastructure.ProjectManagement
         Project GetProject(int projectId);
 
         List<Project> GetProjects();
+
+        List<Project> GetChosenProjects(); 
+
+        void SaveProject(Project project);
     }
 }

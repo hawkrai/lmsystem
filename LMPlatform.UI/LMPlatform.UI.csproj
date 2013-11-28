@@ -170,6 +170,8 @@
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\LectorViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\ProjectListViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\ProjectsViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
@@ -498,10 +500,10 @@
     <Content Include="Views\Administration\Files.cshtml" />
     <Content Include="Views\KnowledgeTesting\TestDetails.cshtml" />
     <Content Include="Views\Administration\Groups.cshtml" />
+    <Content Include="Views\BTS\_ProjectInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="ViewModels\BTSViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -544,7 +546,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>43365</DevelopmentServerPort>
+          <DevelopmentServerPort>40903</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:20612/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

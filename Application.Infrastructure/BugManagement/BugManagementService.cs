@@ -9,7 +9,7 @@ using LMPlatform.Models;
 
 namespace Application.Infrastructure.BugManagement
 {
-    public class BugManagementService
+    public class BugManagementService : IBugManagementService
     {
         private readonly LazyDependency<IBugsRepository> _bugsRepository = new LazyDependency<IBugsRepository>();
 
