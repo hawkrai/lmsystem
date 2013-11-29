@@ -40,7 +40,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public User Creator { get; set; }
 
         [Display(Name = "Избранный")]
-        public int IsChosen { get; set; }
+        public bool IsChosen { get; set; }
 
         public void SaveProject()
         {
@@ -50,7 +50,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                     Title = Title,
                     CreatorId = creatorId,
                     CreationDate = DateTime.Today,
-                    IsChosen = (int)IsChosen
+                    IsChosen = IsChosen
                 });
         }
     }

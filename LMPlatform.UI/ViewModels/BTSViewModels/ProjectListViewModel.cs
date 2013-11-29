@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -9,29 +10,25 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
     public class ProjectListViewModel
     {
-        [Display(Name = "ID проекта")]
-        public int Id { get; set; }
-
         [DataType(DataType.Text)]
-        [Display(Name = "Тема проекта")]
+        [DisplayName("Тема проекта")]
         public string Title { get; set; }
 
-        [Display(Name = "Дата создания")]
+        [DisplayName("Дата создания")]
         public DateTime CreationDate { get; set; }
 
-        [Display(Name = "Создатель")]
-        public User Creator { get; set; }
+        [DisplayName("Создатель")]
+        public string Creator { get; set; }
 
-        [Display(Name = "Избранный")]
-        public int IsChosen { get; set; }
+        [DisplayName("Избранный")]
+        public bool IsChosen { get; set; }
 
         public static ProjectListViewModel FromProject(Project project)
         {
             return new ProjectListViewModel
                 {
-                    Id = project.Id,
                     Title = project.Title,
-                    Creator = project.Creator,
+                    Creator = project.Creator.UserName,
                     CreationDate = project.CreationDate,
                     IsChosen = project.IsChosen
                 };

@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Application.Core.UI.Controllers;
+using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.ProjectManagement;
 using LMPlatform.UI.ViewModels.BTSViewModels;
 using Mvc.JQuery.Datatables;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
@@ -33,13 +36,24 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
-        public DataTablesResult<ProjectListViewModel> GetCollectionProjects(DataTablesParam dataTableParam)
+        [HttpPost]
+        public DataTablesResult<ProjectListViewModel> GetAllProjects(DataTablesParam dataTableParam)
         {
-            dataTableParam.sSearch = string.Empty;
-            var projects = ProjectManagementService.GetProjects()
-              .Select(ProjectListViewModel.FromProject)
-              .AsQueryable();
-            return DataTablesResult.Create(projects, dataTableParam);
+            var searchString = dataTableParam.GetSearchString();
+            var projects = ProjectManagementService.GetAllProjects(pageInfo: dataTableParam.ToPageInfo(),
+                searchString: searchString);
+
+            return DataTableExtensions.GetResults(projects.Items.Select(ProjectListViewModel.FromProject), dataTableParam, projects.TotalCount);
+        }
+
+        [HttpPost]
+        public DataTablesResult<ProjectListViewModel> GetChosenProjects(DataTablesParam dataTableParam)
+        {
+            var searchString = dataTableParam.GetSearchString();
+            var projects = ProjectManagementService.GetChosenProjects(pageInfo: dataTableParam.ToPageInfo(),
+                searchString: searchString);
+
+            return DataTableExtensions.GetResults(projects.Items.Select(ProjectListViewModel.FromProject), dataTableParam, projects.TotalCount);
         }
 
         public IProjectManagementService ProjectManagementService

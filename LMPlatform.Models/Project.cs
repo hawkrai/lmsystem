@@ -29,7 +29,7 @@ namespace LMPlatform.Models
         }
 
         [Display(Name = "Избранный")]
-        public int IsChosen
+        public bool IsChosen
         {
             get; 
             set;
