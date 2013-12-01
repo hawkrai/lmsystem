@@ -9,16 +9,29 @@
 }
 
 <h2>Студенты</h2>
-<div>@Html.Partial("_DataTable", new DataTableViewModel
-            {
-                DataTable = Html.DataTable("studentList", (AdministrationController controller) => controller.GetCollectionStudents(new DataTablesParam() { })),
-                DataTableOptions = new DataTableOptions
-                 {
-                     Pagination = true,
-                     Searchable = true,
-                     Sortable = false,
-                     Filterable = true,
-                     Info = false,
-                 }
-            })
+
+<div>
+    <div>@Html.Partial("_DataTable", new DataTableViewModel
+             {
+                 DataTable = Html.DataTable("studentList", (AdministrationController controller) => controller.GetCollectionStudents(new DataTablesParam() { })),
+                 DataTableOptions = new DataTableOptions
+                     {
+                         Pagination = true,
+                         Searchable = true,
+                         Sortable = false,
+                         Filterable = true,
+                         Info = false,
+                         OnComplete = "initPopup"
+                     }
+             })
+    </div>
+    <div id="toPopup">
+        <div class="popup-close"></div>
+        <span class="popup-ecs_tooltip">Нажмите Esc для выхода <span class="arrow"></span></span>
+        <div id="popup_content">
+            <input type="text" name="login" />
+        </div>
+    </div>
+    <div class="popup-loader"></div>
+    <div id="backgroundPopup"></div>
 </div>

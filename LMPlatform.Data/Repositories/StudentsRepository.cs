@@ -46,7 +46,7 @@ namespace LMPlatform.Data.Repositories
 
         public void SaveStudent(Student student)
         {
-            DataContext.Set<Student>().Add(student);
+            Save(student);
         }
     }
 }

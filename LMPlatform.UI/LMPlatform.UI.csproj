@@ -154,6 +154,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\RequiredIfResetAttribute.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\LectorViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModels\ModifyStudentViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectListViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectsViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestItemListViewModel.cs" />
@@ -261,6 +263,7 @@
     <Content Include="Content\DataTables-1.9.4\media\images\forward_enabled.png" />
     <Content Include="Content\DataTables-1.9.4\media\images\forward_enabled_hover.png" />
     <Content Include="Content\datepicker.css" />
+    <Content Include="Content\images\closebox.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\images\loading.gif" />
@@ -273,6 +276,7 @@
     <Content Include="Content\images\star_blue.png" />
     <Content Include="Content\images\star_white.png" />
     <Content Include="Content\images\trash_blue.png" />
+    <Content Include="Content\popup.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -336,6 +340,7 @@
     <Content Include="Images\collection.png" />
     <Content Include="Images\no_image.png" />
     <Content Include="Scripts\application\BTS\ProjectsScript.js" />
+    <Content Include="Scripts\application\Administration\PopupScript.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
