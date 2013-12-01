@@ -12,6 +12,8 @@ namespace Application.Infrastructure.ProjectManagement
     {
         Project GetProject(int projectId);
 
+        List<Project> GetProjects();
+
         IPageableList<Project> GetAllProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
         IPageableList<Project> GetChosenProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);

@@ -17,7 +17,15 @@ namespace Application.Infrastructure.ProjectManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.ProjectsRepository.GetBy(new Query<Project>(e => e.Id == projectId));
+                return repositoriesContainer.ProjectsRepository.GetBy(new Query<Project>(e => e.Id == projectId).Include(e => e.Creator));
+            }
+        }
+
+        public List<Project> GetProjects()
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetAll(new Query<Project>().Include(e => e.Creator)).ToList();
             }
         }
 
@@ -38,8 +46,7 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
-        public IPageableList<Project> GetChosenProjects(string searchString = null, IPageInfo pageInfo = null,
-                                                        IEnumerable<ISortCriteria> sortCriterias = null)
+        public IPageableList<Project> GetChosenProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
             var query = new PageableQuery<Project>(e => e.IsChosen == true);
             query.Include(e => e.Creator); 

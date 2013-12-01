@@ -1,4 +1,6 @@
-﻿@section subnavbar
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectsViewModel
+
+@section subnavbar
 {
     @Html.Partial("_BTSSubnavbar")
 }
@@ -8,30 +10,43 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-offset-1 col-md-10">
-            
-                    <table class="table">
-                        <tr>
-                            <td style="width: 40%">Тема проекта :</td>
-                            <td class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Проект 1<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>Проект 1</li>
-                                    <li>Проект 2</li>
-                                    <li>Проект 3</li>
-                                </ul>
-                            </td>
-                        </tr>
+                    <div>
+                        <h4>Выбор проекта</h4>
+                        @using (@Html.BeginForm("ProjectManagement", "BTS"))
+                        {
+                            @Html.DropDownListFor(e => e.ProjectId, Model.GetProjectNames(), new {@class = "form-control", @id = "projectNameList"})
+                        }
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.LabelFor(p => p.Title) :
+                            </div>
+                            <div class="col-md-8">
+                                @Model.Title
+                            </div>
+                        </div>
+                    
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.LabelFor(p => p.Creator) :
+                            </div>
+                            <div class="col-md-8">
+                                @Model.CreatorName
+                            </div>
+                        </div>
+                    
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.LabelFor(p => p.CreationDate) :
+                            </div>
+                            <div class="col-md-8">
+                                @Model.CreationDate.ToShortDateString()
+                            </div>
+                        </div>
+                    </div>
 
-                        <tr>
-                            <td>Создатель :</td>
-                            <td>test</td>
-                        </tr>
-                        <tr>
-                            <td>Дата создания :</td>
-                            <td>11 сентября 1990</td>
-                        </tr>
-                    </table>
-            
+
                     <div class="row">
                         <div class="col-md-7">
                             <h4>Участники проекта</h4>
@@ -42,7 +57,7 @@
                             
                     </div>
             
-                    <table class="table">
+                    @*<table class="table">
                         <tr>
                             <td style="width: 55%">User1</td> 
                             <td style="width: 40%">разработчик</td> 
@@ -58,17 +73,23 @@
                             <td>тестировщик</td> 
                             <td><img src="/Content/images/trash_blue.png"/></td> 
                         </tr>
-                    </table>
+                    </table>*@
+                    
+                    <div style="margin: 10px">
+                        @Html.Partial("UnderConstruction")
+                    </div>
+
                 </div>
             </div>
         </div>
+
         <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title" align="center">Анализ ошибок проекта</h3>
                 </div>
             </div>
-            <div class="row">
+            @*<div class="row">
                 <div class="col-md-offset-1 col-md-10">
                     <p>Новые</p>
                     <p>Разрешенные</p>
@@ -84,7 +105,11 @@
                     <p>Низкая</p>
                 </div>
             </div>
-    
+            *@
+            <div style="margin: 10px">
+                @Html.Partial("UnderConstruction")
+            </div>
+
             <div class="row" align="center">
                 <button type="button" class="btn btn-primary">Перейти к ошибкам проекта</button>
             </div>

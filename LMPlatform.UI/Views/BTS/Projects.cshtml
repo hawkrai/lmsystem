@@ -1,7 +1,6 @@
 ﻿@using Application.Core.UI.HtmlHelpers
 @using LMPlatform.UI.Controllers
-@using Mvc.JQuery.Datatables
-@model LMPlatform.Models.Project
+@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectsViewModel
 
 @section scripts{
      @Scripts.Render("~/bundles/datatable")
@@ -63,14 +62,14 @@
                             <div class="center" style="margin: 10px">
                                 <div>
                                     @Html.LabelFor(p => p.Title)
-                                    @Html.TextBoxFor(p => p.Title, new { @class = "form-control" })
+                                    @Html.TextBoxFor(p => p.Title, new { @class = "form-control" , @id = "tb_projectName"})
                                 </div>
                                 <div class="checkbox">
-                                    <label>@Html.CheckBoxFor(p => p.IsChosen) Добавить в избранное</label> 
+                                    <label>@Html.CheckBoxFor(p => p.IsChosen, new {@id = "cb_isChosen"}) Добавить в избранное</label> 
                                 </div>
                         
                                 <p>
-                                    <input type="submit" class="btn btn-primary" value="Добавить" style="width: 100%"/>
+                                    <input type="submit" class="btn btn-primary" value="Добавить" onclick="Projects" style="width: 100%"/>
                                 </p>
                             </div>
                         }

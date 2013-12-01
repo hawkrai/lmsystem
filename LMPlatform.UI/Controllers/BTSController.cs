@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
 using Application.Core.UI.Controllers;
@@ -6,7 +6,6 @@ using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.ProjectManagement;
 using LMPlatform.UI.ViewModels.BTSViewModels;
 using Mvc.JQuery.Datatables;
-using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
@@ -26,9 +25,18 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult ProjectManagement()
         {
-            return View();
+            var model = new ProjectsViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ProjectManagement(int projectId)
+        {
+            var model = new ProjectsViewModel(projectId);
+            return View(model);
         }
 
         public ActionResult ErrorManagement()

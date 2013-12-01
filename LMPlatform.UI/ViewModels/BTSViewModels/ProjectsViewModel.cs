@@ -1,5 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 using Application.Core;
 using Application.Infrastructure.ProjectManagement;
 using LMPlatform.Data.Repositories.RepositoryContracts;
@@ -29,18 +33,25 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }
         }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Тема проекта")]
+        public int ProjectId { get; set; }
+
+        [DisplayName("Тема проекта")]
         public string Title { get; set; }
 
-        [Display(Name = "Дата создания")]
+        [DisplayName("Дата создания")]
         public DateTime CreationDate { get; set; }
 
-        [Display(Name = "Создатель")]
+        [DisplayName("Создатель")]
+        public int CreatorId { get; set; }
+
+        [DisplayName("Избранный")]
+        public bool IsChosen { get; set; }
+
+        [DisplayName("Создатель")]
         public User Creator { get; set; }
 
-        [Display(Name = "Избранный")]
-        public bool IsChosen { get; set; }
+        [DisplayName("Создатель")]
+        public string CreatorName { get; set; }
 
         public void SaveProject()
         {
@@ -52,6 +63,38 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                     CreationDate = DateTime.Today,
                     IsChosen = IsChosen
                 });
+        }
+
+        public ProjectsViewModel()
+        {
+            if (GetProjectNames().Count != 0)
+            {
+                var model = ProjectManagementService.GetProject(Convert.ToInt32(GetProjectNames().First().Value));
+                Title = model.Title;
+                Creator = model.Creator;
+                CreationDate = model.CreationDate;
+                CreatorName = Creator.UserName;
+            }
+        }
+
+        public ProjectsViewModel(int projectId)
+        {
+            var model = ProjectManagementService.GetProject(projectId);
+            Title = model.Title;
+            Creator = model.Creator;
+            CreationDate = model.CreationDate;
+            CreatorName = Creator.UserName;
+        }
+
+        public IList<SelectListItem> GetProjectNames()
+        {
+            var projects = ProjectManagementService.GetProjects();
+
+            return projects.Select(e => new SelectListItem
+            {
+                Text = e.Title,
+                Value = e.Id.ToString(CultureInfo.InvariantCulture)
+            }).ToList();
         }
     }
 }

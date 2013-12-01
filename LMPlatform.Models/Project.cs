@@ -1,40 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using Application.Core.Data;
 
 namespace LMPlatform.Models
 {
     public class Project : ModelBase
     {
-        [Display(Name = "Тема проекта")]
+        [DisplayName("Тема проекта")]
         public string Title
         {
             get; 
             set;
         }
 
-        [Display(Name = "Дата создания")]
+        [DisplayName("Дата создания")]
         public DateTime CreationDate
         {
             get; 
             set;
         }
 
-        [Display(Name = "Создатель")]
+        [DisplayName("Создатель")]
         public int CreatorId
         {
             get; 
             set; 
         }
 
-        [Display(Name = "Избранный")]
+        [DisplayName("Избранный")]
         public bool IsChosen
         {
             get; 
             set;
         }
 
+        [DisplayName("Создатель")]
         public User Creator
         { 
             get; 

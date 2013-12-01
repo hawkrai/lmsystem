@@ -335,6 +335,7 @@
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\collection.png" />
     <Content Include="Images\no_image.png" />
+    <Content Include="Scripts\application\BTS\ProjectsScript.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
