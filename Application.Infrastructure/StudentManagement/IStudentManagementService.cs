@@ -12,5 +12,7 @@ namespace Application.Infrastructure.StudentManagement
         List<Student> GetStudents();
 
         void Save(Student student);
+
+        void UpdateStudent(Student student);
     }
 }

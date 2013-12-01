@@ -24,6 +24,12 @@ namespace LMPlatform.Models
             set;
         }
 
+        public ICollection<SubjectLecturer> SubjectLecturers
+        {
+            get;
+            set;
+        } 
+
         public ICollection<Test> SubjectTests
         {
             get;

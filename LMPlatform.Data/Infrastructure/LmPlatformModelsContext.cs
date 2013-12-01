@@ -72,6 +72,12 @@ namespace LMPlatform.Data.Infrastructure
         {
             get; 
             set;
+        }
+
+        public DbSet<Lecturer> Lecturers
+        {
+            get; 
+            set;
         } 
 
         #endregion DataContext Members
@@ -123,6 +129,10 @@ namespace LMPlatform.Data.Infrastructure
                 .HasRequired<Student>(e => e.Student)
                 .WithRequiredPrincipal(e => e.User);
 
+            modelBuilder.Entity<User>()
+                .HasRequired<Lecturer>(e => e.Lecturer)
+                .WithRequiredPrincipal(e => e.User);
+
             modelBuilder.Entity<Subject>()
                 .HasMany<SubjectGroup>(e => e.SubjectGroups)
                 .WithRequired(e => e.Subject)
@@ -133,6 +143,18 @@ namespace LMPlatform.Data.Infrastructure
                .HasMany<SubjectGroup>(e => e.SubjectGroups)
                .WithRequired(e => e.Group)
                .HasForeignKey(e => e.GroupId)
+               .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany<SubjectLecturer>(e => e.SubjectLecturers)
+                .WithRequired(e => e.Subject)
+                .HasForeignKey(e => e.SubjectId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Lecturer>()
+               .HasMany<SubjectLecturer>(e => e.SubjectLecturers)
+               .WithRequired(e => e.Lecturer)
+               .HasForeignKey(e => e.LecturerId)
                .WillCascadeOnDelete(false);
 
             MapKnowledgeTestingEntities(modelBuilder);

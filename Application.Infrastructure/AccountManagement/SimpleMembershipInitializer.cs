@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Threading;
 using System.Web.Security;
 using LMPlatform.Data.Infrastructure;
+using LMPlatform.Models;
 using WebMatrix.WebData;
 
 namespace Application.Infrastructure.AccountManagement
@@ -37,8 +38,20 @@ namespace Application.Infrastructure.AccountManagement
                 {
                     WebSecurity.CreateUserAndAccount("admin", "123456");
                     Roles.AddUserToRole("admin", "admin");
-                    Roles.AddUserToRole("admin", "student");
-                    Roles.AddUserToRole("admin", "lector");
+                    WebSecurity.CreateUserAndAccount("popova", "123456");
+                    Roles.AddUserToRole("popova", "lector");
+                    using (var context = new LmPlatformModelsContext())
+                    {
+                        context.Lecturers.Add(new Lecturer
+	                    {
+                            Id = 2,
+                            FirstName = "Юлия",
+                            MiddleName = "Попова",
+                            LastName = "Борисовна"
+	                    });
+
+                        context.SaveChanges();
+                    }
                 }
             }
             catch (Exception ex)

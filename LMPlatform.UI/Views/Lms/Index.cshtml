@@ -16,31 +16,7 @@
 
 @section subnavbar
 {
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Предметы</h3>
-        </div>
-        <div class="panel-body">
-            @if (!Model.Subjects.Any())
-            {
-                <p class="text-primary">Список предметов пуст</p>
-            }
-            @foreach (var subject in Model.Subjects)
-            {
-                @Html.ActionLink(subject.DisplayName,"Index","Subject", new {subjectId = subject.SubjectId}, new {@class = "btn btn-primary btn-subject"})
-            }
-        </div>
-    </div>
-    <div class="span3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h1 class="panel-title" style="color: white">Календарь событий</h1>
-            </div>
-            <div class="panel-body">
-                <div id="dateEvent"></div>
-            </div>
-        </div>
-    </div>
+    @Html.Partial("Lms/_LmsNaBar",@Model.Subjects)
 }
 
 <div style="margin: 10px">
@@ -48,6 +24,6 @@
         <h1>Добро пожаловать в систему управления учебный процессом</h1>
     </div>
     <div class="text-primary">
-        <h3>Последние собития и новости</h3>
+        <h3>Последние события и новости</h3>
     </div>
 </div>

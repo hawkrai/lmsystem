@@ -48,7 +48,7 @@ namespace Application.Infrastructure.ProjectManagement
 
         public IPageableList<Project> GetChosenProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
-            var query = new PageableQuery<Project>(e => e.IsChosen == true);
+            var query = new PageableQuery<Project>(e => e.IsChosen);
             query.Include(e => e.Creator); 
             if (!string.IsNullOrEmpty(searchString))
             {

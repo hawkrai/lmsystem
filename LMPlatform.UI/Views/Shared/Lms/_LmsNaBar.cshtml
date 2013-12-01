@@ -1,0 +1,41 @@
+﻿@model List<LMPlatform.UI.ViewModels.SubjectViewModels.SubjectViewModel>
+
+<div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Предметы</h3>
+        </div>
+        <div class="panel-body">
+            @if (!Model.Any())
+            {
+                <p class="text-primary">Список предметов пуст</p>
+            }
+            @foreach (var subject in Model)
+            {
+                @Html.ActionLink(subject.DisplayName, "Index", "Subject", new { subjectId = subject.SubjectId }, new { @class = "btn btn-primary btn-lms" })
+            }
+        </div>
+    </div>
+    <div class="span3">
+        @if (User.IsInRole("lector"))
+        {
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h1 class="panel-title" style="color: white">Панель преподавателя</h1>
+                </div>
+                <div class="panel-body">
+                    @Html.ActionLink("Управление предметами", "Management", "Subject", null, new { @class = "btn btn-success btn-lms" })
+                    @Html.ActionLink("Сообщения", "Index", "Lms", null, new { @class = "btn btn-success btn-lms" })
+                    @Html.ActionLink("Управление новостями системы", "Index", "Lms", null, new { @class = "btn btn-success btn-lms" })
+                </div>
+            </div>    
+        }
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title" style="color: white">Календарь событий</h1>
+            </div>
+            <div class="panel-body">
+                <div id="dateEvent"></div>
+            </div>
+        </div>
+    </div>

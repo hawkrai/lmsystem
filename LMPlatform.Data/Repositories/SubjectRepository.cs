@@ -15,13 +15,21 @@ namespace LMPlatform.Data.Repositories
         {
         }
 
-        public List<Subject> GetSubjects(int gorupId)
+        public List<Subject> GetSubjects(int groupId = 0, int lecturerId = 0)
         {
             using (var context = new LmPlatformModelsContext())
             {
-                var subjectGroup = context.Set<SubjectGroup>().Include(e => e.Subject).Where(e => e.GroupId == gorupId).ToList();
-                var subjects = subjectGroup.Select(e => e.Subject).ToList();
-                return subjects;
+                if (groupId != 0)
+                {
+                    var subjectGroup = context.Set<SubjectGroup>().Include(e => e.Subject).Where(e => e.GroupId == groupId).ToList();
+                    return subjectGroup.Select(e => e.Subject).ToList(); 
+                }
+                else
+                {
+                    var subjectLecturer =
+                        context.Set<SubjectLecturer>().Include(e => e.Subject).Where(e => e.LecturerId == lecturerId);
+                    return subjectLecturer.Select(e => e.Subject).ToList();
+                }
             } 
         }
     }

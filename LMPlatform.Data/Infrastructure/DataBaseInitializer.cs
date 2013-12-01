@@ -12,7 +12,6 @@ namespace LMPlatform.Data.Infrastructure
 			FillRoles(context);
 
             CreateGroups(context);
-
             CreateBugSeverities(context);
             CreateBugSymptoms(context);
 		    CreateBugStatuses(context);
@@ -20,7 +19,7 @@ namespace LMPlatform.Data.Infrastructure
 			context.SaveChanges();
 		}
 
-        private static void CreateBugSymptoms(LmPlatformModelsContext context)
+	    private static void CreateBugSymptoms(LmPlatformModelsContext context)
         {
             context.BugSymptoms.Add(new BugSymptom { Name = "Косметический дефект" });
             context.BugSymptoms.Add(new BugSymptom { Name = "Повреждение/потеря данных" });

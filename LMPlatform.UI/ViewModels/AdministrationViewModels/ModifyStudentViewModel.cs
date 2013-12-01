@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Application.Core;
+using Application.Core.Data;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.Models;
@@ -112,7 +113,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
     public void ModifyStudent(int studentId)
     {
-      StudentManagementService.Save(new Student
+      StudentManagementService.UpdateStudent(new Student
         {
         Id = studentId,
         FirstName = Name,

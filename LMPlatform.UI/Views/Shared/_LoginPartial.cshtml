@@ -2,7 +2,15 @@
 {
 	<text >
 		<span class="navbar-text">Здравствуйте,
-		@Html.ActionLink(User.Identity.Name, "Management", "Account", routeValues: null, htmlAttributes: new {@class = "username", title = "Личный кабинет"})
+		    @if (!User.IsInRole("admin"))
+		    {
+		        @Html.ActionLink(User.Identity.Name, "Management", "Account", routeValues: null, htmlAttributes: new {@class = "username", title = "Личный кабинет"})
+		    }
+		    else
+		    {
+		        @User.Identity.Name
+		    }
+           
 		@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
 		{
 			@Html.AntiForgeryToken()

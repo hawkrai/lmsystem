@@ -47,6 +47,7 @@
     <Compile Include="Bug.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="KnowledgeTesting\Test.cs" />
+    <Compile Include="Lecturer.cs" />
     <Compile Include="Membership.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="OAuthMembership.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Student.cs" />
     <Compile Include="Subject.cs" />
     <Compile Include="SubjectGroup.cs" />
+    <Compile Include="SubjectLecturer.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

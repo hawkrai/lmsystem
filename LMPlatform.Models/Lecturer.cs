@@ -3,39 +3,33 @@ using Application.Core.Data;
 
 namespace LMPlatform.Models
 {
-    public class User : ModelBase
+    public class Lecturer : ModelBase
     {
-        public string UserName
+        public string FirstName
         {
             get;
             set;
         }
 
-        public Membership Membership
+        public string LastName
         {
             get;
             set;
         }
 
-        public bool? IsServiced
+        public string MiddleName
         {
             get;
             set;
         }
 
-        public Student Student
+        public User User
         {
             get;
             set;
         }
 
-        public Lecturer Lecturer
-        {
-            get; 
-            set;
-        }
-
-        public ICollection<Project> Projects
+        public ICollection<SubjectLecturer> SubjectLecturers
         {
             get;
             set;

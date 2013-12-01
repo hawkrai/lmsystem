@@ -25,8 +25,17 @@ namespace Application.Infrastructure.SubjectManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var student = StudentManagementService.GetStudent(userId);
-                return repositoriesContainer.SubjectRepository.GetSubjects(student.Group.Id);
+                var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>(e => e.Id == userId)
+                    .Include(e => e.Lecturer)
+                    .Include(e => e.Student));
+                if (user.Student != null)
+                {
+                    return repositoriesContainer.SubjectRepository.GetSubjects(groupId: user.Student.GroupId);    
+                }
+                else
+                {
+                    return repositoriesContainer.SubjectRepository.GetSubjects(lecturerId: user.Lecturer.Id);    
+                }
             }
         }
 

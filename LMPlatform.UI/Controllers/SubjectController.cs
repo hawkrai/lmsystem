@@ -12,5 +12,10 @@ namespace LMPlatform.UI.Controllers
             var model = new SubjectManagementViewModel(subjectId);
             return View(model);
         }
+
+        public ActionResult Management()
+        {
+            return View();
+        }
     }
 }

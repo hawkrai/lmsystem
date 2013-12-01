@@ -42,5 +42,14 @@ namespace Application.Infrastructure.StudentManagement
                 repositoriesContainer.ApplyChanges();
             }
         }
+
+        public void UpdateStudent(Student student)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.StudentsRepository.Save(student);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
     }
 }

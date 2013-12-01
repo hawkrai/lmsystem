@@ -506,6 +506,10 @@
     <Content Include="Views\KnowledgeTesting\TestDetails.cshtml" />
     <Content Include="Views\Administration\Groups.cshtml" />
     <Content Include="Views\BTS\_BTSSubnavbar.cshtml" />
+    <Content Include="Views\Subject\Management.cshtml" />
+    <Content Include="Views\Shared\Lms\_LmsNaBar.cshtml" />
+    <Content Include="Views\Administration\EditStudent.cshtml" />
+    <Content Include="Views\Shared\_EditGlyphLinks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
