@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Core.Data;
 using LMPlatform.Models;
 
 namespace Application.Infrastructure.BugManagement
@@ -12,5 +13,7 @@ namespace Application.Infrastructure.BugManagement
         Bug GetBug(int bugId);
 
         List<Bug> GetBugs();
+
+        IPageableList<Bug> GetAllBugs(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
     }
 }

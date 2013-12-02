@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Core;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
-using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
 
 namespace Application.Infrastructure.BugManagement
@@ -26,6 +21,26 @@ namespace Application.Infrastructure.BugManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return repositoriesContainer.BugsRepository.GetAll().ToList();
+            }
+        }
+
+        public IPageableList<Bug> GetAllBugs(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
+        {
+            var query = new PageableQuery<Bug>(pageInfo);
+            query.Include(e => e.Status);
+            query.Include(e => e.Severity);
+            query.Include(e => e.Symptom);
+            query.Include(e => e.Project);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query.AddFilterClause(
+                    e => e.Summary.ToLower().StartsWith(searchString) || e.Summary.ToLower().Contains(searchString));
+            }
+
+            query.OrderBy(sortCriterias);
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.BugsRepository.GetPageableBy(query);
             }
         }
     }

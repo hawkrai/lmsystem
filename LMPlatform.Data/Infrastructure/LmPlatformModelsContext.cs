@@ -242,20 +242,27 @@ namespace LMPlatform.Data.Infrastructure
                 .HasForeignKey(e => e.CreatorId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Project>()
-                .HasMany<Bug>(e => e.Bugs)
-                .WithRequired(e => e.Project)
-                .WillCascadeOnDelete(false);
+           modelBuilder.Entity<Project>()
+               .HasMany<Bug>(e => e.Bugs)
+               .WithRequired(e => e.Project)
+               .HasForeignKey(e => e.ProjectId)
+               .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<BugStatus>()
                 .HasRequired<Bug>(e => e.Bug)
-                .WithRequiredPrincipal(e => e.BugStatus);
+                .WithRequiredPrincipal(e => e.Status);
             modelBuilder.Entity<BugSeverity>()
                 .HasRequired<Bug>(e => e.Bug)
-                .WithRequiredPrincipal(e => e.BugSeverity);
+                .WithRequiredPrincipal(e => e.Severity);
             modelBuilder.Entity<BugSymptom>()
                 .HasRequired<Bug>(e => e.Bug)
-                .WithRequiredPrincipal(e => e.BugSymptom);
+                .WithRequiredPrincipal(e => e.Symptom);
+
+            modelBuilder.Entity<Bug>()
+                .HasRequired<Student>(e => e.Student)
+                .WithMany(e => e.Bugs)
+                .HasForeignKey(e => e.StudentId)
+                .WillCascadeOnDelete(false);
         }
 
         #endregion Protected BTS

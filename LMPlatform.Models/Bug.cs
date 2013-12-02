@@ -7,97 +7,43 @@ namespace LMPlatform.Models
 {
     public class Bug : ModelBase
     {
-        public int ProjectId
-        {
-            get; 
-            set;
-        }
+        public int ProjectId { get; set; }
 
         [Display(Name = "Кем добавлена")]
-        public int UserId
-        {
-            get; 
-            set;
-        }
+        public int StudentId { get; set; }
 
         [Display(Name = "Содержание")]
-        public string Summary
-        {
-            get; 
-            set;
-        }
+        public string Summary { get; set; }
 
         [Display(Name = "Описание")]
-        public string Description
-        {
-            get; 
-            set;
-        }
+        public string Description { get; set; }
 
         [Display(Name = "Шаги выполнения")]
-        public string Steps
-        {
-            get; 
-            set;
-        }
+        public string Steps { get; set; }
 
         [Display(Name = "Дата документирования")]
-        public DateTime CreationDate
-        {
-            get; 
-            set;
-        }
+        public DateTime CreationDate { get; set; }
 
         [Display(Name = "Дата изменения")]
-        public DateTime ModifiedDate
-        {
-            get; 
-            set;
-        }
-
-        public Project Project
-        {
-            get; 
-            set;
-        }
+        public DateTime ModifiedDate { get; set; }
 
         [Display(Name = "Симптом")]
-        public int SymptomId
-        {
-            get; 
-            set;
-        }
+        public int SymptomId { get; set; }
 
         [Display(Name = "Важность")]
-        public int SeverityId
-        {
-            get; 
-            set;
-        }
+        public int SeverityId { get; set; }
 
         [Display(Name = "Статус")]
-        public int StatusId
-        {
-            get; 
-            set;
-        }
+        public int StatusId { get; set; }
 
-        public BugSymptom BugSymptom
-        {
-            get;
-            set;
-        }
+        public Student Student { get; set; }
 
-        public BugSeverity BugSeverity
-        {
-            get;
-            set;
-        }
+        public Project Project { get; set; }
 
-        public BugStatus BugStatus
-        {
-            get;
-            set;
-        }
+        public BugSymptom Symptom { get; set; }
+
+        public BugSeverity Severity { get; set; }
+
+        public BugStatus Status { get; set; }
     }
 }

@@ -52,5 +52,11 @@ namespace LMPlatform.Models
             get;
             set;
         }
+
+        public ICollection<Bug> Bugs
+        {
+            get;
+            set;
+        }
     }
 }

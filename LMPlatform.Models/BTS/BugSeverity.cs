@@ -1,14 +1,12 @@
-﻿using Application.Core.Data;
+﻿using System.ComponentModel;
+using Application.Core.Data;
 
 namespace LMPlatform.Models.BTS
 {
     public class BugSeverity : ModelBase
     {
-        public string Name
-        {
-            get; 
-            set;
-        }
+        [DisplayName("Важность")]
+        public string Name { get; set; }
 
         public Bug Bug
         {

@@ -14,7 +14,7 @@
                         <h4>Выбор проекта</h4>
                         @using (@Html.BeginForm("ProjectManagement", "BTS"))
                         {
-                            @Html.DropDownListFor(e => e.ProjectId, Model.GetProjectNames(), new {@class = "form-control", @id = "projectNameList"})
+                            @Html.DropDownListFor(e => e.Title, Model.GetProjectNames(), new {@class = "form-control", @id = "projectNameList"})
                         }
                     </div>
                     <div>

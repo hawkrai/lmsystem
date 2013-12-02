@@ -1,12 +1,25 @@
-﻿@section subnavbar
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+
+@section subnavbar
 {
     @Html.Partial("_BTSSubnavbar")
+}
+
+@section scripts{
+     @Scripts.Render("~/bundles/datatable")
 }
 
 <div class="container" style="margin: 10px">
     <div class="row">
         <div class="col-md-offset-1 col-md-6">
-            <table class="table">
+            
+            <div style="margin: 10px">
+                @Html.Partial("UnderConstruction")
+            </div>
+
+
+            @*<table class="table">
                 <tr>
                     <td style="width: 60%">Ошибки проектов :</td>
                     <td class="dropdown">
@@ -42,54 +55,34 @@
                     </td>
                 </tr>
             </table>
+        </div>*@
         </div>
-        <div class="col-md-offset-1 col-md-4">
-            <button type="button" class="btn btn-primary">Документировать ошибку</button>
+        <div class="col-md-5">
+            <button type="button" class="btn btn-primary" style="float: right">Документировать ошибку</button>
         </div>
     </div>
 
+
     <div class="row">
         <div class="col-md-12">
-            <table class="table" style="width: 100%">
-                <thead>
-                    <td>&#8470;</td>
-                    <td>ID</td>
-                    <td>Название ошибки</td>
-                    <td>Проект</td>
-                    <td>Статус</td>
-                    <td>Важность</td>
-                    <td width="20px"></td>
-                </thead>
-                <tr>
-                    <td>1</td>
-                    <td><a href="#">2801</a></td>
-                    <td>Появляется неверное окно</td>
-                    <td>Проект 1</td>
-                    <td>новая</td>
-                    <td>Средняя</td>
-                    <td><img src="/Content/images/trash_blue.png"/></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><a href="#">2802</a></td>
-                    <td>Появляется неверное окно</td>
-                    <td>Проект 2</td>
-                    <td>новая</td>
-                    <td>Средняя</td>
-                    <td><img src="/Content/images/trash_blue.png"/></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><a href="#">2803</a></td>
-                    <td>Появляется неверное окно</td>
-                    <td>Проект 3</td>
-                    <td>новая</td>
-                    <td>Средняя</td>
-                    <td><img src="/Content/images/trash_blue.png"/></td>
-                </tr>
-            </table>
+            <div style="margin: 10px">
+                @Html.Partial("_DataTable", new DataTableViewModel
+                    {
+                        DataTable = Html.DataTable("allProjectsList", (BTSController controller) => controller.GetAllBugs(null)),
+                        DataTableOptions = new DataTableOptions
+                            {
+                                Filterable = true,
+                                Info = true,
+                                OnComplete = null,
+                                Pagination = true,
+                                Searchable = true,
+                                Sortable = false,
+                            }
+                    })
+            </div>
         </div>
     </div>
 </div>
+
 
 

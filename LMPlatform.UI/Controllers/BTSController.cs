@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
+using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.ProjectManagement;
 using LMPlatform.UI.ViewModels.BTSViewModels;
 using Mvc.JQuery.Datatables;
@@ -39,6 +40,7 @@ namespace LMPlatform.UI.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public ActionResult ErrorManagement()
         {
             return View();
@@ -64,11 +66,29 @@ namespace LMPlatform.UI.Controllers
             return DataTableExtensions.GetResults(projects.Items.Select(ProjectListViewModel.FromProject), dataTableParam, projects.TotalCount);
         }
 
+        [HttpPost]
+        public DataTablesResult<BugListViewModel> GetAllBugs(DataTablesParam dataTableParam)
+        {
+            var searchString = dataTableParam.GetSearchString();
+            var bugs = BugManagementService.GetAllBugs(pageInfo: dataTableParam.ToPageInfo(),
+                searchString: searchString);
+
+            return DataTableExtensions.GetResults(bugs.Items.Select(BugListViewModel.FromBug), dataTableParam, bugs.TotalCount);
+        }
+
         public IProjectManagementService ProjectManagementService
         {
             get
             {
                 return ApplicationService<IProjectManagementService>();
+            }
+        }
+
+        public IBugManagementService BugManagementService
+        {
+            get
+            {
+                return ApplicationService<IBugManagementService>();
             }
         }
     }
