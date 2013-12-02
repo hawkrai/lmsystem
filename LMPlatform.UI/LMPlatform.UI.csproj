@@ -171,6 +171,7 @@
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\LectorViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\BugListViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ModifyStudentViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectListViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectsViewModel.cs" />
@@ -491,7 +492,7 @@
     <Content Include="Views\Shared\Layouts\_PreMainLayout.cshtml" />
     <Content Include="Views\BTS\Projects.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
-    <Content Include="Views\BTS\ErrorManagement.cshtml" />
+    <Content Include="Views\BTS\BugManagement.cshtml" />
     <Content Include="Views\KnowledgeTesting\Index.cshtml" />
     <Content Include="Views\KnowledgeTesting\_KnowledgeTestingSubnavbar.cshtml" />
     <Content Include="Views\KnowledgeTesting\Tests.cshtml" />
@@ -510,6 +511,7 @@
     <Content Include="Views\Shared\Lms\_LmsNaBar.cshtml" />
     <Content Include="Views\Administration\EditStudent.cshtml" />
     <Content Include="Views\Shared\_EditGlyphLinks.cshtml" />
+    <Content Include="Views\BTS\_BugAddForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -555,7 +557,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>40903</DevelopmentServerPort>
+          <DevelopmentServerPort>42801</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:20612/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

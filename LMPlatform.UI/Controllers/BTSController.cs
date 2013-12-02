@@ -41,7 +41,7 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult ErrorManagement()
+        public ActionResult BugManagement()
         {
             return View();
         }

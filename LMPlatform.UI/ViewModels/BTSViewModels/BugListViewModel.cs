@@ -7,6 +7,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
     public class BugListViewModel
     {
+        [DisplayName("Проект")]
+        public string Project { get; set; }
+
         [DisplayName("Содержание")]
         public string Summary { get; set; }
 
@@ -29,13 +32,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public string Student { get; set; }
 
         [DisplayName("Дата документирования")]
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
 
         [DisplayName("Дата изменения")]
-        public DateTime ModifiedDate { get; set; }
-
-        [DisplayName("Проект")]
-        public string Project { get; set; }
+        public string ModifiedDate { get; set; }
 
         public static BugListViewModel FromBug(Bug bug)
         {
@@ -49,8 +49,8 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 Status = bug.Status.Name,
                 Project = bug.Project.Title,
                 Student = bug.Student.FirstName,
-                CreationDate = bug.CreationDate,
-                ModifiedDate = bug.ModifiedDate
+                CreationDate = bug.CreationDate.ToShortDateString(),
+                ModifiedDate = bug.ModifiedDate.ToShortDateString()
             };
         }
     }

@@ -19,13 +19,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public string Title { get; set; }
 
         [DisplayName("Дата создания")]
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
 
         [DisplayName("Создатель")]
         public string CreatorName { get; set; }
-
-        [DisplayName("Создатель")]
-        public User Creator { get; set; }
 
         public static ProjectListViewModel FromProject(Project project)
         {
@@ -34,7 +31,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 {
                     Title = project.Title,
                     CreatorName = project.Creator.UserName,
-                    CreationDate = project.CreationDate.Date,
+                    CreationDate = project.CreationDate.ToShortDateString(),
                     IsChosen = project.IsChosen
                 };
         }
