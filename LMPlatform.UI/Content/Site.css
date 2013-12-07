@@ -75,7 +75,10 @@ margin: 0;
 text-align: center;
 list-style: none;
 }
-
+.modal-dialog {
+width: 600px;
+margin: 30px auto;
+}
 /* login layout
 ----------------------------------------------------------*/
 
@@ -398,14 +401,6 @@ legend.scheduler-border {
     text-align: center!important;
 }
 
-.modal {
-    width: 700px;
-}
-
-.modal-body {
-    max-height: 450px;
-}
-
 .alert-error {
     color: #ffffff;
     background-color: red;
@@ -443,8 +438,7 @@ legend.scheduler-border {
 }
 
 .tooltip-button {
-    margin-bottom: 5px;
-    margin-left: 5px;
+    margin:12px
 }
 
 .btn-info {

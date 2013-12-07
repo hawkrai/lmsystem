@@ -1,0 +1,51 @@
+﻿@using Application.Core.UI.HtmlHelpers
+@model LMPlatform.UI.ViewModels.SubjectViewModels.SubjectEditViewModel
+
+<div id="editSubject">
+
+    @using (Html.BeginForm("SaveSubject", "Subject", FormMethod.Post))
+    {
+        @Html.HiddenFor(e => e.SubjectId)
+        @Html.HiddenFor(e => e.Title)
+        <div>
+            @Html.LabelFor(e => e.DisplayName, new { @class = "control-label" })
+            @Html.TextBoxFor(e => e.DisplayName, new { @class = "form-control", @style = "width: 500px;float:left" })
+            @Html.ValidationMessageFor(e => e.DisplayName, " ")
+            @Html.DescriptionFor(e => e.DisplayName, true)
+        </div>
+        <div class="clear-fix"></div>
+        <div>
+            @Html.LabelFor(e => e.ShortName, new { @class = "control-label" })
+            @Html.TextBoxFor(e => e.ShortName, new { @class = "form-control", @style = "width: 500px; float:left"  })
+            @Html.ValidationMessageFor(e => e.ShortName, " ")
+            @Html.DescriptionFor(e => e.ShortName, true)
+        </div>
+        <div>
+            <div class="page-header">
+                <h3>Модули</h3>
+            </div>
+            @{
+                var index = 0;
+                foreach (var module in Model.Modules)
+                {
+                    @Html.Hidden("Modules[" + index + "].ModuleId", module.ModuleId)
+                    @Html.Hidden("Modules[" + index + "].Name", module.Name)
+                    <div style="float: left; margin-left: 5px; width: 40%">
+                        <label class="checkbox">@Html.CheckBox("Modules[" + index + "].Checked", module.Checked) @module.Name</label>
+                    </div>
+                    index++;
+                }
+            }
+            <div class="clear-fix"></div>
+        </div>
+    }
+
+    <div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#editSubject a').tooltip(
+    {
+        placement: "right",
+    });
+</script>

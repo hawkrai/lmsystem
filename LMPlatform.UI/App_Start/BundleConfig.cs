@@ -23,6 +23,9 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/jQueryExtensions.js",
                 "~/Scripts/application/masterPageManagement.js"));
 
+            bundles.Add(new ScriptBundle("~/bundle/subjectManagement").Include(
+                "~/Scripts/application/subjectManagement.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
                 "~/Scripts/DataTables-1.9.4/media/js/jquery.dataTables.js", 
                 "~/Scripts/application/datatable-bootstrappagination.js", 

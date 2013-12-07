@@ -32,5 +32,46 @@ namespace LMPlatform.Data.Repositories
                 }
             } 
         }
+
+        protected override void PerformAdd(Subject model, LmPlatformModelsContext dataContext)
+        {
+            base.PerformAdd(model, dataContext);
+
+            foreach (var subjectModule in model.SubjectModules)
+            {
+                subjectModule.SubjectId = model.Id;
+                dataContext.Set<SubjectModule>().Add(subjectModule);
+            }
+
+            model.SubjectLecturers.FirstOrDefault().SubjectId = model.Id;
+            dataContext.Set<SubjectLecturer>().Add(model.SubjectLecturers.FirstOrDefault());
+
+            dataContext.SaveChanges();
+        }
+
+        protected override void PerformUpdate(Subject newValue, LmPlatformModelsContext dataContext)
+        {
+            var subjectModules = dataContext.Set<SubjectModule>().Where(e => e.SubjectId == newValue.Id);
+
+            foreach (var subjectModule in subjectModules)
+            {
+                if (newValue.SubjectModules.All(e => e.ModuleId != subjectModule.ModuleId))
+                {
+                    dataContext.Set<SubjectModule>().Remove(subjectModule);
+                }
+            }
+
+            foreach (var subjectModule in newValue.SubjectModules)
+            {
+                if (!subjectModules.Any(e => e.ModuleId == subjectModule.ModuleId))
+                {
+                    dataContext.Set<SubjectModule>().Add(subjectModule);
+                }
+            }
+
+            dataContext.SaveChanges();
+
+            base.PerformUpdate(newValue, dataContext);
+        }
     }
 }

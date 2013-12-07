@@ -46,5 +46,34 @@ namespace Application.Infrastructure.SubjectManagement
                 return repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == id));
             }
         }
+
+        public IPageableList<Subject> GetSubjectsLecturer(int lecturerId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
+        {
+            var query = new PageableQuery<Subject>(pageInfo, e => e.SubjectLecturers.Any(x => x.LecturerId == lecturerId));
+            
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query.AddFilterClause(
+                    e => e.Name.ToLower().StartsWith(searchString) || e.Name.ToLower().Contains(searchString));
+            }
+
+            query.OrderBy(sortCriterias);
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.SubjectRepository.GetPageableBy(query);
+            }
+        }
+
+        public Subject SaveSubject(Subject subject)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.SubjectRepository.Save(subject);
+
+                repositoriesContainer.ApplyChanges();
+            }
+
+            return subject;
+        }
     }
 }

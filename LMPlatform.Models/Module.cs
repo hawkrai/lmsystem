@@ -1,4 +1,5 @@
-﻿using Application.Core.Data;
+﻿using System.Collections.Generic;
+using Application.Core.Data;
 
 namespace LMPlatform.Models
 {
@@ -11,6 +12,12 @@ namespace LMPlatform.Models
         }
 
         public string DisplayName
+        {
+            get; 
+            set;
+        }
+
+        public ICollection<SubjectModule> SubjectModules
         {
             get; 
             set;

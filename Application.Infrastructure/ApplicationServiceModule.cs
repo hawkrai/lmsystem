@@ -22,6 +22,7 @@ namespace Application.Infrastructure
             containerWrapper.Register<IProjectManagementService, ProjectManagementService>();
             containerWrapper.Register<IStudentManagementService, StudentManagementService>();
             containerWrapper.Register<ISubjectManagementService, SubjectManagementService>();
+            containerWrapper.Register<IModulesManagementService, ModulesManagementService>();
 
 			return containerWrapper;
 		}

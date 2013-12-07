@@ -1,6 +1,14 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Application.Core.UI.Controllers;
+using Application.Core.UI.HtmlHelpers;
+using Application.Infrastructure.ProjectManagement;
+using Application.Infrastructure.SubjectManagement;
+using LMPlatform.Models;
+using LMPlatform.UI.ViewModels.BTSViewModels;
 using LMPlatform.UI.ViewModels.SubjectViewModels;
+using Mvc.JQuery.Datatables;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
@@ -16,6 +24,38 @@ namespace LMPlatform.UI.Controllers
         public ActionResult Management()
         {
             return View();
+        }
+
+        public ActionResult Create()
+        {
+            var model = new SubjectEditViewModel(0);
+
+            return PartialView("_CreateSubjectView", model);
+        }
+
+        [HttpPost]
+        public ActionResult SaveSubject(SubjectEditViewModel model)
+        {
+            model.Save(WebSecurity.CurrentUserId);
+            return null;
+        }
+
+        [HttpPost]
+        public DataTablesResult<SubjectListViewModel> GetSubjects(DataTablesParam dataTableParam)
+        {
+            var searchString = dataTableParam.GetSearchString();
+            var subjects = ApplicationService<ISubjectManagementService>().GetSubjectsLecturer(WebSecurity.CurrentUserId, pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
+
+            return DataTableExtensions.GetResults(subjects.Items.Select(_GetSubjectRow), dataTableParam, subjects.TotalCount);
+        }
+
+        public SubjectListViewModel _GetSubjectRow(Subject subject)
+        {
+            return new SubjectListViewModel
+            {
+                Name = subject.Name,
+                ShortName = subject.ShortName,
+            };
         }
     }
 }

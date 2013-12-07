@@ -1,6 +1,13 @@
-﻿@{
-    ViewBag.Title = "Management";
-    Layout = "~/Views/Shared/Layouts/_MainUsingNavLayout.cshtml";
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+@{
+    ViewBag.Title = "Управление предметами";
+    Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/datatable")
+    @Scripts.Render("~/bundle/subjectManagement")
 }
 
 @section navpanel
@@ -10,5 +17,37 @@
 
 @section subnavbar
 {
-    @Html.Partial("Lms/_LmsNaBar")
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h1 class="panel-title" style="color: white">Панель преподавателя</h1>
+        </div>
+        <div class="panel-body">
+            @Html.ActionLink("Управление предметами", "Management", "Subject", null, new { @class = "btn btn-success btn-lms" })
+            @Html.ActionLink("Сообщения", "Index", "Lms", null, new { @class = "btn btn-success btn-lms" })
+            @Html.ActionLink("Управление новостями системы", "Index", "Lms", null, new { @class = "btn btn-success btn-lms" })
+        </div>
+    </div>
 }
+
+<div style="margin: 20px">
+    <div id="buttonActionSection">
+        <a href="@Url.Action("Create", "Subject")" class="addSubject" data-toggle="tooltip"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
+    <div>
+        @Html.Partial("_DataTable", new DataTableViewModel
+        {
+            DataTable = Html.DataTable("subjectListLecturer", (SubjectController controller) => controller.GetSubjects(null)),
+            DataTableOptions = new DataTableOptions
+            {
+                Filterable = true,
+                Info = true,
+                OnComplete = null,
+                Pagination = true,
+                Searchable = true,
+                Sortable = false,
+            }
+        })    
+    </div>
+    
+</div>
+

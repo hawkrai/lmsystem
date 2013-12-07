@@ -59,6 +59,7 @@
     <Compile Include="Subject.cs" />
     <Compile Include="SubjectGroup.cs" />
     <Compile Include="SubjectLecturer.cs" />
+    <Compile Include="SubjectModule.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

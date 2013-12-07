@@ -179,6 +179,9 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\SubjectViewModels\ModulesViewModel.cs" />
+    <Compile Include="ViewModels\SubjectViewModels\SubjectEditViewModel.cs" />
+    <Compile Include="ViewModels\SubjectViewModels\SubjectListViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectManagementViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectModuleListIetmViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectViewModel.cs" />
@@ -349,6 +352,7 @@
     <Content Include="Scripts\application\masterPageManagement.js" />
     <Content Include="Scripts\application\shared.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestsListScript.js" />
+    <Content Include="Scripts\application\subjectManagement.js" />
     <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.min.js.gz" />
     <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.min.js.gz" />
     <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.min.js.gz" />
@@ -512,6 +516,8 @@
     <Content Include="Views\Administration\EditStudent.cshtml" />
     <Content Include="Views\Shared\_EditGlyphLinks.cshtml" />
     <Content Include="Views\BTS\_BugAddForm.cshtml" />
+    <Content Include="Views\Shared\Layouts\_MainUsingNavLectorLayout.cshtml" />
+    <Content Include="Views\Subject\_CreateSubjectView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

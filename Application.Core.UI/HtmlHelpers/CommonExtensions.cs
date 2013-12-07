@@ -20,7 +20,7 @@ namespace Application.Core.UI.HtmlHelpers
 
 			if (isbuttonToolTip)
 			{
-				return MvcHtmlString.Create(string.Format(@"<button type=""button"" id=""toolTip{0}"" class=""tooltip-button""></button><span id=""descriptionFor{1}""  class=""helperMessage"">{2}</span>", id, id, metadata.Description));
+                return MvcHtmlString.Create(string.Format(@"<a href=""#"" class=""tooltip-button"" style=""color:#333;font-size: 24px;"" data-toggle=""tooltip"" data-original-title=""{0}""><span class=""glyphicon glyphicon-exclamation-sign""></span></a>", metadata.Description));
 			}
 
 			return MvcHtmlString.Create(string.Format(@"<span id=""descriptionFor{0}""  class=""helperMessage"">{1}</span>", id, metadata.Description));

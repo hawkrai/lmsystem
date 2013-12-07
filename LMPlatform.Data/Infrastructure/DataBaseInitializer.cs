@@ -15,9 +15,24 @@ namespace LMPlatform.Data.Infrastructure
             CreateBugSeverities(context);
             CreateBugSymptoms(context);
 		    CreateBugStatuses(context);
+		    CreateModules(context);
 
 			context.SaveChanges();
 		}
+
+	    private static void CreateModules(LmPlatformModelsContext context)
+	    {
+	        context.Modules.Add(new Module { DisplayName = "Новости", Name = "News" });
+            context.Modules.Add(new Module { DisplayName = "Лекции", Name = "Lectures" });
+            context.Modules.Add(new Module { DisplayName = "Лабораторные работы", Name = "Labs" });
+            context.Modules.Add(new Module { DisplayName = "Курсовые проекты/работы", Name = "YEManagment" });
+            context.Modules.Add(new Module { DisplayName = "Сообщения", Name = "Messages" });
+            context.Modules.Add(new Module { DisplayName = "Файлы", Name = "SubjectAttachments" });
+            context.Modules.Add(new Module { DisplayName = "Архив", Name = "LabAttachments" });
+            context.Modules.Add(new Module { DisplayName = "Проекты", Name = "Projects" });
+            context.Modules.Add(new Module { DisplayName = "Тестирование знаний", Name = "SmartTest" });
+            context.Modules.Add(new Module { DisplayName = "Методические материалы", Name = "DSM" });
+	    }
 
 	    private static void CreateBugSymptoms(LmPlatformModelsContext context)
         {

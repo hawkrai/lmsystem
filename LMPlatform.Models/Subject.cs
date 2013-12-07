@@ -34,6 +34,12 @@ namespace LMPlatform.Models
         {
             get;
             set;
-        } 
+        }
+
+        public ICollection<SubjectModule> SubjectModules
+        {
+            get;
+            set;
+        }
     }
 }

@@ -78,6 +78,12 @@ namespace LMPlatform.Data.Infrastructure
         {
             get; 
             set;
+        }
+
+        public DbSet<SubjectModule> SubjectModules
+        {
+            get;
+            set;
         } 
 
         #endregion DataContext Members
@@ -105,6 +111,7 @@ namespace LMPlatform.Data.Infrastructure
             modelBuilder.Entity<Subject>().Map(m => m.ToTable("Subjects"));
             modelBuilder.Entity<Module>().Map(m => m.ToTable("Modules"));
             modelBuilder.Entity<SubjectGroup>().Map(m => m.ToTable("SubjectGroups"));
+            modelBuilder.Entity<SubjectModule>().Map(m => m.ToTable("SubjectModules"));
 
             modelBuilder.Entity<Membership>()
               .HasMany<Role>(r => r.Roles)
@@ -157,6 +164,18 @@ namespace LMPlatform.Data.Infrastructure
                .HasForeignKey(e => e.LecturerId)
                .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Subject>()
+                .HasMany<SubjectModule>(e => e.SubjectModules)
+                .WithRequired(e => e.Subject)
+                .HasForeignKey(e => e.SubjectId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Module>()
+               .HasMany<SubjectModule>(e => e.SubjectModules)
+               .WithRequired(e => e.Module)
+               .HasForeignKey(e => e.ModuleId)
+               .WillCascadeOnDelete(false);
+            
             MapKnowledgeTestingEntities(modelBuilder);
             MapBTSEntities(modelBuilder);
         }

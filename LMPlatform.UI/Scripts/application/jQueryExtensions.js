@@ -28,23 +28,30 @@
 		}
 		return context[func].apply(context, args);
 	},
-	savingDialog: function (header, url, data, saveCallback) {
-		var that = this;
-		var dialogId = that.generateUniqID();
-		
-		$("body").append("<div id=\"" + dialogId + "\"></div>");
-		var dialogContainer = $("#" + dialogId);
-		$(dialogContainer).addClass("modal hide fade");
-		var bootstrapDialogMarkup = "<div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>" +
-		"<h3>" + header + "</h3>" +
-		"</div>" +
-		"<div class=\"modal-body\">" +
-		"</div>" + "<div class=\"modal-footer\">" +
-		"<a href=\"#\" class=\"btn\" id=\"cancelButton\" data-dismiss=\"modal\">Отменить</a>" +
-		"<a href=\"#\" class=\"btn btn-primary\" id=\"saveButton\" data-dismiss=\"modal\">Сохранить</a></div>";
-
-		$(dialogContainer).html(bootstrapDialogMarkup);
-
+	savingDialog: function (header, url, data, color, saveCallback) {
+	    var that = this;
+	    var dialogId = that.generateUniqID();
+	    if (color == null) {
+	        color = "primary";
+	    }
+	    $("#body").append("<div id=\"" + dialogId + "\" class=\"modal fade\"></div>");
+	    var dialogContainer = $("#" + dialogId);
+	    
+	    var bootstrapDialogMarkup = "<div class=\"modal-dialog panel panel-" + color + "\" style=\"padding:0px\">" +
+	        "<div class=\"panel-heading\">" +
+	        "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>" +
+	        "<h4 class=\"modal-title\" id=\"myModalLabel\">" + header + "</h4>" +
+	        "</div>" +
+	        "<div class=\"modal-body\">" +
+	        "</div>" +
+	        " <div class=\"modal-footer\">" +
+	        "<a href=\"#\" class=\"btn btn-" + color + "\" id=\"cancelButton\" data-dismiss=\"modal\">Отменить</a>" +
+	        "<a href=\"#\" class=\"btn btn-" + color + "\" id=\"saveButton\" data-dismiss=\"modal\">Сохранить</a></div>" +
+	        "</div>" +
+	        "</dvi>";
+	    
+	    $(dialogContainer).html(bootstrapDialogMarkup);
+	    
 		$("#" + dialogId + " .modal-body").load(url, data, function () {
 			var form = $($.elementId(dialogId) + " .modal-body").find("form");
 
@@ -124,4 +131,25 @@ $.fn.extend({
 
 		return result[0];
 	},
+	showWaiting: function (options) {
+		$(this[0]).waitingIndicator(options);
+		var waitingIndicator = $(this[0]).data("omertex-waitingIndicator");
+		waitingIndicator.show(true);
+	},
+	hideWaiting: function () {
+		var waitingIndicator = $(this[0]).data("omertex-waitingIndicator");
+		waitingIndicator.hide(true);
+	},
+	addCloseButtonInAlert: function () {
+	    var closeButton = $('<a href="#"><i class="icon-white icon-remove close"></i></a>');
+		closeButton.click(function (e) {
+			e.preventDefault();
+			$(this).parent('div').slideUp(function () {
+				$(this).hide();
+				shared.bodyHeightChanged();
+			});
+		});
+
+		$(this[0]).prepend(closeButton);
+	}
 });

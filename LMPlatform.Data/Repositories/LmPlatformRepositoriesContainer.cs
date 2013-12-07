@@ -29,6 +29,8 @@ namespace LMPlatform.Data.Repositories
 
         public ITestsRepository TestsRepository { get; set; }
 
+        public IModulesRepository ModulesRepository { get; set; }
+
         public void ApplyChanges()
         {
             _dataContext.SaveChanges();
@@ -49,6 +51,7 @@ namespace LMPlatform.Data.Repositories
             SubjectRepository = new SubjectRepository(_dataContext);
             TestsRepository = new TestsRepository(_dataContext);
             UsersRepository = new UsersRepository(_dataContext);
+            ModulesRepository = new ModulesRepository(_dataContext);
         }
     }
 }
