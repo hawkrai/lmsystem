@@ -1,4 +1,7 @@
-﻿@model dynamic
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+@using Mvc.JQuery.Datatables
+@model dynamic
 
 @{
     ViewBag.Title = "Преподаватели";
@@ -6,3 +9,22 @@
 }
 
 <h2>Преподаватели</h2>
+
+<div>
+    @Html.ActionLink("Добавить преподавателя","AddProfessor")
+    <div>@Html.Partial("_DataTable", new DataTableViewModel
+             {
+                 DataTable = Html.DataTable("professorsList", (AdministrationController controller) => controller.GetCollectionLecturers(new DataTablesParam() { })),
+                 DataTableOptions = new DataTableOptions
+                     {
+                         Pagination = true,
+                         Searchable = true,
+                         Sortable = false,
+                         Filterable = true,
+                         Info = false
+
+                     }
+             })
+    </div>
+</div>
+

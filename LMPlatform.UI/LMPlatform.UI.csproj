@@ -170,7 +170,8 @@
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\GroupViewModel.cs" />
-    <Compile Include="ViewModels\AdministrationViewModels\LectorViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModels\LecturerViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugListViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ModifyStudentViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectListViewModel.cs" />
@@ -518,6 +519,8 @@
     <Content Include="Views\BTS\_BugAddForm.cshtml" />
     <Content Include="Views\Shared\Layouts\_MainUsingNavLectorLayout.cshtml" />
     <Content Include="Views\Subject\_CreateSubjectView.cshtml" />
+    <Content Include="Views\Administration\AddProfessor.cshtml" />
+    <Content Include="Views\Administration\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

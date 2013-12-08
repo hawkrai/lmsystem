@@ -1,10 +1,15 @@
 ﻿@model int
 
+@if (!string.IsNullOrEmpty(ViewBag.EditActionLink))
+{
+    <a href="@String.Format("{0}/{1}",ViewBag.EditActionLink,Model)"  title="Редактировать">
+        <span class="glyphicon glyphicon-pencil"/>
+    </a>
+ }
 
-<a href="/Administration/Students/@Model"  title="Редактировать">
-    <span class="glyphicon glyphicon-pencil" data-studentId="@Model"/>
-</a>
-
-<a href="#" class="topopup" title="Удалить">
-    <span class="glyphicon glyphicon-trash" data-studentId="@Model"/>
-</a>
+@if (!string.IsNullOrEmpty(ViewBag.DeleteActionLink))
+{
+    <a href="@String.Format("{0}/{1}",ViewBag.DeleteActionLink,Model)" class="topopup" title="Удалить">
+        <span class="glyphicon glyphicon-trash"/>
+    </a>
+}

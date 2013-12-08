@@ -56,25 +56,14 @@
             <p></p>
         </div>
         <div>
-            @Html.LabelFor(e => e.IsPasswordReset, new { @class = "control-label" })
-            <div>
-                @Html.CheckBoxFor(m => m.IsPasswordReset, new { @class = "" })
-            </div>
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Password)
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Password, " ")
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ConfirmPassword)
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.ConfirmPassword, " ")
+            @Html.ActionLink("Сбросить пароль ", "ResetPassword", new { id = @Model.UserName })
+            <span class = "glyphicon glyphicon-arrow-right" />
             <p></p>
         </div>
         <div>
+            <p></p>
             <input type="submit" class="btn btn-primary" value="Сохранить" />
-            <a href="/Administration/Students/">
+            <a href="@ViewBag.ReturnUrl">
                 <input type="button" class="btn " value="Отмена" />
             </a>
         </div>

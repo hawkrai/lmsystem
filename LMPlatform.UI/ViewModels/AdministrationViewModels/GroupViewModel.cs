@@ -6,8 +6,6 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 {
   public class GroupViewModel
   {
-    public int Id { get; set; }
-
     [DisplayName("Номер")]
     public string Name { get; set; }
 
@@ -16,6 +14,8 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
     [DisplayName("Год выпуска")]
     public string GraduationYear { get; set; }
+
+    public int Id { get; set; }
 
     public static GroupViewModel FormGroup(Group group)
     {

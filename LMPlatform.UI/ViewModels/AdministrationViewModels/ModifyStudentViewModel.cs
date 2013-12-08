@@ -40,29 +40,29 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         [StringLength(50, ErrorMessage = "Имя не может иметь размер больше 50 символов")]
         [DataType(DataType.Text)]
         [Display(Name = "Имя")]
-        public string Name
-        {
-            get;
-            set;
-        }
+    public string Name
+    {
+      get;
+      set;
+    }
 
         [StringLength(50, ErrorMessage = "Фамилия не может иметь размер больше 50 символов")]
         [DataType(DataType.Text)]
         [Display(Name = "Фамилия")]
-        public string Surname
-        {
-            get;
-            set;
-        }
+    public string Surname
+    {
+      get;
+      set;
+    }
 
         [StringLength(50, ErrorMessage = "Отчество не может иметь размер больше 50 символов")]
         [DataType(DataType.Text)]
         [Display(Name = "Отчество")]
-        public string Patronymic
-        {
-            get;
-            set;
-        }
+    public string Patronymic
+    {
+      get;
+      set;
+    }
 
         [Editable(false)]
         [Display(Name = "Логин")]
@@ -70,7 +70,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
         [Display(Name = "Сбросить пароль")]
         public bool IsPasswordReset { get; set; }
-
+    
         [StringLength(100, ErrorMessage = "Пароль должен быть не менее {2} символов.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Новый пароль")]
@@ -82,18 +82,18 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "Группа")]
-        public string Group
-        {
-            get;
-            set;
-        }
+    public string Group
+    {
+      get;
+      set;
+    }
 
         [Display(Name = "Эл. почта")]
-        public string Email
-        {
-            get;
-            set;
-        }
+    public string Email
+    {
+      get;
+      set;
+    }
 
         public string FullName
         {
@@ -115,13 +115,13 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         {
             StudentManagementService.UpdateStudent(new Student
               {
-                  Id = studentId,
-                  FirstName = Name,
-                  LastName = Surname,
-                  MiddleName = Patronymic,
-                  Email = Email,
-                  GroupId = int.Parse(Group),
-              });
+          Id = studentId,
+          FirstName = Name,
+          LastName = Surname,
+          MiddleName = Patronymic,
+          Email = Email,
+          GroupId = int.Parse(Group),
+        });
         }
 
         public bool ResetPassword()
