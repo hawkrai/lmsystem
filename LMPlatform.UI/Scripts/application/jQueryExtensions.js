@@ -34,7 +34,7 @@
 	    if (color == null) {
 	        color = "primary";
 	    }
-	    $("#body").append("<div id=\"" + dialogId + "\" class=\"modal fade\"></div>");
+	    $("body").append("<div id=\"" + dialogId + "\" class=\"modal fade\"></div>");
 	    var dialogContainer = $("#" + dialogId);
 	    
 	    var bootstrapDialogMarkup = "<div class=\"modal-dialog panel panel-" + color + "\" style=\"padding:0px\">" +

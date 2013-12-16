@@ -15,6 +15,28 @@
             });
             return false;
         });
+    },
+    
+    subjectEditItemActionHandler: function() {
+        $('.editSubjectAction').handle("click", function () {
+            var that = this;
+            $.savingDialog("Редактирование предмета", $(that).attr('href'), null, "success", function (data) {
+                //$("#tableFeeds").empty();
+                //$("#tableFeeds").append(data.partial);
+                //newsFeedsManagement.newsFeedActionHandler();
+            });
+            return false;
+        });
+        
+        $(".deleteSubjectAction").handle("click", function () {
+            var that = this;
+            bootbox.confirm("Вы действительно хотите удалить предмет?", function (isConfirmed) {
+                if (isConfirmed) {
+                    dataTables.deleteRow("subjectList", $(that).attr("href"));
+                }
+            });
+            return false;
+        });
     }
 };
 

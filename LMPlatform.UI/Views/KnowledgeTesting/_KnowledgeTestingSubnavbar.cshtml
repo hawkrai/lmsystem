@@ -1,4 +1,6 @@
-﻿<div class="list-group">
+﻿@*<div class="list-group">
     @Html.ActionLink("Тесты", "Tests", "KnowledgeTesting", null, new {@class="list-group-item"})
     @Html.ActionLink("Результаты", "TestResults", "KnowledgeTesting", null, new {@class="list-group-item"})
-</div>
+</div>*@
+<li><a href="@Url.Action("Tests", "KnowledgeTesting")" style="font-size: 16px"><i class="fa fa-check-square-o fa-1x"></i> Тесты</a></li>
+<li><a href="@Url.Action("TestResults", "KnowledgeTesting")" style="font-size: 16px"><i class="fa fa-th-list fa-1x"></i> Результаты</a></li>

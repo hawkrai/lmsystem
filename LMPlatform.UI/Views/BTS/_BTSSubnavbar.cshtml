@@ -1,10 +1,5 @@
-﻿<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">Система управления ошибками</h3>
-    </div>
-
-    @Html.ActionLink("Проекты", "Projects", "BTS", null, new { @class = "list-group-item" })
-    @Html.ActionLink("Управление проектами", "ProjectManagement", "BTS", null, new { @class = "list-group-item" })
-    @Html.ActionLink("Управление ошибками", "BugManagement", "BTS", null, new { @class = "list-group-item" })
-</div>
-
+﻿<li><a href="@Url.Action("Projects", "BTS")"><i class="fa fa-desktop"></i>Проекты</a></li>
+<li><a href="@Url.Action("ProjectManagement", "BTS")"><i class="fa fa-desktop"></i>Управление проектами</a></li>
+<li><a href="@Url.Action("BugManagement", "BTS")"><i class="fa fa-desktop"></i>Управление ошибками</a></li>
+<li class="divider"></li>
+<li><a href="@Url.Action("Index", "Lms")"><i class="fa fa-desktop"></i> Система управление учебным процессом</a></li>

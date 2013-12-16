@@ -4,6 +4,10 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 {
     public class SubjectViewModel
     {
+        public SubjectViewModel()
+        {
+        }
+
         public SubjectViewModel(Subject model)
         {
             SubjectId = model.Id;

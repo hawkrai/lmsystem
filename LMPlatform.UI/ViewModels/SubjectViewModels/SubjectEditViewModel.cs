@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Application.Core;
+using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 
@@ -72,8 +73,18 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         public SubjectEditViewModel(int subjectId)
         {
             SubjectId = subjectId;
-            Title = SubjectId == 0 ? "Создание предмета" : "Редактирование предмета"; 
+            Title = SubjectId == 0 ? "Создание предмета" : "Редактирование предмета";
             Modules = ModulesManagementService.GetModules().Select(e => new ModulesViewModel(e)).ToList();
+            if (subjectId != 0)
+            {
+                var subject = SubjectManagementService.GetSubject(subjectId);
+                SubjectId = subjectId;
+                ShortName = subject.ShortName;
+                DisplayName = subject.Name;
+                foreach (var VARIABLE in Title)
+                {
+                }
+            }
         }
 
         public void Save(int userId)

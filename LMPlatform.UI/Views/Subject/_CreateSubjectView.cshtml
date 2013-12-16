@@ -5,6 +5,12 @@
 
     @using (Html.BeginForm("SaveSubject", "Subject", FormMethod.Post))
     {
+        <div>
+            @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
+        </div>
+    
+        @Html.AntiForgeryToken()
+        
         @Html.HiddenFor(e => e.SubjectId)
         @Html.HiddenFor(e => e.Title)
         <div>

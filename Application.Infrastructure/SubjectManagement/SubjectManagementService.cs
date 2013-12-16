@@ -43,7 +43,7 @@ namespace Application.Infrastructure.SubjectManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == id));
+                return repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == id).Include(e => e.SubjectModules));
             }
         }
 

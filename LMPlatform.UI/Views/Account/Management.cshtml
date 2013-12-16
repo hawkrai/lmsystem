@@ -3,22 +3,13 @@
     Layout = "~/Views/Shared/Layouts/_PreMainLayout.cshtml";
 }
 
-<div style="padding: 20px">
-    <div style="clear: both;"></div>
-    <ul class="nav nav-tabs" id="tabs">
-        <li class="active"><a href="#tab_1" data-toggle="pill">Предметы</a></li>
-        <li><a href="#tab_2" data-toggle="pill">Проекты</a></li>
-        <li><a href="#tab_3" data-toggle="pill">Управление аккаунтом</a></li>
-    </ul>
-    <div class="tab-content tabbable">
-        <div class="tab-pane  active" id="tab_1">
-            
-        </div>
-        <div class="tab-pane" id="tab_2">
-            
-        </div>
-        <div class="tab-pane" id="tab_3">
-            
-        </div>
-    </div>
+@section navleft
+{
+    <li><a href="#" style="font-size: 16px"><i class="fa fa-th-list fa-1x"></i> Управление аккаунтом</a></li>
+    <li><a href="#" style="font-size: 16px"><i class="fa fa-th-list fa-1x"></i> Сообщения</a></li>
+    <li><a href="#" style="font-size: 16px"><i class="fa fa-th-list fa-1x"></i> Управление проектами</a></li>
+    <li><a href="@Url.Action("Index", "Lms")" style="font-size: 16px"><i class="fa fa-th-list fa-1x"></i> Система управления учебным процессом</a></li>
+}
+
+<div class="conteiner">
 </div>

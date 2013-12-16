@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Application.Core;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Data.Repositories.RepositoryContracts;
@@ -29,10 +30,21 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             set;
         }
 
+        public List<SubjectViewModel> Subjects
+        {
+            get;
+            set;
+        }
+
         public SubjectManagementViewModel(int modelId)
         {
             var model = SubjectManagementService.GetSubject(modelId);
             SubjectName = model.Name;
+        }
+
+        public SubjectManagementViewModel(string userId)
+        {
+            Subjects = SubjectManagementService.GetUserSubjects(int.Parse(userId)).Select(e => new SubjectViewModel(e)).ToList();
         }
     }
 }

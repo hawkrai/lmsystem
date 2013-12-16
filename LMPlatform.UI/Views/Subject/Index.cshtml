@@ -4,20 +4,18 @@
     Layout = "../Shared/Layouts/_MainUsingNavLayout.cshtml";
 }
 
-@section subnavbar
+@section navleft
 {
-    <div>
-        <a href="#" class="list-group-item">Новости</a>
-        <a href="#" class="list-group-item">Лекции</a>
-        <a href="#" class="list-group-item">Лабораторные работы</a>
-        <a href="#" class="list-group-item">График защиты</a>
-        <a href="#" class="list-group-item">Статистика посещения</a>
-        <a href="#" class="list-group-item">Результаты</a>
-        <a href="#" class="list-group-item">Файлы</a>
-        <a href="#" class="list-group-item">Архив</a>
-        <a href="#" class="list-group-item">Проекты</a>
-        <a href="#" class="list-group-item">Назначение проектов</a>
-    </div>
+        <li><a href="#">Новости</a></li>
+        <li><a href="#">Лекции</a></li>
+        <li><a href="#">Лабораторные работы</a></li>
+        <li><a href="#">График защиты</a></li>
+        <li><a href="#">Статистика посещения</a></li>
+        <li><a href="#">Результаты</a></li>
+        <li><a href="#">Файлы</a></li>
+        <li><a href="#">Архив</a></li>
+        <li><a href="#">Проекты</a></li>
+        <li><a href="#">Назначение проектов</a></li>
 }
 
 @section navpanel
@@ -25,6 +23,6 @@
     @Model.SubjectName
 }
 
-<div style="margin: 10px">
+<div style="margin: 10px" class="conteiner">
     @Html.Partial("UnderConstruction")
 </div>

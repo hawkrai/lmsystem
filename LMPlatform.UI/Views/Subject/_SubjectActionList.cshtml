@@ -1,0 +1,10 @@
+﻿@model LMPlatform.UI.ViewModels.SubjectViewModels.SubjectViewModel
+<div class="btn-group dropup">
+		@Html.ActionLink("Редактировать", "EditSubject", new {id = Model.SubjectId}, new {@class = "btn btn-primary btn-sm editSubjectAction"})
+		<a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+		<ul class="dropdown-menu pull-right">
+			<li>
+				@Html.ActionLink("Удалить", "DeleteSubject", "Subject", new {id = Model.SubjectId}, new {@class = "deleteSubjectAction", name = Model.SubjectId})
+			</li>
+		</ul>
+	</div>

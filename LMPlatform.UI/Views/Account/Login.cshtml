@@ -8,7 +8,7 @@
 @using (Html.BeginForm(new { ViewBag.ReturnUrl }))
 {
     <div class="error-limit-login">
-        @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
+        @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
     </div>
     
     @Html.AntiForgeryToken()
@@ -34,13 +34,14 @@
             <p></p>
         </div>
         
-        
+        @*1760006668501@beltel.by*@
+
         <div class="row" style="margin-left: 0">
             <div class="checkbox col-md-6">
                 <label>@Html.CheckBoxFor(m => m.RememberMe) Запомнить</label>    
             </div>
             <div class="col-md-6">
-                <input type="submit" class="btn btn-primary pull-right" value="Войти" />
+                <input type="submit" class="btn btn-primary btn-sm pull-right" value="Войти" />
                 <p></p>
             </div>
 

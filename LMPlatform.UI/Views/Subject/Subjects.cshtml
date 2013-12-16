@@ -1,0 +1,29 @@
+﻿@model List<LMPlatform.UI.ViewModels.SubjectViewModels.SubjectViewModel>
+@{
+    ViewBag.Title = "Все предметы";
+}
+
+@section navleft
+{
+        @foreach (var subject in Model)
+            {
+                <li><a href="@Url.Action("Index","Subject",new { subjectId = subject.SubjectId })" style="font-size: 14px">@subject.DisplayName</a></li>    
+            }
+            <li class="divider"></li>
+            <li><a href="@Url.Action("Subjects","Subject")" style="font-size: 14px"> Все предметы</a></li>
+            @if (User.IsInRole("lector"))
+            {
+                <li><a href="@Url.Action("Management","Subject")" style="font-size: 14px;"> Управление предметами</a></li>   
+            }
+} 
+
+<div>
+    @foreach (var subject in Model)
+    {
+        <div class="col-lg-3 col-md-4 col-xs-6 thumbnail">
+            <a class="thumbnail"  href="@Url.Action("Index","Subject", new {subjectId = subject.SubjectId})"><img class="img-responsive" src="http://placehold.it/400x300"></a>
+            <p style="text-align: center" class="text-info">@subject.DisplayName</p>
+        </div>
+    }
+    <div class="clear-fix"></div>
+</div>

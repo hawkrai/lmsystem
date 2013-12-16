@@ -79,6 +79,13 @@ list-style: none;
 width: 600px;
 margin: 30px auto;
 }
+
+.panel-success > .panel-heading {
+    color: white;
+    background-color: #43ac6a;
+    border-color: #3c9a5f;
+}
+
 /* login layout
 ----------------------------------------------------------*/
 
@@ -111,7 +118,7 @@ margin: 30px auto;
     }
 #logoutForm {
 	display: inline;
-	margin-left: 15px;
+
     color: white
 }
 /* registration layout
@@ -149,6 +156,44 @@ margin: 30px auto;
     margin: 0 auto 0 auto;
 }
 
+/* Side Nav */
+
+  .side-nav {
+        margin-left: -225px;
+        left: 225px;
+        position: fixed;
+        width: 300px;
+        top: 44px;
+        height: 100%;
+        border-radius: 0;
+        border: none;
+        background-color: #007196;
+        overflow-y: auto;
+  }
+
+  .side-nav>li.dropdown>ul.dropdown-menu {
+        position: relative;
+        min-width: 300px;
+        margin: 0;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        background-color: transparent;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+  }
+
+  .side-nav>li>a {
+        width: 300px;
+  }
+    .side-nav > li.dropdown > ul.dropdown-menu > li > a {
+        color: #e3e6e5;
+        padding: 15px 15px 15px 25px;
+    }
+
+    .fa-1x {
+        font-size: 1.5em;
+    }
 /* main layout
 ----------------------------------------------------------*/
 .content-wrapper {

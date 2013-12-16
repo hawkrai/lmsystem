@@ -11,22 +11,18 @@
     @RenderSection("scripts", false)
 }
 
+@section navleft{
+    @RenderSection("navleft", false)
+}
+
 @section body
 {
-    <div class="row" style="margin: 5px">
-        <div class="panel-wrapper col-md-3">
-            @RenderSection("subnavbar", false)
-        </div>
-        <div class="col-md-9">
-
-            <section class="content-wrapper main-content clear-fix">
-                <div style="margin: 5px">
-                    @RenderBody()    
-                </div>
-                
-            </section>
-
-        </div>
+    <div style="padding-top: 40px">
+        <section class="well">
+            <div style="margin: 5px">
+                @RenderBody()
+            </div>
+        </section>
     </div>
 }
 

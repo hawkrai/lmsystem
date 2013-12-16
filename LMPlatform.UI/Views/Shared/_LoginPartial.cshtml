@@ -1,33 +1,16 @@
-﻿@if (Request.IsAuthenticated)
-{
-	<text >
-		<span class="navbar-text">Здравствуйте,
-		    @if (!User.IsInRole("admin"))
-		    {
-		        @Html.ActionLink(User.Identity.Name, "Management", "Account", routeValues: null, htmlAttributes: new {@class = "username", title = "Личный кабинет"})
-		    }
-		    else
-		    {
-		        @User.Identity.Name
-		    }
-           
-		@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
-		{
-			@Html.AntiForgeryToken()
-			<a style="color: white" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
-		}
-             </span>
-	</text>
-}
-else
-    {
-        <text >
-            <span class="navbar-text">
-                @Html.ActionLink("Вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })    
-                @Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
-            </span>
-        </text>
-    }
-
-
-
+﻿ 
+<li class="dropdown" style="margin-right: 10px">
+    <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @User.Identity.Name<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        @if (!User.IsInRole("admin"))
+        {
+            <li><a href="@Url.Action("Management", "Account")"><i class="fa fa-cogs"></i> Личный кабинет</a></li>    
+        }
+        <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-power-off"></i> Выйти</a></li>
+    </ul>
+</li>
+@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
+            {
+                @Html.AntiForgeryToken()
+                
+            }

@@ -11,9 +11,17 @@
     @RenderSection("scripts", false)
 }
 
+@section navleft{
+    @RenderSection("navleft", false)
+}
+
 @section body
 {
-    <section class="@*content-wrapper main-content *@ clear-fix" style="max-width: 1000px;margin: 0 auto;">
-        @RenderBody()
-    </section>
+    <div style="padding-top: 40px">
+        <section class="well">
+            <div style="margin: 5px">
+                @RenderBody()
+            </div>
+        </section>
+    </div>
 }

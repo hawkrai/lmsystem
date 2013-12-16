@@ -15,11 +15,11 @@
     Управление предметами
 }
 
-@section subnavbar
+@*@section subnavbar
 {
     <div class="panel panel-success">
         <div class="panel-heading">
-            <h1 class="panel-title" style="color: white">Панель преподавателя</h1>
+            <h1 class="panel-title">Панель преподавателя</h1>
         </div>
         <div class="panel-body">
             @Html.ActionLink("Управление предметами", "Management", "Subject", null, new { @class = "btn btn-success btn-lms" })
@@ -27,24 +27,33 @@
             @Html.ActionLink("Управление новостями системы", "Index", "Lms", null, new { @class = "btn btn-success btn-lms" })
         </div>
     </div>
+}*@
+
+@section navleft
+{
+    <li><a href="#"><i class="fa fa-desktop"></i> Предметы</a></li>
+    <li><a href="#"><i class="fa fa-desktop"></i> Предметы</a></li>
+    <li><a href="#"><i class="fa fa-desktop"></i> Предметы</a></li>
+    <li><a href="@Url.Action("Index","Lms")"><i class="fa fa-desktop"></i> Вернуться обратно</a></li>
 }
 
 <div style="margin: 20px">
     <div id="buttonActionSection">
-        <a href="@Url.Action("Create", "Subject")" class="addSubject" data-toggle="tooltip"><span class="glyphicon glyphicon-plus"></span></a>
+        <a href="@Url.Action("Create", "Subject")" class="addSubject" data-toggle="tooltip"><i class="fa fa-plus-circle fa-2x"></i></a>
     </div>
     <div>
         @Html.Partial("_DataTable", new DataTableViewModel
         {
-            DataTable = Html.DataTable("subjectListLecturer", (SubjectController controller) => controller.GetSubjects(null)),
+            DataTable = Html.DataTable("subjectList", (SubjectController controller) => controller.GetSubjects(null)),
             DataTableOptions = new DataTableOptions
             {
                 Filterable = true,
                 Info = true,
-                OnComplete = null,
+                OnComplete = "subjectManagement.subjectEditItemActionHandler",
                 Pagination = true,
                 Searchable = true,
                 Sortable = false,
+                
             }
         })    
     </div>
