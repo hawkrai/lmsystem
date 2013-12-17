@@ -24,6 +24,7 @@
                 //$("#tableFeeds").empty();
                 //$("#tableFeeds").append(data.partial);
                 //newsFeedsManagement.newsFeedActionHandler();
+                
             });
             return false;
         });

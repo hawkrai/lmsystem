@@ -34,7 +34,7 @@
 	    if (color == null) {
 	        color = "primary";
 	    }
-	    $("body").append("<div id=\"" + dialogId + "\" class=\"modal fade\"></div>");
+	    $("body").append("<div id=\"" + dialogId + "\" class=\"modal\"></div>");
 	    var dialogContainer = $("#" + dialogId);
 	    
 	    var bootstrapDialogMarkup = "<div class=\"modal-dialog panel panel-" + color + "\" style=\"padding:0px\">" +
@@ -62,6 +62,11 @@
 					$.post($(form).attr("action"), $(form).serialize(), function(result) {
 						saveCallback(result);
 						that.closeDialog(dialogId);
+						var element = $("#" + dialogId);
+						if ($(element).hasClass("modal")) {
+						    $("#" + dialogId).removeData('modal');
+						    $("#" + dialogId).remove();
+						}
 					});
 				}
 				return false;
@@ -72,13 +77,18 @@
 					$.post($(form).attr("action"), $(form).serialize(), function (result) {
 						saveCallback(result);
 						that.closeDialog(dialogId);
+						var element = $("#" + dialogId);
+						if ($(element).hasClass("modal")) {
+						    $("#" + dialogId).removeData('modal');
+						    $("#" + dialogId).remove();
+						}
 					});
 				}
 				return false;
 			});
 		});
 
-		$("#" + dialogId).on('hidden', function (element) {
+		$("#" + dialogId).on('hiden', function (element) {
 			if ($(element.target).hasClass("modal")) {
 			    $("#" + dialogId).removeData('modal');
 			    $("#" + dialogId).remove();
@@ -94,7 +104,7 @@
 		return dialogId;
 	},
 	closeDialog: function (dialogId) {
-		$("#" + dialogId).modal('hide');
+	    $("#" + dialogId).modal('hide');
 	},
 	elementId: function(id) {
 		return "#" + id;

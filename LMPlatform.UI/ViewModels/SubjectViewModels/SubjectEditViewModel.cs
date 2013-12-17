@@ -81,8 +81,12 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                 SubjectId = subjectId;
                 ShortName = subject.ShortName;
                 DisplayName = subject.Name;
-                foreach (var VARIABLE in Title)
+                foreach (var module in Modules)
                 {
+                    if (subject.SubjectModules.Any(e => e.ModuleId == module.ModuleId))
+                    {
+                        module.Checked = true;
+                    }
                 }
             }
         }

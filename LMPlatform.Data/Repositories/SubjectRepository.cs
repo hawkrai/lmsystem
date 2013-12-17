@@ -51,11 +51,11 @@ namespace LMPlatform.Data.Repositories
 
         protected override void PerformUpdate(Subject newValue, LmPlatformModelsContext dataContext)
         {
-            var subjectModules = dataContext.Set<SubjectModule>().Where(e => e.SubjectId == newValue.Id);
+            var subjectModules = dataContext.Set<SubjectModule>().Where(e => e.SubjectId == newValue.Id).ToList();
 
             foreach (var subjectModule in subjectModules)
             {
-                if (newValue.SubjectModules.All(e => e.ModuleId != subjectModule.ModuleId))
+                if (!newValue.SubjectModules.Any(e => e.ModuleId == subjectModule.ModuleId))
                 {
                     dataContext.Set<SubjectModule>().Remove(subjectModule);
                 }
