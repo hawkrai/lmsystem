@@ -12,6 +12,9 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
     [DisplayName("Номер")]
     public int Id { get; set; }
 
+    [DisplayName("Логин")]
+    public string Login { get; set; }
+
     [DisplayName("Полное имя")]
     public string FullName
     {
@@ -35,6 +38,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
           FirstName = lecturer.FirstName,
           LastName = lecturer.LastName,
           MiddleName = lecturer.MiddleName,
+          Login = lecturer.User.UserName,
           HtmlLinks = new HtmlString(htmlLinks),
         };
     }

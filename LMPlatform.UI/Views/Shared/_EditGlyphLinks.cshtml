@@ -2,7 +2,7 @@
 
 @if (!string.IsNullOrEmpty(ViewBag.EditActionLink))
 {
-    <a href="@String.Format("{0}/{1}",ViewBag.EditActionLink,Model)"  title="Редактировать">
+    <a href="@String.Format("{0}/{1}",ViewBag.EditActionLink,@Model)"  data-model-id="@Model" data-toggle="tooltip" class="editButton">
         <span class="glyphicon glyphicon-pencil"/>
     </a>
  }

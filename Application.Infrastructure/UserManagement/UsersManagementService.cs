@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Application.Core.Data;
 
 namespace Application.Infrastructure.UserManagement
 {
@@ -23,7 +24,7 @@ namespace Application.Infrastructure.UserManagement
 
         public User GetUser(string userName)
         {
-            return UsersRepository.GetAll().Single(e => e.UserName == userName);
+            return UsersRepository.GetAll(new Query<User>().Include(u => u.Student).Include(u => u.Lecturer)).Single(e => e.UserName == userName);
         }
 
         public bool IsExistsUser(string userName)

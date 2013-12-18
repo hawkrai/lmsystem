@@ -4,5 +4,25 @@
 }
 
 <div class="admin-main">
-@Html.Partial("UnderConstruction")
+    @Html.Partial("UnderConstruction")
+    <div style="margin:100px 0 0 0">
+        <h3>Статистика посещаемости</h3>
+        <div id="chart"></div>
+    </div>
+    <div style="margin:100px 0 0 0">
+        <h3>Последние изменения</h3>
+        <br/>
+        <div class="alert alert-info">
+            <strong>12.12.2013 - Зарегистрирован студент - kpetrov</strong>
+            <div style="margin:5px">ФИО: Константин Петров Логин:kpetrov Группа:107229</div>
+        </div>
+       <div class="alert alert-info">
+            <strong>12.11.2013 - Сброшен пароль</strong>
+            <div style="margin:5px">ФИО: Константин Петров Логин:kpetrov Группа:107229</div>
+        </div>
+        <div class="alert alert-info">
+            <strong>12.02.2013 - Зарегистрирован преподаватель </strong>
+            <div style="margin:5px">ФИО: Константин Петров Логин:kpetrov Группа:107229</div>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,74 @@
+﻿@model LMPlatform.UI.ViewModels.AdministrationViewModels.ModifyStudentViewModel
+
+<div id="editStudent">
+    @using (Html.BeginForm("EditStudent", "Administration", FormMethod.Post))
+    {
+        <div class="error-limit-registr">
+            @if (ViewBag.ResultSuccess != null && ViewBag.ResultSuccess)
+            {
+                <div class="validation-summary-errors alert alert-success">
+                    <span>Сохранено</span>
+                </div>
+            }
+            @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
+        </div>
+    
+        @Html.AntiForgeryToken()
+
+        <div>@* id="registration" class="hero-unit center">*@
+            <hgroup style="text-align: center; margin-bottom: 20px">
+                <h1>@Model.FullName</h1>
+            </hgroup>
+            @Html.HiddenFor(m => m.UserName)
+            <div>
+                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Name, " ")
+                </div>
+                <p></p>
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Surname, " ")
+                </div>
+                <p></p>
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Patronymic, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.Patronymic, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Patronymic, " ")
+                </div>
+                <p></p>
+            </div>
+            <div>
+                @Html.LabelFor(e => e.Group, new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(e => e.Group, Model.GetGroups(), new { @class = "form-control" })
+                </div>
+                <p></p>
+            </div>
+            <div>
+                @Html.ActionLink("Сбросить пароль ", "ResetPassword", new { id = @Model.UserName })
+                <span class = "glyphicon glyphicon-arrow-right" />
+                <p></p>
+            </div>
+            @*  <div>
+            <p></p>
+            <input type="submit" class="btn btn-primary" value="Сохранить" />
+            <a href="@ViewBag.ReturnUrl">
+                <input type="button" class="btn " value="Отмена" />
+            </a>
+        </div>*@
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $('#editStudent a').tooltip(
+    {
+        placement: "right",
+    });
+</script>

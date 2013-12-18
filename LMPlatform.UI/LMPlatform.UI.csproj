@@ -171,7 +171,9 @@
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\GroupViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModels\LectorViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\LecturerViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModels\ModifyLecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionViewModel.cs" />
@@ -538,6 +540,11 @@
     <Content Include="Views\Administration\ResetPassword.cshtml" />
     <Content Include="Views\Subject\_SubjectActionList.cshtml" />
     <Content Include="Views\Subject\Subjects.cshtml" />
+    <Content Include="Views\Administration\_EditStudentView.cshtml" />
+    <Content Include="Views\Administration\_AddProfessorView.cshtml" />
+    <Content Include="Views\Administration\_EditProfessorView.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

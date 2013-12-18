@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Application.Core.UI.Controllers;
@@ -11,7 +8,6 @@ using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.UserManagement;
-using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.AccountViewModels;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using Mvc.JQuery.Datatables;
@@ -70,6 +66,47 @@ namespace LMPlatform.UI.Controllers
       return View("EditStudent", model);
     }
 
+    public ActionResult EditStudent(int id)
+    {
+      var student = StudentManagementService.GetStudent(id);
+
+      if (student != null)
+      {
+        var model = new ModifyStudentViewModel
+          {
+          Group = student.Group.Id.ToString(CultureInfo.InvariantCulture),
+          Name = student.FirstName,
+          Surname = student.LastName,
+          Patronymic = student.MiddleName,
+          Email = student.Email,
+          UserName = student.User.UserName,
+        };
+
+        return PartialView("_EditStudentView", model);
+      }
+
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public ActionResult EditStudent(ModifyStudentViewModel model, int id)
+    {
+      if (ModelState.IsValid)
+      {
+        try
+        {
+          model.ModifyStudent(id);
+          ViewBag.ResultSuccess = true;
+        }
+        catch
+        {
+          ModelState.AddModelError(string.Empty, string.Empty);
+        }
+      }
+
+      return null;
+    }
+
     public ActionResult Professors()
     {
       return View();
@@ -78,7 +115,7 @@ namespace LMPlatform.UI.Controllers
     public ActionResult AddProfessor()
     {
       var model = new RegisterViewModel();
-      return View(model);
+      return PartialView("_AddProfessorView", model);
     }
 
     [HttpPost]
@@ -97,7 +134,46 @@ namespace LMPlatform.UI.Controllers
         }
       }
 
-      return RedirectToAction("Professors");
+      return null;
+    }
+
+    public ActionResult EditProfessor(int id)
+    {
+      var lecturer = LecturerManagementService.GetLecturer(id);
+
+      if (lecturer != null)
+      {
+        var model = new ModifyLecturerViewModel
+        {
+          Name = lecturer.FirstName,
+          Surname = lecturer.LastName,
+          Patronymic = lecturer.MiddleName,
+          UserName = lecturer.User.UserName,
+        };
+
+        return PartialView("_EditProfessorView", model);
+      }
+
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public ActionResult EditProfessor(ModifyLecturerViewModel model, int id)
+    {
+      if (ModelState.IsValid)
+      {
+        try
+        {
+          model.ModifyLecturer(id);
+          ViewBag.ResultSuccess = true;
+        }
+        catch
+        {
+          ModelState.AddModelError(string.Empty, string.Empty);
+        }
+      }
+
+      return null;
     }
 
     public ActionResult Groups()
@@ -116,7 +192,8 @@ namespace LMPlatform.UI.Controllers
       try
       {
         var user = UsersManagementService.GetUser(login);
-        var resetPassModel = new ResetPasswordViewModel(user.UserName);
+
+        var resetPassModel = new ResetPasswordViewModel(user);
         return View(resetPassModel);
       }
       catch (InvalidOperationException)
@@ -144,7 +221,7 @@ namespace LMPlatform.UI.Controllers
     public DataTablesResult<StudentViewModel> GetCollectionStudents(DataTablesParam dataTableParam)
     {
       dataTableParam.sSearch = string.Empty;
-      ViewBag.EditActionLink = "/Administration/Students";
+      ViewBag.EditActionLink = "/Administration/EditStudent";
       var students = StudentManagementService.GetStudents()
         .Select(s => StudentViewModel.FromStudent(s, PartialViewToString("_EditGlyphLinks", s.Id)))
         .AsQueryable();
@@ -154,7 +231,7 @@ namespace LMPlatform.UI.Controllers
     public DataTablesResult<LecturerViewModel> GetCollectionLecturers(DataTablesParam dataTableParam)
     {
       dataTableParam.sSearch = string.Empty;
-      ViewBag.EditActionLink = "/Administration/Professors";
+      ViewBag.EditActionLink = "/Administration/EditProfessor";
       var lecturers = LecturerManagementService.GetLecturers()
         .Select(l => LecturerViewModel.FormLecturers(l, PartialViewToString("_EditGlyphLinks", l.Id)))
         .AsQueryable();

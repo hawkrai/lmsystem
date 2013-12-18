@@ -1,14 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LMPlatform.Models;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 {
   public class ResetPasswordViewModel
   {
-    public ResetPasswordViewModel(string login, string fullName = "")
+    public ResetPasswordViewModel(User user)
     {
-      FullName = fullName;
-      Login = login;
+      FullName = user.Student != null ? user.Student.FullName : user.Lecturer.FullName;
+      
+      Login = user.UserName;
     }
 
     public ResetPasswordViewModel()

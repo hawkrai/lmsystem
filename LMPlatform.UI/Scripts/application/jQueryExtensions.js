@@ -57,7 +57,7 @@
 
 			$.validator.unobtrusive.parse(form);
 			
-			$("#saveButton").handle("click", function () {
+			$(document).on("click","#saveButton", function () {
 				if ($(form).valid()) {
 					$.post($(form).attr("action"), $(form).serialize(), function(result) {
 						saveCallback(result);

@@ -23,7 +23,7 @@ namespace Application.Infrastructure.LecturerManagement
     {
       using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
       {
-        return repositoriesContainer.LecturerRepository.GetAll(new Query<Lecturer>().Include(e => e.SubjectLecturers)).ToList();
+        return repositoriesContainer.LecturerRepository.GetAll(new Query<Lecturer>().Include(e => e.SubjectLecturers).Include(e => e.User)).ToList();
       }
     }
 

@@ -11,7 +11,9 @@
 <h2>Преподаватели</h2>
 
 <div>
-    @Html.ActionLink("Добавить преподавателя","AddProfessor")
+     <div id="buttonActionSection">
+        <a href="@Url.Action("AddProfessor", "Administration")" class="addButton" data-toggle="tooltip"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
     <div>@Html.Partial("_DataTable", new DataTableViewModel
              {
                  DataTable = Html.DataTable("professorsList", (AdministrationController controller) => controller.GetCollectionLecturers(new DataTablesParam() { })),
@@ -21,8 +23,8 @@
                          Searchable = true,
                          Sortable = false,
                          Filterable = true,
-                         Info = false
-
+                         Info = false,
+                         OnComplete = "initLecturerManagement"
                      }
              })
     </div>
