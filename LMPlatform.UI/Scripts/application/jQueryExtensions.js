@@ -45,8 +45,8 @@
 	        "<div class=\"modal-body\">" +
 	        "</div>" +
 	        " <div class=\"modal-footer\">" +
-	        "<a href=\"#\" class=\"btn btn-" + color + "\" id=\"cancelButton\" data-dismiss=\"modal\">Отменить</a>" +
-	        "<a href=\"#\" class=\"btn btn-" + color + "\" id=\"saveButton\" data-dismiss=\"modal\">Сохранить</a></div>" +
+	        "<a href=\"#\" class=\"btn btn-" + color + " btn-sm\" id=\"cancelButton\" data-dismiss=\"modal\">Отменить</a>" +
+	        "<a href=\"#\" class=\"btn btn-" + color + " btn-sm\" id=\"saveButton\" data-dismiss=\"modal\">Сохранить</a></div>" +
 	        "</div>" +
 	        "</dvi>";
 	    

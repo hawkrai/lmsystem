@@ -553,6 +553,15 @@ legend.scheduler-border {
     color: white
 }
 
+.linkNavbar {
+    font-size: 13px;
+    text-align: left
+}
+
+.linkNavbarLevelBelow {
+    font-size: 13px;
+}
+
 .questionTypeButton {
     height: 100px;
     padding: 2px;

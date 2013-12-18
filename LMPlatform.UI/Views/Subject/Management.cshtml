@@ -15,26 +15,12 @@
     Управление предметами
 }
 
-@*@section subnavbar
-{
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h1 class="panel-title">Панель преподавателя</h1>
-        </div>
-        <div class="panel-body">
-            @Html.ActionLink("Управление предметами", "Management", "Subject", null, new { @class = "btn btn-success btn-lms" })
-            @Html.ActionLink("Сообщения", "Index", "Lms", null, new { @class = "btn btn-success btn-lms" })
-            @Html.ActionLink("Управление новостями системы", "Index", "Lms", null, new { @class = "btn btn-success btn-lms" })
-        </div>
-    </div>
-}*@
-
 @section navleft
 {
-    <li><a href="#"><i class="fa fa-desktop"></i> Предметы</a></li>
-    <li><a href="#"><i class="fa fa-desktop"></i> Предметы</a></li>
-    <li><a href="#"><i class="fa fa-desktop"></i> Предметы</a></li>
-    <li><a href="@Url.Action("Index","Lms")"><i class="fa fa-desktop"></i> Вернуться обратно</a></li>
+    <li><a href="@Url.Action("Subjects","Subject")" class="linkNavbar"><i class="fa fa-desktop fa-1x"></i> Все предметы</a></li>
+    <li><a href="#" class="linkNavbar"><i class="fa fa-desktop fa-1x"></i> Предметы</a></li>
+    <li><a href="#" class="linkNavbar"><i class="fa fa-desktop fa-1x"></i> Предметы</a></li>
+    <li><a href="@Url.Action("Index","Lms")" class="linkNavbar"><i class="fa fa-arrow-left fa-1x"></i> Система управления учебным процессом</a></li>
 }
 
 <div style="margin: 20px">

@@ -191,6 +191,7 @@
     <Compile Include="ViewModels\SubjectViewModels\SubjectManagementViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectModuleListIetmViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectViewModel.cs" />
+    <Compile Include="ViewModels\SubjectViewModels\SubjectWorkingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-responsive.css" />
@@ -278,6 +279,7 @@
     <Content Include="Content\images\closebox.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\images\image_subject.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\progressbar.gif" />
     <Content Include="Content\images\sort_asc.png" />
@@ -364,6 +366,7 @@
     <Content Include="Scripts\application\shared.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestsListScript.js" />
     <Content Include="Scripts\application\subjectManagement.js" />
+    <Content Include="Scripts\application\subjectWorking.js" />
     <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.min.js.gz" />
     <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.min.js.gz" />
     <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.min.js.gz" />
@@ -431,6 +434,8 @@
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.activity-indicator-1.0.0.js" />
+    <Content Include="Scripts\jquery.activity-indicator-1.0.0.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

@@ -8,7 +8,7 @@
     },
     initButtonAction: function () {
         $('.addSubject').handle("click", function () {
-            $.savingDialog("Создание предмета", "/subject/create", null, "success", function (data) {
+            $.savingDialog("Создание предмета", "/subject/create", null, "primary", function (data) {
                 //$("#tableFeeds").empty();
                 //$("#tableFeeds").append(data.partial);
                 //newsFeedsManagement.newsFeedActionHandler();
@@ -20,7 +20,7 @@
     subjectEditItemActionHandler: function() {
         $('.editSubjectAction').handle("click", function () {
             var that = this;
-            $.savingDialog("Редактирование предмета", $(that).attr('href'), null, "success", function (data) {
+            $.savingDialog("Редактирование предмета", $(that).attr('href'), null, "primary", function (data) {
                 //$("#tableFeeds").empty();
                 //$("#tableFeeds").append(data.partial);
                 //newsFeedsManagement.newsFeedActionHandler();

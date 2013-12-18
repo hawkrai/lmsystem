@@ -17,24 +17,24 @@
 @section navleft
 {
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px"><i class="fa fa-folder-open-o fa-1x"></i> Предметы <b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x"></i> Предметы <b class="caret"></b></a>
         <ul class="dropdown-menu">
             @foreach (var subject in Model.Subjects)
             {
-                <li><a href="@Url.Action("Index","Subject",new { subjectId = subject.SubjectId })" style="font-size: 14px">@subject.DisplayName</a></li>    
+                <li><a href="@Url.Action("Index","Subject",new { subjectId = subject.SubjectId })" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>    
             }
             <li class="divider"></li>
-            <li><a href="@Url.Action("Subjects","Subject")" style="font-size: 14px"> Все предметы</a></li>
+            <li><a href="@Url.Action("Subjects","Subject")" class="linkNavbarLevelBelow"> Все предметы</a></li>
             @if (User.IsInRole("lector"))
             {
-                <li><a href="@Url.Action("Management","Subject")" style="font-size: 14px;"> Управление предметами</a></li>   
+                <li><a href="@Url.Action("Management","Subject")"class="linkNavbarLevelBelow"> Управление предметами</a></li>   
             }
         </ul>
     </li>
-    <li><a href="@Url.Action("BugManagement","BTS")" style="font-size: 16px"><i class="fa fa-bug fa-1x"></i> Управление ошибками</a></li>
-    <li><a href="@Url.Action("Index","KnowledgeTesting")" style="font-size: 14px"><i class="fa fa-check-square-o fa-1x"></i> Тестирование знаний</a></li>
-    <li><a href="#" style="font-size: 16px"><i class="fa fa-book fa-1x"></i> Методические материалы</a></li>
-    <li><a href="#" style="font-size: 16px"><i class="fa fa-briefcase fa-1x"></i> Дипломное проектирование</a></li>
+    <li><a href="@Url.Action("BugManagement","BTS")" class="linkNavbar"><i class="fa fa-bug fa-1x"></i> Управление ошибками</a></li>
+    <li><a href="@Url.Action("Index","TestsManagement")" class="linkNavbar"><i class="fa fa-check-square-o fa-1x"></i> Тестирование знаний</a></li>
+    <li><a href="#" class="linkNavbar"><i class="fa fa-book fa-1x"></i> Методические материалы</a></li>
+    <li><a href="#" class="linkNavbar"><i class="fa fa-briefcase fa-1x"></i> Дипломное проектирование</a></li>
 }
 
 <div style="margin: 10px">

@@ -18,7 +18,7 @@ namespace LMPlatform.UI.Controllers
     {
         public ActionResult Index(int subjectId)
         {
-            var model = new SubjectManagementViewModel(subjectId);
+            var model = new SubjectWorkingViewModel(subjectId);
             return View(model);
         }
 
@@ -58,6 +58,12 @@ namespace LMPlatform.UI.Controllers
             var model = new SubjectManagementViewModel(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
             var subjects = model.Subjects;
             return View(subjects);
+        }
+
+        [HttpPost]
+        public ActionResult GetModuleData(int subjecyId, int moduleId)
+        {
+            return null;
         }
 
         [HttpPost]

@@ -21,7 +21,7 @@
     @foreach (var subject in Model)
     {
         <div class="col-lg-3 col-md-4 col-xs-6 thumbnail">
-            <a class="thumbnail"  href="@Url.Action("Index","Subject", new {subjectId = subject.SubjectId})"><img class="img-responsive" src="http://placehold.it/400x300"></a>
+            <a class="thumbnail"  href="@Url.Action("Index","Subject", new {subjectId = subject.SubjectId})"><img class="img-responsive" src="~/Content/images/image_subject.png"></a>
             <p style="text-align: center" class="text-info">@subject.DisplayName</p>
         </div>
     }

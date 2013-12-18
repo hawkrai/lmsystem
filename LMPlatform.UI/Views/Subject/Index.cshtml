@@ -1,12 +1,25 @@
-﻿@model LMPlatform.UI.ViewModels.SubjectViewModels.SubjectManagementViewModel
+﻿@model LMPlatform.UI.ViewModels.SubjectViewModels.SubjectWorkingViewModel
 @{
     ViewBag.Title = Model.SubjectName;
     Layout = "../Shared/Layouts/_MainUsingNavLayout.cshtml";
 }
 
+@section scripts
+{
+    @Scripts.Render("~/bundle/subjectWorking")    
+}
+
 @section navleft
 {
-        <li><a href="#">Новости</a></li>
+    @*@Url.Action("GetModuleData","Subject", new {subjectId = Model.SubjectId, moduleId = module.ModuleId})*@
+    @foreach (var module in Model.Modules)
+    {
+        <li class="navLink"><a class="moduleLinks" href="#">@module.Name</a></li>    
+    }
+    <li><a href="@Url.Action("Subjects","Subject")">Сменить предмет</a></li>
+    <li><a href="@Url.Action("Index","Lms")">Система управления учебным процессом</a></li>
+
+@*        <li><a href="#">Новости</a></li>
         <li><a href="#">Лекции</a></li>
         <li><a href="#">Лабораторные работы</a></li>
         <li><a href="#">График защиты</a></li>
@@ -15,7 +28,7 @@
         <li><a href="#">Файлы</a></li>
         <li><a href="#">Архив</a></li>
         <li><a href="#">Проекты</a></li>
-        <li><a href="#">Назначение проектов</a></li>
+        <li><a href="#">Назначение проектов</a></li>*@
 }
 
 @section navpanel
@@ -23,6 +36,6 @@
     @Model.SubjectName
 }
 
-<div style="margin: 10px" class="conteiner">
+<div style="margin: 10px" class="conteinerModule">
     @Html.Partial("UnderConstruction")
 </div>

@@ -21,10 +21,14 @@ namespace LMPlatform.UI.App_Start
             bundles.Add(new ScriptBundle("~/bundles/shared").Include(
                 "~/Scripts/application/shared.js", 
                 "~/Scripts/application/jQueryExtensions.js",
-                "~/Scripts/application/masterPageManagement.js"));
+                "~/Scripts/application/masterPageManagement.js",
+                "~/Scripts/jquery.activity-indicator-1.0.0.js"));
 
             bundles.Add(new ScriptBundle("~/bundle/subjectManagement").Include(
                 "~/Scripts/application/subjectManagement.js"));
+
+            bundles.Add(new ScriptBundle("~/bundle/subjectWorking").Include(
+                "~/Scripts/application/subjectWorking.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
                 "~/Scripts/DataTables-1.9.4/media/js/jquery.dataTables.js", 
