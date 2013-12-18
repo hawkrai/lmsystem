@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/_BootBoxTemplate.cshtml";
+}
+
+@section title
+{
+    <h4 class="modal-title">Выберите тип ввопроса</h4>
+}
+
+@section content{
+    <div class="row">
+        <div class="buttonWrapper col-lg-4"><button type="button" id="oneCorrectAnswer" class="btn-primary questionTypeButton">1</button></div>
+        <div class="buttonWrapper col-lg-4"><button type="button" id="manyCorrectAnswers" class="btn-primary questionTypeButton">2</button></div>
+        <div class="buttonWrapper col-lg-4"><button type="button" id="textAnswer" class="btn-primary questionTypeButton">3</button></div>
+    </div>
+    <div class="row">
+        <div class="buttonWrapper col-lg-4"><button type="button" id="numericAnswer" class="btn-primary questionTypeButton">4</button></div>
+        <div class="buttonWrapper col-lg-4"><button type="button" id="sequenceAnswer" class="btn-primary questionTypeButton">5</button></div>
+        <div class="buttonWrapper col-lg-4"><button type="button" id="accordanceAnswer" class="btn-primary questionTypeButton">6</button></div>
+    </div>
+}

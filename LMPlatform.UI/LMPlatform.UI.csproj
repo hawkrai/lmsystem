@@ -160,7 +160,8 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\KnowledgeTestingController.cs" />
+    <Compile Include="Controllers\QuestionsManagementController.cs" />
+    <Compile Include="Controllers\TestsManagementController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Global.asax.cs">
@@ -172,6 +173,8 @@
     <Compile Include="ViewModels\AdministrationViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\LecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionItemListViewModel.cs" />
+    <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugListViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ModifyStudentViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectListViewModel.cs" />
@@ -352,6 +355,8 @@
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\QuestionsListScript.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\BaseQuestionTypeScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestDetailsScript.js" />
     <Content Include="Scripts\application\masterPageManagement.js" />
     <Content Include="Scripts\application\shared.js" />
@@ -505,10 +510,8 @@
     <Content Include="Views\BTS\Projects.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\BugManagement.cshtml" />
-    <Content Include="Views\KnowledgeTesting\Index.cshtml" />
-    <Content Include="Views\KnowledgeTesting\_KnowledgeTestingSubnavbar.cshtml" />
-    <Content Include="Views\KnowledgeTesting\Tests.cshtml" />
-    <Content Include="Views\KnowledgeTesting\TestResults.cshtml" />
+    <Content Include="Views\Shared\Layouts\_KnowledgeTestingSubnavbar.cshtml" />
+    <Content Include="Views\TestsManagement\Index.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Shared\Layouts\_AdministrationLayout.cshtml" />
@@ -516,9 +519,14 @@
     <Content Include="Views\Administration\Students.cshtml" />
     <Content Include="Views\Administration\Professors.cshtml" />
     <Content Include="Views\Administration\Files.cshtml" />
-    <Content Include="Views\KnowledgeTesting\TestDetails.cshtml" />
+    <Content Include="Views\TestsManagement\TestDetails.cshtml" />
     <Content Include="Views\Administration\Groups.cshtml" />
+    <Content Include="Views\QuestionsManagement\Index.cshtml" />
+    <Content Include="Views\QuestionsManagement\_QuestionTypes.cshtml" />
+    <Content Include="Views\Shared\_BootBoxTemplate.cshtml" />
+    <Content Include="Views\QuestionsManagement\_QuestionDetails.cshtml" />
     <Content Include="Views\BTS\_BTSSubnavbar.cshtml" />
+    <Content Include="Views\QuestionsManagement\_AnswerTemplates.cshtml" />
     <Content Include="Views\Subject\Management.cshtml" />
     <Content Include="Views\Shared\Lms\_LmsNaBar.cshtml" />
     <Content Include="Views\Administration\EditStudent.cshtml" />

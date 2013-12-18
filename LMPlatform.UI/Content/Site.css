@@ -552,3 +552,17 @@ legend.scheduler-border {
 .username {
     color: white
 }
+
+.questionTypeButton {
+    height: 100px;
+    padding: 2px;
+    width: 100%;
+}
+
+.buttonWrapper {
+    padding: 2px;  
+}
+
+.questionFormInput {
+    height: 29px;
+}

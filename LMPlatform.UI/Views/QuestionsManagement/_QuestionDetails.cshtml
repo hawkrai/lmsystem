@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_BootBoxTemplate.cshtml";
+}
+
+@section title
+{
+    <h4 class="modal-title">Сколько?</h4>
+}
+@section content{
+
+
+    <label for="inputEmail" class="control-label">Текст вопроса:</label>
+    <input type="text" class="form-control input-sm" id="inputEmail">
+    <label for="textArea" class="сontrol-label">Задание к вопросу:</label>
+    <textarea class="form-control input-sm" rows="2" id="textArea"></textarea>
+
+    @*    <label for="textArea" class="control-label">Уроень сложности</label>
+    <input class="form-control questionFormInput" type="number" data-bind="value:TimeForCompleting" style="padding: 0" />*@
+    <div class="row">
+        <label for="inputEmail" class="control-label">Ответы:</label>
+        <div class="row navbar col-lg-6 pull-right" style="margin-left: 0">
+            <div class="btn-group">
+                <button id="addNewVariantButton" type="button" class="btn btn-primary btn-xs">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Добавить вариант ответа
+                </button>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
+                        Другое
+                    <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Dropdown link</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding-right: 15px;" data-bind="template: { name: templateName, foreach: answers }"></div>
+}
+

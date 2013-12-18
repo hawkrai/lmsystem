@@ -1,0 +1,51 @@
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+@{
+    ViewBag.Title = "title";
+}
+@section navleft
+{
+    @Html.Partial("Layouts/_KnowledgeTestingSubnavbar")
+}
+
+@section scripts
+{f
+    @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles")
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/QuestionsListScript.js",
+                "~/Scripts/application/KnowledgeTesting/BaseQuestionTypeScript.js",
+                "~/Scripts/application/KnowledgeTesting/HasVariantsQuestionTypeScript.js",
+                "~/Scripts/application/KnowledgeTesting/HasOneCorrectVariantQuestionType.js",
+                "~/Scripts/linq.js")
+}
+
+<div style="margin: 10px">
+    @Html.Partial("UnderConstruction")
+</div>
+
+<input type="button" id="addNewQuestionButton" value="Добавить" class="btn btn-primary col-lg-12"/>
+
+<div>
+    @Html.Partial("_DataTable", new DataTableViewModel
+    {
+        DataTable = Html.DataTable("questionsList", (QuestionsManagementController controller) => controller.GetQuestionsList(null)),
+        DataTableOptions = new DataTableOptions
+        {
+            Filterable = true,
+            Info = true,
+            OnComplete = null,
+            Pagination = true,
+            Searchable = true,
+            Sortable = false,
+        }
+    })
+</div>
+
+<div id="quetionTypes" class="modal fade" style="width: 100%">
+@Html.Partial("_QuestionTypes")
+</div>
+
+<div id="quetionDetails" class="modal fade" style="width: 100%">
+    @Html.Partial("_QuestionDetails")
+</div>
+
+@Html.Partial("_AnswerTemplates")

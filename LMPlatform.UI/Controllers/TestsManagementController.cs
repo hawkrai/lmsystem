@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Application.Core;
 using Application.Core.UI.Controllers;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
@@ -8,23 +7,11 @@ using Mvc.JQuery.Datatables;
 
 namespace LMPlatform.UI.Controllers
 {
-    [Authorize(Roles = "student, lector")]
-    public class KnowledgeTestingController : BasicController
+    [Authorize(Roles = "lector")]
+    public class TestsManagementController : BasicController
     {
         [Authorize, HttpGet]
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        [Authorize, HttpGet]
-        public ActionResult Tests()
-        {
-            return View();
-        }
-
-        [Authorize, HttpGet]
-        public ActionResult TestResults()
         {
             return View();
         }

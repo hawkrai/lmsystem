@@ -3,13 +3,13 @@
         $('#saveButton').bind('click', $.proxy(this._onSaveButtonClicked, this));
     },
 
-    _webServiceUrl: '/KnowledgeTesting/',
+    _webServiceUrl: '/TestsManagement/',
     _saveMethodName: 'SaveTest',
     _getMethodName: 'GetTest',
 
     formatTitle: function () {
         var title = koWrapper.getModel().Title;
-        return "Тест: " + title == "" ? "Новый" : title;
+        return "Тест: " + (title == "" ? "Новый" : title);
     },
 
     getTextForTimeLabel: function () {

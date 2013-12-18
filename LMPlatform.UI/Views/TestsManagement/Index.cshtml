@@ -5,7 +5,7 @@
 }
 @section navleft
 {
-    @Html.Partial("_KnowledgeTestingSubnavbar")
+    @Html.Partial("Layouts/_KnowledgeTestingSubnavbar")
 }
 
 @section scripts
@@ -16,15 +16,17 @@
 }
 
 <div style="margin: 10px">
-    @Html.Partial("UnderConstruction")
+    <div >
+    <h1 class="text-center">Доступные тесты</h1>
+</div>
 </div>
 
-<input type="button" id="addNewTestButton" value="Добавить" class="btn btn-primary col-lg-12"/>
+<input type="button" id="addNewTestButton" value="Добавить" class="btn btn-primary btn-xs col-lg-8"/>
 
 <div>
     @Html.Partial("_DataTable", new DataTableViewModel
 				{
-					DataTable = Html.DataTable("testsList", (KnowledgeTestingController controller) => controller.GetTestsList(null)),
+					DataTable = Html.DataTable("testsList", (TestsManagementController controller) => controller.GetTestsList(null)),
 					DataTableOptions = new DataTableOptions
 					{
 						Filterable = true,
@@ -37,4 +39,6 @@
 				})
 </div>
 
-@Html.Partial("TestDetails")
+<div class="modal fade" style="width: 100%" id="testDetails" aria-hidden="true">
+    @Html.Partial("TestDetails")
+</div>
