@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -30,16 +29,7 @@ namespace LMPlatform.UI.Controllers
 
         if (student != null)
         {
-          var model = new ModifyStudentViewModel()
-            {
-              Group = student.Group.Id.ToString(CultureInfo.InvariantCulture),
-              Name = student.FirstName,
-              Surname = student.LastName,
-              Patronymic = student.MiddleName,
-              Email = student.Email,
-              UserName = student.User.UserName,
-            };
-
+          var model = new ModifyStudentViewModel(student);
           return View("EditStudent", model);
         }
       }
@@ -72,16 +62,7 @@ namespace LMPlatform.UI.Controllers
 
       if (student != null)
       {
-        var model = new ModifyStudentViewModel
-          {
-          Group = student.Group.Id.ToString(CultureInfo.InvariantCulture),
-          Name = student.FirstName,
-          Surname = student.LastName,
-          Patronymic = student.MiddleName,
-          Email = student.Email,
-          UserName = student.User.UserName,
-        };
-
+        var model = new ModifyStudentViewModel(student);
         return PartialView("_EditStudentView", model);
       }
 
@@ -105,11 +86,6 @@ namespace LMPlatform.UI.Controllers
       }
 
       return null;
-    }
-
-    public ActionResult Professors()
-    {
-      return View();
     }
 
     public ActionResult AddProfessor()
@@ -143,14 +119,7 @@ namespace LMPlatform.UI.Controllers
 
       if (lecturer != null)
       {
-        var model = new ModifyLecturerViewModel
-        {
-          Name = lecturer.FirstName,
-          Surname = lecturer.LastName,
-          Patronymic = lecturer.MiddleName,
-          UserName = lecturer.User.UserName,
-        };
-
+        var model = new ModifyLecturerViewModel(lecturer);
         return PartialView("_EditProfessorView", model);
       }
 
@@ -174,6 +143,36 @@ namespace LMPlatform.UI.Controllers
       }
 
       return null;
+    }
+
+    public ActionResult AddGroup()
+    {
+      var model = new GroupViewModel();
+      return PartialView("_AddGroupView", model);
+    }
+
+    [HttpPost]
+    public ActionResult AddGroup(GroupViewModel model)
+    {
+      if (ModelState.IsValid)
+      {
+        try
+        {
+          model.AddGroup();
+        }
+        catch (MembershipCreateUserException e)
+        {
+          ModelState.AddModelError(string.Empty, e.StatusCode.ToString());
+          return View(model);
+        }
+      }
+
+      return null;
+    }
+
+    public ActionResult Professors()
+    {
+      return View();
     }
 
     public ActionResult Groups()

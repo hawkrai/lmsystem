@@ -39,38 +39,33 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
       }
     }
 
-    public int LecturerId
+    public int LecturerId { get; set; }
+
+    public ModifyLecturerViewModel(Lecturer lecturer)
     {
-      get;
-      set;
+      if (lecturer != null)
+      {
+        Name = lecturer.FirstName;
+        Surname = lecturer.LastName;
+        Patronymic = lecturer.MiddleName;
+        UserName = lecturer.User.UserName;
+      }
     }
 
     [StringLength(50, ErrorMessage = "Имя не может иметь размер больше 50 символов")]
     [DataType(DataType.Text)]
     [Display(Name = "Имя")]
-    public string Name
-    {
-      get;
-      set;
-    }
+    public string Name { get; set; }
 
     [StringLength(50, ErrorMessage = "Фамилия не может иметь размер больше 50 символов")]
     [DataType(DataType.Text)]
     [Display(Name = "Фамилия")]
-    public string Surname
-    {
-      get;
-      set;
-    }
+    public string Surname { get; set; }
 
     [StringLength(50, ErrorMessage = "Отчество не может иметь размер больше 50 символов")]
     [DataType(DataType.Text)]
     [Display(Name = "Отчество")]
-    public string Patronymic
-    {
-      get;
-      set;
-    }
+    public string Patronymic { get; set; }
 
     [Editable(false)]
     [Display(Name = "Логин")]
@@ -90,27 +85,21 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
     public string ConfirmPassword { get; set; }
 
     [Display(Name = "Группа")]
-    public string Group
-    {
-      get;
-      set;
-    }
+    public string Group { get; set; }
 
     [Display(Name = "Эл. почта")]
-    public string Email
-    {
-      get;
-      set;
-    }
+    public string Email { get; set; }
 
     public string FullName
     {
       get { return string.Format("{0} {1} {2}", Name, Patronymic, Surname); }
     }
 
-    //public IList<SelectListItem> GetSubjects()
-    //{
-    //}
+    public IList<SelectListItem> GetSubjects()
+    {
+      return null;
+    }
+
     public void ModifyLecturer(int lecturerId)
     {
       LecturerManagementService.UpdateLecturer(new Lecturer()

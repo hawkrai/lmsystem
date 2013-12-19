@@ -9,5 +9,7 @@ namespace Application.Infrastructure.GroupManagement
     Group GetGroup(int groupId);
 
     List<Group> GetGroups();
+
+    void AddGroup(Group group);
   }
 }

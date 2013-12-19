@@ -1,0 +1,43 @@
+﻿@model LMPlatform.UI.ViewModels.AdministrationViewModels.GroupViewModel
+
+<div id="addGroup">
+@using (Html.BeginForm("AddGroup", "Administration", FormMethod.Post))
+{
+    <div class="error-limit-registr">
+        @Html.ValidationSummary("Ошибка!", new {@class = "alert alert-error"})
+    </div>
+
+    @Html.AntiForgeryToken()
+
+    <div>
+        <hgroup style="text-align: center; margin-bottom: 20px">
+            <h1>@ViewBag.Title</h1>
+        </hgroup>
+
+        <div>
+            @Html.LabelFor(m => m.Name, new {@class = "control-label"})
+            <div>
+                @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+                @Html.ValidationMessageFor(e => e.Name, " ")
+            </div>
+            <p></p>
+        </div>
+        <div>
+            @Html.LabelFor(m => m.StartYear, new {@class = "control-label"})
+            <div>
+                @Html.TextBoxFor(m => m.StartYear, new {@class = "form-control"})
+                @Html.ValidationMessageFor(e => e.StartYear, " ")
+            </div>
+            <p></p>
+        </div>
+        <div>
+            @Html.LabelFor(m => m.GraduationYear, new {@class = "control-label"})
+            <div>
+                @Html.TextBoxFor(m => m.GraduationYear, new {@class = "form-control"})
+                @Html.ValidationMessageFor(e => e.GraduationYear, " ")
+            </div>
+            <p></p>
+        </div>
+    </div>
+}
+</div>

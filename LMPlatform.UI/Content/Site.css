@@ -575,3 +575,11 @@ legend.scheduler-border {
 .questionFormInput {
     height: 29px;
 }
+
+.managementBtn {
+    background-color: #008cba !important;
+}
+
+.managementBtn:hover {
+    background-color: #007196 !important;
+}

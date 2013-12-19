@@ -171,7 +171,6 @@
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\GroupViewModel.cs" />
-    <Compile Include="ViewModels\AdministrationViewModels\LectorViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\LecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ModifyLecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ResetPasswordViewModel.cs" />
@@ -354,6 +353,7 @@
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\collection.png" />
     <Content Include="Images\no_image.png" />
+    <Content Include="Scripts\application\Administration\administrationManagement.js" />
     <Content Include="Scripts\application\BTS\ProjectsScript.js" />
     <Content Include="Scripts\application\Administration\PopupScript.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
@@ -550,6 +550,8 @@
     <Content Include="Views\Administration\_EditProfessorView.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Administration\AddGroup.cshtml" />
+    <Content Include="Views\Administration\_AddGroupView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

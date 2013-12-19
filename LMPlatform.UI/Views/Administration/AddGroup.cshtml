@@ -1,0 +1,48 @@
+﻿@model LMPlatform.UI.ViewModels.AdministrationViewModels.GroupViewModel
+@{
+    ViewBag.Title = "Добавление группы";
+    Layout = "~/Views/Shared/Layouts/_AdministrationLayout.cshtml";
+    
+}
+
+@using (Html.BeginForm(new { ViewBag.ReturnUrl }))
+{
+    <div class="error-limit-registr">
+        @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
+    </div>
+
+    <div id="registration" class="hero-unit center">
+        <hgroup style="text-align: center; margin-bottom: 20px">
+            <h1>@ViewBag.Title</h1>
+        </hgroup>
+
+        <div>
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(e => e.Name, " ")
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.StartYear, new { @class = "control-label" })
+            <div>
+                @Html.TextBoxFor(m => m.StartYear, new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.StartYear, " ")
+            </div>
+            <p></p>
+        </div>
+        <div>
+            @Html.LabelFor(m => m.GraduationYear, new { @class = "control-label" })
+            <div>
+                @Html.TextBoxFor(m => m.GraduationYear, new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.GraduationYear, " ")
+            </div>
+            <p></p>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" value="Сохранить" />
+        </div>
+    </div>
+}
+
+
+

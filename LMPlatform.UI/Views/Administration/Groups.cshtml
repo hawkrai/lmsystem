@@ -9,16 +9,22 @@
 }
 
 <h2>Группы</h2>
-<div>@Html.Partial("_DataTable", new DataTableViewModel
-            {
-                DataTable = Html.DataTable("groupList", (AdministrationController controller) => controller.GetCollectionGroups(new DataTablesParam() { })),
-                DataTableOptions = new DataTableOptions
+<div>
+    <div id="buttonActionSection" role="link">
+        <a href="@Url.Action("AddGroup", "Administration")" class="addButton" data-toggle="tooltip"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
+    <div>@Html.Partial("_DataTable", new DataTableViewModel
+         {
+             DataTable = Html.DataTable("groupList", (AdministrationController controller) => controller.GetCollectionGroups(new DataTablesParam() { })),
+             DataTableOptions = new DataTableOptions
                  {
                      Pagination = true,
                      Searchable = true,
                      Sortable = false,
                      Filterable = true,
                      Info = false,
+                     OnComplete = "initGroupManagement"
                  }
-            })
+         })
+    </div>
 </div>
