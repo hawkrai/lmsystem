@@ -7,8 +7,8 @@
     initModuleAction: function () {
         $('.moduleLinks').handle("click", function () {
             var that = this;
-            $('.conteinerModule').activity();
-            return false;
+            $('.conteinerModule').spin('large');
+            
         });
         
         $('.navLink').handle("click", function () {

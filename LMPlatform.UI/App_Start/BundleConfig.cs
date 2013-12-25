@@ -22,7 +22,8 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/shared.js", 
                 "~/Scripts/application/jQueryExtensions.js",
                 "~/Scripts/application/masterPageManagement.js",
-                "~/Scripts/jquery.activity-indicator-1.0.0.js"));
+                "~/Scripts/spin.js",
+                "~/Scripts/application/spinFunction.js"));
 
             bundles.Add(new ScriptBundle("~/bundle/subjectManagement").Include(
                 "~/Scripts/application/subjectManagement.js"));

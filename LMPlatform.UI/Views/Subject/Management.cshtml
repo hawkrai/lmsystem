@@ -17,15 +17,13 @@
 
 @section navleft
 {
-    <li><a href="@Url.Action("Subjects","Subject")" class="linkNavbar"><i class="fa fa-desktop fa-1x"></i> Все предметы</a></li>
-    <li><a href="#" class="linkNavbar"><i class="fa fa-desktop fa-1x"></i> Предметы</a></li>
-    <li><a href="#" class="linkNavbar"><i class="fa fa-desktop fa-1x"></i> Предметы</a></li>
+    <li><a href="@Url.Action("Subjects","Subject")" class="linkNavbar"><i class="fa fa-gears fa-1x"></i> Все предметы</a></li>
     <li><a href="@Url.Action("Index","Lms")" class="linkNavbar"><i class="fa fa-arrow-left fa-1x"></i> Система управления учебным процессом</a></li>
 }
 
 <div style="margin: 20px">
     <div id="buttonActionSection">
-        <a href="@Url.Action("Create", "Subject")" class="addSubject" data-toggle="tooltip"><i class="fa fa-plus-circle fa-2x"></i></a>
+        <a href="@Url.Action("Create", "Subject")" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить предмет</a>
     </div>
     <div>
         @Html.Partial("_DataTable", new DataTableViewModel

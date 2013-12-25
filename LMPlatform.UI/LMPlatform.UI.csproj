@@ -365,6 +365,7 @@
     <Content Include="Scripts\application\masterPageManagement.js" />
     <Content Include="Scripts\application\shared.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestsListScript.js" />
+    <Content Include="Scripts\application\spinFunction.js" />
     <Content Include="Scripts\application\subjectManagement.js" />
     <Content Include="Scripts\application\subjectWorking.js" />
     <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.min.js.gz" />
@@ -487,6 +488,7 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Unity.Mvc4.README.txt" />
     <Content Include="Web.config">

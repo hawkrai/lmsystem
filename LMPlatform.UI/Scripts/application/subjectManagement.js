@@ -3,7 +3,6 @@
     init: function () {
         var that = this;
         $(".addSubject").tooltip({ title: "Добавить предмет", placement: 'right' });
-        $(".addSubject").attr('style', "color:#333;font-size: 24px;");
         that.initButtonAction();
     },
     initButtonAction: function () {

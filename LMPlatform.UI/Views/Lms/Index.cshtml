@@ -17,31 +17,109 @@
 @section navleft
 {
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x"></i> Предметы <b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x"></i>Предметы <b class="caret"></b></a>
         <ul class="dropdown-menu">
             @foreach (var subject in Model.Subjects)
             {
-                <li><a href="@Url.Action("Index","Subject",new { subjectId = subject.SubjectId })" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>    
+                <li><a href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>    
             }
             <li class="divider"></li>
-            <li><a href="@Url.Action("Subjects","Subject")" class="linkNavbarLevelBelow"> Все предметы</a></li>
+            <li><a href="@Url.Action("Subjects", "Subject")" class="linkNavbarLevelBelow">Все предметы</a></li>
             @if (User.IsInRole("lector"))
             {
-                <li><a href="@Url.Action("Management","Subject")"class="linkNavbarLevelBelow"> Управление предметами</a></li>   
+                <li><a href="@Url.Action("Management", "Subject")"class="linkNavbarLevelBelow">Управление предметами</a></li>   
             }
         </ul>
     </li>
-    <li><a href="@Url.Action("BugManagement","BTS")" class="linkNavbar"><i class="fa fa-bug fa-1x"></i> Управление ошибками</a></li>
-    <li><a href="@Url.Action("Index","TestsManagement")" class="linkNavbar"><i class="fa fa-check-square-o fa-1x"></i> Тестирование знаний</a></li>
-    <li><a href="#" class="linkNavbar"><i class="fa fa-book fa-1x"></i> Методические материалы</a></li>
-    <li><a href="#" class="linkNavbar"><i class="fa fa-briefcase fa-1x"></i> Дипломное проектирование</a></li>
+    <li><a href="@Url.Action("BugManagement", "BTS")" class="linkNavbar"><i class="fa fa-bug fa-1x"></i>Управление ошибками</a></li>
+    <li><a href="@Url.Action("Index", "TestsManagement")" class="linkNavbar"><i class="fa fa-check-square-o fa-1x"></i>Тестирование знаний</a></li>
+    <li><a href="#" class="linkNavbar"><i class="fa fa-book fa-1x"></i>Методические материалы</a></li>
+    <li><a href="#" class="linkNavbar"><i class="fa fa-briefcase fa-1x"></i>Дипломное проектирование</a></li>
 }
 
 <div style="margin: 10px">
-    <div class="text-primary" style="text-align: center">
-        <h1>Добро пожаловать в систему управления учебный процессом</h1>
-    </div>
-    <div class="text-primary">
-        <h3>Последние события и новости</h3>
-    </div>
+    @if (User.IsInRole("lector"))
+    {
+       
+        <div class="page-header">
+            <h2>Последние события и новости</h2>
+        </div>
+        <div class="col-lg-8 text-primary">
+            <div class="well">
+                <div>
+                    Студет: Иванов Петр Сергеевич, прошел тест на 100 балов    
+                </div>
+                <div style="text-align: right;font-size: 11px" class="text-muted">
+                    12.12.2013
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8  col-lg-offset-4 text-info">
+            <div class="well">
+                Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.
+                <div style="text-align: right;font-size: 11px" class="text-muted">
+                    12.12.2013
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 text-primary">
+            <div class="well">
+                Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet siLorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet siLorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si
+                <div style="text-align: right;font-size: 11px" class="text-muted">
+                    12.12.2013
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8  col-lg-offset-4 text-info">
+            <div class="well">
+                Студет: Иванов Петр Сергеевич, прошел тест на 100 балов
+                <div style="text-align: right;font-size: 11px" class="text-muted">
+                    12.12.2013
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 text-primary">
+            <div class="well">
+                Студет: Иванов Петр Сергеевич, прошел тест на 100 балов
+                <div style="text-align: right;font-size: 11px" class="text-muted">
+                    12.12.2013
+                </div>
+            </div>
+        </div>   
+    }
+    @if (User.IsInRole("student"))
+    {
+        <div class="page-header">
+            <h2>Последние события и новости</h2>
+        </div>
+        <div class="col-lg-8 text-primary">
+            <div class="well">
+                Стартовала новая лабораторная работы по предмету Базы данных в интернет
+            </div>
+        </div>
+        <div class="col-lg-8  col-lg-offset-4 text-info">
+            <div class="well">
+                Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.
+            </div>
+        </div>
+        <div class="col-lg-8 text-primary">
+            <div class="well">
+                Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet siLorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet siLorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si Lorem ipsum dolor amet si
+            </div>
+        </div>
+        <div class="col-lg-8  col-lg-offset-4 text-info">
+            <div class="well">
+                Стартовала новая лабораторная работы по предмету Базы данных в интернет
+            </div>
+        </div>
+        <div class="col-lg-8 text-primary">
+            <div class="well">
+                Стартовала новая лабораторная работы по предмету Базы данных в интернет
+            </div>
+        </div>
+        
+    }
+    <div class="clear-fix"></div>
+
+
 </div>
