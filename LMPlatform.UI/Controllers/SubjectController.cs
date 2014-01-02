@@ -60,6 +60,13 @@ namespace LMPlatform.UI.Controllers
             return View(subjects);
         }
 
+        public ActionResult SubjectsForTests()
+        {
+            var model = new SubjectManagementViewModel(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
+            var subjects = model.Subjects;
+            return View(subjects);
+        }
+
         [HttpPost]
         public ActionResult GetModuleData(int subjecyId, int moduleId)
         {

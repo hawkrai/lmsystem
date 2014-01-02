@@ -32,7 +32,17 @@
         </ul>
     </li>
     <li><a href="@Url.Action("BugManagement", "BTS")" class="linkNavbar"><i class="fa fa-bug fa-1x"></i>Управление ошибками</a></li>
-    <li><a href="@Url.Action("Index", "TestsManagement")" class="linkNavbar"><i class="fa fa-check-square-o fa-1x"></i>Тестирование знаний</a></li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x"></i>Тестирование знаний<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            @foreach (var subject in Model.Subjects)
+            {
+                <li><a href="@Url.Action("Index", "TestsManagement", new { subjectId = subject.SubjectId })" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>    
+            }
+            <li class="divider"></li>
+            <li><a href="@Url.Action("SubjectsForTests", "Subject")" class="linkNavbarLevelBelow">Все тесты</a></li>
+        </ul>
+    </li>
     <li><a href="#" class="linkNavbar"><i class="fa fa-book fa-1x"></i>Методические материалы</a></li>
     <li><a href="#" class="linkNavbar"><i class="fa fa-briefcase fa-1x"></i>Дипломное проектирование</a></li>
 }

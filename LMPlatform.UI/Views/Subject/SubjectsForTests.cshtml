@@ -1,0 +1,26 @@
+﻿@model List<LMPlatform.UI.ViewModels.SubjectViewModels.SubjectViewModel>
+@{
+    ViewBag.Title = "Все предметы";
+}
+
+@section navleft
+{
+    @foreach (var subject in Model)
+    {
+        <li><a href="@Url.Action("Index", "TestsManagement", new { subjectId = subject.SubjectId })" style="font-size: 14px">@subject.DisplayName</a></li>    
+    }
+    <li class="divider"></li>
+    <li><a href="@Url.Action("Index", "Lms")" class="linkNavbar"><i class="fa fa-arrow-left fa-1x"></i>Система управления учебным процессом</a></li>
+}
+
+<div>
+    @foreach (var subject in Model)
+    {
+        <div class="col-lg-3 col-md-4 col-xs-6 thumbnail">
+            <a class="thumbnail"  href="@Url.Action("Index", "TestsManagement", new { subjectId = subject.SubjectId })">
+                <img class="img-responsive" src="~/Content/images/image_subject.png"></a>
+            <p style="text-align: center" class="text-info">@subject.DisplayName</p>
+        </div>
+    }
+    <div class="clear-fix"></div>
+</div>

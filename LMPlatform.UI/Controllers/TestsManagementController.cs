@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 using Application.Core.UI.Controllers;
 using Application.Infrastructure.KnowledgeTestsManagement;
+using Application.Infrastructure.SubjectManagement;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
 using Mvc.JQuery.Datatables;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
@@ -11,8 +14,13 @@ namespace LMPlatform.UI.Controllers
     public class TestsManagementController : BasicController
     {
         [Authorize, HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int subjectId)
         {
+            var subject = SubjectsManagementService.GetSubject(subjectId);
+            
+            ViewBag.SubjectName = subjectId;
+            ViewBag.SubjectTitle = subject.Name;
+
             return View();
         }
 
@@ -45,6 +53,14 @@ namespace LMPlatform.UI.Controllers
             return Json(savedTeat);
         }
 
+        protected int CurrentUserId
+        {
+            get
+            {
+                return int.Parse(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
         #region Dependencies
 
         public ITestsManagementService TestsManagementService
@@ -54,6 +70,15 @@ namespace LMPlatform.UI.Controllers
                 return ApplicationService<ITestsManagementService>();
             }
         }
+
+        public ISubjectManagementService SubjectsManagementService
+        {
+            get
+            {
+                return ApplicationService<ISubjectManagementService>();
+            }
+        }
+
         #endregion
     }
 }

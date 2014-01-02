@@ -519,7 +519,6 @@
     <Content Include="Views\BTS\Projects.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\BugManagement.cshtml" />
-    <Content Include="Views\Shared\Layouts\_KnowledgeTestingSubnavbar.cshtml" />
     <Content Include="Views\TestsManagement\Index.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
@@ -554,6 +553,7 @@
     </Content>
     <Content Include="Views\Administration\AddGroup.cshtml" />
     <Content Include="Views\Administration\_AddGroupView.cshtml" />
+    <Content Include="Views\Subject\SubjectsForTests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -2,11 +2,9 @@
 @using LMPlatform.UI.Controllers
 @{
     ViewBag.Title = "title";
+    Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
 }
-@section navleft
-{
-    @Html.Partial("Layouts/_KnowledgeTestingSubnavbar")
-}
+
 
 @section scripts
 {
@@ -15,28 +13,37 @@
                 "~/Scripts/application/KnowledgeTesting/TestDetailsScript.js")
 }
 
-<div style="margin: 10px">
-    <div >
-    <h1 class="text-center">Доступные тесты</h1>
-</div>
-</div>
+@section navpanel
+{
+    @string.Format("{0}: Доступные тесты", ViewBag.SubjectName)
+}
 
-<input type="button" id="addNewTestButton" value="Добавить" class="btn btn-primary btn-sm col-lg-8"/>
+@section navleft
+{
+    <li><a href="@Url.Action("TestsList", "TestsManagement")" class="linkNavbar"><i class="fa fa-pencil-square-o fa-1x"></i> &nbsp; Тесты</a></li>
+    <li><a href="@Url.Action("TestResults", "TestsManagement")" class="linkNavbar"><i class="fa fa-tasks fa-1x"></i> &nbsp; Результаты</a></li>
+}
 
-<div>
-    @Html.Partial("_DataTable", new DataTableViewModel
-				{
-					DataTable = Html.DataTable("testsList", (TestsManagementController controller) => controller.GetTestsList(null)),
-					DataTableOptions = new DataTableOptions
-					{
-						Filterable = true,
-						Info = true,
-                        OnComplete = null,
-						Pagination = true,
-						Searchable = true,
-						Sortable = false,
-					}
-				})
+
+<div style="margin: 20px">
+
+    <input type="button" id="addNewTestButton" value="Добавить" class="addSubject btn btn-primary btn-sm" />
+
+    <div>
+        @Html.Partial("_DataTable", new DataTableViewModel
+    {
+        DataTable = Html.DataTable("testsList", (TestsManagementController controller) => controller.GetTestsList(null)),
+        DataTableOptions = new DataTableOptions
+        {
+            Filterable = true,
+            Info = true,
+            OnComplete = null,
+            Pagination = true,
+            Searchable = true,
+            Sortable = false,
+        }
+    })
+    </div>
 </div>
 
 <div class="modal fade" style="width: 100%" id="testDetails" aria-hidden="true">
