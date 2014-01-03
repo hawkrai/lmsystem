@@ -1,17 +1,11 @@
 ﻿using System.ComponentModel;
+using System.Web;
 using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
 {
     public class TestItemListViewModel
     {
-        [DisplayName("Номер")]
-        public int Id
-        {
-            get;
-            set;
-        }
-
         [DisplayName("Название")]
         public string Title
         {
@@ -19,12 +13,27 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
-        public static TestItemListViewModel FromTest(Test test)
+        [DisplayName("Описание")]
+        public string Description
+        {
+            get;
+            set;
+        }
+
+        [DisplayName("")]
+        public HtmlString Action
+        {
+            get; 
+            set;
+        }
+
+        public static TestItemListViewModel FromTest(Test test, string htmlLinks)
         {
             return new TestItemListViewModel
             {
-                Id = test.Id,
-                Title = test.Title
+                Title = test.Title,
+                Description = test.Description,
+                Action = new HtmlString(htmlLinks)
             };
         }
     }

@@ -554,6 +554,7 @@
     <Content Include="Views\Administration\AddGroup.cshtml" />
     <Content Include="Views\Administration\_AddGroupView.cshtml" />
     <Content Include="Views\Subject\SubjectsForTests.cshtml" />
+    <Content Include="Views\TestsManagement\_TestsGridActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

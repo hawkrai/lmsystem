@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Application.Core;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
-using LMPlatform.Data.Repositories.RepositoryContracts;
-using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 
 namespace Application.Infrastructure.KnowledgeTestsManagement
@@ -15,7 +12,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.TestsRepository.GetBy(new Query<Test>(e => e.Id == id));
+                return repositoriesContainer.TestsRepository.GetBy(new Query<Test>(test => test.Id == id));
             }
         }
 
@@ -29,11 +26,31 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
         }
 
-        public IEnumerable<Test> GetAllTests()
+        public void DeleteTest(int id)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.TestsRepository.GetAll().ToList();
+                Test testToDelete = repositoriesContainer.TestsRepository.GetBy(
+                    new Query<Test>(test => test.Id == id));
+
+                repositoriesContainer.TestsRepository.Delete(testToDelete);
+            }
+        }
+
+        public IPageableList<Test> GetPageableTests(int subjectId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
+        {
+            var query = new PageableQuery<Test>(pageInfo, test => test.SubjectId == subjectId);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query.AddFilterClause(test => test.Description.ToLower().Contains(searchString) || 
+                    test.Title.ToLower().Contains(searchString));
+            }
+
+            query.OrderBy(sortCriterias);
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.TestsRepository.GetPageableBy(query);
             }
         }
     }

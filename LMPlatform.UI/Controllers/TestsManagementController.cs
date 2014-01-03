@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Application.Core.UI.Controllers;
+using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
@@ -18,8 +19,8 @@ namespace LMPlatform.UI.Controllers
         {
             var subject = SubjectsManagementService.GetSubject(subjectId);
             
-            ViewBag.SubjectName = subjectId;
-            ViewBag.SubjectTitle = subject.Name;
+            ViewBag.SubjectId = subjectId;
+            ViewBag.SubjectName = subject.Name;
 
             return View();
         }
@@ -32,18 +33,21 @@ namespace LMPlatform.UI.Controllers
                 : TestViewModel.FromTest(TestsManagementService.GetTest(id));
 
             return Json(test, JsonRequestBehavior.AllowGet);
-        }        
+        }
+
+        [HttpDelete]
+        public JsonResult DeleteTest(int id)
+        {
+            TestsManagementService.DeleteTest(id);
+            return Json(id);
+        }   
         
-        //[HttpPost]
         public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam)
         {
-            var testViewModels = TestsManagementService.GetAllTests()
-                .Select(TestItemListViewModel.FromTest)
-                .AsQueryable();
+            var searchString = dataTableParam.GetSearchString();
+            var testViewModels = TestsManagementService.GetPageableTests(1, searchString, dataTableParam.ToPageInfo());
 
-            dataTableParam.sSearch = string.Empty;
-
-            return DataTablesResult.Create(testViewModels, dataTableParam);
+            return DataTableExtensions.GetResults(testViewModels.Items.Select(model => TestItemListViewModel.FromTest(model, PartialViewToString("_TestsGridActions", model.Id))), dataTableParam, testViewModels.TotalCount);
         }
 
         [HttpPost]

@@ -6,10 +6,11 @@
     _webServiceUrl: '/TestsManagement/',
     _saveMethodName: 'SaveTest',
     _getMethodName: 'GetTest',
+    _deleteMethodName: 'DeleteTest',
 
     formatTitle: function () {
         var title = koWrapper.getModel().Title;
-        return "Тест: " + (title == "" ? "Новый" : title);
+        return "Тест: " + (title == null ? "Новый" : title);
     },
 
     getTextForTimeLabel: function () {
@@ -45,6 +46,16 @@
             success: $.proxy(this._onTestLoaded, this)
         });
     },
+    
+    deleteTest: function (id) {
+        $.ajax({
+            url: this._webServiceUrl + this._deleteMethodName,
+            type: "DELETE",
+            data: { id: id },
+            dataType: "json",
+            success: $.proxy(this._onTestDeleted, this)
+        });
+    },
 
     _onTestLoaded: function (testResult) {
         koWrapper.createOrUpdateViewModel(testResult);
@@ -54,6 +65,10 @@
     _onTestSaved: function () {
         datatable.fnDraw();
         $('#testDetails').modal('hide');
+    },
+    
+    _onTestDeleted: function(result) {
+        datatable.fnDraw();
     },
 
     _validate: function () {

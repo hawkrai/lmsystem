@@ -14,7 +14,7 @@
     _processQuestionTypeSelection: function(typeId) {
         switch (typeId) {
             case "oneCorrectAnswer":
-                return new HasOneCorrectVariantQuestionType();
+                return baseQuestionType;
             
         default:
             return null;
