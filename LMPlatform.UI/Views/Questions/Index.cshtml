@@ -1,0 +1,55 @@
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles")
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/QuestionsListScript.js",
+                "~/Scripts/application/KnowledgeTesting/QuestionDetailsScript.js")
+}
+
+@section navleft
+{
+    <li><a href="@Url.Action("Index", "Tests")" class="linkNavbar"><i class="fa fa-pencil-square-o fa-1x"></i> &nbsp; К тестам</a></li>
+}
+
+@section navpanel
+{
+    @string.Format("{0}: Вопросы", ViewBag.TestName)
+}
+
+<div style="margin: 20px">
+    <a href="#" id="addNewQuestionButton">
+        <span class="glyphicon glyphicon-plus"></span>Добавить вопрос
+    </a>
+
+    <div>
+        @Html.Partial("_DataTable", new DataTableViewModel
+        {
+            DataTable = Html.DataTable("questionsList", (QuestionsController controller) => controller.GetQuestionsList(null)),
+            DataTableOptions = new DataTableOptions
+            {
+                Filterable = true,
+                Info = true,
+                Pagination = true,
+                Searchable = true,
+                Sortable = false,
+                OnComplete = "initQuestionsList"
+            }
+        })
+    </div>
+</div>
+
+<div id="quetionTypes" class="modal fade" style="width: 100%">
+@Html.Partial("_QuestionTypes")
+</div>
+
+<div id="quetionDetails" class="modal fade" style="width: 100%">
+    @Html.Partial("_QuestionDetails")
+</div>
+
+@Html.Partial("_AnswerTemplates")

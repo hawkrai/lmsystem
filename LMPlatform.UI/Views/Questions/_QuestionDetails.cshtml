@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "~/Views/Shared/_BootBoxTemplate.cshtml";
+}
+
+@section title
+{
+    <h4 class="modal-title">Сколько?</h4>
+}
+@section content{
+
+
+    <label for="inputEmail" class="control-label">Текст вопроса:</label>
+    <input type="text" data-bind="value: Title" class="form-control input-sm" id="inputEmail">
+    <label for="textArea" class="сontrol-label">Задание к вопросу:</label>
+    <textarea class="form-control input-sm" rows="2" id="textArea"></textarea>
+
+    @*    <label for="textArea" class="control-label">Уроень сложности</label>
+    <input class="form-control questionFormInput" type="number" data-bind="value:TimeForCompleting" style="padding: 0" />*@
+    <div class="row">
+        <label for="inputEmail" class="control-label">Ответы:</label>
+        <div class="row navbar col-lg-6 pull-right" style="margin-left: 0">
+      
+                <a href="#" id="addNewVariant">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить ответ
+                </a>
+
+                <a href="#" id="addNewTestButton">
+                    <span id="change" class="glyphicon glyphicon-plus"></span>Добавить тест
+                </a>
+        
+        </div>
+    </div>
+    <div style="padding-right: 15px;" data-bind="template: { name: templateName, foreach: Answers }"></div>
+}
+
+@section footer {
+    <button type="button" id="cancelButton" class="btn btn-primary btn-sm" data-dismiss="modal">Отмена</button>
+    <button type="button" id="saveButton" class="btn btn-primary btn-sm">Сохранить</button>
+}
+

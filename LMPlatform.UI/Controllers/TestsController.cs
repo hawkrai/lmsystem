@@ -12,23 +12,14 @@ using WebMatrix.WebData;
 namespace LMPlatform.UI.Controllers
 {
     [Authorize(Roles = "lector")]
-    public class TestsManagementController : BasicController
+    public class TestsController : BasicController
     {
-        [Authorize, HttpGet]
-        public ActionResult Index(int subjectId)
-        {
-            var subject = SubjectsManagementService.GetSubject(subjectId);
-            
-            ViewBag.SubjectId = subjectId;
-            ViewBag.SubjectName = subject.Name;
-
-            return View();
-        }
+        #region API
 
         [HttpGet]
         public JsonResult GetTest(int id)
         {
-            var test = id == 0 
+            var test = id == 0
                 ? new TestViewModel()
                 : TestViewModel.FromTest(TestsManagementService.GetTest(id));
 
@@ -40,14 +31,6 @@ namespace LMPlatform.UI.Controllers
         {
             TestsManagementService.DeleteTest(id);
             return Json(id);
-        }   
-        
-        public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam)
-        {
-            var searchString = dataTableParam.GetSearchString();
-            var testViewModels = TestsManagementService.GetPageableTests(1, searchString, dataTableParam.ToPageInfo());
-
-            return DataTableExtensions.GetResults(testViewModels.Items.Select(model => TestItemListViewModel.FromTest(model, PartialViewToString("_TestsGridActions", model.Id))), dataTableParam, testViewModels.TotalCount);
         }
 
         [HttpPost]
@@ -55,6 +38,27 @@ namespace LMPlatform.UI.Controllers
         {
             var savedTeat = TestsManagementService.SaveTest(testViewModel.ToTest());
             return Json(savedTeat);
+        }
+
+        #endregion
+
+        [Authorize, HttpGet]
+        public ActionResult Index(int subjectId)
+        {
+            var subject = SubjectsManagementService.GetSubject(subjectId);
+
+            ViewBag.SubjectId = subjectId;
+            ViewBag.SubjectName = subject.Name;
+
+            return View();
+        }
+
+        public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam)
+        {
+            var searchString = dataTableParam.GetSearchString();
+            var testViewModels = TestsManagementService.GetPageableTests(1, searchString, dataTableParam.ToPageInfo());
+
+            return DataTableExtensions.GetResults(testViewModels.Items.Select(model => TestItemListViewModel.FromTest(model, PartialViewToString("_TestsGridActions", model.Id))), dataTableParam, testViewModels.TotalCount);
         }
 
         protected int CurrentUserId

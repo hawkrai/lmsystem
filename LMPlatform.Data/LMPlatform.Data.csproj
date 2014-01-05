@@ -57,11 +57,13 @@
     <Compile Include="Repositories\LmPlatformRepositoriesContainer.cs" />
     <Compile Include="Repositories\ModulesRepository.cs" />
     <Compile Include="Repositories\ProjectsRepository.cs" />
+    <Compile Include="Repositories\QuestionsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IBugsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IGroupsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IModulesRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ILecturerRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IProjectsRepository.cs" />
+    <Compile Include="Repositories\RepositoryContracts\IQuestionsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IStudentsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ISubjectRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ITestsRepository.cs" />

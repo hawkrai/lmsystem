@@ -20,6 +20,7 @@ namespace Application.Infrastructure
             containerWrapper.Register<IBugManagementService, BugManagementService>();
             containerWrapper.Register<IGroupManagementService, GroupManagementService>();
             containerWrapper.Register<ITestsManagementService, TestsManagementService>();
+            containerWrapper.Register<IQuestionsManagementService, QuestionsManagementService>();
             containerWrapper.Register<IProjectManagementService, ProjectManagementService>();
             containerWrapper.Register<IStudentManagementService, StudentManagementService>();
             containerWrapper.Register<ISubjectManagementService, SubjectManagementService>();

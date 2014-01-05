@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models.KnowledgeTesting;
@@ -34,6 +33,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                     new Query<Test>(test => test.Id == id));
 
                 repositoriesContainer.TestsRepository.Delete(testToDelete);
+                repositoriesContainer.ApplyChanges();
             }
         }
 

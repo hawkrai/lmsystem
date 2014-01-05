@@ -29,6 +29,8 @@ namespace LMPlatform.Data.Repositories
 
         public ITestsRepository TestsRepository { get; set; }
 
+        public IQuestionsRepository QuestionsRepository { get; set; }
+
         public IModulesRepository ModulesRepository { get; set; }
 		
 		public ILecturerRepository LecturerRepository { get; set; }
@@ -52,6 +54,7 @@ namespace LMPlatform.Data.Repositories
             StudentsRepository = new StudentsRepository(_dataContext);
             SubjectRepository = new SubjectRepository(_dataContext);
             TestsRepository = new TestsRepository(_dataContext);
+            QuestionsRepository = new QuestionsRepository(_dataContext);
             UsersRepository = new UsersRepository(_dataContext);
             ModulesRepository = new ModulesRepository(_dataContext);
 			LecturerRepository = new LecturerRepository(_dataContext);

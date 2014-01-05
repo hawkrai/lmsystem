@@ -46,6 +46,9 @@
     <Compile Include="BTS\BugSymptom.cs" />
     <Compile Include="Bug.cs" />
     <Compile Include="Group.cs" />
+    <Compile Include="KnowledgeTesting\Answer.cs" />
+    <Compile Include="KnowledgeTesting\Question.cs" />
+    <Compile Include="KnowledgeTesting\QuestionType.cs" />
     <Compile Include="KnowledgeTesting\Test.cs" />
     <Compile Include="Lecturer.cs" />
     <Compile Include="Membership.cs" />

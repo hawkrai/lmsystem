@@ -1,0 +1,12 @@
+﻿@model int
+<a href="#" class="editButton">
+    <span class="glyphicon glyphicon-pencil " data-model-id='@Model' />
+</a>
+-
+<a href="@Url.Action("Index", "Questions", new { testId = Model})" class="questionsButton">
+    <span class="glyphicon glyphicon-question-sign" data-model-id='@Model' />
+</a>
+-
+<a href="#" class="deleteButton">
+    <span class="glyphicon glyphicon-trash " data-model-id='@Model' />
+</a>

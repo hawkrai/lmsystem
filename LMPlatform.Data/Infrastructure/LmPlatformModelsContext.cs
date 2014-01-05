@@ -183,11 +183,22 @@ namespace LMPlatform.Data.Infrastructure
         private void MapKnowledgeTestingEntities(DbModelBuilder modelBuilder)
         {
             var testEntity = modelBuilder.Entity<Test>();
-            
             testEntity.Property(test => test.Title).IsRequired();
             testEntity.HasRequired(test => test.Subject)
                 .WithMany(subject => subject.SubjectTests)
                 .HasForeignKey(test => test.SubjectId);
+
+            var questionEntity = modelBuilder.Entity<Question>();
+            questionEntity.Property(question => question.Title).IsRequired();
+            questionEntity.HasRequired(question => question.Test)
+                .WithMany(test => test.Questions)
+                .HasForeignKey(question => question.TestId);
+
+            var answerEntity = modelBuilder.Entity<Answer>();
+            answerEntity.Property(answer => answer.Content).IsRequired();
+            answerEntity.HasRequired(answer => answer.Question)
+                .WithMany(question => question.Answers)
+                .HasForeignKey(answer => answer.QuestionId);
         }
 
         #endregion Protected Members

@@ -6,6 +6,13 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
 {
     public class TestItemListViewModel
     {
+        [DisplayName("")]
+        public HtmlString Action
+        {
+            get;
+            set;
+        }
+
         [DisplayName("Название")]
         public string Title
         {
@@ -17,13 +24,6 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
         public string Description
         {
             get;
-            set;
-        }
-
-        [DisplayName("")]
-        public HtmlString Action
-        {
-            get; 
             set;
         }
 

@@ -3,45 +3,45 @@ using Application.Core.Data;
 
 namespace LMPlatform.Models.KnowledgeTesting
 {
-    public class Test : ModelBase
+    public class Question : ModelBase
     {
+        public Test Test
+        {
+            get; 
+            set;
+        }
+
+        public int TestId
+        {
+            get; 
+            set;
+        }
+
         public string Title
         {
-            get;
+            get; 
             set;
         }
 
         public string Description
         {
-            get;
+            get; 
             set;
         }
 
-        public int TimeForCompleting
+        public int ComlexityLevel
         {
             get;
             set;
         }
 
-        public bool SetTimeForAllTest
+        public QuestionType QuestionType
         {
             get;
             set;
         }
 
-        public int SubjectId
-        {
-            get;
-            set;
-        }
-
-        public virtual Subject Subject
-        {
-            get;
-            set;
-        }
-
-        public ICollection<Question> Questions
+        public ICollection<Answer> Answers
         {
             get;
             set;

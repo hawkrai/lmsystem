@@ -1,26 +1,16 @@
 ﻿var questionsList = {
     init: function () {
-        $('#questionsList').on('dblclick', "tr", this._onRowDoubleClick);
         $('.questionTypeButton').on('click', $.proxy(this._onTypeButtonClicked, this));
         $('#addNewQuestionButton').on('click', $.proxy(this._addNewQuestionButtonClicked, this));
+        $('.editButton').on('click', 'span', $.proxy(this._onEditClicked, this));
+        $('.deleteButton').on('click', 'span', $.proxy(this._onDeleteClicked, this));
     },
     
     _onTypeButtonClicked: function(eventArgs) {
-        this._questionDetails = this._processQuestionTypeSelection(eventArgs.target.id);
         $('#quetionTypes').modal('hide');
-        this._questionDetails.draw();
+        questionDetails.draw(eventArgs.target.id);
     },
-    
-    _processQuestionTypeSelection: function(typeId) {
-        switch (typeId) {
-            case "oneCorrectAnswer":
-                return baseQuestionType;
-            
-        default:
-            return null;
-        }
-    },
-    
+   
     _addNewQuestionButtonClicked: function() {
         this._chooseQuestionType();
     },
@@ -28,14 +18,25 @@
     _chooseQuestionType: function () {
         $('#quetionTypes').modal();
     },
-
-    _onRowDoubleClick: function() {
-        var aData = datatable.fnGetData(datatable.fnGetPosition(this));
-        var itemId = aData[0];
+    
+    _onEditClicked: function (eventArgs) {
+        var itemId = eventArgs.target.dataset.modelId;
         questionDetails.showDialog(itemId);
+    },
+    
+    _onDeleteClicked: function (eventArgs) {
+        var context = {
+            itemId: eventArgs.target.dataset.modelId
+        };
+
+        bootbox.confirm('Вы действительно хотите удалить этот вопрос?', $.proxy(this._onDeleteConfirmed, context));
+    },
+    
+    _onDeleteConfirmed: function () {
+        questionDetails.deleteQuestion(this.itemId);
     }
 };
 
-$(document).ready(function () {
+function initQuestionsList() {
     questionsList.init();
-});
+};

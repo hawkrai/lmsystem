@@ -160,8 +160,8 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\QuestionsManagementController.cs" />
-    <Compile Include="Controllers\TestsManagementController.cs" />
+    <Compile Include="Controllers\QuestionsController.cs" />
+    <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Global.asax.cs">
@@ -174,6 +174,7 @@
     <Compile Include="ViewModels\AdministrationViewModels\LecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ModifyLecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\KnowledgeTestingViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugListViewModel.cs" />
@@ -360,7 +361,7 @@
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
     <Content Include="Scripts\application\KnowledgeTesting\QuestionsListScript.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\BaseQuestionTypeScript.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\QuestionDetailsScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestDetailsScript.js" />
     <Content Include="Scripts\application\masterPageManagement.js" />
     <Content Include="Scripts\application\shared.js" />
@@ -519,7 +520,7 @@
     <Content Include="Views\BTS\Projects.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\BugManagement.cshtml" />
-    <Content Include="Views\TestsManagement\Index.cshtml" />
+    <Content Include="Views\Tests\Index.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Shared\Layouts\_AdministrationLayout.cshtml" />
@@ -527,14 +528,14 @@
     <Content Include="Views\Administration\Students.cshtml" />
     <Content Include="Views\Administration\Professors.cshtml" />
     <Content Include="Views\Administration\Files.cshtml" />
-    <Content Include="Views\TestsManagement\TestDetails.cshtml" />
+    <Content Include="Views\Tests\TestDetails.cshtml" />
     <Content Include="Views\Administration\Groups.cshtml" />
-    <Content Include="Views\QuestionsManagement\Index.cshtml" />
-    <Content Include="Views\QuestionsManagement\_QuestionTypes.cshtml" />
+    <Content Include="Views\Questions\Index.cshtml" />
+    <Content Include="Views\Questions\_QuestionTypes.cshtml" />
     <Content Include="Views\Shared\_BootBoxTemplate.cshtml" />
-    <Content Include="Views\QuestionsManagement\_QuestionDetails.cshtml" />
+    <Content Include="Views\Questions\_QuestionDetails.cshtml" />
     <Content Include="Views\BTS\_BTSSubnavbar.cshtml" />
-    <Content Include="Views\QuestionsManagement\_AnswerTemplates.cshtml" />
+    <Content Include="Views\Questions\_AnswerTemplates.cshtml" />
     <Content Include="Views\Subject\Management.cshtml" />
     <Content Include="Views\Shared\Lms\_LmsNaBar.cshtml" />
     <Content Include="Views\Administration\EditStudent.cshtml" />
@@ -554,7 +555,8 @@
     <Content Include="Views\Administration\AddGroup.cshtml" />
     <Content Include="Views\Administration\_AddGroupView.cshtml" />
     <Content Include="Views\Subject\SubjectsForTests.cshtml" />
-    <Content Include="Views\TestsManagement\_TestsGridActions.cshtml" />
+    <Content Include="Views\Tests\_TestsGridActions.cshtml" />
+    <Content Include="Views\Questions\_QuestionsGridActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

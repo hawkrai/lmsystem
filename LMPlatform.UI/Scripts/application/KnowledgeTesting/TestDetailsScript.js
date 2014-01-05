@@ -3,7 +3,7 @@
         $('#saveButton').bind('click', $.proxy(this._onSaveButtonClicked, this));
     },
 
-    _webServiceUrl: '/TestsManagement/',
+    _webServiceUrl: '/Tests/',
     _saveMethodName: 'SaveTest',
     _getMethodName: 'GetTest',
     _deleteMethodName: 'DeleteTest',

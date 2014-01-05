@@ -20,10 +20,9 @@
 
 @section navleft
 {
-    <li><a href="@Url.Action("TestsList", "TestsManagement")" class="linkNavbar"><i class="fa fa-pencil-square-o fa-1x"></i>&nbsp; Тесты</a></li>
-    <li><a href="@Url.Action("TestResults", "TestsManagement")" class="linkNavbar"><i class="fa fa-tasks fa-1x"></i>&nbsp; Результаты</a></li>
+    <li><a href="@Url.Action("TestsList", "Tests")" class="linkNavbar"><i class="fa fa-pencil-square-o fa-1x"></i>&nbsp; Тесты</a></li>
+    <li><a href="@Url.Action("TestResults", "Tests")" class="linkNavbar"><i class="fa fa-tasks fa-1x"></i>&nbsp; Результаты</a></li>
 }
-
 
 <div style="margin: 20px">
     <a href="#" id="addNewTestButton">
@@ -33,7 +32,7 @@
     <div>
         @Html.Partial("_DataTable", new DataTableViewModel
         {
-            DataTable = Html.DataTable("testsList", (TestsManagementController controller) => controller.GetTestsList(null)),
+            DataTable = Html.DataTable("testsList", (TestsController controller) => controller.GetTestsList(null)),
             DataTableOptions = new DataTableOptions
             {
                 Filterable = true,
