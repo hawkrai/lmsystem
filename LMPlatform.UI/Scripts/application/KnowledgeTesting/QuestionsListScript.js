@@ -9,6 +9,15 @@
     _onTypeButtonClicked: function(eventArgs) {
         $('#quetionTypes').modal('hide');
         questionDetails.draw(eventArgs.target.id);
+        this._initEditor();
+    },
+    
+    _initEditor: function() {
+        CKEDITOR.inline('taskArea', {
+            extraPlugins: 'mathedit',
+            disableObjectResizing: true,
+            skin: 'moono'
+        });
     },
    
     _addNewQuestionButtonClicked: function() {

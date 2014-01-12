@@ -7,9 +7,11 @@
 
 @section scripts
 {
-    @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles")
+    @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles", "~/bundles/knockoutBundles",
+    "~/Scripts/ckeditor/mathquill.js", "~/Scripts/ckeditor/ckeditor.js")
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/QuestionsListScript.js",
                 "~/Scripts/application/KnowledgeTesting/QuestionDetailsScript.js")
+    @Styles.Render("~/Scripts/ckeditor/mathquill.css")
 }
 
 @section navleft
@@ -22,10 +24,13 @@
     @string.Format("{0}: Вопросы", ViewBag.TestName)
 }
 
+
+
 <div style="margin: 20px">
     <a href="#" id="addNewQuestionButton">
         <span class="glyphicon glyphicon-plus"></span>Добавить вопрос
     </a>
+   
 
     <div>
         @Html.Partial("_DataTable", new DataTableViewModel
