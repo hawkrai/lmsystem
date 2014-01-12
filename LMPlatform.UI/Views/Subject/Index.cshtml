@@ -11,24 +11,14 @@
 
 @section navleft
 {
-    @*@Url.Action("GetModuleData","Subject", new {subjectId = Model.SubjectId, moduleId = module.ModuleId})*@
     @foreach (var module in Model.Modules)
     {
-        <li class="navLink"><a class="moduleLinks" href="#">@module.Name</a></li>    
+        <li class="navLink">
+            <a class="moduleLinks" href="@Url.Action("GetModuleData","Subject", new {subjectId = Model.SubjectId, moduleId = module.ModuleId})">@module.Name</a>
+        </li>    
     }
-    <li><a href="@Url.Action("Subjects","Subject")">Сменить предмет</a></li>
-    <li><a href="@Url.Action("Index","Lms")">Система управления учебным процессом</a></li>
-
-@*        <li><a href="#">Новости</a></li>
-        <li><a href="#">Лекции</a></li>
-        <li><a href="#">Лабораторные работы</a></li>
-        <li><a href="#">График защиты</a></li>
-        <li><a href="#">Статистика посещения</a></li>
-        <li><a href="#">Результаты</a></li>
-        <li><a href="#">Файлы</a></li>
-        <li><a href="#">Архив</a></li>
-        <li><a href="#">Проекты</a></li>
-        <li><a href="#">Назначение проектов</a></li>*@
+    <li><a href="@Url.Action("Subjects","Subject")"><i class="fa fa-reply fa-1x"></i> Сменить предмет</a></li>
+    <li><a href="@Url.Action("Index","Lms")"><i class="fa fa-arrow-left fa-1x"></i> Система управления учебным процессом</a></li>
 }
 
 @section navpanel

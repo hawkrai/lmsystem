@@ -41,5 +41,11 @@ namespace LMPlatform.Models
             get;
             set;
         }
+
+        public ICollection<SubjectNews> SubjectNewses
+        {
+            get;
+            set;
+        }
     }
 }

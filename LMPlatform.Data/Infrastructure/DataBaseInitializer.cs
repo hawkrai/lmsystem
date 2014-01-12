@@ -22,16 +22,15 @@ namespace LMPlatform.Data.Infrastructure
 
 	    private static void CreateModules(LmPlatformModelsContext context)
 	    {
-	        context.Modules.Add(new Module { DisplayName = "Новости", Name = "News" });
-            context.Modules.Add(new Module { DisplayName = "Лекции", Name = "Lectures" });
-            context.Modules.Add(new Module { DisplayName = "Лабораторные работы", Name = "Labs" });
-            context.Modules.Add(new Module { DisplayName = "Курсовые проекты/работы", Name = "YEManagment" });
-            context.Modules.Add(new Module { DisplayName = "Сообщения", Name = "Messages" });
-            context.Modules.Add(new Module { DisplayName = "Файлы", Name = "SubjectAttachments" });
-            context.Modules.Add(new Module { DisplayName = "Архив", Name = "LabAttachments" });
-            context.Modules.Add(new Module { DisplayName = "Проекты", Name = "Projects" });
-            context.Modules.Add(new Module { DisplayName = "Тестирование знаний", Name = "SmartTest" });
-            context.Modules.Add(new Module { DisplayName = "Методические материалы", Name = "DSM" });
+	        context.Modules.Add(new Module { DisplayName = "Новости", Name = "News", ModuleType = ModuleType.News });
+            context.Modules.Add(new Module { DisplayName = "Лекции", Name = "Lectures", ModuleType = ModuleType.Lectures });
+            context.Modules.Add(new Module { DisplayName = "Лабораторные работы", Name = "Labs", ModuleType = ModuleType.Labs });
+            context.Modules.Add(new Module { DisplayName = "Курсовые проекты/работы", Name = "YEManagment", ModuleType = ModuleType.YeManagment });
+            context.Modules.Add(new Module { DisplayName = "Файлы", Name = "SubjectAttachments", ModuleType = ModuleType.SubjectAttachments });
+            context.Modules.Add(new Module { DisplayName = "Архив", Name = "LabAttachments", ModuleType = ModuleType.LabAttachments });
+            context.Modules.Add(new Module { DisplayName = "Проекты", Name = "Projects", ModuleType = ModuleType.Projects });
+            context.Modules.Add(new Module { DisplayName = "Тестирование знаний", Name = "SmartTest", ModuleType = ModuleType.SmartTest });
+            context.Modules.Add(new Module { DisplayName = "Методические материалы", Name = "DSM", ModuleType = ModuleType.Dsm });
 	    }
 
 	    private static void CreateBugSymptoms(LmPlatformModelsContext context)
@@ -109,9 +108,8 @@ namespace LMPlatform.Data.Infrastructure
 		{
 			if (!context.Database.Exists())
 			{
-				((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
-
-				FillInitData(context);
+				//((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+                FillInitData(context);
 
 				return true;
 			}

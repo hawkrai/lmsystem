@@ -19,7 +19,6 @@ namespace LMPlatform.UI
         protected void Application_Start()
         {
             SimpleMembershipInitializer.Initialize();
-
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);

@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Threading;
 using System.Web.Security;
 using LMPlatform.Data.Infrastructure;
+using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 using WebMatrix.WebData;
 
@@ -21,7 +22,7 @@ namespace Application.Infrastructure.AccountManagement
 
         public SimpleMembershipInitializer()
         {
-            Database.SetInitializer<LmPlatformModelsContext>(null);
+            Database.SetInitializer<LmPlatformModelsContext>(new ProjectInitializer());
 
             try
             {

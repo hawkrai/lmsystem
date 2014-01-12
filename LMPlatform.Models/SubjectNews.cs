@@ -1,31 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System.Web.UI.WebControls;
 using Application.Core.Data;
 
 namespace LMPlatform.Models
 {
-    public class Module : ModelBase
+    public class SubjectNews : ModelBase
     {
-        public string Name
-        {
-            get; 
-            set;
-        }
-
-        public string DisplayName
-        {
-            get; 
-            set;
-        }
-
-        public ModuleType ModuleType
+        public string Title
         {
             get;
             set;
         }
 
-        public ICollection<SubjectModule> SubjectModules
+        public string Body
         {
             get; 
+            set;
+        }
+
+        public int SubjectId
+        {
+            get;
+            set;
+        }
+
+        public Subject Subject
+        {
+            get;
             set;
         }
     }

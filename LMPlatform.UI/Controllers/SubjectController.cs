@@ -68,7 +68,7 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetModuleData(int subjecyId, int moduleId)
+        public ActionResult GetModuleData(int subjectId, int moduleId)
         {
             return null;
         }
