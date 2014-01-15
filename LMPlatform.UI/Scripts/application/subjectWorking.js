@@ -8,7 +8,11 @@
         $('.moduleLinks').handle("click", function () {
             var that = this;
             $('.conteinerModule').spin('large');
-            
+            $.post($(that).attr("href"), null, function (data) {
+                $('.conteinerModule').empty();
+                $('.conteinerModule').append(data);
+            });
+
         });
         
         $('.navLink').handle("click", function () {

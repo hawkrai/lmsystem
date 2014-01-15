@@ -70,7 +70,8 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public ActionResult GetModuleData(int subjectId, int moduleId)
         {
-            return null;
+            var model = new ModulesDataWorkingViewModel(subjectId, moduleId);
+            return PartialView("Subjects/_ModuleTemplate", model);
         }
 
         [HttpPost]

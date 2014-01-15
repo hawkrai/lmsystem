@@ -8,9 +8,7 @@
     initButtonAction: function () {
         $('.addSubject').handle("click", function () {
             $.savingDialog("Создание предмета", "/subject/create", null, "primary", function (data) {
-                //$("#tableFeeds").empty();
-                //$("#tableFeeds").append(data.partial);
-                //newsFeedsManagement.newsFeedActionHandler();
+                datatable.fnDraw();
             });
             return false;
         });
@@ -20,10 +18,7 @@
         $('.editSubjectAction').handle("click", function () {
             var that = this;
             $.savingDialog("Редактирование предмета", $(that).attr('href'), null, "primary", function (data) {
-                //$("#tableFeeds").empty();
-                //$("#tableFeeds").append(data.partial);
-                //newsFeedsManagement.newsFeedActionHandler();
-                
+                datatable.fnDraw();
             });
             return false;
         });

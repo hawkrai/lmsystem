@@ -7,7 +7,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         public ModulesViewModel(Module module, bool check = false)
         {
             Name = module.DisplayName;
-            ModuleId = module.Id;
+            ModuleId = (int)module.ModuleType;
             Checked = check;
         }
 

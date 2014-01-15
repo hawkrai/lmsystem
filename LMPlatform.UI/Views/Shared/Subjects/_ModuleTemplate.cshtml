@@ -1,0 +1,8 @@
+﻿@using LMPlatform.Models
+@using LMPlatform.UI.ViewModels.SubjectModulesViewModel
+@model LMPlatform.UI.ViewModels.SubjectViewModels.ModulesDataWorkingViewModel
+
+@if (Model.Module.ModuleType == ModuleType.News)
+{
+    @Html.Partial("Subjects/Modules/_NewsModule", (ModulesNewsViewModel) Model.DataModel)
+}

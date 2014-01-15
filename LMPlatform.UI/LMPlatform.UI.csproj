@@ -185,6 +185,10 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
+    <Compile Include="ViewModels\SubjectModulesViewModel\ModulesNewsViewModel.cs" />
+    <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\NewsDataViewModel.cs" />
+    <Compile Include="ViewModels\SubjectViewModels\ModulesDataWorkingViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectEditViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectListViewModel.cs" />
@@ -726,6 +730,8 @@
     <Content Include="Views\Subject\SubjectsForTests.cshtml" />
     <Content Include="Views\Tests\_TestsGridActions.cshtml" />
     <Content Include="Views\Questions\_QuestionsGridActions.cshtml" />
+    <Content Include="Views\Shared\Subjects\_ModuleTemplate.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\_NewsModule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

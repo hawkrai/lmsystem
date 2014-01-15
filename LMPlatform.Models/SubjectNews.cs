@@ -1,4 +1,5 @@
-﻿using System.Web.UI.WebControls;
+﻿using System;
+using System.Web.UI.WebControls;
 using Application.Core.Data;
 
 namespace LMPlatform.Models
@@ -14,6 +15,12 @@ namespace LMPlatform.Models
         public string Body
         {
             get; 
+            set;
+        }
+
+        public DateTime EditDate
+        {
+            get;
             set;
         }
 

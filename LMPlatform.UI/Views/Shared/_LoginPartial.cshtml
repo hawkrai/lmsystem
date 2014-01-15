@@ -4,7 +4,8 @@
     <ul class="dropdown-menu">
         @if (!User.IsInRole("admin"))
         {
-            <li><a href="@Url.Action("Management", "Account")"><i class="fa fa-cogs"></i> Личный кабинет</a></li>    
+            <li><a href="@Url.Action("Management", "Account")"><i class="fa fa-cogs"></i> Личный кабинет</a></li>
+            <li><a href="javascript:bootbox.alert('Я пока что не работаю!')"><i class="fa fa-cogs"></i> Написать администратору</a></li>     
         }
         <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-power-off"></i> Выйти</a></li>
     </ul>

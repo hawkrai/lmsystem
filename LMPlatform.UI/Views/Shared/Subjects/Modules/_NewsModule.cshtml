@@ -1,0 +1,55 @@
+﻿@model LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesNewsViewModel
+
+<div>
+    @if (User.IsInRole("lector"))
+    {
+        <div id="navPanel">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div id="buttonActionSection">
+                                <a id="addButton" style="margin-right: 10px" href="#"><i class="fa fa-plus fa-2x"></i></a>
+                                <a id="editButton" style="margin-right: 10px" href="#"><i class="fa fa-edit fa-2x"></i></a>
+                                <a id="deleteButton" href="#"><i class="fa fa-trash-o fa-2x"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="page-header" style="margin-top: 5px"></div>    
+    }
+
+    <div id="news">
+        @if (!Model.News.Any())
+        {
+            <p>Новости отсутствуют</p>
+        }
+
+        <div class="panel-group" id="accordion">
+            @{
+                var href = 0;
+            }
+            @foreach (var news in Model.News)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#link_@href" class="collapsed" style="float: left">@news.Title</a>
+                            <p style="text-align: right">@news.DateCreate</p>
+                            <div class="clear-fix"></div>
+                        </h4>
+                    </div>
+                    <div id="link_@href" class="panel-collapse collapse" style="height: 0px;">
+                        <div class="panel-body">
+                            @news.Body
+                        </div>
+                    </div>
+                </div>
+                href++;
+            }    
+        </div>
+    </div>
+
+</div>
