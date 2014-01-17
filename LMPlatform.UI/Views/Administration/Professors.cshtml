@@ -7,12 +7,16 @@
     ViewBag.Title = "Преподаватели";
     Layout = "~/Views/Shared/Layouts/_AdministrationLayout.cshtml";
 }
+<div class="page-header">
+    <h2>Преподаватели</h2>
+</div>
 
-<h2>Преподаватели</h2>
-
-<div>
-     <div id="buttonActionSection">
-        <a href="@Url.Action("AddProfessor", "Administration")" class="addButton" data-toggle="tooltip"><span class="glyphicon glyphicon-plus" ></span></a>
+<div id='professors' style="float: left; width: 800px; margin: 0 50px 0 0">
+    <div style="margin-bottom: 20px">
+        <h4>Список</h4>
+    </div>
+    <div id="buttonActionSection">
+        <a href="@Url.Action("AddProfessor", "Administration")" class="addButton btn btn-primary btn-sm" data-toggle="tooltip">Добавить преподавателя</a>
     </div>
     <div>@Html.Partial("_DataTable", new DataTableViewModel
              {
@@ -30,3 +34,49 @@
     </div>
 </div>
 
+<div style="float: left; width: 350px">
+    <div style="overflow-x: hidden;">
+        <div class="panel-heading">
+            <h4>Сообщения</h4>
+        </div>
+        <div class="alert alert-info">
+            <strong>доцент Иванов</strong>
+            <div style="margin: 5px">Привет, админ:)</div>
+            <sub style="float: right">12.12.2013 16:25</sub>
+        </div>
+        <div class="alert alert-info">
+            <strong>доцент Иванов</strong>
+            <div style="margin: 5px">Привет, админ:)</div>
+            <sub style="float: right">12.12.2013 16:25</sub>
+        </div>
+        <div class="alert alert-info">
+            <strong>доцент Иванов</strong>
+            <div style="margin: 5px">Привет, админ:)</div>
+            <sub style="float: right">12.12.2013 16:25</sub>
+        </div>
+    </div>
+
+    <div style="overflow-x: hidden">
+        <div class="panel-heading">
+            <h4>Последние действия</h4>
+        </div>
+        <div class="alert alert-info">
+            <sup>12.12.2013 16:25</sup>
+            <strong>Добавление</strong>
+            <div style="margin: 5px">Добавлен преподаватель - Иванов И.И.</div>
+            <sub style="float: right">Администратор</sub>
+        </div>
+        <div class="alert alert-info">
+            <sup>12.12.2013 16:25</sup>
+            <strong>Добавление</strong>
+            <div style="margin: 5px">Добавлен преподаватель - Иванов И.И.</div>
+            <sub style="float: right">Администратор</sub>
+        </div>
+        <div class="alert alert-info">
+            <sup>12.12.2013 16:25</sup>
+            <strong>Редактирование</strong>
+            <div style="margin: 5px">Сброс пароля - Иванов И.И.</div>
+            <sub style="float: right">Администратор</sub>
+        </div>
+    </div>
+</div>

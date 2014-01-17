@@ -8,9 +8,14 @@
     Layout = "~/Views/Shared/Layouts/_AdministrationLayout.cshtml";
 }
 
-<h2>Студенты</h2>
+<div class="page-header">
+    <h2>Студенты</h2>
+</div>
 
-<div>
+<div style="float: left; width: 800px; margin: 0 50px 0 0">
+    <div style="margin-bottom: 20px">
+        <h4>Список</h4>
+    </div>
     <div>@Html.Partial("_DataTable", new DataTableViewModel
              {
                  DataTable = Html.DataTable("studentList", (AdministrationController controller) => controller.GetCollectionStudents(new DataTablesParam() { })),
@@ -24,5 +29,52 @@
                          OnComplete = "initStudentManagement"
                      }
              })
+    </div>
+</div>
+
+<div style="float: left; width: 350px">
+    <div style="overflow-x: hidden;">
+        <div class="panel-heading">
+            <h4>Сообщения</h4>
+        </div>
+        <div class="alert alert-info">
+            <strong>студент Иванов</strong>
+            <div style="margin: 5px">Привет, админ:)</div>
+            <sub style="float: right">12.12.2013 16:25</sub>
+        </div>
+        <div class="alert alert-info">
+            <strong>студент Иванов</strong>
+            <div style="margin: 5px">Привет, админ:)</div>
+            <sub style="float: right">12.12.2013 16:25</sub>
+        </div>
+        <div class="alert alert-info">
+            <strong>студент Иванов</strong>
+            <div style="margin: 5px">Привет, админ:)</div>
+            <sub style="float: right">12.12.2013 16:25</sub>
+        </div>
+    </div>
+
+    <div style="overflow-x: hidden">
+        <div class="panel-heading">
+            <h4>Последние действия</h4>
+        </div>
+        <div class="alert alert-info">
+            <sup>12.12.2013 16:25</sup>
+            <strong>Добавление</strong>
+            <div style="margin: 5px">Добавлен студент - Иванов И.И.</div>
+            <sub style="float: right">Администратор</sub>
+        </div>
+        <div class="alert alert-info">
+            <sup>12.12.2013 16:25</sup>
+            <strong>Добавление</strong>
+            <div style="margin: 5px">Добавлен студент - Иванов И.И.</div>
+            <sub style="float: right">Администратор</sub>
+        </div>
+        <div class="alert alert-info">
+            <sup>12.12.2013 16:25</sup>
+            <strong>Редактирование</strong>
+            <div style="margin: 5px">Сброс пароля - Иванов И.И.</div>
+            <sub style="float: right">Администратор</sub>
+        </div>
     </div>
 </div>
