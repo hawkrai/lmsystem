@@ -1,4 +1,6 @@
-﻿@model LMPlatform.UI.ViewModels.LmsViewModels.LmsViewModel
+﻿@using System.Collections.ObjectModel
+@using LMPlatform.Models
+@model LMPlatform.UI.ViewModels.LmsViewModels.LmsViewModel
 
 @{
     ViewBag.Title = "Система управления учебны процессом";
@@ -48,7 +50,7 @@
 }
 
 <div style="margin: 10px">
-    @if (User.IsInRole("lector"))
+   @* @if (User.IsInRole("lector"))
     {
        
         <div class="page-header">
@@ -128,8 +130,10 @@
             </div>
         </div>
         
-    }
+    }*@
     <div class="clear-fix"></div>
-
+    <div>
+        @Html.Partial("Common/_FilesUploader", new List<Attachment>())
+    </div>
 
 </div>

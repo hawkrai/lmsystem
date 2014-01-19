@@ -77,6 +77,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.0\lib\net40\System.Web.Optimization.dll</HintPath>
@@ -149,6 +153,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\UploadController.cs" />
     <Compile Include="App_Start\BootstrapBundleConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -294,6 +299,36 @@
     <Content Include="Content\images\star_blue.png" />
     <Content Include="Content\images\star_white.png" />
     <Content Include="Content\images\trash_blue.png" />
+    <Content Include="Content\mvcfileupload\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="Content\mvcfileupload\css\jquery.fileupload-ui.css" />
+    <Content Include="Content\mvcfileupload\css\style.css" />
+    <Content Include="Content\mvcfileupload\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\mvcfileupload\images\glyphicons-halflings.png" />
+    <Content Include="Content\mvcfileupload\images\loading.gif" />
+    <Content Include="Content\mvcfileupload\images\progressbar.gif" />
+    <Content Include="Content\mvcfileupload\img\generalAudio.png" />
+    <Content Include="Content\mvcfileupload\img\generalFile.png" />
+    <Content Include="Content\mvcfileupload\img\generalVideo.png" />
+    <Content Include="Content\mvcfileupload\img\loading.gif" />
+    <Content Include="Content\mvcfileupload\img\progressbar.gif" />
+    <Content Include="Content\mvcfileupload\jquery.fileupload-bui.css" />
+    <Content Include="Content\mvcfileupload\jquery.fileupload-jui.css" />
+    <Content Include="Content\mvcfileupload\vendor\bootstrap.min.css" />
+    <Content Include="Content\mvcfileupload\vendor\images\animated-overlay.gif" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\mvcfileupload\vendor\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\mvcfileupload\vendor\jquery-ui.min.css" />
     <Content Include="Content\popup.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -363,6 +398,7 @@
     <Content Include="Scripts\application\Administration\PopupScript.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
+    <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
     <Content Include="Scripts\application\KnowledgeTesting\QuestionsListScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\QuestionDetailsScript.js" />
@@ -662,6 +698,18 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\mvcfileupload\canvas-to-blob.js" />
+    <Content Include="Scripts\mvcfileupload\cors\jquery.postmessage-transport.js" />
+    <Content Include="Scripts\mvcfileupload\cors\jquery.xdr-transport.js" />
+    <Content Include="Scripts\mvcfileupload\jquery.fileupload-fp.js" />
+    <Content Include="Scripts\mvcfileupload\jquery.fileupload-jui.js" />
+    <Content Include="Scripts\mvcfileupload\jquery.fileupload-ui.js" />
+    <Content Include="Scripts\mvcfileupload\jquery.fileupload.js" />
+    <Content Include="Scripts\mvcfileupload\jquery.iframe-transport.js" />
+    <Content Include="Scripts\mvcfileupload\load-image.js" />
+    <Content Include="Scripts\mvcfileupload\main.js" />
+    <Content Include="Scripts\mvcfileupload\tmpl.js" />
+    <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Unity.Mvc4.README.txt" />
@@ -731,7 +779,9 @@
     <Content Include="Views\Tests\_TestsGridActions.cshtml" />
     <Content Include="Views\Questions\_QuestionsGridActions.cshtml" />
     <Content Include="Views\Shared\Subjects\_ModuleTemplate.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\_NewsModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\News\_NewsModule.cshtml" />
+    <Content Include="Views\Shared\Common\_FilesUploader.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\News\_EditNews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -7,6 +7,7 @@ using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.BTSViewModels;
+using LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel;
 using LMPlatform.UI.ViewModels.SubjectViewModels;
 using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
@@ -50,6 +51,27 @@ namespace LMPlatform.UI.Controllers
         public ActionResult SaveSubject(SubjectEditViewModel model)
         {
             model.Save(WebSecurity.CurrentUserId);
+            return null;
+        }
+
+        public ActionResult CreateNews(int subjectid)
+        {
+            var model = new NewsDataViewModel(0, subjectid);
+
+            return PartialView("Subjects/Modules/News/_EditNews", model);
+        }
+
+        public ActionResult EditNews(int id, int subjectId)
+        {
+            var model = new NewsDataViewModel(id, subjectId);
+
+            return PartialView("Subjects/Modules/News/_EditNews", model);
+        }
+
+        [HttpPost]
+        public ActionResult SaveNews(NewsDataViewModel model)
+        {
+            model.Save();
             return null;
         }
 

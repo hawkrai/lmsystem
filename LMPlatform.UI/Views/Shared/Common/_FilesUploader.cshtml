@@ -1,0 +1,110 @@
+﻿@model List<LMPlatform.Models.Attachment>
+
+<script type="text/javascript">
+    
+    var array = @Html.Raw(Json.Encode(Model.Select(e => e.Name + "/" + e.Id + "/" + e.AttachmentType + "/" + e.FileName)));
+    var stringArray = new Array();
+    
+    for (var i = 0; i < array.length; i++) {
+        stringArray[i] = array[i].toString;
+    }
+
+    var jString = JSON.stringify(array);
+    window.postData = { values: jString,  deleteValues:"DELETE"};
+    
+</script>
+
+<div id="fileupload">
+    <div style="display: table">
+        <div>
+            <span class="btn btn-success btn-sm fileinput-button">
+                <i class="icon-plus icon-white"></i>
+                <span>Добавить файл</span>
+                <input type="file" name="files[]" multiple="" class="upload" accept="audio/*,video/*,image/*,text/*,application/pdf">
+            </span>
+        </div>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped">
+            <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+        </table>
+    </div>
+</div>
+<div class="progress progress-success progress-striped active fade">
+    <div class="bar" style="width: 0%;"></div>
+</div>
+<div class="fileupload-loading">Загрузка..</div>
+
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td class="preview"><span class="fade"></span></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="type"><span>{%=file.type%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>        
+        {% if (file.error) { %}
+            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+        {% } else if (o.files.valid && !i) { %}
+            <td>
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+            </td>
+            <td>{% if (!o.options.autoUpload) { %}
+                <button class="btn btn-primary btn-sm start">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Загрузить</span>
+                </button>
+            {% } %}</td>
+        {% } else { %}
+            <td colspan="2"></td>
+        {% } %}
+        <td>{% if (!i) { %}
+            <button class="btn btn-warning  btn-sm cancel">
+                <i class="icon-ban-circle icon-white"></i>
+                <span>Отменить загрузку</span>
+            </button>
+        {% } %}</td>
+    </tr>
+{% } %}
+</script>
+
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}    
+        <tr class="template-download fade" id="{%=file.IdFile%}">
+        {% if (file.Error) { %}
+            <td></td>
+            <td class="name"><span>{%=file.Name%}</span></td>
+            <td class="size"><span>{%=o.formatFileSize(file.Size)%}</span></td>            
+            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.Error%}</td>
+        {% } else { %}
+            <td class="preview">{% if (file.ThumbnailUrl) { %}
+                <a href="{%=file.Url%}" title="{%=file.Name%}" data-gallery="gallery" download="{%=file.Name%}"><img src="{%=file.ThumbnailUrl%}"></a>
+            {% } %}</td>
+            <td class="name">
+                <a href="{%=file.Url%}" title="{%=file.Name%}" data-gallery="{%=file.ThumbnailUrl&&'gallery'%}" download="{%=file.Name%}">{%=file.Name%}</a>
+            </td>
+            <td class="guid" style="display:none"><span>{%=file.GuidFileName%}</span></td>
+            <td class="type"><span>{%=file.Type%}</span></td>
+            <td class="size"><span>{%=o.formatFileSize(file.Size)%}</span></td>
+            <td class="type_data">
+                {% if (file.IdFile == -1) { %}
+                    <span style="color:red">Загруженный файл</span>
+                {% } else { %}
+                    <span style="color:#0072e6">Прикрепленный файл</span>
+                {% } %}</td>
+            <td colspan="2"></td>
+        {% } %}
+        <td style="text-align:right;">
+            <button class="btn btn-danger  btn-sm delete" data-type="{%=file.DeleteType%}" data-url="{%=file.DeleteUrl%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                <i class="icon-trash icon-white"></i>
+                <span>Удалить</span>
+            </button>
+        </td>
+    </tr>
+{% } %}
+
+</script>
+
+<script type="text/javascript" src="/Scripts/mvcfileupload/tmpl.js"></script>
+
+@Scripts.Render( "~/bundles/fileupload" )
+@Styles.Render( "~/fileuploader/css" )

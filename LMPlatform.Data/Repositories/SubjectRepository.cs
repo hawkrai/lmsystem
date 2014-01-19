@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Infrastructure;
@@ -31,6 +32,16 @@ namespace LMPlatform.Data.Repositories
                     return subjectLecturer.Select(e => e.Subject).ToList();
                 }
             } 
+        }
+
+        public SubjectNews SaveNews(SubjectNews news)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                context.Update(news);
+            }
+
+            return news;
         }
 
         protected override void PerformAdd(Subject model, LmPlatformModelsContext dataContext)

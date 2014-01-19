@@ -11,6 +11,7 @@
             $.post($(that).attr("href"), null, function (data) {
                 $('.conteinerModule').empty();
                 $('.conteinerModule').append(data);
+                subjectWorking.updateHandlerActions();
             });
 
         });
@@ -22,6 +23,16 @@
                 $(this).removeClass("active");
             });
             $(that).addClass("active");
+            return false;
+        });
+    },
+    
+    updateHandlerActions: function() {
+        $('#addNewsButton').handle("click", function () {
+            var that = this;
+            $.savingDialog("Создание новости", $(that).attr("href"), null, "primary", function (data) {
+                
+            });
             return false;
         });
     }

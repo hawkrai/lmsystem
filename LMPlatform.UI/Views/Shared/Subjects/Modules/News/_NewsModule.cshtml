@@ -9,9 +9,9 @@
                     <tr>
                         <td>
                             <div id="buttonActionSection">
-                                <a id="addButton" style="margin-right: 10px" href="#"><i class="fa fa-plus fa-2x"></i></a>
-                                <a id="editButton" style="margin-right: 10px" href="#"><i class="fa fa-edit fa-2x"></i></a>
-                                <a id="deleteButton" href="#"><i class="fa fa-trash-o fa-2x"></i></a>
+                                <a id="addNewsButton" style="margin-right: 10px" href="@Url.Action("CreateNews","Subject", new {subjectId = Model.SubjectId})"><i class="fa fa-plus fa-2x"></i></a>
+                                <a id="editNewsButton" style="margin-right: 10px" href="@Url.Action("EditNews","Subject")"><i class="fa fa-edit fa-2x"></i></a>
+                                <a id="deleteNewsButton" href="#"><i class="fa fa-trash-o fa-2x"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -37,9 +37,9 @@
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#link_@href" class="collapsed" style="float: left">@news.Title</a>
-                            <p style="text-align: right">@news.DateCreate</p>
-                            <div class="clear-fix"></div>
                         </h4>
+                        <p style="text-align: right">@news.DateCreate</p>
+                        <div class="clear-fix"></div>
                     </div>
                     <div id="link_@href" class="panel-collapse collapse" style="height: 0px;">
                         <div class="panel-body">

@@ -194,11 +194,29 @@ margin: 30px auto;
     .fa-1x {
         font-size: 1.5em;
     }
+
+
+    fileUpload {
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+}
+.fileUpload input.upload {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
 /* main layout
 ----------------------------------------------------------*/
 .content-wrapper {
-    background: white;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.08);
+    font-size: 86%;
 }
 
 .content-wrapper-fix {

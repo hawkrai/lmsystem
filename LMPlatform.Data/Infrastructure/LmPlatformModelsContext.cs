@@ -90,6 +90,12 @@ namespace LMPlatform.Data.Infrastructure
         {
             get; 
             set;
+        }
+
+        public DbSet<Attachment> Attachments
+        {
+            get;
+            set;
         } 
 
         #endregion DataContext Members
@@ -119,6 +125,7 @@ namespace LMPlatform.Data.Infrastructure
             modelBuilder.Entity<SubjectGroup>().Map(m => m.ToTable("SubjectGroups"));
             modelBuilder.Entity<SubjectModule>().Map(m => m.ToTable("SubjectModules"));
             modelBuilder.Entity<SubjectNews>().Map(m => m.ToTable("SubjectNewses"));
+            modelBuilder.Entity<Attachment>().Map(m => m.ToTable("Attachments"));
 
             modelBuilder.Entity<Membership>()
               .HasMany<Role>(r => r.Roles)

@@ -53,11 +53,11 @@
 	    $(dialogContainer).html(bootstrapDialogMarkup);
 	    
 		$("#" + dialogId + " .modal-body").load(url, data, function () {
-			var form = $($.elementId(dialogId) + " .modal-body").find("form");
+			var form = $($.elementId(dialogId) + " .modal-body").find("form")[0];
 
 			$.validator.unobtrusive.parse(form);
 			
-			$(document).on("click","#saveButton", function () {
+			$("#saveButton").handle("click", function () {
 				if ($(form).valid()) {
 					$.post($(form).attr("action"), $(form).serialize(), function(result) {
 						saveCallback(result);
@@ -79,7 +79,6 @@
 						that.closeDialog(dialogId);
 						var element = $("#" + dialogId);
 						if ($(element).hasClass("modal")) {
-						    $("#" + dialogId).removeData('modal');
 						    $("#" + dialogId).remove();
 						}
 					});
@@ -90,7 +89,6 @@
 
 		$("#" + dialogId).on('hiden', function (element) {
 			if ($(element.target).hasClass("modal")) {
-			    $("#" + dialogId).removeData('modal');
 			    $("#" + dialogId).remove();
 			}
 		});

@@ -77,5 +77,25 @@ namespace Application.Infrastructure.SubjectManagement
 
             return subject;
         }
+
+        public SubjectNews SaveNews(SubjectNews news)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.SubjectRepository.SaveNews(news);
+
+                repositoriesContainer.ApplyChanges();
+            }
+
+            return news;
+        }
+
+        public SubjectNews GetNews(int id, int subjecttId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == subjecttId).Include(e => e.SubjectNewses)).SubjectNewses.FirstOrDefault(e => e.Id == id);
+            }
+        }
     }
 }

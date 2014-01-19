@@ -41,12 +41,24 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/knockoutWrapper.js",
                 "~/Scripts/knockout.mapping-latest.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/fileupload").Include(
+                "~/Scripts/mvcfileupload/vendor/jquery.ui.widget.js",
+                "~/Scripts/mvcfileupload/tmpl.js",
+                "~/Scripts/mvcfileupload/load-image.js",
+                "~/Scripts/mvcfileupload/canvas-to-blob.js",
+                "~/Scripts/mvcfileupload/jquery.iframe-transport.js",
+                "~/Scripts/mvcfileupload/jquery.fileupload.js",
+                "~/Scripts/mvcfileupload/jquery.fileupload-fp.js",
+                "~/Scripts/mvcfileupload/jquery.fileupload-ui.js",
+                "~/Scripts/mvcfileupload/main.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                 "~/Scripts/modernizr-*"));
             bundles.Add(new ScriptBundle("~/bundles/bootbox").Include("~/Scripts/bootbox.js", "~/Scripts/bootbox.min.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/font-awesome/font-awesome.css"));
+            bundles.Add(new StyleBundle("~/fileuploader/css").Include("~/Content/mvcfileupload/jquery.fileupload-bui.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                 "~/Content/themes/base/jquery.ui.core.css", 

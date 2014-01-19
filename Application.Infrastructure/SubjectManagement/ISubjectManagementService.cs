@@ -13,5 +13,9 @@ namespace Application.Infrastructure.SubjectManagement
         IPageableList<Subject> GetSubjectsLecturer(int lecturerId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
         Subject SaveSubject(Subject subject);
+
+        SubjectNews SaveNews(SubjectNews news);
+
+        SubjectNews GetNews(int id, int subjecttId);
     }
 }
