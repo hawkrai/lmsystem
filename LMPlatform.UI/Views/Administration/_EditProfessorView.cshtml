@@ -12,9 +12,6 @@
             }
             @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
         </div>
-    
-        @Html.AntiForgeryToken()
-
         <div>
             <hgroup style="text-align: center; margin-bottom: 20px">
                 <h1>@Model.FullName</h1>

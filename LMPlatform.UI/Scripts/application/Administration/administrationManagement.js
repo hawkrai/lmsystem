@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
-    var values = [10, 9, 8, 7, 6, 6, 5, 4, 2];
-    var options = { width: '100%', height: '300px' };
-    $('#chart').sparkline(values, options);
+    //var values = [10, 9, 8, 7, 6, 6, 5, 4, 2];
+    //var options = { width: '100%', height: '300px' };
+    //$('#chart').sparkline(values, options);
 });
 
 ////functions

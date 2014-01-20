@@ -41,6 +41,10 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
     public int LecturerId { get; set; }
 
+    public ModifyLecturerViewModel()
+    {
+    }
+
     public ModifyLecturerViewModel(Lecturer lecturer)
     {
       if (lecturer != null)
@@ -83,9 +87,6 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
     [Display(Name = "Подтверждение пароля")]
     [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Пароль и подтвержденный пароль не совпадают.")]
     public string ConfirmPassword { get; set; }
-
-    [Display(Name = "Группа")]
-    public string Group { get; set; }
 
     [Display(Name = "Эл. почта")]
     public string Email { get; set; }
