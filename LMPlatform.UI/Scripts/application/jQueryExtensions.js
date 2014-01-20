@@ -62,11 +62,7 @@
 					$.post($(form).attr("action"), $(form).serialize(), function(result) {
 						saveCallback(result);
 						that.closeDialog(dialogId);
-						var element = $("#" + dialogId);
-						if ($(element).hasClass("modal")) {
-						    $("#" + dialogId).removeData('modal');
-						    $("#" + dialogId).remove();
-						}
+						
 					});
 				}
 				return false;
@@ -77,17 +73,13 @@
 					$.post($(form).attr("action"), $(form).serialize(), function (result) {
 						saveCallback(result);
 						that.closeDialog(dialogId);
-						var element = $("#" + dialogId);
-						if ($(element).hasClass("modal")) {
-						    $("#" + dialogId).remove();
-						}
 					});
 				}
 				return false;
 			});
 		});
 
-		$("#" + dialogId).on('hiden', function (element) {
+		$("#" + dialogId).on('hidden.bs.modal', function (element) {
 			if ($(element.target).hasClass("modal")) {
 			    $("#" + dialogId).remove();
 			}
