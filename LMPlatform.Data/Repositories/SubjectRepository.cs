@@ -38,7 +38,16 @@ namespace LMPlatform.Data.Repositories
         {
             using (var context = new LmPlatformModelsContext())
             {
-                context.Update(news);
+                if (news.Id != 0)
+                {
+                    context.Update(news);    
+                }
+                else
+                {
+                    context.Add(news);
+                }
+                
+                context.SaveChanges();
             }
 
             return news;

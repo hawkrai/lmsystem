@@ -66,7 +66,6 @@ namespace LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel
         public NewsDataViewModel(int id, int subjectId)
         {
             SubjectId = subjectId;
-            Title = SubjectId == 0 ? "Создание новости" : "Редактирование новости";
             if (id != 0)
             {
                 var news = SubjectManagementService.GetNews(id, subjectId);

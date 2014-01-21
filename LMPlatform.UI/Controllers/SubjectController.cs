@@ -69,6 +69,7 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult SaveNews(NewsDataViewModel model)
         {
             model.Save();
