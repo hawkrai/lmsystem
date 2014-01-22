@@ -4,6 +4,7 @@ using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.LecturerManagement;
+using Application.Infrastructure.MessageManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
@@ -26,6 +27,7 @@ namespace Application.Infrastructure
             containerWrapper.Register<ISubjectManagementService, SubjectManagementService>();
             containerWrapper.Register<IModulesManagementService, ModulesManagementService>();
 			containerWrapper.Register<ILecturerManagementService, LecturerManagementService>();
+            containerWrapper.Register<IMessageManagementService, MessageManagementService>();
 
 			return containerWrapper;
 		}

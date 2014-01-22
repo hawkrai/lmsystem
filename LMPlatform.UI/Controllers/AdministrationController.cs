@@ -7,9 +7,11 @@ using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.UserManagement;
+using LMPlatform.UI.ViewModels;
 using LMPlatform.UI.ViewModels.AccountViewModels;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using Mvc.JQuery.Datatables;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
@@ -183,6 +185,26 @@ namespace LMPlatform.UI.Controllers
     public ActionResult Files()
     {
       return View();
+    }
+
+    public ActionResult Messages()
+    {
+        return View();
+    }
+
+    public ActionResult WriteMessage(int? id)
+    {
+        var messageViewModel = new MessageViewModel()
+            {
+                FromId = WebSecurity.CurrentUserId
+            };
+        return PartialView("Common/_MessageForm", messageViewModel);
+    }
+
+    [HttpPost]
+    public ActionResult WriteMessage(MessageViewModel msg)
+    {
+        return RedirectToAction("Messages");
     }
 
     public ActionResult ResetPassword(string id)

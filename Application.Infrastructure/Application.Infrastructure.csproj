@@ -72,6 +72,8 @@
     <Compile Include="KnowledgeTestsManagement\TestsManagementService.cs" />
     <Compile Include="LecturerManagement\ILecturerManagementService.cs" />
     <Compile Include="LecturerManagement\LecturerManagementService.cs" />
+    <Compile Include="MessageManagement\IMessageManagementService.cs" />
+    <Compile Include="MessageManagement\MessageManagementService.cs" />
     <Compile Include="ProjectManagement\IProjectManagementService.cs" />
     <Compile Include="ProjectManagement\ProjectManagementService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

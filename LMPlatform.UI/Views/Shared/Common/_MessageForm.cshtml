@@ -1,0 +1,31 @@
+﻿@model LMPlatform.UI.ViewModels.MessageViewModel
+
+<div id="msgForm">
+@using (Html.BeginForm("WriteMessage", "Administration", FormMethod.Post))
+{
+    <div class="error-limit-registr">
+        @Html.ValidationSummary("Ошибка!", new {@class = "alert alert-error"})
+    </div>
+
+    <div>
+        <hgroup style="text-align: center; margin-bottom: 20px">
+            <h1>@ViewBag.Title</h1>
+        </hgroup>
+
+        <div>
+            @Html.LabelFor(m => m.MessageText)
+            @Html.TextAreaFor(m=>m.MessageText)
+            @Html.ValidationMessageFor(m => m.MessageText, " ")
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ToId, new { @class = "control-label" })
+            <div>
+                @Html.DropDownListFor(e => e.ToId, Model.GetRecipients(), new { @class = "form-control" })   
+            </div>
+            <p></p>
+        </div>
+    </div>
+}
+</div>
+
+

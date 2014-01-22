@@ -190,6 +190,7 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\MessageViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesNewsViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\NewsDataViewModel.cs" />
@@ -782,6 +783,8 @@
     <Content Include="Views\Shared\Subjects\Modules\News\_NewsModule.cshtml" />
     <Content Include="Views\Shared\Common\_FilesUploader.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\News\_EditNews.cshtml" />
+    <Content Include="Views\Administration\Messages.cshtml" />
+    <Content Include="Views\Shared\Common\_MessageForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

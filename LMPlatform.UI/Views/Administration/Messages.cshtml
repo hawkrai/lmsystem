@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Сообщения";
+    Layout = "~/Views/Shared/Layouts/_AdministrationLayout.cshtml";
+}
+
+<div class="page-header">
+    <h2>Сообщения</h2>
+</div>
+<div>
+    <div id="buttonActionSection">
+        <a href="@Url.Action("WriteMessage", "Administration")" class="msgButton btn btn-primary btn-sm" data-toggle="tooltip">Написать сообщение</a>
+    </div>
+</div>
