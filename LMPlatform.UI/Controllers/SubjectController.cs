@@ -68,12 +68,21 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Subjects/Modules/News/_EditNews", model);
         }
 
-        [HttpPost]
-        [ValidateInput(false)]
+        [HttpPost, ValidateInput(false)]
         public ActionResult SaveNews(NewsDataViewModel model)
         {
             model.Save();
-            return null;
+            var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.News);
+            return PartialView("Subjects/_ModuleTemplate", modelData);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteNews(int id, int subjectId)
+        {
+            var model = new NewsDataViewModel(id, subjectId);
+            model.Delete();
+            var modelData = new ModulesDataWorkingViewModel(subjectId, (int)ModuleType.News);
+            return PartialView("Subjects/_ModuleTemplate", modelData);
         }
 
         public ActionResult Subjects()

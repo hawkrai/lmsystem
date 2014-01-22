@@ -53,6 +53,17 @@ namespace LMPlatform.Data.Repositories
             return news;
         }
 
+        public void DeleteNews(SubjectNews news)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var model = context.Set<SubjectNews>().FirstOrDefault(e => e.Id == news.Id);
+                context.Delete(model);
+
+                context.SaveChanges();
+            }
+        }
+
         protected override void PerformAdd(Subject model, LmPlatformModelsContext dataContext)
         {
             base.PerformAdd(model, dataContext);

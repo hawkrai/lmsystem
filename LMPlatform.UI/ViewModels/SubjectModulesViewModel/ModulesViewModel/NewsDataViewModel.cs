@@ -75,6 +75,12 @@ namespace LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel
             }
         }
 
+        public bool Delete()
+        {
+            SubjectManagementService.DeleteNews(new SubjectNews { SubjectId = SubjectId, Id = NewsId });
+            return true;
+        }
+
         public bool Save()
         {
             SubjectManagementService.SaveNews(new SubjectNews

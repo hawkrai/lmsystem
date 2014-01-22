@@ -1,5 +1,5 @@
 ﻿var subjectWorking = {
-    init: function() {
+    init: function () {
         var that = this;
         that.initModuleAction();
     },
@@ -13,9 +13,8 @@
                 $('.conteinerModule').append(data);
                 subjectWorking.updateHandlerActions();
             });
-
         });
-        
+
         $('.navLink').handle("click", function () {
             var that = this;
             var links = $('ul.nav.navbar-nav.side-nav').find('li');
@@ -26,12 +25,36 @@
             return false;
         });
     },
-    
-    updateHandlerActions: function() {
+
+    updateHandlerActions: function () {
         $('#addNewsButton').handle("click", function () {
             var that = this;
             $.savingDialog("Создание новости", $(that).attr("href"), null, "primary", function (data) {
-                
+                $('.conteinerModule').empty();
+                $('.conteinerModule').append(data);
+                subjectWorking.updateHandlerActions();
+            });
+            return false;
+        });
+        $('a.editNewsButton').handle("click", function () {
+            var that = this;
+            $.savingDialog("Редактирование новости", $(that).attr("href"), null, "primary", function (data) {
+                $('.conteinerModule').empty();
+                $('.conteinerModule').append(data);
+                subjectWorking.updateHandlerActions();
+            });
+            return false;
+        });
+        $('a.deleteNewsButton').handle("click", function () {
+            var that = this;
+            bootbox.confirm("Вы действительно хотите удалить новость?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $.post($(that).attr("href"), null, function (data) {
+                        $('.conteinerModule').empty();
+                        $('.conteinerModule').append(data);
+                        subjectWorking.updateHandlerActions();
+                    });
+                }
             });
             return false;
         });

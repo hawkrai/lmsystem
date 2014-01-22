@@ -9,9 +9,7 @@
                     <tr>
                         <td>
                             <div id="buttonActionSection">
-                                <a id="addNewsButton" style="margin-right: 10px" href="@Url.Action("CreateNews","Subject", new {subjectId = Model.SubjectId})"><i class="fa fa-plus fa-2x"></i></a>
-                                <a id="editNewsButton" style="margin-right: 10px" href="@Url.Action("EditNews","Subject")"><i class="fa fa-edit fa-2x"></i></a>
-                                <a id="deleteNewsButton" href="#"><i class="fa fa-trash-o fa-2x"></i></a>
+                                <a id="addNewsButton" style="margin-right: 10px" href="@Url.Action("CreateNews", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-plus fa-2x"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -38,7 +36,16 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#link_@href" class="collapsed" style="float: left">@news.Title</a>
                         </h4>
-                        <p style="text-align: right">@news.DateCreate</p>
+                        <div style="text-align: right">
+                            <p class="text-muted" style="float: right; margin-left: 20px">@news.DateCreate</p>
+                            @if (User.IsInRole("lector"))
+                            {
+                                <a class="editNewsButton" style="margin-right: 10px" href="@Url.Action("EditNews", "Subject", new {id=news.NewsId, subjectId=news.SubjectId})"><i class="fa fa-edit fa-2x"></i></a>
+                                <a class="deleteNewsButton" href="@Url.Action("DeleteNews", "Subject", new {id=news.NewsId, subjectId=news.SubjectId})"><i class="fa fa-trash-o fa-2x"></i></a>
+                            }
+                        </div>
+
+
                         <div class="clear-fix"></div>
                     </div>
                     <div id="link_@href" class="panel-collapse collapse" style="height: 0px;">
@@ -47,8 +54,8 @@
                         </div>
                     </div>
                 </div>
-                href++;
-            }    
+                            href++;
+            }
         </div>
     </div>
 

@@ -90,6 +90,14 @@ namespace Application.Infrastructure.SubjectManagement
             return news;
         }
 
+        public void DeleteNews(SubjectNews news)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.SubjectRepository.DeleteNews(news);
+            }
+        }
+
         public SubjectNews GetNews(int id, int subjecttId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

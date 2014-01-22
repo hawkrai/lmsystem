@@ -1,7 +1,10 @@
 ﻿@model LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel.NewsDataViewModel
 
 <div>
-    @using (Html.BeginForm("SaveNews", "Subject", FormMethod.Post))
+    @using (Html.BeginForm("SaveNews", "Subject", FormMethod.Post, new
+        {
+            enctype = "multipart/form-data"
+        } ) )
     {
         <div>
             @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
@@ -13,20 +16,15 @@
         @Html.HiddenFor(e => e.NewsId)
         <div>
             @Html.LabelFor(e => e.Title, new { @class = "control-label" })
-            @Html.TextBoxFor(e => e.Title, new { @class = "form-control", @style = "width: 500px;float:left" })
+            @Html.TextBoxFor(e => e.Title, new { @class = "form-control", @style = "width: 500px" })
             @Html.ValidationMessageFor(e => e.Title, " ")
         </div>
         <div>
             @Html.LabelFor(e => e.Body, new { @class = "control-label" })
-            @Html.TextAreaFor(e => e.Body, new { @class = "form-control", @style = "width: 500px; float:left"  })
-            @Html.ValidationMessageFor(e => e.Body, " ")
+            @Html.TextAreaFor(e => e.Body, new { @class = "form-control", @id="newsHtml", @style = "width: 500px;"  })
         </div> 
-        <div class="clear-fix"></div>
-        
         <script>
-            $('body').find("textarea").each(function (index, value) {
-                CKEDITOR.replace($(value).attr('id'));
-            });
+            //CKEDITOR.replace('newsHtml');
         </script>   
     }
 </div>

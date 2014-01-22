@@ -16,6 +16,8 @@ namespace Application.Infrastructure.SubjectManagement
 
         SubjectNews SaveNews(SubjectNews news);
 
+        void DeleteNews(SubjectNews news);
+
         SubjectNews GetNews(int id, int subjecttId);
     }
 }

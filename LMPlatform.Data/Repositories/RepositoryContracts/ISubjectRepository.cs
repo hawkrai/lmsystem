@@ -9,5 +9,7 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
         List<Subject> GetSubjects(int groupId = 0, int lecturerId = 0);
 
         SubjectNews SaveNews(SubjectNews news);
+
+        void DeleteNews(SubjectNews news);
     }
 }
