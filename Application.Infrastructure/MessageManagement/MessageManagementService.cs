@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
@@ -27,7 +25,7 @@ namespace Application.Infrastructure.MessageManagement
             throw new NotImplementedException();
         }
 
-        List<User> GetRecipientsList(User currentUser)
+        private List<User> GetRecipientsList(User currentUser)
         {
             var userRoles = currentUser.Membership.Roles.Select(r => r.RoleName).ToArray();
             var recipientsList = new List<User>();
