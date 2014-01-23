@@ -8,7 +8,7 @@ using LMPlatform.Models;
 
 namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
-    public interface IMessageRepository : IRepositoryBase<Message>
+    public interface IUserMessagesRepository : IRepositoryBase<UserMessages>
     {
     }
 }

@@ -36,6 +36,8 @@ namespace LMPlatform.Data.Repositories
 		public ILecturerRepository LecturerRepository { get; set; }
 
         public IMessageRepository MessageRepository { get; set; }
+
+        public IUserMessagesRepository UserMessagesRepository { get; set; }
 		
         public void ApplyChanges()
         {
@@ -61,6 +63,7 @@ namespace LMPlatform.Data.Repositories
             ModulesRepository = new ModulesRepository(_dataContext);
 			LecturerRepository = new LecturerRepository(_dataContext);
             MessageRepository = new MessageRepository(_dataContext);
+            UserMessagesRepository = new UserMessagesRepository(_dataContext);
         }
     }
 }

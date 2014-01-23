@@ -12,5 +12,11 @@ namespace Application.Infrastructure.MessageManagement
         List<User> GetRecipientsList(int currentUserId);
 
         List<User> GetRecipientsList();
+
+        Message SaveMessage(Message message);
+
+        void SaveUserMessages(ICollection<UserMessages> userMessages);
+
+        UserMessages SaveUserMessages(UserMessages userMessages);
     }
 }

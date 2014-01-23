@@ -14,14 +14,12 @@ namespace LMPlatform.UI.ViewModels
 {
     public class MessageViewModel
     {
-        private readonly LazyDependency<IMessageManagementService> _messageManagementService = new LazyDependency<IMessageManagementService>();
+        private readonly LazyDependency<IMessageManagementService> _messageManagementService =
+            new LazyDependency<IMessageManagementService>();
 
         public IMessageManagementService MessageManagementService
         {
-            get
-            {
-                return _messageManagementService.Value;
-            }
+            get { return _messageManagementService.Value; }
         }
 
         [HiddenInput(DisplayValue = false)]
@@ -39,10 +37,19 @@ namespace LMPlatform.UI.ViewModels
             var recip = MessageManagementService.GetRecipientsList(FromId);
 
             return recip.Select(r => new SelectListItem
-            {
-                Text = r.UserName,
-                Value = r.Id.ToString(CultureInfo.InvariantCulture)
-            }).ToList();
+                {
+                    Text = r.UserName,
+                    Value = r.Id.ToString(CultureInfo.InvariantCulture)
+                }).ToList();
+        }
+
+        public void SaveMessage()
+        {
+            var msg = new Message(MessageText);
+            MessageManagementService.SaveMessage(msg);
+
+            var userMsg = new UserMessages(ToId, FromId, msg.Id);
+            MessageManagementService.SaveUserMessages(userMsg);
         }
     }
 }

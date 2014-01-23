@@ -10,9 +10,10 @@ using LMPlatform.Models;
 
 namespace LMPlatform.Data.Repositories
 {
-    public class MessageRepository : RepositoryBase<LmPlatformModelsContext, Message>, IMessageRepository
+    public class UserMessagesRepository : RepositoryBase<LmPlatformModelsContext, UserMessages>, IUserMessagesRepository
     {
-        public MessageRepository(LmPlatformModelsContext dataContext) : base(dataContext)
+        public UserMessagesRepository(LmPlatformModelsContext dataContext)
+            : base(dataContext)
         {
         }
     }

@@ -89,6 +89,7 @@
     <Compile Include="SubjectModule.cs" />
     <Compile Include="SubjectNews.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserMessages.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application.Core\Application.Core.csproj">

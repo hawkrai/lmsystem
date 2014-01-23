@@ -204,6 +204,7 @@ namespace LMPlatform.UI.Controllers
     [HttpPost]
     public ActionResult WriteMessage(MessageViewModel msg)
     {
+        msg.SaveMessage();
         return RedirectToAction("Messages");
     }
 

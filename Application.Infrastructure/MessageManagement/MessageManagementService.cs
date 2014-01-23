@@ -25,6 +25,36 @@ namespace Application.Infrastructure.MessageManagement
             throw new NotImplementedException();
         }
 
+        public Message SaveMessage(Message message)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.MessageRepository.Save(message);
+                repositoriesContainer.ApplyChanges();
+            }
+
+            return message;
+        }
+
+        public void SaveUserMessages(ICollection<UserMessages> userMessages)
+        {
+            foreach (var userMsg in userMessages)
+            {
+                SaveUserMessages(userMsg);
+            }
+        }
+
+        public UserMessages SaveUserMessages(UserMessages userMessages)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.UserMessagesRepository.Save(userMessages);
+                repositoriesContainer.ApplyChanges();
+            }
+
+            return userMessages;
+        }
+
         private List<User> GetRecipientsList(User currentUser)
         {
             var userRoles = currentUser.Membership.Roles.Select(r => r.RoleName).ToArray();
