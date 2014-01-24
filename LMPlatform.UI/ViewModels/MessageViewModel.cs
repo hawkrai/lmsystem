@@ -26,7 +26,7 @@ namespace LMPlatform.UI.ViewModels
         public int FromId { get; set; }
 
         [Display(Name = "Кому")]
-        public int ToId { get; set; }
+        public List<int> Recipients { get; set; }
 
         [Display(Name = "Сообщение")]
         [DataType(DataType.MultilineText)]
@@ -48,8 +48,11 @@ namespace LMPlatform.UI.ViewModels
             var msg = new Message(MessageText);
             MessageManagementService.SaveMessage(msg);
 
-            var userMsg = new UserMessages(ToId, FromId, msg.Id);
-            MessageManagementService.SaveUserMessages(userMsg);
+            foreach (var recipient in Recipients)
+            {
+                var userMsg = new UserMessages(recipient, FromId, msg.Id);
+                MessageManagementService.SaveUserMessages(userMsg);
+            }
         }
     }
 }

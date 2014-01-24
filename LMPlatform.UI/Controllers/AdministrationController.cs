@@ -192,22 +192,6 @@ namespace LMPlatform.UI.Controllers
         return View();
     }
 
-    public ActionResult WriteMessage(int? id)
-    {
-        var messageViewModel = new MessageViewModel()
-            {
-                FromId = WebSecurity.CurrentUserId
-            };
-        return PartialView("Common/_MessageForm", messageViewModel);
-    }
-
-    [HttpPost]
-    public ActionResult WriteMessage(MessageViewModel msg)
-    {
-        msg.SaveMessage();
-        return RedirectToAction("Messages");
-    }
-
     public ActionResult ResetPassword(string id)
     {
       var login = id;

@@ -62,8 +62,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BugsRepository.cs" />
-    <Compile Include="Repositories\RepositoryContracts\IUserMessagesRepository.cs" />
-    <Compile Include="Repositories\UserMessagesRepository.cs" />
     <Compile Include="Repositories\GroupsRepository.cs" />
     <Compile Include="Repositories\LecturerRepository.cs" />
     <Compile Include="Repositories\LmPlatformRepositoriesContainer.cs" />

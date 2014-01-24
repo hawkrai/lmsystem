@@ -165,6 +165,7 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
@@ -396,7 +397,6 @@
     <Content Include="Images\no_image.png" />
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
     <Content Include="Scripts\application\BTS\ProjectsScript.js" />
-    <Content Include="Scripts\application\Administration\PopupScript.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\fileUpload.js" />
@@ -405,6 +405,7 @@
     <Content Include="Scripts\application\KnowledgeTesting\QuestionDetailsScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestDetailsScript.js" />
     <Content Include="Scripts\application\masterPageManagement.js" />
+    <Content Include="Scripts\application\message.js" />
     <Content Include="Scripts\application\shared.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestsListScript.js" />
     <Content Include="Scripts\application\spinFunction.js" />

@@ -48,7 +48,7 @@ namespace Application.Infrastructure.MessageManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                repositoriesContainer.UserMessagesRepository.Save(userMessages);
+                repositoriesContainer.MessageRepository.SaveUserMessages(userMessages);
                 repositoriesContainer.ApplyChanges();
             }
 

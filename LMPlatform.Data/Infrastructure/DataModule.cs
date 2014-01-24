@@ -19,7 +19,6 @@ namespace LMPlatform.Data.Infrastructure
             containerWrapper.Register<ITestsRepository, TestsRepository>();
             containerWrapper.Register<IModulesRepository, ModulesRepository>();
             containerWrapper.Register<IMessageRepository, MessageRepository>();
-            containerWrapper.Register<IUserMessagesRepository, UserMessagesRepository>();
 
 			return containerWrapper;
 		}
