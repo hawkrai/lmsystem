@@ -22,22 +22,15 @@
                 @Html.LabelFor(m => m.Recipients, new { @class = "control-label" })
                 <div id="msgRecipients"></div>
                 <div>
-                    @Html.DropDownList("selectRecipients", Model.GetRecipients(), "Выберите получателя...", new { @class = "form-control" })
+                    @Html.ListBoxFor(m => m.Recipients, Model.GetRecipients(), 
+                    new Dictionary<string, object> { 
+                        { "data-placeholder", "Выберте получателя..." }, 
+                        { "class", "form-control chosen-select" } })
                 </div>
                 <p></p>
             </div>
         </div>
     }
 </div>
-<script type="text/javascript">
-    $(function () {
-        $('select[name=selectRecipients]').change(function () {
-            var id = $(this).val();
-            var name = $(this).find('option:selected').text();
-
-            addRecipient(id, name);
-        });
-    });
-</script>
 
 

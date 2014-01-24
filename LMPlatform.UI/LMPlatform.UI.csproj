@@ -209,6 +209,8 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen\chosen.css" />
+    <Content Include="Content\chosen\chosen.min.css" />
     <Content Include="Content\datatable-bootstrap.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\doc.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shCore.css" />
@@ -287,6 +289,7 @@
     <Content Include="Content\datepicker.css" />
     <Content Include="Content\font-awesome\font-awesome.css" />
     <Content Include="Content\font-awesome\font-awesome.min.css" />
+    <Content Include="Content\images\chosen-sprite.png" />
     <Content Include="Content\images\closebox.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
@@ -331,7 +334,6 @@
     <Content Include="Content\mvcfileupload\vendor\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\mvcfileupload\vendor\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\mvcfileupload\vendor\jquery-ui.min.css" />
-    <Content Include="Content\popup.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -411,6 +413,8 @@
     <Content Include="Scripts\application\spinFunction.js" />
     <Content Include="Scripts\application\subjectManagement.js" />
     <Content Include="Scripts\application\subjectWorking.js" />
+    <Content Include="Scripts\chosen\chosen.jquery.js" />
+    <Content Include="Scripts\chosen\chosen.jquery.min.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
     <Content Include="Scripts\ckeditor\ckeditor.js" />
