@@ -4,7 +4,7 @@
 <div id="msgForm">
     @using (Html.BeginForm("WriteMessage", "Message", FormMethod.Post))
     {
-        <div class="error-limit-registr">
+        <div>
             @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
         </div>
 
@@ -20,13 +20,11 @@
             </div>
             <div>
                 @Html.LabelFor(m => m.Recipients, new { @class = "control-label" })
-                <div id="msgRecipients"></div>
-                <div>
-                    @Html.ListBoxFor(m => m.Recipients, Model.GetRecipients(), 
-                    new Dictionary<string, object> { 
-                        { "data-placeholder", "Выберте получателя..." }, 
-                        { "class", "form-control chosen-select" } })
-                </div>
+                @Html.ListBoxFor(m => m.Recipients, Model.GetRecipients(),
+                                     new Dictionary<string, object> { 
+                                         { "data-placeholder", "Выберте получателя..." }, 
+                                         { "class", "form-control chosen-select" } })
+                @Html.ValidationMessageFor(m => m.Recipients, " ")
                 <p></p>
             </div>
         </div>

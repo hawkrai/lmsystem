@@ -63,7 +63,9 @@ namespace Application.Infrastructure.MessageManagement
             {
                 if (userRoles.Contains("admin"))
                 {
-                    recipientsList = repositoriesContainer.UsersRepository.GetAll(new Query<User>(u => u.Id != currentUser.Id)).ToList();
+                    recipientsList = repositoriesContainer.UsersRepository
+                        .GetAll(new Query<User>(u => u.Id != currentUser.Id)
+                        .Include(u => u.Student).Include(u => u.Lecturer)).ToList();
                 }
             }
 

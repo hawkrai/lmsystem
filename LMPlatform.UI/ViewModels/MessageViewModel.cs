@@ -25,9 +25,11 @@ namespace LMPlatform.UI.ViewModels
         [HiddenInput(DisplayValue = false)]
         public int FromId { get; set; }
 
+        [Required(ErrorMessage = "Необходимо указать получателя")]
         [Display(Name = "Кому")]
         public List<int> Recipients { get; set; }
 
+        [Required(ErrorMessage = "Введите текст сообщения")]
         [Display(Name = "Сообщение")]
         [DataType(DataType.MultilineText)]
         public string MessageText { get; set; }
@@ -38,7 +40,7 @@ namespace LMPlatform.UI.ViewModels
 
             return recip.Select(r => new SelectListItem
                 {
-                    Text = r.UserName,
+                    Text = r.FullName,
                     Value = r.Id.ToString(CultureInfo.InvariantCulture)
                 }).ToList();
         }

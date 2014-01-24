@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Application.Core.Data;
 
 namespace LMPlatform.Models
@@ -31,7 +32,7 @@ namespace LMPlatform.Models
 
         public Lecturer Lecturer
         {
-            get; 
+            get;
             set;
         }
 
@@ -39,6 +40,24 @@ namespace LMPlatform.Models
         {
             get;
             set;
+        }
+
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                if (Student != null)
+                {
+                    return Student.FullName;
+                }
+                else if (Lecturer != null)
+                {
+                    return Lecturer.FullName;
+                }
+
+                return null;
+            }
         }
     }
 }

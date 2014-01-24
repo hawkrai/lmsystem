@@ -23,7 +23,10 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public ActionResult WriteMessage(MessageViewModel msg)
         {
-            msg.SaveMessage();
+            if (ModelState.IsValid)
+            {
+                msg.SaveMessage();
+            }
 
             if (TempData["Action"] != null && TempData["Controller"] != null)
             {
