@@ -32,6 +32,9 @@
             });
             return false;
         });
+        $(".editSubject").tooltip({ title: "Редактировать предмет", placement: 'left' });
+        $(".deleteSubject").tooltip({ title: "Удалить предмет", placement: 'right' });
+
     }
 };
 

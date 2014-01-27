@@ -26,6 +26,12 @@
         });
     },
 
+    applyCss: function () {
+        $('.addNewsButton.fa').tooltip({ title: 'Добавить новость', placement: 'right' });
+        $('.editNewsButton.fa').tooltip({ title: 'Редактировать новость', placement: 'left' });
+        $('.deleteNewsButton.fa').tooltip({ title: 'Удалить новость', placement: 'right' });
+     },
+
     updateHandlerActions: function () {
         $('#addNewsButton').handle("click", function () {
             var that = this;
@@ -58,6 +64,8 @@
             });
             return false;
         });
+        
+        subjectWorking.applyCss();
     }
 };
 

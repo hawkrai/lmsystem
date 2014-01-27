@@ -9,7 +9,7 @@
                     <tr>
                         <td>
                             <div id="buttonActionSection">
-                                <a id="addNewsButton" style="margin-right: 10px" href="@Url.Action("CreateNews", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-plus fa-2x"></i></a>
+                                <a id="addNewsButton" style="margin-right: 10px" class=" fa-2x" href="@Url.Action("CreateNews", "Subject", new { subjectId = Model.SubjectId })"><i class="addNewsButton fa fa-plus fa-2x"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -40,8 +40,8 @@
                             <p class="text-muted" style="float: right; margin-left: 20px">@news.DateCreate</p>
                             @if (User.IsInRole("lector"))
                             {
-                                <a class="editNewsButton" style="margin-right: 10px" href="@Url.Action("EditNews", "Subject", new {id=news.NewsId, subjectId=news.SubjectId})"><i class="fa fa-edit fa-2x"></i></a>
-                                <a class="deleteNewsButton" href="@Url.Action("DeleteNews", "Subject", new {id=news.NewsId, subjectId=news.SubjectId})"><i class="fa fa-trash-o fa-2x"></i></a>
+                                <a class="editNewsButton" style="margin-right: 10px" href="@Url.Action("EditNews", "Subject", new {id=news.NewsId, subjectId=news.SubjectId})"><i class="editNewsButton fa fa-edit fa-2x"></i></a>
+                                <a class="deleteNewsButton" href="@Url.Action("DeleteNews", "Subject", new {id=news.NewsId, subjectId=news.SubjectId})"><i class="deleteNewsButton fa fa-trash-o fa-2x"></i></a>
                             }
                         </div>
 
