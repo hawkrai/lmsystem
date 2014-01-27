@@ -2,8 +2,11 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
+using System.Web.Mvc;
 using Application.Core;
+using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
@@ -14,6 +17,15 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
     {
         private readonly LazyDependency<IModulesManagementService> _modulesManagementService = new LazyDependency<IModulesManagementService>();
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
+		private readonly LazyDependency<IGroupManagementService> _groupManagementService = new LazyDependency<IGroupManagementService>();
+
+		public IGroupManagementService GroupManagementService
+		{
+			get
+			{
+				return _groupManagementService.Value;
+			}
+		}
 
         public ISubjectManagementService SubjectManagementService
         {
@@ -59,11 +71,23 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             set;
         }
 
+		public List<SelectListItem> Groups
+		{
+			get;
+			set;
+		}
+
         public int SubjectId
         {
             get;
             set;
         }
+
+		public List<int> SelectedGroups
+		{
+			get;
+			set;
+		}
 
         public SubjectEditViewModel()
         {
@@ -75,6 +99,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             SubjectId = subjectId;
             Title = SubjectId == 0 ? "Создание предмета" : "Редактирование предмета";
             Modules = ModulesManagementService.GetModules().Select(e => new ModulesViewModel(e)).ToList();
+	        FillSubjectGroups();
             if (subjectId != 0)
             {
                 var subject = SubjectManagementService.GetSubject(subjectId);
@@ -88,8 +113,29 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                         module.Checked = true;
                     }
                 }
+
+				SelectedGroups = new List<int>();
+	            foreach (var group in Groups)
+	            {
+		            var groupId = int.Parse(group.Value);
+		            if (subject.SubjectGroups.Any(e => e.GroupId == groupId))
+		            {
+			            SelectedGroups.Add(groupId);
+		            }
+	            }
             }
         }
+
+	    private void FillSubjectGroups()
+	    {
+		    var groups = GroupManagementService.GetGroups();
+			Groups = groups.Select(e => new SelectListItem
+			{
+				Text = e.Name,
+				Value = e.Id.ToString(CultureInfo.InvariantCulture),
+				Selected = false
+			}).ToList();
+	    }
 
         public void Save(int userId)
         {
@@ -119,6 +165,19 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                 SubjectId = SubjectId,
                 LecturerId = userId
             });
+
+	        if (SelectedGroups != null)
+	        {
+				subject.SubjectGroups = SelectedGroups.Select(e => new SubjectGroup
+				{
+					GroupId = e,
+					SubjectId = SubjectId
+				}).ToList();    
+	        }
+	        else
+	        {
+				subject.SubjectGroups = new Collection<SubjectGroup>();    
+	        }
 
             SubjectManagementService.SaveSubject(subject);
         }

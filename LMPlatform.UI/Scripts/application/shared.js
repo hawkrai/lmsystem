@@ -88,11 +88,11 @@
 		});
 	    
 		container.find(".multiselect").each(function (index, element) {
-			$(element).multiselect({
+		    $(element).multiselect({
 				buttonClass: 'btn',
-				buttonWidth: 'auto',
-				buttonContainer: '<div class="btn-group" />',
-				maxHeight: false,
+				buttonWidth: '100%',
+				buttonContainer: '<div class="btn-group" style="width:100%" />',
+				maxHeight: 150,
 				buttonText: function (options) {
 					if (options.length == 0) {
 						return "Ничего не выбрано <b class=\"caret\"></b>";

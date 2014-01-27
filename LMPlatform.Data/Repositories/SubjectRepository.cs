@@ -9,100 +9,124 @@ using LMPlatform.Models;
 
 namespace LMPlatform.Data.Repositories
 {
-    public class SubjectRepository : RepositoryBase<LmPlatformModelsContext, Subject>, ISubjectRepository
-    {
-        public SubjectRepository(LmPlatformModelsContext dataContext)
-            : base(dataContext)
-        {
-        }
+	public class SubjectRepository : RepositoryBase<LmPlatformModelsContext, Subject>, ISubjectRepository
+	{
+		public SubjectRepository(LmPlatformModelsContext dataContext)
+			: base(dataContext)
+		{
+		}
 
-        public List<Subject> GetSubjects(int groupId = 0, int lecturerId = 0)
-        {
-            using (var context = new LmPlatformModelsContext())
-            {
-                if (groupId != 0)
-                {
-                    var subjectGroup = context.Set<SubjectGroup>().Include(e => e.Subject).Where(e => e.GroupId == groupId).ToList();
-                    return subjectGroup.Select(e => e.Subject).ToList(); 
-                }
-                else
-                {
-                    var subjectLecturer =
-                        context.Set<SubjectLecturer>().Include(e => e.Subject).Where(e => e.LecturerId == lecturerId);
-                    return subjectLecturer.Select(e => e.Subject).ToList();
-                }
-            } 
-        }
+		public List<Subject> GetSubjects(int groupId = 0, int lecturerId = 0)
+		{
+			using (var context = new LmPlatformModelsContext())
+			{
+				if (groupId != 0)
+				{
+					var subjectGroup = context.Set<SubjectGroup>().Include(e => e.Subject).Where(e => e.GroupId == groupId).ToList();
+					return subjectGroup.Select(e => e.Subject).ToList();
+				}
+				else
+				{
+					var subjectLecturer =
+						context.Set<SubjectLecturer>().Include(e => e.Subject).Where(e => e.LecturerId == lecturerId);
+					return subjectLecturer.Select(e => e.Subject).ToList();
+				}
+			}
+		}
 
-        public SubjectNews SaveNews(SubjectNews news)
-        {
-            using (var context = new LmPlatformModelsContext())
-            {
-                if (news.Id != 0)
-                {
-                    context.Update(news);    
-                }
-                else
-                {
-                    context.Add(news);
-                }
-                
-                context.SaveChanges();
-            }
+		public SubjectNews SaveNews(SubjectNews news)
+		{
+			using (var context = new LmPlatformModelsContext())
+			{
+				if (news.Id != 0)
+				{
+					context.Update(news);
+				}
+				else
+				{
+					context.Add(news);
+				}
 
-            return news;
-        }
+				context.SaveChanges();
+			}
 
-        public void DeleteNews(SubjectNews news)
-        {
-            using (var context = new LmPlatformModelsContext())
-            {
-                var model = context.Set<SubjectNews>().FirstOrDefault(e => e.Id == news.Id);
-                context.Delete(model);
+			return news;
+		}
 
-                context.SaveChanges();
-            }
-        }
+		public void DeleteNews(SubjectNews news)
+		{
+			using (var context = new LmPlatformModelsContext())
+			{
+				var model = context.Set<SubjectNews>().FirstOrDefault(e => e.Id == news.Id);
+				context.Delete(model);
 
-        protected override void PerformAdd(Subject model, LmPlatformModelsContext dataContext)
-        {
-            base.PerformAdd(model, dataContext);
+				context.SaveChanges();
+			}
+		}
 
-            foreach (var subjectModule in model.SubjectModules)
-            {
-                subjectModule.SubjectId = model.Id;
-                dataContext.Set<SubjectModule>().Add(subjectModule);
-            }
+		protected override void PerformAdd(Subject model, LmPlatformModelsContext dataContext)
+		{
+			base.PerformAdd(model, dataContext);
 
-            model.SubjectLecturers.FirstOrDefault().SubjectId = model.Id;
-            dataContext.Set<SubjectLecturer>().Add(model.SubjectLecturers.FirstOrDefault());
+			foreach (var subjectModule in model.SubjectModules)
+			{
+				subjectModule.SubjectId = model.Id;
+				dataContext.Set<SubjectModule>().Add(subjectModule);
+			}
 
-            dataContext.SaveChanges();
-        }
+			foreach (var subjectGroup in model.SubjectGroups)
+			{
+				subjectGroup.SubjectId = model.Id;
+				dataContext.Set<SubjectGroup>().Add(subjectGroup);
+			}
 
-        protected override void PerformUpdate(Subject newValue, LmPlatformModelsContext dataContext)
-        {
-            var subjectModules = dataContext.Set<SubjectModule>().Where(e => e.SubjectId == newValue.Id).ToList();
+			model.SubjectLecturers.FirstOrDefault().SubjectId = model.Id;
+			dataContext.Set<SubjectLecturer>().Add(model.SubjectLecturers.FirstOrDefault());
 
-            foreach (var subjectModule in subjectModules)
-            {
-                if (!newValue.SubjectModules.Any(e => e.ModuleId == subjectModule.ModuleId))
-                {
-                    dataContext.Set<SubjectModule>().Remove(subjectModule);
-                }
-            }
+			dataContext.SaveChanges();
+		}
 
-            foreach (var subjectModule in newValue.SubjectModules)
-            {
-                if (!subjectModules.Any(e => e.ModuleId == subjectModule.ModuleId))
-                {
-                    dataContext.Set<SubjectModule>().Add(subjectModule);
-                }
-            }
+		protected override void PerformUpdate(Subject newValue, LmPlatformModelsContext dataContext)
+		{
+			var subjectModules = dataContext.Set<SubjectModule>().Where(e => e.SubjectId == newValue.Id).ToList();
 
-            dataContext.SaveChanges();
+			foreach (var subjectModule in subjectModules)
+			{
+				if (!newValue.SubjectModules.Any(e => e.ModuleId == subjectModule.ModuleId))
+				{
+					dataContext.Set<SubjectModule>().Remove(subjectModule);
+				}
+			}
 
-            base.PerformUpdate(newValue, dataContext);
-        }
-    }
+			foreach (var subjectModule in newValue.SubjectModules)
+			{
+				if (!subjectModules.Any(e => e.ModuleId == subjectModule.ModuleId))
+				{
+					dataContext.Set<SubjectModule>().Add(subjectModule);
+				}
+			}
+
+			var subjectGroups = dataContext.Set<SubjectGroup>().Where(e => e.SubjectId == newValue.Id).ToList();
+
+			foreach (var subjectGroup in subjectGroups)
+			{
+				if (!newValue.SubjectGroups.Any(e => e.GroupId == subjectGroup.GroupId))
+				{
+					dataContext.Set<SubjectGroup>().Remove(subjectGroup);
+				}
+			}
+
+			foreach (var subjectGroup in newValue.SubjectGroups)
+			{
+				if (!subjectGroups.Any(e => e.GroupId == subjectGroup.GroupId))
+				{
+					dataContext.Set<SubjectGroup>().Add(subjectGroup);
+				}
+			}
+
+			dataContext.SaveChanges();
+
+			base.PerformUpdate(newValue, dataContext);
+		}
+	}
 }

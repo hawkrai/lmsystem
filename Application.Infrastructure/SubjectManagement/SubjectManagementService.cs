@@ -45,7 +45,8 @@ namespace Application.Infrastructure.SubjectManagement
             {
                 return repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == id)
                     .Include(e => e.SubjectModules.Select(x => x.Module))
-                    .Include(e => e.SubjectNewses));
+                    .Include(e => e.SubjectNewses)
+					.Include(e => e.SubjectGroups));
             }
         }
 

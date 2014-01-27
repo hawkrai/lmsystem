@@ -9,7 +9,7 @@ namespace LMPlatform.UI.App_Start
 		public static void RegisterBundles()
 		{
             BundleTable.Bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                "~/Scripts/bootstrap.js"));
+                "~/Scripts/bootstrap.js", "~/Scripts/bootstrap-multiselect.js"));
 
             BundleTable.Bundles.Add(new ScriptBundle("~/bundles/bootstrapcontrols").Include(
                 "~/Scripts/bootstrap-datepicker.js"));
