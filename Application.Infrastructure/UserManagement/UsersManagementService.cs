@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Application.Core.Data;
+﻿using Application.Core.Data;
+using WebMatrix.WebData;
 
 namespace Application.Infrastructure.UserManagement
 {
@@ -24,7 +24,14 @@ namespace Application.Infrastructure.UserManagement
 
         public User GetUser(string userName)
         {
-            return UsersRepository.GetAll(new Query<User>().Include(u => u.Student).Include(u => u.Lecturer)).Single(e => e.UserName == userName);
+            if (IsExistsUser(userName))
+            {
+                return UsersRepository.GetAll(new Query<User>()
+                    .Include(u => u.Student).Include(u => u.Lecturer).Include(u => u.Membership.Roles))
+                    .Single(e => e.UserName == userName);
+            }
+
+            return null;
         }
 
         public bool IsExistsUser(string userName)
@@ -35,6 +42,16 @@ namespace Application.Infrastructure.UserManagement
             }
 
             return false;
+        }
+
+        public User CurrentUser
+        {
+            get
+            {
+                var userName = WebSecurity.CurrentUserName;
+
+                return GetUser(userName);
+            }
         }
     }
 }

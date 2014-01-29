@@ -4,7 +4,6 @@
     <title>@ViewBag.Title Аднимистрирование LMP разработка</title>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="/Content/datatable-bootstrap.css">
-    <link rel="stylesheet" href="/Content/chosen/chosen.css">
 
     @Styles.Render("~/Content/bootstrap")
     @Styles.Render("~/Content/bootstrapcontrols")
@@ -24,8 +23,6 @@
 
     @RenderSection("headScripts", false)
     <script src="~/Scripts/application/Administration/administrationManagement.js" type="text/javascript"></script>
-    <script src="~/Scripts/application/message.js" type="text/javascript"></script>
-    <script src="~/Scripts/chosen/chosen.jquery.js" type="text/javascript"></script>
 </head>
 <body>
     <div style="padding-left: 300px;">
@@ -48,7 +45,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="@Url.Action("Messages", "Administration")"><i class="fa fa-envelope"></i> Сообщения <span class="badge">7</span></a>
+                        <a href="@Url.Action("Index", "Message")"><i class="fa fa-envelope"></i> Сообщения <span class="badge">@Html.Action("MessagesCount","Message")</span></a>
                     </li>
                     @Html.Partial("_LoginPartial")
                 </ul>

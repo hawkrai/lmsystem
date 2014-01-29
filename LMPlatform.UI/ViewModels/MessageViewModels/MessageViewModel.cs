@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Application.Core;
 using Application.Infrastructure.MessageManagement;
-using Application.Infrastructure.UserManagement;
 using LMPlatform.Models;
 
-namespace LMPlatform.UI.ViewModels
+namespace LMPlatform.UI.ViewModels.MessageViewModels
 {
     public class MessageViewModel
     {
@@ -55,6 +52,6 @@ namespace LMPlatform.UI.ViewModels
                 var userMsg = new UserMessages(recipient, FromId, msg.Id);
                 MessageManagementService.SaveUserMessages(userMsg);
             }
-        }
+        }   
     }
 }

@@ -9,5 +9,7 @@ namespace Application.Infrastructure.UserManagement
         User GetUser(string userName);
 
         bool IsExistsUser(string userName);
+
+        User CurrentUser { get; }
 	}
 }

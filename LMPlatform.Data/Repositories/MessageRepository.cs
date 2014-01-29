@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Application.Core.Data;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories.RepositoryContracts;
@@ -21,6 +18,21 @@ namespace LMPlatform.Data.Repositories
         {
             DataContext.Set<UserMessages>().Add(userMessages);
             return userMessages;
+        }
+
+        public List<UserMessages> GetUserMessages(int userId)
+        {
+            return DataContext.Set<UserMessages>()
+                .Where(m => m.AuthorId == userId || m.RecipientId == userId)
+                .OrderBy(m => m.Date).ToList();
+        }
+
+        public List<UserMessages> GetCorrespondence(int firstUserId, int secondUserId)
+        {
+            return DataContext.Set<UserMessages>()
+                .Where(m => (m.AuthorId == firstUserId && m.RecipientId == secondUserId) ||
+                            (m.AuthorId == secondUserId && m.RecipientId == firstUserId))
+                .OrderBy(m => m.Date).ToList();
         }
     }
 }

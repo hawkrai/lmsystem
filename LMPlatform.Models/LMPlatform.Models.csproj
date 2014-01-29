@@ -81,7 +81,7 @@
     <Compile Include="Project.cs" />
     <Compile Include="ProjectStudent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Roles.cs" />
+    <Compile Include="Role.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="Subject.cs" />
     <Compile Include="SubjectGroup.cs" />

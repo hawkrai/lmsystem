@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Application.Core.Data;
 
 namespace LMPlatform.Models
@@ -14,6 +15,8 @@ namespace LMPlatform.Models
             RecipientId = recipientId;
             AuthorId = authorId;
             MessageId = messageId;
+            Date = DateTime.Now;
+            IsReaded = false; 
         }
 
         [Required]
@@ -22,6 +25,10 @@ namespace LMPlatform.Models
         public int AuthorId { get; set; }
         [Required]
         public int MessageId { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public bool IsReaded { get; set; }
 
         public User Recipient { get; set; }
 

@@ -42,7 +42,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="#"><i class="fa fa-envelope"></i>Сообщения <span class="badge">7</span></a>
+                        <a href="@Url.Action("Index", "Message")"><i class="fa fa-envelope"></i> Сообщения <span class="badge">@Html.Action("MessagesCount","Message")</span></a>
                     </li>
                     @Html.Partial("_LoginPartial")
                 </ul>

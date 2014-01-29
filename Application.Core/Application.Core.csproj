@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\Constants.cs" />
     <Compile Include="Data\DataExtensions.cs" />
     <Compile Include="Data\IHasIdentifyKey.cs" />
     <Compile Include="Data\IOrderableSequence.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Data\RepositoryBase.cs" />
     <Compile Include="Data\SortCriteria.cs" />
     <Compile Include="Data\SortDirection.cs" />
+    <Compile Include="Enums\Roles.cs" />
     <Compile Include="Exceptions\ApplicationExceptionBase.cs" />
     <Compile Include="Exceptions\ApplicationServiceException.cs" />
     <Compile Include="Exceptions\ApplicationUIException.cs" />

@@ -1,6 +1,5 @@
-﻿@model LMPlatform.UI.ViewModels.MessageViewModel
+﻿@model LMPlatform.UI.ViewModels.MessageViewModels.MessageViewModel
 
-<script src="../../../Scripts/application/message.js"></script>
 <div id="msgForm">
     @using (Html.BeginForm("WriteMessage", "Message", FormMethod.Post))
     {
@@ -21,9 +20,9 @@
             <div>
                 @Html.LabelFor(m => m.Recipients, new { @class = "control-label" })
                 @Html.ListBoxFor(m => m.Recipients, Model.GetRecipients(),
-                                     new Dictionary<string, object> { 
-                                         { "data-placeholder", "Выберте получателя..." }, 
-                                         { "class", "form-control chosen-select" } })
+                                 new Dictionary<string, object> { 
+                                     { "data-placeholder", "Выберте получателя..." }, 
+                                     { "class", "form-control chosen-select" } })
                 @Html.ValidationMessageFor(m => m.Recipients, " ")
                 <p></p>
             </div>
@@ -31,4 +30,6 @@
     }
 </div>
 
-
+<script type="text/javascript">
+    $(".chosen-select").chosen({ no_results_text: "Пользователь не найден..." });
+</script>

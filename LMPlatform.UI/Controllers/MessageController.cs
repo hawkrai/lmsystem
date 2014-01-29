@@ -1,41 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
+using Application.Core.Constants;
 using Application.Core.UI.Controllers;
-using LMPlatform.UI.ViewModels;
+using Application.Infrastructure.MessageManagement;
+using Application.Infrastructure.UserManagement;
+using LMPlatform.UI.ViewModels.MessageViewModels;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
+    [Authorize]
     public class MessageController : BasicController
     {
+        public ActionResult Index()
+        {
+            if (User.IsInRole(Constants.Roles.Admin))
+            {
+                return View("Messages", "Layouts/_AdministrationLayout");
+            }
+
+            return View("Messages", "Layouts/_MainUsingNavLayout");
+        }
+
         public ActionResult WriteMessage(int? id)
         {
-            var messageViewModel = new MessageViewModel()
-            {
-                FromId = WebSecurity.CurrentUserId
-            };
+            var messageViewModel = new MessageViewModel
+                {
+                    FromId = WebSecurity.CurrentUserId
+                };
+
             return PartialView("Common/_MessageForm", messageViewModel);
         }
 
         [HttpPost]
         public ActionResult WriteMessage(MessageViewModel msg)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && msg.FromId == WebSecurity.CurrentUserId)
             {
                 msg.SaveMessage();
             }
 
-            if (TempData["Action"] != null && TempData["Controller"] != null)
-            {
-                var action = TempData["Action"].ToString();
-                var controller = TempData["Controller"].ToString();
-                return RedirectToAction(action, controller);
-            }
+            return RedirectToAction("Index");
+        }
 
-            return Request.UrlReferrer != null ? Redirect(Request.UrlReferrer.AbsolutePath) : null;
+        public int MessagesCount()
+        {
+            var messagesCount = MessageManagementService.GetUnreadUserMessages(WebSecurity.CurrentUserId).Count();
+            return messagesCount;
+        }
+
+        public IUsersManagementService UsersManagementService
+        {
+            get
+            {
+                return ApplicationService<IUsersManagementService>();
+            }
+        }
+
+        public IMessageManagementService MessageManagementService
+        {
+            get
+            {
+                return ApplicationService<IMessageManagementService>();
+            }
         }
     }
 }

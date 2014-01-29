@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Application.Core;
-using Application.Core.Data;
-using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.LecturerManagement;
-using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.Attributes;
-using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 {
@@ -103,7 +95,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
     public void ModifyLecturer(int lecturerId)
     {
-      LecturerManagementService.UpdateLecturer(new Lecturer()
+      LecturerManagementService.UpdateLecturer(new Lecturer
       {
         Id = lecturerId,
         FirstName = Name,
