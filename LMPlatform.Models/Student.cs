@@ -65,5 +65,11 @@ namespace LMPlatform.Models
             get;
             set;
         }
+
+        public ICollection<SubjectStudent> SubjectStudents
+        {
+            get;
+            set;
+        } 
     }
 }

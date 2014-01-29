@@ -108,6 +108,18 @@ namespace LMPlatform.Data.Infrastructure
         {
             get;
             set;
+        }
+
+        public DbSet<SubGroups> SubGroups
+        {
+            get;
+            set;
+        }
+
+        public DbSet<SubjectStudent> SubjectStudents
+        {
+            get;
+            set;
         } 
 
         #endregion DataContext Members
@@ -139,6 +151,7 @@ namespace LMPlatform.Data.Infrastructure
             modelBuilder.Entity<SubjectNews>().Map(m => m.ToTable("SubjectNewses"));
             modelBuilder.Entity<Attachment>().Map(m => m.ToTable("Attachments"));
             modelBuilder.Entity<Message>().Map(m => m.ToTable("Messages"));
+            modelBuilder.Entity<SubjectStudent>().Map(m => m.ToTable("SubjectStudents"));
             modelBuilder.Entity<UserMessages>()
                 .HasRequired(u => u.Author)
                 .WithMany()

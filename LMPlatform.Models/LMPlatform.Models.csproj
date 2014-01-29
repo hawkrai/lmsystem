@@ -83,11 +83,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="Student.cs" />
+    <Compile Include="SubGroups.cs" />
     <Compile Include="Subject.cs" />
     <Compile Include="SubjectGroup.cs" />
     <Compile Include="SubjectLecturer.cs" />
     <Compile Include="SubjectModule.cs" />
     <Compile Include="SubjectNews.cs" />
+    <Compile Include="SubjectStudent.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserMessages.cs" />
   </ItemGroup>

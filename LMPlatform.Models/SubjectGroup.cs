@@ -1,4 +1,5 @@
-﻿using Application.Core.Data;
+﻿using System.Collections.Generic;
+using Application.Core.Data;
 
 namespace LMPlatform.Models
 {
@@ -25,6 +26,18 @@ namespace LMPlatform.Models
         public Subject Subject
         {
             get; 
+            set;
+        }
+
+        public ICollection<SubGroups> SubGroupses
+        {
+            get;
+            set;
+        }
+
+        public ICollection<SubjectStudent> SubjectStudents
+        {
+            get;
             set;
         }
     }
