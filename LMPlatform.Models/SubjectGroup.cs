@@ -29,7 +29,7 @@ namespace LMPlatform.Models
             set;
         }
 
-        public ICollection<SubGroups> SubGroupses
+        public ICollection<SubGroup> SubGroups
         {
             get;
             set;

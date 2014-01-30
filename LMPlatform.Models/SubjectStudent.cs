@@ -10,7 +10,7 @@ namespace LMPlatform.Models
             set;
         }
 
-        public int SubGroupsId
+        public int SubGroupId
         {
             get;
             set;
@@ -28,7 +28,7 @@ namespace LMPlatform.Models
             set;
         }
 
-        public SubGroups SubGroups
+        public SubGroup SubGroup
         {
             get;
             set;

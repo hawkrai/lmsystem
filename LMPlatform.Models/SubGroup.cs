@@ -3,7 +3,7 @@ using Application.Core.Data;
 
 namespace LMPlatform.Models
 {
-    public class SubGroups : ModelBase
+    public class SubGroup : ModelBase
     {
         public string Name
         {

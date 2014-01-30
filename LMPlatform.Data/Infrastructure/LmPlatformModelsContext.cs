@@ -110,7 +110,7 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
-        public DbSet<SubGroups> SubGroups
+        public DbSet<SubGroup> SubGroups
         {
             get;
             set;
@@ -219,6 +219,36 @@ namespace LMPlatform.Data.Infrastructure
                .WithRequired(e => e.Module)
                .HasForeignKey(e => e.ModuleId)
                .WillCascadeOnDelete(false);
+
+			modelBuilder.Entity<SubGroup>()
+			   .HasMany<SubjectStudent>(e => e.SubjectStudents)
+			   .WithRequired(e => e.SubGroup)
+			   .HasForeignKey(e => e.SubGroupId)
+			   .WillCascadeOnDelete(false);
+
+			modelBuilder.Entity<SubjectGroup>()
+			   .HasMany<SubGroup>(e => e.SubGroups)
+			   .WithRequired(e => e.SubjectGroup)
+			   .HasForeignKey(e => e.SubjectGroupId)
+			   .WillCascadeOnDelete(false);
+
+			modelBuilder.Entity<Student>()
+			   .HasMany<SubjectStudent>(e => e.SubjectStudents)
+			   .WithRequired(e => e.Student)
+			   .HasForeignKey(e => e.StudentId)
+			   .WillCascadeOnDelete(false);
+
+			modelBuilder.Entity<Student>()
+			   .HasMany<SubjectStudent>(e => e.SubjectStudents)
+			   .WithRequired(e => e.Student)
+			   .HasForeignKey(e => e.StudentId)
+			   .WillCascadeOnDelete(false);
+
+			modelBuilder.Entity<SubjectGroup>()
+			   .HasMany<SubjectStudent>(e => e.SubjectStudents)
+			   .WithRequired(e => e.SubjectGroup)
+			   .HasForeignKey(e => e.SubjectGroupId)
+			   .WillCascadeOnDelete(false);
             
             MapKnowledgeTestingEntities(modelBuilder);
             MapBTSEntities(modelBuilder);
