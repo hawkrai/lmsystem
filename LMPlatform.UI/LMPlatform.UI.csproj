@@ -394,6 +394,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\1391087088_settings.png" />
     <Content Include="Images\ajax-loader-mini.gif" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\collection.png" />

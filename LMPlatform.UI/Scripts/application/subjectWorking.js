@@ -24,6 +24,12 @@
             $(that).addClass("active");
             return false;
         });
+
+        $('#subGroups').handle("click", function() {
+            alert('ergegerg');
+
+            return false;
+        });
     },
 
     applyCss: function () {

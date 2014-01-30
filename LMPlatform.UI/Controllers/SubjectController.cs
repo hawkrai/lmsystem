@@ -106,6 +106,11 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Subjects/_ModuleTemplate", model);
         }
 
+	    public ActionResult SubGroups(int subjectId)
+	    {
+		    return null;
+	    }
+
         [HttpPost]
         public DataTablesResult<SubjectListViewModel> GetSubjects(DataTablesParam dataTableParam)
         {
