@@ -108,7 +108,8 @@ namespace LMPlatform.UI.Controllers
 
 	    public ActionResult SubGroups(int subjectId)
 	    {
-		    return null;
+		    var model = new SubjectWorkingViewModel(subjectId);
+			return PartialView("_SubGroupsEditTemplate", model.SubGroups);
 	    }
 
         [HttpPost]

@@ -26,8 +26,10 @@
         });
 
         $('#subGroups').handle("click", function() {
-            alert('ergegerg');
-
+            var that = this;
+            $.savingDialog("Управление подгруппам", $(that).attr("href"), null, "primary", function (data) {
+                
+            });
             return false;
         });
     },

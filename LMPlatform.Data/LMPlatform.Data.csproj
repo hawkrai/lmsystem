@@ -78,10 +78,12 @@
     <Compile Include="Repositories\RepositoryContracts\IProjectsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IQuestionsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IStudentsRepository.cs" />
+    <Compile Include="Repositories\RepositoryContracts\ISubGroupRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ISubjectRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ITestsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IUsersRepository.cs" />
     <Compile Include="Repositories\StudentsRepository.cs" />
+    <Compile Include="Repositories\SubGroupRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
     <Compile Include="Repositories\TestsRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />

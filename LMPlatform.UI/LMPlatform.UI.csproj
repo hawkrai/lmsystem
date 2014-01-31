@@ -198,6 +198,7 @@
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\NewsDataViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesDataWorkingViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesViewModel.cs" />
+    <Compile Include="ViewModels\SubjectViewModels\SubGroupEditingViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectEditViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectListViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectManagementViewModel.cs" />
@@ -874,6 +875,7 @@
     <Content Include="Views\Shared\Subjects\Modules\News\_EditNews.cshtml" />
     <Content Include="Views\Shared\Common\_MessageForm.cshtml" />
     <Content Include="Views\Message\Messages.cshtml" />
+    <Content Include="Views\Subject\_SubGroupsEditTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

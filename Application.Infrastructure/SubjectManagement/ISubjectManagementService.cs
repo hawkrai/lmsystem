@@ -19,5 +19,7 @@ namespace Application.Infrastructure.SubjectManagement
         void DeleteNews(SubjectNews news);
 
         SubjectNews GetNews(int id, int subjecttId);
+
+	    IList<SubGroup> GetSubGroups(int subjectId, int groupId);
     }
 }

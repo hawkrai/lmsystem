@@ -2,6 +2,7 @@
 using System.Linq;
 using Application.Core;
 using Application.Infrastructure.SubjectManagement;
+using LMPlatform.Models;
 
 namespace LMPlatform.UI.ViewModels.SubjectViewModels
 {
@@ -35,12 +36,26 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             set;
         }
 
+	    public Subject Subject
+	    {
+		    get;
+		    set;
+	    }
+
         public SubjectWorkingViewModel(int subjectId)
         {
             SubjectId = subjectId;
-            var subject = SubjectManagementService.GetSubject(subjectId);
-            SubjectName = subject.Name;
-            Modules = subject.SubjectModules.Select(e => new ModulesViewModel(e.Module)).ToList();
+            Subject = SubjectManagementService.GetSubject(subjectId);
+            SubjectName = Subject.Name;
+            Modules = Subject.SubjectModules.Select(e => new ModulesViewModel(e.Module)).ToList();
         }
+
+	    public SubGroupEditingViewModel SubGroups
+	    {
+		    get
+		    {
+			    return new SubGroupEditingViewModel(SubjectId);
+		    }
+	    }
     }
 }

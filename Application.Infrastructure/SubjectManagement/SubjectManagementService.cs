@@ -106,5 +106,16 @@ namespace Application.Infrastructure.SubjectManagement
                 return repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == subjecttId).Include(e => e.SubjectNewses)).SubjectNewses.FirstOrDefault(e => e.Id == id);
             }
         }
+
+	    public IList<SubGroup> GetSubGroups(int subjectId, int groupId)
+	    {
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var subjectGroup =
+					repositoriesContainer.SubjectRepository.GetBy(
+						new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId)).Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student)))));
+				return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
+			}
+	    }
     }
 }

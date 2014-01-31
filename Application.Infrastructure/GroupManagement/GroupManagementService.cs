@@ -6,31 +6,31 @@ using LMPlatform.Models;
 
 namespace Application.Infrastructure.GroupManagement
 {
-  public class GroupManagementService : IGroupManagementService
-  {
-    public Group GetGroup(int groupId)
-    {
-      using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-      {
-        return repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId));
-      }
-    }
+	public class GroupManagementService : IGroupManagementService
+	{
+		public Group GetGroup(int groupId)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId));
+			}
+		}
 
-    public List<Group> GetGroups()
-    {
-      using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-      {
-        return repositoriesContainer.GroupsRepository.GetAll().ToList();
-      }
-    }
+		public List<Group> GetGroups(IQuery<Group> query = null)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.GroupsRepository.GetAll(query).ToList();
+			}
+		}
 
-    public void AddGroup(Group @group)
-    {
-      using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-      {
-        repositoriesContainer.GroupsRepository.Save(@group);
-        repositoriesContainer.ApplyChanges();
-      }
-    }
-  }
+		public void AddGroup(Group @group)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				repositoriesContainer.GroupsRepository.Save(@group);
+				repositoriesContainer.ApplyChanges();
+			}
+		}
+	}
 }

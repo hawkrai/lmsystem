@@ -1,0 +1,15 @@
+﻿@model LMPlatform.UI.ViewModels.SubjectViewModels.SubGroupEditingViewModel
+
+<div>
+    @Html.DropDownListFor(e => e.GroupId, Model.GroupsList, new {@class= "form-control", @style = "width: 100%"})
+</div>
+<div>
+    <table>
+        <tr>
+            <td>
+                @Html.ListBox("StudentList",Model.StudentGroupList, new {@class = "form-control"})    
+            </td>
+            <td></td>
+        </tr>
+    </table>
+</div>
