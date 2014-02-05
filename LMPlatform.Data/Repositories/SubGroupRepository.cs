@@ -19,25 +19,26 @@ namespace LMPlatform.Data.Repositories
         {
             try
             {
-                using (var context = new LmPlatformModelsContext())
-                {
-                    var modelFirstSubGroup =
+                var modelFirstSubGroup =
                         GetBy(
                             new Query<SubGroup>(e => e.SubjectGroupId == subjectGroupId && e.Name == "first").Include(
                                 e => e.SubjectStudents.Select(x => x.Student)));
-                    var modelSecondSubGroup =
-                        GetBy(
-                            new Query<SubGroup>(e => e.SubjectGroupId == subjectGroupId && e.Name == "second").Include(
-                                e => e.SubjectStudents.Select(x => x.Student)));
+                var modelSecondSubGroup =
+                    GetBy(
+                        new Query<SubGroup>(e => e.SubjectGroupId == subjectGroupId && e.Name == "second").Include(
+                            e => e.SubjectStudents.Select(x => x.Student)));
 
-                    var firstSubGorupStudent = modelFirstSubGroup.SubjectStudents.ToList();
-                    var secondSubGorupStudent = modelSecondSubGroup.SubjectStudents.ToList();
+                var firstSubGorupStudent = modelFirstSubGroup.SubjectStudents.ToList();
+                var secondSubGorupStudent = modelSecondSubGroup.SubjectStudents.ToList();
 
+                using (var context = new LmPlatformModelsContext())
+                {
                     foreach (var subjectStudent in firstSubGorupStudent)
                     {
                         if (!firstInts.Any(e => e == subjectStudent.StudentId))
                         {
-                            context.SubjectStudents.Remove(subjectStudent);
+                            context.Set<SubjectStudent>().Attach(subjectStudent);
+                            context.Set<SubjectStudent>().Remove(subjectStudent);
                         }
                     }
 
@@ -45,6 +46,7 @@ namespace LMPlatform.Data.Repositories
                     {
                         if (!secoInts.Any(e => e == subjectStudent.StudentId))
                         {
+                            context.Set<SubjectStudent>().Attach(subjectStudent);
                             context.Set<SubjectStudent>().Remove(subjectStudent);
                         }
                     }

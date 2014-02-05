@@ -143,7 +143,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                 foreach (var student in groups.FirstOrDefault(e => e.Id == groupId).Students)
                 {
                     var studentId = student.Id.ToString(CultureInfo.InvariantCulture);
-                    if (SubGroupsFirstList.Any(e => e.Value == studentId) || SubGroupsTwoList.Any(e => e.Value == studentId))
+                    if (!SubGroupsFirstList.Any(e => e.Value == studentId) && !SubGroupsTwoList.Any(e => e.Value == studentId))
                     {
                         StudentGroupList.Add(new SelectListItem
                         {
