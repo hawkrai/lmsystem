@@ -601,3 +601,7 @@ legend.scheduler-border {
 .managementBtn:hover {
     background-color: #007196 !important;
 }
+
+.msgButton {
+    margin: 0 0 15px 0;
+}

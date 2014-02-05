@@ -14,22 +14,27 @@
             @Html.HiddenFor(m => m.FromId)
             <div>
                 @Html.LabelFor(m => m.MessageText)
-                @Html.TextAreaFor(m => m.MessageText)
+                @Html.TextAreaFor(m => m.MessageText, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.MessageText, " ")
             </div>
             <div>
                 @Html.LabelFor(m => m.Recipients, new { @class = "control-label" })
-                @Html.ListBoxFor(m => m.Recipients, Model.GetRecipients(),
+                @Html.ListBoxFor(m => m.Recipients, Model.GetRecipientsSelectList(),
                                  new Dictionary<string, object> { 
-                                     { "data-placeholder", "Выберте получателя..." }, 
+                                     { "data-placeholder", "Выберите получателя..." }, 
                                      { "class", "form-control chosen-select" } })
                 @Html.ValidationMessageFor(m => m.Recipients, " ")
                 <p></p>
             </div>
+            <div style="width: 60%">
+                @Html.Partial("Common/_FilesUploader", Model.Attachment)
+            </div>
+            <input type="submit" style="display: none"/>
         </div>
     }
 </div>
 
 <script type="text/javascript">
-    $(".chosen-select").chosen({ no_results_text: "Пользователь не найден..." });
+    $('.modal-dialog').width('900px');
+    $(".chosen-select").chosen({ no_results_text: "Пользователь не найден...", width: '858px' });
 </script>

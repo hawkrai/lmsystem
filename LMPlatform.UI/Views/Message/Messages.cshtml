@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model LMPlatform.UI.ViewModels.MessageViewModels.MessageListViewModel
 
 @{
     ViewBag.Title = "Сообщения";
@@ -18,6 +18,56 @@
 </div>
 <div>
     <div id="buttonActionSection">
-        <a href="@Url.Action("WriteMessage", "Message")" class="msgButton btn btn-primary btn-sm" data-toggle="tooltip">Написать сообщение</a>
+        <a href="#" class="msgButton btn btn-primary btn-sm" data-url="@Url.Action("WriteMessage", "Message")" data-toggle="tooltip">Написать сообщение</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#inbox" data-toggle="tab">Входящие</a></li>
+            <li><a href="#sent" data-toggle="tab">Отправленные</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="inbox">
+                <div>
+                    @foreach (var msg in Model.IncomingMessages)
+                    {
+                        <div class="" style="min-width: 300px; width: 100%; padding: 15px; height: 35px; overflow: hidden;">
+                            <div class="" style="width: 90%; float: left; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; height: inherit;">
+                                <div style="width: 250px; text-align: left; float: left; height: inherit;">
+                                    <strong>@msg.AuthorName</strong>
+                                </div>
+                                <div style="position: relative; text-overflow: ellipsis; overflow: hidden; padding-right: 15px;">
+                                    @msg.Text
+                                </div>
+                            </div>
+                            <div class="" style="height: inherit;" >
+                                @(msg.Date.Date == DateTime.Now.Date ? msg.Date.ToString("t") : msg.Date.ToString("d"))
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="tab-pane" id="sent">
+                <div>
+                    @foreach (var msg in Model.OutcomingMessages)
+                    {
+                        <div class="" style="min-width: 300px; width: 100%; padding: 15px; height: 35px; overflow: hidden;">
+                            <div class="" style="width: 90%; float: left; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; height: inherit;">
+                                <div style="width: 250px; text-align: left; float: left; height: inherit;">
+                                    <strong>@msg.AuthorName</strong>
+                                </div>
+                                <div style="position: relative; text-overflow: ellipsis; overflow: hidden; padding-right: 15px;">
+                                    @msg.Text
+                                </div>
+                            </div>
+                            <div class="" style="height: inherit;" >
+                                @(msg.Date.Date == DateTime.Now.Date ? msg.Date.ToString("t") : msg.Date.ToString("d"))
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 </div>

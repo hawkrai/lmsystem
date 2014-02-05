@@ -27,6 +27,8 @@ namespace Application.Infrastructure.MessageManagement
 
         List<UserMessages> GetUnreadUserMessages(int userId);
 
+        List<UserMessages> GetUserMessages(int userId);
+
         Message GetMessage(int messageId);
     }
 }

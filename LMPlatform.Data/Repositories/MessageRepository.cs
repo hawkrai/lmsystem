@@ -23,8 +23,11 @@ namespace LMPlatform.Data.Repositories
         public List<UserMessages> GetUserMessages(int userId)
         {
             return DataContext.Set<UserMessages>()
+                .Include("Message")
+                .Include("Author.Lecturer")
+                .Include("Author.Student")
                 .Where(m => m.AuthorId == userId || m.RecipientId == userId)
-                .OrderBy(m => m.Date).ToList();
+                .ToList();
         }
 
         public List<UserMessages> GetCorrespondence(int firstUserId, int secondUserId)
@@ -32,7 +35,7 @@ namespace LMPlatform.Data.Repositories
             return DataContext.Set<UserMessages>()
                 .Where(m => (m.AuthorId == firstUserId && m.RecipientId == secondUserId) ||
                             (m.AuthorId == secondUserId && m.RecipientId == firstUserId))
-                .OrderBy(m => m.Date).ToList();
+                .ToList();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
@@ -31,7 +32,11 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
         [DataType(DataType.MultilineText)]
         public string MessageText { get; set; }
 
-        public IList<SelectListItem> GetRecipients()
+        public List<UserMessages> UserMessages { get; set; }
+
+        public List<Attachment> Attachment { get; set; }
+
+        public IList<SelectListItem> GetRecipientsSelectList()
         {
             var recip = MessageManagementService.GetRecipientsList(FromId);
 
@@ -52,6 +57,6 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
                 var userMsg = new UserMessages(recipient, FromId, msg.Id);
                 MessageManagementService.SaveUserMessages(userMsg);
             }
-        }   
+        }
     }
 }
