@@ -29,11 +29,32 @@
             var that = this;
             $.savingDialog("Управление подгруппами", $(that).attr("href"), null, "primary", function (data) {
                 
-            }, function(forms) {
+            }, function (forms) {
+                var subjectId = $(".conteinerModule").attr('data-subjectId');
                 
+                $(forms).append('<input type=\"hidden\" id=\"subjectId\" name=\"subjectId\" />');
+                $("#subjectId").val(subjectId);
+
+                $(forms).append('<input type=\"hidden\" id=\"groupId\" name=\"groupId\" />');
+                $("#groupId").val($('#GroupId').first('option[selected=true]'));
+
+                $(forms).append('<input type=\"hidden\" id=\"subGroupFirstIds\" name=\"subGroupFirstIds\" />');
+                $("#subGroupFirstIds").val(subjectWorking.getSubGroupIds("StudentFirstList"));
+                
+                $(forms).append('<input type=\"hidden\" id=\"subGroupSecondIds\" name=\"subGroupSecondIds\" />');
+                $("#subGroupSecondIds").val(subjectWorking.getSubGroupIds("StudentSecondList"));
             });
             return false;
         });
+    },
+    
+    getSubGroupIds: function(listName) {
+        var subGroup = $('#' + listName).find('option');
+        var studentIds = "";
+        $(subGroup).each(function (index, element) {
+            studentIds += $(element).attr('value') + ",";
+        });
+        return studentIds;
     },
 
     applyCss: function () {

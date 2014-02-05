@@ -117,5 +117,22 @@ namespace Application.Infrastructure.SubjectManagement
 				return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
 			}
 	    }
+        
+        public void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var subject = repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId)).Include(e => e.SubjectGroups.Select(x => x.SubGroups)));
+                var firstOrDefault = subject.SubjectGroups.FirstOrDefault(e => e.GroupId == groupId);
+                if (firstOrDefault.SubGroups.Any())
+                {
+                    repositoriesContainer.SubGroupRepository.SaveStudents(subjectId, firstOrDefault.Id, firstInts, secoInts);
+                }
+                else
+                {
+                    repositoriesContainer.SubGroupRepository.CreateSubGroup(subjectId, firstOrDefault.Id, firstInts, secoInts);           
+                }
+            }
+        }
     }
 }

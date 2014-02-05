@@ -21,5 +21,7 @@ namespace Application.Infrastructure.SubjectManagement
         SubjectNews GetNews(int id, int subjecttId);
 
 	    IList<SubGroup> GetSubGroups(int subjectId, int groupId);
+
+        void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts);
     }
 }

@@ -7,6 +7,7 @@ using Application.Core.Data;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace LMPlatform.UI.ViewModels.SubjectViewModels
 {
@@ -84,18 +85,41 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 
 			SubGroupsFirstList = subGroups.FirstOrDefault().SubjectStudents.Select(e => new SelectListItem
 			{
-				Text = e.Student.FirstName,
+				Text = e.Student.FullName,
 				Value = e.Id.ToString(CultureInfo.InvariantCulture),
 				Selected = false
 			}).ToList();
 
 			SubGroupsTwoList = subGroups.LastOrDefault().SubjectStudents.Select(e => new SelectListItem
 			{
-				Text = e.Student.FirstName,
+                Text = e.Student.FullName,
 				Value = e.Id.ToString(CultureInfo.InvariantCulture),
 				Selected = false
 			}).ToList();
 		}
+
+	    public SubGroupEditingViewModel()
+	    {
+	    }
+
+	    public void SaveSubGroups(int subjectId, int groupId, string subGroupFirst, string subGroupSecond)
+	    {
+            var listSubGroupFirst = new List<int>();
+            var listSubGroupSecond = new List<int>();
+	        if (!subGroupFirst.IsNullOrWhiteSpace())
+	        {
+	            subGroupFirst = subGroupFirst.Remove(subGroupFirst.Length - 1);    
+                listSubGroupFirst = subGroupFirst.Split(new[] { ',' }).Select(int.Parse).ToList();
+	        }
+
+	        if (!subGroupSecond.IsNullOrWhiteSpace())
+	        {
+	            subGroupSecond = subGroupSecond.Remove(subGroupSecond.Length - 1);
+                listSubGroupSecond = subGroupSecond.Split(new[] { ',' }).Select(int.Parse).ToList();
+	        }
+
+            SubjectManagementService.SaveSubGroup(subjectId, groupId, listSubGroupFirst, listSubGroupSecond);
+	    }
 
 		public SubGroupEditingViewModel(int subjectId, int groupId = 0)
 		{
@@ -119,8 +143,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                 foreach (var student in groups.FirstOrDefault(e => e.Id == groupId).Students)
                 {
                     var studentId = student.Id.ToString(CultureInfo.InvariantCulture);
-                    if (SubGroupsFirstList.All(e => e.Value != studentId) &&
-                        SubGroupsTwoList.All(e => e.Value != studentId))
+                    if (SubGroupsFirstList.Any(e => e.Value == studentId) || SubGroupsTwoList.Any(e => e.Value == studentId))
                     {
                         StudentGroupList.Add(new SelectListItem
                         {

@@ -124,6 +124,8 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public ActionResult SaveSubGroup(string subjectId, string groupId, string subGroupFirstIds, string subGroupSecondIds)
         {
+            var model = new SubGroupEditingViewModel();
+            model.SaveSubGroups(int.Parse(subjectId), int.Parse(groupId), subGroupFirstIds, subGroupSecondIds);
             return null;
         }
 
