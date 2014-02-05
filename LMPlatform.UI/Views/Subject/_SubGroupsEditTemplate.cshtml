@@ -1,15 +1,40 @@
 ﻿@model LMPlatform.UI.ViewModels.SubjectViewModels.SubGroupEditingViewModel
 
-<div>
+<div style="margin-bottom: 20px">
     @Html.DropDownListFor(e => e.GroupId, Model.GroupsList, new {@class= "form-control", @style = "width: 100%"})
 </div>
 <div>
     <table>
         <tr>
             <td>
-                @Html.ListBox("StudentList",Model.StudentGroupList, new {@class = "form-control"})    
+                @Html.ListBox("StudentList",Model.StudentGroupList, new {@class = "form-control", @style="width: 250px; height: 400px"})    
             </td>
-            <td></td>
+            <td>
+                <div id="subGroupFirst">
+                    <a class="btn btn-sm bright" style="margin: 5px"><i class="fa fa-angle-right fa-2x"></i></a>
+                    <a class="btn btn-sm bleft" style="margin: 5px"><i class="fa fa-angle-left fa-2x"></i></a>
+                    <a class="btn btn-sm double-right" style="margin: 5px"><i class="fa fa-angle-double-right fa-2x"></i></a>
+                    <a class="btn btn-sm double-left" style="margin: 5px"><i class="fa fa-angle-double-left fa-2x"></i></a>
+                </div>
+                <div id="subGroupTwo">
+                    <a class="btn btn-sm bright" style="margin: 5px"><i class="fa fa-angle-right fa-2x"></i></a>
+                    <a class="btn btn-sm bleft" style="margin: 5px"><i class="fa fa-angle-left fa-2x"></i></a>
+                    <a class="btn btn-sm double-right" style="margin: 5px"><i class="fa fa-angle-double-right fa-2x"></i></a>
+                    <a class="btn btn-sm double-left" style="margin: 5px"><i class="fa fa-angle-double-left fa-2x"></i></a>
+                </div>
+            </td>
+            <td>
+                <div>
+                    @Html.ListBox("StudentFirstList", Model.SubGroupsFirstList, new {@class = "form-control", @style="width: 245px; height:  200px"})
+                </div>
+                <div>
+                    @Html.ListBox("StudentSecondList", Model.SubGroupsTwoList, new {@class = "form-control", @style="width: 245px; height: 200px"})
+                </div>
+            </td>
         </tr>
     </table>
 </div>
+
+<script>
+    subjectWorking.subGroupsActionHandler();
+</script>

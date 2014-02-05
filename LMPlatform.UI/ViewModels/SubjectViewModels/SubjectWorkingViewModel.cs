@@ -50,7 +50,12 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             Modules = Subject.SubjectModules.Select(e => new ModulesViewModel(e.Module)).ToList();
         }
 
-	    public SubGroupEditingViewModel SubGroups
+        public SubGroupEditingViewModel SubGroup(int groupId)
+        {
+            return new SubGroupEditingViewModel(SubjectId, groupId);
+        }
+
+        public SubGroupEditingViewModel SubGroups
 	    {
 		    get
 		    {

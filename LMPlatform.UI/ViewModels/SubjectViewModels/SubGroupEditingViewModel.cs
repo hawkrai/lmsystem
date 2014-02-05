@@ -37,7 +37,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			set;
 		}
 
-		public List<SelectListItem> GroupsList
+        public List<SelectListItem> GroupsList
 		{
 			get;
 			set;
@@ -97,19 +97,45 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			}).ToList();
 		}
 
-		public SubGroupEditingViewModel(int subjectId)
+		public SubGroupEditingViewModel(int subjectId, int groupId = 0)
 		{
 			var groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == subjectId)).Include(e => e.Students));
 			FillGroupsList(groups);
 
-			var subGroups = SubjectManagementService.GetSubGroups(subjectId, int.Parse(GroupsList.FirstOrDefault().Value));
+            if (groupId == 0)
+            {
+                groupId = int.Parse(GroupsList.FirstOrDefault().Value);
+            }
+
+		    GroupId = groupId.ToString(CultureInfo.InvariantCulture);
+
+            var subGroups = SubjectManagementService.GetSubGroups(subjectId, groupId);
+
 			if (subGroups.Any())
 			{
-				FillSubGroupsList(subGroups);	
+				FillSubGroupsList(subGroups);
+                StudentGroupList = new List<SelectListItem>();
+			    
+                foreach (var student in groups.FirstOrDefault(e => e.Id == groupId).Students)
+                {
+                    var studentId = student.Id.ToString(CultureInfo.InvariantCulture);
+                    if (SubGroupsFirstList.All(e => e.Value != studentId) &&
+                        SubGroupsTwoList.All(e => e.Value != studentId))
+                    {
+                        StudentGroupList.Add(new SelectListItem
+                        {
+                            Selected = false,
+                            Text = student.FullName,
+                            Value = studentId
+                        });            
+                    }
+                }
 			}
 			else
 			{
-				StudentGroupList = groups.FirstOrDefault(e => e.Id == int.Parse(GroupsList.FirstOrDefault().Value)).Students.Select(e => new SelectListItem
+                SubGroupsFirstList = new List<SelectListItem>();
+                SubGroupsTwoList = new List<SelectListItem>();
+                StudentGroupList = groups.FirstOrDefault(e => e.Id == groupId).Students.Select(e => new SelectListItem
 				{
 					Text = e.FullName,
 					Value = e.Id.ToString(CultureInfo.InvariantCulture),

@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.ProjectManagement;
@@ -109,8 +110,22 @@ namespace LMPlatform.UI.Controllers
 	    public ActionResult SubGroups(int subjectId)
 	    {
 		    var model = new SubjectWorkingViewModel(subjectId);
-			return PartialView("_SubGroupsEditTemplate", model.SubGroups);
+			return PartialView("_SubGroupEdit", model.SubGroups);
 	    }
+
+        [HttpPost]
+        public ActionResult SubGroupsChangeGroup(string subjectId, string groupId)
+        {
+            var model = new SubjectWorkingViewModel(int.Parse(subjectId));
+            
+            return PartialView("_SubGroupsEditTemplate", model.SubGroup(int.Parse(groupId)));
+        }
+
+        [HttpPost]
+        public ActionResult SaveSubGroup(string subjectId, string groupId, string subGroupFirstIds, string subGroupSecondIds)
+        {
+            return null;
+        }
 
         [HttpPost]
         public DataTablesResult<SubjectListViewModel> GetSubjects(DataTablesParam dataTableParam)

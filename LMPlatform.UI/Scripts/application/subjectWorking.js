@@ -27,7 +27,9 @@
 
         $('#subGroups').handle("click", function() {
             var that = this;
-            $.savingDialog("Управление подгруппам", $(that).attr("href"), null, "primary", function (data) {
+            $.savingDialog("Управление подгруппами", $(that).attr("href"), null, "primary", function (data) {
+                
+            }, function(forms) {
                 
             });
             return false;
@@ -74,6 +76,85 @@
         });
         
         subjectWorking.applyCss();
+    },
+    
+    subGroupsActionHandler: function() {
+        $("#subGroupFirst").find("a.bright").handle("click", function () {
+            var selectStudents = $("#StudentList").find("option");
+            selectStudents.each(function (index, element) {
+                if (element.selected == true) {
+                    element.selected = false;
+                    $("#StudentFirstList").append(element);
+                }
+            });
+        });
+        $("#subGroupFirst").find("a.bleft").handle("click", function () {
+            var selectStudents = $("#StudentFirstList").find("option");
+            selectStudents.each(function (index, element) {
+                if (element.selected == true) {
+                    element.selected = false;
+                    $("#StudentList").append(element);
+                }
+            });
+        });
+        $("#subGroupFirst").find("a.double-right").handle("click", function () {
+            var selectStudents = $("#StudentList").find("option");
+            selectStudents.each(function (index, element) {
+                    element.selected = false;
+                    $("#StudentFirstList").append(element);
+            });
+        });
+        $("#subGroupFirst").find("a.double-left").handle("click", function () {
+            var selectStudents = $("#StudentFirstList").find("option");
+            selectStudents.each(function (index, element) {
+                    element.selected = false;
+                    $("#StudentList").append(element);
+            });
+        });
+        $("#subGroupTwo").find("a.bright").handle("click", function () {
+            var selectStudents = $("#StudentList").find("option");
+            selectStudents.each(function (index, element) {
+                if (element.selected == true) {
+                    element.selected = false;
+                    $("#StudentSecondList").append(element);
+                }
+            });
+        });
+        $("#subGroupTwo").find("a.bleft").handle("click", function () {
+            var selectStudents = $("#StudentSecondList").find("option");
+            selectStudents.each(function (index, element) {
+                if (element.selected == true) {
+                    element.selected = false;
+                    $("#StudentList").append(element);
+                    $("#StudentSecondList").remove(element);
+                }
+            });
+        });
+        $("#subGroupTwo").find("a.double-right").handle("click", function () {
+            var selectStudents = $("#StudentList").find("option");
+            selectStudents.each(function (index, element) {
+                element.selected = false;
+                $("#StudentSecondList").append(element);
+                $("#StudentList").remove(element);
+            });
+        });
+        $("#subGroupTwo").find("a.double-left").handle("click", function () {
+            var selectStudents = $("#StudentSecondList").find("option");
+            selectStudents.each(function (index, element) {
+                element.selected = false;
+                $("#StudentList").append(element);
+                $("#StudentSecondList").remove(element);
+            });
+        });
+
+        $("#GroupId").change(function() {
+            var subjectId = $(".conteinerModule").attr('data-subjectId');
+            var element = $(this).find("option:selected");
+            $.post("/subject/subgroupschangegroup", { subjectId: subjectId, groupId: $(element).attr('value') }, function (data) {
+                $("#containerSubGroupEdit").empty();
+                $("#containerSubGroupEdit").append(data);
+            });
+        });
     }
 };
 

@@ -28,7 +28,7 @@
 		}
 		return context[func].apply(context, args);
 	},
-	savingDialog: function (header, url, data, color, saveCallback) {
+	savingDialog: function (header, url, data, color, saveCallback, beforeSave) {
 	    var that = this;
 	    var dialogId = that.generateUniqID();
 	    if (color == null) {
@@ -58,7 +58,10 @@
 			$.validator.unobtrusive.parse(form);
 			
 			$("#saveButton").handle("click", function () {
-				if ($(form).valid()) {
+			    if ($(form).valid()) {
+			        if (beforeSave != undefined) {
+			            beforeSave(form);
+			        }
 					$.post($(form).attr("action"), $(form).serialize(), function(result) {
 						saveCallback(result);
 						that.closeDialog(dialogId);
@@ -69,7 +72,10 @@
 			});
 
 			$(form).submit(function() {
-				if ($(form).valid()) {
+			    if ($(form).valid()) {
+			        if (beforeSave != undefined) {
+			            beforeSave(form);
+			        }
 					$.post($(form).attr("action"), $(form).serialize(), function (result) {
 						saveCallback(result);
 						that.closeDialog(dialogId);

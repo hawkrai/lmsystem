@@ -876,6 +876,7 @@
     <Content Include="Views\Shared\Common\_MessageForm.cshtml" />
     <Content Include="Views\Message\Messages.cshtml" />
     <Content Include="Views\Subject\_SubGroupsEditTemplate.cshtml" />
+    <Content Include="Views\Subject\_SubGroupEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

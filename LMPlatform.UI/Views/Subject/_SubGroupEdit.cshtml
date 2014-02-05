@@ -1,0 +1,8 @@
+﻿@model LMPlatform.UI.ViewModels.SubjectViewModels.SubGroupEditingViewModel
+
+@using (Html.BeginForm("SaveSubGroup", "Subject", FormMethod.Post))
+{
+    <div id="containerSubGroupEdit">
+        @Html.Partial("_SubGroupsEditTemplate", Model)
+    </div>
+}
