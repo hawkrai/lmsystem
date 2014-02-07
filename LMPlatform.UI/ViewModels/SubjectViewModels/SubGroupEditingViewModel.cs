@@ -86,14 +86,14 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			SubGroupsFirstList = subGroups.FirstOrDefault().SubjectStudents.Select(e => new SelectListItem
 			{
 				Text = e.Student.FullName,
-				Value = e.Id.ToString(CultureInfo.InvariantCulture),
+				Value = e.Student.Id.ToString(CultureInfo.InvariantCulture),
 				Selected = false
 			}).ToList();
 
 			SubGroupsTwoList = subGroups.LastOrDefault().SubjectStudents.Select(e => new SelectListItem
 			{
                 Text = e.Student.FullName,
-				Value = e.Id.ToString(CultureInfo.InvariantCulture),
+				Value = e.Student.Id.ToString(CultureInfo.InvariantCulture),
 				Selected = false
 			}).ToList();
 		}
@@ -143,15 +143,25 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                 foreach (var student in groups.FirstOrDefault(e => e.Id == groupId).Students)
                 {
                     var studentId = student.Id.ToString(CultureInfo.InvariantCulture);
-                    if (!SubGroupsFirstList.Any(e => e.Value == studentId) && !SubGroupsTwoList.Any(e => e.Value == studentId))
-                    {
-                        StudentGroupList.Add(new SelectListItem
-                        {
-                            Selected = false,
-                            Text = student.FullName,
-                            Value = studentId
-                        });            
-                    }
+
+	                if (!SubGroupsFirstList.Any() && !SubGroupsTwoList.Any())
+	                {
+						StudentGroupList.Add(new SelectListItem
+						{
+							Selected = false,
+							Text = student.FullName,
+							Value = studentId
+						});      
+	                }
+					else if (SubGroupsFirstList.Any(e => e.Value != studentId) && SubGroupsTwoList.Any(e => e.Value != studentId))
+					{
+						StudentGroupList.Add(new SelectListItem
+						{
+							Selected = false,
+							Text = student.FullName,
+							Value = studentId
+						});  	
+					}
                 }
 			}
 			else

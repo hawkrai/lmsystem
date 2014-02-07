@@ -1,22 +1,22 @@
 ﻿@model LMPlatform.UI.ViewModels.SubjectViewModels.SubGroupEditingViewModel
 
 <div style="margin-bottom: 20px">
-    @Html.DropDownListFor(e => e.GroupId, Model.GroupsList, new {@class= "form-control", @style = "width: 100%"})
+    @Html.DropDownListFor(e => e.GroupId, Model.GroupsList, new {@class= "form-control", @style = "width: 100%;"})
 </div>
 <div>
     <table>
         <tr>
             <td>
-                @Html.ListBox("StudentList",Model.StudentGroupList, new {@class = "form-control", @style="width: 250px; height: 400px"})    
+                @Html.ListBox("StudentList",Model.StudentGroupList, new {@class = "form-control", @style="width: 250px; height: 480px"})    
             </td>
             <td>
-                <div id="subGroupFirst">
+                <div id="subGroupFirst" style="margin-top: 30px">
                     <a class="btn btn-sm bright" style="margin: 5px"><i class="fa fa-angle-right fa-2x"></i></a>
                     <a class="btn btn-sm bleft" style="margin: 5px"><i class="fa fa-angle-left fa-2x"></i></a>
                     <a class="btn btn-sm double-right" style="margin: 5px"><i class="fa fa-angle-double-right fa-2x"></i></a>
                     <a class="btn btn-sm double-left" style="margin: 5px"><i class="fa fa-angle-double-left fa-2x"></i></a>
                 </div>
-                <div id="subGroupTwo">
+                <div id="subGroupTwo" style="margin-top: 30px">
                     <a class="btn btn-sm bright" style="margin: 5px"><i class="fa fa-angle-right fa-2x"></i></a>
                     <a class="btn btn-sm bleft" style="margin: 5px"><i class="fa fa-angle-left fa-2x"></i></a>
                     <a class="btn btn-sm double-right" style="margin: 5px"><i class="fa fa-angle-double-right fa-2x"></i></a>
@@ -25,10 +25,12 @@
             </td>
             <td>
                 <div>
-                    @Html.ListBox("StudentFirstList", Model.SubGroupsFirstList, new {@class = "form-control", @style="width: 245px; height:  200px"})
+                    <h5 class="text-muted">Первая подгруппа</h5>
+                    @Html.ListBox("StudentFirstList", Model.SubGroupsFirstList, new {@class = "form-control", @style="width: 245px; height:  202px"})
                 </div>
                 <div>
-                    @Html.ListBox("StudentSecondList", Model.SubGroupsTwoList, new {@class = "form-control", @style="width: 245px; height: 200px"})
+                    <h5 class="text-muted">Вторая подгруппа</h5>
+                    @Html.ListBox("StudentSecondList", Model.SubGroupsTwoList, new {@class = "form-control", @style="width: 245px; height: 202px"})
                 </div>
             </td>
         </tr>

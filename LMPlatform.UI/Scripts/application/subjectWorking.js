@@ -147,7 +147,6 @@
                 if (element.selected == true) {
                     element.selected = false;
                     $("#StudentList").append(element);
-                    $("#StudentSecondList").remove(element);
                 }
             });
         });
@@ -156,7 +155,6 @@
             selectStudents.each(function (index, element) {
                 element.selected = false;
                 $("#StudentSecondList").append(element);
-                $("#StudentList").remove(element);
             });
         });
         $("#subGroupTwo").find("a.double-left").handle("click", function () {
@@ -164,7 +162,6 @@
             selectStudents.each(function (index, element) {
                 element.selected = false;
                 $("#StudentList").append(element);
-                $("#StudentSecondList").remove(element);
             });
         });
 
