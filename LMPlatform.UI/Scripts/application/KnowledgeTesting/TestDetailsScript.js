@@ -1,4 +1,5 @@
-﻿var testsDetails = {
+﻿
+var testsDetails = {
     init: function () {
         $('#saveButton').bind('click', $.proxy(this._onSaveButtonClicked, this));
     },
@@ -21,6 +22,7 @@
 
     _onSaveButtonClicked: function () {
         var modelToSave = koWrapper.getModel();
+        modelToSave.SubjectId = new Number(getUrlValue('subjectId'));
         if (this._validate()) {
             this._saveTest(modelToSave);
         }

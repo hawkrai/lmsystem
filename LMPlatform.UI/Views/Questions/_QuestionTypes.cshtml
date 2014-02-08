@@ -4,18 +4,47 @@
 
 @section title
 {
-    <h4 class="modal-title">Выберите тип ввопроса</h4>
+    <div class="modal-title" style="font-size: 14px;"><span class="fa fa-th-large fa-2x">&nbsp;Выберите тип вопроса</span></div>
 }
 
 @section content{
     <div class="row">
-        <div class="buttonWrapper col-lg-4"><button type="button" id="hasOneCorrectVariant" class="btn-primary questionTypeButton">1</button></div>
-        <div class="buttonWrapper col-lg-4"><button type="button" id="manyCorrectAnswers" class="btn-primary questionTypeButton">2</button></div>
-        <div class="buttonWrapper col-lg-4"><button type="button" id="textAnswer" class="btn-primary questionTypeButton">3</button></div>
-    </div>
-    <div class="row">
-        <div class="buttonWrapper col-lg-4"><button type="button" id="numericAnswer" class="btn-primary questionTypeButton">4</button></div>
-        <div class="buttonWrapper col-lg-4"><button type="button" id="sequenceAnswer" class="btn-primary questionTypeButton">5</button></div>
-        <div class="buttonWrapper col-lg-4"><button type="button" id="accordanceAnswer" class="btn-primary questionTypeButton">6</button></div>
+        <div class="col-lg-6">
+            <div class="">
+            <a href="#" id="hasOneCorrectVariant" class="questionTypeButton">
+                <div class="row"><span class="fa fa-dot-circle-o fa-3x"></span></div>
+                <div class="row"><span style="font-size: 20px;">С одним вариантом ответа</span></div>
+                
+            </a></div>
+        </div>
+        <div class="col-lg-6 ">
+             <div class="">
+            <a href="#" id="hasManyCorrectVariants" class="questionTypeButton">
+                <div class="row"><span class="fa fa-check-square-o fa-3x "></span></div>
+                <div class="row">
+                    <span style="font-size: 20px;">С несколькими ответа
+                    </span>
+                </div>
+            </a></div>
+        </div>
+        <div class="col-lg-6 ">
+             <div class="">
+            <a href="#" id="hasTextVariants" class="questionTypeButton">
+                <div class="row"><span class="fa fa-comment-o fa-3x"></span></div>
+
+                <div class="row"><span style="font-size: 20px;">Без вариантов ответа</span></div>
+            </a></div>
+        </div>
+        <div class="col-lg-6 ">
+             <div class="">
+            <a href="#" id="sequenceVariants" class="questionTypeButton">
+                <div class="row"><span class="fa fa-list-ol fa-3x "></span></div>
+                <div class="row">
+                    <span style="font-size: 20px;">На последовательность</span>
+                </div>
+            </a> </div>
+        </div>
     </div>
 }
+
+

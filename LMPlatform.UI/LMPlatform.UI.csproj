@@ -739,6 +739,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.activity-indicator-1.0.0.js" />
     <Content Include="Scripts\jquery.activity-indicator-1.0.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -875,9 +877,12 @@
     <Content Include="Views\Shared\Common\_FilesUploader.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\News\_EditNews.cshtml" />
     <Content Include="Views\Shared\Common\_MessageForm.cshtml" />
+    <Content Include="Views\Questions\_QuestionsSelector.cshtml" />
+    <Content Include="Views\Questions\_QuestionsSelectorResult.cshtml" />
     <Content Include="Views\Message\Messages.cshtml" />
     <Content Include="Views\Subject\_SubGroupsEditTemplate.cshtml" />
     <Content Include="Views\Subject\_SubGroupEdit.cshtml" />
+    <Content Include="Views\Questions\EditorTemplates\QuestionItemListViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

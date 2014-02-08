@@ -1,8 +1,9 @@
-﻿using Application.Core.Data;
+﻿using System;
+using Application.Core.Data;
 
 namespace LMPlatform.Models.KnowledgeTesting
 {
-    public class Answer : ModelBase
+    public class Answer : ModelBase, ICloneable
     {
         public int QuestionId
         {
@@ -26,6 +27,15 @@ namespace LMPlatform.Models.KnowledgeTesting
         {
             get;
             set;
+        }
+
+        public object Clone()
+        {
+            return new Answer
+            {
+                Content = Content,
+                СorrectnessIndicator = СorrectnessIndicator
+            };
         }
     }
 }

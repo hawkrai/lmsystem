@@ -27,13 +27,27 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public int Id
+        {
+            get; 
+            set;
+        }
+
         public static TestItemListViewModel FromTest(Test test, string htmlLinks)
+        {
+            var model = FromTest(test);
+            model.Action = new HtmlString(htmlLinks);
+
+            return model;
+        }
+
+        public static TestItemListViewModel FromTest(Test test)
         {
             return new TestItemListViewModel
             {
+                Id = test.Id,
                 Title = test.Title,
-                Description = test.Description,
-                Action = new HtmlString(htmlLinks)
+                Description = test.Description
             };
         }
     }

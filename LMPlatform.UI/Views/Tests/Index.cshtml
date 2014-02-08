@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
 }
 
+@model int
+
 
 @section scripts
 {
@@ -32,7 +34,8 @@
     <div>
         @Html.Partial("_DataTable", new DataTableViewModel
         {
-            DataTable = Html.DataTable("testsList", (TestsController controller) => controller.GetTestsList(null)),
+            DataTable = Html.DataTable("testsList", (TestsController controller) => controller.GetTestsList(null, 0), 
+            new { subjectId = Model}),
             DataTableOptions = new DataTableOptions
             {
                 Filterable = true,

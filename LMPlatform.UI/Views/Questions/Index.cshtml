@@ -1,16 +1,20 @@
 ﻿@using Application.Core.UI.HtmlHelpers
 @using LMPlatform.UI.Controllers
+@using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
 @{
     ViewBag.Title = "title";
     Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
 }
+
+@model int
 
 @section scripts
 {
     @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles", "~/bundles/knockoutBundles",
     "~/Scripts/ckeditor/mathquill.js", "~/Scripts/ckeditor/ckeditor.js")
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/QuestionsListScript.js",
-                "~/Scripts/application/KnowledgeTesting/QuestionDetailsScript.js")
+                "~/Scripts/application/KnowledgeTesting/QuestionDetailsScript.js",
+                "~/Scripts/jquery.unobtrusive-ajax.js")
     @Styles.Render("~/Scripts/ckeditor/mathquill.css")
 }
 
@@ -29,13 +33,17 @@
 <div style="margin: 20px">
     <a href="#" id="addNewQuestionButton">
         <span class="glyphicon glyphicon-plus"></span>Добавить вопрос
+    </a>/
+    <a href="#" id="selectQuestionButton">
+        <span class="glyphicon glyphicon-plus"></span>Добавить вопрос из другого теста
     </a>
    
 
     <div>
         @Html.Partial("_DataTable", new DataTableViewModel
         {
-            DataTable = Html.DataTable("questionsList", (QuestionsController controller) => controller.GetQuestionsList(null)),
+            DataTable = Html.DataTable("questionsList", (QuestionsController controller) => controller.GetQuestionsList(null, 0),
+            new {testId = Model}),
             DataTableOptions = new DataTableOptions
             {
                 Filterable = true,
@@ -47,6 +55,10 @@
             }
         })
     </div>
+</div>
+
+<div id="quetionsSelector" class="modal fade" style="width: 100%">
+    @Html.Partial("_QuestionsSelector", (IEnumerable<TestItemListViewModel>)ViewBag.Tests)
 </div>
 
 <div id="quetionTypes" class="modal fade" style="width: 100%">

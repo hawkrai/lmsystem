@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Application.Core.Data;
 using Application.Core.UI.Controllers;
@@ -25,7 +26,6 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public JsonResult SaveQuestion(QuestionViewModel questionViewModel)
         {
-            questionViewModel.TestId = 1;
             var savedQuestion = QuestionsManagementService.SaveQuestion(questionViewModel.ToQuestion());
 
             return Json(QuestionViewModel.FromQuestion(savedQuestion));
@@ -35,16 +35,38 @@ namespace LMPlatform.UI.Controllers
 
         public ActionResult Index(int testId)
         {
-            ViewBag.TestName = "Убрать тест";
-            return View();
+            Test test = TestsManagementService.GetTest(testId);
+            ViewBag.TestName = test.Title;
+            List<TestItemListViewModel> testModels = TestsManagementService.GetTestForSubject(test.SubjectId).Select(TestItemListViewModel.FromTest).ToList();
+            testModels.Add(new TestItemListViewModel { Id = 0, Title = "Все тесты" });
+            ViewBag.Tests = testModels;
+            return View(testId);
         }
 
-        public DataTablesResult<QuestionItemListViewModel> GetQuestionsList(DataTablesParam dataTableParam)
+        public ActionResult GetQuestionsSelector(int testId, string searchString)
+        {
+            var questions = QuestionsManagementService.GetQuestionsForTest(testId, searchString).ToList();
+            var questionModels = questions.Select(QuestionItemListViewModel.FromQuestion);
+ 
+            return PartialView("_QuestionsSelectorResult", questionModels);
+        }
+
+        public DataTablesResult<QuestionItemListViewModel> GetQuestionsList(DataTablesParam dataTableParam, int testId)
         {
             var searchString = dataTableParam.GetSearchString();
-            IPageableList<Question> questionsViewModels = QuestionsManagementService.GetPageableQuestions(1, searchString, dataTableParam.ToPageInfo());
+            IPageableList<Question> questionsViewModels = QuestionsManagementService.GetPageableQuestions(testId, searchString, dataTableParam.ToPageInfo());
 
             return DataTableExtensions.GetResults(questionsViewModels.Items.Select(model => QuestionItemListViewModel.FromQuestion(model, PartialViewToString("_QuestionsGridActions", model.Id))), dataTableParam, questionsViewModels.TotalCount);
+        }
+
+        [HttpPost]
+        public ActionResult AddQuestionsFromAnotherTest(IEnumerable<QuestionItemListViewModel> questionItems, int testId)
+        {
+            QuestionsManagementService.CopyQuestionsToTest(testId,
+                questionItems.Where(questionItem => questionItem.Selected)
+                .Select(questionItem => questionItem.Id).ToArray());
+
+            return new ContentResult();
         }
 
         #region Dependencies
@@ -54,6 +76,14 @@ namespace LMPlatform.UI.Controllers
             get
             {
                 return ApplicationService<IQuestionsManagementService>();
+            }
+        }
+
+        public ITestsManagementService TestsManagementService
+        {
+            get
+            {
+                return ApplicationService<ITestsManagementService>();
             }
         }
 

@@ -4,7 +4,7 @@
 
 @section title
 {
-    <h4 class="modal-title">Сколько?</h4>
+    <div class="modal-title" style="font-size: 14px;"><span class="fa fa-question fa-2x">&nbsp;Вопрос</span></div>
 }
 @section content{
 
@@ -18,14 +18,10 @@
     <input class="form-control questionFormInput" type="number" data-bind="value:TimeForCompleting" style="padding: 0" />*@
     <div class="row">
         <label for="inputEmail" class="control-label">Ответы:</label>
-        <div class="row navbar col-lg-6 pull-right" style="margin-left: 0">
+        <div class="row navbar col-lg-6" style="margin-left: 0">
       
                 <a href="#" id="addNewVariant">
                     <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить ответ
-                </a>
-
-                <a href="#" id="addNewTestButton">
-                    <span id="change" class="glyphicon glyphicon-plus"></span>Добавить тест
                 </a>
         
         </div>

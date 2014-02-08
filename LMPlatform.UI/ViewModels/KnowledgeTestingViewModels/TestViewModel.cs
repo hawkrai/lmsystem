@@ -22,6 +22,12 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public int SubjectId
+        {
+            get;
+            set;
+        }
+
         public int TimeForCompleting
         {
             get;
@@ -43,7 +49,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Description = Description,
                 TimeForCompleting = TimeForCompleting,
                 SetTimeForAllTest = SetTimeForAllTest,
-                SubjectId = 1
+                SubjectId = SubjectId
             };
         }
 

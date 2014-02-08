@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models.KnowledgeTesting;
@@ -52,6 +53,23 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             {
                 return repositoriesContainer.TestsRepository.GetPageableBy(query);
             }
+        }
+
+        public IEnumerable<Test> GetTestForSubject(int? subjectId)
+        {
+            IEnumerable<Test> searchResults;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<Test>();
+                if (subjectId.HasValue)
+                {
+                    query.AddFilterClause(test => test.SubjectId == subjectId.Value);
+                }
+
+                searchResults = repositoriesContainer.TestsRepository.GetAll(query).ToList();
+            }
+
+            return searchResults;
         }
     }
 }

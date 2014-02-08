@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Application.Core.Data;
 
 namespace LMPlatform.Models.KnowledgeTesting
 {
-    public class Question : ModelBase
+    public class Question : ModelBase, ICloneable
     {
         public Test Test
         {
@@ -45,6 +47,18 @@ namespace LMPlatform.Models.KnowledgeTesting
         {
             get;
             set;
+        }
+
+        public object Clone()
+        {
+            return new Question
+            {
+                Title = Title,
+                Description = Description,
+                ComlexityLevel = ComlexityLevel,
+                QuestionType = QuestionType,
+                Answers = Answers == null ? null : Answers.Select(answer => (Answer)answer.Clone()).ToList()
+            };
         }
     }
 }

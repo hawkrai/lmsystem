@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models.KnowledgeTesting;
@@ -52,6 +53,49 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             {
                 return repositoriesContainer.QuestionsRepository.GetPageableBy(query);
             }
+        }
+
+        public void CopyQuestionsToTest(int testId, int[] questionsIds)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<Question>(question => questionsIds.Contains(question.Id));
+                query.Include(question => question.Answers);
+                var questionsToCopy = repositoriesContainer.QuestionsRepository.GetAll(query);
+
+                var copiedQuestions = new List<Question>();
+                foreach (var questionToCopy in questionsToCopy)
+                {
+                    var copiedQuestion = questionToCopy.Clone() as Question;
+                    copiedQuestion.TestId = testId;
+                    copiedQuestions.Add(copiedQuestion);
+                }
+                   
+                repositoriesContainer.QuestionsRepository.Save(copiedQuestions);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public IEnumerable<Question> GetQuestionsForTest(int testId, string searchString = null)
+        {
+            IEnumerable<Question> searchResults;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<Question>();
+                if (testId != 0)
+                {
+                    query.AddFilterClause(question => question.TestId == testId);
+                }
+
+                if (searchString != null)
+                {
+                    query.AddFilterClause(question => question.Title.Contains(searchString));
+                }
+
+                searchResults = repositoriesContainer.QuestionsRepository.GetAll(query).ToList();
+            }
+
+            return searchResults;
         }
     }
 }

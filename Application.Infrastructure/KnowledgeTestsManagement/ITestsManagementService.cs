@@ -13,5 +13,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         void DeleteTest(int id);
 
         IPageableList<Test> GetPageableTests(int subjectId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
+
+        IEnumerable<Test> GetTestForSubject(int? subjectId);
     }
 }

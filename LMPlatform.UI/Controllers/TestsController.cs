@@ -50,13 +50,13 @@ namespace LMPlatform.UI.Controllers
             ViewBag.SubjectId = subjectId;
             ViewBag.SubjectName = subject.Name;
 
-            return View();
+            return View(subjectId);
         }
 
-        public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam)
+        public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam, int subjectId)
         {
             var searchString = dataTableParam.GetSearchString();
-            var testViewModels = TestsManagementService.GetPageableTests(1, searchString, dataTableParam.ToPageInfo());
+            var testViewModels = TestsManagementService.GetPageableTests(subjectId, searchString, dataTableParam.ToPageInfo());
 
             return DataTableExtensions.GetResults(testViewModels.Items.Select(model => TestItemListViewModel.FromTest(model, PartialViewToString("_TestsGridActions", model.Id))), dataTableParam, testViewModels.TotalCount);
         }

@@ -581,9 +581,12 @@ legend.scheduler-border {
 }
 
 .questionTypeButton {
-    height: 100px;
+   
     padding: 2px;
     width: 100%;
+    margin-bottom: 1px;
+    text-align: center;
+    
 }
 
 .buttonWrapper {

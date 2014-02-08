@@ -12,6 +12,7 @@
 
     _onSaveButtonClicked: function () {
         var modelToSave = koWrapper.getModel();
+        modelToSave.TestId = new Number(getUrlValue('testId'));
         if (this._validate()) {
             this._saveQuestion(modelToSave);
         }
@@ -19,7 +20,7 @@
     
     _onAddNewVariantbuttonClicked: function() {
 
-        koWrapper.koViewModel.answers.push({ Content: 'new', IsCorrect: true });
+        koWrapper.koViewModel.Answers.push({ Content: 'new', IsCorrect: true });
         this._initializeAnswersElementsEvents();
     },
     
@@ -30,12 +31,12 @@
     
     _onDeleteAnswerClicked: function(eventArgs) {
         var itemIndex = $('.deleteAnswer').toArray().indexOf(eventArgs.target);
-        koWrapper.koViewModel.answers.splice(itemIndex, 1);
+        koWrapper.koViewModel.Answers.splice(itemIndex, 1);
     },
     
     _loadQuestion: function () {
         return {
-            Title : 'xxx',
+            Title : 'title',
             Answers: [
                 { Content: 'FirstAnswer', IsCorrect: true },
                 { Content: 'SecondAnswer', IsCorrect: true }]
@@ -73,10 +74,10 @@
     },
 
     draw: function (questionType) {
-        $('#quetionDetails').modal();
         var questionModel = this._loadQuestion();
         questionModel.templateName = questionType + 'Template';
         this._fillQuestion(questionModel);
+        $('#quetionDetails').modal();
     },
     
     _fillQuestion: function (questionModel) {

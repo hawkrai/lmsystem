@@ -1,9 +1,11 @@
 ﻿<!--Will be replaced with standart dialog  -->
-<div class="modal-dialog">
+<div class="modal-dialog panel panel-primary">
     <div class="modal-content">
         <div class="modal-header navbar navbar-inverse" style="margin-bottom: 0">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            @RenderSection("title", true)
+            <div style="color:white">
+                @RenderSection("title", true)
+            </div>
         </div>
         <div class="modal-body">
             <div class="form-horizontal">

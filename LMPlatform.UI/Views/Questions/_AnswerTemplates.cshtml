@@ -1,13 +1,32 @@
 ﻿<script type="text/html" id="hasOneCorrectVariantTemplate">
-    <div class="row">
-        <input type="radio" data-bind="checked: IsCorrect" class="col-lg-1" style="height: 29px">
+    <div class="row ui-draggable">
+        <div class="col-lg-1">
+            <div style="margin-top: 8px;"><input type="radio" style="width: 15px; height: 15px;" data-bind="checked: IsCorrect"></div></div>
         <div class=" col-lg-10">
             <input type="text" data-bind="value: Content" class="form-control input-sm" /></div>
-
-        <div class=" col-lg-1" style="margin-top: 10px;">
-            <a href="#" >
-                <span class="glyphicon glyphicon-trash deleteAnswer"></span>
-            </a>
-        </div>
+        <div class=" col-lg-1" style="margin-top: 10px;"><a href="#"><span class="glyphicon glyphicon-trash deleteAnswer"></span></a></div>
+    </div>
+</script>
+<script type="text/html" id="hasManyCorrectVariantsTemplate">
+    <div class="row">
+        <div class="col-lg-1">
+            <div style="margin-top: 8px;"><input type="checkbox" style="width: 15px; height: 15px;" data-bind="checked: IsCorrect"></div></div>
+        <div class=" col-lg-10">
+            <input type="text" data-bind="value: Content" class="form-control input-sm" /></div>
+        <div class=" col-lg-1" style="margin-top: 10px;"><a href="#"><span class="glyphicon glyphicon-trash deleteAnswer"></span></a></div>
+    </div>
+</script>
+<script type="text/html" id="hasTextVariantsTemplate">
+    <div class="row">
+        <div class=" col-lg-11">
+            <input type="text" data-bind="value: Content" class="form-control input-sm" /></div>
+        <div class=" col-lg-1" style="margin-top: 10px;"><a href="#"><span class="glyphicon glyphicon-trash deleteAnswer"></span></a></div>
+    </div>
+</script>
+<script type="text/html" id="sequenceVariantsTemplate">
+    <div class="row">
+        <div class=" col-lg-11">
+            <input type="text" data-bind="value: Content" class="form-control input-sm" /></div>
+        <div class=" col-lg-1" style="margin-top: 10px;"><a href="#"><span class="glyphicon glyphicon-trash deleteAnswer"></span></a></div>
     </div>
 </script>
