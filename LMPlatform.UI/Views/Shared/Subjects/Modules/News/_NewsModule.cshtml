@@ -22,7 +22,11 @@
     <div id="news">
         @if (!Model.News.Any())
         {
-            <p>Новости отсутствуют</p>
+            <div class="center notification-on-page">
+                <p class="notification-header">Ooooooops...</p>
+                <p class="notification-body">Новости отсутствуют.</p>  
+                <i class="fa-info-circle fa fa-6"></i>
+            </div>
         }
 
         <div class="panel-group" id="accordion">

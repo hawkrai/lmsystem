@@ -195,6 +195,7 @@
     <Compile Include="ViewModels\MessageViewModels\MessageListViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\MessageViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
+    <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLecturesViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesNewsViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\NewsDataViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesDataWorkingViewModel.cs" />

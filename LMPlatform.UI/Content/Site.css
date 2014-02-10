@@ -608,3 +608,18 @@ legend.scheduler-border {
 .msgButton {
     margin: 0 0 15px 0;
 }
+
+.notification-on-page {
+    text-align: center   
+}
+.notification-on-page .notification-header {
+    font-size: 24px    
+}
+
+.notification-on-page .notification-body {
+    font-size: 18px   
+}
+
+.fa-6 {
+    font-size: 20em;   
+}

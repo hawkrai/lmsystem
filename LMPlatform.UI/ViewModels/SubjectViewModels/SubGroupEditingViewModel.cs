@@ -146,22 +146,29 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 
 	                if (!SubGroupsFirstList.Any() && !SubGroupsTwoList.Any())
 	                {
-						StudentGroupList.Add(new SelectListItem
+		                StudentGroupList.Add(new SelectListItem
 						{
 							Selected = false,
 							Text = student.FullName,
 							Value = studentId
-						});      
+						});
 	                }
-					else if (SubGroupsFirstList.Any(e => e.Value != studentId) && SubGroupsTwoList.Any(e => e.Value != studentId))
-					{
-						StudentGroupList.Add(new SelectListItem
-						{
-							Selected = false,
-							Text = student.FullName,
-							Value = studentId
-						});  	
-					}
+	                else
+	                {
+						if (SubGroupsFirstList.Any(e => e.Value == studentId) ||
+		                    SubGroupsTwoList.Any(e => e.Value == studentId))
+		                {
+		                }
+		                else
+		                {
+			                StudentGroupList.Add(new SelectListItem
+							{
+								Selected = false,
+								Text = student.FullName,
+								Value = studentId
+							}); 
+		                }
+	                }
                 }
 			}
 			else

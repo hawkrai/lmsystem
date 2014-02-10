@@ -51,7 +51,8 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                 }
 
                 case ModuleType.Lectures:
-                {
+	            {
+		            LecturesGenerate();
                     break;
                 }
 
@@ -97,5 +98,11 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             var dataModule = new ModulesNewsViewModel(SubjectId, Module);
             DataModel = dataModule;
         }
+
+	    private void LecturesGenerate()
+	    {
+			var dataModule = new ModulesLecturesViewModel(SubjectId, Module);
+			DataModel = dataModule;    
+	    }
     }
 }
