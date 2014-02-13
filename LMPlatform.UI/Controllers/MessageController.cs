@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Application.Core.Constants;
 using Application.Core.UI.Controllers;
+using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.MessageManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.MessageViewModels;
+using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
@@ -17,14 +20,12 @@ namespace LMPlatform.UI.Controllers
     {
         public ActionResult Index()
         {
-            var model = new MessageListViewModel();
-
             if (User.IsInRole(Constants.Roles.Admin))
             {
-                return View("Messages", "Layouts/_AdministrationLayout", model);
+                return View("Messages", "Layouts/_AdministrationLayout");
             }
 
-            return View("Messages", "Layouts/_MainUsingNavLayout", model);
+            return View("Messages", "Layouts/_MainUsingNavLayout");
         }
 
         public ActionResult WriteMessage(int? id)
@@ -44,6 +45,8 @@ namespace LMPlatform.UI.Controllers
             var jsonSerializer = new JavaScriptSerializer();
             var attachments = jsonSerializer.Deserialize<List<Attachment>>(itemAttachments);
 
+            msg.Attachment = attachments;
+
             if (ModelState.IsValid && msg.FromId == WebSecurity.CurrentUserId)
             {
                 msg.SaveMessage();
@@ -56,6 +59,26 @@ namespace LMPlatform.UI.Controllers
         {
             var messagesCount = MessageManagementService.GetUnreadUserMessages(WebSecurity.CurrentUserId).Count();
             return messagesCount;
+        }
+
+        [HttpPost]
+        public DataTablesResult<DisplayMessageViewModel> GetCollectionMessages(DataTablesParam dataTableParam)
+        {
+            var searchString = dataTableParam.GetSearchString();
+            bool? incoming = null;
+            try
+            {
+                incoming = bool.Parse(Request.QueryString["isIncoming"]);
+            }
+            catch (ArgumentNullException)
+            {
+            }
+            catch (FormatException)
+            {
+            }
+
+            var messages = MessageManagementService.GetUserMessagesPageable(WebSecurity.CurrentUserId, incoming, pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
+            return DataTableExtensions.GetResults(messages.Items.Select(m => DisplayMessageViewModel.FormMessageToDisplay(m, PartialViewToString("_EditGlyphLinks", m.Id))), dataTableParam, messages.TotalCount);
         }
 
         public IUsersManagementService UsersManagementService

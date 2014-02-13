@@ -1,4 +1,6 @@
-﻿@model LMPlatform.UI.ViewModels.MessageViewModels.MessageListViewModel
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+@model LMPlatform.UI.ViewModels.MessageViewModels.MessageListViewModel
 
 @{
     ViewBag.Title = "Сообщения";
@@ -9,6 +11,7 @@
 }
 @section scripts
 {
+    @Scripts.Render("~/bundles/datatable")
     <script src="/Scripts/chosen/chosen.jquery.js" type="text/javascript"></script>
     <script src="/Scripts/application/message.js" type="text/javascript"></script>
 }
@@ -29,43 +32,38 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="inbox">
-                <div>
-                    @foreach (var msg in Model.IncomingMessages)
-                    {
-                        <div class="" style="min-width: 300px; width: 100%; padding: 15px; height: 35px; overflow: hidden;">
-                            <div class="" style="width: 90%; float: left; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; height: inherit;">
-                                <div style="width: 250px; text-align: left; float: left; height: inherit;">
-                                    <strong>@msg.AuthorName</strong>
-                                </div>
-                                <div style="position: relative; text-overflow: ellipsis; overflow: hidden; padding-right: 15px;">
-                                    @msg.Text
-                                </div>
-                            </div>
-                            <div class="" style="height: inherit;" >
-                                @(msg.Date.Date == DateTime.Now.Date ? msg.Date.ToString("t") : msg.Date.ToString("d"))
-                            </div>
-                        </div>
-                    }
+                <div>@Html.Partial("_MessageDataTable", new DataTableViewModel
+             {
+                 DataTable = Html.DataTable("incomingMessageList", (MessageController controller) => controller.GetCollectionMessages(null), new { isIncoming = true }),
+                 DataTableOptions = new DataTableOptions
+                     {
+                         Pagination = true,
+                         Searchable = true,
+                         Sortable = false,
+                         Filterable = true,
+                         Info = false,
+                         //OnComplete = ""
+                     }
+             })
                 </div>
             </div>
             <div class="tab-pane" id="sent">
+
+                <div>@Html.Partial("_MessageDataTable", new DataTableViewModel
+             {
+                 DataTable = Html.DataTable("outcomingMessageList", (MessageController controller) => controller.GetCollectionMessages(null), new { isIncoming = false }),
+                 DataTableOptions = new DataTableOptions
+                     {
+                         Pagination = true,
+                         Searchable = true,
+                         Sortable = false,
+                         Filterable = true,
+                         Info = false,
+                         //OnComplete = ""
+                     }
+             })
+                </div>
                 <div>
-                    @foreach (var msg in Model.OutcomingMessages)
-                    {
-                        <div class="" style="min-width: 300px; width: 100%; padding: 15px; height: 35px; overflow: hidden;">
-                            <div class="" style="width: 90%; float: left; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; height: inherit;">
-                                <div style="width: 250px; text-align: left; float: left; height: inherit;">
-                                    <strong>@msg.AuthorName</strong>
-                                </div>
-                                <div style="position: relative; text-overflow: ellipsis; overflow: hidden; padding-right: 15px;">
-                                    @msg.Text
-                                </div>
-                            </div>
-                            <div class="" style="height: inherit;" >
-                                @(msg.Date.Date == DateTime.Now.Date ? msg.Date.ToString("t") : msg.Date.ToString("d"))
-                            </div>
-                        </div>
-                    }
                 </div>
             </div>
         </div>

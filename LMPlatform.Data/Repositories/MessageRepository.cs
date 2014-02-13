@@ -13,21 +13,20 @@ namespace LMPlatform.Data.Repositories
             : base(dataContext)
         {
         }
-
+       
         public UserMessages SaveUserMessages(UserMessages userMessages)
         {
             DataContext.Set<UserMessages>().Add(userMessages);
             return userMessages;
         }
 
-        public List<UserMessages> GetUserMessages(int userId)
+        public IEnumerable<UserMessages> GetUserMessages(int userId)
         {
             return DataContext.Set<UserMessages>()
-                .Include("Message")
-                .Include("Author.Lecturer")
-                .Include("Author.Student")
-                .Where(m => m.AuthorId == userId || m.RecipientId == userId)
-                .ToList();
+                              .Include("Message")
+                              .Include("Author.Lecturer")
+                              .Include("Author.Student")
+                              .Where(m => m.AuthorId == userId || m.RecipientId == userId);
         }
 
         public List<UserMessages> GetCorrespondence(int firstUserId, int secondUserId)

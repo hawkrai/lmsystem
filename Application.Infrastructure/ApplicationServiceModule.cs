@@ -1,6 +1,7 @@
 ﻿using Application.Core;
 using Application.Infrastructure.AccountManagement;
 using Application.Infrastructure.BugManagement;
+using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.LecturerManagement;
@@ -28,6 +29,7 @@ namespace Application.Infrastructure
             containerWrapper.Register<IModulesManagementService, ModulesManagementService>();
 			containerWrapper.Register<ILecturerManagementService, LecturerManagementService>();
             containerWrapper.Register<IMessageManagementService, MessageManagementService>();
+            containerWrapper.Register<IFilesManagementService, FilesManagementService>();
 
 			return containerWrapper;
 		}

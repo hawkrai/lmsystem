@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Application.Core;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
-using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
 
 namespace Application.Infrastructure.StudentManagement
@@ -18,7 +16,7 @@ namespace Application.Infrastructure.StudentManagement
             }
         }
 
-        public List<Student> GetGroupStudents(int groupId)
+        public IEnumerable<Student> GetGroupStudents(int groupId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -26,11 +24,30 @@ namespace Application.Infrastructure.StudentManagement
             }
         }
 
-        public List<Student> GetStudents()
+        public IEnumerable<Student> GetStudents()
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return repositoriesContainer.StudentsRepository.GetAll(new Query<Student>().Include(e => e.Group).Include(e => e.User)).ToList();
+            }
+        }
+
+        public IPageableList<Student> GetStudentsPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
+        {
+            var query = new PageableQuery<Student>(pageInfo);
+            query.Include(e => e.Group).Include(e => e.User);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query.AddFilterClause(
+                    e => e.LastName.ToLower().StartsWith(searchString) || e.LastName.ToLower().Contains(searchString));
+            }
+
+            query.OrderBy(sortCriterias);
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var students = repositoriesContainer.StudentsRepository.GetPageableBy(query);
+                return students;
             }
         }
 

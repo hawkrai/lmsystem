@@ -1,0 +1,46 @@
+﻿@model LMPlatform.UI.ViewModels.AdministrationViewModels.GroupViewModel
+
+<div id="editProfessor">
+    @using (Html.BeginForm("EditGroup", "Administration", FormMethod.Post))
+    {
+        <div class="error-limit-registr">
+            @if (ViewBag.ResultSuccess != null && ViewBag.ResultSuccess)
+            {
+                <div class="validation-summary-errors alert alert-success">
+                    <span>Сохранено</span>
+                </div>
+            }
+            @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
+        </div>
+        <div>
+            <hgroup style="text-align: center; margin-bottom: 20px">
+                <h1>Группа - @Model.Name</h1>
+            </hgroup>
+            @Html.HiddenFor(m => m.Id)
+            <div>
+                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Name, " ")
+                </div>
+                <p></p>
+            </div>
+            <div>
+                @Html.LabelFor(m => m.StartYear, new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(m => m.StartYear, @Model.GetYears(),  new { @class = "control-label" })
+                    @Html.ValidationMessageFor(e => e.StartYear, " ")
+                </div>
+                <p></p>
+            </div>
+            <div>
+                @Html.LabelFor(m => m.GraduationYear, new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(m => m.GraduationYear, @Model.GetYears(),  new { @class = "control-label" })
+                    @Html.ValidationMessageFor(e => e.GraduationYear, " ")
+                </div>
+                <p></p>
+            </div>
+        </div>
+    }
+</div>

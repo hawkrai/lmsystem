@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Application.Core.Data;
 using LMPlatform.Models;
 
 namespace Application.Infrastructure.LecturerManagement
 {
-  public interface ILecturerManagementService
-  {
-    Lecturer GetLecturer(int userId);
+    public interface ILecturerManagementService
+    {
+        Lecturer GetLecturer(int userId);
 
-    List<Lecturer> GetLecturers();
+        List<Lecturer> GetLecturers();
 
-    void Save(Lecturer lecturer);
+        IPageableList<Lecturer> GetLecturersPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
-    void UpdateLecturer(Lecturer lecturer);
-  }
+        Lecturer Save(Lecturer lecturer);
+
+        Lecturer UpdateLecturer(Lecturer lecturer);
+    }
 }

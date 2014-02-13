@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Application.Core;
 using Application.Core.Constants;
 using Application.Core.Data;
+using Application.Infrastructure.FilesManagement;
+using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 
@@ -10,6 +13,14 @@ namespace Application.Infrastructure.MessageManagement
 {
     public class MessageManagementService : IMessageManagementService
     {
+        private readonly LazyDependency<IFilesManagementService> _filesManagementService =
+            new LazyDependency<IFilesManagementService>();
+
+        public IFilesManagementService FilesManagementService
+        {
+            get { return _filesManagementService.Value; }
+        }
+
         public List<User> GetRecipientsList(int currentUserId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -31,6 +42,17 @@ namespace Application.Infrastructure.MessageManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.MessageRepository.Save(message);
+
+                if (message.Attachments != null)
+                {
+                    FilesManagementService.SaveFiles(message.Attachments, message.AttachmentsPath.ToString());
+
+                    foreach (var attach in message.Attachments)
+                    {
+                        repositoriesContainer.AttachmentRepository.Save(attach);
+                    }
+                }
+
                 repositoriesContainer.ApplyChanges();
             }
 
@@ -74,7 +96,7 @@ namespace Application.Infrastructure.MessageManagement
             }
         }
 
-        public List<UserMessages> GetCorrespondence(int firstUserId, int secondUserId)
+        public IEnumerable<UserMessages> GetCorrespondence(int firstUserId, int secondUserId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -83,7 +105,7 @@ namespace Application.Infrastructure.MessageManagement
             }
         }
 
-        public List<UserMessages> GetUnreadUserMessages(int userId)
+        public IEnumerable<UserMessages> GetUnreadUserMessages(int userId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -92,11 +114,48 @@ namespace Application.Infrastructure.MessageManagement
             }
         }
 
-        public List<UserMessages> GetUserMessages(int userId)
+        public IEnumerable<UserMessages> GetUserMessages(int userId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var userMessages = repositoriesContainer.MessageRepository.GetUserMessages(userId);
+                return userMessages;
+            }
+        }
+
+        public IPageableList<UserMessages> GetUserMessagesPageable(int userId, bool? incoming = null, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
+        {
+            var query = new PageableQuery<UserMessages>(pageInfo);
+
+            if (!incoming.HasValue)
+            {
+                query.AddFilterClause(e => e.AuthorId == userId || e.Recipient.Id == userId);
+            }
+            else
+            {
+                if (incoming.Value)
+                {
+                    query.AddFilterClause(e => e.Recipient.Id == userId);
+                }
+                else
+                {
+                    query.AddFilterClause(e => e.AuthorId == userId);
+                }
+            }
+
+            query.Include(e => e.Message.Attachments).Include(e => e.Recipient)
+              .Include(e => e.Author.Lecturer).Include(e => e.Author.Student);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query.AddFilterClause(
+                    e => e.Message.Text.ToLower().StartsWith(searchString) || e.Message.Text.ToLower().Contains(searchString));
+            }
+
+            query.OrderBy(sortCriterias);
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var userMessages = repositoriesContainer.RepositoryFor<UserMessages>().GetPageableBy(query);
                 return userMessages;
             }
         }

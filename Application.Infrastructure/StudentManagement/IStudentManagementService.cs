@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Application.Core.Data;
 using LMPlatform.Models;
 
 namespace Application.Infrastructure.StudentManagement
@@ -7,9 +8,11 @@ namespace Application.Infrastructure.StudentManagement
     {
         Student GetStudent(int userId);
 
-        List<Student> GetGroupStudents(int groupId);
+        IEnumerable<Student> GetGroupStudents(int groupId);
 
-        List<Student> GetStudents();
+        IEnumerable<Student> GetStudents();
+
+        IPageableList<Student> GetStudentsPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
         void Save(Student student);
 

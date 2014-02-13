@@ -56,7 +56,7 @@ namespace LMPlatform.Models
                     return Lecturer.FullName;
                 }
 
-                return null;
+                return UserName;
             }
         }
     }

@@ -48,7 +48,7 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
             var userMessages = MessageManagementService.GetUserMessages(UserId).Select(m => new DisplayMessageViewModel
             {
                 AuthorName = m.Author.FullName,
-                Date = m.Date,
+                DateTime = m.Date,
                 Text = m.Message.Text,
                 MessageId = m.MessageId,
                 AuthorId = m.AuthorId,

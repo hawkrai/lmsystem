@@ -13,6 +13,11 @@
             </hgroup>
             @Html.HiddenFor(m => m.FromId)
             <div>
+                @Html.LabelFor(m => m.Subject)
+                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Subject, "")
+            </div>
+            <div>
                 @Html.LabelFor(m => m.MessageText)
                 @Html.TextAreaFor(m => m.MessageText, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.MessageText, " ")

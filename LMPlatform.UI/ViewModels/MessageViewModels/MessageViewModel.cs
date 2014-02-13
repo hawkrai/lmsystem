@@ -32,6 +32,10 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
         [DataType(DataType.MultilineText)]
         public string MessageText { get; set; }
 
+        [Display(Name = "Тема")]
+        [DataType(DataType.Text), MaxLength(50, ErrorMessage = "Длина поля Тема не должна превышать 50 символов")]
+        public string Subject { get; set; }
+
         public List<UserMessages> UserMessages { get; set; }
 
         public List<Attachment> Attachment { get; set; }
@@ -49,7 +53,15 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
 
         public void SaveMessage()
         {
-            var msg = new Message(MessageText);
+            var msg = new Message(MessageText, Subject);
+
+            if (Attachment != null && Attachment.Any())
+            {
+                msg.AttachmentsPath = Guid.NewGuid();
+                Attachment.ForEach(a => a.PathName = msg.AttachmentsPath.ToString());
+                msg.Attachments = Attachment;
+            }
+
             MessageManagementService.SaveMessage(msg);
 
             foreach (var recipient in Recipients)

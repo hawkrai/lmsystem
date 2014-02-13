@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Application.Core.Data;
 
 namespace LMPlatform.Models
@@ -9,12 +10,17 @@ namespace LMPlatform.Models
         {
         }
 
-        public Message(string text)
+        public Message(string text, string subject = "Новая тема")
         {
             Text = text;
+            Subject = subject;
         }
 
         public string Text { get; set; }
+
+        public string Subject { get; set; }
+
+        public Guid AttachmentsPath { get; set; }
 
         public ICollection<Attachment> Attachments { get; set; }
     }
