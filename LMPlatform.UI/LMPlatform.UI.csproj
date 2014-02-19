@@ -176,6 +176,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\AccountViewModels\PersonalDataViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\LecturerViewModel.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLecturesViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesNewsViewModel.cs" />
+    <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\LecturesDataViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\NewsDataViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesDataWorkingViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesViewModel.cs" />
@@ -210,6 +212,9 @@
     <Compile Include="ViewModels\SubjectViewModels\SubjectWorkingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\alertify.bootstrap.css" />
+    <Content Include="Content\alertify.core.css" />
+    <Content Include="Content\alertify.default.css" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -402,7 +407,10 @@
     <Content Include="Images\ajax-loader-mini.gif" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\collection.png" />
+    <Content Include="Images\data_privacy.png" />
     <Content Include="Images\no_image.png" />
+    <Content Include="Scripts\alertify.js" />
+    <Content Include="Scripts\application\accountManagement.js" />
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
     <Content Include="Scripts\application\BTS\ProjectsScript.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
@@ -887,6 +895,8 @@
     <Content Include="Views\Questions\EditorTemplates\QuestionItemListViewModel.cshtml" />
     <Content Include="Views\Shared\_MessageDataTable.cshtml" />
     <Content Include="Views\Administration\_EditGroupView.cshtml" />
+    <Content Include="Views\Account\_PersonalData.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\Lectures\_LecturesModule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

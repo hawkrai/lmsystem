@@ -47,5 +47,11 @@ namespace LMPlatform.Models
             get;
             set;
         }
+
+        public ICollection<Lectures> Lectures
+        {
+            get; 
+            set;
+        }
     }
 }

@@ -1,0 +1,45 @@
+﻿@model LMPlatform.UI.ViewModels.AccountViewModels.PersonalDataViewModel
+
+@using (Html.BeginForm("UpdatePerconalData", "Account", FormMethod.Post, new { @name="personalData"}))
+{
+    <div class="error-limit-registr">
+        @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
+    </div>
+    
+    @Html.AntiForgeryToken()
+
+    <div>
+        <div>
+            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+            <div>
+                @Html.TextBoxFor(m => m.Name,new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.Name, " ")
+            </div>
+            <p></p>
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
+            <div>
+                @Html.TextBoxFor(m => m.Surname,new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.Surname, " ")
+            </div>
+            <p></p>
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Patronymic, new { @class = "control-label" })
+            <div>
+                @Html.TextBoxFor(m => m.Patronymic,new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.Patronymic, " ")
+            </div>
+            <p></p>
+        </div>
+        <div>
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(e => e.UserName, " ")
+        </div>
+        <div style="text-align: center">
+            <input id="updatePersonalData" type="button" class="btn btn-primary btn-sm" value="Изменить" />
+        </div>
+    </div>
+}

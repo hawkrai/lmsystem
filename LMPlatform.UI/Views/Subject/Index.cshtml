@@ -7,8 +7,8 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/datatable", "~/Scripts/ckeditor/ckeditor.js")
-    @Scripts.Render("~/bundle/subjectWorking")   
-     
+    @Scripts.Render("~/bundle/subjectWorking")
+
 }
 
 @section navleft
@@ -16,14 +16,17 @@
     @foreach (var module in Model.Modules)
     {
         <li class="navLink">
-            <a class="moduleLinks" href="@Url.Action("GetModuleData","Subject", new {subjectId = Model.SubjectId, moduleId = module.ModuleId})">@module.Name</a>
+            <a class="moduleLinks" href="@Url.Action("GetModuleData", "Subject", new { subjectId = Model.SubjectId, moduleId = module.ModuleId })">@module.Name</a>
         </li>    
     }
-    <li><a id="subGroups" href="@Url.Action("SubGroups","Subject", new {subjectId = Model.SubjectId})"><i class="fa fa-users fa-1x"></i>  Управление подгруппами</a></li>
-    <li><a href="@Url.Action("Subjects","Subject")"><i class="fa fa-reply fa-1x"></i>  Сменить предмет</a></li>
-    <li><a href="@Url.Action("Index","Lms")"><i class="fa fa-arrow-left fa-1x"></i>  Система управления учебным процессом</a></li>
+    @if (User.IsInRole("lector"))
+    {
+        <li><a id="subGroups" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-1x"></i>Управление подгруппами</a></li>
+    }
+    <li><a href="@Url.Action("Subjects", "Subject")"><i class="fa fa-reply fa-1x"></i>Сменить предмет</a></li>
+    <li><a href="@Url.Action("Index", "Lms")"><i class="fa fa-arrow-left fa-1x"></i>Система управления учебным процессом</a></li>
     <div>
-        <img style="margin-left: 20%; margin-top: 10%" src="../../Images/1391087088_settings.png"/>
+        <img style="margin-left: 20%; margin-top: 10%" src="../../Images/1391087088_settings.png" />
     </div>
 }
 
@@ -33,5 +36,11 @@
 }
 
 <div style="margin: 10px" class="conteinerModule" data-subjectId="@Model.SubjectId">
-    @Html.Partial("UnderConstruction")
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('li.navLink').first().click();
+        $('a.moduleLinks').first().click();
+    });
+</script>

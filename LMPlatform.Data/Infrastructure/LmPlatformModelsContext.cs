@@ -122,6 +122,12 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<Lectures> Lectures
+        {
+            get;
+            set;
+        }
+
         #endregion DataContext Members
 
         #region Protected Members
@@ -238,17 +244,17 @@ namespace LMPlatform.Data.Infrastructure
 			   .HasForeignKey(e => e.StudentId)
 			   .WillCascadeOnDelete(false);
 
-			modelBuilder.Entity<Student>()
-			   .HasMany<SubjectStudent>(e => e.SubjectStudents)
-			   .WithRequired(e => e.Student)
-			   .HasForeignKey(e => e.StudentId)
-			   .WillCascadeOnDelete(false);
-
 			modelBuilder.Entity<SubjectGroup>()
 			   .HasMany<SubjectStudent>(e => e.SubjectStudents)
 			   .WithRequired(e => e.SubjectGroup)
 			   .HasForeignKey(e => e.SubjectGroupId)
 			   .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany<Lectures>(e => e.Lectures)
+                .WithRequired(e => e.Subject)
+                .HasForeignKey(e => e.SubjectId)
+                .WillCascadeOnDelete(false);
             
             MapKnowledgeTestingEntities(modelBuilder);
             MapBTSEntities(modelBuilder);

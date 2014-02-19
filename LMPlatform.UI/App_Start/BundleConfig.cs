@@ -31,6 +31,9 @@ namespace LMPlatform.UI.App_Start
             bundles.Add(new ScriptBundle("~/bundle/subjectWorking").Include(
                 "~/Scripts/application/subjectWorking.js"));
 
+            bundles.Add(new ScriptBundle("~/bundle/accountManagement").Include(
+                "~/Scripts/application/accountManagement.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
                 "~/Scripts/DataTables-1.9.4/media/js/jquery.dataTables.js", 
                 "~/Scripts/application/datatable-bootstrappagination.js", 

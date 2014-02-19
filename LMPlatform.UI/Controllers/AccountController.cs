@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 using Application.Core.UI.Controllers;
+using LMPlatform.Models;
+using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
@@ -60,6 +62,13 @@ namespace LMPlatform.UI.Controllers
             return View(model);
         }
 
+        public ActionResult PersonalData()
+        {
+            var model = new PersonalDataViewModel();
+
+            return PartialView("_PersonalData", model);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -94,6 +103,47 @@ namespace LMPlatform.UI.Controllers
             return Url.IsLocalUrl(returnUrl)
                 ? (ActionResult)Redirect(returnUrl)
                 : RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public JsonResult UpdatePerconalData(PersonalDataViewModel model)
+        {
+            if (Roles.IsUserInRole("lector"))
+            {
+                var modData = new ModifyLecturerViewModel(new Lecturer
+                {
+                    FirstName = model.Name,
+                    LastName = model.Patronymic,
+                    MiddleName = model.Surname,
+                    User = new User
+                    {
+                        UserName = model.UserName,
+                        Id = WebSecurity.CurrentUserId
+                    },
+                    Id = WebSecurity.CurrentUserId
+                });
+
+                modData.ModifyLecturer(WebSecurity.CurrentUserId);
+            }
+            else
+            {
+                var modData = new ModifyStudentViewModel(new Student
+                {
+                    FirstName = model.Name,
+                    LastName = model.Patronymic,
+                    MiddleName = model.Surname,
+                    User = new User
+                    {
+                        UserName = model.UserName,
+                        Id = WebSecurity.CurrentUserId
+                    },
+                    Id = WebSecurity.CurrentUserId
+                }); 
+   
+                modData.ModifyStudent(WebSecurity.CurrentUserId);
+            }
+
+            return Json(true);
         }
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)

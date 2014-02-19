@@ -73,6 +73,7 @@
     <Compile Include="KnowledgeTesting\QuestionType.cs" />
     <Compile Include="KnowledgeTesting\Test.cs" />
     <Compile Include="Lecturer.cs" />
+    <Compile Include="Lectures.cs" />
     <Compile Include="Membership.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Module.cs" />

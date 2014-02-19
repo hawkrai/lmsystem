@@ -1,0 +1,53 @@
+﻿@model LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesLecturesViewModel
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Тема</th>
+                <th>Часы</th>
+                @if (User.IsInRole("lector"))
+                {
+                    <th>Действие</th>  
+                }
+                @if (User.IsInRole("student"))
+                {
+                    <th>Прикрепленный материал</th>      
+                }
+            </tr>
+        </thead>
+        @foreach (var item in Model.LecturesData.OrderBy(e => e.Order))
+        {
+            <tr>
+                <td>@item.Order</td>
+                <td>@item.Theme</td>
+                <td>@item.Duration</td>
+                @if (User.IsInRole("lector"))
+                {
+                    <td>
+                        <div>
+                            <a class="editLecturesButton" style="margin-right: 10px" href="#"><i class="editLecturesButton fa fa-edit fa-2x"></i></a>
+                                <a class="deleteLecturesButton" href="#"><i class="editLecturesButton fa fa-trash-o fa-2x"></i></a>
+                        </div>
+                    </td>
+                }
+                @if (User.IsInRole("student"))
+                {
+                    <td>
+                        <div class="btn-group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-default btn-sm  dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+                                Прикрепленные файлы
+          <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupDrop1">
+                                <li><a href="#">Файл 1</a></li>
+                                <li><a href="#">Файл 2</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+</div>

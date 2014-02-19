@@ -1,15 +1,27 @@
 ﻿@{
-    ViewBag.Title = "Management";
+    ViewBag.Title = "Личный кабинет";
     Layout = "~/Views/Shared/Layouts/_PreMainLayout.cshtml";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundle/accountManagement")
 }
 
 @section navleft
 {
-    <li><a href="#" style="font-size: 16px"><i class="fa fa-th-list fa-1x"></i> Управление аккаунтом</a></li>
-    <li><a href="#" style="font-size: 16px"><i class="fa fa-th-list fa-1x"></i> Сообщения</a></li>
-    <li><a href="#" style="font-size: 16px"><i class="fa fa-th-list fa-1x"></i> Управление проектами</a></li>
-    <li><a href="@Url.Action("Index", "Lms")" style="font-size: 16px"><i class="fa fa-th-list fa-1x"></i> Система управления учебным процессом</a></li>
+    <li id="personalData"><a href="#" style="font-size: 16px"><i class="fa fa-male fa-1x"></i> Персональные данные</a></li>
+    <li><a href="@Url.Action("Index", "Lms")" style="font-size: 16px"><i class="fa fa-reply fa-1x"></i> Система управления учебным процессом</a></li>
+    <div>
+        <img width="50%" style="margin-left: 25%; margin-top: 50%" src="../../Images/data_privacy.png"/>
+    </div>
 }
 
-<div class="conteiner">
+<div id="privateData">
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#personalData').click();
+    });
+</script>

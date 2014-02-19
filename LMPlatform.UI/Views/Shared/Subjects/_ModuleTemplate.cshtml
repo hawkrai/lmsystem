@@ -6,3 +6,7 @@
 {
     @Html.Partial("Subjects/Modules/News/_NewsModule", (ModulesNewsViewModel) Model.DataModel)
 }
+else if (Model.Module.ModuleType == ModuleType.Lectures)
+{
+    @Html.Partial("Subjects/Modules/Lectures/_LecturesModule", (ModulesLecturesViewModel) Model.DataModel)    
+}

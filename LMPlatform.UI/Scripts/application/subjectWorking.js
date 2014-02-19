@@ -28,6 +28,7 @@
         $('#subGroups').handle("click", function() {
             var that = this;
             $.savingDialog("Управление подгруппами", $(that).attr("href"), null, "primary", function (data) {
+                alertify.success("Подгруппы изменены");
                 
             }, function (forms) {
                 var subjectId = $(".conteinerModule").attr('data-subjectId');
@@ -70,6 +71,7 @@
                 $('.conteinerModule').empty();
                 $('.conteinerModule').append(data);
                 subjectWorking.updateHandlerActions();
+                alertify.success("Создана новая новость");
             });
             return false;
         });
@@ -79,6 +81,7 @@
                 $('.conteinerModule').empty();
                 $('.conteinerModule').append(data);
                 subjectWorking.updateHandlerActions();
+                alertify.success("Новость успешно изменена");
             });
             return false;
         });
@@ -90,6 +93,7 @@
                         $('.conteinerModule').empty();
                         $('.conteinerModule').append(data);
                         subjectWorking.updateHandlerActions();
+                        alertify.success("Новость успешна удалена");
                     });
                 }
             });
