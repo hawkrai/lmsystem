@@ -51,7 +51,7 @@ namespace LMPlatform.Models
         [NotMapped]
         public string FullName
         {
-          get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); } 
+            get { return string.Format("{0} {1} {2}", LastName, FirstName, MiddleName); }
         }
 
         public ICollection<ProjectStudent> ProjectStudents
@@ -70,6 +70,6 @@ namespace LMPlatform.Models
         {
             get;
             set;
-        } 
+        }
     }
 }

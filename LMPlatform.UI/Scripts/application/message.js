@@ -63,3 +63,27 @@ function getCollectionItemAttachments() {
     var dataAsString = JSON.stringify(data);
     return dataAsString;
 }
+
+function ajaxChosenInit(elem) {
+    $(elem).ajaxChosen({
+        type: 'GET',
+        url: '/Message/GetSelectListOptions',
+        dataType: 'json',
+        keepTypingMsg: "Продолжайте печатать...",
+        lookingForMsg: "Поиск"
+    },
+       function (data) {
+           var terms = {};
+
+           $.each(data, function (i, val) {
+               terms[i] = val;
+           });
+
+           return terms;
+       },
+       {
+           no_results_text: "Пользователь не найден...",
+           width: '858px'
+       }
+   );
+}

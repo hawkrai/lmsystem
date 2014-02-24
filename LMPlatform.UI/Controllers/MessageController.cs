@@ -81,6 +81,20 @@ namespace LMPlatform.UI.Controllers
             return DataTableExtensions.GetResults(messages.Items.Select(m => DisplayMessageViewModel.FormMessageToDisplay(m, PartialViewToString("_EditGlyphLinks", m.Id))), dataTableParam, messages.TotalCount);
         }
 
+        public JsonResult GetSelectListOptions(string term)
+        {
+            var recip = MessageManagementService.GetRecipientsList(WebSecurity.CurrentUserId);
+
+            var result = recip.Where(r => r.FullName.ToLower().Contains(term.ToLower()))
+                .Select(r => new
+                {
+                    text = r.FullName,
+                    value = r.Id.ToString()
+                }).ToList();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public IUsersManagementService UsersManagementService
         {
             get

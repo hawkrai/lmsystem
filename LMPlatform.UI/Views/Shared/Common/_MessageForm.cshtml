@@ -24,22 +24,26 @@
             </div>
             <div>
                 @Html.LabelFor(m => m.Recipients, new { @class = "control-label" })
-                @Html.ListBoxFor(m => m.Recipients, Model.GetRecipientsSelectList(),
+                @Html.ListBoxFor(m => m.Recipients, Enumerable.Empty<SelectListItem>(),
                                  new Dictionary<string, object> { 
                                      { "data-placeholder", "Выберите получателя..." }, 
                                      { "class", "form-control chosen-select" } })
+
+                @*                <select class="form-control chosen-select" title="recipients" data-placeholder="Выберите получателя..." multiple> </select>*@
+
+
                 @Html.ValidationMessageFor(m => m.Recipients, " ")
                 <p></p>
             </div>
             <div style="width: 60%">
                 @Html.Partial("Common/_FilesUploader", Model.Attachment)
             </div>
-            <input type="submit" style="display: none"/>
+            <input type="submit" style="display: none" />
         </div>
     }
 </div>
 
 <script type="text/javascript">
     $('.modal-dialog').width('900px');
-    $(".chosen-select").chosen({ no_results_text: "Пользователь не найден...", width: '858px' });
+    ajaxChosenInit(".chosen-select");
 </script>
