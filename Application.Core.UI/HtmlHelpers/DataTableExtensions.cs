@@ -92,6 +92,13 @@ namespace Application.Core.UI.HtmlHelpers
 
         public static DataTablesResult<T> GetResults<T>(IEnumerable<T> data, DataTablesParam param, int allItemCount)
         {
+            data = data.ToList();
+
+            if (typeof(T).BaseType == typeof(BaseNumberedGridItem))
+            {
+                RenumberItems(data.Cast<BaseNumberedGridItem>(), param);
+            }
+
             var searchCriteries = param.GetSortCriterias<T>();
 
             data = searchCriteries.Aggregate(data, (current, searchCritery) => searchCritery.SortDirection == SortDirection.Asc ? current.OrderByAsc(searchCritery.Name) : current.OrderByDesc(searchCritery.Name));
@@ -111,7 +118,7 @@ namespace Application.Core.UI.HtmlHelpers
                 @t,
                 values = from p in @t.pairs select GetNormalizedValue(p.Value)
             }).Select(@t => @t.values);
-
+ 
             return new DataTablesResult<T>
             {
                 Data = new DataTablesData
@@ -127,6 +134,15 @@ namespace Application.Core.UI.HtmlHelpers
         private static object GetNormalizedValue(object value)
         {
             return value != null && !(value is string) ? value.ToString() : value;
+        }
+
+        private static void RenumberItems<T>(IEnumerable<T> data, DataTablesParam param) where T : BaseNumberedGridItem
+        {
+            int itemNumber = param.iDisplayStart + 1;
+            foreach (T item in data)
+            {
+                item.Number = itemNumber++;
+            }
         }
 
         #endregion DataTableExtensions Members
