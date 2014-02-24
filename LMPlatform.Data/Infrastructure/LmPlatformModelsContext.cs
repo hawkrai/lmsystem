@@ -267,6 +267,7 @@ namespace LMPlatform.Data.Infrastructure
             testEntity.HasRequired(test => test.Subject)
                 .WithMany(subject => subject.SubjectTests)
                 .HasForeignKey(test => test.SubjectId);
+            testEntity.Ignore(test => test.Unlocked);
 
             var questionEntity = modelBuilder.Entity<Question>();
             questionEntity.Property(question => question.Title).IsRequired();
@@ -279,6 +280,14 @@ namespace LMPlatform.Data.Infrastructure
             answerEntity.HasRequired(answer => answer.Question)
                 .WithMany(question => question.Answers)
                 .HasForeignKey(answer => answer.QuestionId);
+
+            var testUnlockEntity = modelBuilder.Entity<TestUnlock>();
+            testUnlockEntity.HasRequired(testunlock => testunlock.Test)
+                .WithMany(test => test.TestUnlocks)
+                .HasForeignKey(testunlock => testunlock.TestId);
+            testUnlockEntity.HasRequired(testunlock => testunlock.Student)
+                .WithMany(student => student.TestUnlocks)
+                .HasForeignKey(testunlock => testunlock.StudentId);
         }
 
         #endregion Protected Members

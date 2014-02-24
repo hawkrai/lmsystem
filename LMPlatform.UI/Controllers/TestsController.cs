@@ -1,10 +1,16 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using Application.Core.Data;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
+using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.SubjectManagement;
+using LMPlatform.Models;
+using LMPlatform.Models.KnowledgeTesting;
+using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
 using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
@@ -45,12 +51,10 @@ namespace LMPlatform.UI.Controllers
         [Authorize, HttpGet]
         public ActionResult Index(int subjectId)
         {
-            var subject = SubjectsManagementService.GetSubject(subjectId);
-
-            ViewBag.SubjectId = subjectId;
-            ViewBag.SubjectName = subject.Name;
-
-            return View(subjectId);
+            Subject subject = SubjectsManagementService.GetSubject(subjectId);
+            int[] groupIds = subject.SubjectGroups.Select(subjectGroup => subjectGroup.GroupId).ToArray();
+            ViewBag.Groups = GroupManagementService.GetGroups(new Query<Group>(group => groupIds.Contains(group.Id)));
+            return View(subject);
         }
 
         public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam, int subjectId)
@@ -58,7 +62,20 @@ namespace LMPlatform.UI.Controllers
             var searchString = dataTableParam.GetSearchString();
             var testViewModels = TestsManagementService.GetPageableTests(subjectId, searchString, dataTableParam.ToPageInfo());
 
-            return DataTableExtensions.GetResults(testViewModels.Items.Select(model => TestItemListViewModel.FromTest(model, PartialViewToString("_TestsGridActions", model.Id))), dataTableParam, testViewModels.TotalCount);
+            return DataTableExtensions.GetResults(testViewModels.Items.Select(model => TestItemListViewModel.FromTest(model, PartialViewToString("_TestsGridActions", TestItemListViewModel.FromTest(model)))), dataTableParam, testViewModels.TotalCount);
+        }
+
+        public ActionResult GetUnlockResults(int groupId, int testId, string searchString)
+        {
+            ViewBag.GroupId = groupId;
+            IEnumerable<TestUnlockInfo> unlockInfos = TestsManagementService.GetTestUnlocksForTest(groupId, 1, searchString);
+            return PartialView("_TestUnlocksSelectorResult", unlockInfos);
+        }
+
+        public ActionResult UnlockTests(IEnumerable<TestUnlockInfo> testUnlocks, int groupId, int testId)
+        {
+            TestsManagementService.UnlockTest(groupId, testUnlocks.Select(testUnlock => testUnlock.ToTestUnlock()));
+            return new ContentResult();
         }
 
         protected int CurrentUserId
@@ -84,6 +101,14 @@ namespace LMPlatform.UI.Controllers
             get
             {
                 return ApplicationService<ISubjectManagementService>();
+            }
+        }
+
+        public IGroupManagementService GroupManagementService
+        {
+            get
+            {
+                return ApplicationService<IGroupManagementService>();
             }
         }
 

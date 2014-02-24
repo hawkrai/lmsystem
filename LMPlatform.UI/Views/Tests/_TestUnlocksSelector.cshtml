@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_BootBoxTemplate.cshtml";
+}
+
+@model  IEnumerable<LMPlatform.Models.Group>
+
+@section title
+{
+    <div class="modal-title" style="font-size: 14px;"><span class="fa fa-question fa-2x">&nbsp;Доступность теста</span></div>
+}
+
+@section content{
+    @using (Ajax.BeginForm("GetUnlockResults", "Tests", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "searchResults"
+        }, new
+        {
+            id = "selectorFilterForm"
+        }))
+    {
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.DropDownList("groupId", Model.Select(group => new SelectListItem { Value = group.Id.ToString(), Text = group.Name }), new
+                {
+                    id = "testNamesDropdown"
+                })
+            </div>
+            <div class="col-lg-6">
+                <input name="searchString" id="selectorSearchString" class="form-control input-sm" type="text">
+            </div>
+        </div>
+        <input type="submit"/>
+    }
+    <div id="searchResults"></div>
+}
+
+@section footer {
+    <button type="button" id="cancelButton" class="btn btn-primary btn-sm" data-dismiss="modal">Отмена</button>
+    <button type="button" id="insertQuestionsFromAnotherTestButton" class="btn btn-primary btn-sm">Вставить</button>
+}

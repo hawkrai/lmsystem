@@ -2,6 +2,7 @@
     init: function() {
         $('.editButton').on('click', 'span', $.proxy(this._onEditClicked, this));
         $('.deleteButton').on('click', 'span', $.proxy(this._onDeleteClicked, this));
+        $('.lockButton').on('click', 'span', $.proxy(this._onLockClicked, this));
         $('#addNewTestButton').on('click', $.proxy(this._addNewTestButtonClicked, this));
     },
 
@@ -12,6 +13,10 @@
     _onEditClicked: function(eventArgs) {
         var itemId = eventArgs.target.dataset.modelId;
         testsDetails.showDialog(itemId);
+    },
+    
+    _onLockClicked: function() {
+        alert('lock clicked');
     },
 
     _onDeleteClicked: function (eventArgs) {

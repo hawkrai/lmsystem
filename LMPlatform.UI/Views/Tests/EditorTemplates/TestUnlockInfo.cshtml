@@ -1,0 +1,7 @@
+﻿@model LMPlatform.Models.KnowledgeTesting.TestUnlockInfo
+<li class="list-group-item">
+    @Html.CheckBoxFor(model => model.Unlocked)
+    @Model.StudentName
+    @Html.HiddenFor(model => model.TestId)
+    @Html.HiddenFor(model => model.StudentId)
+</li>

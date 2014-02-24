@@ -1,18 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Web;
+using Application.Core.UI.HtmlHelpers;
 using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
 {
-    public class TestItemListViewModel
+    public class TestItemListViewModel : BaseNumberedGridItem
     {
-        [DisplayName("")]
-        public HtmlString Action
-        {
-            get;
-            set;
-        }
-
         [DisplayName("Название")]
         public string Title
         {
@@ -27,7 +21,20 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        [DisplayName("Действия")]
+        public HtmlString Action
+        {
+            get;
+            set;
+        }
+
         public int Id
+        {
+            get; 
+            set;
+        }
+
+        public bool Unlocked
         {
             get; 
             set;
@@ -47,7 +54,9 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             {
                 Id = test.Id,
                 Title = test.Title,
-                Description = test.Description
+                Description = test.Description,
+                Unlocked = test.Unlocked,
+                Number = 4
             };
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Application.Core.Data;
 
 namespace LMPlatform.Models.KnowledgeTesting
@@ -35,6 +36,14 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+        public bool Unlocked
+        {
+            get
+            {
+                return TestUnlocks != null && TestUnlocks.Any();
+            }
+        }
+
         public virtual Subject Subject
         {
             get;
@@ -42,6 +51,12 @@ namespace LMPlatform.Models.KnowledgeTesting
         }
 
         public ICollection<Question> Questions
+        {
+            get;
+            set;
+        }
+
+        public ICollection<TestUnlock> TestUnlocks
         {
             get;
             set;

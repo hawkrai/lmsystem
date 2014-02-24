@@ -1,11 +1,12 @@
 ﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.Models
 @using LMPlatform.UI.Controllers
 @{
     ViewBag.Title = "title";
     Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
 }
 
-@model int
+@model Subject
 
 
 @section scripts
@@ -17,12 +18,13 @@
 
 @section navpanel
 {
-    @string.Format("{0}: Доступные тесты", ViewBag.SubjectName)
+    @string.Format("{0}: Доступные тесты", Model.Name)
 }
 
 @section navleft
 {
     <li><a href="@Url.Action("TestsList", "Tests")" class="linkNavbar"><i class="fa fa-pencil-square-o fa-1x"></i>&nbsp; Тесты</a></li>
+    <li><a href="@Url.Action("TestsList", "Tests")" class="linkNavbar"><i class="fa fa-eye fa-1x"></i>&nbsp; Прохождение тестов</a></li>
     <li><a href="@Url.Action("TestResults", "Tests")" class="linkNavbar"><i class="fa fa-tasks fa-1x"></i>&nbsp; Результаты</a></li>
 }
 
@@ -35,7 +37,7 @@
         @Html.Partial("_DataTable", new DataTableViewModel
         {
             DataTable = Html.DataTable("testsList", (TestsController controller) => controller.GetTestsList(null, 0), 
-            new { subjectId = Model}),
+            new { subjectId = Model.Id}),
             DataTableOptions = new DataTableOptions
             {
                 Filterable = true,
@@ -48,6 +50,8 @@
         })
     </div>
 </div>
+
+@*@Html.Partial("_TestUnlocksSelector", ViewBag.Groups as IEnumerable<Group>)*@
 
 <div class="modal fade" style="width: 100%" id="testDetails" aria-hidden="true">
     @Html.Partial("TestDetails")

@@ -15,5 +15,9 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         IPageableList<Test> GetPageableTests(int subjectId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
         IEnumerable<Test> GetTestForSubject(int? subjectId);
+
+        IEnumerable<TestUnlockInfo> GetTestUnlocksForTest(int groupId, int testId, string searchString = null);
+
+        void UnlockTest(int groupId, IEnumerable<TestUnlock> testUnlocks);
     }
 }

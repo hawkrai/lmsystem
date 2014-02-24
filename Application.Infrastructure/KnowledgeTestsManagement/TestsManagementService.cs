@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
+using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 
 namespace Application.Infrastructure.KnowledgeTestsManagement
@@ -49,6 +51,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
 
             query.OrderBy(sortCriterias);
+            query.Include(test => test.TestUnlocks);
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return repositoriesContainer.TestsRepository.GetPageableBy(query);
@@ -71,5 +74,75 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             return searchResults;
         }
+
+        public IEnumerable<TestUnlockInfo> GetTestUnlocksForTest(int groupId, int testId, string searchString = null)
+        {
+            IEnumerable<Student> studentResults;
+            IEnumerable<TestUnlock> testUnlocksResults;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                studentResults = GetStudents(groupId, searchString, repositoriesContainer).ToList();
+                testUnlocksResults = GetTestUnlocks(studentResults.Select(student => student.Id).ToArray(), testId, repositoriesContainer).ToList();
+            }
+
+            var results = new List<TestUnlockInfo>();
+            foreach (var student in studentResults)
+            {
+                results.Add(new TestUnlockInfo
+                {
+                    StudentId = student.Id,
+                    TestId = testId,
+                    StudentName = student.FullName,
+                    Unlocked = testUnlocksResults.Any(testUnlock => testUnlock.StudentId == student.Id)
+                });
+            }
+
+            return results;
+        }
+
+        public void UnlockTest(int groupId, IEnumerable<TestUnlock> testUnlocks)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var studentIds = repositoriesContainer.StudentsRepository.GetAll(new Query<Student>()
+                    .AddFilterClause(student => student.GroupId == groupId))
+                    .Select(student => student.Id)
+                    .ToArray();
+
+                var savedTestUnlocks = repositoriesContainer.TestUnlocksRepository.GetAll(new
+                    Query<TestUnlock>()
+                    .AddFilterClause(testUnlock => studentIds.Contains(testUnlock.StudentId)))
+                    .ToList();
+
+                repositoriesContainer.TestUnlocksRepository.Delete(savedTestUnlocks);
+                repositoriesContainer.TestUnlocksRepository.Save(testUnlocks);
+                
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        private static IEnumerable<TestUnlock> GetTestUnlocks(int[] studentIds, int testId,  LmPlatformRepositoriesContainer repositoriesContainer)
+        {
+            IEnumerable<TestUnlock> searchResults;
+            searchResults = repositoriesContainer.TestUnlocksRepository.GetAll(new Query<TestUnlock>()
+                .AddFilterClause(testUnlock => studentIds.Contains(testUnlock.StudentId))
+                .AddFilterClause(testUnlock => testUnlock.TestId == testId)).ToList();
+            return searchResults;
+        }
+
+        private IEnumerable<Student> GetStudents(int groupId, string searchString, LmPlatformRepositoriesContainer repositoriesContainer)
+        {
+            var studentsQuery = new Query<Student>();
+            studentsQuery.AddFilterClause(student => student.GroupId == groupId);
+            if (searchString != null)
+            {
+                studentsQuery.AddFilterClause(student => student.LastName.Contains(searchString)
+                    || student.FirstName.Contains(searchString));
+            }
+
+            IQueryable<Student> students = repositoriesContainer.StudentsRepository.GetAll(studentsQuery);
+            
+            return students;
+        } 
     }
 }

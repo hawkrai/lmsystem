@@ -1,0 +1,18 @@
+﻿@model IEnumerable<LMPlatform.Models.KnowledgeTesting.TestUnlockInfo>
+
+@using (Ajax.BeginForm("UnlockTests", "Questions", new AjaxOptions
+{
+    //OnSuccess = "questionsAddedFromAnothertest",
+    HttpMethod = "POST"
+}, new
+{
+    id = "unlocksSelectorForm"
+}))
+{
+    @Html.Hidden("groupId", (int)ViewBag.GroupId)
+    <input type="hidden" id="testToCopyId" name="testId" />
+    <ul class="list-group">
+        @Html.EditorFor(model => model)
+    </ul>
+    <input type="submit" value="2"/>
+}
