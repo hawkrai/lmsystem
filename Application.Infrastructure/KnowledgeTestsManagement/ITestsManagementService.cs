@@ -18,6 +18,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         IEnumerable<TestUnlockInfo> GetTestUnlocksForTest(int groupId, int testId, string searchString = null);
 
-        void UnlockTest(int groupId, IEnumerable<TestUnlock> testUnlocks);
+        void UnlockTest(int[] studentIds, int testId, bool unlock);
+        
+        void UnlockTestForStudent(int testId, int studentId, bool unlocked);
     }
 }

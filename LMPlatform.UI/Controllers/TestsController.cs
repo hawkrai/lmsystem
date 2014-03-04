@@ -65,17 +65,24 @@ namespace LMPlatform.UI.Controllers
             return DataTableExtensions.GetResults(testViewModels.Items.Select(model => TestItemListViewModel.FromTest(model, PartialViewToString("_TestsGridActions", TestItemListViewModel.FromTest(model)))), dataTableParam, testViewModels.TotalCount);
         }
 
-        public ActionResult GetUnlockResults(int groupId, int testId, string searchString)
+        public ActionResult GetUnlockResults(int groupId, string searchString, int testId)
         {
             ViewBag.GroupId = groupId;
-            IEnumerable<TestUnlockInfo> unlockInfos = TestsManagementService.GetTestUnlocksForTest(groupId, 1, searchString);
+            IEnumerable<TestUnlockInfo> unlockInfos = TestsManagementService.GetTestUnlocksForTest(groupId, testId, searchString);
             return PartialView("_TestUnlocksSelectorResult", unlockInfos);
         }
 
-        public ActionResult UnlockTests(IEnumerable<TestUnlockInfo> testUnlocks, int groupId, int testId)
+        public ActionResult UnlockTests(int[] studentIds, int testId, bool unlock)
         {
-            TestsManagementService.UnlockTest(groupId, testUnlocks.Select(testUnlock => testUnlock.ToTestUnlock()));
-            return new ContentResult();
+            TestsManagementService.UnlockTest(studentIds, testId, unlock);
+            return Json("Ok");
+        }
+
+        [HttpPost]
+        public ActionResult ChangeLockForUserForStudent(int testId, int studentId, bool unlocked)
+        {
+            TestsManagementService.UnlockTestForStudent(testId, studentId, unlocked);
+            return Json("Ok");
         }
 
         protected int CurrentUserId

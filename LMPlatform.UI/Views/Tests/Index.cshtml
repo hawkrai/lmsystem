@@ -13,7 +13,9 @@
 {
     @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles")
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/TestsListScript.js",
-                "~/Scripts/application/KnowledgeTesting/TestDetailsScript.js")
+                "~/Scripts/application/KnowledgeTesting/TestDetailsScript.js",
+                "~/Scripts/application/KnowledgeTesting/TestUnlocksScript.js",
+                "~/Scripts/linq.js")
 }
 
 @section navpanel
@@ -51,8 +53,9 @@
     </div>
 </div>
 
-@*@Html.Partial("_TestUnlocksSelector", ViewBag.Groups as IEnumerable<Group>)*@
-
+<div class="modal fade" style="width: 100%" id="testUnlockDetails" aria-hidden="true">
+    @Html.Partial("_TestUnlocksSelector", ViewBag.Groups as IEnumerable<Group>)
+</div>
 <div class="modal fade" style="width: 100%" id="testDetails" aria-hidden="true">
     @Html.Partial("TestDetails")
 </div>

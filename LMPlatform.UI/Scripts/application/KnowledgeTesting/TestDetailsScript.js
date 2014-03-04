@@ -1,5 +1,4 @@
-﻿
-var testsDetails = {
+﻿var testsDetails = {
     init: function () {
         $('#saveButton').bind('click', $.proxy(this._onSaveButtonClicked, this));
     },

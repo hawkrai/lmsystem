@@ -14,7 +14,9 @@
         {
             HttpMethod = "POST",
             InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "searchResults"
+            UpdateTargetId = "searchResults",
+            OnSuccess = "questionUnlocksLoaded",
+
         }, new
         {
             id = "selectorFilterForm"
@@ -24,19 +26,27 @@
             <div class="col-lg-6">
                 @Html.DropDownList("groupId", Model.Select(group => new SelectListItem { Value = group.Id.ToString(), Text = group.Name }), new
                 {
-                    id = "testNamesDropdown"
+                    id = "testNamesDropdown",
+                    style = "width: 100%; height:30px; margin-top:5px;",
+                    @class = "form-control"
                 })
             </div>
             <div class="col-lg-6">
                 <input name="searchString" id="selectorSearchString" class="form-control input-sm" type="text">
             </div>
-        </div>
-        <input type="submit"/>
+</div>
+            <div class="row">
+                <div style="margin: 10px 20px" >
+                    <a href="#" id="unlockAllStudents">Открыть</a>/
+                    <a href="#" id="lockAllStudents">Закрыть</a>
+                </div>
+            </div>
+        
+        <input type="hidden" id="testIdOnUnlockForm" name="testId"/>
     }
     <div id="searchResults"></div>
 }
 
 @section footer {
-    <button type="button" id="cancelButton" class="btn btn-primary btn-sm" data-dismiss="modal">Отмена</button>
-    <button type="button" id="insertQuestionsFromAnotherTestButton" class="btn btn-primary btn-sm">Вставить</button>
+    <button type="button" id="unlockCancelButton" class="btn btn-primary btn-sm" data-dismiss="modal">Закрыть</button>
 }

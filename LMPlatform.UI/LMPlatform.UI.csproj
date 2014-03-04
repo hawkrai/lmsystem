@@ -417,6 +417,7 @@
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\TestUnlocksScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\QuestionsListScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\QuestionDetailsScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestDetailsScript.js" />
@@ -762,6 +763,9 @@
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\knockoutWrapper.js" />
+    <None Include="Scripts\linq-vsdoc.js" />
+    <Content Include="Scripts\linq.js" />
+    <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.bg.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.ca.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.cs.js" />

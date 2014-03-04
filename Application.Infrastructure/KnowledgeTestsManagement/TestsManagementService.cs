@@ -100,23 +100,59 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return results;
         }
 
-        public void UnlockTest(int groupId, IEnumerable<TestUnlock> testUnlocks)
+        public void UnlockTest(int[] studentIds, int testId, bool unlock)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var studentIds = repositoriesContainer.StudentsRepository.GetAll(new Query<Student>()
-                    .AddFilterClause(student => student.GroupId == groupId))
-                    .Select(student => student.Id)
-                    .ToArray();
-
                 var savedTestUnlocks = repositoriesContainer.TestUnlocksRepository.GetAll(new
                     Query<TestUnlock>()
-                    .AddFilterClause(testUnlock => studentIds.Contains(testUnlock.StudentId)))
+                    .AddFilterClause(testUnlock => studentIds.Contains(testUnlock.StudentId) && testUnlock.TestId == testId))
                     .ToList();
 
                 repositoriesContainer.TestUnlocksRepository.Delete(savedTestUnlocks);
-                repositoriesContainer.TestUnlocksRepository.Save(testUnlocks);
+                if (unlock)
+                {
+                    IEnumerable<TestUnlock> testUnlocks = studentIds.Select(studentId => new TestUnlock
+                    {
+                        StudentId = studentId,
+                        TestId = testId
+                    });
+                    
+                    repositoriesContainer.TestUnlocksRepository.Save(testUnlocks);
+                }
                 
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void UnlockTestForStudent(int testId, int studentId, bool unlocked)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var savedTestUnlock = repositoriesContainer.TestUnlocksRepository.GetAll(new
+                    Query<TestUnlock>()
+                    .AddFilterClause(testUnlock => testUnlock.StudentId == studentId && testUnlock.TestId == testId))
+                    .SingleOrDefault();
+
+                if (unlocked)
+                {
+                    if (savedTestUnlock == null)
+                    {
+                        repositoriesContainer.TestUnlocksRepository.Save(new TestUnlock
+                        {
+                            StudentId = studentId,
+                            TestId = testId
+                        });
+                    }
+                }
+                else
+                {
+                    if (savedTestUnlock != null)
+                    {
+                        repositoriesContainer.TestUnlocksRepository.Delete(savedTestUnlock);
+                    }
+                }
+
                 repositoriesContainer.ApplyChanges();
             }
         }

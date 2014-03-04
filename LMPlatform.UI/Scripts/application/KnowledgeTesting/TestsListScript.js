@@ -15,8 +15,9 @@
         testsDetails.showDialog(itemId);
     },
     
-    _onLockClicked: function() {
-        alert('lock clicked');
+    _onLockClicked: function (eventArgs) {
+        var itemId = eventArgs.target.dataset.modelId;
+        testsUnlocks.showDialog(itemId);
     },
 
     _onDeleteClicked: function (eventArgs) {
