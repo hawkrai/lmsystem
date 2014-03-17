@@ -70,19 +70,6 @@
 				}
 				return false;
 			});
-
-			$(form).submit(function() {
-			    if ($(form).valid()) {
-			        if (beforeSave != undefined) {
-			            beforeSave(form);
-			        }
-					$.post($(form).attr("action"), $(form).serialize(), function (result) {
-						saveCallback(result);
-						that.closeDialog(dialogId);
-					});
-				}
-				return false;
-			});
 		});
 
 		$("#" + dialogId).on('hidden.bs.modal', function (element) {

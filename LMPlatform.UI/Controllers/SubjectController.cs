@@ -147,5 +147,36 @@ namespace LMPlatform.UI.Controllers
                 Action = PartialViewToString("_SubjectActionList", new SubjectViewModel { SubjectId = subject.Id })
             };
         }
+
+        public ActionResult CreateLectures(int subjectId)
+        {
+            var model = new LecturesDataViewModel(0, subjectId);
+
+            return PartialView("Subjects/Modules/Lectures/_EditLectures", model);
+        }
+
+        public ActionResult EditLectures(int id, int subjectId)
+        {
+            var model = new LecturesDataViewModel(id, subjectId);
+
+            return PartialView("Subjects/Modules/Lectures/_EditLectures", model);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteLectures(int id, int subjectId)
+        {
+            var model = new LecturesDataViewModel(id, subjectId);
+            model.Delete();
+            var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Lectures);
+            return PartialView("Subjects/_ModuleTemplate", modelData);
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult SaveLectures(LecturesDataViewModel model, string attachments)
+        {
+            model.Save(attachments);
+            var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Lectures);
+            return PartialView("Subjects/_ModuleTemplate", modelData);
+        }
     }
 }

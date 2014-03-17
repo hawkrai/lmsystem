@@ -906,6 +906,7 @@
     <Content Include="Views\Tests\_TestUnlocksSelector.cshtml" />
     <Content Include="Views\Tests\_TestUnlocksSelectorResult.cshtml" />
     <Content Include="Views\Tests\EditorTemplates\TestUnlockInfo.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\Lectures\_EditLectures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,5 +1,24 @@
 ﻿@model LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesLecturesViewModel
 
+@if (User.IsInRole("lector"))
+{
+    <div id="navPanel">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="buttonActionSection">
+                            <a id="addLecturesButton" style="margin-right: 10px" class="btn btn-primary btn-sm" href="@Url.Action("CreateLectures", "Subject", new { subjectId = Model.SubjectId })">Добавить лекцию</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="page-header" style="margin-top: 5px"></div>
+}
+
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
@@ -27,8 +46,8 @@
                 {
                     <td>
                         <div>
-                            <a class="editLecturesButton" style="margin-right: 10px" href="#"><i class="editLecturesButton fa fa-edit fa-2x"></i></a>
-                                <a class="deleteLecturesButton" href="#"><i class="editLecturesButton fa fa-trash-o fa-2x"></i></a>
+                            <a class="editLecturesButton" style="margin-right: 10px" href="@Url.Action("EditLectures", "Subject", new { id = item.LecturesId, subjectId = item.SubjectId })"><i class="editLecturesButton fa fa-edit fa-2x"></i></a>
+                            <a class="deleteLecturesButton" href="@Url.Action("DeleteLectures", "Subject", new { id = item.LecturesId, subjectId = item.SubjectId })"><i class="deleteLecturesButton fa fa-trash-o fa-2x"></i></a>
                         </div>
                     </td>
                 }
@@ -41,8 +60,11 @@
           <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupDrop1">
-                                <li><a href="#">Файл 1</a></li>
-                                <li><a href="#">Файл 2</a></li>
+                                @foreach (var file in item.Attachments)
+                                {
+                                    var url = "api/Upload?filename=" + file.PathName + "//" + file.FileName;
+                                    <li><a href="@url">@file.Name</a></li>    
+                                }
                             </ul>
                         </div>
                     </td>

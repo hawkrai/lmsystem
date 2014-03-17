@@ -9,8 +9,9 @@
                     <tr>
                         <td>
                             <div id="buttonActionSection">
-                                <a id="addNewsButton" style="margin-right: 10px" class=" fa-2x" href="@Url.Action("CreateNews", "Subject", new { subjectId = Model.SubjectId })"><i class="addNewsButton fa fa-plus fa-2x"></i></a>
-                            </div>
+                                <a id="addNewsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" href="@Url.Action("CreateNews", "Subject", new { subjectId = Model.SubjectId })">Добавить новость</a>
+                                    @*<a id="addNewsButton" style="margin-right: 10px" class=" fa-2x" href="@Url.Action("CreateNews", "Subject", new { subjectId = Model.SubjectId })"><i class="addNewsButton fa fa-plus fa-2x"></i></a>*@
+</div>
                         </td>
                     </tr>
                 </tbody>

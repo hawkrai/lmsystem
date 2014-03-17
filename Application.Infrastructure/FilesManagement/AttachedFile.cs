@@ -187,9 +187,9 @@ namespace Application.Infrastructure.FilesManagement
 				}
 			}
 
-			var serverFilePath = Type + "/" + Path.GetFileName(fileName.FullName);
-			Url = HandlerPath + "api/Upload?filename=/" + serverFilePath;
-			DeleteUrl = HandlerPath + "api/Upload?filename=" + serverFilePath;
+			var serverFilePath = Path.GetFileName(fileName.FullName);
+            Url = HandlerPath + "api/Upload?filename=" + fileName.Directory.Name + "//" + serverFilePath;
+            DeleteUrl = HandlerPath + "api/Upload?filename=" + fileName.Directory.Name + "//" + serverFilePath;
 		}
 
 		#endregion Private Members

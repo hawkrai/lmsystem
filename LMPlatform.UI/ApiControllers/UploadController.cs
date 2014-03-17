@@ -35,6 +35,13 @@ namespace LMPlatform.UI.ApiControllers
 		[System.Web.Http.HttpDelete]
 		public string DeleteFiles()
 		{
+		    var context = HttpContext.Current;
+            var file = _storageRootTemp + "/" + context.Request["filename"];
+            if (File.Exists(file))
+		    {
+                File.Delete(file);    
+		    }
+
 			return HttpStatusCode.OK.ToString();
 		}
 
@@ -43,7 +50,7 @@ namespace LMPlatform.UI.ApiControllers
 		{
 		    if (!string.IsNullOrEmpty(fileName))
 		    {
-		        DownloadFileContent(fileName);
+                return DownloadFileContent(fileName);
 		    }
 		    
             return new HttpResponseMessage(HttpStatusCode.BadRequest);

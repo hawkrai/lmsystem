@@ -64,10 +64,10 @@
         $('.deleteNewsButton.fa').tooltip({ title: 'Удалить новость', placement: 'right' });
      },
 
-    updateHandlerActions: function () {
-        $('#addNewsButton').handle("click", function () {
+    updateHandlerActions: function() {
+        $('#addNewsButton').handle("click", function() {
             var that = this;
-            $.savingDialog("Создание новости", $(that).attr("href"), null, "primary", function (data) {
+            $.savingDialog("Создание новости", $(that).attr("href"), null, "primary", function(data) {
                 $('.conteinerModule').empty();
                 $('.conteinerModule').append(data);
                 subjectWorking.updateHandlerActions();
@@ -75,9 +75,9 @@
             });
             return false;
         });
-        $('a.editNewsButton').handle("click", function () {
+        $('a.editNewsButton').handle("click", function() {
             var that = this;
-            $.savingDialog("Редактирование новости", $(that).attr("href"), null, "primary", function (data) {
+            $.savingDialog("Редактирование новости", $(that).attr("href"), null, "primary", function(data) {
                 $('.conteinerModule').empty();
                 $('.conteinerModule').append(data);
                 subjectWorking.updateHandlerActions();
@@ -85,11 +85,11 @@
             });
             return false;
         });
-        $('a.deleteNewsButton').handle("click", function () {
+        $('a.deleteNewsButton').handle("click", function() {
             var that = this;
-            bootbox.confirm("Вы действительно хотите удалить новость?", function (isConfirmed) {
+            bootbox.confirm("Вы действительно хотите удалить новость?", function(isConfirmed) {
                 if (isConfirmed) {
-                    $.post($(that).attr("href"), null, function (data) {
+                    $.post($(that).attr("href"), null, function(data) {
                         $('.conteinerModule').empty();
                         $('.conteinerModule').append(data);
                         subjectWorking.updateHandlerActions();
@@ -99,10 +99,73 @@
             });
             return false;
         });
-        
-        subjectWorking.applyCss();
+        $('#addLecturesButton').handle("click", function() {
+            var that = this;
+            $.savingDialog("Создание лекции", $(that).attr("href"), null, "primary", function(data) {
+                    $('.conteinerModule').empty();
+                    $('.conteinerModule').append(data);
+                    subjectWorking.updateHandlerActions();
+                    alertify.success("Создана новая лекция");
+                },
+                function(forms) {
+                    $(forms).append('<input type=\"hidden\" id=\"attachments\" name=\"attachments\" />');
+                    $("#attachments").val(subjectWorking.getLecturesFileAttachments());
+                });
+            subjectWorking.applyCss();
+
+            return false;
+
+        });
+
+        $('a.deleteLecturesButton').handle("click", function () {
+            var that = this;
+            bootbox.confirm("Вы действительно хотите удалить лекцию?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $.post($(that).attr("href"), null, function (data) {
+                        $('.conteinerModule').empty();
+                        $('.conteinerModule').append(data);
+                        subjectWorking.updateHandlerActions();
+                        alertify.success("Лекция успешна удалена");
+                    });
+                }
+            });
+            return false;
+        });
+
+        $('a.editLecturesButton').handle("click", function () {
+            var that = this;
+            $.savingDialog("Редактирование лекции", $(that).attr("href"), null, "primary", function (data) {
+                $('.conteinerModule').empty();
+                $('.conteinerModule').append(data);
+                subjectWorking.updateHandlerActions();
+                alertify.success("Лекция успешно изменена");
+            },
+            function (forms) {
+                $(forms).append('<input type=\"hidden\" id=\"attachments\" name=\"attachments\" />');
+                $("#attachments").val(subjectWorking.getLecturesFileAttachments());
+            });
+            return false;
+        });
     },
-    
+
+    getLecturesFileAttachments : function() {
+        var itemAttachmentsTable = $('#fileupload').find('table').find('tbody tr');
+        var data = $.map(itemAttachmentsTable, function (e) {
+            var newObject = null;
+            if (e.className === "template-download fade in") {
+                if (e.id === "-1") {
+                    newObject = { Id: 0, Title: "", Name: $(e).find('td a').text(), AttachmentType: $(e).find('td.type').text(), FileName: $(e).find('td.guid').text() };
+                } 
+                else {
+                    newObject = { Id: e.id, Title: "", Name: $(e).find('td a').text(), AttachmentType: $(e).find('td.type').text(), FileName: $(e).find('td.guid').text() };
+                }
+            }
+            return newObject;
+        });
+        var dataAsString = JSON.stringify(data);
+        return dataAsString;
+    },
+
     subGroupsActionHandler: function() {
         $("#subGroupFirst").find("a.bright").handle("click", function () {
             var selectStudents = $("#StudentList").find("option");

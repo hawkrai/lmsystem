@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     
-    var array = @Html.Raw(Json.Encode(Model.Select(e => e.Name + "/" + e.Id + "/" + e.AttachmentType + "/" + e.FileName)));
+    var array = @Html.Raw(Json.Encode(Model.Select(e => e.Name + "/" + e.Id + "/" + e.PathName + "/" + e.FileName)));
     var stringArray = new Array();
     
     for (var i = 0; i < array.length; i++) {

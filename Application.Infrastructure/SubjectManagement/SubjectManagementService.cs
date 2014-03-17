@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
 using System.Linq;
+using System.Xml.Linq;
 using Application.Core;
 using Application.Core.Data;
+using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Data.Repositories.RepositoryContracts;
@@ -12,6 +17,14 @@ namespace Application.Infrastructure.SubjectManagement
     public class SubjectManagementService : ISubjectManagementService
     {
         private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
+
+        private readonly LazyDependency<IFilesManagementService> _filesManagementService =
+            new LazyDependency<IFilesManagementService>();
+
+        public IFilesManagementService FilesManagementService
+        {
+            get { return _filesManagementService.Value; }
+        }
 
         public IStudentManagementService StudentManagementService
         {
@@ -134,6 +147,57 @@ namespace Application.Infrastructure.SubjectManagement
                     repositoriesContainer.SubGroupRepository.CreateSubGroup(subjectId, firstOrDefault.Id, firstInts, secoInts);           
                 }
             }
+        }
+
+        public Lectures GetLectures(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.LecturesRepository.GetBy(new Query<Lectures>(e => e.Id == id).Include(e => e.Subject));
+            }
+        }
+
+        public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                if (!string.IsNullOrEmpty(lectures.Attachments))
+                {
+                    var deleteFiles =
+                        repositoriesContainer.AttachmentRepository.GetAll(
+                            new Query<Attachment>(e => e.PathName == lectures.Attachments)).ToList().Where(e => attachments.All(x => x.Id != e.Id)).ToList();
+
+                    foreach (var attachment in deleteFiles)
+                    {
+                        FilesManagementService.DeleteFileAttachment(attachment);
+                    }
+                }
+                else
+                {
+                    lectures.Attachments = GetGuidFileName();
+                }
+
+                FilesManagementService.SaveFiles(attachments.Where(e => e.Id == 0), lectures.Attachments);
+
+                foreach (var attachment in attachments)
+                {
+                    if (attachment.Id == 0)
+                    {
+                        attachment.PathName = lectures.Attachments;
+                        repositoriesContainer.AttachmentRepository.Save(attachment);
+                    }
+                }
+
+                repositoriesContainer.LecturesRepository.Save(lectures);
+                repositoriesContainer.ApplyChanges();
+            }
+
+            return lectures;
+        }
+
+        private string GetGuidFileName()
+        {
+            return string.Format("P{0}", Guid.NewGuid().ToString("N").ToUpper());
         }
     }
 }

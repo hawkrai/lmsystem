@@ -28,6 +28,12 @@ namespace LMPlatform.Models
             set;
         }
 
+        public string Attachments
+        {
+            get;
+            set;
+        }
+
         public Subject Subject
         {
             get;

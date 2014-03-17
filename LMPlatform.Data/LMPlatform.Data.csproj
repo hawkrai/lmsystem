@@ -65,6 +65,7 @@
     <Compile Include="Repositories\AttachmentRepository.cs" />
     <Compile Include="Repositories\GroupsRepository.cs" />
     <Compile Include="Repositories\LecturerRepository.cs" />
+    <Compile Include="Repositories\LecturesRepository.cs" />
     <Compile Include="Repositories\LmPlatformRepositoriesContainer.cs" />
     <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="Repositories\ModulesRepository.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Repositories\RepositoryContracts\IAttachmentRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IBugsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IGroupsRepository.cs" />
+    <Compile Include="Repositories\RepositoryContracts\ILecturesRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IMessageRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IModulesRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ILecturerRepository.cs" />

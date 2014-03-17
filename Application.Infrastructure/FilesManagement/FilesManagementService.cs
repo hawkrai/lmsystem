@@ -6,6 +6,7 @@ using System.Linq;
 using Application.Core;
 
 using Application.Core.Data;
+using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 
 namespace Application.Infrastructure.FilesManagement
@@ -25,18 +26,12 @@ namespace Application.Infrastructure.FilesManagement
             }
         }
 
-        //private readonly LazyDependency<ICollectionItemsAttachmentsRepository> _collectionItemsAttachmentsRepository = new LazyDependency<ICollectionItemsAttachmentsRepository>();
-
-        //public ICollectionItemsAttachmentsRepository CollectionItemsAttachmentsRepository
-        //{
-        //    get
-        //    {
-        //        return _collectionItemsAttachmentsRepository.Value;
-        //    }
-        //}
         public string GetFileDisplayName(string guid)
         {
-            return AttachmentsRepository.GetBy(new Query<Attachment>(e => e.FileName == guid)).Name;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.AttachmentRepository.GetBy(new Query<Attachment>(e => e.FileName == guid)).Name;
+            }
         }
 
         public void SaveFiles(IEnumerable<Attachment> attachments, string folder = "")
@@ -47,37 +42,28 @@ namespace Application.Infrastructure.FilesManagement
             }
         }
 
+        public IList<Attachment> GetAttachments(string path)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.AttachmentRepository.GetAll(new Query<Attachment>(e => e.PathName == path)).ToList();
+            }
+        }
+
         public void DeleteFileAttachment(Attachment attachment)
         {
-            //if (CollectionItemsAttachmentsRepository.GetPageableBy().Items.All(e => e.AttachmentId != attachment.Id))
-            //{
-            string fileType = null;
-            switch (attachment.AttachmentType)
+            var filePath = _storageRoot + attachment.PathName + "//" + attachment.FileName;
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                case AttachmentType.Image:
-                    fileType = "Image";
-                    break;
-                case AttachmentType.Video:
-                    fileType = "Video";
-                    break;
-                case AttachmentType.Audio:
-                    fileType = "Audio";
-                    break;
-                case AttachmentType.Document:
-                    fileType = "Document";
-                    break;
+                repositoriesContainer.AttachmentRepository.Delete(attachment);
+                repositoriesContainer.ApplyChanges();
             }
-
-            var filePath = _storageRoot + fileType + "//" + attachment.Name;
-
-            AttachmentsRepository.Delete(attachment);
 
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
-
-            //}
         }
 
         private void SaveFile(Attachment attachment, string folder)

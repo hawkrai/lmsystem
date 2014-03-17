@@ -23,5 +23,9 @@ namespace Application.Infrastructure.SubjectManagement
 	    IList<SubGroup> GetSubGroups(int subjectId, int groupId);
 
         void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts);
+
+        Lectures GetLectures(int id);
+
+        Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments);
     }
 }

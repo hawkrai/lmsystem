@@ -42,6 +42,8 @@ namespace LMPlatform.Data.Repositories
 		public ISubGroupRepository SubGroupRepository { get; set; }
 
         public IAttachmentRepository AttachmentRepository { get; set; }
+
+        public ILecturesRepository LecturesRepository { get; set; }
 		
         public void ApplyChanges()
         {
@@ -70,6 +72,7 @@ namespace LMPlatform.Data.Repositories
             MessageRepository = new MessageRepository(_dataContext);
 			SubGroupRepository = new SubGroupRepository(_dataContext);
             AttachmentRepository = new AttachmentRepository(_dataContext);
+            LecturesRepository = new LecturesRepository(_dataContext);
         }
     }
 }
