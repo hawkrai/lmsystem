@@ -49,11 +49,11 @@ namespace LMPlatform.Models
             {
                 if (Student != null)
                 {
-                    return Student.FullName;
+                    return Student.FullName.Trim(' ');
                 }
                 else if (Lecturer != null)
                 {
-                    return Lecturer.FullName;
+                    return Lecturer.FullName.Trim(' ');
                 }
 
                 return UserName;

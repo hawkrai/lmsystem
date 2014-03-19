@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Application.Core.Constants;
+using Application.Core.Extensions;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.MessageManagement;
@@ -39,6 +41,17 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Common/_MessageForm", messageViewModel);
         }
 
+        public ActionResult ViewMessage(int id)
+        {
+            var model = new DisplayMessageViewModel(id);
+            if (WebSecurity.CurrentUserId != model.AuthorId)
+            {
+                MessageManagementService.SetRead(model.UserMessageId);
+            }
+
+            return PartialView("Common/_DisplayMessage", model);
+        }
+
         [HttpPost]
         public ActionResult WriteMessage(MessageViewModel msg, string itemAttachments)
         {
@@ -62,7 +75,7 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
-        public DataTablesResult<DisplayMessageViewModel> GetCollectionMessages(DataTablesParam dataTableParam)
+        public DataTablesResult<DataTableMessage> GetCollectionMessages(DataTablesParam dataTableParam)
         {
             var searchString = dataTableParam.GetSearchString();
             bool? incoming = null;
@@ -78,12 +91,16 @@ namespace LMPlatform.UI.Controllers
             }
 
             var messages = MessageManagementService.GetUserMessagesPageable(WebSecurity.CurrentUserId, incoming, pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
-            return DataTableExtensions.GetResults(messages.Items.Select(m => DisplayMessageViewModel.FormMessageToDisplay(m, PartialViewToString("_EditGlyphLinks", m.Id))), dataTableParam, messages.TotalCount);
+            return DataTableExtensions.GetResults(
+                messages.Items.DistinctBy(i => i.MessageId).Select(m =>
+                    new DataTableMessage(PartialViewToString("_MessageDisplayRow", DisplayMessageViewModel.FormMessageToDisplay(m)))),
+                    dataTableParam,
+                    messages.TotalCount);
         }
 
         public JsonResult GetSelectListOptions(string term)
         {
-            var recip = MessageManagementService.GetRecipientsList(WebSecurity.CurrentUserId);
+            var recip = MessageManagementService.GetRecipients(WebSecurity.CurrentUserId);
 
             var result = recip.Where(r => r.FullName.ToLower().Contains(term.ToLower()))
                 .Select(r => new

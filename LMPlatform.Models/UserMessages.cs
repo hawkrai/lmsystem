@@ -16,7 +16,7 @@ namespace LMPlatform.Models
             AuthorId = authorId;
             MessageId = messageId;
             Date = DateTime.Now;
-            IsReaded = false; 
+            IsRead = false; 
         }
 
         [Required]
@@ -28,7 +28,7 @@ namespace LMPlatform.Models
 
         public DateTime Date { get; set; }
 
-        public bool IsReaded { get; set; }
+        public bool IsRead { get; set; }
 
         public User Recipient { get; set; }
 

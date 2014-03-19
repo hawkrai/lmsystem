@@ -21,7 +21,7 @@ namespace Application.Infrastructure.MessageManagement
             get { return _filesManagementService.Value; }
         }
 
-        public List<User> GetRecipientsList(int currentUserId)
+        public IEnumerable<User> GetRecipients(int currentUserId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -32,9 +32,14 @@ namespace Application.Infrastructure.MessageManagement
             }
         }
 
-        public List<User> GetRecipientsList()
+        public IEnumerable<User> GetMessageRecipients(int messageId)
         {
-            throw new NotImplementedException();
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var recipients = repositoriesContainer.MessageRepository.GetMessageRecipients(messageId);
+
+                return recipients;
+            }
         }
 
         public Message SaveMessage(Message message)
@@ -110,7 +115,7 @@ namespace Application.Infrastructure.MessageManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var userMessages = repositoriesContainer.MessageRepository.GetUserMessages(userId);
-                return userMessages.Where(m => m.RecipientId == userId && !m.IsReaded).ToList();
+                return userMessages.Where(m => m.RecipientId == userId && !m.IsRead).ToList();
             }
         }
 
@@ -171,7 +176,27 @@ namespace Application.Infrastructure.MessageManagement
             }
         }
 
-        private List<User> GetRecipientsList(User currentUser)
+        public UserMessages SetRead(int userMessageId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var message = repositoriesContainer.MessageRepository.GetUserMessagesById(userMessageId);
+                message.IsRead = true;
+                repositoriesContainer.ApplyChanges();
+                return message;
+            }
+        }
+
+        public UserMessages GetUserMessage(int userMessageId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var message = repositoriesContainer.MessageRepository.GetUserMessagesById(userMessageId);
+                return message;
+            }
+        }
+
+        private static IEnumerable<User> GetRecipientsList(User currentUser)
         {
             var recipientsList = new List<User>();
             if (currentUser != null

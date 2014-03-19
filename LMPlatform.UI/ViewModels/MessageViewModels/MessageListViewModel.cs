@@ -40,20 +40,12 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
 
         public List<DisplayMessageViewModel> UnreadMessages
         {
-            get { return _messages.Where(m => m.AuthorId != UserId && !m.IsReaded).OrderByDescending(m => m.Date).ToList(); }
+            get { return _messages.Where(m => m.AuthorId != UserId && !m.IsRead).OrderByDescending(m => m.Date).ToList(); }
         }
 
         private IEnumerable<DisplayMessageViewModel> GetUserMessages()
         {
-            var userMessages = MessageManagementService.GetUserMessages(UserId).Select(m => new DisplayMessageViewModel
-            {
-                AuthorName = m.Author.FullName,
-                DateTime = m.Date,
-                Text = m.Message.Text,
-                MessageId = m.MessageId,
-                AuthorId = m.AuthorId,
-                IsReaded = m.IsReaded
-            }).ToList();
+            var userMessages = MessageManagementService.GetUserMessages(UserId).Select(m => new DisplayMessageViewModel(m)).ToList();
 
             return userMessages;
         }

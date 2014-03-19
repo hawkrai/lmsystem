@@ -1,6 +1,5 @@
 ﻿@using Application.Core.UI.HtmlHelpers
 @using LMPlatform.UI.Controllers
-@model LMPlatform.UI.ViewModels.MessageViewModels.MessageListViewModel
 
 @{
     ViewBag.Title = "Сообщения";
@@ -34,7 +33,7 @@
             <li><a href="#sent" data-toggle="tab">Отправленные</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="inbox">
+            <div class="tab-pane message-tab active" id="inbox">
                 <div>@Html.Partial("_MessageDataTable", new DataTableViewModel
              {
                  DataTable = Html.DataTable("incomingMessageList", (MessageController controller) => controller.GetCollectionMessages(null), new { isIncoming = true }),
@@ -43,14 +42,14 @@
                          Pagination = true,
                          Searchable = true,
                          Sortable = false,
-                         Filterable = true,
+                         Filterable = false,
                          Info = false,
-                         //OnComplete = ""
+                         OnComplete = "initDisplayMessageDialog"
                      }
              })
                 </div>
             </div>
-            <div class="tab-pane" id="sent">
+            <div class="tab-pane message-tab" id="sent">
                 <div>@Html.Partial("_MessageDataTable", new DataTableViewModel
              {
                  DataTable = Html.DataTable("outcomingMessageList", (MessageController controller) => controller.GetCollectionMessages(null), new { isIncoming = false }),
@@ -59,9 +58,9 @@
                          Pagination = true,
                          Searchable = true,
                          Sortable = false,
-                         Filterable = true,
+                         Filterable = false,
                          Info = false,
-                         //OnComplete = ""
+                         OnComplete = "initDisplayMessageDialog"
                      }
              })
                 </div> 

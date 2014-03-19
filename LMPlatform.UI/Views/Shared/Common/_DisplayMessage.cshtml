@@ -1,0 +1,21 @@
+﻿@model LMPlatform.UI.ViewModels.MessageViewModels.DisplayMessageViewModel
+
+<div id="msgDispalay">
+    <div>
+        @Model.Subject
+    </div>
+    <div>
+        @Model.Text
+    </div>
+    <div>
+        @foreach (var attach in Model.Attachments)
+        {
+            <div><a href="/api/Upload/DowloadFile?fileName=@Path.Combine(attach.PathName,attach.FileName)">@attach.Name</a></div>
+        }
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $('.modal-dialog').width('900px');
+</script>

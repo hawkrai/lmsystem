@@ -1,21 +1,35 @@
 ﻿$(function () {
     $(".msgButton").on('click', function () {
-        getMessageDialog($(this).data('url'));
+        getMessageForm($(this).data('url'));
     });
 });
 
-function getMessageDialog(messageFormUrl) {
+function initDisplayMessageDialog() {
+    $(".msg-row").unbind();
+    $(".msg-row").on('click', function () {
+        getMessagePartial($(this).data('url'));
+
+        setReadStyle($(this));
+    });
+}
+
+function getMessageForm(messageFormUrl) {
     $.get(messageFormUrl,
             {},
           function (data) {
               showDialog(data);
+          });
+}
 
-              var form = $('#msgForm').find('form');
-              var sendBtn = $('#msgForm').parents().find('.modal-dialog').find('.btn-submit');
-
-              sendBtn.click(function () {
-                  return submitMessageForm(form);
+function getMessagePartial(partialViewUrl) {
+    $.get(partialViewUrl,
+            {},
+          function (data) {
+              bootbox.dialog({
+                  message: data,
+                  title: "Сообщение"
               });
+
           });
 }
 
@@ -31,6 +45,13 @@ function showDialog(messageForm) {
                 }
             }
         }
+    });
+
+    var form = $('#msgForm').find('form');
+    var sendBtn = $('#msgForm').parents().find('.modal-dialog').find('.btn-submit');
+
+    sendBtn.click(function () {
+        return submitMessageForm(form);
     });
 }
 
@@ -86,4 +107,11 @@ function ajaxChosenInit(elem) {
            width: '858px'
        }
    );
+}
+
+function setReadStyle(row) {
+    var tabId = $(row).parents(".message-tab").attr('id');
+    if (tabId == 'inbox') {
+        $(row).removeClass("unread").addClass("is-read");
+    }
 }

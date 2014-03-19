@@ -193,8 +193,8 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\MessageViewModels\DataTableMessage.cs" />
     <Compile Include="ViewModels\MessageViewModels\DisplayMessageViewModel.cs" />
-    <Compile Include="ViewModels\MessageViewModels\MessageListViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\MessageViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLecturesViewModel.cs" />
@@ -907,6 +907,8 @@
     <Content Include="Views\Tests\_TestUnlocksSelectorResult.cshtml" />
     <Content Include="Views\Tests\EditorTemplates\TestUnlockInfo.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Lectures\_EditLectures.cshtml" />
+    <Content Include="Views\Shared\_MessageDisplayRow.cshtml" />
+    <Content Include="Views\Shared\Common\_DisplayMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

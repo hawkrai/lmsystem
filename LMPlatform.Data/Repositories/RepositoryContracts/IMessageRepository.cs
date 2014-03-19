@@ -8,7 +8,11 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
     {
         UserMessages SaveUserMessages(UserMessages userMessages);
 
+        UserMessages GetUserMessagesById(int userMessagesId);
+
         IEnumerable<UserMessages> GetUserMessages(int userId);
+
+        IEnumerable<User> GetMessageRecipients(int messageId);
 
         List<UserMessages> GetCorrespondence(int firstUserId, int secondUserId);
     }

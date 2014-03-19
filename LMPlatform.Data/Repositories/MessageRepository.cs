@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Infrastructure;
@@ -13,11 +14,22 @@ namespace LMPlatform.Data.Repositories
             : base(dataContext)
         {
         }
-       
+
         public UserMessages SaveUserMessages(UserMessages userMessages)
         {
             DataContext.Set<UserMessages>().Add(userMessages);
+
             return userMessages;
+        }
+
+        public UserMessages GetUserMessagesById(int userMessagesId)
+        {
+            return DataContext.Set<UserMessages>()
+                              .Include("Message")
+                              .Include("Message.Attachments")
+                              .Include("Author.Lecturer")
+                              .Include("Author.Student")
+                              .SingleOrDefault(m => m.Id == userMessagesId);
         }
 
         public IEnumerable<UserMessages> GetUserMessages(int userId)
@@ -27,6 +39,16 @@ namespace LMPlatform.Data.Repositories
                               .Include("Author.Lecturer")
                               .Include("Author.Student")
                               .Where(m => m.AuthorId == userId || m.RecipientId == userId);
+        }
+
+        public IEnumerable<User> GetMessageRecipients(int messageId)
+        {
+            return DataContext.Set<UserMessages>()
+                              .Where(m => m.MessageId == messageId)
+                              .Select(u => u.Recipient)
+                              .Include("Lecturer")
+                              .Include("Student")
+                              .ToList();
         }
 
         public List<UserMessages> GetCorrespondence(int firstUserId, int secondUserId)

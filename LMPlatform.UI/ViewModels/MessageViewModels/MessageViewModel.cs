@@ -42,7 +42,7 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
 
         public IList<SelectListItem> GetRecipientsSelectList()
         {
-            var recip = MessageManagementService.GetRecipientsList(FromId);
+            var recip = MessageManagementService.GetRecipients(FromId);
 
             return recip.Select(r => new SelectListItem
                 {

@@ -6,9 +6,9 @@ namespace Application.Infrastructure.MessageManagement
 {
     public interface IMessageManagementService
     {
-        List<User> GetRecipientsList(int userId);
+        IEnumerable<User> GetRecipients(int userId);
 
-        List<User> GetRecipientsList();
+        IEnumerable<User> GetMessageRecipients(int messageId);
 
         Message SaveMessage(Message message);
 
@@ -28,5 +28,9 @@ namespace Application.Infrastructure.MessageManagement
         IPageableList<UserMessages> GetUserMessagesPageable(int userId, bool? incoming = null, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
         Message GetMessage(int messageId);
+
+        UserMessages SetRead(int userMessageId);
+
+        UserMessages GetUserMessage(int userMessageId);
     }
 }

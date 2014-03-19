@@ -623,3 +623,11 @@ legend.scheduler-border {
 .fa-6 {
     font-size: 20em;   
 }
+
+.is-read {
+    color: dimgray;
+}
+
+.unread {
+    color: black;
+}

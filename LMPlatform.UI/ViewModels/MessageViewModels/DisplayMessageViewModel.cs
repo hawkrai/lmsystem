@@ -1,22 +1,53 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Web;
+using System.Collections.Generic;
+using System.Linq;
+using Application.Core;
+using Application.Infrastructure.FilesManagement;
+using Application.Infrastructure.MessageManagement;
 using LMPlatform.Models;
 
 namespace LMPlatform.UI.ViewModels.MessageViewModels
 {
     public class DisplayMessageViewModel
     {
-        [DisplayName("")]
-        public int AttachmentsCount { get; set; }
+        private readonly LazyDependency<IMessageManagementService> _messageManagementService =
+            new LazyDependency<IMessageManagementService>();
 
-        [DisplayName("")]
+        private readonly LazyDependency<IFilesManagementService> _filesManagementService =
+            new LazyDependency<IFilesManagementService>();
+
+        public IMessageManagementService MessageManagementService
+        {
+            get { return _messageManagementService.Value; }
+        }
+
+        public IFilesManagementService FilesManagementService
+        {
+            get { return _filesManagementService.Value; }
+        }
+
+        public DisplayMessageViewModel()
+        {
+        }
+
+        public DisplayMessageViewModel(int userMessagesId)
+        {
+            var userMessages = MessageManagementService.GetUserMessage(userMessagesId);
+
+            InitFields(userMessages);
+        }
+
+        public DisplayMessageViewModel(UserMessages userMessages)
+        {
+            InitFields(userMessages);
+        }
+
+        public bool HasAttachments { get; set; }
+
         public string AuthorName { get; set; }
 
-        [DisplayName("")]
         public string Subject { get; set; }
 
-        [DisplayName("")]
         public string PreviewText
         {
             get
@@ -25,7 +56,6 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
             }
         }
 
-        [DisplayName("")]
         public string Date
         {
             get
@@ -41,33 +71,70 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
             }
         }
 
-        [DisplayName("")]
-        public string HtmlLinks { get; set; }
-
         public string Text { get; set; }
 
         public DateTime DateTime { get; set; }
 
-        public bool IsReaded { get; set; }
+        public bool IsRead { get; set; }
 
         public int MessageId { get; set; }
 
+        public int UserMessageId { get; set; }
+
         public int AuthorId { get; set; }
 
-        public static DisplayMessageViewModel FormMessageToDisplay(UserMessages userMessages, string htmlLinks)
+        private IEnumerable<User> _recipients;
+
+        private IEnumerable<Attachment> _attachments;
+
+        public IEnumerable<User> Recipients
         {
-            return new DisplayMessageViewModel
+            get
+            {
+                if (_recipients == null)
                 {
-                    AuthorName = userMessages.Author.FullName,
-                    DateTime = userMessages.Date,
-                    Text = userMessages.Message.Text,
-                    MessageId = userMessages.MessageId,
-                    AuthorId = userMessages.AuthorId,
-                    IsReaded = userMessages.IsReaded,
-                    Subject = userMessages.Message.Subject,
-                    AttachmentsCount = userMessages.Message.Attachments.Count,
-                    HtmlLinks = htmlLinks, 
-                };
+                    _recipients = MessageManagementService.GetMessageRecipients(MessageId);
+                }
+
+                return _recipients;
+            }
+        }
+
+        public IEnumerable<Attachment> Attachments
+        {
+            get
+            {
+                if (_attachments == null)
+                {
+                    var message = MessageManagementService.GetMessage(MessageId);
+                    if (message != null)
+                    {
+                        _attachments = MessageManagementService.GetMessage(MessageId).Attachments;
+                    }
+                }
+
+                return _attachments;
+            }
+        }
+
+        public static DisplayMessageViewModel FormMessageToDisplay(UserMessages userMessages)
+        {
+            var model = new DisplayMessageViewModel(userMessages);
+
+            return model;
+        }
+
+        private void InitFields(UserMessages userMessages)
+        {
+            AuthorName = userMessages.Author.FullName;
+            DateTime = userMessages.Date;
+            Text = userMessages.Message.Text;
+            MessageId = userMessages.MessageId;
+            UserMessageId = userMessages.Id;
+            AuthorId = userMessages.AuthorId;
+            IsRead = userMessages.IsRead;
+            Subject = userMessages.Message.Subject;
+            HasAttachments = userMessages.Message.Attachments.Any();
         }
     }
 }
