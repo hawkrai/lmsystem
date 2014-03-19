@@ -1,6 +1,9 @@
 ﻿@model LMPlatform.UI.ViewModels.KnowledgeTestingViewModels.QuestionItemListViewModel
 <li class="list-group-item">
-    @Html.CheckBoxFor(model => model.Selected)
-    @Html.HiddenFor(model => model.Id)
-    @Model.Title
+    <div class="row">
+        <div class="col-lg-1">@Html.CheckBoxFor(model => model.Selected)</div>
+        @Html.HiddenFor(model => model.Id)
+        <div class="col-lg-11">@Model.Title</div>
+
+    </div>
 </li>

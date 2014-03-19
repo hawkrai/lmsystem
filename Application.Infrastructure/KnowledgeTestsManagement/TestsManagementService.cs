@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
@@ -95,6 +94,13 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                     StudentName = student.FullName,
                     Unlocked = testUnlocksResults.Any(testUnlock => testUnlock.StudentId == student.Id)
                 });
+            }
+
+            int counter = 1;
+            results = results.OrderBy(unlockInfo => unlockInfo.StudentName).ToList();
+            foreach (var testUnlockInfo in results)
+            {
+                testUnlockInfo.Number = counter++;
             }
 
             return results;

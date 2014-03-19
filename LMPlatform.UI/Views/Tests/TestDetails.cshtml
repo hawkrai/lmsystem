@@ -19,6 +19,12 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="countOfQuestions" class="col-lg-3 control-label">Количество вопросов:</label>
+        <div class="col-lg-9">
+            <input type="number" class="form-control input-sm" id="countOfQuestions" data-bind="value:CountOfQuestions"></input>
+        </div>
+    </div>
+    <div class="form-group">
         <label for="textArea" class="col-lg-3 control-label" data-bind="text: testsDetails.getTextForTimeLabel()"></label>
         <div class="col-lg-9">
             <input class="form-control input-sm" type="number" data-bind="value:TimeForCompleting" />
@@ -31,6 +37,22 @@
                 </label>
             </div>
         </div>
+    </div>
+        <div class="form-group">
+        <div class="col-lg-9 col-lg-offset-3">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" data-bind="checked: IsNecessary">
+                Обязателен (учитывать тест при подсчете рейтинга)
+            </label>
+        </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" data-bind="checked: ForSelfStudy">
+                    Предназанчен для самообучения
+                </label>
+            </div>
+            </div>
     </div>
 }
 @section footer {

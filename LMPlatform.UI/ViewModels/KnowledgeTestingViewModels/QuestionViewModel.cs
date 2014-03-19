@@ -72,7 +72,9 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Description = question.Description,
                 ComlexityLevel = question.ComlexityLevel,
                 QuestionType = question.QuestionType,
-                Answers = question.Answers.Select(AnswerViewModel.FromAnswer)
+                Answers = question.Answers != null 
+                    ? question.Answers.Select(AnswerViewModel.FromAnswer) 
+                    : null
             };
         }
     }

@@ -14,13 +14,6 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
-        [DisplayName("Описание")]
-        public string Description
-        {
-            get;
-            set;
-        }
-
         [DisplayName("Действия")]
         public HtmlString Action
         {
@@ -54,7 +47,6 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             {
                 Id = test.Id,
                 Title = test.Title,
-                Description = test.Description,
                 Unlocked = test.Unlocked,
                 Number = 4
             };

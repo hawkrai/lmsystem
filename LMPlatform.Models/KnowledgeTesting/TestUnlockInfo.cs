@@ -2,6 +2,12 @@
 {
     public class TestUnlockInfo
     {
+        public int Number
+        {
+            get;
+            set;
+        }
+
         public int StudentId
         {
             get;

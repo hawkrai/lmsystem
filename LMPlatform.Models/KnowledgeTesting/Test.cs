@@ -36,6 +36,24 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+        public int CountOfQuestions
+        {
+            get;
+            set;
+        }
+
+        public bool IsNecessary
+        {
+            get;
+            set;
+        }
+
+        public bool ForSelfStudy
+        {
+            get;
+            set;
+        }
+
         public bool Unlocked
         {
             get

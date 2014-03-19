@@ -4,6 +4,15 @@
         $('.deleteButton').on('click', 'span', $.proxy(this._onDeleteClicked, this));
         $('.lockButton').on('click', 'span', $.proxy(this._onLockClicked, this));
         $('#addNewTestButton').on('click', $.proxy(this._addNewTestButtonClicked, this));
+
+        this._initializeTooltips();
+    },
+    
+    _initializeTooltips: function() {
+        $(".editButton").tooltip({ title: "Редактировать тест", placement: 'left' });
+        $(".deleteButton").tooltip({ title: "Удалить тест", placement: 'left' });
+        $(".lockButton").tooltip({ title: "Доступность теста", placement: 'left' });
+        $(".questionsButton").tooltip({ title: "Перейти к вопросам", placement: 'left' });
     },
 
     _addNewTestButtonClicked: function() {
@@ -25,11 +34,27 @@
             itemId: eventArgs.target.dataset.modelId
         };
         
-        bootbox.confirm('Вы действительно хотите удалить этот тест?', $.proxy(this._onDeleteConfirmed, context));
+        bootbox.confirm({
+            title: 'Удаление теста',
+            message: 'Вы дествительно хотите удалить тест?',
+            buttons: {
+                'cancel': {
+                    label: 'Отмена',
+                    className: 'btn btn-primary btn-sm'
+                },
+                'confirm': {
+                    label: 'Удалить',
+                    className: 'btn btn-primary btn-sm',
+                }
+            },
+            callback: $.proxy(this._onDeleteConfirmed, context)
+        });
     },
     
-    _onDeleteConfirmed: function () {
-        testsDetails.deleteTest(this.itemId);
+    _onDeleteConfirmed: function (result) {
+        if (result) {
+            testsDetails.deleteTest(this.itemId);
+        }
     }
 };
 

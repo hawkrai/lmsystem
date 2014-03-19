@@ -1,19 +1,28 @@
 ﻿var questionsList = {
-    init: function () {
+    initList: function () {
         $('.questionTypeButton').on('click', $.proxy(this._onTypeButtonClicked, this));
-        $('#addNewQuestionButton').on('click', $.proxy(this._addNewQuestionButtonClicked, this));
-        $('#selectQuestionButton').on('click', $.proxy(this._selectQuestionButtonClicked, this));
         $('.editButton').on('click', 'span', $.proxy(this._onEditClicked, this));
         $('.deleteButton').on('click', 'span', $.proxy(this._onDeleteClicked, this));
-        $('#insertQuestionsFromAnotherTestButton').on('click', $.proxy(this._insertFromAnotherTestClicked, this));
-        $('#testNamesDropdown').on('change', $.proxy(this._submitSelectorForm, this));
-        $('#selectorSearchString').on('keypress', $.proxy(this._submitSelectorForm, this));
+        
+        this._initializeTooltips();
+    },
+    
+    init: function() {
+        $('#insertQuestionsFromAnotherTestButton').off().on('click', $.proxy(this._insertFromAnotherTestClicked, this));
+        $('#testNamesDropdown').off().on('change', $.proxy(this._submitSelectorForm, this));
+        $('#selectorSearchString').off().on('keypress', $.proxy(this._submitSelectorForm, this));
+        $('#addNewQuestionButton').off().on('click', $.proxy(this._addNewQuestionButtonClicked, this));
+        $('#selectQuestionButton').off().on('click', $.proxy(this._selectQuestionButtonClicked, this));
+    },
+    
+    _initializeTooltips: function () {
+        $(".editButton").tooltip({ title: "Редактировать вопрос", placement: 'left' });
+        $(".deleteButton").tooltip({ title: "Удалить вопрос", placement: 'left' });
     },
     
     _onTypeButtonClicked: function(eventArgs) {
         $('#quetionTypes').modal('hide');
         questionDetails.draw(eventArgs.delegateTarget.id);
-        this._initEditor();
     },
     
     _submitSelectorForm: function () {
@@ -24,14 +33,6 @@
         $('#testToCopyId').val(getUrlValue('testId'));
         var questionsSelectorForm = $('#questionsSelectorForm');
         questionsSelectorForm.submit();
-    },
-    
-    _initEditor: function() {
-        CKEDITOR.inline('taskArea', {
-            extraPlugins: 'mathedit',
-            disableObjectResizing: true,
-            skin: 'moono'
-        });
     },
    
     _addNewQuestionButtonClicked: function() {
@@ -56,19 +57,39 @@
             itemId: eventArgs.target.dataset.modelId
         };
 
-        bootbox.confirm('Вы действительно хотите удалить этот вопрос?', $.proxy(this._onDeleteConfirmed, context));
+        bootbox.confirm({
+            title: 'Удаление вопроса из теста',
+            message: 'Вы дествительно хотите удалить вопрос?',
+            buttons: {
+                'cancel': {
+                    label: 'Отмена',
+                    className: 'btn btn-primary btn-sm'
+                },
+                'confirm': {
+                    label: 'Удалить',
+                    className: 'btn btn-primary btn-sm',
+                }
+            },
+            callback: $.proxy(this._onDeleteConfirmed, context)
+        });
     },
     
-    _onDeleteConfirmed: function () {
-        questionDetails.deleteQuestion(this.itemId);
+    _onDeleteConfirmed: function (result) {
+        if (result) {
+            questionDetails.deleteQuestion(this.itemId);
+        }
     }
 };
 
 function initQuestionsList() {
-    questionsList.init();
+    questionsList.initList();
 };
 
 function questionsAddedFromAnothertest() {    
     datatable.fnDraw();
     $('#quetionsSelector').modal('hide');
 }
+
+$(document).ready(function () {
+    questionsList.init();
+});

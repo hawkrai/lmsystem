@@ -15,6 +15,15 @@ namespace LMPlatform.UI.Controllers
     public class QuestionsController : BasicController
     {
         #region API
+        [HttpGet]
+        public JsonResult GetQuestion(int id)
+        {
+            var test = id == 0
+                ? new QuestionViewModel()
+                : QuestionViewModel.FromQuestion(QuestionsManagementService.GetQuestion(id));
+
+            return Json(test, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpDelete]
         public JsonResult DeleteQuestion(int id)

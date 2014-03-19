@@ -40,6 +40,24 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public int CountOfQuestions
+        {
+            get;
+            set;
+        }
+
+        public bool IsNecessary
+        {
+            get;
+            set;
+        }
+
+        public bool ForSelfStudy
+        {
+            get;
+            set;
+        }
+
         public Test ToTest()
         {
             return new Test
@@ -49,7 +67,10 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Description = Description,
                 TimeForCompleting = TimeForCompleting,
                 SetTimeForAllTest = SetTimeForAllTest,
-                SubjectId = SubjectId
+                SubjectId = SubjectId,
+                CountOfQuestions = CountOfQuestions,
+                ForSelfStudy = ForSelfStudy,
+                IsNecessary = IsNecessary
             };
         }
 
@@ -61,7 +82,10 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Title = test.Title,
                 Description = test.Description,
                 TimeForCompleting = test.TimeForCompleting,
-                SetTimeForAllTest = test.SetTimeForAllTest
+                SetTimeForAllTest = test.SetTimeForAllTest,
+                ForSelfStudy = test.ForSelfStudy,
+                CountOfQuestions = test.CountOfQuestions,
+                IsNecessary = test.IsNecessary
             };
         }
     }

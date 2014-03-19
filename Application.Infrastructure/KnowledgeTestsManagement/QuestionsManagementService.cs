@@ -12,7 +12,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.QuestionsRepository.GetBy(new Query<Question>(question => question.Id == id));
+                return repositoriesContainer.QuestionsRepository.GetBy(new Query<Question>(question => question.Id == id)
+                    .Include(question => question.Answers));
             }
         }
 
