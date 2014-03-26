@@ -53,6 +53,12 @@ h1 {
     font-size: 35px;
 }
 
+.fa-tab {
+    margin-right: 10px
+}
+
+.tooltip-inner {background-color: #43ac6a;}
+
 .hero-unit {
     padding: 60px;
     margin-bottom: 30px;

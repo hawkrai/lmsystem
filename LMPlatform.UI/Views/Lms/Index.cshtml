@@ -19,7 +19,7 @@
 @section navleft
 {
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x"></i>Предметы <b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x fa-tab"></i>Предметы <b class="caret"></b></a>
         <ul class="dropdown-menu">
             @foreach (var subject in Model.Subjects)
             {
@@ -33,9 +33,9 @@
             }
         </ul>
     </li>
-    <li><a href="@Url.Action("BugManagement", "BTS")" class="linkNavbar"><i class="fa fa-bug fa-1x"></i>Управление ошибками</a></li>
+    <li><a href="@Url.Action("BugManagement", "BTS")" class="linkNavbar"><i class="fa fa-bug fa-1x fa-tab"></i>Управление ошибками</a></li>
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x"></i>Тестирование знаний<b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x fa-tab"></i>Тестирование знаний<b class="caret"></b></a>
         <ul class="dropdown-menu">
             @foreach (var subject in Model.Subjects)
             {
@@ -45,8 +45,8 @@
             <li><a href="@Url.Action("SubjectsForTests", "Subject")" class="linkNavbarLevelBelow">Все тесты</a></li>
         </ul>
     </li>
-    <li><a href="#" class="linkNavbar"><i class="fa fa-book fa-1x"></i>Методические материалы</a></li>
-    <li><a href="#" class="linkNavbar"><i class="fa fa-briefcase fa-1x"></i>Дипломное проектирование</a></li>
+    <li><a href="#" class="linkNavbar"><i class="fa fa-book fa-1x fa-tab"></i>Методические материалы</a></li>
+    <li><a href="#" class="linkNavbar"><i class="fa fa-briefcase fa-1x fa-tab"></i>Дипломное проектирование</a></li>
 }
 
 <div style="margin: 10px">

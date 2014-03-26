@@ -146,6 +146,8 @@
             });
             return false;
         });
+
+        subjectWorking.applyCss();
     },
 
     getLecturesFileAttachments : function() {

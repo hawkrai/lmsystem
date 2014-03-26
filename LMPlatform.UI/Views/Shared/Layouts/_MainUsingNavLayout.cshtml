@@ -18,13 +18,12 @@
 @section body
 {
     <div style="padding-top: 40px">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h1 class="panel-title text-center" style="font-size: 25px">
-                    @RenderSection("navpanel", false)
-                </h1>
-            </div>
+        <div >
+            <p style="font-size: 45px; color: #007196; text-align: center">
+                @RenderSection("navpanel", false)
+            </p>    
         </div>
+        
         <section class="well">
             <div style="margin: 5px">
                 @RenderBody()
