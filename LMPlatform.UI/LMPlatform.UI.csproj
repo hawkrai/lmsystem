@@ -197,8 +197,10 @@
     <Compile Include="ViewModels\MessageViewModels\DisplayMessageViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\MessageViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
+    <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLabsViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLecturesViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesNewsViewModel.cs" />
+    <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\LabsDataViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\LecturesDataViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\NewsDataViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesDataWorkingViewModel.cs" />
@@ -909,6 +911,8 @@
     <Content Include="Views\Shared\Subjects\Modules\Lectures\_EditLectures.cshtml" />
     <Content Include="Views\Shared\_MessageDisplayRow.cshtml" />
     <Content Include="Views\Shared\Common\_DisplayMessage.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\Labs\_EditLabs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -973,5 +977,5 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
-<Import Project="$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets" />
+  <Import Project="$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets" />
 </Project>

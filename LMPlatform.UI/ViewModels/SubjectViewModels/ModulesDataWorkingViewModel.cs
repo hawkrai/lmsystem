@@ -58,6 +58,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 
                 case ModuleType.Labs:
                 {
+                    LabsGenerate();
                     break;
                 }
 
@@ -104,5 +105,11 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			var dataModule = new ModulesLecturesViewModel(SubjectId, Module);
 			DataModel = dataModule;    
 	    }
+
+        private void LabsGenerate()
+        {
+            var dataModule = new ModulesLabsViewModel(SubjectId, Module);
+            DataModel = dataModule;
+        }
     }
 }

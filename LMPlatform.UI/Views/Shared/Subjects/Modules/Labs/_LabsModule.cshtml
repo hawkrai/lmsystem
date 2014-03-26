@@ -1,0 +1,77 @@
+﻿@model LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesLabsViewModel
+
+@if (User.IsInRole("lector"))
+{
+    <div id="navPanel">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="buttonActionSection">
+                            <a id="addLabsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" href="@Url.Action("CreateLabs", "Subject", new { subjectId = Model.SubjectId })">Добавить лабораторную работу</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="page-header" style="margin-top: 5px"></div>
+}
+
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Название</th>
+                <th>Краткое название</th>
+                <th>Часы</th>
+                @if (User.IsInRole("lector"))
+                {
+                    <th>Действие</th>
+                }
+                @if (User.IsInRole("student"))
+                {
+                    <th>Прикрепленный материал</th>
+                }
+            </tr>
+        </thead>
+        @foreach (var item in Model.LabsData.OrderBy(e => e.Order))
+        {
+            <tr>
+                <td>@item.Order</td>
+                <td>@item.Theme</td>
+                <td>@item.ShortName</td>
+                <td>@item.Duration</td>
+                @if (User.IsInRole("lector"))
+                {
+                    <td>
+                        <div>
+                            <a class="editLabsButton" style="margin-right: 10px" href="@Url.Action("EditLabs", "Subject", new { id = item.LabsId, subjectId = item.SubjectId })"><i class="editLabsButton fa fa-edit fa-2x"></i></a>
+                            <a class="deleteLabssButton" href="@Url.Action("DeleteLabs", "Subject", new { id = item.LabsId, subjectId = item.SubjectId })"><i class="deleteLabsButton fa fa-trash-o fa-2x"></i></a>
+                        </div>
+                    </td>
+                }
+                @if (User.IsInRole("student"))
+                {
+                    <td>
+                        <div class="btn-group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-default btn-sm  dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+                                Прикрепленные файлы
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupDrop1">
+                                @foreach (var file in item.Attachments)
+                                {
+                                    var url = "api/Upload?filename=" + file.PathName + "//" + file.FileName;
+                                    <li><a href="@url">@file.Name</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+</div>

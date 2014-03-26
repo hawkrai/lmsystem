@@ -27,5 +27,9 @@ namespace Application.Infrastructure.SubjectManagement
         Lectures GetLectures(int id);
 
         Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments);
+
+        Labs SaveLabs(Labs labs, IList<Attachment> attachments);
+
+        Labs GetLabs(int id);
     }
 }

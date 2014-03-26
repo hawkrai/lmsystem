@@ -60,6 +60,7 @@ namespace Application.Infrastructure.SubjectManagement
                     .Include(e => e.SubjectModules.Select(x => x.Module))
                     .Include(e => e.SubjectNewses)
                     .Include(e => e.Lectures)
+                    .Include(e => e.Labs)
 					.Include(e => e.SubjectGroups));
             }
         }
@@ -154,6 +155,52 @@ namespace Application.Infrastructure.SubjectManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return repositoriesContainer.LecturesRepository.GetBy(new Query<Lectures>(e => e.Id == id).Include(e => e.Subject));
+            }
+        }
+
+        public Labs SaveLabs(Labs labs, IList<Attachment> attachments)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                if (!string.IsNullOrEmpty(labs.Attachments))
+                {
+                    var deleteFiles =
+                        repositoriesContainer.AttachmentRepository.GetAll(
+                            new Query<Attachment>(e => e.PathName == labs.Attachments)).ToList().Where(e => attachments.All(x => x.Id != e.Id)).ToList();
+
+                    foreach (var attachment in deleteFiles)
+                    {
+                        FilesManagementService.DeleteFileAttachment(attachment);
+                    }
+                }
+                else
+                {
+                    labs.Attachments = GetGuidFileName();
+                }
+
+                FilesManagementService.SaveFiles(attachments.Where(e => e.Id == 0), labs.Attachments);
+
+                foreach (var attachment in attachments)
+                {
+                    if (attachment.Id == 0)
+                    {
+                        attachment.PathName = labs.Attachments;
+                        repositoriesContainer.AttachmentRepository.Save(attachment);
+                    }
+                }
+
+                repositoriesContainer.LabsRepository.Save(labs);
+                repositoriesContainer.ApplyChanges();
+            }
+
+            return labs;
+        }
+
+        public Labs GetLabs(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.LabsRepository.GetBy(new Query<Labs>(e => e.Id == id).Include(e => e.Subject));
             }
         }
 

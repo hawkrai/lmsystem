@@ -147,6 +147,55 @@
             return false;
         });
 
+        $('#addLabsButton').handle("click", function () {
+            var that = this;
+            $.savingDialog("Добавление лабораторной работы", $(that).attr("href"), null, "primary", function (data) {
+                $('.conteinerModule').empty();
+                $('.conteinerModule').append(data);
+                subjectWorking.updateHandlerActions();
+                alertify.success("Создана новая лабораторная работа");
+            },
+                function (forms) {
+                    $(forms).append('<input type=\"hidden\" id=\"attachments\" name=\"attachments\" />');
+                    $("#attachments").val(subjectWorking.getLecturesFileAttachments());
+                });
+            subjectWorking.applyCss();
+
+            return false;
+
+        });
+
+        $('a.deleteLabsButton').handle("click", function () {
+            var that = this;
+            bootbox.confirm("Вы действительно хотите удалить лабораторную работу?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $.post($(that).attr("href"), null, function (data) {
+                        $('.conteinerModule').empty();
+                        $('.conteinerModule').append(data);
+                        subjectWorking.updateHandlerActions();
+                        alertify.success("Лабораторная работа успешна удалена");
+                    });
+                }
+            });
+            return false;
+        });
+
+        $('a.editLabsButton').handle("click", function () {
+            var that = this;
+            $.savingDialog("Редактирование лабораторной работы", $(that).attr("href"), null, "primary", function (data) {
+                $('.conteinerModule').empty();
+                $('.conteinerModule').append(data);
+                subjectWorking.updateHandlerActions();
+                alertify.success("Лабораторная работа успешно изменена");
+            },
+            function (forms) {
+                $(forms).append('<input type=\"hidden\" id=\"attachments\" name=\"attachments\" />');
+                $("#attachments").val(subjectWorking.getLecturesFileAttachments());
+            });
+            return false;
+        });
+
+
         subjectWorking.applyCss();
     },
 

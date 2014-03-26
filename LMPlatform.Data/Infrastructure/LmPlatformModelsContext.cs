@@ -128,6 +128,12 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<Labs> Labs
+        {
+            get;
+            set;
+        }
+
         #endregion DataContext Members
 
         #region Protected Members
@@ -255,7 +261,13 @@ namespace LMPlatform.Data.Infrastructure
                 .WithRequired(e => e.Subject)
                 .HasForeignKey(e => e.SubjectId)
                 .WillCascadeOnDelete(false);
-            
+
+            modelBuilder.Entity<Subject>()
+                .HasMany<Labs>(e => e.Labs)
+                .WithRequired(e => e.Subject)
+                .HasForeignKey(e => e.SubjectId)
+                .WillCascadeOnDelete(false);
+
             MapKnowledgeTestingEntities(modelBuilder);
             MapBTSEntities(modelBuilder);
         }

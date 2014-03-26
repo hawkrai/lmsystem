@@ -8,5 +8,9 @@
 }
 else if (Model.Module.ModuleType == ModuleType.Lectures)
 {
-    @Html.Partial("Subjects/Modules/Lectures/_LecturesModule", (ModulesLecturesViewModel) Model.DataModel)    
+    @Html.Partial("Subjects/Modules/Lectures/_LecturesModule", (ModulesLecturesViewModel) Model.DataModel)
+}
+else if (Model.Module.ModuleType == ModuleType.Labs)
+{
+    @Html.Partial("Subjects/Modules/Labs/_LabsModule", (ModulesLabsViewModel)Model.DataModel)
 }

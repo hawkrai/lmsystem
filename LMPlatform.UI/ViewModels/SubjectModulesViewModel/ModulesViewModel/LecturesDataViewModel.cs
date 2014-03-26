@@ -12,14 +12,14 @@ namespace LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel
 {
     public class LecturesDataViewModel
     {
-        private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
-        private readonly LazyDependency<IFilesManagementService> _filesManagementService = new LazyDependency<IFilesManagementService>();
+        private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
+        private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
 
         public IFilesManagementService FilesManagementService
         {
             get
             {
-                return _filesManagementService.Value;
+                return filesManagementService.Value;
             }
         }
 
@@ -27,7 +27,7 @@ namespace LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel
         {
             get
             {
-                return _subjectManagementService.Value;
+                return subjectManagementService.Value;
             }
         }
 

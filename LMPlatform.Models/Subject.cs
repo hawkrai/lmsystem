@@ -53,5 +53,11 @@ namespace LMPlatform.Models
             get; 
             set;
         }
+
+        public ICollection<Labs> Labs
+        {
+            get;
+            set;
+        }
     }
 }

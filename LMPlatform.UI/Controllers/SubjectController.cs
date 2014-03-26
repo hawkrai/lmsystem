@@ -171,6 +171,37 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Subjects/_ModuleTemplate", modelData);
         }
 
+        public ActionResult CreateLabs(int subjectId)
+        {
+            var model = new LabsDataViewModel(0, subjectId);
+
+            return PartialView("Subjects/Modules/Labs/_EditLabs", model);
+        }
+
+        public ActionResult EditLabs(int id, int subjectId)
+        {
+            var model = new LabsDataViewModel(id, subjectId);
+
+            return PartialView("Subjects/Modules/Labs/_EditLabs", model);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteLabs(int id, int subjectId)
+        {
+            var model = new LabsDataViewModel(id, subjectId);
+            model.Delete();
+            var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Labs);
+            return PartialView("Subjects/_ModuleTemplate", modelData);
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult SaveLabs(LabsDataViewModel model, string attachments)
+        {
+            model.Save(attachments);
+            var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Labs);
+            return PartialView("Subjects/_ModuleTemplate", modelData);
+        }
+
         [HttpPost, ValidateInput(false)]
         public ActionResult SaveLectures(LecturesDataViewModel model, string attachments)
         {

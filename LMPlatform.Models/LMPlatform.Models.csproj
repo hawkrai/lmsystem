@@ -74,6 +74,7 @@
     <Compile Include="KnowledgeTesting\Test.cs" />
     <Compile Include="KnowledgeTesting\TestUnlock.cs" />
     <Compile Include="KnowledgeTesting\TestUnlockInfo.cs" />
+    <Compile Include="Labs.cs" />
     <Compile Include="Lecturer.cs" />
     <Compile Include="Lectures.cs" />
     <Compile Include="Membership.cs" />
