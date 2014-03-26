@@ -190,11 +190,13 @@ namespace LMPlatform.Data.Infrastructure
 
             modelBuilder.Entity<User>()
                 .HasRequired<Student>(e => e.Student)
-                .WithRequiredPrincipal(e => e.User);
+                .WithRequiredPrincipal(e => e.User)
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<User>()
                 .HasRequired<Lecturer>(e => e.Lecturer)
-                .WithRequiredPrincipal(e => e.User);
+                .WithRequiredPrincipal(e => e.User)
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Subject>()
                 .HasMany<SubjectGroup>(e => e.SubjectGroups)

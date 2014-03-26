@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
+
 using WebMatrix.WebData;
 
 namespace Application.Infrastructure.AccountManagement
@@ -43,5 +44,22 @@ namespace Application.Infrastructure.AccountManagement
 		{
 			return WebSecurity.ChangePassword(userName, oldPassword, newPassword);
 		}
+
+        public void DeleteAccount(string login)
+	    {
+           var result = ((SimpleMembershipProvider)Membership.Provider).DeleteAccount(login);
+
+            try
+            {
+                result = Membership.Provider.DeleteUser(login, true);
+            }
+            catch (Exception e)
+            {
+            }
+            finally
+            {
+                result = result;
+            }
+	    }
 	}
 }

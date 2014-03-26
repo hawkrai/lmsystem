@@ -12,7 +12,7 @@
 {
     Студенты
 }
-<div style="float: left; width: 800px; margin: 0 50px 0 0">
+<div style="margin: 0 50px 0 50px">
     <div style="margin-bottom: 20px">
         <h4>Список</h4>
     </div>
@@ -21,11 +21,12 @@
                  DataTable = Html.DataTable("studentList", (AdministrationController controller) => controller.GetCollectionStudents(new DataTablesParam() { })),
                  DataTableOptions = new DataTableOptions
                      {
-                         Pagination = true,
+                         Pagination = false,
                          Searchable = true,
                          Sortable = false,
                          Filterable = true,
                          Info = false,
+                         DisplayLength = -1,
                          OnComplete = "initStudentManagement"
                      }
              })

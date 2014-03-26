@@ -4,6 +4,8 @@ using LMPlatform.Models;
 
 namespace Application.Infrastructure.MessageManagement
 {
+    using System.Net;
+
     public interface IMessageManagementService
     {
         IEnumerable<User> GetRecipients(int userId);
@@ -32,5 +34,7 @@ namespace Application.Infrastructure.MessageManagement
         UserMessages SetRead(int userMessageId);
 
         UserMessages GetUserMessage(int userMessageId);
+
+        bool DeleteUserMessages(int userId);
     }
 }

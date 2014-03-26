@@ -11,5 +11,7 @@ namespace Application.Infrastructure.UserManagement
         bool IsExistsUser(string userName);
 
         User CurrentUser { get; }
+
+        void DeleteUser(int id);
 	}
 }

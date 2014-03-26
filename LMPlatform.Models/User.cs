@@ -42,6 +42,12 @@ namespace LMPlatform.Models
             set;
         }
 
+        public ICollection<UserMessages> Messages
+        {
+            get;
+            set;
+        }
+
         [NotMapped]
         public string FullName
         {

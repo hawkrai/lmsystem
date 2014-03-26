@@ -4,31 +4,31 @@ using LMPlatform.Models;
 
 namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 {
-  public class StudentViewModel
-  {
-    [DisplayName("Номер")]
-    public int Id { get; set; }
+    using Application.Core.UI.HtmlHelpers;
 
-    [DisplayName("Логин")]
-    public string Login { get; set; }
+    public class StudentViewModel : BaseNumberedGridItem
+  {
+    [DisplayName("Номер группы")]
+    public string Group { get; set; }
 
     [DisplayName("Полное имя")]
     public string FullName 
     {
-      get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); } 
+        get { return string.Format("{0} {1} {2}", LastName, FirstName, MiddleName); } 
     }
+
+    [DisplayName("Логин")]
+    public string Login { get; set; }
+    [DisplayName("")]
+    public HtmlString HtmlLinks { get; set; }
+
+    public int Id { get; set; }
 
     private string FirstName { get; set; }
 
     private string LastName { get; set; }
 
     private string MiddleName { get; set; }
-
-    [DisplayName("Номер группы")]
-    public string Group { get; set; }
-
-    [DisplayName("")]
-    public HtmlString HtmlLinks { get; set; }
 
     public static StudentViewModel FromStudent(Student student, string htmlLinks)
     {

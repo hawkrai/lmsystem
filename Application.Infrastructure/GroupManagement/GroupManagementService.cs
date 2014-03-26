@@ -34,7 +34,7 @@ namespace Application.Infrastructure.GroupManagement
                     e => e.Name.ToLower().StartsWith(searchString) || e.Name.ToLower().Contains(searchString));
             }
 
-            query.OrderBy(sortCriterias);
+            query.OrderBy(sortCriterias).Include(g => g.Students);
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var groups = repositoriesContainer.GroupsRepository.GetPageableBy(query);
@@ -62,6 +62,16 @@ namespace Application.Infrastructure.GroupManagement
             }
 
             return group;
+        }
+
+        public void DeleteGroup(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var group = repositoriesContainer.GroupsRepository.GetBy(new Query<Group>().AddFilterClause(g => g.Id == id));
+                repositoriesContainer.GroupsRepository.Delete(group);
+                repositoriesContainer.ApplyChanges();
+            }
         }
     }
 }

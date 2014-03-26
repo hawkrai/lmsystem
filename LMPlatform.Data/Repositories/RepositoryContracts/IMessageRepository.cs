@@ -15,5 +15,7 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
         IEnumerable<User> GetMessageRecipients(int messageId);
 
         List<UserMessages> GetCorrespondence(int firstUserId, int secondUserId);
+
+        bool DeleteUserMessage(int userId);
     }
 }

@@ -34,6 +34,12 @@ namespace Application.Core.UI.HtmlHelpers
 			set;
 		}
 
+        public int DisplayLength
+        {
+            get;
+            set;
+        }
+
 		public string OnComplete
 		{
 			get;
@@ -46,6 +52,7 @@ namespace Application.Core.UI.HtmlHelpers
 			Searchable = true;
 			Sortable = true;
 			Filterable = true;
+		    DisplayLength = 10;
 			Info = true;
 		}
 	}

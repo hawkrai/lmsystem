@@ -1,5 +1,5 @@
 ﻿var dataTables = {
-	createDataTable: function (id, sAjaxSource, pagination, filter, sort, info, drawCallbackName) {
+	createDataTable: function (id, sAjaxSource, pagination, filter, sort, info, drawCallbackName, displayLength) {
 		var $table = $('#' + id);
 		var oTable = $table.dataTable({
 			"sPaginationType": "bootstrap",
@@ -9,7 +9,7 @@
 			"bSort": JSON.parse(sort),
 			"bInfo": JSON.parse(info),
 			"bProcessing": true,
-			'iDisplayLength': 10,
+			'iDisplayLength': displayLength,
 			'bLengthChange': true,
 			"oLanguage": {
 				"oPaginate": {

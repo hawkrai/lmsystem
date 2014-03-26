@@ -6,19 +6,30 @@ namespace Application.Infrastructure.UserManagement
     using System.Linq;
 
     using Application.Core;
+    using Application.Infrastructure.AccountManagement;
 
+    using LMPlatform.Data.Repositories;
     using LMPlatform.Data.Repositories.RepositoryContracts;
     using LMPlatform.Models;
 
     public class UsersManagementService : IUsersManagementService
     {
         private readonly LazyDependency<IUsersRepository> _usersRepository = new LazyDependency<IUsersRepository>();
+        private readonly LazyDependency<IAccountManagementService> _accountManagementService = new LazyDependency<IAccountManagementService>();
 
         public IUsersRepository UsersRepository
         {
             get
             {
                 return _usersRepository.Value;
+            }
+        }
+
+        public IAccountManagementService AccountManagementService
+        {
+            get
+            {
+                return _accountManagementService.Value;
             }
         }
 
@@ -51,6 +62,17 @@ namespace Application.Infrastructure.UserManagement
                 var userName = WebSecurity.CurrentUserName;
 
                 return GetUser(userName);
+            }
+        }
+
+        public void DeleteUser(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>().AddFilterClause(u => u.Id == id));
+                repositoriesContainer.MessageRepository.DeleteUserMessage(user.Id);
+                AccountManagementService.DeleteAccount(user.UserName);
+                repositoriesContainer.ApplyChanges();
             }
         }
     }

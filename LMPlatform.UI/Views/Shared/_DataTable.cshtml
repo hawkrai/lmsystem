@@ -25,7 +25,7 @@
 </table>
 
 <script type="text/javascript">
-    var datatable = dataTables.createDataTable("@Model.DataTable.Id", "@Model.DataTable.AjaxUrl", '@Model.DataTableOptions.Pagination.ToString().ToLower()', '@Model.DataTableOptions.Filterable.ToString().ToLower()', '@Model.DataTableOptions.Sortable.ToString().ToLower()', '@Model.DataTableOptions.Info.ToString().ToLower()', '@Model.DataTableOptions.OnComplete');
+    var datatable = dataTables.createDataTable("@Model.DataTable.Id", "@Model.DataTable.AjaxUrl", '@Model.DataTableOptions.Pagination.ToString().ToLower()', '@Model.DataTableOptions.Filterable.ToString().ToLower()', '@Model.DataTableOptions.Sortable.ToString().ToLower()', '@Model.DataTableOptions.Info.ToString().ToLower()', '@Model.DataTableOptions.OnComplete', '@Model.DataTableOptions.DisplayLength');
 </script>
 
 

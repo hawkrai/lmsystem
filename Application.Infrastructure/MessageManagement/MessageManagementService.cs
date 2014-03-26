@@ -11,6 +11,8 @@ using LMPlatform.Models;
 
 namespace Application.Infrastructure.MessageManagement
 {
+    using System.Web.Mvc;
+
     public class MessageManagementService : IMessageManagementService
     {
         private readonly LazyDependency<IFilesManagementService> _filesManagementService =
@@ -193,6 +195,16 @@ namespace Application.Infrastructure.MessageManagement
             {
                 var message = repositoriesContainer.MessageRepository.GetUserMessagesById(userMessageId);
                 return message;
+            }
+        }
+
+        public bool DeleteUserMessages(int userId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var result = repositoriesContainer.MessageRepository.DeleteUserMessage(userId);
+                repositoriesContainer.ApplyChanges();
+                return result;
             }
         }
 

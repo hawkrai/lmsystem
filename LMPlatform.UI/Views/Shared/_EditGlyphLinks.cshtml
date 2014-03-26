@@ -1,15 +1,16 @@
 ﻿@model int
+<div style="text-align: center;">
+    @if (!string.IsNullOrEmpty(ViewBag.EditActionLink))
+    {
+        <a href="@String.Format("{0}/{1}",ViewBag.EditActionLink,@Model)" data-model-id="@Model" data-toggle="tooltip" class="editButton">
+            <span class="glyphicon glyphicon-pencil" style="margin-right: 4px;" />
+        </a>
+    }
 
-@if (!string.IsNullOrEmpty(ViewBag.EditActionLink))
-{
-    <a href="@String.Format("{0}/{1}",ViewBag.EditActionLink,@Model)"  data-model-id="@Model" data-toggle="tooltip" class="editButton">
-        <span class="glyphicon glyphicon-pencil"/>
-    </a>
- }
-
-@if (!string.IsNullOrEmpty(ViewBag.DeleteActionLink))
-{
-    <a href="@String.Format("{0}/{1}",ViewBag.DeleteActionLink,Model)" class="topopup" title="Удалить">
-        <span class="glyphicon glyphicon-trash"/>
-    </a>
-}
+    @if (!string.IsNullOrEmpty(ViewBag.DeleteActionLink))
+    {
+        <a href="@String.Format("{0}/{1}",ViewBag.DeleteActionLink,Model)" onclick=" return false;" class="deleteButton" title="Удалить">
+            <span class="glyphicon glyphicon-trash" />
+        </a>
+    }
+</div>

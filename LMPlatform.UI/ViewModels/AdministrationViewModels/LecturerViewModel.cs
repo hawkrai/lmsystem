@@ -4,19 +4,18 @@ using LMPlatform.Models;
 
 namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 {
-  public class LecturerViewModel
+    using Application.Core.UI.HtmlHelpers;
+
+    public class LecturerViewModel : BaseNumberedGridItem
   {
-    [DisplayName("Номер")]
-    public int Id { get; set; }
-
-    [DisplayName("Логин")]
-    public string Login { get; set; }
-
     [DisplayName("Полное имя")]
     public string FullName
     {
-      get { return string.Format("{0} {1} {2}", FirstName, LastName, MiddleName); }
+      get { return string.Format("{0} {1} {2}", LastName, FirstName, MiddleName); }
     }
+
+    [DisplayName("Логин")]
+    public string Login { get; set; }
 
     private string FirstName { get; set; }
 
@@ -26,6 +25,8 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
     [DisplayName("")]
     public HtmlString HtmlLinks { get; set; }
+
+    public int Id { get; set; }
 
     public static LecturerViewModel FormLecturers(Lecturer lecturer, string htmlLinks)
     {

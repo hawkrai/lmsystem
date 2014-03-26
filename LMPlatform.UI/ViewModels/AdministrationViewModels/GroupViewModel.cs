@@ -11,7 +11,11 @@ using LMPlatform.UI.Attributes;
 
 namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 {
-    public class GroupViewModel
+    using System.Linq;
+
+    using Application.Core.UI.HtmlHelpers;
+
+    public class GroupViewModel : BaseNumberedGridItem
     {
         private readonly LazyDependency<IGroupManagementService> _groupManagementService = new LazyDependency<IGroupManagementService>();
 
@@ -35,6 +39,9 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         [Required(ErrorMessage = "Поле Год выпуска обязательно для заполнения")]
         [GreaterThan("StartYear", ErrorMessage = "Значение поля Год выпуска должен быть больше Года поступления")]
         public string GraduationYear { get; set; }
+
+        [DisplayName("Количество студентов")]
+        public int StudentsCount { get; set; }
 
         [DisplayName("")]
         public HtmlString HtmlLinks { get; set; }
@@ -75,6 +82,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
             {
                 Id = group.Id,
                 Name = group.Name,
+                StudentsCount = group.Students.Count(),
                 StartYear = group.StartYear,
                 GraduationYear = group.GraduationYear,
                 HtmlLinks = new HtmlString(htmlLinks)

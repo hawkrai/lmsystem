@@ -263,10 +263,39 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
+        public bool DeleteUser(int id)
+        {
+            try
+            {
+                UsersManagementService.DeleteUser(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public bool DeleteGroup(int id)
+        {
+            try
+            {
+                GroupManagementService.DeleteGroup(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
         public DataTablesResult<StudentViewModel> GetCollectionStudents(DataTablesParam dataTableParam)
         {
             var searchString = dataTableParam.GetSearchString();
             ViewBag.EditActionLink = "/Administration/EditStudent";
+            ViewBag.DeleteActionLink = "/Administration/DeleteUser";
             var students = StudentManagementService.GetStudentsPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
             return DataTableExtensions.GetResults(students.Items.Select(s => StudentViewModel.FromStudent(s, PartialViewToString("_EditGlyphLinks", s.Id))), dataTableParam, students.TotalCount);
         }
@@ -276,6 +305,7 @@ namespace LMPlatform.UI.Controllers
         {
             var searchString = dataTableParam.GetSearchString();
             ViewBag.EditActionLink = "/Administration/EditProfessor";
+            ViewBag.DeleteActionLink = "/Administration/DeleteUser";
             var lecturers = LecturerManagementService.GetLecturersPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
             return DataTableExtensions.GetResults(lecturers.Items.Select(l => LecturerViewModel.FormLecturers(l, PartialViewToString("_EditGlyphLinks", l.Id))), dataTableParam, lecturers.TotalCount);
         }
@@ -285,6 +315,7 @@ namespace LMPlatform.UI.Controllers
         {
             var searchString = dataTableParam.GetSearchString();
             ViewBag.EditActionLink = "/Administration/EditGroup";
+            ViewBag.DeleteActionLink = "/Administration/DeleteGroup";
             var groups = GroupManagementService.GetGroupsPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
             return DataTableExtensions.GetResults(groups.Items.Select(g => GroupViewModel.FormGroup(g, PartialViewToString("_EditGlyphLinks", g.Id))), dataTableParam, groups.TotalCount);
         }
