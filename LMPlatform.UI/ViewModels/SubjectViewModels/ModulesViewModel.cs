@@ -9,6 +9,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             Name = module.DisplayName;
             ModuleId = (int)module.ModuleType;
             Checked = check;
+            Type = module.ModuleType;
         }
 
         public ModulesViewModel()
@@ -28,6 +29,12 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         }
 
         public bool Checked
+        {
+            get;
+            set;
+        }
+
+        public ModuleType Type
         {
             get;
             set;

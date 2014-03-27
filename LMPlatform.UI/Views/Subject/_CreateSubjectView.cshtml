@@ -34,6 +34,7 @@
                 {
                     @Html.Hidden("Modules[" + index + "].ModuleId", module.ModuleId)
                     @Html.Hidden("Modules[" + index + "].Name", module.Name)
+                    @Html.Hidden("Modules[" + index + "].Type", module.Type)
                     <div style="float: left; margin-left: 5px; width: 40%">
                         <label class="checkbox">@Html.CheckBox("Modules[" + index + "].Checked", module.Checked) @module.Name</label>
                     </div>

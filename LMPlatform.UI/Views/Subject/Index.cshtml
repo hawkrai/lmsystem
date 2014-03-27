@@ -1,4 +1,5 @@
-﻿@model LMPlatform.UI.ViewModels.SubjectViewModels.SubjectWorkingViewModel
+﻿@using LMPlatform.Models
+@model LMPlatform.UI.ViewModels.SubjectViewModels.SubjectWorkingViewModel
 @{
     ViewBag.Title = Model.SubjectName;
     Layout = "../Shared/Layouts/_MainUsingNavLayout.cshtml";
@@ -13,11 +14,32 @@
 
 @section navleft
 {
-    @foreach (var module in Model.Modules)
+    @foreach (var module in Model.Modules.Where(e => e.Type != ModuleType.Results && e.Type != ModuleType.StatisticsVisits && e.Type != ModuleType.ScheduleProtection).ToList())
     {
-        <li class="navLink">
-            <a class="moduleLinks" href="@Url.Action("GetModuleData", "Subject", new { subjectId = Model.SubjectId, moduleId = module.ModuleId })">@module.Name</a>
-        </li>    
+        if (module.Type == ModuleType.Labs)
+        {
+            <li class="dropdown">
+                <a href="@Url.Action("GetModuleData", "Subject", new { subjectId = Model.SubjectId, moduleId = module.ModuleId })" class="dropdown-toggle linkNavbar moduleLinks" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x fa-tab"></i>@module.Name <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li class="navLink">
+                        <a class="moduleLinks" href="@Url.Action("GetModuleData", "Subject", new { subjectId = Model.SubjectId, moduleId = 1})">График защиты</a>
+                    </li>
+                    <li class="navLink">
+                        <a class="moduleLinks" href="@Url.Action("GetModuleData", "Subject", new { subjectId = Model.SubjectId, moduleId = 1 })">Результаты</a>
+                    </li>
+                    <li class="navLink">
+                        <a class="moduleLinks" href="@Url.Action("GetModuleData", "Subject", new { subjectId = Model.SubjectId, moduleId = 1 })">Статистика посещения</a>
+                    </li>
+                </ul>
+            </li>
+        }
+        else
+        {
+            <li class="navLink">
+                <a class="moduleLinks" href="@Url.Action("GetModuleData", "Subject", new { subjectId = Model.SubjectId, moduleId = module.ModuleId })">@module.Name</a>
+            </li>
+        }
+
     }
     @if (User.IsInRole("lector"))
     {
@@ -35,7 +57,7 @@
     @Model.SubjectName
 }
 
-<div style="margin: 10px" class="conteinerModule" data-subjectId="@Model.SubjectId">
+<div style="margin: 10px" class="conteinerModule" data-subjectid="@Model.SubjectId">
 </div>
 
 <script>

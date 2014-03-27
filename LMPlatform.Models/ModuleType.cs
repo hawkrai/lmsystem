@@ -11,5 +11,8 @@
         Projects = 7,
         SmartTest = 8,
         Dsm = 9,
+        ScheduleProtection = 11,
+        Results = 12,
+        StatisticsVisits = 13
     }
 }

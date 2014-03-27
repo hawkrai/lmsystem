@@ -152,6 +152,25 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             {
                 if (module.Checked)
                 {
+                    if (module.Type == ModuleType.Labs)
+                    {
+                        subject.SubjectModules.Add(new SubjectModule
+                        {
+                            ModuleId = ModulesManagementService.GetModules().First(e => e.ModuleType == ModuleType.ScheduleProtection).Id,
+                            SubjectId = SubjectId
+                        });
+                        subject.SubjectModules.Add(new SubjectModule
+                        {
+                            ModuleId = ModulesManagementService.GetModules().First(e => e.ModuleType == ModuleType.StatisticsVisits).Id,
+                            SubjectId = SubjectId
+                        });
+                        subject.SubjectModules.Add(new SubjectModule
+                        {
+                            ModuleId = ModulesManagementService.GetModules().First(e => e.ModuleType == ModuleType.Results).Id,
+                            SubjectId = SubjectId
+                        });
+                    }
+
                     subject.SubjectModules.Add(new SubjectModule
                     {
                         ModuleId = module.ModuleId,
