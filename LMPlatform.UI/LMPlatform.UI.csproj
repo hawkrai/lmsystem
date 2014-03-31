@@ -419,6 +419,7 @@
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\TestPassingScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestUnlocksScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\QuestionsListScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\QuestionDetailsScript.js" />
@@ -752,6 +753,8 @@
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.10.4.js" />
+    <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery.activity-indicator-1.0.0.js" />
     <Content Include="Scripts\jquery.activity-indicator-1.0.0.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -911,6 +914,12 @@
     <Content Include="Views\Shared\Subjects\Modules\Lectures\_EditLectures.cshtml" />
     <Content Include="Views\Shared\_MessageDisplayRow.cshtml" />
     <Content Include="Views\Shared\Common\_DisplayMessage.cshtml" />
+    <Content Include="Views\Tests\StartTest.cshtml" />
+    <Content Include="Views\Tests\GetNextQuestion.cshtml" />
+    <Content Include="Views\Tests\_OneAnswerTemplate.cshtml" />
+    <Content Include="Views\Tests\_ManyAnswersTemplate.cshtml" />
+    <Content Include="Views\Tests\_TextAnswerTemplate.cshtml" />
+    <Content Include="Views\Tests\_SequenceAnswerTemplate.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsModule.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_EditLabs.cshtml" />
   </ItemGroup>

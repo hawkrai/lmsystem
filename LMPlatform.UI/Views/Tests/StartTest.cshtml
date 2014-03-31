@@ -1,0 +1,34 @@
+﻿@using LMPlatform.Models
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
+}
+
+@model LMPlatform.Models.KnowledgeTesting.Test
+
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/TestPassingScript.js",
+    "~/Scripts/linq.js", "~/Scripts/jquery-ui-1.10.4")
+}
+
+@section navpanel
+{
+    Прохождение теста "@Model.Title"
+}
+
+@section navleft
+{
+    <li><a href="@Url.Action("TestsList", "Tests")" class="linkNavbar"><i class="fa fa-pencil-square-o fa-1x"></i>&nbsp; Тесты</a></li>
+    <li><a href="@Url.Action("TestsList", "Tests")" class="linkNavbar"><i class="fa fa-eye fa-1x"></i>&nbsp; Прохождение тестов</a></li>
+    <li><a href="@Url.Action("TestResults", "Tests")" class="linkNavbar"><i class="fa fa-tasks fa-1x"></i>&nbsp; Результаты</a></li>
+}
+
+<div id="questionContent">
+    <h1>Здесь будет описание теста</h1>
+    <br />
+
+    <button type="button" id="nextButton" class="btn btn-primary btn-sm">Далее</button>
+</div>
+

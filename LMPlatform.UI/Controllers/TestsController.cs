@@ -86,12 +86,50 @@ namespace LMPlatform.UI.Controllers
             return Json("Ok");
         }
 
+        [HttpGet]
+        public PartialViewResult GetNextQuestion(int testId, int questionNumber)
+        {
+            NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
+            return PartialView("GetNextQuestion", nextQuestion);
+        }
+
+        [HttpPost]
+        public JsonResult AnswerQuestionAndGetNext(IEnumerable<AnswerViewModel> answers, int testId, int questionNumber)
+        {
+            TestPassingService.MakeUserAnswer(answers.Select(answerModel => answerModel.ToAnswer()), CurrentUserId, testId, questionNumber);
+            return Json("Ok");
+        }
+
+        [HttpGet]
+        public ActionResult StartTest(int testId)
+        {
+            Test test = TestsManagementService.GetTest(testId);
+            return View(test);
+        }
+
         protected int CurrentUserId
         {
             get
             {
                 return int.Parse(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
             }
+        }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            if (filterContext.ExceptionHandled)
+            {
+                return;
+            }
+
+            filterContext.Result = new ViewResult
+            {
+                ViewName = "~/Views/Shared/Error.cshtml"
+            };
+
+            ViewBag.Message = filterContext.Exception.Message;
+
+            filterContext.ExceptionHandled = true;
         }
 
         #region Dependencies
@@ -101,6 +139,14 @@ namespace LMPlatform.UI.Controllers
             get
             {
                 return ApplicationService<ITestsManagementService>();
+            }
+        }
+
+        public ITestPassingService TestPassingService
+        {
+            get
+            {
+                return ApplicationService<ITestPassingService>();
             }
         }
 

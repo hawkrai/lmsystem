@@ -3,6 +3,7 @@
         $('.editButton').on('click', 'span', $.proxy(this._onEditClicked, this));
         $('.deleteButton').on('click', 'span', $.proxy(this._onDeleteClicked, this));
         $('.lockButton').on('click', 'span', $.proxy(this._onLockClicked, this));
+        //$('.startTestButton').on('click', 'span', $.proxy(this._onStartTestClicked, this));
         $('#addNewTestButton').on('click', $.proxy(this._addNewTestButtonClicked, this));
 
         this._initializeTooltips();
@@ -13,6 +14,11 @@
         $(".deleteButton").tooltip({ title: "Удалить тест", placement: 'left' });
         $(".lockButton").tooltip({ title: "Доступность теста", placement: 'left' });
         $(".questionsButton").tooltip({ title: "Перейти к вопросам", placement: 'left' });
+        $('.startTestButton').tooltip({ title: "Пройти тест", placement: 'left' });
+    },
+    
+    _onStartTestClicked: function() {
+        alert('пройти тест');
     },
 
     _addNewTestButtonClicked: function() {

@@ -68,8 +68,10 @@
     <Compile Include="GroupManagement\GroupManagementService.cs" />
     <Compile Include="GroupManagement\IGroupManagementService.cs" />
     <Compile Include="KnowledgeTestsManagement\IQuestionsManagementService.cs" />
+    <Compile Include="KnowledgeTestsManagement\ITestPassingService.cs" />
     <Compile Include="KnowledgeTestsManagement\ITestsManagementService.cs" />
     <Compile Include="KnowledgeTestsManagement\QuestionsManagementService.cs" />
+    <Compile Include="KnowledgeTestsManagement\TestPassingService.cs" />
     <Compile Include="KnowledgeTestsManagement\TestsManagementService.cs" />
     <Compile Include="LecturerManagement\ILecturerManagementService.cs" />
     <Compile Include="LecturerManagement\LecturerManagementService.cs" />

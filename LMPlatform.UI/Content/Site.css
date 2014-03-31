@@ -637,3 +637,16 @@ legend.scheduler-border {
 .unread {
     color: black;
 }
+
+.progress-bar-notPassed {
+background-color: #007196;
+}
+.progress-bar-notPassed:hover {
+background-color: #0A91FC;
+cursor: pointer
+}
+
+.margin-top-bottom-5 {
+    margin-top: 5px; 
+    margin-bottom: 5px;
+}

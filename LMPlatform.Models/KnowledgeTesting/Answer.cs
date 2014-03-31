@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Application.Core.Data;
 
 namespace LMPlatform.Models.KnowledgeTesting
@@ -26,6 +27,12 @@ namespace LMPlatform.Models.KnowledgeTesting
         public int СorrectnessIndicator
         {
             get;
+            set;
+        }
+
+        public ICollection<AnswerOnTestQuestion> StudentAnswersOnTestQuestions
+        {
+            get; 
             set;
         }
 

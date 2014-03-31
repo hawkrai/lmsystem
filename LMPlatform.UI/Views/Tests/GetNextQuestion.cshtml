@@ -1,0 +1,91 @@
+﻿@using LMPlatform.Models.KnowledgeTesting
+@model NextQuestionResult
+
+
+@Html.Hidden("currentQuestionNumber", Model.Number)
+@Html.Hidden("currentQuestionType", Model.Question.QuestionType)
+<div style="text-align: right">
+    <h3>Вопрос № @Model.Number</h3>
+</div>
+<div class="">
+    <h2>@Model.Question.Title</h2>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        @Html.Raw(Model.Question.Description)
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-9">
+        <div id="answersPanel" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Ваш ответ:</h3>
+            </div>
+            <div class="panel-body">
+                <div id="answersContent">
+                    <section id="sortable">
+                        @foreach (Answer variant in Model.Question.Answers)
+                        {
+                            switch (Model.Question.QuestionType)
+                            {
+                                case QuestionType.HasOneCorrectAnswer:
+                                    Html.RenderPartial("_OneAnswerTemplate", variant);
+                                    break;
+                                case QuestionType.HasManyCorrectAnswers:
+                                    Html.RenderPartial("_ManyAnswersTemplate", variant);
+                                    break;
+                                case QuestionType.TextAnswer:
+                                    Html.RenderPartial("_TextAnswerTemplate", variant);
+                                    break;
+                                case QuestionType.SequenceAnswer:
+
+                                    Html.RenderPartial("_SequenceAnswerTemplate", variant);
+
+                                    break;
+                            }
+
+                        }
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="buttonsPanel" class="col-lg-3">
+        <div style="height: 50%; padding-bottom: 2px">
+            <button id="answerButton" type="button" class="btn btn-primary" style="width: 100%; height: 100%;">
+                <span class="fa fa-comments fa-2x" />
+                &nbsp;Ответить
+            </button>
+        </div>
+        <div style="height: 50%; padding-top: 2px">
+            <button id="skipButton" type="button" class="btn btn-primary" style="width: 100%; height: 100%;">
+                <span class="fa fa-chevron-right fa-2x" />
+                &nbsp;Пропустить
+            </button>
+        </div>
+
+    </div>
+</div>
+<div class="progress" style="padding: 0; height: 60px; border: none; position: fixed;bottom: 0;right: 20px;left: 325px;">
+    @foreach (KeyValuePair<int, PassedQuestionResult> passResult in Model.QuestionsStatuses)
+    {
+        string progressBarClass = "progress-bar " + (passResult.Value == PassedQuestionResult.NotPassed
+            ? "progress-bar-notPassed"
+            : passResult.Value == PassedQuestionResult.Success
+                ? "progress-bar-success"
+                : "progress-bar-danger");
+        int percents = 100 / Model.QuestionsStatuses.Count;
+        if (passResult.Key == Model.Number)
+        {
+        <div class="@progressBarClass" style="width: @percents%; height:22px;">@passResult.Key
+            <div style="margin-top: 3px; background-color: #fafafa">
+                <span class="fa fa-arrow-up fa-3x" style="color: #007196" />
+            </div>
+        </div>
+        }
+        else
+        {
+        <div class="@progressBarClass" style="width: @percents%; height:22px;">@passResult.Key</div>
+        }
+    }
+</div>

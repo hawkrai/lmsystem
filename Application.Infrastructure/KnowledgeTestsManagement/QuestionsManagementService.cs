@@ -22,6 +22,15 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.QuestionsRepository.Save(question);
+
+                //TODO: Resolve problem (items are saved only first time)
+                foreach (Answer answer in question.Answers)
+                {
+                    answer.QuestionId = question.Id;
+                }
+
+                repositoriesContainer.RepositoryFor<Answer>().Save(question.Answers);
+
                 repositoriesContainer.ApplyChanges();
                 return question;
             }

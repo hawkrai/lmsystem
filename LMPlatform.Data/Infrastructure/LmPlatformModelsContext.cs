@@ -128,6 +128,12 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<TestPassResult> TestPassResults
+        {
+            get;
+            set;
+        }
+
         public DbSet<Labs> Labs
         {
             get;
@@ -302,6 +308,14 @@ namespace LMPlatform.Data.Infrastructure
             testUnlockEntity.HasRequired(testunlock => testunlock.Student)
                 .WithMany(student => student.TestUnlocks)
                 .HasForeignKey(testunlock => testunlock.StudentId);
+
+            var studentAnswerOnTestQuestionEntity = modelBuilder.Entity<AnswerOnTestQuestion>();
+            studentAnswerOnTestQuestionEntity.HasRequired(answer => answer.User)
+                .WithMany(user => user.UserAnswersOnTestQuestions)
+                .HasForeignKey(answer => answer.UserId);
+            studentAnswerOnTestQuestionEntity.HasOptional(answer => answer.Answer)
+                .WithMany()
+                .HasForeignKey(answer => answer.AnswerId);
         }
 
         #endregion Protected Members

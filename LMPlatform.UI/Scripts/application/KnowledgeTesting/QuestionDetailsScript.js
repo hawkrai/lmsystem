@@ -23,13 +23,15 @@
     },
     
     _onAddNewVariantbuttonClicked: function() {
-        koWrapper.koViewModel.Answers.push({ Content: 'Новый ответ', IsCorrect: true });
+        koWrapper.koViewModel.Answers.push({ Content: 'Новый ответ', IsCorrect: 0 });
         this._initializeAnswersElementsEvents();
     },
     
     _initializeAnswersElementsEvents: function () {
         $('.deleteAnswer').off();
         $('.deleteAnswer').on('click', $.proxy(this._onDeleteAnswerClicked, this));
+        $('input[type="checkbox"]').change(function(el, rt, rl) {
+        });
     },
     
     _onDeleteAnswerClicked: function(eventArgs) {
@@ -39,10 +41,11 @@
     
     _getNewQuestion: function () {
         return {
+            Id: 0,
             Title : 'Название вопроса',
             Answers: [
-                { Content: 'Ответ 1', IsCorrect: true },
-                { Content: 'Ответ 2', IsCorrect: true }]
+                { Content: 'Ответ 1', IsCorrect: 0 },
+                { Content: 'Ответ 2', IsCorrect: 0 }]
         };
     },
     
@@ -139,3 +142,7 @@ var questionTypesByNumber = {
     2: "hasTextVariantsTemplate",
     3: "sequenceVariantsTemplate"
 };
+
+function getChecked() {
+    return "on";
+}

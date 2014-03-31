@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Application.Core.Data;
+using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.Models
 {
@@ -37,6 +38,12 @@ namespace LMPlatform.Models
         }
 
         public ICollection<Project> Projects
+        {
+            get;
+            set;
+        }
+
+        public ICollection<AnswerOnTestQuestion> UserAnswersOnTestQuestions
         {
             get;
             set;
