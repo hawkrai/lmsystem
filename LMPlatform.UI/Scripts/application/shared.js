@@ -44,7 +44,12 @@
 			e.stopPropagation();
 			var response = { message: "В результате выполнения запроса возникла ошибка. Обновите страницу и свяжитесь с администратором." };
 			if (jqxhr.responseText != null) {
-				response = JSON.parse(jqxhr.responseText);
+			    try {
+			        response = JSON.parse(jqxhr.responseText);
+			    }
+			    catch (e) {
+			        $("body").html(jqxhr.responseText);
+			    }
 			}
 
 			bootbox.dialog(response.message, [{

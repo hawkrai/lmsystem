@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
@@ -11,7 +10,6 @@ using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
-using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
 using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
@@ -57,6 +55,16 @@ namespace LMPlatform.UI.Controllers
             ViewBag.Groups = GroupManagementService.GetGroups(new Query<Group>(group => groupIds.Contains(group.Id)));
             return View(subject);
         }
+
+        /*public DataTablesResult<TestResultItemListViewModel> GetTestsTesults(DataTablesParam dataTableParam, int subjectId)
+        {
+            var searchString = dataTableParam.GetSearchString();
+            var testViewModels = TestsManagementService.GetPageableTests(subjectId, searchString, dataTableParam.ToPageInfo());
+
+            return DataTableExtensions.GetResults(testViewModels.Items.Select(model =>
+                TestItemListViewModel.FromTest(model, PartialViewToString("_TestsGridActions", TestItemListViewModel.FromTest(model)))),
+                dataTableParam, testViewModels.TotalCount);
+        }*/
 
         public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam, int subjectId)
         {
@@ -113,23 +121,6 @@ namespace LMPlatform.UI.Controllers
             {
                 return int.Parse(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
             }
-        }
-
-        protected override void OnException(ExceptionContext filterContext)
-        {
-            if (filterContext.ExceptionHandled)
-            {
-                return;
-            }
-
-            filterContext.Result = new ViewResult
-            {
-                ViewName = "~/Views/Shared/Error.cshtml"
-            };
-
-            ViewBag.Message = filterContext.Exception.Message;
-
-            filterContext.ExceptionHandled = true;
         }
 
         #region Dependencies
