@@ -49,6 +49,12 @@ namespace LMPlatform.Models
             set;
         }
 
+        public ICollection<TestPassResult> TestPassResults
+        {
+            get;
+            set;
+        }
+
         public ICollection<UserMessages> Messages
         {
             get;

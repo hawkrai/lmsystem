@@ -11,6 +11,7 @@
     _onNextButtonClicked: function () {
         var testId = getUrlValue('testId');
         this._getNextQuestion(testId);
+        //document.getElementById('questionContent').requestFullscreen()
     },
     
     _onProgressBarClicked: function(eventArgs) {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web.Configuration;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
@@ -52,6 +51,20 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             answerOnTestQuestion.Time = DateTime.UtcNow;
             SaveAnswerOnTestQuestion(answerOnTestQuestion);
+        }
+
+        public IEnumerable<Student> GetPassTestResults(int groupId, string searchString)
+        {
+            IEnumerable<Student> students;
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                students = repositoriesContainer.StudentsRepository.GetAll(new Query<Student>(student => student.GroupId == groupId)
+                    .Include(student => student.User.TestPassResults))
+                    .ToList();
+            }
+
+            return students;
         }
 
         private void ProcessSequenceAnswer(List<Answer> answers, Question question, AnswerOnTestQuestion answerOntestQuestion)

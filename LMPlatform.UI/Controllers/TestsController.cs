@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Application.Core.Data;
 using Application.Core.UI.Controllers;
@@ -11,6 +12,7 @@ using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
+using Microsoft.Ajax.Utilities;
 using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
 
@@ -56,15 +58,20 @@ namespace LMPlatform.UI.Controllers
             return View(subject);
         }
 
-        /*public DataTablesResult<TestResultItemListViewModel> GetTestsTesults(DataTablesParam dataTableParam, int subjectId)
+        [Authorize, HttpGet]
+        public ActionResult TestResults()
+        {
+            var students = TestPassingService.GetPassTestResults(1);
+            return View();
+        }
+
+        public DataTablesResult<TestResultItemListViewModel> GetTestsTesults(DataTablesParam dataTableParam, int groupId)
         {
             var searchString = dataTableParam.GetSearchString();
-            var testViewModels = TestsManagementService.GetPageableTests(subjectId, searchString, dataTableParam.ToPageInfo());
+            var students = TestPassingService.GetPassTestResults(groupId, searchString);
 
-            return DataTableExtensions.GetResults(testViewModels.Items.Select(model =>
-                TestItemListViewModel.FromTest(model, PartialViewToString("_TestsGridActions", TestItemListViewModel.FromTest(model)))),
-                dataTableParam, testViewModels.TotalCount);
-        }*/
+            return DataTableExtensions.GetResults(students.Select(student => TestResultItemListViewModel.FromStudent(student, new HtmlString(PartialViewToString("_TestsResultsGridColumn", student)))), dataTableParam, students.Count());
+        }
 
         public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam, int subjectId)
         {
@@ -74,10 +81,15 @@ namespace LMPlatform.UI.Controllers
             return DataTableExtensions.GetResults(testViewModels.Items.Select(model => TestItemListViewModel.FromTest(model, PartialViewToString("_TestsGridActions", TestItemListViewModel.FromTest(model)))), dataTableParam, testViewModels.TotalCount);
         }
 
-        public ActionResult GetUnlockResults(int groupId, string searchString, int testId)
+        public ActionResult GetUnlockResults(int? groupId, string searchString, int testId)
         {
-            ViewBag.GroupId = groupId;
-            IEnumerable<TestUnlockInfo> unlockInfos = TestsManagementService.GetTestUnlocksForTest(groupId, testId, searchString);
+            if (!groupId.HasValue)
+            {
+                return new ContentResult { Content = Messages.SubjectHasNoGroups };
+            }
+
+            ViewBag.GroupId = groupId.Value;
+            IEnumerable<TestUnlockInfo> unlockInfos = TestsManagementService.GetTestUnlocksForTest(groupId.Value, testId, searchString);
             return PartialView("_TestUnlocksSelectorResult", unlockInfos);
         }
 

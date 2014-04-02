@@ -309,6 +309,11 @@ namespace LMPlatform.Data.Infrastructure
                 .WithMany(student => student.TestUnlocks)
                 .HasForeignKey(testunlock => testunlock.StudentId);
 
+            var testPassResultEntity = modelBuilder.Entity<TestPassResult>();
+            testPassResultEntity.HasRequired(passResult => passResult.User)
+                .WithMany(user => user.TestPassResults)
+                .HasForeignKey(passResult => passResult.StudentId);
+
             var studentAnswerOnTestQuestionEntity = modelBuilder.Entity<AnswerOnTestQuestion>();
             studentAnswerOnTestQuestionEntity.HasRequired(answer => answer.User)
                 .WithMany(user => user.UserAnswersOnTestQuestions)

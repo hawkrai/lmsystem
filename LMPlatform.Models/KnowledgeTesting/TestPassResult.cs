@@ -28,5 +28,11 @@ namespace LMPlatform.Models.KnowledgeTesting
             get;
             set;
         }
+
+        public User User
+        {
+            get;
+            set;
+        }
     }
 }
