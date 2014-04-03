@@ -1,0 +1,21 @@
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.AddProjectViewModel
+
+<div id="addProjectForm">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        
+        <div class="center" style="margin: 10px">
+            <div>
+                @Html.LabelFor(p => p.Title)
+                @Html.TextBoxFor(p => p.Title, new { @class = "form-control", @id = "tb_projectName" })
+            </div>
+
+            <input type="submit" style="display: none" />
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $('.modal-dialog').width('500px');
+</script>

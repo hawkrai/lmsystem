@@ -27,6 +27,7 @@ namespace Application.Infrastructure.BugManagement
         public IPageableList<Bug> GetAllBugs(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
             var query = new PageableQuery<Bug>(pageInfo);
+
             query.Include(e => e.Status);
             query.Include(e => e.Severity);
             query.Include(e => e.Symptom);
@@ -41,6 +42,15 @@ namespace Application.Infrastructure.BugManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return repositoriesContainer.BugsRepository.GetPageableBy(query);
+            }
+        }
+
+        public void SaveBug(Bug bug)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.BugsRepository.Save(bug);
+                repositoriesContainer.ApplyChanges();
             }
         }
     }

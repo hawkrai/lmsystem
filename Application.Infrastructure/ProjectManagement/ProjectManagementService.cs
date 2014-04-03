@@ -21,6 +21,33 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
+        public List<ProjectUser> GetProjectUsers(int projectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return
+                    repositoriesContainer.ProjectUsersRepository.GetAll(new Query<ProjectUser>(e => e.ProjectId == projectId).Include(e => e.User))
+                        .ToList();
+            }
+        }
+
+        public IPageableList<ProjectUser> GetProjectUsers(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
+        {
+            var query = new PageableQuery<ProjectUser>(pageInfo);
+            query.Include(e => e.User);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query.AddFilterClause(
+                    e => e.User.FullName.ToLower().StartsWith(searchString) || e.User.FullName.ToLower().Contains(searchString));
+            }
+
+            query.OrderBy(sortCriterias);
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectUsersRepository.GetPageableBy(query);
+            }
+        }
+
         public List<Project> GetProjects()
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -29,7 +56,7 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
-        public IPageableList<Project> GetAllProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
+        public IPageableList<Project> GetProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
             var query = new PageableQuery<Project>(pageInfo);
             query.Include(e => e.Creator);
@@ -38,23 +65,6 @@ namespace Application.Infrastructure.ProjectManagement
 				query.AddFilterClause(
 					e => e.Title.ToLower().StartsWith(searchString) || e.Title.ToLower().Contains(searchString));
 			}
-
-            query.OrderBy(sortCriterias);
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.ProjectsRepository.GetPageableBy(query);
-            }
-        }
-
-        public IPageableList<Project> GetChosenProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
-        {
-            var query = new PageableQuery<Project>(e => e.IsChosen);
-            query.Include(e => e.Creator); 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                query.AddFilterClause(
-                    e => e.Title.ToLower().StartsWith(searchString) || e.Title.ToLower().Contains(searchString));
-            }
 
             query.OrderBy(sortCriterias);
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

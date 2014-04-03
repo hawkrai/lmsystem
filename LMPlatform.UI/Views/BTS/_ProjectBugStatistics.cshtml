@@ -1,0 +1,31 @@
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectsViewModel
+
+<p>Количество ошибок: @Model.BugQuentity</p>
+
+@if (@Model.BugQuentity != 0)
+{
+    <div title="Статус ошибок">
+        <ul class="unstyled">
+            <li>Новые: <span class="pull-right strong">@Model.QuentityOfNewBugs</span>
+                <div class="progress progress-danger">
+                    <div class="bar" style="@("width: " + ((int) (Model.QuentityOfNewBugs*100.0/Model.BugQuentity)).ToString() + "%;")"></div>
+                </div>
+            </li>
+            <li>Назначены: <span class="pull-right strong">@Model.QuentityOfAssignesBugs</span>
+                <div class="progress progress-warning">
+                    <div class="bar" style="@("width: " + ((int) (Model.QuentityOfAssignesBugs*100.0/Model.BugQuentity)).ToString() + "%;")"></div>
+                </div>
+            </li>
+            <li>Разрешены: <span class="pull-right strong">@Model.QuentityOfResolvedBugs</span>
+                <div class="progress progress-warning">
+                    <div class="bar" style="@("width: " + ((int) (Model.QuentityOfResolvedBugs*100.0/Model.BugQuentity)).ToString() + "%;")"></div>
+                </div>
+            </li>
+            <li>Закрыты: <span class="pull-right strong">@Model.QuentityOfClosedBugs</span>
+                <div class="progress progress-success">
+                    <div class="bar" id="viewedCards" style="@("width: " + ((int) (Model.QuentityOfClosedBugs*100.0/Model.BugQuentity)).ToString() + "%;")"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+}

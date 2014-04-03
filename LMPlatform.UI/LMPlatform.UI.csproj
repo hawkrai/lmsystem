@@ -187,6 +187,11 @@
     <Compile Include="ViewModels\AdministrationViewModels\LecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ModifyLecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\AddBugViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\AddProjectViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\BugStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\BugsViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionViewModel.cs" />
@@ -424,7 +429,8 @@
     <Content Include="Scripts\alertify.js" />
     <Content Include="Scripts\application\accountManagement.js" />
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
-    <Content Include="Scripts\application\BTS\ProjectsScript.js" />
+    <Content Include="Scripts\application\BTS\bug.js" />
+    <Content Include="Scripts\application\BTS\project.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\fileUpload.js" />
@@ -846,6 +852,7 @@
     <Content Include="Unity.Mvc4.README.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -869,7 +876,7 @@
     <Content Include="Views\Shared\Layouts\_MainLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_LayoutBase.cshtml" />
     <Content Include="Views\Shared\Layouts\_PreMainLayout.cshtml" />
-    <Content Include="Views\BTS\Projects.cshtml" />
+    <Content Include="Views\BTS\Index.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\BugManagement.cshtml" />
     <Content Include="Views\Tests\Index.cshtml" />
@@ -942,6 +949,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="UploadedFilesTemp\" />
+    <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -73,6 +73,7 @@
     <Compile Include="Repositories\ModulesRepository.cs" />
     <Compile Include="Repositories\ProjectInitializer .cs" />
     <Compile Include="Repositories\ProjectsRepository.cs" />
+    <Compile Include="Repositories\ProjectUsersRepository.cs" />
     <Compile Include="Repositories\QuestionsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IAttachmentRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IBugsRepository.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Repositories\RepositoryContracts\IModulesRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ILecturerRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IProjectsRepository.cs" />
+    <Compile Include="Repositories\RepositoryContracts\IProjectUsersRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IQuestionsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IStudentsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ISubGroupRepository.cs" />

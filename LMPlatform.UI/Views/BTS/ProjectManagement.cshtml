@@ -1,125 +1,154 @@
-﻿@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectsViewModel
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+@using LMPlatform.UI.ViewModels.BTSViewModels
+@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectsViewModel
+
+@{
+    ViewBag.Title = "Управление проектами";
+}
+
+@section css
+{
+    <link rel="stylesheet" href="/Content/Site.css" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/datatable")
+    <script src="~/Scripts/application/BTS/project.js" type="text/javascript"></script>
+}
 
 @section navleft
 {
     @Html.Partial("_BTSSubnavbar")
 }
 
-<div class="container" style="margin: 10px">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-offset-1 col-md-10">
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h2 class="panel-title" align="center">Управление проектами</h2>
+    </div>
+</div>
+<div class="row bts">
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>Выбор проекта</h4>
+                    </div>
+                    <div class="col-md-8">
+                        @using (@Html.BeginForm("ProjectManagement", "BTS", FormMethod.Post))
+                        {
+                            @Html.DropDownListFor(e => e.Title, Model.GetProjectNames(), new { @class = "form-control", @id = "projectNameList" })
+                        }
+                    </div>
+                </div>
+
+                <div style="margin-top: 10px">
                     <div class="row">
                         <div class="col-md-4">
-                            <h4>Выбор проекта</h4>
+                            @Html.LabelFor(p => p.Title) :
                         </div>
                         <div class="col-md-8">
-                            @using (@Html.BeginForm("ProjectManagement", "BTS"))
-                            {
-                                @Html.DropDownListFor(e => e.Title, Model.GetProjectNames(), new {@class = "form-control", @id = "projectNameList"})
-                            }
+                            @Model.Title
                         </div>
                     </div>
 
-                    <div style="margin-top: 10px">
-                        <div class="row">
-                            <div class="col-md-4">
-                                @Html.LabelFor(p => p.Title) :
-                            </div>
-                            <div class="col-md-8">
-                                @Model.Title
-                            </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            @Html.LabelFor(p => p.Creator) :
                         </div>
-                    
-                        <div class="row">
-                            <div class="col-md-4">
-                                @Html.LabelFor(p => p.Creator) :
-                            </div>
-                            <div class="col-md-8">
-                                @Model.CreatorName
-                            </div>
-                        </div>
-                    
-                        <div class="row">
-                            <div class="col-md-4">
-                                @Html.LabelFor(p => p.CreationDate) :
-                            </div>
-                            <div class="col-md-8">
-                                @Model.CreationDate.ToShortDateString()
-                            </div>
+                        <div class="col-md-8">
+                            @Model.CreatorName
                         </div>
                     </div>
 
-                    <div class="row" style="margin-top: 10px">
-                        <div class="col-md-7">
-                            <h4>Участники проекта</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            @Html.LabelFor(p => p.CreationDate) :
                         </div>
-                        <div class="col-md-5">
-                            <button type="button" class="btn btn-primary btn-sm" style="float: right">Добавить участника</button>
+                        <div class="col-md-8">
+                            @Model.CreationDate.ToShortDateString()
                         </div>
-                            
                     </div>
-            
-                    @*<table class="table">
-                        <tr>
-                            <td style="width: 55%">User1</td> 
-                            <td style="width: 40%">разработчик</td> 
-                            <td style="width: 5%"><img src="/Content/images/trash_blue.png"/></td> 
-                        </tr>
-                        <tr>
-                            <td>User2</td> 
-                            <td>разработчик</td> 
-                            <td><img src="/Content/images/trash_blue.png"/></td> 
-                        </tr>
-                        <tr>
-                            <td>User3</td> 
-                            <td>тестировщик</td> 
-                            <td><img src="/Content/images/trash_blue.png"/></td> 
-                        </tr>
-                    </table>*@
-                    
-                    <div style="margin: 10px">
-                        @Html.Partial("UnderConstruction")
-                    </div>
-
                 </div>
+
+                <div class="row" style="margin-top: 10px">
+                    <div class="col-md-7">
+                        <h4>Участники проекта</h4>
+                    </div>
+                    <div class="col-md-5">
+                        <button type="button" class="btn btn-primary btn-sm" style="float: right">Добавить участника</button>
+                    </div>
+                </div>
+
+                <div>
+                    @Html.Partial("_DataTable", new DataTableViewModel
+                {
+                    DataTable = Html.DataTable("aProjectUsersList", (BTSController controller) => controller.GetProjectUsers(null)),
+                    DataTableOptions = new DataTableOptions
+                    {
+                        Filterable = true,
+                        Info = true,
+                        OnComplete = null,
+                        Pagination = true,
+                        Searchable = true,
+                        Sortable = false,
+                    }
+                })
+                </div>
+
             </div>
         </div>
-
-        <div class="col-md-4">
+    </div>
+    <div class="col-md-4 float-right">
+        <div class="row">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title" align="center">Анализ ошибок проекта</h3>
                 </div>
             </div>
-            @*<div class="row">
-                <div class="col-md-offset-1 col-md-10">
-                    <p>Новые</p>
-                    <p>Разрешенные</p>
-                    <p>Закрытые</p>
+            <div class="row bts">
+                <div>
+                    <p>Количество ошибок: @Model.BugQuentity</p>
+                    @if (Model.BugQuentity != 0)
+                    {
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)).ToString() + "%;")">
+                                <span class="sr-only">Новые</span>
+                            </div>
+                            <span class="progress-type">Новые</span>
+                            <span class="progress-completed">@Model.QuentityOfNewBugs</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfAssignesBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfAssignesBugs * 100.0 / Model.BugQuentity)).ToString() + "%;")">
+                                <span class="sr-only">Назначены</span>
+                            </div>
+                            <span class="progress-type">Назначены</span>
+                            <span class="progress-completed">@Model.QuentityOfAssignesBugs</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)).ToString() + "%;")">
+                                <span class="sr-only">Разрешены</span>
+                            </div>
+                            <span class="progress-type">Разрешены</span>
+                            <span class="progress-completed">@Model.QuentityOfResolvedBugs</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)).ToString() + "%;")">
+                                <span class="sr-only">Закрыты</span>
+                            </div>
+                            <span class="progress-type">Закрыты</span>
+                            <span class="progress-completed">@Model.QuentityOfClosedBugs</span>
+                        </div>
+                    }
+
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-offset-1 col-md-10">
-                    <h4>Важность ошибок</h4>
-                    <p>Высокая</p>
-                    <p>Средняя</p>
-                    <p>Низкая</p>
-                </div>
-            </div>
-            *@
-            <div style="margin: 10px">
-                @Html.Partial("UnderConstruction")
-            </div>
-
-            <div class="row" align="center">
+            <div align="center">
                 <button type="button" class="btn btn-primary btn-sm">Перейти к ошибкам проекта</button>
             </div>
         </div>
-
     </div>
 </div>
-
 

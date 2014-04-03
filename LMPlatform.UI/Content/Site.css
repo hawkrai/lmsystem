@@ -638,15 +638,27 @@ legend.scheduler-border {
     color: black;
 }
 
-.progress-bar-notPassed {
-background-color: #007196;
+.progress {
+    position: relative;
+	height: 24px;
+    padding: 0px;
 }
-.progress-bar-notPassed:hover {
-background-color: #0A91FC;
-cursor: pointer
+.progress > .progress-type {
+	position: absolute;
+	left: 0px;
+	font-weight: 800;
+	padding: 0px 5px 0px 5px;
+	color: rgb(255, 255, 255);
+	background-color: rgba(25, 25, 25, 0.2);
+}
+.progress > .progress-completed {
+	position: absolute;
+	right: 0px;
+	font-weight: 800;
+	padding: 0px 10px 0px;
 }
 
-.margin-top-bottom-5 {
-    margin-top: 5px; 
-    margin-bottom: 5px;
+.bts {
+    margin-left: 0px;
+    margin-right: 0px;
 }

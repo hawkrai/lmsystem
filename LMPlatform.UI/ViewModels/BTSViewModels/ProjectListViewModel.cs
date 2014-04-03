@@ -11,9 +11,6 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
     public class ProjectListViewModel
     {
-        [DisplayName("Избранный")]
-        public bool IsChosen { get; set; }
-        
         [DataType(DataType.Text)]
         [DisplayName("Тема проекта")]
         public string Title { get; set; }
@@ -26,13 +23,11 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public static ProjectListViewModel FromProject(Project project)
         {
-            //Image image = Image.FromFile(project.IsChosen ? "/LMPlatform.UI/Content/images/star_blue.png" : "/LMPlatform.UI/Content/images/star_white.png");
             return new ProjectListViewModel
                 {
                     Title = project.Title,
                     CreatorName = project.Creator.UserName,
-                    CreationDate = project.CreationDate.ToShortDateString(),
-                    IsChosen = project.IsChosen
+                    CreationDate = project.CreationDate.ToShortDateString()
                 };
         }
     }

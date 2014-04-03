@@ -10,22 +10,24 @@ namespace LMPlatform.Models
         public int ProjectId { get; set; }
 
         [Display(Name = "Кем добавлена")]
-        public int StudentId { get; set; }
+        public User Creator { get; set; }
 
         [Display(Name = "Содержание")]
         public string Summary { get; set; }
 
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Описание")]
         public string Description { get; set; }
 
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Шаги выполнения")]
         public string Steps { get; set; }
 
         [Display(Name = "Дата документирования")]
-        public DateTime CreationDate { get; set; }
+        public DateTime CreatingDate { get; set; }
 
-        [Display(Name = "Дата изменения")]
-        public DateTime ModifiedDate { get; set; }
+        [Display(Name = "Дата последнего изменения")]
+        public DateTime ModifyingDate { get; set; }
 
         [Display(Name = "Симптом")]
         public int SymptomId { get; set; }
@@ -36,7 +38,7 @@ namespace LMPlatform.Models
         [Display(Name = "Статус")]
         public int StatusId { get; set; }
 
-        public Student Student { get; set; }
+        public int CreatorId { get; set; }
 
         public Project Project { get; set; }
 

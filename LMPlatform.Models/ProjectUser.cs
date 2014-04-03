@@ -2,15 +2,15 @@
 
 namespace LMPlatform.Models
 {
-    public class ProjectStudent : ModelBase 
+    public class ProjectUser : ModelBase 
     {
-        public int StudentId
+        public int UserId
         {
             get; 
             set;
         }
 
-        public int Role
+        public int RoleId
         {
             get; 
             set;
@@ -22,7 +22,7 @@ namespace LMPlatform.Models
             set;
         }
 
-        public Student Student
+        public User User
         {
             get; 
             set;
@@ -32,6 +32,12 @@ namespace LMPlatform.Models
         {
             get; 
             set;
+        }
+
+        public ProjectRole Role 
+        { 
+            get; 
+            set; 
         }
     }
 }

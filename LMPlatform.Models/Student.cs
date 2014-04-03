@@ -55,18 +55,6 @@ namespace LMPlatform.Models
             get { return string.Format("{0} {1} {2}", LastName, FirstName, MiddleName); }
         }
 
-        public ICollection<ProjectStudent> ProjectStudents
-        {
-            get;
-            set;
-        }
-
-        public ICollection<Bug> Bugs
-        {
-            get;
-            set;
-        }
-
         public ICollection<SubjectStudent> SubjectStudents
         {
             get;

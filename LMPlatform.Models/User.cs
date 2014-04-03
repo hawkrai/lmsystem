@@ -37,7 +37,19 @@ namespace LMPlatform.Models
             set;
         }
 
+        public ICollection<ProjectUser> ProjectUsers
+        {
+            get;
+            set;
+        }
+
         public ICollection<Project> Projects
+        {
+            get;
+            set;
+        }
+
+        public ICollection<Bug> Bugs
         {
             get;
             set;

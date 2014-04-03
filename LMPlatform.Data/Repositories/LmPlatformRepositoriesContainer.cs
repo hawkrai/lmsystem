@@ -23,6 +23,8 @@ namespace LMPlatform.Data.Repositories
 
         public IProjectsRepository ProjectsRepository { get; set; }
 
+        public IProjectUsersRepository ProjectUsersRepository { get; set; }
+
         public IStudentsRepository StudentsRepository { get; set; }
 
         public ISubjectRepository SubjectRepository { get; set; }

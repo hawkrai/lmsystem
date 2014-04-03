@@ -15,6 +15,7 @@ namespace LMPlatform.Data.Infrastructure
             CreateBugSeverities(context);
             CreateBugSymptoms(context);
 		    CreateBugStatuses(context);
+		    CreateProjectRoles(context);
 		    CreateModules(context);
 
 			context.SaveChanges();
@@ -55,21 +56,26 @@ namespace LMPlatform.Data.Infrastructure
 
         private static void CreateBugSeverities(LmPlatformModelsContext context)
         {
-            context.BugSeverities.Add(new BugSeverity { Name = "Критическая" });
-            context.BugSeverities.Add(new BugSeverity { Name = "Высокая" });
-            context.BugSeverities.Add(new BugSeverity { Name = "Средняя" });
             context.BugSeverities.Add(new BugSeverity { Name = "Низкая" });
+            context.BugSeverities.Add(new BugSeverity { Name = "Средняя" });
+            context.BugSeverities.Add(new BugSeverity { Name = "Высокая" });
+            context.BugSeverities.Add(new BugSeverity { Name = "Критическая" });
             }
 
         private static void CreateBugStatuses(LmPlatformModelsContext context)
         {
-            context.BugStatuses.Add(new BugStatus { Name = "Открыта" });
-            context.BugStatuses.Add(new BugStatus { Name = "Исправлена" });
-            context.BugStatuses.Add(new BugStatus { Name = "Проверена" });
-            context.BugStatuses.Add(new BugStatus { Name = "Отклонена" });
-            context.BugStatuses.Add(new BugStatus { Name = "Отложена" });
+            context.BugStatuses.Add(new BugStatus { Name = "Новая" });
+            context.BugStatuses.Add(new BugStatus { Name = "Назначена" });
+            context.BugStatuses.Add(new BugStatus { Name = "Разрешена" });
             context.BugStatuses.Add(new BugStatus { Name = "Закрыта" });
         }
+
+	    private static void CreateProjectRoles(LmPlatformModelsContext context)
+	    {
+	        context.ProjectRoles.Add(new ProjectRole { Name = "Администратор" });
+            context.ProjectRoles.Add(new ProjectRole { Name = "Разработчик" });
+            context.ProjectRoles.Add(new ProjectRole { Name = "Тестировщик" });
+	    }
 
 	    private static void CreateGroups(LmPlatformModelsContext context)
 	    {
