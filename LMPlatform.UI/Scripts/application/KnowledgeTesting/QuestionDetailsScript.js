@@ -42,7 +42,8 @@
     _getNewQuestion: function () {
         return {
             Id: 0,
-            Title : 'Название вопроса',
+            Title: 'Название вопроса',
+            ComplexityLevel: 1,
             Answers: [
                 { Content: 'Ответ 1', IsCorrect: 0 },
                 { Content: 'Ответ 2', IsCorrect: 0 }]

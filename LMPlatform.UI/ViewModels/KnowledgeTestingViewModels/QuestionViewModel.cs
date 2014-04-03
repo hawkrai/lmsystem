@@ -30,7 +30,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
-        public int ComlexityLevel
+        public int ComplexityLevel
         {
             get;
             set;
@@ -56,7 +56,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 TestId = TestId,
                 Title = Title,
                 Description = Description,
-                ComlexityLevel = ComlexityLevel,
+                ComlexityLevel = ComplexityLevel,
                 QuestionType = QuestionType,
                 Answers = Answers.Select(answer => answer.ToAnswer()).ToList()
             };
@@ -70,7 +70,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 TestId = question.TestId,
                 Title = question.Title,
                 Description = question.Description,
-                ComlexityLevel = question.ComlexityLevel,
+                ComplexityLevel = question.ComlexityLevel,
                 QuestionType = question.QuestionType,
                 Answers = question.Answers != null 
                     ? question.Answers.Select(AnswerViewModel.FromAnswer) 
