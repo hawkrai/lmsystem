@@ -225,6 +225,7 @@
     <Content Include="Content\alertify.default.css" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap-wysihtml5.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chosen\chosen.css" />
@@ -352,6 +353,7 @@
     <Content Include="Content\mvcfileupload\vendor\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\mvcfileupload\vendor\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\mvcfileupload\vendor\jquery-ui.min.css" />
+    <Content Include="Content\prettify.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -406,6 +408,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\wysiwyg-color.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -416,6 +419,7 @@
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\collection.png" />
     <Content Include="Images\data_privacy.png" />
+    <Content Include="Images\glyphicons-halflings.png" />
     <Content Include="Images\no_image.png" />
     <Content Include="Scripts\alertify.js" />
     <Content Include="Scripts\application\accountManagement.js" />
@@ -439,6 +443,8 @@
     <Content Include="Scripts\application\subjectManagement.js" />
     <Content Include="Scripts\application\subjectWorking.js" />
     <Content Include="Scripts\bootstrap-multiselect.js" />
+    <Content Include="Scripts\bootstrap-wysihtml5.js" />
+    <Content Include="Scripts\bootstrap-wysihtml5.ru-RU.js" />
     <Content Include="Scripts\chosen\ajax-chosen.js" />
     <Content Include="Scripts\chosen\ajax-chosen.min.js" />
     <Content Include="Scripts\chosen\chosen.jquery.js" />
@@ -711,6 +717,7 @@
     <Content Include="Scripts\ckeditor\plugins\wsc\LICENSE.md" />
     <Content Include="Scripts\ckeditor\plugins\wsc\README.md" />
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
+    <None Include="Properties\PublishProfiles\LMS.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -832,7 +839,9 @@
     <Content Include="Scripts\mvcfileupload\main.js" />
     <Content Include="Scripts\mvcfileupload\tmpl.js" />
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
+    <Content Include="Scripts\prettify.js" />
     <Content Include="Scripts\spin.js" />
+    <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Unity.Mvc4.README.txt" />
     <Content Include="Web.config">
@@ -883,7 +892,6 @@
     <Content Include="Views\Shared\Lms\_LmsNaBar.cshtml" />
     <Content Include="Views\Administration\EditStudent.cshtml" />
     <Content Include="Views\Shared\_EditGlyphLinks.cshtml" />
-    <Content Include="Views\BTS\_BugAddForm.cshtml" />
     <Content Include="Views\Shared\Layouts\_MainUsingNavLectorLayout.cshtml" />
     <Content Include="Views\Subject\_CreateSubjectView.cshtml" />
     <Content Include="Views\Administration\AddProfessor.cshtml" />

@@ -1,30 +1,27 @@
 ﻿@model LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel.NewsDataViewModel
 
 <div>
-    @using (Html.BeginForm("SaveNews", "Subject", FormMethod.Post, new
-        {
-            enctype = "multipart/form-data"
-        } ) )
+    @using (Html.BeginForm("SaveNews", "Subject", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div>
             @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
         </div>
-    
+
         @Html.AntiForgeryToken()
-        
+
         @Html.HiddenFor(e => e.SubjectId)
         @Html.HiddenFor(e => e.NewsId)
         <div>
             @Html.LabelFor(e => e.Title, new { @class = "control-label" })
-            @Html.TextBoxFor(e => e.Title, new { @class = "form-control", @style = "width: 500px" })
+            @Html.TextBoxFor(e => e.Title, new { @class = "form-control", @style = "width: 545px" })
             @Html.ValidationMessageFor(e => e.Title, " ")
         </div>
         <div>
             @Html.LabelFor(e => e.Body, new { @class = "control-label" })
-            @Html.TextAreaFor(e => e.Body, new { @class = "form-control", @id="newsHtml", @style = "width: 500px;"  })
-        </div> 
+            @Html.TextAreaFor(e => e.Body, new { @class = "form-control", @id = "newsHtml", @style = "width: 545px; height: 300px" })
+        </div>
         <script>
-            //CKEDITOR.replace('newsHtml');
-        </script>   
+            $('#newsHtml').wysihtml5();
+        </script>
     }
 </div>
