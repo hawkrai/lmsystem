@@ -43,8 +43,8 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public JsonResult SaveTest(TestViewModel testViewModel)
         {
-            var savedTeat = TestsManagementService.SaveTest(testViewModel.ToTest());
-            return Json(savedTeat);
+            var savedTest = TestsManagementService.SaveTest(testViewModel.ToTest());
+            return Json(savedTest);
         }
 
         #endregion

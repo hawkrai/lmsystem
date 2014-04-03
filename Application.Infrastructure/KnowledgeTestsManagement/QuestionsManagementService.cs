@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
@@ -19,6 +20,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         public Question SaveQuestion(Question question)
         {
+            ValidateQuestion(question);
+
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.QuestionsRepository.Save(question);
@@ -33,6 +36,91 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
                 repositoriesContainer.ApplyChanges();
                 return question;
+            }
+        }
+
+        private void ValidateQuestion(Question question)
+        {
+            if (string.IsNullOrEmpty(question.Title))
+            {
+                throw new InvalidDataException("Название вопроса не должно быть пустым");
+            }
+
+            if (question.ComlexityLevel <= 0)
+            {
+                throw new InvalidDataException("Сложность теста должна быть боьше нуля");
+            }
+
+            if (question.Answers.Any(answer => string.IsNullOrEmpty(answer.Content)))
+            {
+                throw new InvalidDataException("Вопрос содержит пустые варианты ответа");
+            }
+
+            switch (question.QuestionType)
+            {
+                case QuestionType.HasOneCorrectAnswer:
+                    ValidateOneCorrectVariantQuestion(question);
+                    break;
+                case QuestionType.HasManyCorrectAnswers:
+                    ValidateManyCorrectVariantsQuestion(question);
+                    break;
+                case QuestionType.TextAnswer:
+                    ValidateTextAnswerQuestion(question);
+                    break;
+                case QuestionType.SequenceAnswer:
+                    ValidateSequenceAnswerQuestion(question);
+                    break;
+            }
+        }
+
+        private void ValidateSequenceAnswerQuestion(Question question)
+        {
+            if (question.Answers.Count < 2)
+            {
+                throw new InvalidDataException("Последовательность должна состоять хотя бы из 2 элементов");
+            }
+        }
+
+        private void ValidateTextAnswerQuestion(Question question)
+        {
+            if (question.Answers.Count < 1)
+            {
+                throw new InvalidDataException("Вопрос должен иметь хотя бы 1 правильный ответ");
+            }
+        }
+
+        private void ValidateManyCorrectVariantsQuestion(Question question)
+        {
+            if (question.Answers.Count < 3)
+            {
+                throw new InvalidDataException("Вопрос должен иметь хотя бы 3 варианта");
+            }
+
+            int correctAnswersCount = question.Answers.Count(answer => answer.СorrectnessIndicator > 0);
+
+            if (correctAnswersCount <= 1)
+            {
+                throw new InvalidDataException("Вопрос должен иметь хотя бы 2 правильных ответа");
+            }
+        }
+
+        private void ValidateOneCorrectVariantQuestion(Question question)
+        {
+            if (question.Answers.Count < 2)
+            {
+                throw new InvalidDataException("Вопрос должен иметь хотя бы 2 варианта");
+            }
+
+            int correctAnswersCount = question.Answers.Count(answer => answer.СorrectnessIndicator > 0);
+
+            if (correctAnswersCount == 0)
+            {
+                throw new InvalidDataException("Вопрос должен иметь хотя бы один правильный ответ");
+            }  
+          
+            if (correctAnswersCount > 1)
+            {
+                throw new InvalidDataException("Вопрос должен иметь только один правильный ответ");
             }
         }
 

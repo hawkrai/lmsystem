@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
@@ -19,11 +20,20 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         public Test SaveTest(Test test)
         {
+            ValidateTest(test);
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.TestsRepository.Save(test);
                 repositoriesContainer.ApplyChanges();
                 return test;
+            }
+        }
+
+        private void ValidateTest(Test test)
+        {
+            if (test.CountOfQuestions <= 0)
+            {
+                throw new InvalidDataException("Количество вопросов должно быть больше нуля");
             }
         }
 

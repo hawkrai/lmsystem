@@ -17,8 +17,25 @@
         modelToSave.TestId = new Number(getUrlValue('testId'));
         modelToSave.Description = CKEDITOR.instances.taskArea.getData();
         modelToSave.QuestionType = questionTypes[modelToSave.templateName];
+        
+        if (modelToSave.QuestionType == 0) {
+            this._populateOneCorrectAnswerVariants(modelToSave);
+        }
+
         if (this._validate()) {
             this._saveQuestion(modelToSave);
+        }
+    },
+    
+    //TODO: fix this kostyl' by nativa knockout solution
+    _populateOneCorrectAnswerVariants: function (modelToSave) {
+        var boolArray = Enumerable.From($('[name="oneCorrectVariant"]'))
+               .Select(function (radioButton) {
+                   return $(radioButton).is(':checked') ? 1 : 0;
+               }).ToArray();
+
+        for (var i = 0; i < boolArray.length; i++) {
+            modelToSave.Answers[i].IsCorrect = boolArray[i];
         }
     },
     
