@@ -65,6 +65,7 @@ namespace LMPlatform.Data.Repositories
             BugsRepository = new BugsRepository(_dataContext);
             GroupsRepository = new GroupsRepository(_dataContext);
             ProjectsRepository = new ProjectsRepository(_dataContext);
+            ProjectUsersRepository = new ProjectUsersRepository(_dataContext);
             StudentsRepository = new StudentsRepository(_dataContext);
             SubjectRepository = new SubjectRepository(_dataContext);
             TestsRepository = new TestsRepository(_dataContext);
