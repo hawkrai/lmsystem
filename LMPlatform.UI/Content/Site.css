@@ -54,10 +54,12 @@ h1 {
 }
 
 .fa-tab {
-    margin-right: 10px
+    margin-right: 10px;
 }
 
-.tooltip-inner {background-color: #43ac6a;}
+.tooltip-inner {
+    background-color: #43ac6a;
+}
 
 .hero-unit {
     padding: 60px;
@@ -72,18 +74,19 @@ h1 {
 }
 
 .search {
-    height: 40px
+    height: 40px;
 }
 
 .pagination {
-padding-left: 0;
-margin: 0;
-text-align: center;
-list-style: none;
+    padding-left: 0;
+    margin: 0;
+    text-align: center;
+    list-style: none;
 }
+
 .modal-dialog {
-width: 600px;
-margin: 30px auto;
+    width: 600px;
+    margin: 30px auto;
 }
 
 .panel-success > .panel-heading {
@@ -104,28 +107,27 @@ margin: 30px auto;
     margin-top: -20px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
-
 }
 
-        #login input[type="checkbox"],
-        #login input[type="submit"],
-        #login input[type="button"],
-        #login button {
-            width: auto;
-        }
+    #login input[type="checkbox"],
+    #login input[type="submit"],
+    #login input[type="button"],
+    #login button {
+        width: auto;
+    }
 
     #login .registration {
         font-size: 14px;
     }
+
     #login h1 {
         font-size: 60px;
-        color: #bfc6d4
-        
+        color: #bfc6d4;
     }
-#logoutForm {
-	display: inline;
 
-    color: white
+#logoutForm {
+    display: inline;
+    color: white;
 }
 /* registration layout
 ----------------------------------------------------------*/
@@ -137,7 +139,7 @@ margin: 30px auto;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.08);
     *zoom: 1;
     margin-top: -20px;
-        -webkit-border-radius: 0px;
+    -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
 }
 
@@ -164,20 +166,20 @@ margin: 30px auto;
 
 /* Side Nav */
 
-  .side-nav {
-        margin-left: -225px;
-        left: 225px;
-        position: fixed;
-        width: 300px;
-        top: 44px;
-        height: 100%;
-        border-radius: 0;
-        border: none;
-        background-color: #007196;
-        overflow-y: auto;
-  }
+.side-nav {
+    margin-left: -225px;
+    left: 225px;
+    position: fixed;
+    width: 300px;
+    top: 44px;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    background-color: #007196;
+    overflow-y: auto;
+}
 
-  .side-nav>li.dropdown>ul.dropdown-menu {
+    .side-nav > li.dropdown > ul.dropdown-menu {
         position: relative;
         min-width: 300px;
         margin: 0;
@@ -187,36 +189,43 @@ margin: 30px auto;
         background-color: transparent;
         box-shadow: none;
         -webkit-box-shadow: none;
-  }
+    }
 
-  .side-nav>li>a {
+    .side-nav > li > a {
         width: 300px;
-  }
+    }
+
+    .side-nav > li.selected {
+        background-color: #006687;
+    }
+
+
     .side-nav > li.dropdown > ul.dropdown-menu > li > a {
         color: #e3e6e5;
         padding: 15px 15px 15px 25px;
     }
 
-    .fa-1x {
-        font-size: 1.5em;
-    }
-
-
-    fileUpload {
-	position: relative;
-	overflow: hidden;
-	margin: 10px;
+.fa-1x {
+    font-size: 1.5em;
 }
+
+
+fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
 .fileUpload input.upload {
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin: 0;
-	padding: 0;
-	font-size: 20px;
-	cursor: pointer;
-	opacity: 0;
-	filter: alpha(opacity=0);
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }
 /* main layout
 ----------------------------------------------------------*/
@@ -227,10 +236,10 @@ margin: 30px auto;
 
 .content-wrapper-fix {
     margin: 0 auto;
-	max-width: 1000px;
+    max-width: 1000px;
 }
+
 .panel-wrapper {
-    
 }
 
 #body {
@@ -253,32 +262,32 @@ header .site-logo {
 }
 
 .btn-lms {
-    margin: 0px 5px 5px 0px; 
-    width: 100%
+    margin: 0px 5px 5px 0px;
+    width: 100%;
 }
 
 /*navbar color fix*/
 
 .navbar-lms {
-  min-height: 50px;
-  padding-right: 20px;
-  padding-left: 20px;
-  background-color: #2B5282;
-  background-image: -moz-linear-gradient(top, #2B5282, #2B5282);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2B5282), to(#2B5282));
-  background-image: -webkit-linear-gradient(top, #2B5282, #2B5282);
-  background-image: -o-linear-gradient(top, #2B5282, #2B5282);
-  background-image: linear-gradient(to bottom, #2B5282, #2B5282);
-  background-repeat: repeat-x;
-  border: 1px solid transparent;
-  -webkit-border-radius: 0;
-     -moz-border-radius: 0;
-          border-radius: 0;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff2B5282', endColorstr='#ff2B5282', GradientType=0);
-  *zoom: 1;
-  -webkit-box-shadow: 0 1px 4px rgba(43, 82, 130, 0.065);
-     -moz-box-shadow: 0 1px 4px rgba(43, 82, 130, 0.065);
-          box-shadow: 0 1px 4px rgba(43, 82, 130, 0.065);
+    min-height: 50px;
+    padding-right: 20px;
+    padding-left: 20px;
+    background-color: #2B5282;
+    background-image: -moz-linear-gradient(top, #2B5282, #2B5282);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2B5282), to(#2B5282));
+    background-image: -webkit-linear-gradient(top, #2B5282, #2B5282);
+    background-image: -o-linear-gradient(top, #2B5282, #2B5282);
+    background-image: linear-gradient(to bottom, #2B5282, #2B5282);
+    background-repeat: repeat-x;
+    border: 1px solid transparent;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff2B5282', endColorstr='#ff2B5282', GradientType=0);
+    *zoom: 1;
+    -webkit-box-shadow: 0 1px 4px rgba(43, 82, 130, 0.065);
+    -moz-box-shadow: 0 1px 4px rgba(43, 82, 130, 0.065);
+    box-shadow: 0 1px 4px rgba(43, 82, 130, 0.065);
 }
 
 /*datatimepiker elements*/
@@ -467,7 +476,7 @@ legend.scheduler-border {
 }
 
 .dataTables_empty {
-    text-align: center!important;
+    text-align: center !important;
 }
 
 .alert-error {
@@ -503,11 +512,11 @@ legend.scheduler-border {
 
 .editable {
     margin-bottom: 5px;
-    margin-right: 10px!important;
+    margin-right: 10px !important;
 }
 
 .tooltip-button {
-    margin:12px
+    margin: 12px;
 }
 
 .btn-info {
@@ -559,7 +568,7 @@ legend.scheduler-border {
 }
 
 .close {
-    width: 20px!important;
+    width: 20px !important;
     height: 20px;
 }
 
@@ -574,12 +583,12 @@ legend.scheduler-border {
 }
 
 .username {
-    color: white
+    color: white;
 }
 
 .linkNavbar {
     font-size: 13px;
-    text-align: left
+    text-align: left;
 }
 
 .linkNavbarLevelBelow {
@@ -587,16 +596,14 @@ legend.scheduler-border {
 }
 
 .questionTypeButton {
-   
     padding: 2px;
     width: 100%;
     margin-bottom: 1px;
     text-align: center;
-    
 }
 
 .buttonWrapper {
-    padding: 2px;  
+    padding: 2px;
 }
 
 .questionFormInput {
@@ -607,27 +614,28 @@ legend.scheduler-border {
     background-color: #008cba !important;
 }
 
-.managementBtn:hover {
-    background-color: #007196 !important;
-}
+    .managementBtn:hover {
+        background-color: #007196 !important;
+    }
 
 .msgButton {
     margin: 0 0 15px 0;
 }
 
 .notification-on-page {
-    text-align: center   
-}
-.notification-on-page .notification-header {
-    font-size: 24px    
+    text-align: center;
 }
 
-.notification-on-page .notification-body {
-    font-size: 18px   
-}
+    .notification-on-page .notification-header {
+        font-size: 24px;
+    }
+
+    .notification-on-page .notification-body {
+        font-size: 18px;
+    }
 
 .fa-6 {
-    font-size: 20em;   
+    font-size: 20em;
 }
 
 .is-read {
@@ -640,23 +648,25 @@ legend.scheduler-border {
 
 .progress {
     position: relative;
-	height: 24px;
+    height: 24px;
     padding: 0px;
 }
-.progress > .progress-type {
-	position: absolute;
-	left: 0px;
-	font-weight: 800;
-	padding: 0px 5px 0px 5px;
-	color: rgb(255, 255, 255);
-	background-color: rgba(25, 25, 25, 0.2);
-}
-.progress > .progress-completed {
-	position: absolute;
-	right: 0px;
-	font-weight: 800;
-	padding: 0px 10px 0px;
-}
+
+    .progress > .progress-type {
+        position: absolute;
+        left: 0px;
+        font-weight: 800;
+        padding: 0px 5px 0px 5px;
+        color: rgb(255, 255, 255);
+        background-color: rgba(25, 25, 25, 0.2);
+    }
+
+    .progress > .progress-completed {
+        position: absolute;
+        right: 0px;
+        font-weight: 800;
+        padding: 0px 10px 0px;
+    }
 
 .bts {
     margin-left: 0px;

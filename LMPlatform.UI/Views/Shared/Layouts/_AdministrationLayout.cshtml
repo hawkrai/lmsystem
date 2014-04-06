@@ -1,4 +1,5 @@
-﻿<html>
+﻿@using Application.Core.UI.HtmlHelpers
+<html>
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title Аднимистрирование LMP разработка</title>
@@ -38,10 +39,10 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li>@Html.ActionLink("Cтуденты", "Students", "Administration", new { id = string.Empty }, null)</li>
-                    <li>@Html.ActionLink("Преподаватели", "Professors", "Administration")</li>
-                    <li>@Html.ActionLink("Группы", "Groups", "Administration")</li>
-                    <li>@Html.ActionLink("Файлы", "Files", "Administration")</li>
+                    <li class="@Html.ActivePage("Administration", "Students")">@Html.ActionLink("Cтуденты", "Students", "Administration", new { id = string.Empty }, null)</li>
+                    <li class="@Html.ActivePage("Administration", "Professors")">@Html.ActionLink("Преподаватели", "Professors", "Administration")</li>
+                    <li class="@Html.ActivePage("Administration", "Groups")">@Html.ActionLink("Группы", "Groups", "Administration")</li>
+                    <li class="@Html.ActivePage("Administration", "Files")">@Html.ActionLink("Файлы", "Files", "Administration")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
