@@ -27,12 +27,13 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
         [Display(Name = "Кому")]
         public List<int> Recipients { get; set; }
 
-        [Required(ErrorMessage = "Введите текст сообщения")]
         [Display(Name = "Сообщение")]
+        [Required(ErrorMessage = "Введите текст сообщения")]
         [DataType(DataType.MultilineText)]
         public string MessageText { get; set; }
 
         [Display(Name = "Тема")]
+        [Required(ErrorMessage = "Введите тему сообщения")]
         [DataType(DataType.Text), MaxLength(50, ErrorMessage = "Длина поля Тема не должна превышать 50 символов")]
         public string Subject { get; set; }
 

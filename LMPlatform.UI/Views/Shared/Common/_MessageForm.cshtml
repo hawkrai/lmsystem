@@ -15,18 +15,16 @@
             <div>
                 @Html.LabelFor(m => m.Subject)
                 @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Subject, "")
             </div>
             <div>
                 @Html.LabelFor(m => m.MessageText)
                 @Html.TextAreaFor(m => m.MessageText, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.MessageText, " ")
             </div>
             <div>
                 @Html.LabelFor(m => m.Recipients, new { @class = "control-label" })
                 @Html.ListBoxFor(m => m.Recipients, Enumerable.Empty<SelectListItem>(),
                                  new Dictionary<string, object> { 
-                                     { "data-placeholder", "Выберите получателя..." }, 
+                                     { "data-placeholder", "Введите имя получателя..." }, 
                                      { "class", "form-control chosen-select" } })
 
                 @*                <select class="form-control chosen-select" title="recipients" data-placeholder="Выберите получателя..." multiple> </select>*@

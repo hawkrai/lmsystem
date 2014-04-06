@@ -13,9 +13,9 @@
     Студенты
 }
 <div style="margin: 0 50px 0 50px">
-    <div style="margin-bottom: 20px">
+    @*<div style="margin-bottom: 20px">
         <h4>Список</h4>
-    </div>
+    </div>*@
     <div>@Html.Partial("_DataTable", new DataTableViewModel
              {
                  DataTable = Html.DataTable("studentList", (AdministrationController controller) => controller.GetCollectionStudents(new DataTablesParam() { })),

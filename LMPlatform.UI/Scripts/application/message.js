@@ -27,7 +27,6 @@ function getMessagePartial(partialViewUrl) {
           function (data) {
               bootbox.dialog({
                   message: data,
-                  title: "Сообщение"
               });
 
           });
