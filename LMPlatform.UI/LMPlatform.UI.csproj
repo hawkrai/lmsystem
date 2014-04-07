@@ -167,6 +167,7 @@
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\ParentalController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
@@ -946,6 +947,7 @@
     <Content Include="Views\Shared\Subjects\Modules\Labs\_EditLabs.cshtml" />
     <Content Include="Views\Tests\TestResults.cshtml" />
     <Content Include="Views\Tests\_TestsResultsGridColumn.cshtml" />
+    <Content Include="Views\Parental\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
