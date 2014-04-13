@@ -160,7 +160,8 @@ h1 {
 }
 
 .error-limit-registr {
-    width: 600px;
+    display: block;
+    max-width: 600px;
     margin: 0 auto 0 auto;
 }
 

@@ -13,15 +13,19 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/shared")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrapcontrols")
 
     @Scripts.Render("~/bundles/bootstrapcontrols")
 </head>
-<body>
-	<div id="body">
-		@RenderSection("featured", required: false)
-		@RenderBody()
-	</div>
-	@RenderSection("scripts", required: false)
+    <body>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            @RenderBody()
+        </div>
+        @RenderSection("scripts", required: false)
 
-</body>
+    </body>
+@Scripts.Render("~/bundles/bootbox")
 </html>

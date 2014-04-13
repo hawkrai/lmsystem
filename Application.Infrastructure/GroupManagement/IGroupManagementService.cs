@@ -17,5 +17,7 @@ namespace Application.Infrastructure.GroupManagement
         Group UpdateGroup(Group lecturer);
 
         void DeleteGroup(int id);
+
+        Group GetGroupByName(string groupName);
     }
 }

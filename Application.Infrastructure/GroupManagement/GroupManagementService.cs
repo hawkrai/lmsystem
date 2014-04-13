@@ -73,5 +73,15 @@ namespace Application.Infrastructure.GroupManagement
                 repositoriesContainer.ApplyChanges();
             }
         }
+
+        public Group GetGroupByName(string groupName)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var group = repositoriesContainer.GroupsRepository.GetBy(new Query<Group>().AddFilterClause(g => g.Name == groupName));
+
+                return group;
+            }
+        }
     }
 }
