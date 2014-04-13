@@ -11,7 +11,10 @@
     _deleteMethodName: 'DeleteQuestion',
     _getMethodName: 'GetQuestion',
 
-
+    _initializeTooltips: function() {
+        $("[name='checkVariant']").tooltip({ title: "Отметьте, если ответ правильный", placement: 'right' });
+    },
+    
     _onSaveButtonClicked: function () {
         var modelToSave = koWrapper.getModel();
         modelToSave.TestId = new Number(getUrlValue('testId'));
@@ -41,14 +44,13 @@
     
     _onAddNewVariantbuttonClicked: function() {
         koWrapper.koViewModel.Answers.push({ Content: 'Новый ответ', IsCorrect: 0 });
+        this._initializeTooltips();
         this._initializeAnswersElementsEvents();
     },
     
     _initializeAnswersElementsEvents: function () {
         $('.deleteAnswer').off();
         $('.deleteAnswer').on('click', $.proxy(this._onDeleteAnswerClicked, this));
-        $('input[type="checkbox"]').change(function(el, rt, rl) {
-        });
     },
     
     _onDeleteAnswerClicked: function(eventArgs) {
@@ -121,10 +123,12 @@
     _onQuestionLoaded: function (questionResult) {
         questionResult.templateName = questionTypesByNumber[questionResult.QuestionType];
         this._fillQuestion(questionResult);
+        this._initializeTooltips();
         $('#quetionDetails').modal();
     },
     
     _fillQuestion: function (questionModel) {
+        koWrapper.createOrUpdateViewModel(questionModel);
         koWrapper.createOrUpdateViewModel(questionModel);
         CKEDITOR.instances.taskArea.setData(questionModel.Description);
         this._initializeAnswersElementsEvents();

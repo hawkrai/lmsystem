@@ -4,7 +4,7 @@
         this._nextQuestionNumber = 1;
     },
 
-    _webServiceUrl: '/Tests/',
+    _webServiceUrl: '/TestPassing/',
     _getNextQuestionMethodName: 'GetNextQuestion',
     _makeUserAnswerMethodName: 'AnswerQuestionAndGetNext',
     

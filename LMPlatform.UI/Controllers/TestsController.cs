@@ -12,7 +12,6 @@ using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
-using Microsoft.Ajax.Utilities;
 using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
 
@@ -59,10 +58,10 @@ namespace LMPlatform.UI.Controllers
         }
 
         [Authorize, HttpGet]
-        public ActionResult TestResults()
+        public ActionResult TestResults(int subjectId)
         {
             var students = TestPassingService.GetPassTestResults(1);
-            return View();
+            return View(subjectId);
         }
 
         public DataTablesResult<TestResultItemListViewModel> GetTestsTesults(DataTablesParam dataTableParam, int groupId)
@@ -104,27 +103,6 @@ namespace LMPlatform.UI.Controllers
         {
             TestsManagementService.UnlockTestForStudent(testId, studentId, unlocked);
             return Json("Ok");
-        }
-
-        [HttpGet]
-        public PartialViewResult GetNextQuestion(int testId, int questionNumber)
-        {
-            NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
-            return PartialView("GetNextQuestion", nextQuestion);
-        }
-
-        [HttpPost]
-        public JsonResult AnswerQuestionAndGetNext(IEnumerable<AnswerViewModel> answers, int testId, int questionNumber)
-        {
-            TestPassingService.MakeUserAnswer(answers.Select(answerModel => answerModel.ToAnswer()), CurrentUserId, testId, questionNumber);
-            return Json("Ok");
-        }
-
-        [HttpGet]
-        public ActionResult StartTest(int testId)
-        {
-            Test test = TestsManagementService.GetTest(testId);
-            return View(test);
         }
 
         protected int CurrentUserId

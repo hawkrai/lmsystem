@@ -7,7 +7,11 @@
         $('#addNewTestButton').on('click', $.proxy(this._addNewTestButtonClicked, this));
 
         this._initializeTooltips();
+        this._setColumnsSize();
     },
+    
+    _actionsColumnWidth: 160,
+    _numberingColumnWidth: 10,
     
     _initializeTooltips: function() {
         $(".editButton").tooltip({ title: "Редактировать тест", placement: 'left' });
@@ -15,6 +19,18 @@
         $(".lockButton").tooltip({ title: "Доступность теста", placement: 'left' });
         $(".questionsButton").tooltip({ title: "Перейти к вопросам", placement: 'left' });
         $('.startTestButton').tooltip({ title: "Пройти тест", placement: 'left' });
+    },
+    
+    _setColumnsSize: function () {
+        // Set "№" column size
+        $('.odd')
+            .children(":first")
+            .width(this._numberingColumnWidth);
+
+        //set "Действия" column width
+        $('[name="testGridActionsCol"]')
+            .parent()
+            .width(this._actionsColumnWidth);
     },
     
     _onStartTestClicked: function() {

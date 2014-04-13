@@ -45,11 +45,10 @@ namespace LMPlatform.UI.Controllers
         public ActionResult Index(int testId)
         {
             Test test = TestsManagementService.GetTest(testId);
-            ViewBag.TestName = test.Title;
             List<TestItemListViewModel> testModels = TestsManagementService.GetTestForSubject(test.SubjectId).Select(TestItemListViewModel.FromTest).ToList();
             testModels.Add(new TestItemListViewModel { Id = 0, Title = "Все тесты" });
             ViewBag.Tests = testModels;
-            return View(testId);
+            return View(test);
         }
 
         public ActionResult GetQuestionsSelector(int testId, string searchString)

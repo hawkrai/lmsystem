@@ -25,9 +25,7 @@
 
 @section navleft
 {
-    <li><a href="@Url.Action("TestsList", "Tests")" class="linkNavbar"><i class="fa fa-pencil-square-o fa-1x"></i>&nbsp; Тесты</a></li>
-    <li><a href="@Url.Action("TestsList", "Tests")" class="linkNavbar"><i class="fa fa-eye fa-1x"></i>&nbsp; Прохождение тестов</a></li>
-    <li><a href="@Url.Action("TestResults", "Tests")" class="linkNavbar"><i class="fa fa-tasks fa-1x"></i>&nbsp; Результаты</a></li>
+    @Html.Partial("_TestsLeftPanel", Model.Id)
 }
 
 <div style="margin: 20px">

@@ -39,7 +39,11 @@
         <ul class="dropdown-menu">
             @foreach (var subject in Model.Subjects)
             {
-                <li><a href="@Url.Action("Index", "Tests", new { subjectId = subject.SubjectId })" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>    
+                var url = User.IsInRole("lector")
+                    ? Url.Action("Index", "Tests", new { subjectId = subject.SubjectId })
+                    : Url.Action("GetAvailableTests", "TestPassing", new { subjectId = subject.SubjectId });
+            
+                <li><a href="@url" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>    
             }
             <li class="divider"></li>
             <li><a href="@Url.Action("SubjectsForTests", "Subject")" class="linkNavbarLevelBelow">Все тесты</a></li>

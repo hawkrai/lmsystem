@@ -5,6 +5,22 @@
         $('.deleteButton').on('click', 'span', $.proxy(this._onDeleteClicked, this));
         
         this._initializeTooltips();
+        this._setColumnsSize();
+    },
+    
+    _actionsColumnWidth: 50,
+    _numberingColumnWidth: 10,
+    
+    _setColumnsSize: function () {
+        // Set "№" column size
+        $('.odd')
+            .children(":first")
+            .width(this._numberingColumnWidth);
+
+        //set "Действия" column width
+        $('[name="questionGridActionsCol"]')
+            .parent()
+            .width(this._actionsColumnWidth);
     },
     
     init: function() {

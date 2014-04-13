@@ -4,4 +4,13 @@
     ViewBag.Title = "_TestsResultsGridColumn";
 }
 
-_TestsResultsGridColumn
+@{ var percent = 100/Model.User.TestPassResults.Count;}
+<div class="ex_highlight_row">
+    @foreach (var passResult in Model.User.TestPassResults)
+    {
+    
+        <div style="display: inline-block;">
+            <div>@passResult.Points</div>
+        </div>
+    }
+</div>

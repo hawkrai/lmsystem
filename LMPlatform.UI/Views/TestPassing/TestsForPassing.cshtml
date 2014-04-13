@@ -1,0 +1,43 @@
+﻿@using LMPlatform.Models.KnowledgeTesting
+@model IEnumerable<Test>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
+}
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles")
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/TestsResultsListScript.js",
+                "~/Scripts/linq.js")
+}
+
+@section navpanel
+{
+    Результаты тестов
+}
+
+@section navleft
+{
+    @Html.Partial("~/Views/Tests/_TestsLeftPanel.cshtml", (int)ViewBag.SubjectId)
+}
+
+<div class="row">
+    @foreach (Test test in Model)
+    {
+        <a href="@Url.Action("RealTimePassingForTest", "TestPassing", new { testId = test.Id })">
+            <div class="col-lg-6">
+                <div class="panel panel-primary" style="height: 200px">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@test.Title</h3>
+                    </div>
+                    <div class="panel-body">
+                        @test.Description
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
+</div>

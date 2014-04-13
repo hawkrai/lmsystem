@@ -168,6 +168,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ParentalController.cs" />
+    <Compile Include="Controllers\TestPassingController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
@@ -937,17 +938,22 @@
     <Content Include="Views\Shared\Subjects\Modules\Lectures\_EditLectures.cshtml" />
     <Content Include="Views\Shared\_MessageDisplayRow.cshtml" />
     <Content Include="Views\Shared\Common\_DisplayMessage.cshtml" />
-    <Content Include="Views\Tests\StartTest.cshtml" />
-    <Content Include="Views\Tests\GetNextQuestion.cshtml" />
-    <Content Include="Views\Tests\_OneAnswerTemplate.cshtml" />
-    <Content Include="Views\Tests\_ManyAnswersTemplate.cshtml" />
-    <Content Include="Views\Tests\_TextAnswerTemplate.cshtml" />
-    <Content Include="Views\Tests\_SequenceAnswerTemplate.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsModule.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_EditLabs.cshtml" />
     <Content Include="Views\Tests\TestResults.cshtml" />
     <Content Include="Views\Tests\_TestsResultsGridColumn.cshtml" />
     <Content Include="Views\Parental\Index.cshtml" />
+    <Content Include="Views\Tests\_TestsLeftPanel.cshtml" />
+    <Content Include="Views\TestPassing\GetAvailableTests.cshtml" />
+    <Content Include="Views\TestPassing\StartTest.cshtml" />
+    <Content Include="Views\TestPassing\GetNextQuestion.cshtml" />
+    <Content Include="Views\TestPassing\_ManyAnswersTemplate.cshtml" />
+    <Content Include="Views\TestPassing\_OneAnswerTemplate.cshtml" />
+    <Content Include="Views\TestPassing\_SequenceAnswerTemplate.cshtml" />
+    <Content Include="Views\TestPassing\_TextAnswerTemplate.cshtml" />
+    <Content Include="Views\TestPassing\TestsForPassing.cshtml" />
+    <Content Include="Views\TestPassing\RealTimePassingForTest.cshtml" />
+    <Content Include="Views\TestPassing\EndTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

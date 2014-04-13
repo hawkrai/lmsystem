@@ -22,10 +22,49 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             return new NextQuestionResult
             {
-                Question = nextQuestion.Item1,
-                Number = nextQuestion.Item2,
+                Question = nextQuestion == null ? null : nextQuestion.Item1,
+                Number = nextQuestion == null ? 0 : nextQuestion.Item2,
                 QuestionsStatuses = questionsStatuses
             };  
+        }
+
+        public IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int testId)
+        {
+            IEnumerable<TestUnlock> unockResults;
+            var results = new List<RealTimePassingResult>();
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                unockResults =
+                    repositoriesContainer.TestUnlocksRepository.GetAll(new Query<TestUnlock>(
+                        testUnlock => testUnlock.TestId == testId)
+                        .Include(testUnlock => testUnlock.Student.User.UserAnswersOnTestQuestions))
+                        .ToList();
+            }
+
+            foreach (TestUnlock unockResult in unockResults)
+            {
+                results.Add(new RealTimePassingResult
+                {
+                    StudentName = unockResult.Student.FullName,
+                    PassResults = unockResult.Student.User.UserAnswersOnTestQuestions.ToDictionary(question => question.Number, GetQuestionStatus)
+                });
+            }
+
+            return results;
+        }
+
+        public IEnumerable<Test> GetTestsForSubject(int subjectId)
+        {
+            IEnumerable<Test> tests;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                tests = repositoriesContainer.TestsRepository.GetAll(
+                    new Query<Test>(
+                        test =>
+                            test.SubjectId == subjectId)).ToList();
+            }
+
+            return tests;
         }
 
         public void MakeUserAnswer(IEnumerable<Answer> answers, int userId, int testId, int questionNumber)
@@ -64,7 +103,67 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                     .ToList();
             }
 
-            return students;
+            var testIds =
+                students.SelectMany(student => student.User.TestPassResults.Select(testResult => testResult.TestId))
+                    .Distinct()
+                    .ToArray();
+
+            var studentResults = students.Select(rawStudent => new Student
+            {
+                Id = rawStudent.Id, FirstName = rawStudent.FirstName, LastName = rawStudent.LastName, User = new User
+                {
+                    TestPassResults = GetTestPassResultsForStudent(testIds, rawStudent)
+                }
+            }).ToList();
+
+            return studentResults;
+        }
+
+        private List<TestPassResult> GetTestPassResultsForStudent(int[] testIds, Student rawStudent)
+        {
+            var testPassResults = new List<TestPassResult>();
+            foreach (int testId in testIds)
+            {
+                testPassResults.Add(new TestPassResult
+                {
+                    TestId = testId,
+                    Points = GetPoints(rawStudent, testId)
+                });
+            }
+
+            return testPassResults;
+        }
+
+        private int GetPoints(Student rawStudent, int testId)
+        {
+            var passResult = rawStudent.User.TestPassResults.Where(result => result.TestId == testId);
+            if (passResult.Count() == 1)
+            {
+                return passResult.Single().Points;
+            }
+
+            if (passResult.Count() > 1)
+            {
+                return passResult.Sum(result => result.Points);
+            }
+
+            return 0;
+        }
+
+        public IEnumerable<Test> GetAvailableTestsForStudent(int studentId, int subjectId)
+        {
+            IEnumerable<Test> availableTests;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                availableTests = repositoriesContainer.TestsRepository.GetAll(
+                    new Query<Test>(
+                        test =>
+                            test.SubjectId == subjectId &&
+                            test.TestUnlocks.Any(testUnlock => testUnlock.StudentId == studentId)))
+                    .ToList();
+            }
+
+            return availableTests;
         }
 
         private void ProcessSequenceAnswer(List<Answer> answers, Question question, AnswerOnTestQuestion answerOntestQuestion)
@@ -200,11 +299,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 Tuple<Question, int> nextQuestion = GetNextQuestionsFromNotPassedItems(notPassedQuestions, nextQuestionNumber);
                 return nextQuestion;
             }
-            else
-            {
-                CloseTest(testAnswers, userId);
-                return null;
-            }
+
+            return null;
         }
 
         private void CloseTest(IEnumerable<AnswerOnTestQuestion> testAnswers, int userId)

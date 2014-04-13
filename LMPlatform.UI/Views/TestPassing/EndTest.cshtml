@@ -1,0 +1,16 @@
+﻿@using LMPlatform.Models.KnowledgeTesting
+@model Dictionary<int, PassedQuestionResult>
+
+<h3>Тест завершен</h3>
+<h4>Ваша оценка - </h4>
+<div class="form-group">
+    @foreach (KeyValuePair<int, PassedQuestionResult> passResult in Model)
+    {
+        string color = passResult.Value == PassedQuestionResult.Success
+            ? "rgb(109, 211, 109)"
+            : "red";
+        <div class="row" style="height: 30px; background-color: @color; margin: 5px">
+            Вопрос № @passResult.Key
+        </div>
+    }
+</div>

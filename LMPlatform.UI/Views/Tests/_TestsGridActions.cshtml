@@ -1,16 +1,18 @@
 ﻿@model LMPlatform.UI.ViewModels.KnowledgeTestingViewModels.TestItemListViewModel
-<a href="#" class="editButton" style="margin-right: 10px" >
-    <span class="fa fa-gears fa-2x" data-model-id='@Model.Id' />
-</a>
-<a href="@Url.Action("Index", "Questions", new { testId = Model.Id})" class="questionsButton" style="margin-right: 10px"  >
-    <span class="fa fa-question fa-2x" data-model-id='@Model.Id' />
-</a>
-<a href="#" class="deleteButton" style="margin-right: 10px" >
-    <span class="fa fa-trash-o fa-2x" data-model-id='@Model.Id' />
-</a>
-<a href="#" class="lockButton" style="margin-right: 10px" >
-    <span class="@(Model.Unlocked ? "fa fa-unlock fa-2x" : "fa fa-lock fa-2x")" data-model-id='@Model.Id' />
-</a>
-<a href="@Url.Action("StartTest", "Tests", new { testId = Model.Id})" class="startTestButton" style="margin-right: 10px" >
-    <span class="fa fa-rocket fa-2x" data-model-id='@Model.Id' />
-</a>
+<div name="testGridActionsCol">
+    <a href="#" class="editButton" style="margin-right: 10px">
+        <span class="fa fa-edit fa-2x" data-model-id='@Model.Id' />
+    </a>
+    <a href="@Url.Action("Index", "Questions", new { testId = Model.Id })" class="questionsButton" style="margin-right: 10px"  >
+        <span class="fa fa-question fa-2x" data-model-id='@Model.Id' />
+    </a>
+    <a href="#" class="deleteButton" style="margin-right: 10px">
+        <span class="fa fa-trash-o fa-2x" data-model-id='@Model.Id' />
+    </a>
+    <a href="#" class="lockButton" style="margin-right: 10px">
+        <span class="@(Model.Unlocked ? "fa fa-unlock fa-2x" : "fa fa-lock fa-2x")" data-model-id='@Model.Id' />
+    </a>
+    <a href="@Url.Action("StartTest", "TestPassing", new { testId = Model.Id })" class="startTestButton" >
+        <span class="fa fa-rocket fa-2x" data-model-id='@Model.Id' />
+    </a>
+</div>

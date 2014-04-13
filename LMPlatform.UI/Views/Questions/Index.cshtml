@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
 }
 
-@model int
+@model LMPlatform.Models.KnowledgeTesting.Test
 
 @section scripts
 {
@@ -20,12 +20,12 @@
 
 @section navleft
 {
-    <li><a href="@Url.Action("Index", "Tests")" class="linkNavbar"><i class="fa fa-pencil-square-o fa-1x"></i> &nbsp; К тестам</a></li>
+    <li><a href="@Url.Action("Index", "Tests", new {subjectId = Model.SubjectId})" class="linkNavbar"><i class="fa fa-arrow-left fa-1x"></i> &nbsp; К тестам</a></li>
 }
 
 @section navpanel
 {
-    @string.Format("{0}: Вопросы", ViewBag.TestName)
+    @string.Format("{0}: Вопросы", Model.Title)
 }
 
 
@@ -43,7 +43,7 @@
         @Html.Partial("_DataTable", new DataTableViewModel
         {
             DataTable = Html.DataTable("questionsList", (QuestionsController controller) => controller.GetQuestionsList(null, 0),
-            new {testId = Model}),
+            new {testId = Model.Id}),
             DataTableOptions = new DataTableOptions
             {
                 Filterable = true,

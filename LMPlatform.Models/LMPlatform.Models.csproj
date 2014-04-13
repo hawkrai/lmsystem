@@ -74,6 +74,7 @@
     <Compile Include="KnowledgeTesting\Question.cs" />
     <Compile Include="KnowledgeTesting\QuestionType.cs" />
     <Compile Include="KnowledgeTesting\AnswerOnTestQuestion.cs" />
+    <Compile Include="KnowledgeTesting\RealTimePassingResult.cs" />
     <Compile Include="KnowledgeTesting\Test.cs" />
     <Compile Include="KnowledgeTesting\TestPassResult.cs" />
     <Compile Include="KnowledgeTesting\TestUnlock.cs" />

@@ -20,9 +20,11 @@
 
 @section navleft
 {
-    <li><a href="@Url.Action("TestsList", "Tests")" class="linkNavbar"><i class="fa fa-pencil-square-o fa-1x"></i>&nbsp; Тесты</a></li>
-    <li><a href="@Url.Action("TestsList", "Tests")" class="linkNavbar"><i class="fa fa-eye fa-1x"></i>&nbsp; Прохождение тестов</a></li>
-    <li><a href="@Url.Action("TestResults", "Tests")" class="linkNavbar"><i class="fa fa-tasks fa-1x"></i>&nbsp; Результаты</a></li>
+    @{ var url = User.IsInRole("lector")
+           ? Url.Action("Index", "Tests", new {subjectId = Model.SubjectId})
+           : Url.Action("GetAvailableTests", "TestPassing", new {subjectId = Model.SubjectId}); }
+    
+    <li><a href="@url" class="linkNavbar"><i class="fa fa-arrow-left fa-1x"></i>&nbsp;К тестам</a></li>
 }
 
 <div id="questionContent">

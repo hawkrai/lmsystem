@@ -4,10 +4,9 @@
 
 @section title
 {
-    <div class="modal-title" style="font-size: 14px;"><span class="fa fa-question fa-2x">&nbsp;Вопрос</span></div>
+    <div class="modal-title" style="font-size: 14px;">Вопрос</div>
 }
 @section content{
-
 
     <label for="inputEmail" class="control-label">Текст вопроса:</label>
     <input type="text" data-bind="value: Title" class="form-control input-sm" id="inputEmail">
@@ -27,7 +26,7 @@
     <div style="padding-right: 15px;" data-bind="template: { name: templateName, foreach: Answers }"></div>
 
     <div class="form-group">
-        
+
         <label for="complexityLevel" style="margin-top: 10px" class="control-label col-lg-3 col-lg-offset-6">Уровень сложности:</label>
         <div class="col-lg-3">
             <input id="complexityLevel" class="form-control input-sm" type="number" data-bind="value:ComplexityLevel" />

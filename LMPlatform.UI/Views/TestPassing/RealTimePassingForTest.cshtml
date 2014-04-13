@@ -1,0 +1,51 @@
+﻿@using LMPlatform.Models.KnowledgeTesting
+@model IEnumerable<LMPlatform.Models.KnowledgeTesting.RealTimePassingResult>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
+}
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles")
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/TestsResultsListScript.js",
+                "~/Scripts/linq.js")
+}
+
+@section navpanel
+{
+Прохождение тестов в режиме реального времени
+}
+
+@section navleft
+{
+     @Html.Partial("~/Views/Tests/_TestsLeftPanel.cshtml", (int)ViewBag.SubjectId)
+}
+
+<div>
+    @foreach (RealTimePassingResult result in Model)
+    {
+        <div class="row">
+            <div class="col-lg-3">@result.StudentName</div>
+            <div class="col-lg-9">
+                <div class="progress" style="padding: 0;">
+                    @foreach (KeyValuePair<int, PassedQuestionResult> passResult in result.PassResults)
+                    {
+                        string progressBarClass = "progress-bar " + (passResult.Value == PassedQuestionResult.NotPassed
+                            ? "progress-bar-notPassed"
+                            : passResult.Value == PassedQuestionResult.Success
+                                ? "progress-bar-success"
+                                : "progress-bar-danger");
+                        int percents = 100 / result.PassResults.Count;
+                        
+                        <div class="@progressBarClass" style="width: @percents%; height:22px;">@passResult.Key</div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+

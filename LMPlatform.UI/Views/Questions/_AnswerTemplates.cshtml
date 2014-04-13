@@ -1,7 +1,7 @@
 ﻿<script type="text/html" id="hasOneCorrectVariantTemplate">
     <div class="row ui-draggable">
-        <div class="col-lg-1">
-            <div style="margin-top: 8px;"><input type="radio" style="width: 15px; height: 15px;" name="oneCorrectVariant" data-bind="checked: IsCorrect, checkedValue: 1"></div></div>
+        <div class="col-lg-1" >
+            <div name="checkVariant" style="margin-top: 8px;"><input type="radio" style="width: 15px; height: 15px;" name="oneCorrectVariant" data-bind="checked: IsCorrect, checkedValue: 1"></div></div>
         <div class=" col-lg-10">
             <input type="text" data-bind="value: Content" class="form-control input-sm" /></div>
         <div class=" col-lg-1" style="margin-top: 10px;"><a href="#"><span class="glyphicon glyphicon-trash deleteAnswer"></span></a></div>
@@ -10,7 +10,7 @@
 <script type="text/html" id="hasManyCorrectVariantsTemplate">
     <div class="row">
         <div class="col-lg-1">
-            <div style="margin-top: 8px;"><input type="checkbox" style="width: 15px; height: 15px;" data-bind="checked: IsCorrect"></div></div>
+            <div name="checkVariant" style="margin-top: 8px;"><input type="checkbox" style="width: 15px; height: 15px;" data-bind="checked: IsCorrect"></div></div>
         <div class=" col-lg-10">
             <input type="text" data-bind="value: Content" class="form-control input-sm" /></div>
         <div class=" col-lg-1" style="margin-top: 10px;"><a href="#"><span class="glyphicon glyphicon-trash deleteAnswer"></span></a></div>

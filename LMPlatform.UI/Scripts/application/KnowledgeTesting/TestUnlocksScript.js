@@ -9,6 +9,17 @@
     
     initResults: function() {
         $('.personaLockButton').bind('click', $.proxy(this._onPersonalLockButtonClicked, this));
+        this._initializeTooltips();
+    },
+    
+    _initializeTooltips: function () {
+        $(".personaLockButton").each(function () {
+            var text = $('span', $(this)).data().unlocked == 'True'
+                ? 'Закрыть тест для студента'
+                : 'Открыть тест для студента';
+            
+            $(this).tooltip({ title: text, placement: 'top' });
+        });
     },
 
     _webServiceUrl: '/Tests/',
