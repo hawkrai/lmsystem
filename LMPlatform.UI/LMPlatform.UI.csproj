@@ -428,6 +428,7 @@
     <Content Include="Images\data_privacy.png" />
     <Content Include="Images\glyphicons-halflings.png" />
     <Content Include="Images\no_image.png" />
+    <Content Include="Images\schoolclass.png" />
     <Content Include="Scripts\alertify.js" />
     <Content Include="Scripts\application\accountManagement.js" />
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
@@ -943,7 +944,6 @@
     <Content Include="Views\Shared\Subjects\Modules\Labs\_EditLabs.cshtml" />
     <Content Include="Views\Tests\TestResults.cshtml" />
     <Content Include="Views\Tests\_TestsResultsGridColumn.cshtml" />
-    <Content Include="Views\Parental\Index.cshtml" />
     <Content Include="Views\BTS\_AddBugForm.cshtml" />
     <Content Include="Views\BTS\_AddOrEditProjectForm.cshtml" />
     <Content Include="Views\BTS\_ProjectBugStatistics.cshtml" />
@@ -966,6 +966,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFilesTemp\" />
     <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\Parental\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -57,8 +57,8 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             set;
         }
 
-        [Required(ErrorMessage = "Аббривиатура не может быть пустой")]
-        [Display(Name = "Аббривиатура", Description = "Аббривиатура представляет собой сокрощенное название предмета. Например: Базы данных - БД")]
+        [Required(ErrorMessage = "Аббревиатура не может быть пустой")]
+        [Display(Name = "Аббревиатура", Description = "Аббревиатура представляет собой сокрощенное название предмета. Например: Базы данных - БД")]
         public string ShortName
         {
             get;

@@ -79,6 +79,7 @@ namespace LMPlatform.Data.Repositories
             AttachmentRepository = new AttachmentRepository(_dataContext);
             LecturesRepository = new LecturesRepository(_dataContext);
             LabsRepository = new LabsRepository(_dataContext);
+            ProjectUsersRepository = new ProjectUsersRepository(_dataContext);
         }
     }
 }

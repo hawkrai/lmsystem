@@ -40,23 +40,23 @@
 			that.refreshInterval = setInterval("shared.bodyHeightChanged();", 50);
 		});
 
-		$(document).ajaxError(function (e, jqxhr, settings) {
-			e.stopPropagation();
-			var response = { message: "В результате выполнения запроса возникла ошибка. Обновите страницу и свяжитесь с администратором." };
-			if (jqxhr.responseText != null) {
-			    try {
-			        response = JSON.parse(jqxhr.responseText);
-			    }
-			    catch (e) {
-			        $("body").html(jqxhr.responseText);
-			    }
-			}
+		//$(document).ajaxError(function (e, jqxhr, settings) {
+		//	e.stopPropagation();
+		//	var response = { message: "В результате выполнения запроса возникла ошибка. Обновите страницу и свяжитесь с администратором." };
+		//	if (jqxhr.responseText != null) {
+		//	    try {
+		//	        response = JSON.parse(jqxhr.responseText);
+		//	    }
+		//	    catch (e) {
+		//	        $("body").html(jqxhr.responseText);
+		//	    }
+		//	}
 
-			bootbox.dialog(response.message, [{
-				"label": "ОК",
-				"class": "btn btn-primary",
-			}], { "header": "Ошибка в результате запроса." });
-		});
+		//	bootbox.dialog(response.message, [{
+		//		"label": "ОК",
+		//		"class": "btn btn-primary",
+		//	}], { "header": "Ошибка в результате запроса." });
+		//});
 	},
 
 	applyCss: function () {
