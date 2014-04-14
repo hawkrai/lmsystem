@@ -10,5 +10,6 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     public interface IProjectUsersRepository : IRepositoryBase<ProjectUser>
     {
+        void DeleteProjectUser(ProjectUser projectUser);
     }
 }

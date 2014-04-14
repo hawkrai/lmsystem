@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Application.Core.Data;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.ProjectManagement;
+using Application.Infrastructure.StudentManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.BTSViewModels;
 using Mvc.JQuery.Datatables;
@@ -16,6 +20,8 @@ namespace LMPlatform.UI.Controllers
     [Authorize(Roles = "student, lector")]
     public class BTSController : BasicController
     {
+        private static int currentProjectId = 0;
+        
         [HttpGet]
         public ActionResult Index()
         {
@@ -25,23 +31,18 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public ActionResult Index(ProjectListViewModel model)
         {
-            //model.SaveProject();
             return View();
         }
 
         [HttpGet]
         public ActionResult AddProject()
         {
-            var projectViewModel = new AddProjectViewModel
-            {
-                CreatorId = WebSecurity.CurrentUserId
-            };
-
-            return PartialView("_AddProjectForm", projectViewModel);
+            var projectViewModel = new AddOrEditProjectViewModel();
+            return PartialView("_AddOrEditProjectForm", projectViewModel);
         }
 
         [HttpPost]
-        public ActionResult AddProject(AddProjectViewModel project)
+        public ActionResult AddProject(AddOrEditProjectViewModel project)
         {
             if (ModelState.IsValid)
             {
@@ -52,16 +53,47 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult ProjectManagement()
+        public ActionResult AssignUserOnProject()
         {
-            var model = new ProjectsViewModel();
-            return View(model);
+            var assingUserModel = new AssignUserViewModel(currentProjectId);
+            return PartialView("_AssignUserOnProjectForm", assingUserModel);
         }
 
         [HttpPost]
+        public ActionResult AssignUserOnProject(AssignUserViewModel projectUser)
+        {
+            if (ModelState.IsValid)
+            {
+                projectUser.SaveAssignment();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult EditProject(int projectId)
+        {
+            var project = ProjectManagementService.GetProject(projectId);
+            var projectViewModel = new AddOrEditProjectViewModel(project);
+            return PartialView("_AddOrEditProjectForm", projectViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditProject(AddOrEditProjectViewModel project, int projectId)
+        {
+            if (ModelState.IsValid)
+            {
+                project.UpdateProject(projectId);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public ActionResult ProjectManagement(int projectId)
         {
             var model = new ProjectsViewModel(projectId);
+            currentProjectId = projectId;
             return View(model);
         }
 
@@ -96,6 +128,30 @@ namespace LMPlatform.UI.Controllers
             return RedirectToAction("BugManagement");
         }
 
+        public ActionResult DeleteProject(int projectId)
+        {
+            ProjectManagementService.DeleteProject(projectId);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DeleteProjectUser(int projectUserId)
+        {
+            ProjectManagementService.DeleteProjectUser(projectUserId);
+            return RedirectToAction("ProjectManagement", "BTS", new RouteValueDictionary { { "projectId", currentProjectId } });
+        }
+
+        [HttpPost]
+        public JsonResult GetStudents(int groupId)
+        {
+            var students = new StudentManagementService().GetGroupStudents(groupId).Select(v => new SelectListItem
+            {
+                Text = v.FullName,
+                Value = v.Id.ToString(CultureInfo.InvariantCulture)
+            }).ToList();
+
+            return Json(new SelectList(students, "Value", "Text"));
+        }
+
         [HttpPost]
         public DataTablesResult<ProjectListViewModel> GetProjects(DataTablesParam dataTableParam)
         {
@@ -103,7 +159,7 @@ namespace LMPlatform.UI.Controllers
             var projects = ProjectManagementService.GetProjects(pageInfo: dataTableParam.ToPageInfo(),
                 searchString: searchString);
 
-            return DataTableExtensions.GetResults(projects.Items.Select(ProjectListViewModel.FromProject), dataTableParam, projects.TotalCount);
+            return DataTableExtensions.GetResults(projects.Items.Select(model => ProjectListViewModel.FromProject(model, PartialViewToString("_ProjectsGridActions", ProjectListViewModel.FromProject(model)))), dataTableParam, projects.TotalCount);
         }
 
         [HttpPost]
@@ -112,8 +168,9 @@ namespace LMPlatform.UI.Controllers
             var searchString = dataTablesParam.GetSearchString();
             var projectUsers = ProjectManagementService.GetProjectUsers(pageInfo: dataTablesParam.ToPageInfo(),
                 searchString: searchString);
+            var projectId = int.Parse(Request.QueryString["projectId"]);
 
-            return DataTableExtensions.GetResults(projectUsers.Items.Select(ProjectUserListViewModel.FromProjectUser), dataTablesParam, projectUsers.TotalCount);
+            return DataTableExtensions.GetResults(projectUsers.Items.Select(model => ProjectUserListViewModel.FromProjectUser(model, PartialViewToString("_ProjectUsersGridActions", ProjectUserListViewModel.FromProjectUser(model)))).Where(e => e.ProjectId == projectId), dataTablesParam, projectUsers.TotalCount);
         }
 
         [HttpPost]

@@ -33,7 +33,14 @@
             }
         </ul>
     </li>
-    <li><a href="@Url.Action("Index", "BTS")" class="linkNavbar"><i class="fa fa-bug fa-1x"></i>Управление ошибками</a></li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x fa-tab"></i>Управление проектами<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("Index", "BTS")"><i class="linkNavbarLevelBelow"></i>Проекты</a></li>
+@*            <li><a href="@Url.Action("ProjectManagement", "BTS")"><i class="linkNavbarLevelBelow"></i>Управление проектами</a></li>*@
+            <li><a href="@Url.Action("BugManagement", "BTS")"><i class="linkNavbarLevelBelow"></i>Управление ошибками</a></li>
+        </ul>
+    </li>
     <li class="dropdown">
         <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x fa-tab"></i>Тестирование знаний<b class="caret"></b></a>
         <ul class="dropdown-menu">

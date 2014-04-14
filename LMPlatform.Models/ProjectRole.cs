@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,13 +10,14 @@ namespace LMPlatform.Models
 {
     public class ProjectRole : ModelBase
     {
+        [DisplayName("Роль")]
         public string Name
         {
             get;
             set;
         }
 
-        public ProjectUser ProjectUser
+        public ICollection<ProjectUser> ProjectUser
         {
             get; 
             set;

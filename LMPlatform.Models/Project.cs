@@ -32,10 +32,5 @@ namespace LMPlatform.Models
             get;
             set;
         }
-
-        public ICollection<ProjectRole> ProjectRoles
-        {
-            get; set; 
-        }
     }
 }

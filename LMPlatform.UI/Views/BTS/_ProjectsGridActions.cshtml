@@ -1,0 +1,13 @@
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectListViewModel
+<a href="@Url.Action("ProjectManagement", "BTS", new { projectId = Model.Id})" class="projectDetailsButton" style="margin-right: 10px" >
+    <span class="fa fa-gears fa-1x" data-model-id='@Model.Id' />
+</a>
+<a href="#" class="editProjectButton" style="margin-right: 10px" >
+@*<a href="@Url.Action("EditProject", "BTS", new { projectId = Model.Id})" class="editProjectButton" style="margin-right: 10px" >*@
+    <span class="fa fa-pencil fa-1x" data-model-id='@Model.Id' />
+</a>
+<a href="@Url.Action("DeleteProject", "BTS", new { projectId = Model.Id})" class="deleteProjectButton" style="margin-right: 10px" >
+    <span class="fa fa-trash-o fa-1x" data-model-id='@Model.Id' />
+</a>
+
+

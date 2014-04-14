@@ -5,11 +5,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using Application.Core.UI.HtmlHelpers;
 using LMPlatform.Models;
 
 namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
-    public class ProjectListViewModel
+    public class ProjectListViewModel : BaseNumberedGridItem
     {
         [DataType(DataType.Text)]
         [DisplayName("Тема проекта")]
@@ -21,10 +22,28 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Создатель")]
         public string CreatorName { get; set; }
 
+        [DisplayName("Действия")]
+        public HtmlString Action
+        {
+            get;
+            set;
+        }
+
+        public int Id { get; set; }
+
+        public static ProjectListViewModel FromProject(Project project, string htmlLinks)
+        {
+            var model = FromProject(project);
+            model.Action = new HtmlString(htmlLinks);
+
+            return model;
+        }
+
         public static ProjectListViewModel FromProject(Project project)
         {
             return new ProjectListViewModel
                 {
+                    Id = project.Id,
                     Title = project.Title,
                     CreatorName = project.Creator.UserName,
                     CreationDate = project.CreationDate.ToShortDateString()

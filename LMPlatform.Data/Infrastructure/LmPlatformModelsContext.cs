@@ -58,25 +58,25 @@ namespace LMPlatform.Data.Infrastructure
 
         public DbSet<Subject> Subjects
         {
-            get; 
+            get;
             set;
         }
 
         public DbSet<Module> Modules
         {
-            get; 
+            get;
             set;
         }
 
         public DbSet<SubjectGroup> SubjectGroups
         {
-            get; 
+            get;
             set;
         }
 
         public DbSet<Lecturer> Lecturers
         {
-            get; 
+            get;
             set;
         }
 
@@ -88,7 +88,7 @@ namespace LMPlatform.Data.Infrastructure
 
         public DbSet<SubjectNews> SubjectNewses
         {
-            get; 
+            get;
             set;
         }
 
@@ -145,7 +145,7 @@ namespace LMPlatform.Data.Infrastructure
         #region Protected Members
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {   
+        {
             modelBuilder.Entity<Membership>().Map(m => m.ToTable("webpages_Membership"))
                 .Property(m => m.Id)
                 .HasColumnName("UserId")
@@ -240,29 +240,29 @@ namespace LMPlatform.Data.Infrastructure
                .HasForeignKey(e => e.ModuleId)
                .WillCascadeOnDelete(false);
 
-			modelBuilder.Entity<SubGroup>()
-			   .HasMany<SubjectStudent>(e => e.SubjectStudents)
-			   .WithRequired(e => e.SubGroup)
-			   .HasForeignKey(e => e.SubGroupId)
-			   .WillCascadeOnDelete(false);
+            modelBuilder.Entity<SubGroup>()
+               .HasMany<SubjectStudent>(e => e.SubjectStudents)
+               .WithRequired(e => e.SubGroup)
+               .HasForeignKey(e => e.SubGroupId)
+               .WillCascadeOnDelete(false);
 
-			modelBuilder.Entity<SubjectGroup>()
-			   .HasMany<SubGroup>(e => e.SubGroups)
-			   .WithRequired(e => e.SubjectGroup)
-			   .HasForeignKey(e => e.SubjectGroupId)
-			   .WillCascadeOnDelete(false);
+            modelBuilder.Entity<SubjectGroup>()
+               .HasMany<SubGroup>(e => e.SubGroups)
+               .WithRequired(e => e.SubjectGroup)
+               .HasForeignKey(e => e.SubjectGroupId)
+               .WillCascadeOnDelete(false);
 
-			modelBuilder.Entity<Student>()
-			   .HasMany<SubjectStudent>(e => e.SubjectStudents)
-			   .WithRequired(e => e.Student)
-			   .HasForeignKey(e => e.StudentId)
-			   .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Student>()
+               .HasMany<SubjectStudent>(e => e.SubjectStudents)
+               .WithRequired(e => e.Student)
+               .HasForeignKey(e => e.StudentId)
+               .WillCascadeOnDelete(false);
 
-			modelBuilder.Entity<SubjectGroup>()
-			   .HasMany<SubjectStudent>(e => e.SubjectStudents)
-			   .WithRequired(e => e.SubjectGroup)
-			   .HasForeignKey(e => e.SubjectGroupId)
-			   .WillCascadeOnDelete(false);
+            modelBuilder.Entity<SubjectGroup>()
+               .HasMany<SubjectStudent>(e => e.SubjectStudents)
+               .WithRequired(e => e.SubjectGroup)
+               .HasForeignKey(e => e.SubjectGroupId)
+               .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Subject>()
                 .HasMany<Lectures>(e => e.Lectures)
@@ -335,14 +335,14 @@ namespace LMPlatform.Data.Infrastructure
 
         public DbSet<ProjectUser> ProjectUsers
         {
-            get; 
+            get;
             set;
         }
 
         public DbSet<ProjectRole> ProjectRoles
         {
-            get; 
-            set; 
+            get;
+            set;
         }
 
         public DbSet<Bug> Bugs
@@ -376,12 +376,18 @@ namespace LMPlatform.Data.Infrastructure
         private void MapBTSEntities(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Project>().Map(m => m.ToTable("Projects"));
-            modelBuilder.Entity<Bug>().Map(m => m.ToTable("Bugs"));
             modelBuilder.Entity<ProjectUser>().Map(m => m.ToTable("ProjectUsers"));
+            modelBuilder.Entity<ProjectRole>().Map(m => m.ToTable("ProjectRoles"));
+            modelBuilder.Entity<Bug>().Map(m => m.ToTable("Bugs"));
             modelBuilder.Entity<BugStatus>().Map(m => m.ToTable("BugStatuses"));
             modelBuilder.Entity<BugSeverity>().Map(m => m.ToTable("BugSeverities"));
             modelBuilder.Entity<BugSymptom>().Map(m => m.ToTable("BugSymptoms"));
-            modelBuilder.Entity<ProjectRole>().Map(m => m.ToTable("ProjectRoles"));
+
+            modelBuilder.Entity<Project>()
+                 .HasRequired<User>(e => e.Creator)
+                 .WithMany(e => e.Projects)
+                 .HasForeignKey(e => e.CreatorId)
+                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Project>()
                 .HasMany<ProjectUser>(e => e.ProjectUsers)
@@ -395,15 +401,11 @@ namespace LMPlatform.Data.Infrastructure
                 .HasForeignKey(e => e.UserId)
                 .WillCascadeOnDelete(false);
 
-           modelBuilder.Entity<Project>()
-                .HasRequired<User>(e => e.Creator)
-                .WithMany(e => e.Projects)
-                .HasForeignKey(e => e.CreatorId)
+            modelBuilder.Entity<ProjectRole>()
+                .HasMany<ProjectUser>(e => e.ProjectUser)
+                .WithRequired(e => e.Role)
+                .HasForeignKey(e => e.RoleId)
                 .WillCascadeOnDelete(false);
-
-           modelBuilder.Entity<ProjectRole>()
-               .HasRequired<ProjectUser>(e => e.ProjectUser)
-               .WithRequiredPrincipal(e => e.Role);
 
             modelBuilder.Entity<Project>()
                .HasMany<Bug>(e => e.Bugs)
@@ -412,14 +414,22 @@ namespace LMPlatform.Data.Infrastructure
                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<BugStatus>()
-                .HasRequired<Bug>(e => e.Bug)
-                .WithRequiredPrincipal(e => e.Status);
+                .HasMany<Bug>(e => e.Bug)
+                .WithRequired(e => e.Status)
+                .HasForeignKey(e => e.StatusId)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<BugSeverity>()
-                .HasRequired<Bug>(e => e.Bug)
-                .WithRequiredPrincipal(e => e.Severity);
+                .HasMany<Bug>(e => e.Bug)
+                .WithRequired(e => e.Severity)
+                .HasForeignKey(e => e.SeverityId)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<BugSymptom>()
-                .HasRequired<Bug>(e => e.Bug)
-                .WithRequiredPrincipal(e => e.Symptom);
+                .HasMany<Bug>(e => e.Bug)
+                .WithRequired(e => e.Symptom)
+                .HasForeignKey(e => e.SymptomId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Bug>()
                 .HasRequired<User>(e => e.Creator)

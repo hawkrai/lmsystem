@@ -1,0 +1,43 @@
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.AssignUserViewModel
+
+<script src="~/Scripts/application/BTS/projectPart.js" type="text/javascript"></script>
+
+<div id="assignUserForm">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        
+        <div class="center" style="margin: 10px">
+
+            <div>
+                @Html.LabelFor(e => e.GroupId, new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(e => e.GroupId, Model.GetGroups(), new { @class = "form-control", @id = "groups" })
+                </div>
+                <p></p>
+            </div>
+            
+            <div>
+                @Html.LabelFor(e => e.StudentId, new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(e => e.StudentId, Model.GetStudents(Model.GroupId), new { @class = "form-control", @id = "students" })
+                </div>
+                <p></p>
+            </div>
+            
+            <div>
+                @Html.LabelFor(e => e.RoleId, new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(e => e.RoleId, Model.GetRoles(), new { @class = "form-control" })
+                </div>
+                <p></p>
+            </div>
+
+            <input type="submit" style="display: none" />
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $('.modal-dialog').width('500px');
+</script>

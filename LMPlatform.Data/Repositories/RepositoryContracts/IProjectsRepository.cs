@@ -6,5 +6,6 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     public interface IProjectsRepository : IRepositoryBase<Project>
     {
+        void DeleteProject(Project project);
     }
 }

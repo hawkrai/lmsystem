@@ -12,7 +12,7 @@ namespace LMPlatform.Models
         [Display(Name = "Кем добавлена")]
         public User Creator { get; set; }
 
-        [Display(Name = "Содержание")]
+        [Display(Name = "Название")]
         public string Summary { get; set; }
 
         [DataType(DataType.MultilineText)]

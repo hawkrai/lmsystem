@@ -1,6 +1,7 @@
 ﻿@using Application.Core.UI.HtmlHelpers
 @using LMPlatform.UI.Controllers
 @using LMPlatform.UI.ViewModels.BTSViewModels
+@using Mvc.JQuery.Datatables
 @model LMPlatform.UI.ViewModels.BTSViewModels.ProjectsViewModel
 
 @{
@@ -16,6 +17,7 @@
 {
     @Scripts.Render("~/bundles/datatable")
     <script src="~/Scripts/application/BTS/project.js" type="text/javascript"></script>
+    <script src="~/Scripts/application/BTS/projectPart.js" type="text/javascript"></script>
 }
 
 @section navleft
@@ -23,27 +25,14 @@
     @Html.Partial("_BTSSubnavbar")
 }
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h2 class="panel-title" align="center">Управление проектами</h2>
-    </div>
-</div>
+<h3>
+    @Model.Title
+</h3>
+<hr/>
 <div class="row bts">
     <div class="col-md-8">
         <div class="row">
             <div class="col-md-offset-1 col-md-10">
-                <div class="row">
-                    <div class="col-md-4">
-                        <h4>Выбор проекта</h4>
-                    </div>
-                    <div class="col-md-8">
-                        @using (@Html.BeginForm("ProjectManagement", "BTS", FormMethod.Post))
-                        {
-                            @Html.DropDownListFor(e => e.Title, Model.GetProjectNames(), new { @class = "form-control", @id = "projectNameList" })
-                        }
-                    </div>
-                </div>
-
                 <div style="margin-top: 10px">
                     <div class="row">
                         <div class="col-md-4">
@@ -72,28 +61,28 @@
                         </div>
                     </div>
                 </div>
-
+                <hr/>
                 <div class="row" style="margin-top: 10px">
                     <div class="col-md-7">
                         <h4>Участники проекта</h4>
                     </div>
                     <div class="col-md-5">
-                        <button type="button" class="btn btn-primary btn-sm" style="float: right">Добавить участника</button>
+                        <button type="button" class="projectPartButton btn btn-primary btn-sm" style="float: right" data-url="@Url.Action("AssignUserOnProject", "BTS")" data-toggle="tooltip">Добавить участника</button>
                     </div>
                 </div>
 
                 <div>
                     @Html.Partial("_DataTable", new DataTableViewModel
                 {
-                    DataTable = Html.DataTable("aProjectUsersList", (BTSController controller) => controller.GetProjectUsers(null)),
+                    DataTable = Html.DataTable("aProjectUsersList", (BTSController controller) => controller.GetProjectUsers(new DataTablesParam() { }), new { projectId = Model.ProjectId }),
                     DataTableOptions = new DataTableOptions
                     {
-                        Filterable = true,
-                        Info = true,
-                        OnComplete = null,
-                        Pagination = true,
+                        Pagination = false,
                         Searchable = true,
                         Sortable = false,
+                        Filterable = true,
+                        Info = false,
+                        DisplayLength = -1
                     }
                 })
                 </div>
@@ -146,7 +135,7 @@
                 </div>
             </div>
             <div align="center">
-                <button type="button" class="btn btn-primary btn-sm">Перейти к ошибкам проекта</button>
+                <a type="button" class="btn btn-primary btn-sm" href="@Url.Action("BugManagement", "BTS")">Перейти к ошибкам</a>
             </div>
         </div>
     </div>

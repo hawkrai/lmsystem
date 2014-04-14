@@ -22,11 +22,8 @@
     @Html.Partial("_BTSSubnavbar")
 }
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h2 class="panel-title" align="center">Проекты</h2>
-    </div>
-</div>
+<h3>Проекты</h3>
+<hr/>
 <div>
     <div id="buttonActionSection">
         <a href="#" class="projectButton btn btn-primary btn-sm" data-url="@Url.Action("AddProject", "BTS")" data-toggle="tooltip">Добавить проект</a>
@@ -35,7 +32,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="tab-pane active" id="allProjects">
-            <div style="margin: 10px">
+            <div>
                 @Html.Partial("_DataTable", new DataTableViewModel
                 {
                         DataTable = Html.DataTable("aProjectsList", (BTSController controller) => controller.GetProjects(null)),

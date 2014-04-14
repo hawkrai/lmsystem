@@ -15,5 +15,16 @@ namespace LMPlatform.Data.Repositories
         public ProjectUsersRepository(LmPlatformModelsContext dataContext) : base(dataContext)
         {
         }
+
+        public void DeleteProjectUser(ProjectUser projectUser)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var model = context.Set<ProjectUser>().FirstOrDefault(e => e.Id == projectUser.Id);
+                context.Delete(model);
+
+                context.SaveChanges();
+            }
+        }
     }
 }

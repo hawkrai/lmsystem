@@ -167,7 +167,6 @@
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
-    <Compile Include="Controllers\ParentalController.cs" />
     <Compile Include="Controllers\TestPassingController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\TestsController.cs" />
@@ -190,7 +189,8 @@
     <Compile Include="ViewModels\AdministrationViewModels\ModifyLecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\AddBugViewModel.cs" />
-    <Compile Include="ViewModels\BTSViewModels\AddProjectViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\AddOrEditProjectViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\AssignUserViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugStatisticsViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugsViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
@@ -433,6 +433,7 @@
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
     <Content Include="Scripts\application\BTS\bug.js" />
     <Content Include="Scripts\application\BTS\project.js" />
+    <Content Include="Scripts\application\BTS\projectPart.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\fileUpload.js" />
@@ -943,6 +944,12 @@
     <Content Include="Views\Tests\TestResults.cshtml" />
     <Content Include="Views\Tests\_TestsResultsGridColumn.cshtml" />
     <Content Include="Views\Parental\Index.cshtml" />
+    <Content Include="Views\BTS\_AddBugForm.cshtml" />
+    <Content Include="Views\BTS\_AddOrEditProjectForm.cshtml" />
+    <Content Include="Views\BTS\_ProjectBugStatistics.cshtml" />
+    <Content Include="Views\BTS\_ProjectsGridActions.cshtml" />
+    <Content Include="Views\BTS\_ProjectUsersGridActions.cshtml" />
+    <Content Include="Views\BTS\_AssignUserOnProjectForm.cshtml" />
     <Content Include="Views\Tests\_TestsLeftPanel.cshtml" />
     <Content Include="Views\TestPassing\GetAvailableTests.cshtml" />
     <Content Include="Views\TestPassing\StartTest.cshtml" />

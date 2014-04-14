@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.Core.Data;
+using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
@@ -73,12 +74,56 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
+        public void AssingRole(int userId, int projectId, int roleId)
+        {
+            var projectUser = new ProjectUser
+            {
+                UserId = userId,
+                ProjectId = projectId,
+                RoleId = roleId
+            };
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.ProjectUsersRepository.Save(projectUser);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
         public void SaveProject(Project project)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.ProjectsRepository.Save(project);
                 repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void UpdateProject(Project project)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.ProjectsRepository.Save(project);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void DeleteProject(int projectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var project =
+                    repositoriesContainer.ProjectsRepository.GetBy(
+                        new Query<Project>().AddFilterClause(u => u.Id == projectId));
+               repositoriesContainer.ProjectsRepository.DeleteProject(project);
+            }
+        }
+
+        public void DeleteProjectUser(int projectUserId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var projectUser = repositoriesContainer.ProjectUsersRepository.GetBy(new Query<ProjectUser>().AddFilterClause(u => u.Id == projectUserId));
+                repositoriesContainer.ProjectUsersRepository.DeleteProjectUser(projectUser);
             }
         }
     }

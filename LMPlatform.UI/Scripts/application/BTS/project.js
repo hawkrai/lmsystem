@@ -3,14 +3,18 @@
         getAddProjectForm($(this).data('url'));
     });
 
-    $('#projectNameList').on('change', function () {
-        var form = $(event.target).parents('form');
-        var projectId = $('#projectNameList').val();
-
-        $.post('/BTS/ProjectManagement', { projectId: projectId });
-
-        form.submit();
+    $(".editProjectButton").on('click', function () {
+        getAddProjectForm($(this).data('url'));
     });
+
+    //$('#projectNameList').on('change', function () {
+    //    var form = $(event.target).parents('form');
+    //    var projectId = $('#projectNameList').val();
+
+    //    $.post('/BTS/ProjectManagement', { projectId: projectId });
+
+    //    form.submit();
+    //});
 });
 
 function getAddProjectForm(addProjectFormUrl) {
@@ -35,8 +39,8 @@ function showDialog(addProjectForm) {
         }
     });
 
-    var form = $('#addProjectForm').find('form');
-    var sendBtn = $('#addProjectForm').parents().find('.modal-dialog').find('.btn-submit');
+    var form = $('#addOrEditProjectForm').find('form');
+    var sendBtn = $('#addOrEditProjectForm').parents().find('.modal-dialog').find('.btn-submit');
 
     sendBtn.click(function () {
             //if ($(form).valid()) {

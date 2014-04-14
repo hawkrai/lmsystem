@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Application.Core.Data;
+using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.UserManagement;
@@ -12,12 +13,12 @@ using Microsoft.Ajax.Utilities;
 
 namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
-    public class BugListViewModel
+    public class BugListViewModel : BaseNumberedGridItem
     { 
         [DisplayName("Проект")]
         public string Project { get; set; }
 
-        [DisplayName("Содержание")]
+        [DisplayName("Название")]
         public string Summary { get; set; }
 
         [DisplayName("Описание")]
@@ -35,15 +36,12 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Статус")]
         public string Status { get; set; }
 
-        [DisplayName("Кем добавлена")]
-        public string ReporterName { get; set; }
-
-        [DisplayName("Дата документирования")]
-        public string ReportingDate { get; set; }
-
-        [DisplayName("Дата последнего изменения")]
-        public string ModifyingDate { get; set; }
-
+        //[DisplayName("Кем добавлена")]
+        //public string ReporterName { get; set; }
+        //[DisplayName("Дата документирования")]
+        //public string ReportingDate { get; set; }
+        //[DisplayName("Дата последнего изменения")]
+        //public string ModifyingDate { get; set; }
         private static LmPlatformModelsContext context = new LmPlatformModelsContext();
 
         public static BugListViewModel FromBug(Bug bug)
@@ -56,10 +54,11 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 Symptom = GetSymptomName(bug.SymptomId),
                 Severity = GetSeverityName(bug.SeverityId),
                 Status = GetStatusName(bug.StatusId),
-                Project = GetProjectTitle(bug.ProjectId),
-                ReporterName = GetCreatorName(bug.CreatorId),
-                ReportingDate = bug.CreatingDate.ToShortDateString(),
-                ModifyingDate = bug.ModifyingDate.ToShortDateString()
+                Project = GetProjectTitle(bug.ProjectId)
+
+                //ReporterName = GetCreatorName(bug.CreatorId),
+                //ReportingDate = bug.CreatingDate.ToShortDateString(),
+                //ModifyingDate = bug.ModifyingDate.ToShortDateString()
             };
         }
 

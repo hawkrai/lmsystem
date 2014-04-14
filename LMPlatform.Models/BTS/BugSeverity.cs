@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Application.Core.Data;
 
 namespace LMPlatform.Models.BTS
@@ -8,10 +9,6 @@ namespace LMPlatform.Models.BTS
         [DisplayName("Важность")]
         public string Name { get; set; }
 
-        public Bug Bug
-        {
-            get; 
-            set;
-        }
+        public ICollection<Bug> Bug { get; set; }
     }
 }
