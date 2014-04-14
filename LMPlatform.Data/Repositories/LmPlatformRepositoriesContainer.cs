@@ -48,7 +48,9 @@ namespace LMPlatform.Data.Repositories
         public ILecturesRepository LecturesRepository { get; set; }
 
         public ILabsRepository LabsRepository { get; set; }
-		
+
+        public IPracticalRepository PracticalRepository { get; set; }
+
         public void ApplyChanges()
         {
             _dataContext.SaveChanges();
@@ -80,6 +82,7 @@ namespace LMPlatform.Data.Repositories
             LecturesRepository = new LecturesRepository(_dataContext);
             LabsRepository = new LabsRepository(_dataContext);
             ProjectUsersRepository = new ProjectUsersRepository(_dataContext);
+            PracticalRepository = new PracticalRepository(_dataContext);
         }
     }
 }

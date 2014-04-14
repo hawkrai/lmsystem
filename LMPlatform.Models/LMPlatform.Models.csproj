@@ -87,6 +87,7 @@
     <Compile Include="Module.cs" />
     <Compile Include="ModuleType.cs" />
     <Compile Include="OAuthMembership.cs" />
+    <Compile Include="Practical.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="ProjectRole.cs" />
     <Compile Include="ProjectUser.cs" />

@@ -17,24 +17,24 @@ namespace LMPlatform.Data.Infrastructure
 		    CreateBugStatuses(context);
 		    CreateProjectRoles(context);
 		    CreateModules(context);
-
 			context.SaveChanges();
 		}
 
 	    private static void CreateModules(LmPlatformModelsContext context)
 	    {
-	        context.Modules.Add(new Module { DisplayName = "Новости", Name = "News", ModuleType = ModuleType.News });
-            context.Modules.Add(new Module { DisplayName = "Лекции", Name = "Lectures", ModuleType = ModuleType.Lectures });
-            context.Modules.Add(new Module { DisplayName = "Лабораторные работы", Name = "Labs", ModuleType = ModuleType.Labs });
-            context.Modules.Add(new Module { DisplayName = "Курсовые проекты/работы", Name = "YEManagment", ModuleType = ModuleType.YeManagment });
-            context.Modules.Add(new Module { DisplayName = "Файлы", Name = "SubjectAttachments", ModuleType = ModuleType.SubjectAttachments });
-            context.Modules.Add(new Module { DisplayName = "Архив", Name = "LabAttachments", ModuleType = ModuleType.LabAttachments });
-            context.Modules.Add(new Module { DisplayName = "Проекты", Name = "Projects", ModuleType = ModuleType.Projects });
-            context.Modules.Add(new Module { DisplayName = "Тестирование знаний", Name = "SmartTest", ModuleType = ModuleType.SmartTest });
-            context.Modules.Add(new Module { DisplayName = "Методические материалы", Name = "DSM", ModuleType = ModuleType.Dsm });
-            context.Modules.Add(new Module { DisplayName = "График защиты", Name = "DSM", ModuleType = ModuleType.ScheduleProtection });
-            context.Modules.Add(new Module { DisplayName = "Результаты", Name = "DSM", ModuleType = ModuleType.Results });
-            context.Modules.Add(new Module { DisplayName = "Статистика посещения", Name = "DSM", ModuleType = ModuleType.StatisticsVisits });
+	        context.Modules.Add(new Module { DisplayName = "Новости", Name = "News", ModuleType = ModuleType.News, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "Лекции", Name = "Lectures", ModuleType = ModuleType.Lectures, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "Лабораторные работы", Name = "Labs", ModuleType = ModuleType.Labs, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "Курсовые проекты/работы", Name = "YEManagment", ModuleType = ModuleType.YeManagment, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "Файлы", Name = "SubjectAttachments", ModuleType = ModuleType.SubjectAttachments, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "Архив", Name = "LabAttachments", ModuleType = ModuleType.LabAttachments, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "Проекты", Name = "Projects", ModuleType = ModuleType.Projects, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "Тестирование знаний", Name = "SmartTest", ModuleType = ModuleType.SmartTest, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "Методические материалы", Name = "DSM", ModuleType = ModuleType.Dsm, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "График защиты", Name = "ScheduleProtection", ModuleType = ModuleType.ScheduleProtection, Visible = false });
+            context.Modules.Add(new Module { DisplayName = "Результаты", Name = "Results", ModuleType = ModuleType.Results, Visible = false });
+            context.Modules.Add(new Module { DisplayName = "Статистика посещения", Name = "StatisticsVisits", ModuleType = ModuleType.StatisticsVisits, Visible = false });
+            context.Modules.Add(new Module { DisplayName = "Практические занятия", Name = "Practical", ModuleType = ModuleType.Practical, Visible = true });
 	    }
 
 	    private static void CreateBugSymptoms(LmPlatformModelsContext context)

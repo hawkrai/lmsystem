@@ -13,6 +13,7 @@
         Dsm = 9,
         ScheduleProtection = 11,
         Results = 12,
-        StatisticsVisits = 13
+        StatisticsVisits = 13,
+        Practical = 10
     }
 }

@@ -204,6 +204,52 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
+        public Practical GetPractical(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.PracticalRepository.GetBy(new Query<Practical>(e => e.Id == id).Include(e => e.Subject));
+            }
+        }
+
+        public Practical SavePractical(Practical practical, IList<Attachment> attachments)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                if (!string.IsNullOrEmpty(practical.Attachments))
+                {
+                    var deleteFiles =
+                        repositoriesContainer.AttachmentRepository.GetAll(
+                            new Query<Attachment>(e => e.PathName == practical.Attachments)).ToList().Where(e => attachments.All(x => x.Id != e.Id)).ToList();
+
+                    foreach (var attachment in deleteFiles)
+                    {
+                        FilesManagementService.DeleteFileAttachment(attachment);
+                    }
+                }
+                else
+                {
+                    practical.Attachments = GetGuidFileName();
+                }
+
+                FilesManagementService.SaveFiles(attachments.Where(e => e.Id == 0), practical.Attachments);
+
+                foreach (var attachment in attachments)
+                {
+                    if (attachment.Id == 0)
+                    {
+                        attachment.PathName = practical.Attachments;
+                        repositoriesContainer.AttachmentRepository.Save(attachment);
+                    }
+                }
+
+                repositoriesContainer.PracticalRepository.Save(practical);
+                repositoriesContainer.ApplyChanges();
+            }
+
+            return practical;
+        }
+
         public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

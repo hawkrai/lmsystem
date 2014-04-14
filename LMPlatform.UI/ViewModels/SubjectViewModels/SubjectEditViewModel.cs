@@ -98,7 +98,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         {
             SubjectId = subjectId;
             Title = SubjectId == 0 ? "Создание предмета" : "Редактирование предмета";
-            Modules = ModulesManagementService.GetModules().Select(e => new ModulesViewModel(e)).ToList();
+            Modules = ModulesManagementService.GetModules().Where(e => e.Visible).Select(e => new ModulesViewModel(e)).ToList();
 	        FillSubjectGroups();
             if (subjectId != 0)
             {

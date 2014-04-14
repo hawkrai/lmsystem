@@ -9,6 +9,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
     public class SubjectWorkingViewModel
     {
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
+        private readonly LazyDependency<IModulesManagementService> _modulesManagementService = new LazyDependency<IModulesManagementService>();
 
         public ISubjectManagementService SubjectManagementService
         {
@@ -18,7 +19,21 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             }
         }
 
+        public IModulesManagementService ModulesManagementService
+        {
+            get
+            {
+                return _modulesManagementService.Value;
+            }
+        }
+
         public IList<ModulesViewModel> Modules
+        {
+            get;
+            set;
+        }
+
+        public IList<ModulesViewModel> NotVisibleModules
         {
             get;
             set;
@@ -48,6 +63,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             Subject = SubjectManagementService.GetSubject(subjectId);
             SubjectName = Subject.Name;
             Modules = Subject.SubjectModules.Select(e => new ModulesViewModel(e.Module)).ToList();
+            NotVisibleModules = ModulesManagementService.GetModules().Where(e => !e.Visible).Select(e => new ModulesViewModel(e)).ToList();
         }
 
         public SubGroupEditingViewModel SubGroup(int groupId)

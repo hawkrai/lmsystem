@@ -107,6 +107,14 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Subjects/_ModuleTemplate", model);
         }
 
+        [HttpPost]
+        public ActionResult GetModuleDataSubMenu(int subjectId, int moduleId, ModuleType type)
+        {
+            //var model = new ModulesDataWorkingViewModel(subjectId, moduleId);
+            //return PartialView("Subjects/_ModuleTemplate", model);
+            return null;
+        }
+        
 	    public ActionResult SubGroups(int subjectId)
 	    {
 		    var model = new SubjectWorkingViewModel(subjectId);
@@ -185,6 +193,20 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Subjects/Modules/Labs/_EditLabs", model);
         }
 
+        public ActionResult CreatePractical(int subjectId)
+        {
+            var model = new PracticalsDataViewModel(0, subjectId);
+
+            return PartialView("Subjects/Modules/Practicals/_EditPractical", model);
+        }
+
+        public ActionResult EditPractical(int id, int subjectId)
+        {
+            var model = new PracticalsDataViewModel(id, subjectId);
+
+            return PartialView("Subjects/Modules/Practicals/_EditPractical", model);
+        }
+
         [HttpPost]
         public ActionResult DeleteLabs(int id, int subjectId)
         {
@@ -194,11 +216,28 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Subjects/_ModuleTemplate", modelData);
         }
 
+        [HttpPost]
+        public ActionResult DeletePractical(int id, int subjectId)
+        {
+            var model = new PracticalsDataViewModel(id, subjectId);
+            model.Delete();
+            var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Practical);
+            return PartialView("Subjects/_ModuleTemplate", modelData);
+        }
+
         [HttpPost, ValidateInput(false)]
         public ActionResult SaveLabs(LabsDataViewModel model, string attachments)
         {
             model.Save(attachments);
             var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Labs);
+            return PartialView("Subjects/_ModuleTemplate", modelData);
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult SavePractical(PracticalsDataViewModel model, string attachments)
+        {
+            model.Save(attachments);
+            var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Practical);
             return PartialView("Subjects/_ModuleTemplate", modelData);
         }
 

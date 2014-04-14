@@ -5,7 +5,9 @@
     <title>@ViewBag.Title LMP разработка</title>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="/Content/datatable-bootstrap.css">
-
+    @*<link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>*@
+    @*<link href='http://fonts.googleapis.com/css?family=Englebert' rel='stylesheet' type='text/css'>*@
+    <link href='http://fonts.googleapis.com/css?family=Lobster&subset=cyrillic-ext,latin' rel='stylesheet' type='text/css'>
     @Styles.Render("~/Content/bootstrap")
     @Styles.Render("~/Content/bootstrapcontrols")
     @Styles.Render("~/Content/css")
@@ -51,7 +53,7 @@
 
         @RenderSection("featured", required: false)
         @RenderSection("specificScripts", required: false)
-        <div style="padding: 15px 25px">
+        <div style="padding: 15px 30px">
             @RenderSection("scripts", false)
             @RenderSection("body", false)
         </div>

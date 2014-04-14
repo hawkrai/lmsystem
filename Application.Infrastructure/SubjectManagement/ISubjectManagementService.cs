@@ -31,5 +31,9 @@ namespace Application.Infrastructure.SubjectManagement
         Labs SaveLabs(Labs labs, IList<Attachment> attachments);
 
         Labs GetLabs(int id);
+
+        Practical GetPractical(int id);
+
+        Practical SavePractical(Practical practical, IList<Attachment> attachments);
     }
 }

@@ -1,14 +1,9 @@
 ﻿html, body {
     width: 100%;
-    /*height: 100%;*/
+    /*font-family: 'Gochi Hand';*/
+    /*font-family: 'Englebert', sans-serif;*/
+    font-family: 'Lobster', cursive;
     background-color: #f4f5f7;
-    /*background-image: -moz-linear-gradient(top, #f9fafb, #edeff3);
-    background-image: -ms-linear-gradient(top, #f9fafb, #edeff3);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9fafb), to(#edeff3));
-    background-image: -webkit-linear-gradient(top, #f9fafb, #edeff3);
-    background-image: -o-linear-gradient(top, #f9fafb, #edeff3);
-    background-image: linear-gradient(top, #f9fafb, #edeff3);
-    ba*/
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF9FAFB', endColorstr='#FFEDEFF3', GradientType=0);
     border-color: #edeff3 #edeff3 #bfc6d4;
 }
@@ -82,6 +77,13 @@ h1 {
     margin: 0;
     text-align: center;
     list-style: none;
+}
+
+.navbar-brand {
+    float: left;
+    padding: 12px 15px;
+    font-size: 30px;
+    line-height: 21px;
 }
 
 .modal-dialog {
@@ -172,7 +174,7 @@ h1 {
     left: 225px;
     position: fixed;
     width: 300px;
-    top: 44px;
+    top: 55px;
     height: 100%;
     border-radius: 0;
     border: none;
@@ -588,12 +590,12 @@ legend.scheduler-border {
 }
 
 .linkNavbar {
-    font-size: 14px;
+    font-size: 17px;
     text-align: left;
 }
 
 .linkNavbarLevelBelow {
-    font-size: 13px;
+    font-size: 15px;
 }
 
 .questionTypeButton {
@@ -672,4 +674,10 @@ legend.scheduler-border {
 .bts {
     margin-left: 0px;
     margin-right: 0px;
+}
+
+.navbar .dropdown-menu > li > a, .navbar .dropdown-menu > li > a:focus {
+    font-size: 16px;
+    font-weight: 300;
+    background-color: transparent;
 }

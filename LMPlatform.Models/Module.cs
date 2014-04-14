@@ -17,6 +17,8 @@ namespace LMPlatform.Models
             set;
         }
 
+        public bool Visible { get; set; }
+
         public ModuleType ModuleType
         {
             get;

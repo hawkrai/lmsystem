@@ -213,9 +213,11 @@
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLabsViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLecturesViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesNewsViewModel.cs" />
+    <Compile Include="ViewModels\SubjectModulesViewModel\ModulesPracticalViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\LabsDataViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\LecturesDataViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\NewsDataViewModel.cs" />
+    <Compile Include="ViewModels\SubjectModulesViewModel\ModulesViewModel\PracticalsDataViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesDataWorkingViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubGroupEditingViewModel.cs" />
@@ -961,6 +963,8 @@
     <Content Include="Views\TestPassing\TestsForPassing.cshtml" />
     <Content Include="Views\TestPassing\RealTimePassingForTest.cshtml" />
     <Content Include="Views\TestPassing\EndTest.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\Practicals\_EditPractical.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\Practicals\_PracticalModule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

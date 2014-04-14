@@ -41,56 +41,62 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         {
             SubjectId = subjectId;
             var subject = SubjectManagementService.GetSubject(subjectId);
-            Module = subject.SubjectModules.First(e => (int)e.Module.ModuleType == moduleId).Module;
+            Module = subject.SubjectModules.First(e => (int)e.Module.Id == moduleId).Module;
             switch (Module.ModuleType)
             {
                 case ModuleType.News:
-                {
-                    NewsGenerate();
-                    break;
-                }
+                    {
+                        NewsGenerate();
+                        break;
+                    }
 
                 case ModuleType.Lectures:
-	            {
-		            LecturesGenerate();
-                    break;
-                }
+                    {
+                        LecturesGenerate();
+                        break;
+                    }
 
                 case ModuleType.Labs:
-                {
-                    LabsGenerate();
-                    break;
-                }
+                    {
+                        LabsGenerate();
+                        break;
+                    }
 
                 case ModuleType.YeManagment:
-                {
-                    break;
-                }
+                    {
+                        break;
+                    }
 
                 case ModuleType.SubjectAttachments:
-                {
-                    break;
-                }
+                    {
+                        break;
+                    }
 
                 case ModuleType.LabAttachments:
-                {
-                    break;
-                }
+                    {
+                        break;
+                    }
 
                 case ModuleType.Projects:
-                {
-                    break;
-                }
+                    {
+                        break;
+                    }
 
                 case ModuleType.SmartTest:
-                {
-                    break;
-                }
+                    {
+                        break;
+                    }
 
                 case ModuleType.Dsm:
-                {
-                    break;
-                }
+                    {
+                        break;
+                    }
+
+                case ModuleType.Practical:
+                    {
+                        PracticalGenerate();
+                        break;
+                    }
             }
         }
 
@@ -100,15 +106,21 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             DataModel = dataModule;
         }
 
-	    private void LecturesGenerate()
-	    {
-			var dataModule = new ModulesLecturesViewModel(SubjectId, Module);
-			DataModel = dataModule;    
-	    }
+        private void LecturesGenerate()
+        {
+            var dataModule = new ModulesLecturesViewModel(SubjectId, Module);
+            DataModel = dataModule;
+        }
 
         private void LabsGenerate()
         {
             var dataModule = new ModulesLabsViewModel(SubjectId, Module);
+            DataModel = dataModule;
+        }
+
+        private void PracticalGenerate()
+        {
+            var dataModule = new ModulesPracticalViewModel(SubjectId, Module);
             DataModel = dataModule;
         }
     }

@@ -59,5 +59,11 @@ namespace LMPlatform.Models
             get;
             set;
         }
+
+        public ICollection<Practical> Practicals
+        {
+            get;
+            set;
+        }
     }
 }
