@@ -61,6 +61,7 @@ namespace Application.Infrastructure.SubjectManagement
                     .Include(e => e.SubjectNewses)
                     .Include(e => e.Lectures)
                     .Include(e => e.Labs)
+                    .Include(e => e.Practicals)
 					.Include(e => e.SubjectGroups));
             }
         }

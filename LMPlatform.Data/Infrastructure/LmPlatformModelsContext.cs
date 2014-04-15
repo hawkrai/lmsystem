@@ -415,8 +415,8 @@ namespace LMPlatform.Data.Infrastructure
 
             modelBuilder.Entity<ProjectRole>()
                 .HasMany<ProjectUser>(e => e.ProjectUser)
-                .WithRequired(e => e.Role)
-                .HasForeignKey(e => e.RoleId)
+                .WithRequired(e => e.ProjectRole)
+                .HasForeignKey(e => e.ProjectRoleId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Project>()

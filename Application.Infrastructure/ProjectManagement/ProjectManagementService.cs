@@ -80,7 +80,7 @@ namespace Application.Infrastructure.ProjectManagement
             {
                 UserId = userId,
                 ProjectId = projectId,
-                RoleId = roleId
+                ProjectRoleId = roleId
             };
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {

@@ -49,7 +49,7 @@
                     <td>
                         <div>
                             <a class="editLabsButton" style="margin-right: 10px" href="@Url.Action("EditPractical", "Subject", new { id = item.PracticalId, subjectId = item.SubjectId })"><i class="editLabsButton fa fa-edit fa-2x"></i></a>
-                            <a class="deleteLabssButton" href="@Url.Action("De", "Subject", new { id = item.PracticalId, subjectId = item.SubjectId })"><i class="deleteLabsButton fa fa-trash-o fa-2x"></i></a>
+                            <a class="deleteLabssButton" href="@Url.Action("DeletePractical", "Subject", new { id = item.PracticalId, subjectId = item.SubjectId })"><i class="deleteLabsButton fa fa-trash-o fa-2x"></i></a>
                         </div>
                     </td>
                 }

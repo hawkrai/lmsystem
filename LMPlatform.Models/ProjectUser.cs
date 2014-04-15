@@ -10,7 +10,7 @@ namespace LMPlatform.Models
             set;
         }
 
-        public int RoleId
+        public int ProjectRoleId
         {
             get; 
             set;
@@ -34,7 +34,7 @@ namespace LMPlatform.Models
             set;
         }
 
-        public ProjectRole Role 
+        public ProjectRole ProjectRole 
         { 
             get; 
             set; 

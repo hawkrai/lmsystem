@@ -16,5 +16,5 @@ else if (Model.Module.ModuleType == ModuleType.Labs)
 }
 else if (Model.Module.ModuleType == ModuleType.Practical)
 {
-    @Html.Partial("Subjects/Modules/Practicals/_PracticalModule", (ModulesLabsViewModel)Model.DataModel)
+    @Html.Partial("Subjects/Modules/Practicals/_PracticalModule", (ModulesPracticalViewModel)Model.DataModel)
 }

@@ -1,6 +1,7 @@
 ﻿namespace LMPlatform.UI.ViewModels.SubjectModulesViewModel
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Application.Core;
     using Application.Infrastructure.SubjectManagement;
@@ -29,6 +30,8 @@
         public ModulesPracticalViewModel(int subjectId, Module module)
             : base(subjectId, module)
         {
+            PracticalsData =
+                SubjectManagementService.GetSubject(subjectId).Practicals.Select(e => new PracticalsDataViewModel(e)).ToList();
         }
     }
 }

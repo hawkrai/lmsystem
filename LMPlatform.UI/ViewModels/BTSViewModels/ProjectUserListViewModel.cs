@@ -40,7 +40,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             {
                 Id = projectUser.Id,
                 UserName = projectUser.User.FullName,
-                RoleName = GetRoleName(projectUser.RoleId),
+                RoleName = GetRoleName(projectUser.ProjectRoleId),
                 ProjectId = projectUser.ProjectId
             };
         }
