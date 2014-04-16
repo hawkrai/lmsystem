@@ -146,6 +146,12 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<ScheduleProtectionLabs> ScheduleProtectionLabs
+        {
+            get;
+            set;
+        }
+
         #endregion DataContext Members
 
         #region Protected Members
@@ -287,6 +293,18 @@ namespace LMPlatform.Data.Infrastructure
                 .WithRequired(e => e.Subject)
                 .HasForeignKey(e => e.SubjectId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SubGroup>()
+               .HasMany<ScheduleProtectionLabs>(e => e.ScheduleProtectionLabs)
+               .WithRequired(e => e.SubGroup)
+               .HasForeignKey(e => e.SuGroupId)
+               .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Labs>()
+               .HasMany<ScheduleProtectionLabs>(e => e.ScheduleProtectionLabs)
+               .WithRequired(e => e.Labs)
+               .HasForeignKey(e => e.LabsId)
+               .WillCascadeOnDelete(false);
 
             MapKnowledgeTestingEntities(modelBuilder);
             MapBTSEntities(modelBuilder);

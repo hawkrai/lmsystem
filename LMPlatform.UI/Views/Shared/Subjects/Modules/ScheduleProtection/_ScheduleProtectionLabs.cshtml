@@ -1,0 +1,51 @@
+﻿@model LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesScheduleProtectionLabsViewModel
+
+@if (User.IsInRole("lector"))
+{
+    <div id="navPanel">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="buttonActionSection">
+                            <a id="addLabsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" href="@Url.Action("CreatePractical", "Subject", new { subjectId = Model.SubjectId })">Добавить дату защиты</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="page-header" style="margin-top: 5px"></div>
+}
+
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Название</th>
+                @if (Model.ScheduleProtectionLabs.Any())
+                {
+                    <th>Часы</th>
+                    foreach (var item in Model.ScheduleProtectionLabs.FirstOrDefault().ScheduleProtection.OrderBy(e => e.Date))
+                    {
+                        <th>@item.Date.ToShortDateString()</th>
+                    }
+                }
+
+            </tr>
+        </thead>
+        @foreach (var item in Model.ScheduleProtectionLabs.OrderBy(e => e.Order))
+        {
+            <tr>
+                <td>@item.Order</td>
+                <td>@item.Name</td>
+                @foreach (var protection in item.ScheduleProtection.OrderBy(e => e.Date))
+                {
+                    <td>@protection.Rating</td>
+                }
+            </tr>
+        }
+    </table>
+</div>

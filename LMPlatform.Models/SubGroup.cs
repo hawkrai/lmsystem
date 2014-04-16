@@ -27,6 +27,12 @@ namespace LMPlatform.Models
         {
             get;
             set;
+        }
+
+        public ICollection<ScheduleProtectionLabs> ScheduleProtectionLabs
+        {
+            get;
+            set;
         } 
     }
 }

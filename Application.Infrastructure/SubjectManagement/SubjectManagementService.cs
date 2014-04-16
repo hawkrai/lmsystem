@@ -60,9 +60,9 @@ namespace Application.Infrastructure.SubjectManagement
                     .Include(e => e.SubjectModules.Select(x => x.Module))
                     .Include(e => e.SubjectNewses)
                     .Include(e => e.Lectures)
-                    .Include(e => e.Labs)
+                    .Include(e => e.Labs.Select(x => x.ScheduleProtectionLabs.Select(v => v.Labs)))
                     .Include(e => e.Practicals)
-					.Include(e => e.SubjectGroups));
+					.Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(v => v.ScheduleProtectionLabs))));
             }
         }
 

@@ -1,5 +1,7 @@
 ﻿namespace LMPlatform.Models
 {
+    using System.Collections.Generic;
+
     using Application.Core.Data;
 
     public class Labs : ModelBase
@@ -44,6 +46,8 @@
         {
             get;
             set;
-        }     
+        }
+
+        public ICollection<ScheduleProtectionLabs> ScheduleProtectionLabs { get; set; } 
     }
 }

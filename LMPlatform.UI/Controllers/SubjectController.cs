@@ -110,9 +110,8 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public ActionResult GetModuleDataSubMenu(int subjectId, int moduleId, ModuleType type)
         {
-            //var model = new ModulesDataWorkingViewModel(subjectId, moduleId);
-            //return PartialView("Subjects/_ModuleTemplate", model);
-            return null;
+            var model = new ModulesDataWorkingViewModel(subjectId, moduleId, type);
+            return PartialView("Subjects/_ModuleTemplate", model);
         }
         
 	    public ActionResult SubGroups(int subjectId)

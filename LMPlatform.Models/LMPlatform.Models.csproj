@@ -93,6 +93,7 @@
     <Compile Include="ProjectUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="ScheduleProtectionLabs.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="SubGroup.cs" />
     <Compile Include="Subject.cs" />

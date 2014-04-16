@@ -31,10 +31,70 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             set;
         }
 
+        public ModuleType ParentModule { get; set; }
+
         public ModulesBaseViewModel DataModel
         {
             get;
             set;
+        }
+
+        public ModulesDataWorkingViewModel(int subjectId, int moduleId, ModuleType type)
+        {
+            SubjectId = subjectId;
+            ParentModule = type;
+            var subject = SubjectManagementService.GetSubject(subjectId);
+            Module = subject.SubjectModules.First(e => (int)e.Module.Id == moduleId).Module;
+
+            switch (type)
+            {
+                case ModuleType.Practical:
+                    {
+                        switch (Module.ModuleType)
+                        {
+                            case ModuleType.ScheduleProtection:
+                                {
+                                    break;
+                                }
+
+                            case ModuleType.Results:
+                                {
+                                    break;
+                                }
+
+                            case ModuleType.StatisticsVisits:
+                                {
+                                    break;
+                                }
+                        }
+
+                        break;
+                    }
+
+                case ModuleType.Labs:
+                    {
+                        switch (Module.ModuleType)
+                        {
+                            case ModuleType.ScheduleProtection:
+                                {
+                                    ScheduleProtectionLabsGenerate();
+                                    break;
+                                }
+
+                            case ModuleType.Results:
+                                {
+                                    break;
+                                }
+
+                            case ModuleType.StatisticsVisits:
+                                {
+                                    break;
+                                }
+                        }
+
+                        break;
+                    }
+            }
         }
 
         public ModulesDataWorkingViewModel(int subjectId, int moduleId)
@@ -121,6 +181,12 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         private void PracticalGenerate()
         {
             var dataModule = new ModulesPracticalViewModel(SubjectId, Module);
+            DataModel = dataModule;
+        }
+
+        private void ScheduleProtectionLabsGenerate()
+        {
+            var dataModule = new ModulesScheduleProtectionLabsViewModel(SubjectId, Module);
             DataModel = dataModule;
         }
     }
