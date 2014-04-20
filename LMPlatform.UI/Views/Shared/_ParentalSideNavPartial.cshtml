@@ -1,0 +1,29 @@
+﻿@using Application.Core.UI.HtmlHelpers
+@model LMPlatform.UI.ViewModels.ParentalViewModels.ParentalViewModel
+
+<ul class="nav navbar-nav side-nav">
+    <li class="@Html.ActivePage("Parental", "Plan") dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <span class="admin-icon icon-study"></span>
+            <span class="nav-item">Учебная программа</span>
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            @foreach (var subject in @Model.Subjects)
+            {
+                <li>
+                    <a href="@Url.Action("Plan","Parental", new { id = @Model.Group.Name, subjectId = subject.Id})">
+                        <i class="linkNavbarLevelBelow"></i>
+                        <span class="nav-item">@subject.Name</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </li>
+    <li class="@Html.ActivePage("Parental", "Statistics")">
+        <a href ="@Url.Action("Statistics", "Parental", new {id = @Model.Group.Name})">
+            <span class="admin-icon icon-stats"></span>
+            <span class="nav-item">Статистика</span>
+        </a>
+    </li>
+</ul>

@@ -1,0 +1,45 @@
+.admin-icon {
+    font-size: 22px;
+    vertical-align: -4px;
+    padding-right: 5px;
+}
+
+#admin .side-nav .nav-item,
+#parental .side-nav .nav-item {
+    font-size: 16px;
+}
+
+#admin .navbar-brand,
+#parental .navbar-brand {
+    font-size: 20px;
+    line-height: 31px;
+}
+
+#admin .navbar-brand .admin-icon,
+#parental .navbar-brand .admin-icon {
+    font-size: 24px;
+    margin-right: 5px;
+}
+
+#parental ul.dropdown-menu .nav-item {
+    padding-left: 22px;
+    font-size: 15px;
+}
+
+#parental .navbar-right li {
+    margin-right: 35px;
+    color: white;
+    margin-top: 12px;
+    font-size: 18px;
+}
+
+select.students-stat > option:hover {
+    background: black !important;
+}
+
+select.students-stat {
+    width: 100%;
+    font-size: 18px;
+    padding: 5px;
+    margin: 5px;
+}
