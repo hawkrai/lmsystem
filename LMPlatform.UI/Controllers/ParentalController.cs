@@ -33,15 +33,13 @@ namespace LMPlatform.UI.Controllers
             return RedirectToAction("GroupNotFound");
         }
 
-        public ActionResult Plan(string id)
+        public ActionResult Plan(string id, int subjectId)
         {
             var group = GroupManagementService.GetGroupByName(id);
             if (group != null)
             {
-                var model = new ParentalViewModel()
-                {
-                    Group = group
-                };
+                var model = new PlanViewModel(group, subjectId);
+                
                 return View(model);
             }
 

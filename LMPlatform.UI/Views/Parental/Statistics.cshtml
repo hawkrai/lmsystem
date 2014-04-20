@@ -7,8 +7,21 @@
 {
     Успеваемость
 }
+@section headscripts
+{
+    <script src="~/Scripts/jquery-handsontable/jquery.handsontable.full.js" type="text/javascript"></script>
+    <link href="~/Scripts/jquery-handsontable/jquery.handsontable.full.css" type="text/css" />
+}
 <div>
     @Html.DropDownList("students", Model.GetStudentsSelectList(), new { @class = "students-stat"})
 </div>
+
+<div id="stat-table">
+    
+</div>
+
+<script>
+
+</script>
 
 

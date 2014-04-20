@@ -36,7 +36,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="@Url.Action("Index", "Parental")" class="navbar-brand">
+                <a href="@Url.Action("Index", "Parental", new { id = Model.Group.Name})" class="navbar-brand">
                     <i class="admin-icon icon-steam"></i><b>Контроль успеваемости</b>
                 </a>
             </div>
@@ -44,11 +44,13 @@
             {
                 <div class="collapse navbar-collapse">
 
-                    @Html.Action("GetSideNav", "Parental", new { groupId = @Model.Group.Id })
+                    @Html.Action("GetSideNav", "Parental", new { groupId = Model.Group.Id })
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <span class="admin-icon icon-users2"></span>
-                            <span class="nav-item">@Model.Group.Name</span>
+                            <a href="#" id="change-group">
+                                <span class="admin-icon icon-users2"></span>
+                                <span class="nav-item">@Model.Group.Name</span>
+                            </a>
                         </li>
 
                     </ul>
@@ -90,6 +92,51 @@
         </footer>
 
         @Scripts.Render("~/bundles/bootbox")
+        <script>
+            $(function () {
+                $("#change-group").on('click', function () {
+                    showDialog();
+                });
+            });
+
+            function showDialog() {
+
+                var form =
+                    '<form>' +
+                            '<div>' +
+                                 '<span>Введите номер группы:</span>' +
+                            '</div>' +
+                            '<div>' +
+                                 '<input id="groupValidation" type="text" name="group"/>' +
+                            '</div>' +
+                    '</form>';
+
+                bootbox.dialog({
+                    message: form,
+                    title: "Контроль успеваемости",
+                    buttons: {
+                        main: {
+                            label: "Сменить группу",
+                            className: "btn-primary btn-submit btn-sm",
+                            callback: function () {
+                                var groupName = $('#groupValidation').val();
+                                window.location.href = "/Parental/Index/" + groupName;
+                            }
+                        },
+                        retur: {
+                            label: "Выйти",
+                            className: "btn-primary btn-submit btn-sm",
+                            callback: function () {
+                                window.location.href = "/";
+                            }
+                            
+                        }
+                    }
+                });
+            }
+
+
+        </script>
     </div>
 </body>
 </html>
