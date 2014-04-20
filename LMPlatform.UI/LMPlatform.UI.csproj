@@ -167,6 +167,7 @@
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\ParentalController.cs" />
     <Compile Include="Controllers\TestPassingController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\TestsController.cs" />
@@ -209,6 +210,9 @@
     <Compile Include="ViewModels\MessageViewModels\DataTableMessage.cs" />
     <Compile Include="ViewModels\MessageViewModels\DisplayMessageViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\MessageViewModel.cs" />
+    <Compile Include="ViewModels\ParentalViewModels\ParentalViewModel.cs" />
+    <Compile Include="ViewModels\ParentalViewModels\PlanViewModel.cs" />
+    <Compile Include="ViewModels\ParentalViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLabsViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLecturesViewModel.cs" />
@@ -231,6 +235,7 @@
     <Compile Include="ViewModels\SubjectViewModels\SubjectWorkingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\admin-icons.css" />
     <Content Include="Content\alertify.bootstrap.css" />
     <Content Include="Content\alertify.core.css" />
     <Content Include="Content\alertify.default.css" />
@@ -241,6 +246,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chosen\chosen.css" />
     <Content Include="Content\chosen\chosen.min.css" />
+    <Content Include="Content\admin.css" />
     <Content Include="Content\datatable-bootstrap.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\doc.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shCore.css" />
@@ -968,12 +974,18 @@
     <Content Include="Views\Shared\Subjects\Modules\Practicals\_EditPractical.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Practicals\_PracticalModule.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\ScheduleProtection\_ScheduleProtectionLabs.cshtml" />
+    <Content Include="Views\Parental\_ViewStart.cshtml" />
+    <Content Include="Views\Parental\Index.cshtml" />
+    <Content Include="Views\Parental\Plan.cshtml" />
+    <Content Include="Views\Parental\Statistics.cshtml" />
+    <Content Include="Views\Shared\Layouts\_ParentalLayout.cshtml" />
+    <Content Include="Views\Shared\_ParentalSideNavPartial.cshtml" />
+    <Content Include="Views\Parental\GroupNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFilesTemp\" />
     <Folder Include="UploadedFiles\" />
-    <Folder Include="Views\Parental\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

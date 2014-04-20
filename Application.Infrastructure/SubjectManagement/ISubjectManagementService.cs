@@ -8,6 +8,8 @@ namespace Application.Infrastructure.SubjectManagement
     {
         List<Subject> GetUserSubjects(int userId);
 
+        List<Subject> GetGroupSubjects(int groupId);
+
         Subject GetSubject(int id);
 
         IPageableList<Subject> GetSubjectsLecturer(int lecturerId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);

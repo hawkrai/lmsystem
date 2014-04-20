@@ -33,7 +33,7 @@ namespace Application.Infrastructure.SubjectManagement
                 return _studentManagementService.Value;
             }
         }
-        
+
         public List<Subject> GetUserSubjects(int userId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -43,12 +43,20 @@ namespace Application.Infrastructure.SubjectManagement
                     .Include(e => e.Student));
                 if (user.Student != null)
                 {
-                    return repositoriesContainer.SubjectRepository.GetSubjects(groupId: user.Student.GroupId);    
+                    return repositoriesContainer.SubjectRepository.GetSubjects(groupId: user.Student.GroupId);
                 }
                 else
                 {
-                    return repositoriesContainer.SubjectRepository.GetSubjects(lecturerId: user.Lecturer.Id);    
+                    return repositoriesContainer.SubjectRepository.GetSubjects(lecturerId: user.Lecturer.Id);
                 }
+            }
+        }
+
+        public List<Subject> GetGroupSubjects(int groupId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.SubjectRepository.GetSubjects(groupId: groupId);
             }
         }
 
@@ -62,14 +70,14 @@ namespace Application.Infrastructure.SubjectManagement
                     .Include(e => e.Lectures)
                     .Include(e => e.Labs.Select(x => x.ScheduleProtectionLabs.Select(v => v.Labs)))
                     .Include(e => e.Practicals)
-					.Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(v => v.ScheduleProtectionLabs))));
+                    .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(v => v.ScheduleProtectionLabs))));
             }
         }
 
         public IPageableList<Subject> GetSubjectsLecturer(int lecturerId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
             var query = new PageableQuery<Subject>(pageInfo, e => e.SubjectLecturers.Any(x => x.LecturerId == lecturerId));
-            
+
             if (!string.IsNullOrEmpty(searchString))
             {
                 query.AddFilterClause(
@@ -123,17 +131,17 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
-	    public IList<SubGroup> GetSubGroups(int subjectId, int groupId)
-	    {
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				var subjectGroup =
-					repositoriesContainer.SubjectRepository.GetBy(
-						new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId)).Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student)))));
-				return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
-			}
-	    }
-        
+        public IList<SubGroup> GetSubGroups(int subjectId, int groupId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var subjectGroup =
+                    repositoriesContainer.SubjectRepository.GetBy(
+                        new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId)).Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student)))));
+                return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
+            }
+        }
+
         public void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -146,7 +154,7 @@ namespace Application.Infrastructure.SubjectManagement
                 }
                 else
                 {
-                    repositoriesContainer.SubGroupRepository.CreateSubGroup(subjectId, firstOrDefault.Id, firstInts, secoInts);           
+                    repositoriesContainer.SubGroupRepository.CreateSubGroup(subjectId, firstOrDefault.Id, firstInts, secoInts);
                 }
             }
         }

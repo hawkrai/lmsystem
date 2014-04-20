@@ -33,12 +33,12 @@
             </div>
             <p></p>
         </div>
-        
+
         @*1760006668501@beltel.by*@
 
         <div class="row" style="margin-left: 0">
             <div class="checkbox col-md-6">
-                <label>@Html.CheckBoxFor(m => m.RememberMe) Запомнить</label>    
+                <label>@Html.CheckBoxFor(m => m.RememberMe) Запомнить</label>
             </div>
             <div class="col-md-6">
                 <input type="submit" class="btn btn-primary btn-sm pull-right" value="Войти" />
@@ -46,19 +46,19 @@
             </div>
 
         </div>
-        
-            <div class="registration">
-                <p>
-                    <a href=@Url.Action("Register")>
-                        <strong>Зарегистрироваться?</strong>
-                    </a>
-                </p>
-                <p>
-                    <a href="#" id="Parental" data-url="@Url.Action("Index", "Parental")">
-                        <strong>Контроль успеваемости</strong>
-                    </a>
-                </p>
-            </div>
+
+        <div class="registration">
+            <p>
+                <a href=@Url.Action("Register")>
+                    <strong>Зарегистрироваться?</strong>
+                </a>
+            </p>
+            <p>
+                <a href="#" id="Parental" data-url="@Url.Action("Index", "Parental")">
+                    <strong>Контроль успеваемости</strong>
+                </a>
+            </p>
+        </div>
 
     </div>
     <div style="text-align: center; padding-top: 10px">
@@ -92,20 +92,11 @@
                 main: {
                     label: "Войти",
                     className: "btn-primary btn-submit",
-                    callback: function() {
-
+                    callback: function () {
                         var groupName = $('#groupValidation').val();
-                        $.get("/Parental/IsValidGroup?groupName=" + groupName, function(data) {
-
-                            if (data.toLowerCase() == "true") {
-                                window.location.href = "/Parental/Index/" + groupName;
-                            } else {
-                                alert("Группы не существует");
-                            }
-
-                        });
+                        window.location.href = "/Parental/Index/" + groupName;
                     }
-                    }
+                }
             }
         });
     }

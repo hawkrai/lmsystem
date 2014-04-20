@@ -1,6 +1,14 @@
-﻿@{
+﻿@model LMPlatform.UI.ViewModels.ParentalViewModels.StatisticsViewModel
+@{
     ViewBag.Title = "Успеваемость";
     Layout = "~/Views/Shared/Layouts/_ParentalLayout.cshtml";
 }
+@section title
+{
+    Успеваемость
+}
+<div>
+    @Html.DropDownList("students", Model.GetStudentsSelectList(), new { @class = "students-stat"})
+</div>
 
-<h2>Успеваемость</h2>
+

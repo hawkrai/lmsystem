@@ -1,0 +1,95 @@
+﻿@using Application.Core.UI.HtmlHelpers
+@model LMPlatform.UI.ViewModels.ParentalViewModels.ParentalViewModel
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title Контроль успеваимости</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/Content/datatable-bootstrap.css">
+
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/bootstrapcontrols")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/admin-style/css")
+
+    @RenderSection("css", false)
+
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/shared")
+    @Scripts.Render("~/bundles/datatable")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrapcontrols")
+
+    @RenderSection("headScripts", false)
+</head>
+<body>
+    <div id="parental">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="@Url.Action("Index", "Parental")" class="navbar-brand">
+                    <i class="admin-icon icon-steam"></i><b>Контроль успеваемости</b>
+                </a>
+            </div>
+            @if (Model != null && Model.Group != null)
+            {
+                <div class="collapse navbar-collapse">
+
+                    @Html.Action("GetSideNav", "Parental", new { groupId = @Model.Group.Id })
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <span class="admin-icon icon-users2"></span>
+                            <span class="nav-item">@Model.Group.Name</span>
+                        </li>
+
+                    </ul>
+                </div>
+            }
+        </nav>
+        @if (Model != null)
+        {
+            <div style="padding: 15px 25px 15px 300px">
+                @RenderSection("scripts", false)
+                <div style="padding: 20px">
+                    @if (IsSectionDefined("title"))
+                    {
+                        <div class="page-header">
+                            <h2>@RenderSection("title", false)</h2>
+                        </div>
+                    }
+                    <div style="margin: 5px">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div style="padding-top: 90px; text-align: center;">
+                @RenderBody()
+            </div>
+        }
+
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>
+                        &copy; @DateTime.Now.Year - Администрирование LMP разработка
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        @Scripts.Render("~/bundles/bootbox")
+    </div>
+</body>
+</html>

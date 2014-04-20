@@ -62,6 +62,9 @@ namespace LMPlatform.UI.App_Start
             bundles.Add(new ScriptBundle("~/bundles/bootbox").Include("~/Scripts/bootbox.js", "~/Scripts/bootbox.min.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/font-awesome/font-awesome.css"));
             bundles.Add(new StyleBundle("~/fileuploader/css").Include("~/Content/mvcfileupload/jquery.fileupload-bui.css"));
+            bundles.Add(new StyleBundle("~/admin-style/css").Include(
+                "~/Content/admin-icons.css",
+                "~/Content/admin.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                 "~/Content/themes/base/jquery.ui.core.css", 
