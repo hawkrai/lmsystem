@@ -17,15 +17,17 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             List<AnswerOnTestQuestion> testAnswers = GetAnswersForTest(testId, userId);
 
-            Tuple<Question, int> nextQuestion = GetQuestion(testAnswers, nextQuestionNumber, userId);
             Dictionary<int, PassedQuestionResult> questionsStatuses = GetQuestionStatuses(testAnswers);
+            Tuple<Question, int> nextQuestion = GetQuestion(testAnswers, nextQuestionNumber, userId);
 
-            return new NextQuestionResult
+            var result = new NextQuestionResult
             {
                 Question = nextQuestion == null ? null : nextQuestion.Item1,
                 Number = nextQuestion == null ? 0 : nextQuestion.Item2,
                 QuestionsStatuses = questionsStatuses
-            };  
+            };
+
+            return result;
         }
 
         public IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int testId)
@@ -300,6 +302,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 return nextQuestion;
             }
 
+            CloseTest(testAnswers, userId);
             return null;
         }
 
@@ -318,6 +321,16 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             {
                 repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().Delete(testAnswers);
                 repositoriesContainer.RepositoryFor<TestPassResult>().Save(testPassResult);
+
+                var savedTestUnlock = repositoriesContainer.TestUnlocksRepository.GetAll(new
+                    Query<TestUnlock>()
+                    .AddFilterClause(testUnlock => testUnlock.StudentId == userId && testUnlock.TestId == testId))
+                    .SingleOrDefault();
+
+                if (savedTestUnlock != null)
+                {
+                    repositoriesContainer.TestUnlocksRepository.Delete(savedTestUnlock);
+                }
 
                 repositoriesContainer.ApplyChanges();
             }

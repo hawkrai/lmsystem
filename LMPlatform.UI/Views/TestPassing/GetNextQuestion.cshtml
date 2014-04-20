@@ -10,11 +10,14 @@
 <div class="">
     <h2>@Model.Question.Title</h2>
 </div>
-<div class="panel panel-default">
-    <div class="panel-body">
-        @Html.Raw(Model.Question.Description)
+@if (!string.IsNullOrEmpty(Model.Question.Description))
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @Html.Raw(Model.Question.Description)
+        </div>
     </div>
-</div>
+}
 <div class="row">
     <div class="col-lg-9">
         <div id="answersPanel" class="panel panel-primary">

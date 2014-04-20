@@ -10,7 +10,7 @@
 
     formatTitle: function () {
         var title = koWrapper.getModel().Title;
-        return "Тест: " + (title == null ? "Новый" : title);
+        return title == null ? "Новый тест" : title;
     },
 
     getTextForTimeLabel: function () {

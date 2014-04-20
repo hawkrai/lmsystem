@@ -86,7 +86,7 @@
     },
     
     _onTestLoaded: function (content) {
-        $('#questionContent').hide("slide", { direction: "left" }, 300).html(content).show("slide", { direction: "right" }, 300);
+        $('#questionContent').html(content);
         $('.progress-bar-notPassed').on('click', $.proxy(this._onProgressBarClicked, this));
         $('#answerButton').on('click', $.proxy(this._onAnswerButtonClicked, this));
         $('#skipButton').on('click', $.proxy(this._onSkipButtonClicked, this));
