@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Web;
+using Application.Core;
 using Application.Core.Data;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.BugManagement;
@@ -7,6 +9,7 @@ using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
+using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
 using LMPlatform.Models.BTS;
 using Microsoft.Ajax.Utilities;
@@ -14,21 +17,14 @@ using Microsoft.Ajax.Utilities;
 namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
     public class BugListViewModel : BaseNumberedGridItem
-    { 
-        [DisplayName("Проект")]
-        public string Project { get; set; }
-
+    {
+        private static LmPlatformModelsContext context = new LmPlatformModelsContext();
+        
         [DisplayName("Название")]
         public string Summary { get; set; }
 
         [DisplayName("Описание")]
         public string Description { get; set; }
-
-        [DisplayName("Шаги выполнения")]
-        public string Steps { get; set; }
-
-        [DisplayName("Симптом")]
-        public string Symptom { get; set; }
 
         [DisplayName("Важность")]
         public string Severity { get; set; }
@@ -36,29 +32,48 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Статус")]
         public string Status { get; set; }
 
-        //[DisplayName("Кем добавлена")]
-        //public string ReporterName { get; set; }
-        //[DisplayName("Дата документирования")]
-        //public string ReportingDate { get; set; }
-        //[DisplayName("Дата последнего изменения")]
-        //public string ModifyingDate { get; set; }
-        private static LmPlatformModelsContext context = new LmPlatformModelsContext();
+        [DisplayName("Проект")]
+        public string Project { get; set; }
+
+        [DisplayName("Дата последнего изменения")]
+        public string ModifyingDate { get; set; }
+
+        [DisplayName("Действия")]
+        public HtmlString Action { get; set; }
+
+        public string Steps { get; set; }
+
+        public string Symptom { get; set; }
+
+        public string ReporterName { get; set; }
+
+        public string ReportingDate { get; set; }
+
+        public int Id { get; set; }
+
+        public static BugListViewModel FromBug(Bug bug, string htmlLinks)
+        {
+            var model = FromBug(bug);
+            model.Action = new HtmlString(htmlLinks);
+
+            return model;
+        }
 
         public static BugListViewModel FromBug(Bug bug)
         {
             return new BugListViewModel
             {
-                Summary = bug.Summary,
-                Description = bug.Description,
+                Id = bug.Id,
                 Steps = bug.Steps,
                 Symptom = GetSymptomName(bug.SymptomId),
+                ReporterName = GetReporterName(bug.ReporterId),
+                ReportingDate = bug.ReportingDate.ToShortDateString(),
+                Summary = bug.Summary,
+                Description = bug.Description,
                 Severity = GetSeverityName(bug.SeverityId),
                 Status = GetStatusName(bug.StatusId),
-                Project = GetProjectTitle(bug.ProjectId)
-
-                //ReporterName = GetCreatorName(bug.CreatorId),
-                //ReportingDate = bug.CreatingDate.ToShortDateString(),
-                //ModifyingDate = bug.ModifyingDate.ToShortDateString()
+                Project = GetProjectTitle(bug.ProjectId),
+                ModifyingDate = bug.ModifyingDate.ToShortDateString()
             };
         }
 
@@ -69,7 +84,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             return project.Title;
         }
 
-        public static string GetCreatorName(int id)
+        public static string GetReporterName(int id)
         {
             var context = new LmPlatformRepositoriesContainer();
             var user = context.UsersRepository.GetBy(new Query<User>(e => e.Id == id));

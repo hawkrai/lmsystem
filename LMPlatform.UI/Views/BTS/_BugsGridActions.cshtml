@@ -1,0 +1,11 @@
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.BugListViewModel
+<a href="@Url.Action("BugDetails", "BTS", new { bugId = Model.Id})" class="bugDetailsButton" style="margin-right: 10px" >
+    <span class="fa fa-gears fa-1x" data-model-id='@Model.Id' />
+</a>
+<a href="@Url.Action("EditBug", "BTS", new { bugId = Model.Id})" class="editBugButton" style="margin-right: 10px" >
+    <span class="fa fa-pencil fa-1x" data-model-id='@Model.Id' />
+</a>
+<a href="@Url.Action("DeleteBug", "BTS", new { bugId = Model.Id})" class="deleteBugButton" style="margin-right: 10px" >
+    <span class="fa fa-trash-o fa-1x" data-model-id='@Model.Id' />
+</a>
+

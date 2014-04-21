@@ -17,5 +17,7 @@ namespace Application.Infrastructure.BugManagement
         IPageableList<Bug> GetAllBugs(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
         void SaveBug(Bug bug);
+
+        void DeleteBug(int bugId);
     }
 }

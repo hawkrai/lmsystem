@@ -21,6 +21,7 @@ namespace LMPlatform.UI.Controllers
     public class BTSController : BasicController
     {
         private static int currentProjectId = 0;
+        private static int currentBugId = 0;
         
         [HttpGet]
         public ActionResult Index()
@@ -97,6 +98,15 @@ namespace LMPlatform.UI.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult ProjectManagement(string comment)
+        {
+            var model = new ProjectsViewModel(currentProjectId);
+            model.SaveComment();
+
+            return View(model);
+        }
+
         [HttpGet]
         public ActionResult BugManagement()
         {
@@ -113,7 +123,6 @@ namespace LMPlatform.UI.Controllers
         public ActionResult DocumentBug()
         {
             var addBugViewModel = new AddBugViewModel();
-
             return PartialView("_AddBugForm", addBugViewModel);
         }
 
@@ -134,12 +143,18 @@ namespace LMPlatform.UI.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult DeleteBug(int bugId)
+        {
+            BugManagementService.DeleteBug(bugId);
+            return RedirectToAction("BugManagement");
+        }
+
         public ActionResult DeleteProjectUser(int projectUserId)
         {
             ProjectManagementService.DeleteProjectUser(projectUserId);
             return RedirectToAction("ProjectManagement", "BTS", new RouteValueDictionary { { "projectId", currentProjectId } });
         }
-
+        
         [HttpPost]
         public JsonResult GetStudents(int groupId)
         {
@@ -150,6 +165,14 @@ namespace LMPlatform.UI.Controllers
             }).ToList();
 
             return Json(new SelectList(students, "Value", "Text"));
+        }
+
+        [HttpGet]
+        public ActionResult BugDetails(int bugId)
+        {
+            var model = new BugsViewModel(bugId);
+            currentBugId = bugId;
+            return View(model);
         }
 
         [HttpPost]
@@ -170,7 +193,7 @@ namespace LMPlatform.UI.Controllers
                 searchString: searchString);
             var projectId = int.Parse(Request.QueryString["projectId"]);
 
-            return DataTableExtensions.GetResults(projectUsers.Items.Select(model => ProjectUserListViewModel.FromProjectUser(model, PartialViewToString("_ProjectUsersGridActions", ProjectUserListViewModel.FromProjectUser(model)))).Where(e => e.ProjectId == projectId), dataTablesParam, projectUsers.TotalCount);
+            return DataTableExtensions.GetResults(projectUsers.Items.Select(model => ProjectUserListViewModel.FromProjectUser(model, PartialViewToString("_ProjectUsersGridActions", ProjectUserListViewModel.FromProjectUser(model)))).Where(e => e.ProjectId == projectId && e.UserName != ProjectUserListViewModel.GetProjectCreatorName(projectId)), dataTablesParam, projectUsers.TotalCount);
         }
 
         [HttpPost]
@@ -180,7 +203,7 @@ namespace LMPlatform.UI.Controllers
             var bugs = BugManagementService.GetAllBugs(pageInfo: dataTableParam.ToPageInfo(),
                 searchString: searchString);
 
-            return DataTableExtensions.GetResults(bugs.Items.Select(BugListViewModel.FromBug), dataTableParam, bugs.TotalCount);
+            return DataTableExtensions.GetResults(bugs.Items.Select(model => BugListViewModel.FromBug(model, PartialViewToString("_BugsGridActions", BugListViewModel.FromBug(model)))), dataTableParam, bugs.TotalCount);
         }
 
         public IProjectManagementService ProjectManagementService

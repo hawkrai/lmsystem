@@ -39,8 +39,8 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public int BugId { get; set; }
 
         //[DisplayName("Проект")]
-        //public string Project { get; set; 
-        [DisplayName("Содержание")]
+        //public string Project { get; set; }
+        [DisplayName("Название")]
         public string Summary { get; set; }
 
         [DisplayName("Описание")]
@@ -49,14 +49,11 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Шаги выполнения")]
         public string Steps { get; set; }
 
-        //[DisplayName("Симптом")]
-        //public string Symptom { get; set; 
-        //[DisplayName("Важность")]
-        //public string Severity { get; set; 
-        //[DisplayName("Статус")]
-        //public string Status { get; set; 
         [DisplayName("Симптом")]
         public int SymptomId { get; set; }
+
+        [DisplayName("Проект")]
+        public int ProjectId { get; set; }
 
         [DisplayName("Важность")]
         public int SeverityId { get; set; }
@@ -64,8 +61,27 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Статус")]
         public int StatusId { get; set; }
 
-        [DisplayName("Проект")]
-        public int ProjectId { get; set; }
+        public int CreatorId { get; set; }
+
+        //public string Symptom { get; set; }
+        //public string Severity { get; set; }
+        //public string Status { get; set; }
+        public AddBugViewModel()
+        {
+            CreatorId = WebSecurity.CurrentUserId;
+        }
+
+        public AddBugViewModel(Bug bug)
+        {
+            BugId = bug.Id;
+            ProjectId = bug.ProjectId;
+            SeverityId = bug.SeverityId;
+            StatusId = bug.StatusId;
+            SymptomId = bug.SymptomId;
+            Steps = bug.Steps;
+            Description = bug.Description;
+            Summary = bug.Summary;
+        }
 
         public IList<SelectListItem> GetStatusNames()
         {
@@ -110,10 +126,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public void SaveBug()
         {
-            var creatorId = WebSecurity.CurrentUserId;
-            BugManagementService.SaveBug(new Bug
+            var reporterId = WebSecurity.CurrentUserId;
+            var bug = new Bug
             {
-                CreatorId = creatorId,
+                ReporterId = reporterId,
                 ProjectId = ProjectId,
                 SeverityId = SeverityId,
                 StatusId = StatusId,
@@ -121,9 +137,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 Steps = Steps,
                 Description = Description,
                 Summary = Summary,
-                CreatingDate = DateTime.Today,
+                ReportingDate = DateTime.Today,
                 ModifyingDate = DateTime.Today
-            });
+            };
+            BugManagementService.SaveBug(bug);
         }
     }
 }

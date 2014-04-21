@@ -14,12 +14,16 @@ namespace Application.Infrastructure.ProjectManagement
 
         List<Project> GetProjects();
 
+        List<ProjectComment> GetProjectComments(int projectId);
+
         IPageableList<Project> GetProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
         List<ProjectUser> GetProjectUsers(int projectId); 
             
         IPageableList<ProjectUser> GetProjectUsers(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
+        void SaveComment(ProjectComment comment);
+        
         void SaveProject(Project project);
 
         void UpdateProject(Project project);

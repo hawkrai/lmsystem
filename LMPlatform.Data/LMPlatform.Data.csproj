@@ -71,6 +71,7 @@
     <Compile Include="Repositories\LmPlatformRepositoriesContainer.cs" />
     <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="Repositories\ModulesRepository.cs" />
+    <Compile Include="Repositories\ProjectCommentsRepository.cs" />
     <Compile Include="Repositories\PracticalRepository.cs" />
     <Compile Include="Repositories\ProjectInitializer .cs" />
     <Compile Include="Repositories\ProjectsRepository.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Repositories\RepositoryContracts\IMessageRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IModulesRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ILecturerRepository.cs" />
+    <Compile Include="Repositories\RepositoryContracts\IProjectCommentsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IPracticalRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IProjectsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IProjectUsersRepository.cs" />

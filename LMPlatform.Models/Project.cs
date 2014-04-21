@@ -27,6 +27,12 @@ namespace LMPlatform.Models
             set; 
         }
 
+        public ICollection<ProjectComment> ProjectComments
+        {
+            get;
+            set;
+        }
+
         public ICollection<Bug> Bugs
         {
             get;

@@ -420,10 +420,22 @@ namespace LMPlatform.Data.Infrastructure
                  .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Project>()
-                .HasMany<ProjectUser>(e => e.ProjectUsers)
+                .HasMany<ProjectComment>(e => e.ProjectComments)
                 .WithRequired(e => e.Project)
                 .HasForeignKey(e => e.ProjectId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+                .HasMany<ProjectComment>(e => e.ProjectComments)
+                .WithRequired(e => e.User)
+                .HasForeignKey(e => e.UserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Project>()
+                .HasMany<ProjectUser>(e => e.ProjectUsers)
+                .WithRequired(e => e.Project)
+                .HasForeignKey(e => e.ProjectId)
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<User>()
                 .HasMany<ProjectUser>(e => e.ProjectUsers)
@@ -443,28 +455,43 @@ namespace LMPlatform.Data.Infrastructure
                .HasForeignKey(e => e.ProjectId)
                .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<BugStatus>()
-                .HasMany<Bug>(e => e.Bug)
-                .WithRequired(e => e.Status)
+            modelBuilder.Entity<Bug>()
+                .HasRequired<BugStatus>(e => e.Status)
+                .WithMany(e => e.Bug)
                 .HasForeignKey(e => e.StatusId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<BugSeverity>()
-                .HasMany<Bug>(e => e.Bug)
-                .WithRequired(e => e.Severity)
+            modelBuilder.Entity<Bug>()
+                .HasRequired<BugSeverity>(e => e.Severity)
+                .WithMany(e => e.Bug)
                 .HasForeignKey(e => e.SeverityId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<BugSymptom>()
-                .HasMany<Bug>(e => e.Bug)
-                .WithRequired(e => e.Symptom)
+            modelBuilder.Entity<Bug>()
+                .HasRequired<BugSymptom>(e => e.Symptom)
+                .WithMany(e => e.Bug)
                 .HasForeignKey(e => e.SymptomId)
                 .WillCascadeOnDelete(false);
 
+            //modelBuilder.Entity<BugStatus>()
+            //    .HasMany<Bug>(e => e.Bug)
+            //    .WithRequired(e => e.Status)
+            //    .HasForeignKey(e => e.StatusId)
+            //    .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<BugSeverity>()
+            //    .HasMany<Bug>(e => e.Bug)
+            //    .WithRequired(e => e.Severity)
+            //    .HasForeignKey(e => e.SeverityId)
+            //    .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<BugSymptom>()
+            //    .HasMany<Bug>(e => e.Bug)
+            //    .WithRequired(e => e.Symptom)
+            //    .HasForeignKey(e => e.SymptomId)
+            //    .WillCascadeOnDelete(false);
             modelBuilder.Entity<Bug>()
-                .HasRequired<User>(e => e.Creator)
+                .HasRequired<User>(e => e.Reporter)
                 .WithMany(e => e.Bugs)
-                .HasForeignKey(e => e.CreatorId)
+                .HasForeignKey(e => e.ReporterId)
                 .WillCascadeOnDelete(false);
         }
 

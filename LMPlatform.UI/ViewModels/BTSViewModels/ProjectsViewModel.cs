@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Web.Mvc;
 using Application.Core;
 using Application.Infrastructure.ProjectManagement;
@@ -53,21 +54,12 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Создатель")]
         public string CreatorName { get; set; }
 
+        public string CommentText { get; set; }
+
         public void CreateStaticLists()
         {
             _bugs = new List<Bug>();
             _statuses = new List<BugStatus>();
-        }
-
-        public ProjectsViewModel()
-        {
-            CreateStaticLists();
-            if (GetProjectNames().Count != 0)
-            {
-                var model = ProjectManagementService.GetProject(Convert.ToInt32(GetProjectNames().First().Value));
-                ProjectId = model.Id;
-                SetParams(model);
-            }
         }
 
         public ProjectsViewModel(int projectId)
@@ -108,12 +100,20 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public int QuentityOfClosedBugs { get; set; }
 
         private static List<Bug> _bugs;
+        private static List<BugSeverity> _severities;
         private static List<BugStatus> _statuses;
+        private static List<BugSymptom> _symptoms;
+
+        public List<ProjectComment> GetProjectComments()
+        {
+            var commentList = ProjectManagementService.GetProjectComments(ProjectId).ToList();
+            return commentList;
+        }
 
         public void SetBugStatistics(int id)
         {
             GetProjectBugs(id);
-            GetStatusList();
+            GetBugPropertyList();
             GetBugQuentity();
             if (BugQuentity != 0)
             {
@@ -124,10 +124,12 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }
         }
 
-        private void GetStatusList()
+        private void GetBugPropertyList()
         {
             var context = new LmPlatformModelsContext();
             _statuses = context.BugStatuses.ToList();
+            _severities = context.BugSeverities.ToList();
+            _symptoms = context.BugSymptoms.ToList();
         }
 
         private int GetStatusIdByName(string name)
@@ -202,6 +204,18 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                     _bugs.Add(b);
                 }
             }
+        }
+
+        public void SaveComment()
+        {
+            var currentUserId = WebSecurity.CurrentUserId;
+            var comment = new ProjectComment
+            {
+                ProjectId = ProjectId,
+                UserId = currentUserId,
+                CommentingDate = DateTime.Today
+            };
+            ProjectManagementService.SaveComment(comment);
         }
     }
 }

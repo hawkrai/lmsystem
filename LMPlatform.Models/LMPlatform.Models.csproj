@@ -89,6 +89,7 @@
     <Compile Include="OAuthMembership.cs" />
     <Compile Include="Practical.cs" />
     <Compile Include="Project.cs" />
+    <Compile Include="ProjectComment.cs" />
     <Compile Include="ProjectRole.cs" />
     <Compile Include="ProjectUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

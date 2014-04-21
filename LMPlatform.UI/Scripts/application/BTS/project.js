@@ -3,8 +3,11 @@
         getAddProjectForm($(this).data('url'));
     });
 
-    $(".editProjectButton").on('click', function () {
-        getAddProjectForm($(this).data('url'));
+    $("#chat-btn").on('click', function () {
+        var form = $(event.target).parents('form');
+        var commentText = $('#CommentText').val();
+        $.post('/BTS/ProjectManagement', { comment: commentText });
+        form.submit();
     });
 
     //$('#projectNameList').on('change', function () {

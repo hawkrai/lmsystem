@@ -244,6 +244,7 @@
     <Content Include="Content\bootstrap-wysihtml5.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Chat.css" />
     <Content Include="Content\chosen\chosen.css" />
     <Content Include="Content\chosen\chosen.min.css" />
     <Content Include="Content\admin.css" />
@@ -444,6 +445,7 @@
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
     <Content Include="Scripts\application\BTS\bug.js" />
     <Content Include="Scripts\application\BTS\project.js" />
+    <Content Include="Scripts\application\BTS\projectEdit.js" />
     <Content Include="Scripts\application\BTS\projectPart.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
@@ -971,6 +973,8 @@
     <Content Include="Views\TestPassing\TestsForPassing.cshtml" />
     <Content Include="Views\TestPassing\RealTimePassingForTest.cshtml" />
     <Content Include="Views\TestPassing\EndTest.cshtml" />
+    <Content Include="Views\BTS\_BugsGridActions.cshtml" />
+    <Content Include="Views\BTS\BugDetails.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Practicals\_EditPractical.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Practicals\_PracticalModule.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\ScheduleProtection\_ScheduleProtectionLabs.cshtml" />
@@ -1047,7 +1051,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

@@ -6,5 +6,6 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     public interface IBugsRepository : IRepositoryBase<Bug>
     {
+        void DeleteBug(Bug bug);
     }
 }

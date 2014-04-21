@@ -25,6 +25,8 @@ namespace LMPlatform.Data.Repositories
 
         public IProjectUsersRepository ProjectUsersRepository { get; set; }
 
+        public IProjectCommentsRepository ProjectCommentsRepository { get; set; }
+
         public IStudentsRepository StudentsRepository { get; set; }
 
         public ISubjectRepository SubjectRepository { get; set; }
@@ -68,6 +70,7 @@ namespace LMPlatform.Data.Repositories
             GroupsRepository = new GroupsRepository(_dataContext);
             ProjectsRepository = new ProjectsRepository(_dataContext);
             ProjectUsersRepository = new ProjectUsersRepository(_dataContext);
+            ProjectCommentsRepository = new ProjectCommentsRepository(_dataContext);
             StudentsRepository = new StudentsRepository(_dataContext);
             SubjectRepository = new SubjectRepository(_dataContext);
             TestsRepository = new TestsRepository(_dataContext);

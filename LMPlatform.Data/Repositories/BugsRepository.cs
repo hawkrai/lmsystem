@@ -12,5 +12,16 @@ namespace LMPlatform.Data.Repositories
         public BugsRepository(LmPlatformModelsContext dataContext) : base(dataContext)
         {      
         }
+
+        public void DeleteBug(Bug bug)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var model = context.Set<Bug>().FirstOrDefault(e => e.Id == bug.Id);
+                context.Delete(model);
+
+                context.SaveChanges();
+            }
+        }
     }
 }

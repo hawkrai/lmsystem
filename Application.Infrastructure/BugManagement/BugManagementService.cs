@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Application.Core.Data;
+using Application.Infrastructure.ProjectManagement;
+using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 
@@ -51,6 +53,17 @@ namespace Application.Infrastructure.BugManagement
             {
                 repositoriesContainer.BugsRepository.Save(bug);
                 repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void DeleteBug(int bugId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var bug =
+                    repositoriesContainer.BugsRepository.GetBy(
+                        new Query<Bug>().AddFilterClause(u => u.Id == bugId));
+                repositoriesContainer.BugsRepository.DeleteBug(bug);
             }
         }
     }

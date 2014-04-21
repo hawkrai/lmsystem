@@ -1,7 +1,7 @@
 ﻿@model LMPlatform.UI.ViewModels.BTSViewModels.AddBugViewModel
 
 <div id="addBugForm">
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("DocumentBug","BTS"))
     {
         @Html.ValidationSummary(true)
 

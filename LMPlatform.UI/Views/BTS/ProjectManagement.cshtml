@@ -11,6 +11,7 @@
 @section css
 {
     <link rel="stylesheet" href="/Content/Site.css" />
+    <link rel="stylesheet" href="/Content/Chat.css" />
 }
 
 @section scripts
@@ -28,7 +29,7 @@
 <h3>
     @Model.Title
 </h3>
-<hr/>
+<hr />
 <div class="row bts">
     <div class="col-md-8">
         <div class="row">
@@ -61,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <hr/>
+                <hr />
                 <div class="row" style="margin-top: 10px">
                     <div class="col-md-7">
                         <h4>Участники проекта</h4>
@@ -134,9 +135,59 @@
 
                 </div>
             </div>
-            <div align="center">
+            @*<div align="center" style="margin-top: 10px">
                 <a type="button" class="btn btn-primary btn-sm" href="@Url.Action("BugManagement", "BTS")">Перейти к ошибкам</a>
+            </div>*@
+
+            <div style="margin-top: 10px">
+                <div class="container">
+                    <div class="row">
+                        @*<div class="col-md-5">*@
+                        <div>
+                            <div class="panel panel-primary" style="width: 318px">
+                                <div class="panel-heading" id="accordion">
+                                    <span class="glyphicon glyphicon-comment fa-tab"></span>Обсуждение проекта
+                                    <div class="btn-group pull-right">
+                                        <a type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                            <span class="glyphicon glyphicon-chevron-down"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="panel-collapse collapse" id="collapseOne">
+                                    <div class="panel-body">
+                                        <ul class="chat">
+                                            @foreach (var comment in Model.GetProjectComments())
+                                            {
+                                                <li>
+                                                    <div class="chat-body">
+                                                        <div class="header">
+                                                            <strong class="primary-font">@comment.User.FullName</strong> <small class="pull-right text-muted">
+                                                                <span class="glyphicon glyphicon-time"></span>@comment.CommentingDate.ToShortDateString()</small>
+                                                        </div>
+                                                        <p>
+                                                            @comment.CommentText
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <div class="input-group">
+                                            <input id="CommentText" type="text" class="form-control input-sm" placeholder="Введите свой комментарий..." />
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-success btn-sm" id="chat-btn">
+                                                    Отправить</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>

@@ -32,6 +32,16 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
+        public List<ProjectComment> GetProjectComments(int projectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return
+                    repositoriesContainer.ProjectCommentsRepository.GetAll(new Query<ProjectComment>(e => e.ProjectId == projectId).Include(e => e.User))
+                        .ToList();
+            }
+        }
+
         public IPageableList<ProjectUser> GetProjectUsers(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
             var query = new PageableQuery<ProjectUser>(pageInfo);
@@ -85,6 +95,15 @@ namespace Application.Infrastructure.ProjectManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.ProjectUsersRepository.Save(projectUser);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void SaveComment(ProjectComment comment)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.ProjectCommentsRepository.Save(comment);
                 repositoriesContainer.ApplyChanges();
             }
         }

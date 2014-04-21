@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $(".bugButton").on('click', function () {
+    $(".addBugButton").on('click', function () {
         getAddBugForm($(this).data('url'));
     });
 });

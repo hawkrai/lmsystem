@@ -45,6 +45,13 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             };
         }
 
+        public static string GetProjectCreatorName(int projectId)
+        {
+            var project = context.Projects.Find(projectId);
+            var creator = context.Users.Find(project.CreatorId);
+            return creator.FullName;
+        }
+
         public static string GetRoleName(int id)
         {
             var role = context.ProjectRoles.Find(id);

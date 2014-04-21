@@ -1,0 +1,102 @@
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.BugsViewModel
+
+@{
+    ViewBag.Title = "Управление ошибками";
+}
+
+@section css
+{
+    <link rel="stylesheet" href="/Content/chosen/chosen.css">
+    <link rel="stylesheet" href="/Content/Site.css" />
+}
+
+@section navleft
+{
+    @Html.Partial("_BTSSubnavbar")
+}
+
+<h3>
+    @Model.Summary
+</h3>
+<hr />
+<div class="row bts">
+    <div class="col-md-offset-1 col-md-10" style="margin-top: 10px">
+        <div class="row">
+            <div class="col-md-1">
+                <span class="fa fa-bug fa-3x" />
+            </div>
+            <div class="col-md-11">
+                <div class="row">
+                    <i class="glyphicon glyphicon-calendar fa-tab"></i>Документирована @Model.ReportingDate пользователем <font color="blue">@Model.ReporterName</font>
+                </div>
+
+                <div class="row" style="color: #999">
+                    <i class="glyphicon glyphicon-time fa-tab"></i>Изменена @Model.ModifyingDate
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Summary)
+            </div>
+            <div class="col-md-10">
+                @Model.Summary
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Description)
+            </div>
+            <div class="col-md-10">
+                @Model.Description
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Project)
+            </div>
+            <div class="col-md-10">
+                @Model.Project
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Steps)
+            </div>
+            <div class="col-md-10">
+                @Model.Steps
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Severity)
+            </div>
+            <div class="col-md-10">
+                @Model.Severity
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Status)
+            </div>
+            <div class="col-md-10">
+                @Model.Status
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Symptom)
+            </div>
+            <div class="col-md-10">
+                @Model.Symptom
+            </div>
+        </div>
+    </div>
+</div>

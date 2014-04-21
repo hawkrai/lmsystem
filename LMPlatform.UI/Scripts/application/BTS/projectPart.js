@@ -3,8 +3,7 @@
         $("#students").empty();
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("GetStudents")',
-            dataType: 'json',
+            url: '@Url.Action("GetStudents","BTS")',
             data: { groupId: $("#groups").val() },
             success: function (students) {
                 $.each(students, function (i, student) {
