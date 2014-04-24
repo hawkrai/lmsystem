@@ -1,66 +1,71 @@
-﻿@model LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesNewsViewModel
-
-<div>
-    @if (User.IsInRole("lector"))
-    {
-        <div id="navPanel">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div id="buttonActionSection">
-                                <a id="addNewsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" href="@Url.Action("CreateNews", "Subject", new { subjectId = Model.SubjectId })">Добавить новость</a>
-                                    @*<a id="addNewsButton" style="margin-right: 10px" class=" fa-2x" href="@Url.Action("CreateNews", "Subject", new { subjectId = Model.SubjectId })"><i class="addNewsButton fa fa-plus fa-2x"></i></a>*@
-</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="page-header" style="margin-top: 5px"></div>    
-    }
-
-    <div id="news">
-        @if (!Model.News.Any())
-        {
-            <div class="center notification-on-page">
-                <p class="notification-header">Ooooooops...</p>
-                <p class="notification-body">Новости отсутствуют.</p>  
-                <i class="fa-info-circle fa fa-6"></i>
-            </div>
+﻿<div ng-controller="NewsController" ng-init="init()">
+    <style type="text/css">
+        .nav, .pagination, .carousel, .panel-title a {
+            cursor: pointer;
         }
+    </style>
+    <div id="navPanel">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="buttonActionSection">
+                            <a id="addNewsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="addNews()">Добавить новость</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="page-header" style="margin-top: 5px"></div>
 
-        <div class="panel-group" id="accordion">
-            @{
-                var href = 0;
-            }
-            @foreach (var news in Model.News)
-            {
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+    <div>
+        <div class="panel-group">
+            <accordion>
+                <accordion-group ng-repeat="data in news">
+                    <accordion-heading>
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#link_@href" class="collapsed" style="float: left">@news.Title</a>
+                            <a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.Title}}</a>
                         </h4>
                         <div style="text-align: right">
-                            <p class="text-muted" style="float: right; margin-left: 20px">@news.DateCreate</p>
-                            @if (User.IsInRole("lector"))
-                            {
-                                <a class="editNewsButton" style="margin-right: 10px" href="@Url.Action("EditNews", "Subject", new {id=news.NewsId, subjectId=news.SubjectId})"><i class="editNewsButton fa fa-edit fa-2x"></i></a>
-                                <a class="deleteNewsButton" href="@Url.Action("DeleteNews", "Subject", new {id=news.NewsId, subjectId=news.SubjectId})"><i class="deleteNewsButton fa fa-trash-o fa-2x"></i></a>
-                            }
+                            <p class="text-muted" style="float: right; margin-left: 20px">{{data.DateCreate}}</p>
+                            <a class="editNewsButton" style="margin-right: 10px" href="#" ng-click="editNews(data)"><i class="editNewsButton fa fa-edit fa-2x"></i></a>
+                            <a class="deleteNewsButton" href="#"><i class="deleteNewsButton fa fa-trash-o fa-2x"></i></a>
                         </div>
 
 
                         <div class="clear-fix"></div>
+                    </accordion-heading>
+                    <div>
+                        {{data.Body}}
                     </div>
-                    <div id="link_@href" class="panel-collapse collapse" style="height: 0px;">
-                        <div class="panel-body">
-                            @Html.Raw(@news.Body)
-                        </div>
+                </accordion-group>
+            </accordion>
+
+        </div>
+    </div>
+    <div id="dialogAddNews" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Добавление пользователей</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label class="control-label">Название новости</label>
+                        <input type="text" class="form-control" style="width: 545px" ng-model="editNewsData.Title" />
+                    </div>
+                    <div>
+                        <label class="control-label">Тело новости</label>
+                        <textarea id="newsHtml" style="width: 545px; height: 300px" ng-model="editNewsData.Body"></textarea>
                     </div>
                 </div>
-                            href++;
-            }
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a href="#" class="btn btn-primary btn-sm" ng-click="saveNews()" id="saveNewsButton" data-dismiss="modal">Сохранить</a>
+            </div>
         </div>
     </div>
 

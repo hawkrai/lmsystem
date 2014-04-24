@@ -1,8 +1,5 @@
 ﻿html, body {
     width: 100%;
-    /*font-family: 'Gochi Hand';*/
-    /*font-family: 'Englebert', sans-serif;*/
-    font-family: 'Lobster', cursive;
     background-color: #f4f5f7;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF9FAFB', endColorstr='#FFEDEFF3', GradientType=0);
     border-color: #edeff3 #edeff3 #bfc6d4;
@@ -174,7 +171,7 @@ h1 {
     left: 225px;
     position: fixed;
     width: 300px;
-    top: 55px;
+    top: 53px;
     height: 100%;
     border-radius: 0;
     border: none;

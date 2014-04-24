@@ -17,7 +17,7 @@
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
         private readonly LazyDependency<IFilesManagementService> _filesManagementService = new LazyDependency<IFilesManagementService>();
 
-        public IFilesManagementService FilesManagementService
+        private IFilesManagementService FilesManagementService
         {
             get
             {
@@ -25,7 +25,7 @@
             }
         }
 
-        public ISubjectManagementService SubjectManagementService
+        private ISubjectManagementService SubjectManagementService
         {
             get
             {
@@ -100,44 +100,44 @@
             set;
         }
 
-        public LabsDataViewModel(int id, int subjectId)
-        {
-            SubjectId = subjectId;
-            Attachments = new List<Attachment>();
-            if (id != 0)
-            {
-                var labs = SubjectManagementService.GetLabs(id);
-                Order = labs.Order;
-                Theme = labs.Theme;
-                Duration = labs.Duration;
-                LabsId = id;
-                ShortName = labs.ShortName;
-                PathFile = labs.Attachments;
-                Attachments = FilesManagementService.GetAttachments(labs.Attachments);
-            }
-        }
+        //public LabsDataViewModel(int id, int subjectId)
+        //{
+        //    SubjectId = subjectId;
+        //    Attachments = new List<Attachment>();
+        //    if (id != 0)
+        //    {
+        //        var labs = SubjectManagementService.GetLabs(id);
+        //        Order = labs.Order;
+        //        Theme = labs.Theme;
+        //        Duration = labs.Duration;
+        //        LabsId = id;
+        //        ShortName = labs.ShortName;
+        //        PathFile = labs.Attachments;
+        //        Attachments = FilesManagementService.GetAttachments(labs.Attachments);
+        //    }
+        //}
 
-        public bool Delete()
-        {
-            //SubjectManagementService.DeleteNews(new SubjectNews { SubjectId = SubjectId, Id = NewsId });
-            return true;
-        }
+        //public bool Delete()
+        //{
+        //    //SubjectManagementService.DeleteNews(new SubjectNews { SubjectId = SubjectId, Id = NewsId });
+        //    return true;
+        //}
 
-        public bool Save(string attachmentsJson)
-        {
-            var attachments = JsonConvert.DeserializeObject<List<Attachment>>(attachmentsJson).ToList();
+        //public bool Save(string attachmentsJson)
+        //{
+        //    var attachments = JsonConvert.DeserializeObject<List<Attachment>>(attachmentsJson).ToList();
 
-            SubjectManagementService.SaveLabs(new Labs
-            {
-                SubjectId = SubjectId,
-                Duration = Duration,
-                Theme = Theme,
-                Order = 0,
-                ShortName = ShortName,
-                Attachments = PathFile,
-                Id = LabsId
-            }, attachments);
-            return true;
-        } 
+        //    SubjectManagementService.SaveLabs(new Labs
+        //    {
+        //        SubjectId = SubjectId,
+        //        Duration = Duration,
+        //        Theme = Theme,
+        //        Order = 0,
+        //        ShortName = ShortName,
+        //        Attachments = PathFile,
+        //        Id = LabsId
+        //    }, attachments);
+        //    return true;
+        //} 
     }
 }

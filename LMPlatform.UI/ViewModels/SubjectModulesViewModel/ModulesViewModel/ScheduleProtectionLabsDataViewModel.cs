@@ -44,6 +44,10 @@
             Name = lab.Theme;
         }
 
+        public ScheduleProtectionLabsDataViewModel(int id, int subGroupId)
+        {
+        }
+
         public string Name { get; set; }
 
         public int Order { get; set; }

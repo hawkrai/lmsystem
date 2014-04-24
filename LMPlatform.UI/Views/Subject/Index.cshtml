@@ -8,71 +8,42 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/datatable", "~/Scripts/ckeditor/ckeditor.js")
-    @Scripts.Render("~/bundle/subjectWorking")
+    @*@Scripts.Render("~/bundle/subjectWorking")*@
 
 }
 
-@section navleft
-{
-    @foreach (var module in Model.Modules.Where(e => e.Type != ModuleType.Results && e.Type != ModuleType.StatisticsVisits && e.Type != ModuleType.ScheduleProtection).ToList())
+<div ng-app="mainApp" ng-controller="MainCtrl" ng-init="init('@Model.SubjectId')">
+    @section navleft
     {
-        if (module.Type == ModuleType.Labs)
-        {
-            <li class="dropdown">
-                <a href="@Url.Action("GetModuleData", "Subject", new { subjectId = Model.SubjectId, moduleId = module.ModuleId })" class="dropdown-toggle linkNavbar moduleLinks" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x fa-tab"></i>@module.Name <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    @foreach (var dropMenu in Model.NotVisibleModules)
-                    {
-                        <li class="navLink">
-                            <a class="moduleLinks" href="@Url.Action("GetModuleDataSubMenu", "Subject", new { subjectId = Model.SubjectId, moduleId = dropMenu.ModuleId, type = ModuleType.Labs})">@dropMenu.Name</a>
-                        </li>    
-                    }
-                </ul>
-            </li>
-        }
-        else if (module.Type == ModuleType.Practical)
-        {
-            <li class="dropdown">
-                <a href="@Url.Action("GetModuleData", "Subject", new { subjectId = Model.SubjectId, moduleId = module.ModuleId })" class="dropdown-toggle linkNavbar moduleLinks" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x fa-tab"></i>@module.Name <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    @foreach (var dropMenu in Model.NotVisibleModules)
-                    {
-                        <li class="navLink">
-                            <a class="moduleLinks" href="@Url.Action("GetModuleDataSubMenu", "Subject", new { subjectId = Model.SubjectId, moduleId = dropMenu.ModuleId, type = ModuleType.Labs})">@dropMenu.Name</a>
-                        </li>    
-                    }
-                </ul>
-            </li>    
-        }
-        else
+        @foreach (var module in Model.Modules.Where(e => e.Type != ModuleType.Results && e.Type != ModuleType.StatisticsVisits && e.Type != ModuleType.ScheduleProtection).ToList())
         {
             <li class="navLink">
-                <a class="moduleLinks" href="@Url.Action("GetModuleData", "Subject", new { subjectId = Model.SubjectId, moduleId = module.ModuleId })">@module.Name</a>
+                <a class="moduleLinks" href="#@module.Type">@module.Name</a>
             </li>
+
         }
+        <div>
+            <img style="margin-left: 15%; margin-top: 10%; width: 200px" src="../../Images/schoolclass.png" />
+        </div>
+
+        @if (User.IsInRole("lector"))
+        {
+            <li><a id="subGroups" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-1x fa-tab"></i>Управление подгруппами</a></li>
+        }
+        <li><a href="@Url.Action("Subjects", "Subject")"><i class="fa fa-reply fa-1x fa-tab"></i>Сменить предмет</a></li>
+        <li><a href="@Url.Action("Index", "Lms")"><i class="fa fa-arrow-left fa-1x fa-tab"></i>Назад</a></li>
 
     }
-    <div>
-        <img style="margin-left: 15%; margin-top: 10%; width: 200px" src="../../Images/schoolclass.png" />
-    </div>
 
-    @if (User.IsInRole("lector"))
+    @section navpanel
     {
-        <li><a id="subGroups" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-1x fa-tab"></i>Управление подгруппами</a></li>
+        @Model.SubjectName
     }
-    <li><a href="@Url.Action("Subjects", "Subject")"><i class="fa fa-reply fa-1x fa-tab"></i>Сменить предмет</a></li>
-    <li><a href="@Url.Action("Index", "Lms")"><i class="fa fa-arrow-left fa-1x fa-tab"></i>Назад</a></li>
 
-}
+    <div ng-view></div>
 
-@section navpanel
-{
-    @Model.SubjectName
-}
-
-<div style="margin: 10px" class="conteinerModule" data-subjectid="@Model.SubjectId">
 </div>
-
+<script type="text/javascript" src="~/Scripts/application/mainApp.js"></script>
 <script>
     $(document).ready(function () {
         $('li.navLink').first().click();

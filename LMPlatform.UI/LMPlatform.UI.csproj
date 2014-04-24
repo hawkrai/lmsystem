@@ -67,6 +67,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Mvc.JQuery.Datatables.1.2.61\lib\net40\Mvc.JQuery.Datatables.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -100,9 +104,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
@@ -153,6 +154,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\LabsController.cs" />
+    <Compile Include="ApiControllers\NewsController.cs" />
     <Compile Include="ApiControllers\UploadController.cs" />
     <Compile Include="App_Start\BootstrapBundleConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -441,6 +444,8 @@
     <Content Include="Images\no_image.png" />
     <Content Include="Images\schoolclass.png" />
     <Content Include="Scripts\alertify.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\application\accountManagement.js" />
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
     <Content Include="Scripts\application\BTS\bug.js" />
@@ -457,6 +462,8 @@
     <Content Include="Scripts\application\KnowledgeTesting\QuestionsListScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\QuestionDetailsScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestDetailsScript.js" />
+    <Content Include="Scripts\application\labsApp.js" />
+    <Content Include="Scripts\application\mainApp.js" />
     <Content Include="Scripts\application\masterPageManagement.js" />
     <Content Include="Scripts\application\message.js" />
     <Content Include="Scripts\application\shared.js" />
@@ -863,6 +870,7 @@
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
     <Content Include="Scripts\prettify.js" />
     <Content Include="Scripts\spin.js" />
+    <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Unity.Mvc4.README.txt" />
@@ -985,6 +993,8 @@
     <Content Include="Views\Shared\Layouts\_ParentalLayout.cshtml" />
     <Content Include="Views\Shared\_ParentalSideNavPartial.cshtml" />
     <Content Include="Views\Parental\GroupNotFound.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsPartial.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\Labs\_ScheduleProtectionLabsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

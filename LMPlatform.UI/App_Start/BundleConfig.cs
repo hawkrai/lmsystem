@@ -44,6 +44,11 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/knockoutWrapper.js",
                 "~/Scripts/knockout.mapping-latest.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                "~/Scripts/angular.js",
+                "~/Scripts/angular-route.js",
+                "~/Scripts/ui-bootstrap-tpls-0.10.0.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/fileupload").Include(
                 "~/Scripts/mvcfileupload/vendor/jquery.ui.widget.js",
                 "~/Scripts/mvcfileupload/tmpl.js",

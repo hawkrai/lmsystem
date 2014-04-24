@@ -18,6 +18,21 @@ namespace LMPlatform.UI.Controllers
     [Authorize(Roles = "student, lector")]
     public class SubjectController : BasicController 
     {
+        public ActionResult News()
+        {
+            return this.PartialView("Subjects/Modules/News/_NewsModule");
+        }
+
+        public ActionResult Lectures()
+        {
+            return this.PartialView("Subjects/Modules/Lectures/_LecturesModule");
+        }
+
+        public ActionResult Labs()
+        {
+            return this.PartialView("Subjects/Modules/Labs/_LabsModule");
+        }
+
         public ActionResult Index(int subjectId)
         {
             var model = new SubjectWorkingViewModel(subjectId);
@@ -55,37 +70,36 @@ namespace LMPlatform.UI.Controllers
             return null;
         }
 
-        public ActionResult CreateNews(int subjectid)
-        {
-            var model = new NewsDataViewModel(0, subjectid);
+        //public ActionResult CreateNews(int subjectid)
+        //{
+        //    var model = new NewsDataViewModel(0, subjectid);
 
-            return PartialView("Subjects/Modules/News/_EditNews", model);
-        }
+        //    return PartialView("Subjects/Modules/News/_EditNews", model);
+        //}
 
-        public ActionResult EditNews(int id, int subjectId)
-        {
-            var model = new NewsDataViewModel(id, subjectId);
+        //public ActionResult EditNews(int id, int subjectId)
+        //{
+        //    var model = new NewsDataViewModel(id, subjectId);
 
-            return PartialView("Subjects/Modules/News/_EditNews", model);
-        }
+        //    return PartialView("Subjects/Modules/News/_EditNews", model);
+        //}
 
-        [HttpPost, ValidateInput(false)]
-        public ActionResult SaveNews(NewsDataViewModel model)
-        {
-            model.Save();
-            var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.News);
-            return PartialView("Subjects/_ModuleTemplate", modelData);
-        }
+        //[HttpPost, ValidateInput(false)]
+        //public ActionResult SaveNews(NewsDataViewModel model)
+        //{
+        //    model.Save();
+        //    var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.News);
+        //    return PartialView("Subjects/_ModuleTemplate", modelData);
+        //}
 
-        [HttpPost]
-        public ActionResult DeleteNews(int id, int subjectId)
-        {
-            var model = new NewsDataViewModel(id, subjectId);
-            model.Delete();
-            var modelData = new ModulesDataWorkingViewModel(subjectId, (int)ModuleType.News);
-            return PartialView("Subjects/_ModuleTemplate", modelData);
-        }
-
+        //[HttpPost]
+        //public ActionResult DeleteNews(int id, int subjectId)
+        //{
+        //    var model = new NewsDataViewModel(id, subjectId);
+        //    model.Delete();
+        //    var modelData = new ModulesDataWorkingViewModel(subjectId, (int)ModuleType.News);
+        //    return PartialView("Subjects/_ModuleTemplate", modelData);
+        //}
         public ActionResult Subjects()
         {
             var model = new SubjectManagementViewModel(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
@@ -149,7 +163,7 @@ namespace LMPlatform.UI.Controllers
         {
             return new SubjectListViewModel
             {
-                Name = subject.Name,
+                Name = string.Format("<a href=\"{0}\">{1}</a>", Url.Action("Index", "Subject", new { subjectId = subject.Id }), subject.Name),
                 ShortName = subject.ShortName,
                 Action = PartialViewToString("_SubjectActionList", new SubjectViewModel { SubjectId = subject.Id })
             };
@@ -178,20 +192,19 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Subjects/_ModuleTemplate", modelData);
         }
 
-        public ActionResult CreateLabs(int subjectId)
-        {
-            var model = new LabsDataViewModel(0, subjectId);
+        //public ActionResult CreateLabs(int subjectId)
+        //{
+        //    var model = new LabsDataViewModel(0, subjectId);
 
-            return PartialView("Subjects/Modules/Labs/_EditLabs", model);
-        }
+        //    return PartialView("Subjects/Modules/Labs/_EditLabs", model);
+        //}
 
-        public ActionResult EditLabs(int id, int subjectId)
-        {
-            var model = new LabsDataViewModel(id, subjectId);
+        //public ActionResult EditLabs(int id, int subjectId)
+        //{
+        //    var model = new LabsDataViewModel(id, subjectId);
 
-            return PartialView("Subjects/Modules/Labs/_EditLabs", model);
-        }
-
+        //    return PartialView("Subjects/Modules/Labs/_EditLabs", model);
+        //}
         public ActionResult CreatePractical(int subjectId)
         {
             var model = new PracticalsDataViewModel(0, subjectId);
@@ -206,15 +219,14 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Subjects/Modules/Practicals/_EditPractical", model);
         }
 
-        [HttpPost]
-        public ActionResult DeleteLabs(int id, int subjectId)
-        {
-            var model = new LabsDataViewModel(id, subjectId);
-            model.Delete();
-            var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Labs);
-            return PartialView("Subjects/_ModuleTemplate", modelData);
-        }
-
+        //[HttpPost]
+        //public ActionResult DeleteLabs(int id, int subjectId)
+        //{
+        //    var model = new LabsDataViewModel(id, subjectId);
+        //    model.Delete();
+        //    var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Labs);
+        //    return PartialView("Subjects/_ModuleTemplate", modelData);
+        //}
         [HttpPost]
         public ActionResult DeletePractical(int id, int subjectId)
         {
@@ -224,14 +236,13 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Subjects/_ModuleTemplate", modelData);
         }
 
-        [HttpPost, ValidateInput(false)]
-        public ActionResult SaveLabs(LabsDataViewModel model, string attachments)
-        {
-            model.Save(attachments);
-            var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Labs);
-            return PartialView("Subjects/_ModuleTemplate", modelData);
-        }
-
+        //[HttpPost, ValidateInput(false)]
+        //public ActionResult SaveLabs(LabsDataViewModel model, string attachments)
+        //{
+        //    model.Save(attachments);
+        //    var modelData = new ModulesDataWorkingViewModel(model.SubjectId, (int)ModuleType.Labs);
+        //    return PartialView("Subjects/_ModuleTemplate", modelData);
+        //}
         [HttpPost, ValidateInput(false)]
         public ActionResult SavePractical(PracticalsDataViewModel model, string attachments)
         {
