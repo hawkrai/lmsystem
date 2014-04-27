@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Application.Core.Data;
+using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.ParentalViewModels;
+using Mvc.JQuery.Datatables;
 
 namespace LMPlatform.UI.Controllers
 {
@@ -84,6 +87,30 @@ namespace LMPlatform.UI.Controllers
         public bool IsValidGroup(string groupName)
         {
             return GroupManagementService.GetGroupByName(groupName) != null;
+        }
+
+        [HttpPost]
+        public DataTablesResult<DataTableStat> GetStatCollection(DataTablesParam dataTableParam)
+        {
+            var searchString = dataTableParam.GetSearchString();
+            bool? param = null;
+            try
+            {
+                param = bool.Parse(Request.QueryString["param"]);
+            }
+            catch (ArgumentNullException)
+            {
+            }
+            catch (FormatException)
+            {
+            }
+
+            var models = new List<ModelBase>();
+            return DataTableExtensions.GetResults(
+                models.Select(m =>
+                    new DataTableStat(PartialViewToString("_MessageDisplayRow", DisplayStatViewModel.FormStatToDisplay()))),
+                    dataTableParam,
+                    models.Count);
         }
 
         public IGroupManagementService GroupManagementService
