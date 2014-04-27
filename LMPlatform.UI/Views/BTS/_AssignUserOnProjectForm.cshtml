@@ -14,7 +14,6 @@
                 <div>
                     @Html.DropDownListFor(e => e.GroupId, Model.GetGroups(), new { @class = "form-control", @id = "groups" })
                 </div>
-                <p></p>
             </div>
             
             <div>
@@ -22,7 +21,6 @@
                 <div>
                     @Html.DropDownListFor(e => e.StudentId, Model.GetStudents(Model.GroupId), new { @class = "form-control", @id = "students"})
                 </div>
-                <p></p>
             </div>
             
             <div>
@@ -30,7 +28,6 @@
                 <div>
                     @Html.DropDownListFor(e => e.RoleId, Model.GetRoles(), new { @class = "form-control" })
                 </div>
-                <p></p>
             </div>
 
             <input type="submit" style="display: none" />
@@ -39,5 +36,5 @@
 </div>
 
 <script type="text/javascript">
-    $('.modal-dialog').width('500px');
+    $('.modal-dialog').width('600px');
 </script>

@@ -38,8 +38,6 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int BugId { get; set; }
 
-        //[DisplayName("Проект")]
-        //public string Project { get; set; }
         [DisplayName("Название")]
         public string Summary { get; set; }
 
@@ -63,24 +61,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int CreatorId { get; set; }
 
-        //public string Symptom { get; set; }
-        //public string Severity { get; set; }
-        //public string Status { get; set; }
         public AddBugViewModel()
         {
             CreatorId = WebSecurity.CurrentUserId;
-        }
-
-        public AddBugViewModel(Bug bug)
-        {
-            BugId = bug.Id;
-            ProjectId = bug.ProjectId;
-            SeverityId = bug.SeverityId;
-            StatusId = bug.StatusId;
-            SymptomId = bug.SymptomId;
-            Steps = bug.Steps;
-            Description = bug.Description;
-            Summary = bug.Summary;
         }
 
         public IList<SelectListItem> GetStatusNames()

@@ -455,39 +455,24 @@ namespace LMPlatform.Data.Infrastructure
                .HasForeignKey(e => e.ProjectId)
                .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Bug>()
-                .HasRequired<BugStatus>(e => e.Status)
-                .WithMany(e => e.Bug)
+            modelBuilder.Entity<BugStatus>()
+                .HasMany<Bug>(e => e.Bug)
+                .WithRequired(e => e.Status)
                 .HasForeignKey(e => e.StatusId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Bug>()
-                .HasRequired<BugSeverity>(e => e.Severity)
-                .WithMany(e => e.Bug)
+            modelBuilder.Entity<BugSeverity>()
+                .HasMany<Bug>(e => e.Bug)
+                .WithRequired(e => e.Severity)
                 .HasForeignKey(e => e.SeverityId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Bug>()
-                .HasRequired<BugSymptom>(e => e.Symptom)
-                .WithMany(e => e.Bug)
+            modelBuilder.Entity<BugSymptom>()
+                .HasMany<Bug>(e => e.Bug)
+                .WithRequired(e => e.Symptom)
                 .HasForeignKey(e => e.SymptomId)
                 .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<BugStatus>()
-            //    .HasMany<Bug>(e => e.Bug)
-            //    .WithRequired(e => e.Status)
-            //    .HasForeignKey(e => e.StatusId)
-            //    .WillCascadeOnDelete(false);
-            //modelBuilder.Entity<BugSeverity>()
-            //    .HasMany<Bug>(e => e.Bug)
-            //    .WithRequired(e => e.Severity)
-            //    .HasForeignKey(e => e.SeverityId)
-            //    .WillCascadeOnDelete(false);
-            //modelBuilder.Entity<BugSymptom>()
-            //    .HasMany<Bug>(e => e.Bug)
-            //    .WithRequired(e => e.Symptom)
-            //    .HasForeignKey(e => e.SymptomId)
-            //    .WillCascadeOnDelete(false);
             modelBuilder.Entity<Bug>()
                 .HasRequired<User>(e => e.Reporter)
                 .WithMany(e => e.Bugs)

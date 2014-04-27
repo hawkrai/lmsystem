@@ -23,5 +23,12 @@ namespace LMPlatform.Data.Repositories
                 context.SaveChanges();
             }
         }
+
+        public Bug SaveBug(Bug bug)
+        {
+            DataContext.Set<Bug>().Add(bug);
+
+            return bug;
+        }
     }
 }

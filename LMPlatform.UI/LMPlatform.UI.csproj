@@ -197,6 +197,7 @@
     <Compile Include="ViewModels\BTSViewModels\AssignUserViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugStatisticsViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugsViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\ProjectParticipationViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionItemListViewModel.cs" />
@@ -996,6 +997,7 @@
     <Content Include="Views\Shared\Layouts\_ParentalLayout.cshtml" />
     <Content Include="Views\Shared\_ParentalSideNavPartial.cshtml" />
     <Content Include="Views\Parental\GroupNotFound.cshtml" />
+    <Content Include="Views\BTS\ProjectParticipation.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsPartial.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_ScheduleProtectionLabsPartial.cshtml" />
     <Content Include="Views\Shared\_StatDataTable.cshtml" />

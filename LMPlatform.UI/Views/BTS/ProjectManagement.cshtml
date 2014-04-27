@@ -33,7 +33,7 @@
 <div class="row bts">
     <div class="col-md-8">
         <div class="row">
-            <div class="col-md-offset-1 col-md-10">
+            <div class="col-md-12">
                 <div style="margin-top: 10px">
                     <div class="row">
                         <div class="col-md-4">
@@ -66,9 +66,13 @@
                 <div class="row" style="margin-top: 10px">
                     <div class="col-md-7">
                         <h4>Участники проекта</h4>
+                        <a href="#" class="projectPartButton" data-url="@Url.Action("AssignUserOnProject", "BTS")" data-toggle="tooltip" style="float: left">
+                            <span class="glyphicon glyphicon-plus fa-tab"></span>Добавить участника
+                        </a>
                     </div>
+
                     <div class="col-md-5">
-                        <button type="button" class="projectPartButton btn btn-primary btn-sm" style="float: right" data-url="@Url.Action("AssignUserOnProject", "BTS")" data-toggle="tooltip">Добавить участника</button>
+                        <a type="button" class="btn btn-primary btn-sm" style="float: right" href="@Url.Action("BugManagement", "BTS")">Перейти к ошибкам проекта</a>
                     </div>
                 </div>
 
@@ -112,16 +116,16 @@
                         </div>
                         <div class="progress">
                             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfAssignesBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfAssignesBugs * 100.0 / Model.BugQuentity)).ToString() + "%;")">
-                                <span class="sr-only">Назначены</span>
+                                <span class="sr-only">Присоединены</span>
                             </div>
-                            <span class="progress-type">Назначены</span>
+                            <span class="progress-type">Присоединены</span>
                             <span class="progress-completed">@Model.QuentityOfAssignesBugs</span>
                         </div>
                         <div class="progress">
                             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)).ToString() + "%;")">
-                                <span class="sr-only">Разрешены</span>
+                                <span class="sr-only">Исправлены</span>
                             </div>
-                            <span class="progress-type">Разрешены</span>
+                            <span class="progress-type">Исправлены</span>
                             <span class="progress-completed">@Model.QuentityOfResolvedBugs</span>
                         </div>
                         <div class="progress">
@@ -135,9 +139,6 @@
 
                 </div>
             </div>
-            @*<div align="center" style="margin-top: 10px">
-                <a type="button" class="btn btn-primary btn-sm" href="@Url.Action("BugManagement", "BTS")">Перейти к ошибкам</a>
-            </div>*@
 
             <div style="margin-top: 10px">
                 <div class="container">

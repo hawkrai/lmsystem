@@ -3,22 +3,21 @@
         getAddProjectForm($(this).data('url'));
     });
 
+    _initializeTooltips();
+
     $("#chat-btn").on('click', function () {
         var form = $(event.target).parents('form');
         var commentText = $('#CommentText').val();
         $.post('/BTS/ProjectManagement', { comment: commentText });
         form.submit();
     });
-
-    //$('#projectNameList').on('change', function () {
-    //    var form = $(event.target).parents('form');
-    //    var projectId = $('#projectNameList').val();
-
-    //    $.post('/BTS/ProjectManagement', { projectId: projectId });
-
-    //    form.submit();
-    //});
 });
+
+function _initializeTooltips() {
+    $(".editProjectButton").tooltip({ title: "Редактировать проект", placement: 'left' });
+    $(".deleteProjectButton").tooltip({ title: "Удалить проект", placement: 'left' });
+    $(".projectDetailsButton").tooltip({ title: "Информация о проекте", placement: 'left' });
+}
 
 function getAddProjectForm(addProjectFormUrl) {
     $.get(addProjectFormUrl,
@@ -35,7 +34,8 @@ function showDialog(addProjectForm) {
         buttons: {
             main: {
                 label: "Добавить",
-                className: "btn-primary btn-submit",
+                //className: "btn-primary btn-submit",
+                className: "btn btn-primary btn-submit",
                 callback: function () {
                 }
             }
@@ -46,11 +46,22 @@ function showDialog(addProjectForm) {
     var sendBtn = $('#addOrEditProjectForm').parents().find('.modal-dialog').find('.btn-submit');
 
     sendBtn.click(function () {
-            //if ($(form).valid()) {
-            //    form.submit();
-            //} else {
-            //    return false;
-            //}
         form.submit();
+        alertify("Добавлен новый проект");
     });
 }
+
+//if ($(form).valid()) {
+//    form.submit();
+//} else {
+//    return false;
+//}
+
+//$('#projectNameList').on('change', function () {
+//    var form = $(event.target).parents('form');
+//    var projectId = $('#projectNameList').val();
+
+//    $.post('/BTS/ProjectManagement', { projectId: projectId });
+
+//    form.submit();
+//});

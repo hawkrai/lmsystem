@@ -1,74 +1,48 @@
 ﻿@model LMPlatform.UI.ViewModels.BTSViewModels.AddBugViewModel
 
 <div id="addBugForm">
-    @using (Html.BeginForm("DocumentBug","BTS"))
+    @using (Html.BeginForm("DocumentBug", "BTS"))
     {
         @Html.ValidationSummary(true)
 
         <div class="center" style="margin: 10px">
-            
-            <div class="editor-label">
-                @Html.LabelFor(model => model.ProjectId)
-            </div>
+
             <div>
-                @using (@Html.BeginForm("DocumentBug", "BTS"))
-                {
-                    @Html.DropDownListFor(e => e.ProjectId, Model.GetProjectNames(), new { @class = "form-control", @id = "projectNames" })
-                }
+                @Html.LabelFor(model => model.ProjectId)
+                @Html.DropDownListFor(e => e.ProjectId, Model.GetProjectNames(), new { @class = "form-control", @id = "projectNames" })
             </div>
 
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(model => model.Summary)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Summary)
+                @Html.TextBoxFor(model => model.Summary, new { @style = "width: 538px"})
                 @Html.ValidationMessageFor(model => model.Summary)
             </div>
 
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(model => model.Description)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Description)
+                @Html.TextBoxFor(model => model.Description, new { @style = "width: 538px"})
                 @Html.ValidationMessageFor(model => model.Description)
             </div>
 
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(model => model.Steps)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Steps)
+                @Html.TextBoxFor(model => model.Steps, new { @style = "width: 538px"})
                 @Html.ValidationMessageFor(model => model.Steps)
             </div>
 
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(model => model.SymptomId)
-            </div>
-            <div>
-                @using (@Html.BeginForm("DocumentBug", "BTS"))
-                {
-                    @Html.DropDownListFor(e => e.SymptomId, Model.GetSymptomNames(), new { @class = "form-control", @id = "symptomNames" })
-                }
+                @Html.DropDownListFor(e => e.SymptomId, Model.GetSymptomNames(), new { @class = "form-control" })
             </div>
 
-            <div class="editor-label">
-                @Html.LabelFor(model => model.SeverityId)
-            </div>
             <div>
-                @using (@Html.BeginForm("DocumentBug", "BTS"))
-                {
-                    @Html.DropDownListFor(e => e.SeverityId, Model.GetSeverityNames(), new { @class = "form-control", @id = "severityNames" })
-                }
-            </div>
-
-            <div class="editor-label">
                 @Html.LabelFor(model => model.StatusId)
+                @Html.DropDownListFor(e => e.StatusId, Model.GetStatusNames(), new { @class = "form-control" })
             </div>
+
             <div>
-                @using (@Html.BeginForm("DocumentBug", "BTS"))
-                {
-                    @Html.DropDownListFor(e => e.StatusId, Model.GetStatusNames(), new { @class = "form-control", @id = "statusmNames" })
-                }
+                @Html.LabelFor(model => model.SeverityId)
+                @Html.DropDownListFor(e => e.SeverityId, Model.GetSeverityNames(), new { @class = "form-control" })
             </div>
 
             <p>
@@ -79,5 +53,5 @@
 </div>
 
 <script type="text/javascript">
-    $('.modal-dialog').width('550px');
+    $('.modal-dialog').width('600px');
 </script>

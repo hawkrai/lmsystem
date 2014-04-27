@@ -65,8 +65,11 @@ namespace LMPlatform.Data.Infrastructure
         private static void CreateBugStatuses(LmPlatformModelsContext context)
         {
             context.BugStatuses.Add(new BugStatus { Name = "Новая" });
-            context.BugStatuses.Add(new BugStatus { Name = "Назначена" });
-            context.BugStatuses.Add(new BugStatus { Name = "Разрешена" });
+            context.BugStatuses.Add(new BugStatus { Name = "Присвоена" });
+            context.BugStatuses.Add(new BugStatus { Name = "Исправлена" });
+            context.BugStatuses.Add(new BugStatus { Name = "Отложена" });
+            context.BugStatuses.Add(new BugStatus { Name = "Невоспроизводима" });
+            context.BugStatuses.Add(new BugStatus { Name = "Повторяется" });
             context.BugStatuses.Add(new BugStatus { Name = "Закрыта" });
         }
 

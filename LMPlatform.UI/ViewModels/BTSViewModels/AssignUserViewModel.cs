@@ -66,6 +66,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int ProjectId { get; set; }
 
+        public AssignUserViewModel()
+        {
+        }
+
         public AssignUserViewModel(int projectId)
         {
             ProjectId = projectId;
@@ -103,9 +107,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }).ToList();
         }
 
-        public void SaveAssignment()
+        public void SaveAssignment(int projectId)
         {
-            ProjectManagementService.AssingRole(StudentId, ProjectId, RoleId);
+            ProjectManagementService.AssingRole(StudentId, projectId, RoleId);
         }
     }
 }

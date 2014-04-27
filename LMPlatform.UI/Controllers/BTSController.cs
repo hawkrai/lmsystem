@@ -10,6 +10,7 @@ using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
+using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.BTSViewModels;
 using Mvc.JQuery.Datatables;
@@ -65,10 +66,10 @@ namespace LMPlatform.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                projectUser.SaveAssignment();
+                projectUser.SaveAssignment(currentProjectId);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ProjectManagement", new { projectId = currentProjectId });
         }
 
         [HttpGet]
@@ -175,6 +176,26 @@ namespace LMPlatform.UI.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult ProjectParticipation()
+        {
+            var groups = new LmPlatformRepositoriesContainer().GroupsRepository.GetAll();
+            var model = new ProjectParticipationViewModel();
+            if (!groups.Any())
+            {
+                model = new ProjectParticipationViewModel(groups.First().Name);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ProjectParticipation(string groupId)
+        {
+            var model = new ProjectParticipationViewModel(groupId);
+            return View(model);
+        }
+
         [HttpPost]
         public DataTablesResult<ProjectListViewModel> GetProjects(DataTablesParam dataTableParam)
         {
@@ -182,7 +203,7 @@ namespace LMPlatform.UI.Controllers
             var projects = ProjectManagementService.GetProjects(pageInfo: dataTableParam.ToPageInfo(),
                 searchString: searchString);
 
-            return DataTableExtensions.GetResults(projects.Items.Select(model => ProjectListViewModel.FromProject(model, PartialViewToString("_ProjectsGridActions", ProjectListViewModel.FromProject(model)))), dataTableParam, projects.TotalCount);
+            return DataTableExtensions.GetResults(projects.Items.Select(model => ProjectListViewModel.FromProject(model, PartialViewToString("_ProjectsGridActions", ProjectListViewModel.FromProject(model)))).Where(e => e.IsAssigned == true), dataTableParam, projects.TotalCount);
         }
 
         [HttpPost]

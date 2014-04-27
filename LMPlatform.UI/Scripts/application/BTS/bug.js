@@ -2,7 +2,15 @@
     $(".addBugButton").on('click', function () {
         getAddBugForm($(this).data('url'));
     });
+
+    this._initializeTooltips();
 });
+
+function _initializeTooltips() {
+    $(".editBugButton").tooltip({ title: "Редактировать ошибку", placement: 'left' });
+    $(".deleteBugButton").tooltip({ title: "Удалить ошибку", placement: 'left' });
+    $(".bugDetailsButton").tooltip({ title: "Информация об ошибке", placement: 'left' });
+}
 
 function getAddBugForm(addBugFormUrl) {
     $.get(addBugFormUrl,

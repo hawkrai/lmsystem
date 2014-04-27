@@ -38,7 +38,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Дата последнего изменения")]
         public string ModifyingDate { get; set; }
 
-        [DisplayName("Действия")]
+        [DisplayName("Действие")]
         public HtmlString Action { get; set; }
 
         public string Steps { get; set; }

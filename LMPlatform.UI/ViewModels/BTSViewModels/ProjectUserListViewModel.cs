@@ -17,7 +17,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Роль")]
         public string RoleName { get; set; }
 
-        [DisplayName("Действия")]
+        [DisplayName("Действие")]
         public HtmlString Action { get; set; }
 
         public int Id { get; set; }

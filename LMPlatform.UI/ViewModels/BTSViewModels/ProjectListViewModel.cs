@@ -6,7 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 using Application.Core.UI.HtmlHelpers;
+using LMPlatform.Data.Infrastructure;
 using LMPlatform.Models;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
@@ -22,7 +24,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Создатель")]
         public string CreatorName { get; set; }
 
-        [DisplayName("Действия")]
+        [DisplayName("Действие")]
         public HtmlString Action
         {
             get;
@@ -30,6 +32,8 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         }
 
         public int Id { get; set; }
+
+        public bool IsAssigned { get; set; }
 
         public static ProjectListViewModel FromProject(Project project, string htmlLinks)
         {
@@ -41,12 +45,23 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public static ProjectListViewModel FromProject(Project project)
         {
+            var context = new LmPlatformModelsContext().ProjectUsers;
+            var isAssigned = false;
+            foreach (var user in context)
+            {
+                if (user.ProjectId == project.Id && user.UserId == WebSecurity.CurrentUserId)
+                {
+                    isAssigned = true;
+                }
+            }
+            
             return new ProjectListViewModel
                 {
                     Id = project.Id,
                     Title = project.Title,
                     CreatorName = project.Creator.UserName,
-                    CreationDate = project.CreationDate.ToShortDateString()
+                    CreationDate = project.CreationDate.ToShortDateString(),
+                    IsAssigned = isAssigned
                 };
         }
     }
