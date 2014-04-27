@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Application.Core;
 using Application.Infrastructure.MessageManagement;
+using Application.Infrastructure.UserManagement;
 using LMPlatform.Models;
 
 namespace LMPlatform.UI.ViewModels.MessageViewModels
@@ -15,9 +16,26 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
         private readonly LazyDependency<IMessageManagementService> _messageManagementService =
             new LazyDependency<IMessageManagementService>();
 
+        private readonly LazyDependency<IUsersManagementService> _userManagementService =
+            new LazyDependency<IUsersManagementService>();
+
         public IMessageManagementService MessageManagementService
         {
             get { return _messageManagementService.Value; }
+        }
+
+        public IUsersManagementService UserManagementService
+        {
+            get { return _userManagementService.Value; }
+        }
+
+        public MessageViewModel()
+        {
+        }
+
+        public MessageViewModel(bool toadmin = false)
+        {
+            ToAdmin = toadmin;
         }
 
         [HiddenInput(DisplayValue = false)]
@@ -40,6 +58,9 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
         public List<UserMessages> UserMessages { get; set; }
 
         public List<Attachment> Attachment { get; set; }
+
+        [Display(Name = "Администратору")]
+        public bool ToAdmin { get; set; }
 
         public IList<SelectListItem> GetRecipientsSelectList()
         {
@@ -65,10 +86,19 @@ namespace LMPlatform.UI.ViewModels.MessageViewModels
 
             MessageManagementService.SaveMessage(msg);
 
-            foreach (var recipient in Recipients)
+            if (ToAdmin)
             {
-                var userMsg = new UserMessages(recipient, FromId, msg.Id);
+                var admin = UserManagementService.GetAdmin();
+                var userMsg = new UserMessages(admin.Id, FromId, msg.Id);
                 MessageManagementService.SaveUserMessages(userMsg);
+            }
+            else
+            {
+                foreach (var recipient in Recipients)
+                {
+                    var userMsg = new UserMessages(recipient, FromId, msg.Id);
+                    MessageManagementService.SaveUserMessages(userMsg);
+                }
             }
         }
     }

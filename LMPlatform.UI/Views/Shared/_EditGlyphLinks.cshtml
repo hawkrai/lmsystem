@@ -3,14 +3,14 @@
     @if (!string.IsNullOrEmpty(ViewBag.EditActionLink))
     {
         <a href="@String.Format("{0}/{1}",ViewBag.EditActionLink,@Model)" data-model-id="@Model" data-toggle="tooltip" class="editButton">
-            <span class="glyphicon glyphicon-pencil" style="margin-right: 4px;" />
+            <span class="fa fa-edit fa-2x" style="margin-right: 4px;" />
         </a>
     }
 
     @if (!string.IsNullOrEmpty(ViewBag.DeleteActionLink))
     {
         <a href="@String.Format("{0}/{1}",ViewBag.DeleteActionLink,Model)" onclick=" return false;" class="deleteButton" title="Удалить">
-            <span class="glyphicon glyphicon-trash" />
+            <span class="fa fa-trash-o fa-2x" />
         </a>
     }
 </div>

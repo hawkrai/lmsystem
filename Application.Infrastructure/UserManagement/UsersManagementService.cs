@@ -4,8 +4,10 @@ using WebMatrix.WebData;
 namespace Application.Infrastructure.UserManagement
 {
     using System.Linq;
+    using System.Web.Security;
 
     using Application.Core;
+    using Application.Core.Constants;
     using Application.Infrastructure.AccountManagement;
 
     using LMPlatform.Data.Repositories;
@@ -73,6 +75,22 @@ namespace Application.Infrastructure.UserManagement
                 repositoriesContainer.MessageRepository.DeleteUserMessage(user.Id);
                 AccountManagementService.DeleteAccount(user.UserName);
                 repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public User GetAdmin()
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var admin = Roles.GetUsersInRole(Constants.Roles.Admin);
+                if (admin.Length <= 0)
+                {
+                    return null;
+                }
+
+                var adminName = admin[0];
+                var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>().AddFilterClause(u => u.UserName == adminName));
+                return user;
             }
         }
     }

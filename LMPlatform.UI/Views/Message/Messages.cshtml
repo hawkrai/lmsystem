@@ -13,7 +13,6 @@
     @Scripts.Render("~/bundles/datatable")
     <script src="/Scripts/chosen/chosen.jquery.js" type="text/javascript"></script>
     <script src="/Scripts/chosen/ajax-chosen.js" type="text/javascript"></script>
-    <script src="/Scripts/application/message.js" type="text/javascript"></script>
 }
 
 <div class="page-header">
@@ -21,7 +20,7 @@
 </div>
 <div>
     <div id="buttonActionSection">
-        <a href="#" class="msgButton btn btn-primary btn-sm" data-url="@Url.Action("WriteMessage", "Message")" data-toggle="tooltip">Написать сообщение</a>
+        <a href="#" class="msg-send msgButton btn btn-primary btn-sm" data-url="@Url.Action("WriteMessage", "Message")" data-toggle="tooltip">Написать сообщение</a>
     </div>
 </div>
 <div class="row">
@@ -37,7 +36,7 @@
                  DataTable = Html.DataTable("incomingMessageList", (MessageController controller) => controller.GetCollectionMessages(null), new { isIncoming = true }),
                  DataTableOptions = new DataTableOptions
                      {
-                         Pagination = true,
+                         Pagination = false,
                          Searchable = true,
                          Sortable = false,
                          Filterable = false,

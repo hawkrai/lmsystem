@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $(".msgButton").on('click', function () {
+    $(".msg-send").on('click', function () {
         getMessageForm($(this).data('url'));
     });
 });
@@ -27,8 +27,8 @@ function getMessagePartial(partialViewUrl) {
           function (data) {
               bootbox.dialog({
                   message: data,
+                  title: " <i class='fa fa-envelope'></i> Cообщение",
               });
-
           });
 }
 
@@ -39,7 +39,7 @@ function showDialog(messageForm) {
         buttons: {
             main: {
                 label: "Отправить",
-                className: "btn-primary btn-submit",
+                className: "btn-primary btn-submit btn-sm",
                 callback: function () {
                 }
             }

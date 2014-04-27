@@ -13,5 +13,7 @@ namespace Application.Infrastructure.UserManagement
         User CurrentUser { get; }
 
         void DeleteUser(int id);
+
+        User GetAdmin();
 	}
 }

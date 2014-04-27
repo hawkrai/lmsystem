@@ -30,13 +30,19 @@ namespace LMPlatform.UI.Controllers
             return View("Messages", "Layouts/_MainUsingNavLayout");
         }
 
-        public ActionResult WriteMessage(int? id)
+        public ActionResult WriteMessage(int? id, bool toadmin = false, string resubject = "")
         {
-            var messageViewModel = new MessageViewModel
+            var messageViewModel = new MessageViewModel(toadmin)
                 {
                     FromId = WebSecurity.CurrentUserId,
-                    Attachment = new List<Attachment>()
+                    Attachment = new List<Attachment>(),
+                    Subject = string.IsNullOrEmpty(resubject) ? resubject : "Re:" + resubject,
                 };
+
+            if (id.HasValue)
+            {
+                messageViewModel.Recipients = new List<int>() { id.Value };
+            }
 
             return PartialView("Common/_MessageForm", messageViewModel);
         }

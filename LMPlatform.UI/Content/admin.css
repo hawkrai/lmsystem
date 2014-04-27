@@ -10,10 +10,16 @@
 }
 
 #admin .navbar-brand,
-#parental .navbar-brand {
-    font-size: 20px;
-    line-height: 31px;
+#parental .navbar-brand { 
+    font-size: 30px;
+    line-height: 28px;
 }
+    #admin .navbar-brand sup,
+    #parental .navbar-brand sup {
+        font-size: 14px;
+        padding-left: 5px;
+        vertical-align: middle;
+    }
 
 #admin .navbar-brand .admin-icon,
 #parental .navbar-brand .admin-icon {

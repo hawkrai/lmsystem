@@ -4,11 +4,13 @@
         margin: 5px 5px 10px 5px;
         padding-bottom: 10px;
         border-bottom: 1px solid #dddddd;
+        font-size: 15px;
     }
 
         .msg-display-head div {
             margin-bottom: 5px;
         }
+
 
     .msg-display-body {
         background-color: white;
@@ -17,7 +19,13 @@
         border-bottom: 1px solid #dddddd;
     }
 
-    .msg-display-sys {
+    .msg-display-head input {
+        border: none;
+        margin: 0;
+        font-size: 15px;
+    }
+
+    .msg-display-head span {
         color: #007196;
         margin-right: 5px;
     }
@@ -34,54 +42,60 @@
         text-align: right;
     }
 
-    .msg-replay a:hover{
-        text-decoration: none;
-    }
-
+        .msg-replay a:hover {
+            text-decoration: none;
+        }
 </style>
 <div id="msgDispalay">
     <div class="msg-display-head">
         <div>
-            <span class="msg-display-sys">От кого:</span>
-            @Model.AuthorName
-</div>
-<div>
-    <span class="msg-display-sys">Кому:</span>
-    @foreach (var recip in Model.Recipients)
-{
-    @: @recip.FullName ;
+            <span>От кого:</span>
+            <input name="authorName" type="text" readonly value="@Model.AuthorName" />
+        </div>
+        <div>
+            <span>Кому:</span>
+
+            @foreach (var recip in Model.Recipients)
+            {
+                @: @recip.FullName ;
+            }
+
+        </div>
+        <div>
+            <span>Тема:</span>
+            @Model.Subject
+            @*<input name="subject" type="text" readonly value="@Model.Subject" />*@
+        </div>
+    </div>
+    <div class="msg-display-body">
+        @Model.Text
+    </div>
+    <div>
+        @if (Model.HasAttachments)
+        {
+            <span class="msg-display-sys">Прикреплённые файлы:</span>
+            <ul class="msg-display-attach-list">
+                @foreach (var attach in Model.Attachments)
+                {
+                    <li>
+                        <a href="/api/Upload/DowloadFile?fileName=@Path.Combine(attach.PathName,attach.FileName)"><span class="glyphicon glyphicon-download"></span> @attach.Name</a>
+                    </li>
+                }
+            </ul>
         }
+    </div>
 
-</div>
-<div>
-    <span class="msg-display-sys">Тема:</span>
-    @Model.Subject
-</div>
-</div>
-<div class="msg-display-body">
-    @Model.Text
-</div>
-<div>
-    <span class="msg-display-sys">Прикреплённые файлы:</span>
-    <ul class="msg-display-attach-list">
-        @foreach (var attach in Model.Attachments)
-{
-    <li>
-        <a href="/api/Upload/DowloadFile?fileName=@Path.Combine(attach.PathName,attach.FileName)"><span class="glyphicon glyphicon-download"></span> @attach.Name</a>
-</li>
-}
-</ul>
-</div>
-
-<div class="msg-replay">
-    <a href="#">
-        <span class="glyphicon glyphicon-share-alt"></span>
-        Ответить
-    </a>
-</div>
-
+    <div class="msg-replay">
+        <a class="bootbox-close-button replay" data-url="@Url.Action("WriteMessage", "Message", new { id = Model.AuthorId, resubject = Model.Subject })" href="" >
+            <span class="glyphicon glyphicon-share-alt "></span>
+            Ответить
+        </a>
+    </div>
 </div>
 
 <script type="text/javascript">
     $('.modal-dialog').width('900px');
+    $(".replay").on('click', function () {
+        getMessageForm($(this).data('url'));
+    });
 </script>
