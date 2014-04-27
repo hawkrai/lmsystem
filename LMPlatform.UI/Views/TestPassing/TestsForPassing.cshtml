@@ -14,17 +14,18 @@
                 "~/Scripts/linq.js")
 }
 
-@section navpanel
-{
-    Результаты тестов
-}
-
 @section navleft
 {
     @Html.Partial("~/Views/Tests/_TestsLeftPanel.cshtml", (int)ViewBag.SubjectId)
 }
-
+<h3>Прохождение тестов
+</h3>
+<hr />
 <div class="row">
+    @if (!Model.Any())
+    {
+        <h4>В текущий момент ни один тест не доступен для прохождения</h4>
+    }
     @foreach (Test test in Model)
     {
         <a href="@Url.Action("RealTimePassingForTest", "TestPassing", new { testId = test.Id })">

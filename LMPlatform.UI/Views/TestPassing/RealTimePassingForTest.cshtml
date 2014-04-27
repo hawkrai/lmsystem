@@ -14,17 +14,19 @@
                 "~/Scripts/linq.js")
 }
 
-@section navpanel
-{
-Прохождение тестов в режиме реального времени
-}
-
 @section navleft
 {
      @Html.Partial("~/Views/Tests/_TestsLeftPanel.cshtml", (int)ViewBag.SubjectId)
 }
 
+<h3>Прохождение тестов в режиме реального времени
+</h3>
+<hr />
 <div>
+    @if (!Model.Any())
+    {
+        <h4>В текущий момент ни один студент не проходит данный тест</h4>
+    }
     @foreach (RealTimePassingResult result in Model)
     {
         <div class="row">

@@ -18,19 +18,18 @@
                 "~/Scripts/linq.js")
 }
 
-@section navpanel
-{
-    @string.Format("{0}: Доступные тесты", Model.Name)
-}
-
 @section navleft
 {
     @Html.Partial("_TestsLeftPanel", Model.Id)
 }
 
-<div style="margin: 20px">
-    <a href="#" id="addNewTestButton">
-        <span class="glyphicon glyphicon-plus"></span>Добавить тест
+<h3>Управление тестами
+</h3>
+<hr />
+
+<div>
+    <a id="addNewTestButton" class="btn btn-primary btn-sm">
+        <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить тест
     </a>
 
     <div>

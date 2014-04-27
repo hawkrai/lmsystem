@@ -16,23 +16,21 @@
                 "~/Scripts/linq.js")
 }
 
-@section navpanel
-{
-    "Результаты тестов"
-}
-
 @section navleft
 {
     @Html.Partial("_TestsLeftPanel", Model)
 }
 
-<div style="margin: 20px">
+<h3>Результаты тестов
+</h3>
+<hr />
+<div>
 
     <div>
         @Html.Partial("_DataTable", new DataTableViewModel
         {
-            DataTable = Html.DataTable("testResultsList", (TestsController controller) => controller.GetTestsTesults(null, 0), 
-            new { groupId = 1}),
+            DataTable = Html.DataTable("testResultsList", (TestsController controller) => controller.GetTestsTesults(null, 0),
+            new { groupId = 1 }),
             DataTableOptions = new DataTableOptions
             {
                 Filterable = true,
