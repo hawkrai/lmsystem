@@ -213,8 +213,11 @@
     <Compile Include="ViewModels\MessageViewModels\DataTableMessage.cs" />
     <Compile Include="ViewModels\MessageViewModels\DisplayMessageViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\MessageViewModel.cs" />
+    <Compile Include="ViewModels\ParentalViewModels\DataTableStat.cs" />
+    <Compile Include="ViewModels\ParentalViewModels\DisplayStatViewModel.cs" />
     <Compile Include="ViewModels\ParentalViewModels\ParentalViewModel.cs" />
     <Compile Include="ViewModels\ParentalViewModels\PlanViewModel.cs" />
+    <Compile Include="ViewModels\ParentalViewModels\StatDataTableViewModel.cs" />
     <Compile Include="ViewModels\ParentalViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLabsViewModel.cs" />
@@ -889,7 +892,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="Views\Lms\Index.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\BTS\Home\Index.cshtml" />
     <Content Include="Views\Shared\UnderConstruction.cshtml" />
     <Content Include="Views\Shared\_DataTable.cshtml" />
     <Content Include="Views\Shared\Layouts\_LimitLayout.cshtml" />
@@ -995,6 +998,8 @@
     <Content Include="Views\Parental\GroupNotFound.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsPartial.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_ScheduleProtectionLabsPartial.cshtml" />
+    <Content Include="Views\Shared\_StatDataTable.cshtml" />
+    <Content Include="Views\Shared\_StatDisplayRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

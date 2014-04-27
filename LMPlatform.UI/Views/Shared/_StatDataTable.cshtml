@@ -1,0 +1,24 @@
+﻿@model LMPlatform.UI.ViewModels.ParentalViewModels.StatDataTableViewModel
+<table class="table " id="@Model.DataTable.Id">
+    <thead style="display: none">
+        <tr>
+            @foreach (var column in Model.DataTable.Columns)
+			{
+				<th ></th>
+			}
+        </tr>
+    </thead>
+    <tbody>
+         <a href="#">
+         <tr>
+             <td colspan="@Model.DataTable.Columns.Count()" class="dataTables_empty"></td>
+         </tr>
+        </a>
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    var datatable = dataTables.createDataTable("@Model.DataTable.Id", "@Model.DataTable.AjaxUrl", '@Model.DataTableOptions.Pagination.ToString().ToLower()', '@Model.DataTableOptions.Filterable.ToString().ToLower()', '@Model.DataTableOptions.Sortable.ToString().ToLower()', '@Model.DataTableOptions.Info.ToString().ToLower()', '@Model.DataTableOptions.OnComplete');
+</script>
+
+

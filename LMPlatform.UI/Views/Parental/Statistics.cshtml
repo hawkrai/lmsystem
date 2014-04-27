@@ -1,11 +1,14 @@
-﻿@model LMPlatform.UI.ViewModels.ParentalViewModels.StatisticsViewModel
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+@using LMPlatform.UI.ViewModels.ParentalViewModels
+@model LMPlatform.UI.ViewModels.ParentalViewModels.StatisticsViewModel
 @{
     ViewBag.Title = "Успеваемость";
     Layout = "~/Views/Shared/Layouts/_ParentalLayout.cshtml";
 }
 @section title
 {
-    Успеваемость
+Успеваемость
 }
 @section headscripts
 {
@@ -13,11 +16,24 @@
     <link href="~/Scripts/jquery-handsontable/jquery.handsontable.full.css" type="text/css" />
 }
 <div>
-    @Html.DropDownList("students", Model.GetStudentsSelectList(), new { @class = "students-stat"})
+    @Html.DropDownList("students", Model.GetStudentsSelectList(), new { @class = "students-stat" })
 </div>
 
 <div id="stat-table">
-    
+    @Html.Partial("_StatDataTable", new StatDataTableViewModel
+             {
+                 DataTable = Html.DataTable("incomingMessageList", (ParentalController controller) => controller.GetStatCollection(null), new { param = true }),
+                 DataTableOptions = new DataTableOptions
+                     {
+                         Pagination = true,
+                         Searchable = true,
+                         Sortable = false,
+                         Filterable = false,
+                         Info = false,
+                         /*OnComplete = "initDisplayMessageDialog"*/
+                     }
+             })
+
 </div>
 
 <script>
