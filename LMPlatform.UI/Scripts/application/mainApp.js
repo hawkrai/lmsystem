@@ -78,7 +78,7 @@ angular.module('mainApp.controllers', [])
         };
 
         $scope.saveNews = function () {
-            $.post($scope.constDomainService + "News/Save/", { subjectId: $scope.subjectId, newsId: $scope.editNewsData.Id, title: $scope.editNewsData.Title, body: $scope.editNewsData.Body }, function (data) {
+            $.post($scope.constDomainService + "News/Save", { subjectId: $scope.subjectId, Id: $scope.editNewsData.Id, title: $scope.editNewsData.Title, body: $scope.editNewsData.Body }, function (data) {
                 if (data.Data.Error) {
                     spinner.stop();
                     alertify.error(data.Data.Message);
@@ -89,6 +89,24 @@ angular.module('mainApp.controllers', [])
                     alertify.success(data.Data.Message);
                 }
                 $("#dialogAddNews").modal('hide');
+            });
+        };
+
+        $scope.deleteNews = function(news) {
+            bootbox.confirm("Вы действительно хотите удалить новость?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $.post($scope.constDomainService + "News/Delete?Id=" + news.NewsId + "&SubjectId=" + $scope.subjectId, null, function (data) {
+                        if (data.Data.Error) {
+                            alertify.error(data.Data.Message);
+                        } else {
+                            alertify.success(data.Data.Message);
+                            $scope.$apply(function () {
+                                $scope.news.splice($scope.news.indexOf(news), 1);
+                            });
+
+                        }
+                    }, null);
+                }
             });
         };
     })

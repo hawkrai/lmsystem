@@ -52,19 +52,12 @@
             }
         }
 
-        [System.Web.Http.HttpPost, ValidateInput(false)]
-        public JsonResult Save(string subjectId, string newsId, string title, string body)
+        [System.Web.Http.HttpPost]
+        public JsonResult Save([FromBody]SubjectNews model)
         {
             try
             {
-                var model = new SubjectNews
-                                {
-                                    Body = body,
-                                    EditDate = DateTime.Now,
-                                    SubjectId = int.Parse(subjectId),
-                                    Id = int.Parse(newsId),
-                                    Title = title
-                                };
+                model.EditDate = DateTime.Now;
                 SubjectManagementService.SaveNews(model);
                 return new JsonResult()
                 {
@@ -82,6 +75,34 @@
                     Data = new
                     {
                         Message = "Произошла ошибка при сохранении новости",
+                        Error = true
+                    }
+                };
+            }
+        }
+
+        [System.Web.Http.HttpPost]
+        public JsonResult Delete([FromBody]SubjectNews deleteData)
+        {
+            try
+            {
+                SubjectManagementService.DeleteNews(deleteData);
+                return new JsonResult()
+                {
+                    Data = new
+                    {
+                        Message = "Новость успешно удалена",
+                        Error = false
+                    }
+                };
+            }
+            catch (Exception)
+            {
+                return new JsonResult()
+                {
+                    Data = new
+                    {
+                        Message = "Произошла ошибка при удалении новости",
                         Error = true
                     }
                 };

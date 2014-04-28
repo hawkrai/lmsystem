@@ -6,6 +6,10 @@ namespace LMPlatform.Models
 {
     public class SubjectNews : ModelBase
     {
+        public SubjectNews()
+        {
+        }
+
         public string Title
         {
             get;
