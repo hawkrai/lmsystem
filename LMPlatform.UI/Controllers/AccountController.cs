@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 using Application.Core.UI.Controllers;
+using Application.Infrastructure.UserManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using WebMatrix.WebData;
@@ -32,6 +33,8 @@ namespace LMPlatform.UI.Controllers
                 {
                     result = RedirectToAction("Management");                
                 }
+
+                UsersManagementService.UpdateLastLoginDate(model.UserName); 
 
                 result = _RedirectToLocal(returnUrl);
             }
@@ -182,6 +185,14 @@ namespace LMPlatform.UI.Controllers
                 default:
                     return
                         "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+            }
+        }
+
+        public IUsersManagementService UsersManagementService
+        {
+            get
+            {
+                return ApplicationService<IUsersManagementService>();
             }
         }
     }

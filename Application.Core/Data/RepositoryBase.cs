@@ -118,6 +118,8 @@ namespace Application.Core.Data
 				{
 					Add(model);
 				}
+
+			    _dataContext.SaveChanges();
 			}
 		}
 

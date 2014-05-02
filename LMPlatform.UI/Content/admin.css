@@ -33,9 +33,12 @@
 }
 
 #parental .navbar-right li {
-    margin-right: 15px;
     color: white;
     font-size: 18px;
+}
+
+#parental .navbar-nav.navbar-right:last-child {
+    margin-right: 0;
 }
 
 #parental .navbar-right li a {

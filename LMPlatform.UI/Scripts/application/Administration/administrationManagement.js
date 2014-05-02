@@ -27,6 +27,7 @@ function initManagement(btnSelector, btnTooltipTitle, saveDialogTitle, updateTab
         var actionUrl = $(this).attr('href');
         $.savingDialog(saveDialogTitle, actionUrl, null, "primary", function (data) {
             updateTable(updateTableId);
+            alertify.success("Сохранено");
             return false;
         });
         return false;
@@ -58,9 +59,9 @@ function initDeleteDialog(btnSelector, btnTooltipTitle, saveDialogTitle, updateT
                 if (result) {
                     $.post(actionUrl, function () {
                         updateTable(updateTableId);
-                        alert("success");
+                        alertify.success("Удаление прошло успешно");
                     }).fail(function () {
-                        alert("error");
+                        alertify.error("Произошла ошибка");
                     });
                 }
             }

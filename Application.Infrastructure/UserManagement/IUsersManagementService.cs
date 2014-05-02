@@ -15,5 +15,7 @@ namespace Application.Infrastructure.UserManagement
         void DeleteUser(int id);
 
         User GetAdmin();
+
+        void UpdateLastLoginDate(string userName);
 	}
 }

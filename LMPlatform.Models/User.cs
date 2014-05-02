@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Application.Core.Data;
 using LMPlatform.Models.KnowledgeTesting;
@@ -74,6 +75,12 @@ namespace LMPlatform.Models
         }
 
         public ICollection<UserMessages> Messages
+        {
+            get;
+            set;
+        }
+
+        public virtual DateTime? LastLogin
         {
             get;
             set;

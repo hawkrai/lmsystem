@@ -13,19 +13,11 @@
                 <h1>@ViewBag.Title</h1>
             </hgroup>
             @Html.HiddenFor(m => m.FromId)
-            <div>
-                @Html.LabelFor(m => m.Subject)
-                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
-            </div>
-            <div>
-                @Html.LabelFor(m => m.MessageText)
-                @Html.TextAreaFor(m => m.MessageText, new { @class = "form-control" })
-            </div>
-            <div>
+               <div>
                 @Html.LabelFor(m => m.Recipients, new { @class = "control-label" })
                 @if (Model.ToAdmin)
                 {
-                    @Html.LabelFor(m => m.ToAdmin)
+                    @Html.LabelFor(m => m.ToAdmin, new {style="font-size: 16px; display: block; text-align: center;"})
                     @Html.HiddenFor(m => m.ToAdmin)
                     @Html.HiddenFor(m => m.Recipients)
                 }
@@ -38,10 +30,21 @@
 
                     @Html.ValidationMessageFor(m => m.Recipients, " ")
                 }
+                 <p></p>
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Subject)
+                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
+            </div>
+            <div>
+                @Html.LabelFor(m => m.MessageText)
+                @Html.TextAreaFor(m => m.MessageText, new { @class = "form-control" })
+                <p></p>
                 <p></p>
             </div>
             <div style="width: 60%">
                 @Html.Partial("Common/_FilesUploader", Model.Attachment)
+               
             </div>
             <input type="submit" style="display: none" />
         </div>

@@ -52,6 +52,12 @@
                                 <span class="nav-item">@Model.Group.Name</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="/">
+                                <i class="fa fa-power-off"></i>
+                                <span class="nav-item">Выйти</span>
+                            </a>
+                        </li>
 
                     </ul>
                 </div>
@@ -122,14 +128,6 @@
                                 var groupName = $('#groupValidation').val();
                                 window.location.href = "/Parental/Index/" + groupName;
                             }
-                        },
-                        retur: {
-                            label: "Выйти",
-                            className: "btn-primary btn-submit btn-sm",
-                            callback: function () {
-                                window.location.href = "/";
-                            }
-                            
                         }
                     }
                 });

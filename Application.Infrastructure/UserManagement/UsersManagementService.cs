@@ -1,4 +1,5 @@
-﻿using Application.Core.Data;
+﻿using System;
+using Application.Core.Data;
 using WebMatrix.WebData;
 
 namespace Application.Infrastructure.UserManagement
@@ -92,6 +93,14 @@ namespace Application.Infrastructure.UserManagement
                 var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>().AddFilterClause(u => u.UserName == adminName));
                 return user;
             }
+        }
+
+        public void UpdateLastLoginDate(string userName)
+        {
+            var user = GetUser(userName);
+            var now = DateTime.Now;
+            user.LastLogin = now;
+            UsersRepository.Save(user, u => u.LastLogin == now);
         }
     }
 }
