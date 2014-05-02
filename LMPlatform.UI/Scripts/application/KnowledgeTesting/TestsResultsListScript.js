@@ -1,9 +1,12 @@
 ﻿var testsResultsList = {
     init: function () {
-
+        $('.groupButton').on('click', $.proxy(this._onGroupClicked, this));
     },
 
-
+    _onGroupClicked: function() {
+        alert('Результаты для группы!');
+    },
+    
     _onDeleteClicked: function (eventArgs) {
         var context = {
             itemId: eventArgs.target.dataset.modelId
@@ -27,6 +30,10 @@
     }
 };
 
-function initTestResultsList() {
+//function initTestResultsList() {
+//    testsResultsList.init();
+//}
+
+$(document).ready(function () {
     testsResultsList.init();
-}
+});

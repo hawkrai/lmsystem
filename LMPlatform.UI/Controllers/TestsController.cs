@@ -57,13 +57,6 @@ namespace LMPlatform.UI.Controllers
             return View(subject);
         }
 
-        [Authorize, HttpGet]
-        public ActionResult TestResults(int subjectId)
-        {
-            var students = TestPassingService.GetPassTestResults(1);
-            return View(subjectId);
-        }
-
         public DataTablesResult<TestResultItemListViewModel> GetTestsTesults(DataTablesParam dataTableParam, int groupId)
         {
             var searchString = dataTableParam.GetSearchString();

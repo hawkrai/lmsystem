@@ -106,6 +106,7 @@
     
     _onQuestionSaved: function () {
         datatable.fnDraw();
+        alertify.success("Предмет успешно изменен");
         $('#quetionDetails').modal('hide');
     },
 
@@ -135,11 +136,7 @@
     },
     
     _initEditor: function () {
-        CKEDITOR.inline('taskArea', {
-            extraPlugins: 'mathedit',
-            disableObjectResizing: true,
-            skin: 'moono'
-        });
+        CKEDITOR.inline('taskArea');
     },
     
     _validate: function () {

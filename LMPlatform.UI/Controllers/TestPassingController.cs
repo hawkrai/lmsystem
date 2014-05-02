@@ -2,8 +2,12 @@
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using Application.Core.Data;
 using Application.Core.UI.Controllers;
+using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
+using Application.Infrastructure.SubjectManagement;
+using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
 using WebMatrix.WebData;
@@ -17,6 +21,23 @@ namespace LMPlatform.UI.Controllers
         {
             var availableTests = TestPassingService.GetAvailableTestsForStudent(CurrentUserId, subjectId);
             return View(availableTests);
+        }
+
+        [Authorize, HttpGet]
+        public ActionResult GetTestResultsForGroup(int groupId)
+        {            
+            return PartialView("TestResultsTable", groupId);
+        }
+
+        [Authorize, HttpGet]
+        public ActionResult TestResults(int subjectId)
+        {
+            Subject subject = SubjectsManagementService.GetSubject(subjectId);
+            int[] groupIds = subject.SubjectGroups.Select(subjectGroup => subjectGroup.GroupId).ToArray();
+            ViewBag.Groups = GroupManagementService.GetGroups(new Query<Group>(group => groupIds.Contains(group.Id))).ToList();
+
+            //var students = TestPassingService.GetPassTestResults(1);
+            return View(subjectId);
         }
 
         [HttpGet]
@@ -79,11 +100,27 @@ namespace LMPlatform.UI.Controllers
             }
         }
 
+        public ISubjectManagementService SubjectsManagementService
+        {
+            get
+            {
+                return ApplicationService<ISubjectManagementService>();
+            }
+        }
+
         public ITestsManagementService TestsManagementService
         {
             get
             {
                 return ApplicationService<ITestsManagementService>();
+            }
+        }
+
+        public IGroupManagementService GroupManagementService
+        {
+            get
+            {
+                return ApplicationService<IGroupManagementService>();
             }
         }
 

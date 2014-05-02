@@ -1,0 +1,41 @@
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.Models
+@using LMPlatform.UI.Controllers
+
+@model int
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
+}
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles")
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/TestsResultsListScript.js",
+                "~/Scripts/linq.js")
+}
+
+@section navleft
+{
+    @Html.Partial("~/Views/Tests/_TestsLeftPanel.cshtml", Model)
+}
+
+<h3>Результаты тестов
+</h3>
+<hr />
+<div id="testReultsTable"></div>
+@if (ViewBag.Groups.Count == 0)
+{
+    <h2>К предмету не подсоединено ни одной группы</h2>
+}
+else
+{
+    foreach (Group group in ViewBag.Groups)
+    {
+    <button class="btn btn-primary btn-sm groupButton">
+        @group.Name
+    </button>
+    }
+}

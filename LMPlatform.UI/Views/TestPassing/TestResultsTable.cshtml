@@ -1,0 +1,19 @@
+﻿@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.UI.Controllers
+@model int
+<div>
+        @Html.Partial("_DataTable", new DataTableViewModel
+        {
+            DataTable = Html.DataTable("testResultsList", (TestsController controller) => controller.GetTestsTesults(null, 0),
+            new { groupId = Model}),
+            DataTableOptions = new DataTableOptions
+            {
+                Filterable = true,
+                Info = true,
+                Pagination = false,
+                Searchable = true,
+                Sortable = false,
+                OnComplete = "initTestResultsList"
+            }
+        })
+    </div>
