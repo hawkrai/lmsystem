@@ -1,6 +1,4 @@
-﻿@using Application.Core.UI.HtmlHelpers
-@using LMPlatform.Models
-@using LMPlatform.UI.Controllers
+﻿@using LMPlatform.Models
 
 @model int
 
@@ -25,7 +23,7 @@
 <h3>Результаты тестов
 </h3>
 <hr />
-<div id="testReultsTable"></div>
+
 @if (ViewBag.Groups.Count == 0)
 {
     <h2>К предмету не подсоединено ни одной группы</h2>
@@ -36,6 +34,9 @@ else
     {
     <button class="btn btn-primary btn-sm groupButton">
         @group.Name
+        <input type="hidden" value="@group.Id"/>
     </button>
     }
 }
+
+<div id="testReultsTable"></div>

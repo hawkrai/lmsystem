@@ -946,7 +946,6 @@
     <Content Include="Views\Shared\Common\_DisplayMessage.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsModule.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_EditLabs.cshtml" />
-    <Content Include="Views\Tests\_TestsResultsGridColumn.cshtml" />
     <Content Include="Views\BTS\_AddBugForm.cshtml" />
     <Content Include="Views\BTS\_AddOrEditProjectForm.cshtml" />
     <Content Include="Views\BTS\_ProjectBugStatistics.cshtml" />
@@ -983,6 +982,7 @@
     <Content Include="Views\Shared\_StatDisplayRow.cshtml" />
     <Content Include="Views\TestPassing\TestResultsTable.cshtml" />
     <Content Include="Views\TestPassing\TestResults.cshtml" />
+    <Content Include="Views\TestPassing\_TestsResultsGridColumn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

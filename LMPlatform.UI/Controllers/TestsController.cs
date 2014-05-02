@@ -57,14 +57,6 @@ namespace LMPlatform.UI.Controllers
             return View(subject);
         }
 
-        public DataTablesResult<TestResultItemListViewModel> GetTestsTesults(DataTablesParam dataTableParam, int groupId)
-        {
-            var searchString = dataTableParam.GetSearchString();
-            var students = TestPassingService.GetPassTestResults(groupId, searchString);
-
-            return DataTableExtensions.GetResults(students.Select(student => TestResultItemListViewModel.FromStudent(student, new HtmlString(PartialViewToString("_TestsResultsGridColumn", student)))), dataTableParam, students.Count());
-        }
-
         public DataTablesResult<TestItemListViewModel> GetTestsList(DataTablesParam dataTableParam, int subjectId)
         {
             var searchString = dataTableParam.GetSearchString();

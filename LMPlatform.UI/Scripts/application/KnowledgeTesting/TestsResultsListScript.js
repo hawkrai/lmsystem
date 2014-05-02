@@ -2,37 +2,36 @@
     init: function () {
         $('.groupButton').on('click', $.proxy(this._onGroupClicked, this));
     },
+    
+    _webServiceUrl: '/TestPassing/',
+    _getResultsForGroupMethodName: 'GetTestResultsForGroup',
+    
 
-    _onGroupClicked: function() {
-        alert('Результаты для группы!');
+    _onGroupClicked: function(eventArgs) {
+        var groupId = $(eventArgs.target).children().first().val();
+        this._getResultsForGroup(groupId);
     },
     
-    _onDeleteClicked: function (eventArgs) {
-        var context = {
-            itemId: eventArgs.target.dataset.modelId
-        };
-
-        bootbox.confirm({
-            title: 'Удаление теста',
-            message: 'Вы дествительно хотите удалить тест?',
-            buttons: {
-                'cancel': {
-                    label: 'Отмена',
-                    className: 'btn btn-primary btn-sm'
-                },
-                'confirm': {
-                    label: 'Удалить',
-                    className: 'btn btn-primary btn-sm',
-                }
+    _getResultsForGroup: function (groupId) {
+        $.ajax({
+            url: this._webServiceUrl + this._getResultsForGroupMethodName,
+            type: "GET",
+            data: {
+                groupId: groupId
             },
-            callback: $.proxy(this._onDeleteConfirmed, context)
+            dataType: "html",
+            success: $.proxy(this._onResultsTableLoaded, this)
         });
+    },
+    
+    _onResultsTableLoaded: function(content) {
+        $('#testReultsTable').html(content);
     }
 };
 
-//function initTestResultsList() {
-//    testsResultsList.init();
-//}
+function initTestResultsList() {
+    testsResultsList.init();
+}
 
 $(document).ready(function () {
     testsResultsList.init();

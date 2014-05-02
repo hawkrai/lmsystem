@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Application.Core.Data;
 using Application.Core.UI.Controllers;
+using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
+using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
@@ -27,6 +30,14 @@ namespace LMPlatform.UI.Controllers
         public ActionResult GetTestResultsForGroup(int groupId)
         {            
             return PartialView("TestResultsTable", groupId);
+        }
+
+        public DataTablesResult<TestResultItemListViewModel> GetTestsTesults(DataTablesParam dataTableParam, int groupId)
+        {
+            var searchString = dataTableParam.GetSearchString();
+            var students = TestPassingService.GetPassTestResults(groupId, searchString);
+
+            return DataTableExtensions.GetResults(students.Select(student => TestResultItemListViewModel.FromStudent(student, new HtmlString(PartialViewToString("_TestsResultsGridColumn", student)))), dataTableParam, students.Count());
         }
 
         [Authorize, HttpGet]
