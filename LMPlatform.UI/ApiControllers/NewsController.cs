@@ -82,7 +82,7 @@
         }
 
         [System.Web.Http.HttpPost]
-        public JsonResult Delete([FromBody]SubjectNews deleteData)
+        public JsonResult Delete([FromUri]SubjectNews deleteData)
         {
             try
             {

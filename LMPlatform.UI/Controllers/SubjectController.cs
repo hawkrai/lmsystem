@@ -15,9 +15,33 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
+    using System.Collections.Generic;
+
+    using Application.Core;
+    using Application.Infrastructure.FilesManagement;
+
     [Authorize(Roles = "student, lector")]
     public class SubjectController : BasicController 
     {
+        private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
+        private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
+
+        public IFilesManagementService FilesManagementService
+        {
+            get
+            {
+                return filesManagementService.Value;
+            }
+        }
+
+        public ISubjectManagementService SubjectManagementService
+        {
+            get
+            {
+                return subjectManagementService.Value;
+            }
+        }
+
         public ActionResult News()
         {
             return this.PartialView("Subjects/Modules/News/_NewsModule");
@@ -68,6 +92,17 @@ namespace LMPlatform.UI.Controllers
         {
             model.Save(WebSecurity.CurrentUserId);
             return null;
+        }
+
+        public ActionResult GetFileLectures(int id)
+        {
+            if (id == 0)
+            {
+                return PartialView("Common/_FilesUploader", new List<Attachment>());    
+            }
+
+            var model = SubjectManagementService.GetLectures(id);
+            return PartialView("Common/_FilesUploader", FilesManagementService.GetAttachments(model.Attachments).ToList());
         }
 
         //public ActionResult CreateNews(int subjectid)

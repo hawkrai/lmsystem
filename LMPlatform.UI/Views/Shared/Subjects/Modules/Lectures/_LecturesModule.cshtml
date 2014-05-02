@@ -1,11 +1,11 @@
-﻿<div ng-controller="LecturesController">
+﻿<div ng-controller="LecturesController" ng-init="init()">
     <div id="navPanel">
         <table>
             <tbody>
                 <tr>
                     <td>
                         <div id="buttonActionSection">
-                            <a id="addLecturesButton" style="margin-right: 10px" class="btn btn-primary btn-sm" href="#">Добавить лекцию</a>
+                            <a ng-click="addLectures()" style="margin-right: 10px" class="btn btn-primary btn-sm">Добавить лекцию</a>
                         </div>
                     </td>
                 </tr>
@@ -23,48 +23,51 @@
                     <th>Тема</th>
                     <th>Часы</th>
                     <th>Действие</th>
-                    @*@if (User.IsInRole("student"))
-                        {
-                            <th>Прикрепленный материал</th>
-                        }*@
                 </tr>
             </thead>
-            @*@foreach (var item in Model.LecturesData.OrderBy(e => e.Order))
-                {
-                    <tr>
-                        <td>@item.Order</td>
-                        <td>@item.Theme</td>
-                        <td>@item.Duration</td>
-                        @if (User.IsInRole("lector"))
-                        {
-                            <td>
-                                <div>
-                                    <a class="editLecturesButton" style="margin-right: 10px" href="@Url.Action("EditLectures", "Subject", new { id = item.LecturesId, subjectId = item.SubjectId })"><i class="editLecturesButton fa fa-edit fa-2x"></i></a>
-                                    <a class="deleteLecturesButton" href="@Url.Action("DeleteLectures", "Subject", new { id = item.LecturesId, subjectId = item.SubjectId })"><i class="deleteLecturesButton fa fa-trash-o fa-2x"></i></a>
-                                </div>
-                            </td>
-                        }
-                        @if (User.IsInRole("student"))
-                        {
-                            <td>
-                                <div class="btn-group">
-                                    <button id="btnGroupDrop1" type="button" class="btn btn-default btn-sm  dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
-                                        Прикрепленные файлы
-                  <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupDrop1">
-                                        @foreach (var file in item.Attachments)
-                                        {
-                                            var url = "api/Upload?filename=" + file.PathName + "//" + file.FileName;
-                                            <li><a href="@url">@file.Name</a></li>
-                                        }
-                                    </ul>
-                                </div>
-                            </td>
-                        }
-                    </tr>
-                }*@
+            <tr ng-repeat="data in lectures">
+                <td>{{data.Order}}</td>
+                <td>{{data.Theme}}</td>
+                <td>{{data.Duration}}</td>
+                <td>
+                    <div>
+                        <a ng-click="editLectures(data)" style="margin-right: 10px"><i class="editLecturesButton fa fa-edit fa-2x"></i></a>
+                        <a ng-click="deleteLectures(data)"><i class="deleteLecturesButton fa fa-trash-o fa-2x"></i></a>
+                    </div>
+                </td>
+            </tr>
         </table>
+    </div>
+    
+    <div id="dialogAddLectures" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{editLecturesData.TitleForm}}</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label class="control-label">Тема лекции</label>
+                        <textarea class="form-control" style="width: 545px" ng-model="editLecturesData.Theme"></textarea>
+                    </div>
+                    <div>
+                        <label class="control-label">Количество часов (1-99)</label>
+                        <input type="text" style="width: 545px" ng-model="editLecturesData.Duration"/>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="page-header">Прикрепленный материал</h4>
+                    <div id="lecturesFile">
+                        @*@Html.Partial("Common/_FilesUploader", Model.Attachments.ToList())*@
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a href="#" class="btn btn-primary btn-sm" ng-click="saveLectures()" data-dismiss="modal">Сохранить</a>
+            </div>
+        </div>
     </div>
 
 </div>

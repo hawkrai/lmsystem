@@ -23,6 +23,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
     <RestorePackages>true</RestorePackages>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,6 +76,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -185,6 +190,20 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Lectures\ILecturesService.cs" />
+    <Compile Include="Services\Lectures\LecturesService.svc.cs">
+      <DependentUpon>LecturesService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Modules\Lectures\LecturesResult.cs" />
+    <Compile Include="Services\Modules\Lectures\LecturesViewData.cs" />
+    <Compile Include="Services\Modules\Lectures\AttachmentViewData.cs" />
+    <Compile Include="Services\Modules\News\NewsResult.cs" />
+    <Compile Include="Services\Modules\News\NewsViewData.cs" />
+    <Compile Include="Services\Modules\ResultViewData.cs" />
+    <Compile Include="Services\News\INewsService.cs" />
+    <Compile Include="Services\News\NewsService.svc.cs">
+      <DependentUpon>NewsService.svc</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\PersonalDataViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
@@ -877,6 +896,8 @@
     <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Services\Lectures\LecturesService.svc" />
+    <Content Include="Services\News\NewsService.svc" />
     <Content Include="Unity.Mvc4.README.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1004,6 +1025,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Services\Labs\" />
     <Folder Include="UploadedFilesTemp\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
