@@ -15,7 +15,7 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
-    public class AddBugViewModel : Controller
+    public class AddOrEditBugViewModel : Controller
     {
         private readonly LazyDependency<IBugsRepository> _bugsRepository = new LazyDependency<IBugsRepository>();
         private readonly LazyDependency<IBugManagementService> _bugManagementService = new LazyDependency<IBugManagementService>();
@@ -47,6 +47,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Шаги выполнения")]
         public string Steps { get; set; }
 
+        [DisplayName("Ожидаемый результат")]
+        public string ExpectedResult { get; set; }
+
         [DisplayName("Симптом")]
         public int SymptomId { get; set; }
 
@@ -61,9 +64,35 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int CreatorId { get; set; }
 
-        public AddBugViewModel()
+        public DateTime ReportingDate { get; set; }
+
+        public DateTime ModifyingDate { get; set; }
+
+        public AddOrEditBugViewModel()
         {
             CreatorId = WebSecurity.CurrentUserId;
+        }
+
+        public AddOrEditBugViewModel(int bugId)
+        {
+            BugId = bugId;
+
+            if (bugId != 0)
+            {
+                var bug = BugManagementService.GetBug(bugId);
+                BugId = bugId;
+                CreatorId = bug.ReporterId;
+                ProjectId = bug.ProjectId;
+                SeverityId = bug.SeverityId;
+                StatusId = bug.StatusId;
+                SymptomId = bug.SymptomId;
+                Steps = bug.Steps;
+                ExpectedResult = bug.ExpectedResult;
+                Description = bug.Description;
+                Summary = bug.Summary;
+                ReportingDate = bug.ReportingDate;
+                ModifyingDate = bug.ModifyingDate;
+            }
         }
 
         public IList<SelectListItem> GetStatusNames()
@@ -107,22 +136,24 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }).ToList();
         }
 
-        public void SaveBug()
+        public void Save(int reporterId)
         {
-            var reporterId = WebSecurity.CurrentUserId;
             var bug = new Bug
             {
+                Id = BugId,
                 ReporterId = reporterId,
                 ProjectId = ProjectId,
                 SeverityId = SeverityId,
                 StatusId = StatusId,
                 SymptomId = SymptomId,
                 Steps = Steps,
+                ExpectedResult = ExpectedResult,
                 Description = Description,
                 Summary = Summary,
                 ReportingDate = DateTime.Today,
                 ModifyingDate = DateTime.Today
             };
+
             BugManagementService.SaveBug(bug);
         }
     }

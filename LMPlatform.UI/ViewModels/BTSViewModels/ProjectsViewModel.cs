@@ -93,16 +93,14 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int QuentityOfNewBugs { get; set; }
 
-        public int QuentityOfAssignesBugs { get; set; }
+        public int QuentityOfPostponedBugs { get; set; }
 
         public int QuentityOfResolvedBugs { get; set; }
 
         public int QuentityOfClosedBugs { get; set; }
 
         private static List<Bug> _bugs;
-        private static List<BugSeverity> _severities;
         private static List<BugStatus> _statuses;
-        private static List<BugSymptom> _symptoms;
 
         public List<ProjectComment> GetProjectComments()
         {
@@ -115,10 +113,11 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             GetProjectBugs(id);
             GetBugPropertyList();
             GetBugQuentity();
+
             if (BugQuentity != 0)
             {
                 GetQuentityOfNewBugs();
-                GetQuentityOfAssignesBugs();
+                GetQuentityOfPostponedBugs();
                 GetQuentityOfResolvedBugs();
                 GetQuentityOfClosedBugs();
             }
@@ -128,8 +127,6 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         {
             var context = new LmPlatformModelsContext();
             _statuses = context.BugStatuses.ToList();
-            _severities = context.BugSeverities.ToList();
-            _symptoms = context.BugSymptoms.ToList();
         }
 
         private int GetStatusIdByName(string name)
@@ -164,7 +161,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         private void GetQuentityOfClosedBugs()
         {
-            QuentityOfClosedBugs = GetQuentity(3);
+            QuentityOfClosedBugs = GetQuentity(6);
         }
 
         private void GetQuentityOfResolvedBugs()
@@ -172,9 +169,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             QuentityOfResolvedBugs = GetQuentity(2);
         }
 
-        private void GetQuentityOfAssignesBugs()
+        private void GetQuentityOfPostponedBugs()
         {
-            QuentityOfAssignesBugs = GetQuentity(1);
+            QuentityOfPostponedBugs = GetQuentity(1);
         }
 
         private void GetQuentityOfNewBugs()
@@ -206,16 +203,17 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }
         }
 
-        public void SaveComment()
+        public void SaveComment(string comment)
         {
             var currentUserId = WebSecurity.CurrentUserId;
-            var comment = new ProjectComment
+            var newComment = new ProjectComment
             {
+                CommentText = comment,
                 ProjectId = ProjectId,
                 UserId = currentUserId,
-                CommentingDate = DateTime.Today
+                CommentingDate = DateTime.Now
             };
-            ProjectManagementService.SaveComment(comment);
+            ProjectManagementService.SaveComment(newComment);
         }
     }
 }

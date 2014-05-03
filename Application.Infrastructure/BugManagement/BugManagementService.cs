@@ -47,13 +47,15 @@ namespace Application.Infrastructure.BugManagement
             }
         }
 
-        public void SaveBug(Bug bug)
+        public Bug SaveBug(Bug bug)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.BugsRepository.Save(bug);
                 repositoriesContainer.ApplyChanges();
             }
+
+            return bug;
         }
 
         public void DeleteBug(int bugId)

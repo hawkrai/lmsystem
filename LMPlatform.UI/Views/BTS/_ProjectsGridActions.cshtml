@@ -1,19 +1,5 @@
 ﻿@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectListViewModel
-
-@section scripts
-{
-    <script src="~/Scripts/application/BTS/projectEdit.js" type="text/javascript"></script>
-}
-
-<a href="@Url.Action("ProjectManagement", "BTS", new { projectId = Model.Id })" class="projectDetailsButton" style="margin-right: 10px" >
-    <span class="fa fa-gears fa-1x" data-model-id='@Model.Id' />
-</a>
-<a href="#" class="editProjectButton" data-url="@Url.Action("EditProject", "BTS", new { projectId = Model.Id })" data-toggle="tooltip" style="margin-right: 10px" >
-    @*<a href="@Url.Action("EditProject", "BTS", new { projectId = Model.Id})" class="editProjectButton" style="margin-right: 10px" >*@
-    <span class="fa fa-pencil fa-1x" data-model-id='@Model.Id' />
-</a>
-<a href="@Url.Action("DeleteProject", "BTS", new { projectId = Model.Id })" class="deleteProjectButton" style="margin-right: 10px" >
-    <span class="fa fa-trash-o fa-1x" data-model-id='@Model.Id' />
-</a>
-
+<a class="projectDetailsButton" href="@Url.Action("ProjectManagement", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="projectDetails fa fa-gears fa-2x"></i></a>
+<a class="editProjectButton" href="@Url.Action("EditProject", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="editProject fa fa-edit fa-2x"></i></a>
+<a class="deleteProjectButton" href="@Url.Action("DeleteProject", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="deleteProject fa fa-trash-o fa-2x"></i></a>
 

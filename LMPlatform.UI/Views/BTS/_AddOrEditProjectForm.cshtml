@@ -1,21 +1,34 @@
 ﻿@model LMPlatform.UI.ViewModels.BTSViewModels.AddOrEditProjectViewModel
 
 <div id="addOrEditProjectForm">
-    @using (Html.BeginForm())
-    {
-        @Html.ValidationSummary(true)
-        
-        <div class="center" style="margin: 10px">
-            <div>
-                @Html.LabelFor(p => p.Title)
-                @Html.TextBoxFor(p => p.Title, new { @class = "form-control", @id = "tb_projectName" })
-            </div>
 
-            <input type="submit" style="display: none" />
+    @using (Html.BeginForm("SaveProject", "BTS", FormMethod.Post))
+    {
+        <div>
+            @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
+        </div>
+    
+        @Html.AntiForgeryToken()
+        
+        @Html.HiddenFor(e => e.ProjectId)
+
+        <div style="width: 560px">
+            @Html.LabelFor(e => e.Title, new { @class = "control-label" })
+            @Html.EditorFor(e => e.Title, new { @class = "form-control", @style = "float:left" })
+            @Html.ValidationMessageFor(e => e.Title, " ")
         </div>
     }
-</div>
 
+    <div>
+    </div>
+</div>
 <script type="text/javascript">
-    $('.modal-dialog').width('600px');
+    $('.modal-dialog').width('540px');
+    $('#addOrEditProjectForm a').tooltip(
+    {
+        placement: "right",
+    });
+
+    shared.initPlugins();
 </script>
+

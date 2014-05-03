@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Application.Core.Data;
 using LMPlatform.Models.BTS;
 
@@ -15,13 +16,17 @@ namespace LMPlatform.Models
         [Display(Name = "Название")]
         public string Summary { get; set; }
 
-        //[DataType(DataType.MultilineText)]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Описание")]
         public string Description { get; set; }
 
-        //[DataType(DataType.MultilineText)]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Шаги выполнения")]
         public string Steps { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Ожидаемый результат")]
+        public string ExpectedResult { get; set; }
 
         [Display(Name = "Дата документирования")]
         public DateTime ReportingDate { get; set; }

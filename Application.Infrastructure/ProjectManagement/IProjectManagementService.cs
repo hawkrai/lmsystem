@@ -24,7 +24,7 @@ namespace Application.Infrastructure.ProjectManagement
 
         void SaveComment(ProjectComment comment);
         
-        void SaveProject(Project project);
+        Project SaveProject(Project project);
 
         void UpdateProject(Project project);
 

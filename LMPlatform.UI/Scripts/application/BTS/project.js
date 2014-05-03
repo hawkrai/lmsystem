@@ -1,67 +1,54 @@
-﻿$(function () {
-    $(".projectButton").on('click', function () {
-        getAddProjectForm($(this).data('url'));
-    });
+﻿var projectManagement = {
+    init: function () {
+        var that = this;
+        $(".addProjectButton").tooltip({ title: "Добавить проект", placement: 'right' });
+        that.initButtonAction();
 
-    _initializeTooltips();
+        $("#chat-btn").on('click', function () {
+            //var form = $(event.target).parents('form');
+            var commentText = $('#CommentText').val();
+            $.post('/BTS/ProjectManagement', { comment: commentText });
+            $("#CommentText").val('');
+        });
+    },
 
-    $("#chat-btn").on('click', function () {
-        var form = $(event.target).parents('form');
-        var commentText = $('#CommentText').val();
-        $.post('/BTS/ProjectManagement', { comment: commentText });
-        form.submit();
-    });
-});
+    initButtonAction: function () {
+        $('.addProjectButton').handle("click", function () {
+            $.savingDialog("Добавление проекта", "/BTS/AddProject", null, "primary", function (data) {
+                datatable.fnDraw();
+                alertify.success("Добавлен новый проект");
+            });
+            return false;
+        });
+    },
 
-function _initializeTooltips() {
-    $(".editProjectButton").tooltip({ title: "Редактировать проект", placement: 'left' });
-    $(".deleteProjectButton").tooltip({ title: "Удалить проект", placement: 'left' });
-    $(".projectDetailsButton").tooltip({ title: "Информация о проекте", placement: 'left' });
-}
+    projectEditItemActionHandler: function () {
+        $('.editProjectButton').handle("click", function () {
+            var that = this;
+            $.savingDialog("Редактирование проекта", $(that).attr('href'), null, "primary", function (data) {
+                datatable.fnDraw();
+                alertify.success("Проект успешно изменен");
+            });
+            return false;
+        });
 
-function getAddProjectForm(addProjectFormUrl) {
-    $.get(addProjectFormUrl,
-            {},
-          function (data) {
-              showDialog(data);
-          });
-}
-
-function showDialog(addProjectForm) {
-    bootbox.dialog({
-        message: addProjectForm,
-        title: "Добавить проект",
-        buttons: {
-            main: {
-                label: "Добавить",
-                //className: "btn-primary btn-submit",
-                className: "btn btn-primary btn-submit",
-                callback: function () {
+        $(".deleteProjectButton").handle("click", function () {
+            var that = this;
+            bootbox.confirm("Вы действительно хотите удалить проект?", function (isConfirmed) {
+                if (isConfirmed) {
+                    dataTables.deleteRow("ProjectList", $(that).attr("href"));
+                    datatable.fnDraw();
+                    alertify.success("Проект удален");
                 }
-            }
-        }
-    });
+            });
+            return false;
+        });
+        $(".projectDetailsButton").tooltip({ title: "Информация о проекте", placement: 'left' });
+        $(".editProject").tooltip({ title: "Редактировать проект", placement: 'top' });
+        $(".deleteProject").tooltip({ title: "Удалить проект", placement: 'right' });
+    }
+};
 
-    var form = $('#addOrEditProjectForm').find('form');
-    var sendBtn = $('#addOrEditProjectForm').parents().find('.modal-dialog').find('.btn-submit');
-
-    sendBtn.click(function () {
-        form.submit();
-        alertify("Добавлен новый проект");
-    });
-}
-
-//if ($(form).valid()) {
-//    form.submit();
-//} else {
-//    return false;
-//}
-
-//$('#projectNameList').on('change', function () {
-//    var form = $(event.target).parents('form');
-//    var projectId = $('#projectNameList').val();
-
-//    $.post('/BTS/ProjectManagement', { projectId: projectId });
-
-//    form.submit();
-//});
+$(document).ready(function () {
+    projectManagement.init();
+});

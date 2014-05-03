@@ -37,6 +37,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [Display(Name = "Шаги выполнения")]
         public string Steps { get; set; }
 
+        [Display(Name = "Ожидаемый результат")]
+        public string ExpectedResult { get; set; }
+
         [DisplayName("Важность")]
         public string Severity { get; set; }
 
@@ -65,16 +68,17 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int BugId { get; set; }
 
-        public BugsViewModel(int bugId)
+        public BugsViewModel(int id)
         {
-            var model = new BugManagementService().GetBug(bugId);
-            BugId = bugId;
+            var model = new BugManagementService().GetBug(id);
+            BugId = id;
             SetParams(model);
         }
 
         public void SetParams(Bug model)
         {
             Steps = model.Steps;
+            ExpectedResult = model.ExpectedResult;
             Symptom = GetSymptomName(model.SymptomId);
             ReporterName = GetReporterName(model.ReporterId);
             ReportingDate = model.ReportingDate.ToShortDateString();

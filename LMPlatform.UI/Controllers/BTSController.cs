@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Application.Core.Data;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.Data.Repositories;
-using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.BTSViewModels;
 using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
@@ -21,8 +17,7 @@ namespace LMPlatform.UI.Controllers
     [Authorize(Roles = "student, lector")]
     public class BTSController : BasicController
     {
-        private static int currentProjectId = 0;
-        private static int currentBugId = 0;
+        private static int _currentProjectId;
         
         [HttpGet]
         public ActionResult Index()
@@ -36,28 +31,16 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
-        [HttpGet]
         public ActionResult AddProject()
         {
-            var projectViewModel = new AddOrEditProjectViewModel();
+            var projectViewModel = new AddOrEditProjectViewModel(0);
             return PartialView("_AddOrEditProjectForm", projectViewModel);
-        }
-
-        [HttpPost]
-        public ActionResult AddProject(AddOrEditProjectViewModel project)
-        {
-            if (ModelState.IsValid)
-            {
-                project.SaveProject();
-            }
-
-            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult AssignUserOnProject()
         {
-            var assingUserModel = new AssignUserViewModel(currentProjectId);
+            var assingUserModel = new AssignUserViewModel(_currentProjectId);
             return PartialView("_AssignUserOnProjectForm", assingUserModel);
         }
 
@@ -66,44 +49,44 @@ namespace LMPlatform.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                projectUser.SaveAssignment(currentProjectId);
+                projectUser.SaveAssignment(_currentProjectId);
             }
 
-            return RedirectToAction("ProjectManagement", new { projectId = currentProjectId });
+            return RedirectToAction("ProjectManagement", new { id = _currentProjectId });
         }
 
-        [HttpGet]
-        public ActionResult EditProject(int projectId)
+        public ActionResult EditProject(int id)
         {
-            var project = ProjectManagementService.GetProject(projectId);
-            var projectViewModel = new AddOrEditProjectViewModel(project);
+            var projectViewModel = new AddOrEditProjectViewModel(id);
             return PartialView("_AddOrEditProjectForm", projectViewModel);
         }
 
-        [HttpPost]
-        public ActionResult EditProject(AddOrEditProjectViewModel project, int projectId)
+        public ActionResult DeleteProject(int id)
         {
-            if (ModelState.IsValid)
-            {
-                project.UpdateProject(projectId);
-            }
+            ProjectManagementService.DeleteProject(id);
+            return null;
+        }
 
-            return RedirectToAction("Index");
+        [HttpPost]
+        public ActionResult SaveProject(AddOrEditProjectViewModel model)
+        {
+            model.Save(WebSecurity.CurrentUserId); 
+            return null;
         }
 
         [HttpGet]
-        public ActionResult ProjectManagement(int projectId)
+        public ActionResult ProjectManagement(int id)
         {
-            var model = new ProjectsViewModel(projectId);
-            currentProjectId = projectId;
+            var model = new ProjectsViewModel(id);
+            _currentProjectId = id;
             return View(model);
         }
 
         [HttpPost]
         public ActionResult ProjectManagement(string comment)
         {
-            var model = new ProjectsViewModel(currentProjectId);
-            model.SaveComment();
+            var model = new ProjectsViewModel(_currentProjectId);
+            model.SaveComment(comment);
 
             return View(model);
         }
@@ -120,40 +103,35 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ActionResult DocumentBug()
+        public ActionResult AddBug()
         {
-            var addBugViewModel = new AddBugViewModel();
-            return PartialView("_AddBugForm", addBugViewModel);
+            var addBugViewModel = new AddOrEditBugViewModel(0);
+            return PartialView("_AddOrEditBugForm", addBugViewModel);
+        }
+
+        public ActionResult EditBug(int id)
+        {
+            var bugViewModel = new AddOrEditBugViewModel(id);
+            return PartialView("_AddOrEditBugForm", bugViewModel);
+        }
+
+        public ActionResult DeleteBug(int id)
+        {
+            BugManagementService.DeleteBug(id);
+            return null;
         }
 
         [HttpPost]
-        public ActionResult DocumentBug(AddBugViewModel bug)
+        public ActionResult SaveBug(AddOrEditBugViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                bug.SaveBug();
-            }
-
-            return RedirectToAction("BugManagement");
+            model.Save(WebSecurity.CurrentUserId);
+            return null;
         }
 
-        public ActionResult DeleteProject(int projectId)
+        public ActionResult DeleteProjectUser(int id)
         {
-            ProjectManagementService.DeleteProject(projectId);
-            return RedirectToAction("Index");
-        }
-
-        public ActionResult DeleteBug(int bugId)
-        {
-            BugManagementService.DeleteBug(bugId);
-            return RedirectToAction("BugManagement");
-        }
-
-        public ActionResult DeleteProjectUser(int projectUserId)
-        {
-            ProjectManagementService.DeleteProjectUser(projectUserId);
-            return RedirectToAction("ProjectManagement", "BTS", new RouteValueDictionary { { "projectId", currentProjectId } });
+            ProjectManagementService.DeleteProjectUser(id);
+            return RedirectToAction("ProjectManagement", "BTS", new RouteValueDictionary { { "id", _currentProjectId } });
         }
         
         [HttpPost]
@@ -169,10 +147,9 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult BugDetails(int bugId)
+        public ActionResult BugDetails(int id)
         {
-            var model = new BugsViewModel(bugId);
-            currentBugId = bugId;
+            var model = new BugsViewModel(id);
             return View(model);
         }
 
@@ -200,10 +177,18 @@ namespace LMPlatform.UI.Controllers
         public DataTablesResult<ProjectListViewModel> GetProjects(DataTablesParam dataTableParam)
         {
             var searchString = dataTableParam.GetSearchString();
-            var projects = ProjectManagementService.GetProjects(pageInfo: dataTableParam.ToPageInfo(),
-                searchString: searchString);
+            var projects = ProjectManagementService.GetProjects(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
 
-            return DataTableExtensions.GetResults(projects.Items.Select(model => ProjectListViewModel.FromProject(model, PartialViewToString("_ProjectsGridActions", ProjectListViewModel.FromProject(model)))).Where(e => e.IsAssigned == true), dataTableParam, projects.TotalCount);
+            return DataTableExtensions.GetResults(projects.Items.Select(model => ProjectListViewModel.FromProject(model, PartialViewToString("_ProjectsGridActions", ProjectListViewModel.FromProject(model)))).Where(e => e.IsAssigned), dataTableParam, projects.TotalCount);
+        }
+
+        [HttpPost]
+        public DataTablesResult<BugListViewModel> GetAllBugs(DataTablesParam dataTableParam)
+        {
+            var searchString = dataTableParam.GetSearchString();
+            var bugs = BugManagementService.GetAllBugs(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
+
+            return DataTableExtensions.GetResults(bugs.Items.Select(model => BugListViewModel.FromBug(model, PartialViewToString("_BugsGridActions", BugListViewModel.FromBug(model)))), dataTableParam, bugs.TotalCount);
         }
 
         [HttpPost]
@@ -215,16 +200,6 @@ namespace LMPlatform.UI.Controllers
             var projectId = int.Parse(Request.QueryString["projectId"]);
 
             return DataTableExtensions.GetResults(projectUsers.Items.Select(model => ProjectUserListViewModel.FromProjectUser(model, PartialViewToString("_ProjectUsersGridActions", ProjectUserListViewModel.FromProjectUser(model)))).Where(e => e.ProjectId == projectId && e.UserName != ProjectUserListViewModel.GetProjectCreatorName(projectId)), dataTablesParam, projectUsers.TotalCount);
-        }
-
-        [HttpPost]
-        public DataTablesResult<BugListViewModel> GetAllBugs(DataTablesParam dataTableParam)
-        {
-            var searchString = dataTableParam.GetSearchString();
-            var bugs = BugManagementService.GetAllBugs(pageInfo: dataTableParam.ToPageInfo(),
-                searchString: searchString);
-
-            return DataTableExtensions.GetResults(bugs.Items.Select(model => BugListViewModel.FromBug(model, PartialViewToString("_BugsGridActions", BugListViewModel.FromBug(model)))), dataTableParam, bugs.TotalCount);
         }
 
         public IProjectManagementService ProjectManagementService

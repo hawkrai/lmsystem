@@ -37,7 +37,7 @@
                 <div style="margin-top: 10px">
                     <div class="row">
                         <div class="col-md-4">
-                            @Html.LabelFor(p => p.Title) :
+                            @Html.LabelFor(p => p.Title):
                         </div>
                         <div class="col-md-8">
                             @Model.Title
@@ -46,7 +46,7 @@
 
                     <div class="row">
                         <div class="col-md-4">
-                            @Html.LabelFor(p => p.Creator) :
+                            @Html.LabelFor(p => p.Creator):
                         </div>
                         <div class="col-md-8">
                             @Model.CreatorName
@@ -55,7 +55,7 @@
 
                     <div class="row">
                         <div class="col-md-4">
-                            @Html.LabelFor(p => p.CreationDate) :
+                            @Html.LabelFor(p => p.CreationDate):
                         </div>
                         <div class="col-md-8">
                             @Model.CreationDate.ToShortDateString()
@@ -83,7 +83,7 @@
                     DataTableOptions = new DataTableOptions
                     {
                         Pagination = false,
-                        Searchable = true,
+                        Searchable = false,
                         Sortable = false,
                         Filterable = true,
                         Info = false,
@@ -108,28 +108,29 @@
                     @if (Model.BugQuentity != 0)
                     {
                         <div class="progress">
-                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)).ToString() + "%;")">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)) + "%;")">
                                 <span class="sr-only">Новые</span>
                             </div>
                             <span class="progress-type">Новые</span>
                             <span class="progress-completed">@Model.QuentityOfNewBugs</span>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfAssignesBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfAssignesBugs * 100.0 / Model.BugQuentity)).ToString() + "%;")">
-                                <span class="sr-only">Присоединены</span>
-                            </div>
-                            <span class="progress-type">Присоединены</span>
-                            <span class="progress-completed">@Model.QuentityOfAssignesBugs</span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)).ToString() + "%;")">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)) + "%;")">
                                 <span class="sr-only">Исправлены</span>
                             </div>
                             <span class="progress-type">Исправлены</span>
                             <span class="progress-completed">@Model.QuentityOfResolvedBugs</span>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)).ToString() + "%;")">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfPostponedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfPostponedBugs * 100.0 / Model.BugQuentity)) + "%;")">
+                                <span class="sr-only">Отложены</span>
+                            </div>
+                            <span class="progress-type">Отложены</span>
+                            <span class="progress-completed">@Model.QuentityOfPostponedBugs</span>
+                        </div>
+                        
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)) + "%;")">
                                 <span class="sr-only">Закрыты</span>
                             </div>
                             <span class="progress-type">Закрыты</span>
@@ -141,9 +142,8 @@
             </div>
 
             <div style="margin-top: 10px">
-                <div class="container">
+                <div class="container" style="width: 318px" id="commentPanel">
                     <div class="row">
-                        @*<div class="col-md-5">*@
                         <div>
                             <div class="panel panel-primary" style="width: 318px">
                                 <div class="panel-heading" id="accordion">
@@ -163,7 +163,7 @@
                                                     <div class="chat-body">
                                                         <div class="header">
                                                             <strong class="primary-font">@comment.User.FullName</strong> <small class="pull-right text-muted">
-                                                                <span class="glyphicon glyphicon-time"></span>@comment.CommentingDate.ToShortDateString()</small>
+                                                                <span class="glyphicon glyphicon-time"></span>@comment.CommentingDate.ToString("HH:mm dd.MM.yyyy")</small>
                                                         </div>
                                                         <p>
                                                             @comment.CommentText

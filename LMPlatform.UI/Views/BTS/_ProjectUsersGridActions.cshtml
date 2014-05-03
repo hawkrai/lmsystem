@@ -1,9 +1,5 @@
 ﻿@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectUserListViewModel
-@*<a href="@Url.Action("EditProjectUser", "BTS", new { projectUserId = Model.Id})" class="editProjectUserButton" style="margin-right: 10px" >*@
-<a href="#" class="editProjectUserButton" style="margin-right: 10px" >
-    <span class="fa fa-pencil fa-1x" data-model-id='@Model.Id' />
-</a>
-<a href="@Url.Action("DeleteProjectUser", "BTS", new { projectUserId = Model.Id})" class="deleteProjectUserButton" style="margin-right: 10px" >
-    <span class="fa fa-trash-o fa-1x" data-model-id='@Model.Id' />
-</a>
+
+<a class="editProjectUserButton" href="@Url.Action("EditProjectUser", "BTS", new { id = Model.Id})" style="margin-right: 10px" ><i class="editProjectUser fa fa-edit fa-2x"></i></a>
+<a class="deleteProjectUserButton" href="@Url.Action("DeleteProjectUser", "BTS", new { id = Model.Id})" style="margin-right: 10px" ><i class="deleteProjectUser fa fa-trash-o fa-2x"></i></a>
 

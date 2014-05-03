@@ -1,43 +1,47 @@
-﻿$(function () {
-    $(".addBugButton").on('click', function () {
-        getAddBugForm($(this).data('url'));
-    });
+﻿var bugManagement = {
+    init: function () {
+        var that = this;
+        $(".addBugButton").tooltip({ title: "Документировать ошибку", placement: 'right' });
+        that.initButtonAction();
+    },
 
-    this._initializeTooltips();
-});
+    initButtonAction: function () {
+        $('.addBugButton').handle("click", function () {
+            $.savingDialog("Документирование ошибки", "/BTS/AddBug", null, "primary", function (data) {
+                datatable.fnDraw();
+                alertify.success("Документирована новая ошибка");
+            });
+            return false;
+        });
+    },
 
-function _initializeTooltips() {
-    $(".editBugButton").tooltip({ title: "Редактировать ошибку", placement: 'left' });
-    $(".deleteBugButton").tooltip({ title: "Удалить ошибку", placement: 'left' });
-    $(".bugDetailsButton").tooltip({ title: "Информация об ошибке", placement: 'left' });
-}
+    bugEditItemActionHandler: function () {
+        $('.editBugButton').handle("click", function () {
+            var that = this;
+            $.savingDialog("Редактирование ошибки", $(that).attr('href'), null, "primary", function (data) {
+                datatable.fnDraw();
+                alertify.success("Ошибка успешно изменена");
+            });
+            return false;
+        });
 
-function getAddBugForm(addBugFormUrl) {
-    $.get(addBugFormUrl,
-            {},
-          function (data) {
-              showDialog(data);
-          });
-}
-
-function showDialog(addBugForm) {
-    bootbox.dialog({
-        message: addBugForm,
-        title: "Документировать ошибку",
-        buttons: {
-            main: {
-                label: "Документировать",
-                className: "btn-primary btn-submit",
-                callback: function () {
+        $(".deleteBugButton").handle("click", function () {
+            var that = this;
+            bootbox.confirm("Вы действительно хотите удалить ошибку?", function (isConfirmed) {
+                if (isConfirmed) {
+                    dataTables.deleteRow("BugList", $(that).attr("href"));
+                    datatable.fnDraw();
+                    alertify.success("Ошибка удалена");
                 }
-            }
-        }
-    });
+            });
+            return false;
+        });
+        $(".bugDetailsButton").tooltip({ title: "Информация об ошибке", placement: 'left' });
+        $(".editBug").tooltip({ title: "Редактировать ошибку", placement: 'top' });
+        $(".deleteBug").tooltip({ title: "Удалить ошибку", placement: 'right' });
+    }
+};
 
-    var form = $('#addBugForm').find('form');
-    var sendBtn = $('#addBugForm').parents().find('.modal-dialog').find('.btn-submit');
-
-    sendBtn.click(function () {
-        form.submit();
-    });
-}
+$(document).ready(function () {
+    bugManagement.init();
+});

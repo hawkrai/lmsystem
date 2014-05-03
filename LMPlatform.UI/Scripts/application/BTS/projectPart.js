@@ -11,7 +11,6 @@
         });
     });
 
-
     //$("#groups").change(function () {
     //    $("#students").empty();
     //    $.ajax({
@@ -66,6 +65,8 @@ function showDialog(assignUserForm) {
             }
         }
     });
+
+    $("#groups").change();
 
     var form = $('#assignUserForm').find('form');
     var sendBtn = $('#assignUserForm').parents().find('.modal-dialog').find('.btn-submit');

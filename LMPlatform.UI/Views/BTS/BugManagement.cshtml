@@ -27,21 +27,19 @@
 </h3>
 <hr />
 <div>
-    <a href="#" class="addBugButton" data-url="@Url.Action("DocumentBug", "BTS")" data-toggle="tooltip">
-        <span class="glyphicon glyphicon-plus fa-tab"></span>Документировать ошибку
-    </a>
+    <a href="@Url.Action("AddBug", "BTS")" class="addBugButton" data-url="@Url.Action("AddBug", "BTS")" data-toggle="tooltip"><i class="addBug glyphicon glyphicon-plus fa-tab"></i>Документировать ошибку</a>
 </div>
 <div class="row">
     <div class="col-md-12">
         <div>
             @Html.Partial("_DataTable", new DataTableViewModel
                     {
-                        DataTable = Html.DataTable("aBugList", (BTSController controller) => controller.GetAllBugs(null)),
+                        DataTable = Html.DataTable("BugList", (BTSController controller) => controller.GetAllBugs(null)),
                         DataTableOptions = new DataTableOptions
                             {
                                 Filterable = true,
                                 Info = true,
-                                OnComplete = null,
+                                OnComplete = "bugManagement.bugEditItemActionHandler",
                                 Pagination = true,
                                 Searchable = true,
                                 Sortable = false,

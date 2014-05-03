@@ -25,9 +25,7 @@
 <h3>Проекты</h3>
 <hr/>
 <div>
-    <a href="#" class="projectButton" data-url="@Url.Action("AddProject", "BTS")" data-toggle="tooltip">
-        <span class="glyphicon glyphicon-plus fa-tab"></span>Добавить проект
-    </a>
+    <a href="@Url.Action("AddProject", "BTS")" class="addProjectButton" data-url="@Url.Action("AddProject", "BTS")" data-toggle="tooltip"><i class="addProject glyphicon glyphicon-plus fa-tab"></i>Добавить проект</a>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -35,12 +33,12 @@
             <div>
                 @Html.Partial("_DataTable", new DataTableViewModel
                 {
-                        DataTable = Html.DataTable("aProjectsList", (BTSController controller) => controller.GetProjects(null)),
+                        DataTable = Html.DataTable("ProjectsList", (BTSController controller) => controller.GetProjects(null)),
                         DataTableOptions = new DataTableOptions
                         {
                             Filterable = true,
                             Info = true,
-                            OnComplete = null,
+                            OnComplete = "projectManagement.projectEditItemActionHandler",
                             Pagination = true,
                             Searchable = true,
                             Sortable = false,
