@@ -87,6 +87,7 @@
     
     _onTestLoaded: function (content) {
         $('#questionContent').html(content);
+        $(".kkcountdown").kkcountdown();
         $('.progress-bar-notPassed').on('click', $.proxy(this._onProgressBarClicked, this));
         $('#answerButton').on('click', $.proxy(this._onAnswerButtonClicked, this));
         $('#skipButton').on('click', $.proxy(this._onSkipButtonClicked, this));

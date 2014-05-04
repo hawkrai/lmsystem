@@ -504,6 +504,7 @@
     <Content Include="Scripts\application\DP\services\projectService.js" />
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\kkcountdown.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestPassingScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestsResultsListScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestUnlocksScript.js" />
