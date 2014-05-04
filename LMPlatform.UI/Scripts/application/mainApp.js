@@ -14,6 +14,10 @@
             .when('/Labs', {
                 templateUrl: 'Subject/Labs',
                 controller: 'LabsController'
+            })
+            .when('/Practical', {
+                templateUrl: 'Subject/Practicals',
+                controller: 'PracticalsController'
             });
     });
 angular.module('mainApp.controllers', [])
@@ -23,6 +27,23 @@ angular.module('mainApp.controllers', [])
 
         $scope.init = function (subjectId) {
             $scope.subjectId = subjectId;
+        };
+
+        $scope.getLecturesFileAttachments = function() {
+            var itemAttachmentsTable = $('#fileupload').find('table').find('tbody tr');
+            var data = $.map(itemAttachmentsTable, function(e) {
+                var newObject = null;
+                if (e.className === "template-download fade in") {
+                    if (e.id === "-1") {
+                        newObject = { Id: 0, Title: "", Name: $(e).find('td a').text(), AttachmentType: $(e).find('td.type').text(), FileName: $(e).find('td.guid').text() };
+                    } else {
+                        newObject = { Id: e.id, Title: "", Name: $(e).find('td a').text(), AttachmentType: $(e).find('td.type').text(), FileName: $(e).find('td.guid').text() };
+                    }
+                }
+                return newObject;
+            });
+            var dataAsString = JSON.stringify(data);
+            return dataAsString;
         };
     }).controller('NewsController', function ($scope, $http) {
 
@@ -193,25 +214,7 @@ angular.module('mainApp.controllers', [])
             });
             $('#dialogAddLectures').modal();
         };
-
-        $scope.getLecturesFileAttachments = function() {
-            var itemAttachmentsTable = $('#fileupload').find('table').find('tbody tr');
-            var data = $.map(itemAttachmentsTable, function (e) {
-                var newObject = null;
-                if (e.className === "template-download fade in") {
-                    if (e.id === "-1") {
-                        newObject = { Id: 0, Title: "", Name: $(e).find('td a').text(), AttachmentType: $(e).find('td.type').text(), FileName: $(e).find('td.guid').text() };
-                    } 
-                    else {
-                        newObject = { Id: e.id, Title: "", Name: $(e).find('td a').text(), AttachmentType: $(e).find('td.type').text(), FileName: $(e).find('td.guid').text() };
-                    }
-                }
-                return newObject;
-            });
-            var dataAsString = JSON.stringify(data);
-            return dataAsString;
-        },
-
+        
         $scope.saveLectures = function () {
             var day = $scope.getLecturesFileAttachments();
             $http({
@@ -250,14 +253,273 @@ angular.module('mainApp.controllers', [])
                             alertify.error(data.Message);
                         } else {
                             alertify.success(data.Message);
-                            $scope.lectures.splice($scope.lectures.indexOf(news), 1);
+                            $scope.lectures.splice($scope.lectures.indexOf(lectures), 1);
                         }
                     });
                 }
             });
         };
     })
-    .controller('LabsController', function ($scope) {
+    .controller('LabsController', function ($scope, $http) {
 
+        $scope.labs = [];
+        $scope.groups = [];
+
+        $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
+
+        $scope.editLabsData = {
+            TitleForm: "",
+            Theme: "",
+            Duration: "",
+            PathFile: "",
+            ShortName: "",
+            Id: 0
+        };
+
+        $scope.init = function () {
+            $scope.labs = [];
+            $scope.loadLabs();
+        };
+
+        $scope.loadLabs = function () {
+            $.ajax({
+                type: 'GET',
+                url: $scope.UrlServiceLabs + "GetLabs/" + $scope.subjectId,
+                dataType: "json",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.$apply(function () {
+                        $scope.labs = data.Labs;
+                    });
+                }
+            });
+        };
+        
+        $scope.addLabs = function () {
+            $scope.editLabsData.TitleForm = "Создание лабораторной работы";
+            $scope.editLabsData.Theme = "";
+            $scope.editLabsData.Duration = "";
+            $scope.editLabsData.PathFile = "";
+            $scope.editLabsData.ShortName = "";
+            $scope.editLabsData.Id = "0";
+
+            $("#labsFile").empty();
+
+            $.ajax({
+                type: 'GET',
+                url: "/Subject/GetFileLabs?id=0",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                $scope.$apply(function () {
+                    $("#labsFile").append(data);
+                });
+            });
+
+            $('#dialogAddLabs').modal();
+        };
+
+        $scope.editLabs = function (lab) {
+            $scope.editLabsData.TitleForm = "Редактирование лабораторной работы";
+            $scope.editLabsData.Theme = lab.Theme;
+            $scope.editLabsData.Duration = lab.Duration;
+            $scope.editLabsData.PathFile = lab.PathFile;
+            $scope.editLabsData.ShortName = lab.ShortName;
+            $scope.editLabsData.Id = lab.LabId;
+
+            $("#labsFile").empty();
+
+            $.ajax({
+                type: 'GET',
+                url: "/Subject/GetFileLabs?id=" + lab.LabId,
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                $scope.$apply(function () {
+                    $("#labsFile").append(data);
+                });
+            });
+            $('#dialogAddLabs').modal();
+        };
+
+        $scope.saveLabs = function () {
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLabs + "Save",
+                data: {
+                    subjectId: $scope.subjectId,
+                    id: $scope.editLabsData.Id,
+                    theme: $scope.editLabsData.Theme,
+                    duration: $scope.editLabsData.Duration,
+                    shortName: $scope.editLabsData.ShortName,
+                    pathFile: $scope.editLabsData.PathFile,
+                    attachments: $scope.getLecturesFileAttachments()
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.loadLabs();
+                    alertify.success(data.Message);
+                }
+                $("#dialogAddLabs").modal('hide');
+            });
+        };
+
+        $scope.deleteLabs = function (lab) {
+            bootbox.confirm("Вы действительно хотите удалить лабораторную работу?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $http({
+                        method: 'POST',
+                        url: $scope.UrlServiceLabs + "Delete",
+                        data: { id: lab.LabId, subjectId: $scope.subjectId },
+                        headers: { 'Content-Type': 'application/json' }
+                    }).success(function (data, status) {
+                        if (data.Code != '200') {
+                            alertify.error(data.Message);
+                        } else {
+                            alertify.success(data.Message);
+                            $scope.labs.splice($scope.labs.indexOf(lab), 1);
+                        }
+                    });
+                }
+            });
+        };
+    })
+    .controller('PracticalsController', function ($scope, $http) {
+
+        $scope.practicals = [];
+        $scope.groups = [];
+
+        $scope.UrlServicePractical = '/Services/Practicals/PracticalService.svc/';
+
+        $scope.editPracticalData = {
+            TitleForm: "",
+            Theme: "",
+            Duration: "",
+            PathFile: "",
+            ShortName: "",
+            Id: 0
+        };
+
+        $scope.init = function () {
+            $scope.practicals = [];
+            $scope.loadPracticals();
+        };
+
+        $scope.loadPracticals = function () {
+            $.ajax({
+                type: 'GET',
+                url: $scope.UrlServicePractical + "GetPracticals/" + $scope.subjectId,
+                dataType: "json",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.$apply(function () {
+                        $scope.practicals = data.Practicals;
+                    });
+                }
+            });
+        };
+
+        $scope.addPracticals = function () {
+            $scope.editPracticalData.TitleForm = "Создание практического занятия";
+            $scope.editPracticalData.Theme = "";
+            $scope.editPracticalData.Duration = "";
+            $scope.editPracticalData.PathFile = "";
+            $scope.editPracticalData.ShortName = "";
+            $scope.editPracticalData.Id = "0";
+
+            $("#practicalsFile").empty();
+
+            $.ajax({
+                type: 'GET',
+                url: "/Subject/GetFilePracticals?id=0",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                $scope.$apply(function () {
+                    $("#practicalsFile").append(data);
+                });
+            });
+
+            $('#dialogAddPracticals').modal();
+        };
+
+        $scope.editPracticals = function (practical) {
+            $scope.editPracticalData.TitleForm = "Редактирование практического занятия";
+            $scope.editPracticalData.Theme = practical.Theme;
+            $scope.editPracticalData.Duration = practical.Duration;
+            $scope.editPracticalData.PathFile = practical.PathFile;
+            $scope.editPracticalData.ShortName = practical.ShortName;
+            $scope.editPracticalData.Id = practical.PracticalId;
+
+            $("#practicalsFile").empty();
+
+            $.ajax({
+                type: 'GET',
+                url: "/Subject/GetFilePracticals?id=" + practical.PracticalId,
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                $scope.$apply(function () {
+                    $("#practicalsFile").append(data);
+                });
+            });
+            $('#dialogAddPracticals').modal();
+        };
+
+        $scope.savePracticals = function () {
+            $http({
+                method: 'POST',
+                url: $scope.UrlServicePractical + "Save",
+                data: {
+                    subjectId: $scope.subjectId,
+                    id: $scope.editPracticalData.Id,
+                    theme: $scope.editPracticalData.Theme,
+                    duration: $scope.editPracticalData.Duration,
+                    shortName: $scope.editPracticalData.ShortName,
+                    pathFile: $scope.editPracticalData.PathFile,
+                    attachments: $scope.getLecturesFileAttachments()
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.loadPracticals();
+                    alertify.success(data.Message);
+                }
+                $("#dialogAddPracticals").modal('hide');
+            });
+        };
+
+        $scope.deletePracticals = function (practical) {
+            bootbox.confirm("Вы действительно хотите удалить практическое занятие?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $http({
+                        method: 'POST',
+                        url: $scope.UrlServicePractical + "Delete",
+                        data: { id: practical.LabId, subjectId: $scope.subjectId },
+                        headers: { 'Content-Type': 'application/json' }
+                    }).success(function (data, status) {
+                        if (data.Code != '200') {
+                            alertify.error(data.Message);
+                        } else {
+                            alertify.success(data.Message);
+                            $scope.practicals.splice($scope.practicals.indexOf(practical), 1);
+                        }
+                    });
+                }
+            });
+        };
     });
 

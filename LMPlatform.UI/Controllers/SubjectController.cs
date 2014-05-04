@@ -57,6 +57,11 @@ namespace LMPlatform.UI.Controllers
             return this.PartialView("Subjects/Modules/Labs/_LabsModule");
         }
 
+        public ActionResult Practicals()
+        {
+            return this.PartialView("Subjects/Modules/Practicals/_PracticalModule");
+        }
+
         public ActionResult Index(int subjectId)
         {
             var model = new SubjectWorkingViewModel(subjectId);
@@ -102,6 +107,28 @@ namespace LMPlatform.UI.Controllers
             }
 
             var model = SubjectManagementService.GetLectures(id);
+            return PartialView("Common/_FilesUploader", FilesManagementService.GetAttachments(model.Attachments).ToList());
+        }
+
+        public ActionResult GetFileLabs(int id)
+        {
+            if (id == 0)
+            {
+                return PartialView("Common/_FilesUploader", new List<Attachment>());
+            }
+
+            var model = SubjectManagementService.GetLabs(id);
+            return PartialView("Common/_FilesUploader", FilesManagementService.GetAttachments(model.Attachments).ToList());
+        }
+
+        public ActionResult GetFilePracticals(int id)
+        {
+            if (id == 0)
+            {
+                return PartialView("Common/_FilesUploader", new List<Attachment>());
+            }
+
+            var model = SubjectManagementService.GetPractical(id);
             return PartialView("Common/_FilesUploader", FilesManagementService.GetAttachments(model.Attachments).ToList());
         }
 

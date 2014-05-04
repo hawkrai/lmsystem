@@ -1,6 +1,5 @@
-﻿
-<div ng-controller="LabsController">
-    
+﻿<div ng-controller="LabsController" ng-init="init()">
+
     <style type="text/css">
         .nav, .pagination, .carousel, .panel-title a {
             cursor: pointer;
@@ -8,11 +7,85 @@
     </style>
 
     <tabset>
-        <tab heading="Лабораторные работы">Лабораторные работы</tab>
+        <tab heading="Лабораторные работы">
+            <div style="margin-top: 10px">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div id="buttonActionSection">
+                                    <a id="addLabsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="addLabs()">Добавить лабораторную работу</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Краткое название</th>
+                            <th>Часы</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="data in labs">
+                        <td>{{data.Order}}</td>
+                        <td>{{data.Theme}}</td>
+                        <td>{{data.ShortName}}</td>
+                        <td>{{data.Duration}}</td>
+                        <td>
+                            <div>
+                                <a style="margin-right: 10px" ng-click="editLabs(data)"><i class="fa fa-edit fa-2x"></i></a>
+                                <a ng-click="deleteLabs(data)"><i class="fa fa-trash-o fa-2x"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </tab>
         <tab heading="График защиты">График защиты</tab>
         <tab heading="Статистика посещения">Статистика посещения</tab>
         <tab heading="Результаты">Результаты</tab>
     </tabset>
+    
+    <div id="dialogAddLabs" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{editLabsData.TitleForm}}</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label class="control-label">Название лабораторной работы</label>
+                        <textarea class="form-control" style="width: 545px" ng-model="editLabsData.Theme"></textarea>
+                    </div>
+                    <div>
+                        <label class="control-label">Короткое название</label>
+                        <input type="text" style="width: 545px" ng-model="editLabsData.ShortName" />
+                    </div>
+                    <div>
+                        <label class="control-label">Количество часов (1-99)</label>
+                        <input type="text" style="width: 545px" ng-model="editLabsData.Duration" />
+                    </div>
+                </div>
+                <div>
+                    <h4 class="page-header">Прикрепленный материал</h4>
+                    <div id="labsFile">
+                        @*@Html.Partial("Common/_FilesUploader", Model.Attachments.ToList())*@
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a href="#" class="btn btn-primary btn-sm" ng-click="saveLabs()" data-dismiss="modal">Сохранить</a>
+            </div>
+        </div>
+    </div>
 
 </div>
 

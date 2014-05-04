@@ -1,44 +1,56 @@
 ﻿<div ng-controller="LecturesController" ng-init="init()">
-    <div id="navPanel">
-        <table>
-            <tbody>
-                <tr>
-                    <td>
-                        <div id="buttonActionSection">
-                            <a ng-click="addLectures()" style="margin-right: 10px" class="btn btn-primary btn-sm">Добавить лекцию</a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="page-header" style="margin-top: 5px"></div>
+
+    <style type="text/css">
+        .nav, .pagination, .carousel, .panel-title a {
+            cursor: pointer;
+        }
+    </style>
+
+    <tabset>
+        <tab heading="Лекции">
+            <div id="navPanel" style="margin-top: 10px">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div id="buttonActionSection">
+                                    <a ng-click="addLectures()" style="margin-right: 10px" class="btn btn-primary btn-sm">Добавить лекцию</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Тема</th>
+                            <th>Часы</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="data in lectures">
+                        <td>{{data.Order}}</td>
+                        <td>{{data.Theme}}</td>
+                        <td>{{data.Duration}}</td>
+                        <td style="width: 78px;">
+                            <div>
+                                <a ng-click="editLectures(data)" style="margin-right: 10px"><i class="editLecturesButton fa fa-edit fa-2x"></i></a>
+                                <a ng-click="deleteLectures(data)"><i class="deleteLecturesButton fa fa-trash-o fa-2x"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </tab>
+        <tab heading="Посещение лекций">Посещение лекций</tab>
+    </tabset>
 
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Тема</th>
-                    <th>Часы</th>
-                    <th>Действие</th>
-                </tr>
-            </thead>
-            <tr ng-repeat="data in lectures">
-                <td>{{data.Order}}</td>
-                <td>{{data.Theme}}</td>
-                <td>{{data.Duration}}</td>
-                <td>
-                    <div>
-                        <a ng-click="editLectures(data)" style="margin-right: 10px"><i class="editLecturesButton fa fa-edit fa-2x"></i></a>
-                        <a ng-click="deleteLectures(data)"><i class="deleteLecturesButton fa fa-trash-o fa-2x"></i></a>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    
+
     <div id="dialogAddLectures" class="modal">
         <div class="modal-dialog panel panel-primary" style="padding: 0px">
             <div class="panel-heading">
@@ -53,7 +65,7 @@
                     </div>
                     <div>
                         <label class="control-label">Количество часов (1-99)</label>
-                        <input type="text" style="width: 545px" ng-model="editLecturesData.Duration"/>
+                        <input type="text" style="width: 545px" ng-model="editLecturesData.Duration" />
                     </div>
                 </div>
                 <div>

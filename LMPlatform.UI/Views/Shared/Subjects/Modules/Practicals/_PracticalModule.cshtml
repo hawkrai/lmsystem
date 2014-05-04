@@ -1,77 +1,91 @@
-﻿@model LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesPracticalViewModel
+﻿<div ng-controller="PracticalsController" ng-init="init()">
 
-@if (User.IsInRole("lector"))
-{
-    <div id="navPanel">
-        <table>
-            <tbody>
-                <tr>
-                    <td>
-                        <div id="buttonActionSection">
-                            <a id="addLabsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" href="@Url.Action("CreatePractical", "Subject", new { subjectId = Model.SubjectId })">Добавить практическое занятие</a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="page-header" style="margin-top: 5px"></div>
-}
-
-
-<div class="table-responsive">
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Название</th>
-                <th>Краткое название</th>
-                <th>Часы</th>
-                @if (User.IsInRole("lector"))
-                {
-                    <th>Действие</th>
-                }
-                @if (User.IsInRole("student"))
-                {
-                    <th>Прикрепленный материал</th>
-                }
-            </tr>
-        </thead>
-        @foreach (var item in Model.PracticalsData.OrderBy(e => e.Order))
-        {
-            <tr>
-                <td>@item.Order</td>
-                <td>@item.Theme</td>
-                <td>@item.ShortName</td>
-                <td>@item.Duration</td>
-                @if (User.IsInRole("lector"))
-                {
-                    <td>
-                        <div>
-                            <a class="editLabsButton" style="margin-right: 10px" href="@Url.Action("EditPractical", "Subject", new { id = item.PracticalId, subjectId = item.SubjectId })"><i class="editLabsButton fa fa-edit fa-2x"></i></a>
-                            <a class="deleteLabssButton" href="@Url.Action("DeletePractical", "Subject", new { id = item.PracticalId, subjectId = item.SubjectId })"><i class="deleteLabsButton fa fa-trash-o fa-2x"></i></a>
-                        </div>
-                    </td>
-                }
-                @if (User.IsInRole("student"))
-                {
-                    <td>
-                        <div class="btn-group">
-                            <button id="btnGroupDrop1" type="button" class="btn btn-default btn-sm  dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
-                                Прикрепленные файлы
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupDrop1">
-                                @foreach (var file in item.Attachments)
-                                {
-                                    var url = "api/Upload?filename=" + file.PathName + "//" + file.FileName;
-                                    <li><a href="@url">@file.Name</a></li>
-                                }
-                            </ul>
-                        </div>
-                    </td>
-                }
-            </tr>
+    <style type="text/css">
+        .nav, .pagination, .carousel, .panel-title a {
+            cursor: pointer;
         }
-    </table>
+    </style>
+
+    <tabset>
+        <tab heading="Практические занятия">
+            <div style="margin-top: 10px">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div id="buttonActionSection">
+                                    <a style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="addPracticals()">Добавить практическое занятие</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Краткое название</th>
+                            <th>Часы</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="data in practicals">
+                        <td>{{data.Order}}</td>
+                        <td>{{data.Theme}}</td>
+                        <td>{{data.ShortName}}</td>
+                        <td>{{data.Duration}}</td>
+                        <td>
+                            <div>
+                                <a style="margin-right: 10px" ng-click="editPracticals(data)"><i class="fa fa-edit fa-2x"></i></a>
+                                <a ng-click="deletePracticals(data)"><i class="fa fa-trash-o fa-2x"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </tab>
+        <tab heading="Статистика посещения">Статистика посещения</tab>
+        <tab heading="Результаты">Результаты</tab>
+    </tabset>
+    
+    <div id="dialogAddPracticals" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{editPracticalData.TitleForm}}</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label class="control-label">Название практического занятия</label>
+                        <textarea class="form-control" style="width: 545px" ng-model="editPracticalData.Theme"></textarea>
+                    </div>
+                    <div>
+                        <label class="control-label">Короткое название</label>
+                        <input type="text" style="width: 545px" ng-model="editPracticalData.ShortName" />
+                    </div>
+                    <div>
+                        <label class="control-label">Количество часов (1-99)</label>
+                        <input type="text" style="width: 545px" ng-model="editPracticalData.Duration" />
+                    </div>
+                </div>
+                <div>
+                    <h4 class="page-header">Прикрепленный материал</h4>
+                    <div id="practicalsFile">
+                        @*@Html.Partial("Common/_FilesUploader", Model.Attachments.ToList())*@
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a href="#" class="btn btn-primary btn-sm" ng-click="savePracticals()" data-dismiss="modal">Сохранить</a>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
