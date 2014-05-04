@@ -159,6 +159,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
     <Compile Include="ApiControllers\LabsController.cs" />
     <Compile Include="ApiControllers\NewsController.cs" />
     <Compile Include="ApiControllers\UploadController.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
+    <Compile Include="Controllers\DpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ParentalController.cs" />
@@ -218,6 +220,7 @@
     <Compile Include="ViewModels\BTSViewModels\BugsViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectParticipationViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
+    <Compile Include="ViewModels\DPViewModels\DiplomProjectViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionViewModel.cs" />
@@ -265,6 +268,7 @@
     <Content Include="Content\alertify.bootstrap.css" />
     <Content Include="Content\alertify.core.css" />
     <Content Include="Content\alertify.default.css" />
+    <Content Include="Content\bootstrap-duallistbox.css" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap-wysihtml5.css" />
@@ -467,6 +471,7 @@
     <Content Include="Images\no_image.png" />
     <Content Include="Images\schoolclass.png" />
     <Content Include="Scripts\alertify.js" />
+    <Content Include="Scripts\angular-bootstrap-duallistbox.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\application\accountManagement.js" />
@@ -476,6 +481,11 @@
     <Content Include="Scripts\application\BTS\projectPart.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
+    <Content Include="Scripts\application\DP\controllers\homeController.js" />
+    <Content Include="Scripts\application\DP\controllers\projectController.js" />
+    <Content Include="Scripts\application\DP\dpModule.js" />
+    <Content Include="Scripts\application\DP\controllers\projectsController.js" />
+    <Content Include="Scripts\application\DP\services\projectService.js" />
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestPassingScript.js" />
@@ -782,6 +792,7 @@
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery.activity-indicator-1.0.0.js" />
     <Content Include="Scripts\jquery.activity-indicator-1.0.0.min.js" />
+    <Content Include="Scripts\jquery.bootstrap-duallistbox.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -850,6 +861,7 @@
     <Content Include="Scripts\mvcfileupload\main.js" />
     <Content Include="Scripts\mvcfileupload\tmpl.js" />
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
+    <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\prettify.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
@@ -982,6 +994,9 @@
     <Content Include="Views\TestPassing\TestResultsTable.cshtml" />
     <Content Include="Views\TestPassing\TestResults.cshtml" />
     <Content Include="Views\TestPassing\_TestsResultsGridColumn.cshtml" />
+    <Content Include="Views\DP\Index.cshtml" />
+    <Content Include="Views\DP\Projects.cshtml" />
+    <Content Include="Views\DP\Project.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

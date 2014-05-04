@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Application.Core.Data;
+using LMPlatform.Models.DP;
 
 namespace LMPlatform.Models
 {
@@ -37,6 +38,24 @@ namespace LMPlatform.Models
         }
 
         public ICollection<SubjectLecturer> SubjectLecturers
+        {
+            get;
+            set;
+        }
+
+        public virtual ICollection<DiplomProject> DiplomProjects
+        {
+            get;
+            set;
+        }
+
+        public virtual ICollection<DiplomPercentagesGraph> DiplomPercentagesGraphs
+        {
+            get;
+            set;
+        }
+
+        public virtual ICollection<DiplomProjectConsultationDate> DiplomProjectConsultationDates
         {
             get;
             set;

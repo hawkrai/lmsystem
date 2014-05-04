@@ -67,6 +67,13 @@
     <Compile Include="BTS\BugStatus.cs" />
     <Compile Include="BTS\BugSymptom.cs" />
     <Compile Include="Bug.cs" />
+    <Compile Include="DP\AssignedDiplomProject.cs" />
+    <Compile Include="DP\DiplomPercentagesGraph.cs" />
+    <Compile Include="DP\DiplomPercentagesResult.cs" />
+    <Compile Include="DP\DiplomProject.cs" />
+    <Compile Include="DP\DiplomProjectConsultationDate.cs" />
+    <Compile Include="DP\DiplomProjectConsultationMark.cs" />
+    <Compile Include="DP\DiplomProjectGroup.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="KnowledgeTesting\Answer.cs" />
     <Compile Include="KnowledgeTesting\NextQuestionResult.cs" />

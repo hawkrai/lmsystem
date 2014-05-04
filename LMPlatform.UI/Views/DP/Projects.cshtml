@@ -1,0 +1,18 @@
+﻿<div style="margin: 20px">
+    <div id="buttonActionSection" style="margin-bottom: 20px;">
+        <a ng-click="createProject()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить проект</a>
+    </div>
+    <div>
+        <div loading-container="tableParams.settings().$loading">
+        <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
+            <tr ng-repeat="project in $data">
+                <td width="70%" data-title="'Тема'">{{project.Theme}}</td>
+                <td width="20%" data-title="'Руководитель'">{{project.Lecturer}}</td>
+                <td width="10%" data-title="'Действие'">
+                    <a ng-click="editProject(project.Id)" class="editSubjectAction" style="margin-right: 10px"><i class="editSubject fa fa-edit fa-2x"></i></a>
+                    <a ng-click="deleteProject(project.Id)" class="deleteSubjectButton"><i class="deleteSubject fa fa-trash-o fa-2x"></i></a>
+                </td>
+            </tr>
+        </table></div>
+    </div>
+</div>

@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using LMPlatform.Models.BTS;
+using LMPlatform.Models.DP;
 using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.Data.Infrastructure
 {
     using LMPlatform.Models;
 
-    public class LmPlatformModelsContext : DbContext
+    public class LmPlatformModelsContext : DbContext, IDpContext
     {
         #region Constructors
 
@@ -308,6 +309,7 @@ namespace LMPlatform.Data.Infrastructure
 
             MapKnowledgeTestingEntities(modelBuilder);
             MapBTSEntities(modelBuilder);
+            MapDpEntities(modelBuilder);
         }
 
         private void MapKnowledgeTestingEntities(DbModelBuilder modelBuilder)
@@ -481,5 +483,46 @@ namespace LMPlatform.Data.Infrastructure
         }
 
         #endregion Protected BTS
+
+        #region DP
+
+        protected void MapDpEntities(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DiplomProjectConsultationDate>()
+                .HasMany(e => e.DiplomProjectConsultationMarks)
+                .WithRequired(e => e.DiplomProjectConsultationDate)
+                .HasForeignKey(e => e.ConsultationDateId);
+
+            modelBuilder.Entity<DiplomProjectConsultationMark>()
+                .Property(e => e.Mark)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+//            modelBuilder.Entity<DiplomProject>()
+//                .HasMany(x => x.Groups)
+//                .WithMany(x => x.DiplomProjects)
+//                .Map(x =>
+//            {
+//                x.ToTable("DiplomProjectGroups");
+//                x.MapLeftKey("DiplomProjectId");
+//                x.MapRightKey("GroupId");
+//            });
+        }
+
+        public virtual DbSet<AssignedDiplomProject> AssignedDiplomProjects { get; set; }
+        
+        public virtual DbSet<DiplomPercentagesGraph> DiplomPercentagesGraphs { get; set; }
+        
+        public virtual DbSet<DiplomPercentagesResult> DiplomPercentagesResults { get; set; }
+        
+        public virtual DbSet<DiplomProjectConsultationDate> DiplomProjectConsultationDates { get; set; }
+        
+        public virtual DbSet<DiplomProjectConsultationMark> DiplomProjectConsultationMarks { get; set; }
+        
+        public virtual DbSet<DiplomProjectGroup> DiplomProjectGroups { get; set; }
+        
+        public virtual DbSet<DiplomProject> DiplomProjects { get; set; }
+
+        #endregion
     }
 }

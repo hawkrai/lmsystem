@@ -1,4 +1,6 @@
-﻿namespace LMPlatform.Models
+﻿using LMPlatform.Models.DP;
+
+namespace LMPlatform.Models
 {
     using System;
     using System.Collections.Generic;
@@ -42,5 +44,7 @@
             get; 
             set;
         }
+
+//        public ICollection<DiplomProject> DiplomProjects { get; set; } 
     }
 }

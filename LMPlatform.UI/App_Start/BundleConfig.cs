@@ -47,6 +47,9 @@ namespace LMPlatform.UI.App_Start
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                 "~/Scripts/angular.js",
                 "~/Scripts/angular-route.js",
+                "~/Scripts/ng-table.js",
+                "~/Scripts/ng-table.js",
+                "~/Scripts/angular-bootstrap-duallistbox.js",
                 "~/Scripts/ui-bootstrap-tpls-0.10.0.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileupload").Include(
@@ -84,6 +87,13 @@ namespace LMPlatform.UI.App_Start
                 "~/Content/themes/base/jquery.ui.datepicker.css", 
                 "~/Content/themes/base/jquery.ui.progressbar.css", 
                 "~/Content/themes/base/jquery.ui.theme.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/dpModule").Include(
+                "~/Scripts/application/DP/dpModule.js",
+                "~/Scripts/application/DP/controllers/homeController.js",
+                "~/Scripts/application/DP/controllers/projectsController.js",
+                "~/Scripts/application/DP/controllers/projectController.js",
+                "~/Scripts/application/DP/services/projectService.js"));
         }
     }
 }

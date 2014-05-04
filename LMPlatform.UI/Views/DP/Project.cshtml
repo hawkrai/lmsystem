@@ -1,0 +1,20 @@
+﻿<script type="text/javascript" src="/Scripts/jquery.bootstrap-duallistbox.js"></script>
+<link rel="stylesheet" href="/Content/bootstrap-duallistbox.css"/>
+
+<div>
+    <label for="Theme">Тема</label>
+    <input name="Theme" type="text" ng-model="project.Theme" style="width: 100%;"/>
+    
+    <select
+    ng-options="group.Id as group.Name for group in groups"
+    multiple
+    ng-model="project.SelectedGroupsIds"
+    bs-duallistbox
+    select-min-height="300"
+    ></select>
+    
+    <div style="text-align:right;padding:20px 0;">
+    <button class="btn btn-primary btn-sm" data-ng-click="saveProject()"></i> Сохранить</button>
+    <button class="btn btn-primary btn-sm" data-ng-click="returnToList()"></i>Отмена</button>
+    </div>
+</div>

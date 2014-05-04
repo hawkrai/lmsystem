@@ -1,6 +1,7 @@
 ﻿using Application.Core;
 using Application.Infrastructure.AccountManagement;
 using Application.Infrastructure.BugManagement;
+using Application.Infrastructure.DPManagement;
 using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
@@ -31,6 +32,7 @@ namespace Application.Infrastructure
 			containerWrapper.Register<ILecturerManagementService, LecturerManagementService>();
             containerWrapper.Register<IMessageManagementService, MessageManagementService>();
             containerWrapper.Register<IFilesManagementService, FilesManagementService>();
+            containerWrapper.Register<IDpManagementService, DpManagementService>();
 
 			return containerWrapper;
 		}
