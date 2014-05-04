@@ -479,6 +479,7 @@
     <Content Include="Scripts\application\accountManagement.js" />
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
     <Content Include="Scripts\application\BTS\bug.js" />
+    <Content Include="Scripts\application\BTS\chat.js" />
     <Content Include="Scripts\application\BTS\project.js" />
     <Content Include="Scripts\application\BTS\projectPart.js" />
     <Content Include="Scripts\application\BTS\studentProjectTable.js" />

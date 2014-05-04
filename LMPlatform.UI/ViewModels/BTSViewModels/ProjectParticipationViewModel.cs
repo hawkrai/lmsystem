@@ -48,7 +48,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public List<StudentGroupUser> GetStudentGroupUserList(string groupName)
         {
             StudentGroupUserList = new List<StudentGroupUser>();
+
             var groupId = new GroupManagementService().GetGroupByName(groupName).Id;
+
             var students = new StudentManagementService().GetGroupStudents(groupId).ToList();
             var number = 1;
 
