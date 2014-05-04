@@ -18,7 +18,11 @@ namespace Application.Infrastructure.ProjectManagement
 
         IPageableList<Project> GetProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
-        List<ProjectUser> GetProjectUsers(int projectId); 
+        List<ProjectUser> GetProjectUsers(int projectId);
+
+        List<ProjectUser> GetProjectsOfUser(int userId);
+
+        ProjectUser GetProjectUser(int projectUserId);
             
         IPageableList<ProjectUser> GetProjectUsers(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
@@ -32,6 +36,8 @@ namespace Application.Infrastructure.ProjectManagement
 
         void DeleteProjectUser(int projectUserId);
 
-        void AssingRole(int userId, int projectId, int roleId);
+        void AssingRole(ProjectUser projectUser);
+
+        bool IsUserAssignedOnProject(int userId, int projectId);
     }
 }

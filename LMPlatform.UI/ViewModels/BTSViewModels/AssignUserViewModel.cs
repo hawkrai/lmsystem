@@ -66,13 +66,24 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int ProjectId { get; set; }
 
+        public int Id { get; set; }
+
         public AssignUserViewModel()
         {
         }
 
-        public AssignUserViewModel(int projectId)
+        public AssignUserViewModel(int id, int projectId)
         {
             ProjectId = projectId;
+
+            if (id != 0)
+            {
+                var projectUser = ProjectManagementService.GetProjectUser(id);
+                ProjectId = projectUser.ProjectId;
+                RoleId = projectUser.ProjectRoleId;
+                StudentId = projectUser.UserId;
+                Id = projectUser.Id;
+            }
         }
 
         public IList<SelectListItem> GetGroups()
@@ -109,7 +120,15 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public void SaveAssignment(int projectId)
         {
-            ProjectManagementService.AssingRole(StudentId, projectId, RoleId);
+            var projectUser = new ProjectUser
+            {
+                Id = Id,
+                UserId = StudentId,
+                ProjectId = projectId,
+                ProjectRoleId = RoleId
+            };
+
+            ProjectManagementService.AssingRole(projectUser);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectParticipationViewModel
+﻿@using LMPlatform.Models
+@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectParticipationViewModel
 
 @{
     ViewBag.Title = "Участие студентов в проектах";
@@ -6,13 +7,13 @@
 
 @section css
 {
-    <link rel="stylesheet" href="/Content/chosen/chosen.css">
+    <link rel="stylesheet" href="/Content/clickablePanel.css">
 }
 
 @section scripts
 {
     @Scripts.Render("~/bundles/datatable")
-    <script src="~/Scripts/application/BTS/project.js" type="text/javascript"></script>
+    <script src="~/Scripts/application/BTS/studentProjectTable.js" type="text/javascript"></script>
 }
 
 @section navleft
@@ -20,33 +21,75 @@
     @Html.Partial("_BTSSubnavbar")
 }
 
-<h3>Участие студентов в проектах</h3>
-<hr />
 <div>
-    <div class="row">
-        <div class="col-md-6">
-            @Html.LabelFor(e => e.GroupId, new { @class = "control-label" })
-            <div>
-                @Html.DropDownListFor(e => e.GroupId, Model.GetGroups(), new { @class = "form-control" })
-            </div>
-        </div>
+    <div align="center">
+        <h3>Группа @Model.GroupId</h3>
     </div>
-    <div class="row" style="margin-top: 10px">
-        <div class="col-md-6">
-            <div style="text-align: center">
-                Подгруппа 1
-            </div>
-            <div>
-                
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div style="text-align: center">
-                Подгруппа 2
-            </div>
-            <div>
-                
+    <hr />
+    <div class="projectParticipation">
+        <div class="row">
+            <div class="col-md-6">
+                @Html.LabelFor(e => e.GroupId, new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(e => e.GroupId, Model.GetGroups(), new { @class = "form-control", @id = "groups" })
+                </div>
             </div>
         </div>
+        <br />
+
+        @if (Model.GetGroups().Count != 0)
+        {
+            <div class="container" style="width: 960px">
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Подгруппа 1</h3>
+                            <span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
+                        </div>
+                        <div class="panel-body" style="padding: 10px">
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>ФИО студента</th>
+                                            <th>Проект</th>
+                                            <th>Создатель проекта</th>
+                                            <th>Роль на проекте</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var student in Model.GetStudentGroupUserList(Model.GroupId))
+                                    {
+                                        <tr>
+                                            <td>@student.Number</td>
+                                            <td>@student.Name</td>
+                                            <td>
+                                                @foreach (var project in student.ProjectName)
+                                                {
+                                                    <div>@project</div>
+                                                }
+                                            </td>
+                                            <td>
+                                                @foreach (var project in student.ProjectCreatorName)
+                                                {
+                                                    <div>@project</div>
+                                                }
+                                            </td>
+                                            <td>
+                                                @foreach (var role in student.ProjectRole)
+                                                {
+                                                    <div>@role</div>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>

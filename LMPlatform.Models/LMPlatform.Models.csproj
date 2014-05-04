@@ -103,6 +103,7 @@
     <Compile Include="Role.cs" />
     <Compile Include="ScheduleProtectionLabs.cs" />
     <Compile Include="Student.cs" />
+    <Compile Include="StudentGroupUser.cs" />
     <Compile Include="SubGroup.cs" />
     <Compile Include="Subject.cs" />
     <Compile Include="SubjectGroup.cs" />

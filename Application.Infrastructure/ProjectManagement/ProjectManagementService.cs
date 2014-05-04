@@ -26,6 +26,22 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
+        public List<ProjectUser> GetProjectsOfUser(int userId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectUsersRepository.GetAll(new Query<ProjectUser>(e => e.UserId == userId).Include(e => e.Project).Include(e => e.User).Include(e => e.ProjectRole)).ToList();
+            }
+        }
+
+        public ProjectUser GetProjectUser(int projectUserId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectUsersRepository.GetBy(new Query<ProjectUser>(e => e.Id == projectUserId).Include(e => e.Project).Include(e => e.User).Include(e => e.ProjectRole));
+            }
+        }
+
         public List<ProjectComment> GetProjectComments(int projectId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -78,14 +94,9 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
-        public void AssingRole(int userId, int projectId, int roleId)
+        //public void AssingRole(int userId, int projectId, int roleId)
+        public void AssingRole(ProjectUser projectUser)
         {
-            var projectUser = new ProjectUser
-            {
-                UserId = userId,
-                ProjectId = projectId,
-                ProjectRoleId = roleId
-            };
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.ProjectUsersRepository.Save(projectUser);
@@ -140,6 +151,21 @@ namespace Application.Infrastructure.ProjectManagement
                 var projectUser = repositoriesContainer.ProjectUsersRepository.GetBy(new Query<ProjectUser>().AddFilterClause(u => u.Id == projectUserId));
                 repositoriesContainer.ProjectUsersRepository.DeleteProjectUser(projectUser);
             }
+        }
+
+        public bool IsUserAssignedOnProject(int userId, int projectId)
+        {
+            var isAssigned = false;
+            var projectUsers = new ProjectManagementService().GetProjectUsers(projectId);
+            foreach (var user in projectUsers)
+            {
+                if (user.UserId == userId)
+                {
+                    isAssigned = true;
+                }
+            }
+
+            return isAssigned;
         }
     }
 }

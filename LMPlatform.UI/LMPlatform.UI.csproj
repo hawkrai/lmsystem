@@ -278,6 +278,7 @@
     <Content Include="Content\chosen\chosen.css" />
     <Content Include="Content\chosen\chosen.min.css" />
     <Content Include="Content\admin.css" />
+    <Content Include="Content\clickablePanel.css" />
     <Content Include="Content\datatable-bootstrap.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\doc.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shCore.css" />
@@ -479,6 +480,7 @@
     <Content Include="Scripts\application\BTS\bug.js" />
     <Content Include="Scripts\application\BTS\project.js" />
     <Content Include="Scripts\application\BTS\projectPart.js" />
+    <Content Include="Scripts\application\BTS\studentProjectTable.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\DP\controllers\homeController.js" />
@@ -994,6 +996,7 @@
     <Content Include="Views\TestPassing\TestResultsTable.cshtml" />
     <Content Include="Views\TestPassing\TestResults.cshtml" />
     <Content Include="Views\TestPassing\_TestsResultsGridColumn.cshtml" />
+    <Content Include="Views\BTS\_SubgroupList.cshtml" />
     <Content Include="Views\DP\Index.cshtml" />
     <Content Include="Views\DP\Projects.cshtml" />
     <Content Include="Views\DP\Project.cshtml" />

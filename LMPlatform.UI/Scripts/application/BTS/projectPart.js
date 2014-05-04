@@ -1,82 +1,58 @@
-﻿$(document).ready(function () {
-    $("#groups").change(function () {
-        $("#students").empty();
+﻿var projectUserManagement = {
+    init: function () {
+        var that = this;
+        $(".projectUserButton").tooltip({ title: "Добавить участника", placement: 'right' });
+        that.initButtonAction();
 
-        var groupId = $("#groups").val();
-        $.post("/BTS/GetStudents", { groupId: groupId }, function (data) {
-            $.each(data, function (i, data) {
-                $("#students").append('<option value="' + data.Value + '">' +
-                                    data.Text + '</option>');
+        $("#groups").change(function () {
+            $("#students").empty();
+            var groupId = $("#groups").val();
+            $.post("/BTS/GetStudents", { groupId: groupId }, function (data) {
+                $.each(data, function (i, data) {
+                    $("#students").append('<option value="' + data.Value + '">' +
+                                        data.Text + '</option>');
+                });
             });
         });
-    });
+    },
 
-    //$("#groups").change(function () {
-    //    $("#students").empty();
-    //    $.ajax({
-    //        type: 'POST',
-    //        url: '@Url.Action("GetStudents","BTS")',
-    //        data: { groupId: $("#groups").val() },
-    //        success: function (students) {
-    //            $.each(students, function (i, student) {
-    //                $("#students").append('<option value="' + student.Value + '">' +
-    //                    student.Text + '</option>');
-    //            });
-    //        },
-    //        error: function () {
-    //            alert('Ошибка извлечения списка студентов.');
-    //        }
-    //    });
-    //    return false;
-    //});
+    initButtonAction: function () {
+        $('.projectUserButton').handle("click", function () {
+            $.savingDialog("Добавление участника к проекту", "/BTS/AssignUserOnProject", null, "primary", function (data) {
+                datatable.fnDraw();
+                alertify.success("К проекту добавлен новый участник");
+            });
+            return false;
+        });
+    },
 
-    _initializeTooltips();
-});
+    projectUserEditItemActionHandler: function () {
+        $('.editProjectUserButton').handle("click", function () {
+            var that = this;
+            $.savingDialog("Редактирование участника проекта", $(that).attr('href'), null, "primary", function (data) {
+                datatable.fnDraw();
+                alertify.success("Роль участника успешно изменена");
+            });
+            return false;
+        });
 
-function _initializeTooltips() {
-    $(".editProjectUserButton").tooltip({ title: "Редактировать участника", placement: 'left' });
-    $(".deleteProjectUserButton").tooltip({ title: "Удалить участника", placement: 'left' });
-}
-
-$(function () {
-    $(".projectPartButton").on('click', function () {
-        getAssignUserForm($(this).data('url'));
-    });
-});
-
-function getAssignUserForm(assignUserFormUrl) {
-    $.get(assignUserFormUrl,
-            {},
-          function (data) {
-              showDialog(data);
-          });
-}
-
-function showDialog(assignUserForm) {
-    bootbox.dialog({
-        message: assignUserForm,
-        title: "Добавить участника проекта",
-        buttons: {
-            main: {
-                label: "Добавить",
-                className: "btn-primary btn-submit",
-                callback: function () {
+        $(".deleteProjectUserButton").handle("click", function () {
+            var that = this;
+            bootbox.confirm("Вы действительно хотите удалить участника?", function (isConfirmed) {
+                if (isConfirmed) {
+                    dataTables.deleteRow("ProjectUserList", $(that).attr("href"));
+                    datatable.fnDraw();
+                    alertify.success("Участник проекта удален");
                 }
-            }
-        }
-    });
+            });
+            return false;
+        });
+        $(".editProjectUser").tooltip({ title: "Редактировать участника проекта", placement: 'top' });
+        $(".deleteProjectUser").tooltip({ title: "Удалить участника проекта", placement: 'right' });
+    }
+};
 
+$(document).ready(function () {
+    projectUserManagement.init();
     $("#groups").change();
-
-    var form = $('#assignUserForm').find('form');
-    var sendBtn = $('#assignUserForm').parents().find('.modal-dialog').find('.btn-submit');
-
-    sendBtn.click(function () {
-        //if ($(form).valid()) {
-        //    form.submit();
-        //} else {
-        //    return false;
-        //}
-        form.submit();
-    });
-}
+});

@@ -1,13 +1,14 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Routing;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.Data.Repositories;
+using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.BTSViewModels;
 using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
@@ -31,28 +32,29 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
+        public ActionResult AssignUserOnProject()
+        {
+            var projectUserViewModel = new AssignUserViewModel(0, _currentProjectId);
+            return PartialView("_AssignUserOnProjectForm", projectUserViewModel);
+        }
+
+        public ActionResult DeleteProjectUser(int id)
+        {
+            ProjectManagementService.DeleteProjectUser(id);
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult SaveProjectUser(AssignUserViewModel model)
+        {
+            model.SaveAssignment(_currentProjectId);
+            return null;
+        }
+
         public ActionResult AddProject()
         {
             var projectViewModel = new AddOrEditProjectViewModel(0);
             return PartialView("_AddOrEditProjectForm", projectViewModel);
-        }
-
-        [HttpGet]
-        public ActionResult AssignUserOnProject()
-        {
-            var assingUserModel = new AssignUserViewModel(_currentProjectId);
-            return PartialView("_AssignUserOnProjectForm", assingUserModel);
-        }
-
-        [HttpPost]
-        public ActionResult AssignUserOnProject(AssignUserViewModel projectUser)
-        {
-            if (ModelState.IsValid)
-            {
-                projectUser.SaveAssignment(_currentProjectId);
-            }
-
-            return RedirectToAction("ProjectManagement", new { id = _currentProjectId });
         }
 
         public ActionResult EditProject(int id)
@@ -127,17 +129,21 @@ namespace LMPlatform.UI.Controllers
             model.Save(WebSecurity.CurrentUserId);
             return null;
         }
-
-        public ActionResult DeleteProjectUser(int id)
-        {
-            ProjectManagementService.DeleteProjectUser(id);
-            return RedirectToAction("ProjectManagement", "BTS", new RouteValueDictionary { { "id", _currentProjectId } });
-        }
         
         [HttpPost]
         public JsonResult GetStudents(int groupId)
         {
-            var students = new StudentManagementService().GetGroupStudents(groupId).Select(v => new SelectListItem
+            var groupOfStudents = new StudentManagementService().GetGroupStudents(groupId);
+            var studentList = new List<Student>();
+            foreach (var student in groupOfStudents)
+            {
+                if (ProjectManagementService.IsUserAssignedOnProject(student.Id, _currentProjectId) == false)
+                {
+                    studentList.Add(student);
+                }
+            }
+
+            var students = studentList.Select(v => new SelectListItem
             {
                 Text = v.FullName,
                 Value = v.Id.ToString(CultureInfo.InvariantCulture)
@@ -157,17 +163,13 @@ namespace LMPlatform.UI.Controllers
         public ActionResult ProjectParticipation()
         {
             var groups = new LmPlatformRepositoriesContainer().GroupsRepository.GetAll();
-            var model = new ProjectParticipationViewModel();
-            if (!groups.Any())
-            {
-                model = new ProjectParticipationViewModel(groups.First().Name);
-            }
+            var model = new ProjectParticipationViewModel(groups.First().Id);
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult ProjectParticipation(string groupId)
+        public ActionResult ProjectParticipation(int groupId)
         {
             var model = new ProjectParticipationViewModel(groupId);
             return View(model);

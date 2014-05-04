@@ -66,28 +66,27 @@
                 <div class="row" style="margin-top: 10px">
                     <div class="col-md-7">
                         <h4>Участники проекта</h4>
-                        <a href="#" class="projectPartButton" data-url="@Url.Action("AssignUserOnProject", "BTS")" data-toggle="tooltip" style="float: left">
-                            <span class="glyphicon glyphicon-plus fa-tab"></span>Добавить участника
-                        </a>
+                        <a href="@Url.Action("AssignUserOnProject", "BTS")" class="projectUserButton" data-url="@Url.Action("AssignUserOnProject", "BTS")" data-toggle="tooltip"><i class="projectUser glyphicon glyphicon-plus fa-tab"></i>Добавить участника</a>
                     </div>
 
                     <div class="col-md-5">
                         <a type="button" class="btn btn-primary btn-sm" style="float: right" href="@Url.Action("BugManagement", "BTS")">Перейти к ошибкам проекта</a>
                     </div>
                 </div>
-
+                
+                <br/>
                 <div>
                     @Html.Partial("_DataTable", new DataTableViewModel
                 {
-                    DataTable = Html.DataTable("aProjectUsersList", (BTSController controller) => controller.GetProjectUsers(new DataTablesParam() { }), new { projectId = Model.ProjectId }),
+                    DataTable = Html.DataTable("ProjectUsersList", (BTSController controller) => controller.GetProjectUsers(new DataTablesParam() { }), new { projectId = Model.ProjectId }),
                     DataTableOptions = new DataTableOptions
                     {
                         Pagination = false,
                         Searchable = false,
                         Sortable = false,
-                        Filterable = true,
+                        OnComplete = "projectUserManagement.projectUserEditItemActionHandler",
+                        Filterable = false,
                         Info = false,
-                        DisplayLength = -1
                     }
                 })
                 </div>

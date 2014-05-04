@@ -89,7 +89,13 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             };
 
             ProjectManagementService.SaveProject(project);
-            ProjectManagementService.AssingRole(creatorId, project.Id, 1);
+
+            ProjectManagementService.AssingRole(new ProjectUser 
+            {
+                UserId = creatorId, 
+                ProjectId = project.Id, 
+                ProjectRoleId = 1
+            });
         }
     }
 }
