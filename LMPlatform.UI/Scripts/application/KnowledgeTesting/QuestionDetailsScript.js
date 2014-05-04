@@ -106,7 +106,7 @@
     
     _onQuestionSaved: function () {
         datatable.fnDraw();
-        alertify.success("Предмет успешно изменен");
+        alertify.success("Вопрос успешно сохранен");
         $('#quetionDetails').modal('hide');
     },
 

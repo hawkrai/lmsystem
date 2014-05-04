@@ -66,6 +66,7 @@
     _onTestSaved: function () {
         datatable.fnDraw();
         $('#testDetails').modal('hide');
+        alertify.success("Тест успешно сохранен");
     },
     
     _onTestDeleted: function(result) {

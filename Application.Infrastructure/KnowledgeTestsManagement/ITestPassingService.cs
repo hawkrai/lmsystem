@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 
@@ -17,5 +18,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int testId);
 
         IEnumerable<Test> GetTestsForSubject(int subjectId);
+
+        TestPassResult GetTestPassingTime(int testId, int studentId);
     }
 }

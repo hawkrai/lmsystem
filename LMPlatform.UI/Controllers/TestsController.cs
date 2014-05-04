@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -8,7 +9,9 @@ using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
+using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
+using Application.Infrastructure.UserManagement;
 using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
@@ -87,6 +90,22 @@ namespace LMPlatform.UI.Controllers
         public ActionResult ChangeLockForUserForStudent(int testId, int studentId, bool unlocked)
         {
             TestsManagementService.UnlockTestForStudent(testId, studentId, unlocked);
+            if (unlocked)
+            {
+                TestPassResult passedByUser = TestPassingService.GetTestPassingTime(testId, studentId);
+                if (passedByUser != null)
+                {
+                    Student student = StudentManagementService.GetStudent(studentId);
+                    return Json(new
+                    {
+                        PassedTime = passedByUser.StartTime.ToShortDateString(),
+                        Test = TestsManagementService.GetTest(testId).Title,
+                        Student = string.Format("{0} {1}", student.FirstName, student.LastName),
+                        Points = passedByUser.Points
+                    });
+                }
+            }
+
             return Json("Ok");
         }
 
@@ -129,6 +148,14 @@ namespace LMPlatform.UI.Controllers
             get
             {
                 return ApplicationService<IGroupManagementService>();
+            }
+        }
+
+        public IStudentManagementService StudentManagementService
+        {
+            get
+            {
+                return ApplicationService<StudentManagementService>();
             }
         }
 

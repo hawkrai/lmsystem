@@ -5,11 +5,10 @@
 }
 
 @{ var percent = 100/Model.User.TestPassResults.Count;}
-<div class="ex_highlight_row">
+<div>
     @foreach (var passResult in Model.User.TestPassResults)
     {
-    
-        <div style="display: inline-block;">
+        <div style="display: inline-block; width: 30px">
             <div>@passResult.Points</div>
         </div>
     }

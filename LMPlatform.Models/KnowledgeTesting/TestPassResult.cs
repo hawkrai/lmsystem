@@ -23,13 +23,25 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
-        public DateTime Time
+        public DateTime StartTime
         {
             get;
             set;
         }
 
         public User User
+        {
+            get;
+            set;
+        }
+
+        public string Comment
+        {
+            get;
+            set;
+        }
+
+        public int? CalculationType
         {
             get;
             set;

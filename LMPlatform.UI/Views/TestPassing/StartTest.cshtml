@@ -13,11 +13,6 @@
     "~/Scripts/linq.js", "~/Scripts/jquery-ui-1.10.4")
 }
 
-@section navpanel
-{
-    Прохождение теста "@Model.Title"
-}
-
 @section navleft
 {
     @{ var url = User.IsInRole("lector")
@@ -26,6 +21,10 @@
     
     <li><a href="@url" class="linkNavbar"><i class="fa fa-arrow-left fa-1x"></i>&nbsp;К тестам</a></li>
 }
+
+<h3>Прохождение теста "@Model.Title"
+</h3>
+<hr />
 
 <div id="questionContent">
     <h1>Здесь будет описание теста</h1>

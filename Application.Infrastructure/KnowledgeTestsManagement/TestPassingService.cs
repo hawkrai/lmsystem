@@ -69,6 +69,12 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return tests;
         }
 
+        public TestPassResult GetTestPassingTime(int testId, int studentId)
+        {
+            TestPassResult passingResult = GetTestPassResult(testId, studentId);
+            return passingResult;
+        }
+
         public void MakeUserAnswer(IEnumerable<Answer> answers, int userId, int testId, int questionNumber)
         {
             AnswerOnTestQuestion answerOnTestQuestion = GetAnswerOntestQuestion(userId, testId, questionNumber);
@@ -309,13 +315,9 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         private void CloseTest(IEnumerable<AnswerOnTestQuestion> testAnswers, int userId)
         {
             int testId = testAnswers.First().TestId;
-            var testPassResult = new TestPassResult
-            {
-                TestId = testId,
-                StudentId = userId,
-                Points = GetResultPoints(testAnswers),
-                Time = DateTime.UtcNow
-            };
+            TestPassResult testPassResult = GetTestPassResult(testId, userId);
+
+            testPassResult.Points = GetResultPoints(testAnswers);
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -334,6 +336,19 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
                 repositoriesContainer.ApplyChanges();
             }
+        }
+
+        private TestPassResult GetTestPassResult(int testId, int userId)
+        {
+            TestPassResult result;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                result =
+                    repositoriesContainer.RepositoryFor<TestPassResult>().GetBy(
+                        new Query<TestPassResult>(res => res.TestId == testId && res.StudentId == userId));
+            }
+
+            return result;
         }
 
         private int GetResultPoints(IEnumerable<AnswerOnTestQuestion> testAnswers)
@@ -382,7 +397,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         /// <summary>
         /// Return records for current test or create
         /// </summary>
-        private static List<AnswerOnTestQuestion> GetAnswersForTest(int testId, int userId)
+        private List<AnswerOnTestQuestion> GetAnswersForTest(int testId, int userId)
         {
             List<AnswerOnTestQuestion> testAnswers;
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -403,7 +418,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return testAnswers;
         }
 
-        private static void StartNewTest(int testId, int userId)
+        private void StartNewTest(int testId, int userId)
         {
             Test test = GetTest(testId);
             int questionsCount = test.CountOfQuestions > test.Questions.Count
@@ -426,14 +441,18 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 });
             }
 
-            SaveAnswersTemplate(answersTemplate);
-        }
+            TestPassResult testPassResult = GetTestPassResult(testId, userId) ?? new TestPassResult
+            {
+                TestId = testId,
+                StudentId = userId
+            };
 
-        private static void SaveAnswersTemplate(IEnumerable<AnswerOnTestQuestion> answersTemplate)
-        {
+            testPassResult.StartTime = DateTime.Now;
+
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().Save(answersTemplate);
+                repositoriesContainer.RepositoryFor<TestPassResult>().Save(testPassResult);
                 repositoriesContainer.ApplyChanges();
             }
         }

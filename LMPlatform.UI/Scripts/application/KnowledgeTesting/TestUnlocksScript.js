@@ -88,8 +88,37 @@
         });
     },
     
-    _onPesonalUnlockSaved: function() {
+    _onPesonalUnlockSaved: function(result) {
         this._reloadTestUnlocks();
+        if (result.PassedTime) {
+            this._showWarning(result);
+        }
+    },
+    
+    _showWarning: function(result) {
+        bootbox.dialog({
+            title: 'Студент уже проходил этот тест',
+            message: result.Student +
+                ' прошел(-ла) "' +
+                result.Test +
+                '" ' +
+                result.PassedTime +
+                ' на оценку ' +
+                '<b>' + result.Points + '</b>' +
+                '.' +
+            '<br/> Каким образом считать итоговую оценку?',
+            buttons: {
+                'cancel': {
+                    label: 'Средний балл',
+                    className: 'btn btn-primary btn-sm',
+                    //callback: $.proxy(this._onDeleteConfirmed, context)
+                },
+                'confirm': {
+                    label: 'Последняя оценка',
+                    className: 'btn btn-primary btn-sm',
+                }
+            }
+        });
     },
 
     showDialog: function (id) {
