@@ -19,6 +19,10 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
     [DisplayName("Логин")]
     public string Login { get; set; }
+
+    [DisplayName("Последний вход")]
+    public string LastLogin { get; set; }
+
     [DisplayName("")]
     public HtmlString HtmlLinks { get; set; }
 
@@ -41,6 +45,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         Group = student.Group.Name,
         Login = student.User.UserName,
         HtmlLinks = new HtmlString(htmlLinks),
+        LastLogin = student.User.LastLogin.HasValue ? student.User.LastLogin.ToString() : "-"
       };
     }
   }

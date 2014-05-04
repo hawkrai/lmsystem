@@ -2,6 +2,8 @@
 
 namespace Application.Infrastructure.UserManagement
 {
+    using System;
+
     using LMPlatform.Models;
 
     public interface IUsersManagementService
@@ -15,6 +17,8 @@ namespace Application.Infrastructure.UserManagement
         void DeleteUser(int id);
 
         User GetAdmin();
+
+        IEnumerable<User> GetUsers(bool includeRole = false);
 
         void UpdateLastLoginDate(string userName);
 	}

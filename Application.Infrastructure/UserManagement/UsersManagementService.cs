@@ -4,6 +4,7 @@ using WebMatrix.WebData;
 
 namespace Application.Infrastructure.UserManagement
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Security;
 
@@ -93,6 +94,17 @@ namespace Application.Infrastructure.UserManagement
                 var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>().AddFilterClause(u => u.UserName == adminName));
                 return user;
             }
+        }
+
+        public IEnumerable<User> GetUsers(bool includeRole = false)
+        {
+            var query = new Query<User>();
+            if (includeRole)
+            {
+                query.Include(u => u.Membership.Roles);
+            }
+
+            return UsersRepository.GetAll(query).ToList();
         }
 
         public void UpdateLastLoginDate(string userName)

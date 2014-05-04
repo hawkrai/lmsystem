@@ -21,7 +21,8 @@ namespace LMPlatform.UI.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var activityModel = new UserActivityViewModel();
+            return View(activityModel);
         }
 
         public ActionResult Students(int? id)
