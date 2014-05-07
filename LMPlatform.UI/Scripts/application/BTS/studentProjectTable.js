@@ -1,35 +1,38 @@
-﻿$(document).on('click', '.panel-heading span.clickable', function (e) {
-    var $this = $(this);
-    if (!$this.hasClass('panel-collapsed')) {
-        $this.parents('.panel').find('.panel-body').slideUp();
-        $this.addClass('panel-collapsed');
-        $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
-    } else {
-        $this.parents('.panel').find('.panel-body').slideDown();
-        $this.removeClass('panel-collapsed');
-        $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
-    }
-});
-$(document).on('click', '.panel div.clickable', function (e) {
-    var $this = $(this);
-    if (!$this.hasClass('panel-collapsed')) {
-        $this.parents('.panel').find('.panel-body').slideUp();
-        $this.addClass('panel-collapsed');
-        $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
-    } else {
-        $this.parents('.panel').find('.panel-body').slideDown();
-        $this.removeClass('panel-collapsed');
-        $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
-    }
-});
-$(document).ready(function () {
-    //$('.panel-heading span.clickable').click();
-    //$('.panel div.clickable').click();
+﻿var studentProjectsList = {
+    init: function () {
+        $('.groupButton').on('click', $.proxy(this._onGroupClicked, this));
+    },
 
-    $("#groups").change(function () {
-        var groupId = $("#groups").val();
-        $.post("/BTS/ProjectParticipation", { groupId: groupId }, function (data) {
-            location.reload();
+    _webServiceUrl: '/BTS/',
+    _getStudentProjectsTableMethodName: 'ProjectParticipation',
+
+
+    _onGroupClicked: function (eventArgs) {
+        var groupId = $(eventArgs.target).children().first().val();
+        this._getStudentProjectsTable(groupId);
+    },
+
+    _getStudentProjectsTable: function (groupId) {
+        $.ajax({
+            url: this._webServiceUrl + this._getStudentProjectsTableMethodName,
+            type: "POST",
+            data: {
+                groupId: groupId
+            },
+            dataType: "html",
+            success: $.proxy(this._onResultsTableLoaded, this)
         });
-    });
+    },
+
+    _onResultsTableLoaded: function (content) {
+        $('#studentProjectsTable').html(content);
+    }
+};
+
+function initStudentProjectsList() {
+    studentProjectsList.init();
+}
+
+$(document).ready(function () {
+    studentProjectsList.init();
 });

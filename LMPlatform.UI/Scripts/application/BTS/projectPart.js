@@ -1,7 +1,7 @@
 ﻿var projectUserManagement = {
     init: function () {
         var that = this;
-        $(".projectUserButton").tooltip({ title: "Добавить участника", placement: 'right' });
+        //$(".projectUserButton").tooltip({ title: "Добавить участника", placement: 'right' });
         that.initButtonAction();
 
         $("#groups").change(function () {
@@ -20,7 +20,7 @@
         $('.projectUserButton').handle("click", function () {
             $.savingDialog("Добавление участника к проекту", "/BTS/AssignUserOnProject", null, "primary", function (data) {
                 datatable.fnDraw();
-                alertify.success("К проекту добавлен новый участник");
+                alertify.success("Добавлен новый участник");
             });
             return false;
         });

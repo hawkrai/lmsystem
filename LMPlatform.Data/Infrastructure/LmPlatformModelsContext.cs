@@ -425,7 +425,7 @@ namespace LMPlatform.Data.Infrastructure
                 .HasMany<ProjectComment>(e => e.ProjectComments)
                 .WithRequired(e => e.Project)
                 .HasForeignKey(e => e.ProjectId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<User>()
                 .HasMany<ProjectComment>(e => e.ProjectComments)

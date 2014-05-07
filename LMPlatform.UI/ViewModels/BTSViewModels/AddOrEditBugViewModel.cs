@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -38,15 +39,25 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int BugId { get; set; }
 
+        [Required(ErrorMessage = "Поле Название обязательно для заполнения")]
+        [StringLength(100, ErrorMessage = "Название не может иметь размер больше 100 символов")]
+        [DataType(DataType.Text)]
         [DisplayName("Название")]
         public string Summary { get; set; }
 
+        [Required(ErrorMessage = "Поле Описание обязательно для заполнения")]
+        [StringLength(150, ErrorMessage = "Описание не может иметь размер больше 150 символов")]
+        [DataType(DataType.Text)]
         [DisplayName("Описание")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Поле Шаги выполнения обязательно для заполнения")]
+        [DataType(DataType.MultilineText)]
         [DisplayName("Шаги выполнения")]
         public string Steps { get; set; }
 
+        [Required(ErrorMessage = "Поле Ожидаемый результат обязательно для заполнения")]
+        [DataType(DataType.MultilineText)]
         [DisplayName("Ожидаемый результат")]
         public string ExpectedResult { get; set; }
 

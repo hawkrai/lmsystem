@@ -1,7 +1,7 @@
 ﻿var bugManagement = {
     init: function () {
         var that = this;
-        $(".addBugButton").tooltip({ title: "Документировать ошибку", placement: 'right' });
+        //$(".addBugButton").tooltip({ title: "Задокументировать ошибку", placement: 'right' });
         that.initButtonAction();
     },
 
@@ -9,7 +9,7 @@
         $('.addBugButton').handle("click", function () {
             $.savingDialog("Документирование ошибки", "/BTS/AddBug", null, "primary", function (data) {
                 datatable.fnDraw();
-                alertify.success("Документирована новая ошибка");
+                alertify.success("Добавлена новая ошибка");
             });
             return false;
         });

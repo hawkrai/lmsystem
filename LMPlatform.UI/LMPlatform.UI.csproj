@@ -909,7 +909,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="Views\Lms\Index.cshtml" />
-    <Content Include="Views\BTS\Home\Index.cshtml" />
     <Content Include="Views\Shared\UnderConstruction.cshtml" />
     <Content Include="Views\Shared\_DataTable.cshtml" />
     <Content Include="Views\Shared\Layouts\_LimitLayout.cshtml" />
@@ -1022,6 +1021,8 @@
     <Content Include="Views\DP\Index.cshtml" />
     <Content Include="Views\DP\Projects.cshtml" />
     <Content Include="Views\DP\Project.cshtml" />
+    <Content Include="Views\BTS\_studentProjectsList.cshtml" />
+    <Content Include="Views\BTS\_ChatForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

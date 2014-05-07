@@ -59,8 +59,11 @@
                         <div class="col-md-4">
                             @Html.LabelFor(p => p.CreationDate):
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             @Model.CreationDate.ToShortDateString()
+                        </div>
+                        <div class="col-md-4" style="float: right">
+                            <a type="button" class="btn btn-primary btn-sm" style="float: right" href="@Url.Action("BugManagement", "BTS")">Перейти к ошибкам проекта</a>
                         </div>
                     </div>
                 </div>
@@ -68,11 +71,9 @@
                 <div class="row" style="margin-top: 10px">
                     <div class="col-md-7">
                         <h4>Участники проекта</h4>
-                        <a href="@Url.Action("AssignUserOnProject", "BTS")" class="projectUserButton" data-url="@Url.Action("AssignUserOnProject", "BTS")" data-toggle="tooltip"><i class="projectUser glyphicon glyphicon-plus fa-tab"></i>Добавить участника</a>
                     </div>
-
                     <div class="col-md-5">
-                        <a type="button" class="btn btn-primary btn-sm" style="float: right" href="@Url.Action("BugManagement", "BTS")">Перейти к ошибкам проекта</a>
+                        <a class="projectUserButton btn btn-primary btn-sm" style="float: right" href="@Url.Action("AssignUserOnProject", "BTS")">Добавить участника</a>
                     </div>
                 </div>
 
@@ -98,7 +99,61 @@
     </div>
     <div class="col-md-4 float-right">
         <div class="row">
-            <div class="panel panel-primary">
+
+            <div style="margin-top: 10px">
+                <div class="container" style="width: 308px" id="commentPanel">
+                    <div class="row">
+                        <div>
+                            <div class="panel panel-primary" style="width: 308px">
+                                <div class="panel-heading" id="accordion">
+                                    <h3 class="panel-title">Анализ ошибок проекта</h3>
+                                    <span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
+                                </div>
+                                <div class="panel-body" style="padding: 10px; overflow-y: hidden">
+                                    <div>
+                                        <p align="center">Количество ошибок: @Model.BugQuentity</p>
+                                        @if (Model.BugQuentity != 0)
+                                        {
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)) + "%;")">
+                                                    <span class="sr-only">Новые</span>
+                                                </div>
+                                                <span class="progress-type">Новые</span>
+                                                <span class="progress-completed">@Model.QuentityOfNewBugs</span>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)) + "%;")">
+                                                    <span class="sr-only">Исправлены</span>
+                                                </div>
+                                                <span class="progress-type">Исправлены</span>
+                                                <span class="progress-completed">@Model.QuentityOfResolvedBugs</span>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfPostponedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfPostponedBugs * 100.0 / Model.BugQuentity)) + "%;")">
+                                                    <span class="sr-only">Отложены</span>
+                                                </div>
+                                                <span class="progress-type">Отложены</span>
+                                                <span class="progress-completed">@Model.QuentityOfPostponedBugs</span>
+                                            </div>
+                        
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)) + "%;")">
+                                                    <span class="sr-only">Закрыты</span>
+                                                </div>
+                                                <span class="progress-type">Закрыты</span>
+                                                <span class="progress-completed">@Model.QuentityOfClosedBugs</span>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title" align="center">Анализ ошибок проекта</h3>
                 </div>
@@ -140,56 +195,7 @@
                     }
 
                 </div>
-            </div>
-
-            @*<div style="margin-top: 10px">
-                <div class="container" style="width: 318px" id="commentPanel">
-                    <div class="row">
-                        <div>
-                            <div class="panel panel-primary" style="width: 318px">
-                                <div class="panel-heading" id="accordion">
-                                    <span class="glyphicon glyphicon-comment fa-tab"></span>Обсуждение проекта
-                                    <div class="btn-group pull-right">
-                                        <a type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                            <span class="glyphicon glyphicon-chevron-down"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="panel-collapse collapse" id="collapseOne">
-                                    <div class="panel-body">
-                                        <ul class="chat">
-                                            @foreach (var comment in Model.GetProjectComments())
-                                            {
-                                                <li>
-                                                    <div class="chat-body">
-                                                        <div class="header">
-                                                            <strong class="primary-font">@comment.User.FullName</strong> <small class="pull-right text-muted">
-                                                                                                                             <span class="glyphicon glyphicon-time"></span>@comment.CommentingDate.ToString("HH:mm dd.MM.yyyy")</small>
-                                                        </div>
-                                                        <p>
-                                                            @comment.CommentText
-                                                        </p>
-                                                    </div>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </div>
-                                    <div class="panel-footer">
-                                        <div class="input-group">
-                                            <input id="CommentText" type="text" class="form-control input-sm" placeholder="Введите свой комментарий..." />
-                                            <span class="input-group-btn">
-                                                <button type="submit" class="btn btn-success btn-sm" id="chat-btn">
-                                                    Отправить</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>*@
-
 
             <div style="margin-top: 10px">
                 <div class="container" style="width: 308px" id="commentPanel">
@@ -200,41 +206,38 @@
                                     <h3 class="panel-title">Обсуждение проекта</h3>
                                     <span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
                                 </div>
-                                <div class="panel-body" style="padding: 10px">
-                                     @*<div>*@
-                                        <ul class="chat">
-                                            @foreach (var comment in Model.GetProjectComments())
-                                            {
-                                                <li>
-                                                    <div class="chat-body">
-                                                        <div class="header">
-                                                            <strong class="primary-font">@comment.User.FullName</strong> <small class="pull-right text-muted">
-                                                                <span class="glyphicon glyphicon-time" style="margin-right: -15px;"></span>@comment.CommentingDate.ToString("HH:mm dd.MM.yyyy")</small>
-                                                        </div>
-                                                        <p>
-                                                            @comment.CommentText
-                                                        </p>
+                                <div class="panel-body" style="padding: 10px; height: 200px">
+                                    <ul class="chat">
+                                        @foreach (var comment in Model.GetProjectComments())
+                                        {
+                                            <li>
+                                                <div class="chat-body">
+                                                    <div class="header">
+                                                        <strong class="primary-font">@comment.User.FullName</strong> <small class="pull-right text-muted">
+                                                            <span class="glyphicon glyphicon-time" style="margin-right: -15px;"></span>@comment.CommentingDate.ToString("HH:mm dd.MM.yyyy")</small>
                                                     </div>
-                                                </li>
-                                            }
-                                        </ul>
+                                                    <p>
+                                                        @comment.CommentText
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="input-group">
+                                        <input id="CommentText" type="text" class="form-control input-sm" placeholder="Введите свой комментарий..." />
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-primary btn-sm" id="chat-btn">
+                                                Отправить</button>
+                                        </span>
                                     </div>
-                                    <div class="panel-footer">
-                                        <div class="input-group">
-                                            <input id="CommentText" type="text" class="form-control input-sm" placeholder="Введите свой комментарий..." />
-                                            <span class="input-group-btn">
-                                                <button type="submit" class="btn btn-success btn-sm" id="chat-btn">
-                                                    Отправить</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                @*</div>*@
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
 
         </div>
     </div>

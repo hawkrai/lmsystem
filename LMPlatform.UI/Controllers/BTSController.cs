@@ -90,7 +90,7 @@ namespace LMPlatform.UI.Controllers
             var model = new ProjectsViewModel(_currentProjectId);
             model.SaveComment(comment);
 
-            return View(model);
+            return PartialView("_ChatForm", model);
         }
 
         [HttpGet]
@@ -162,9 +162,7 @@ namespace LMPlatform.UI.Controllers
         [HttpGet]
         public ActionResult ProjectParticipation()
         {
-            var groups = new LmPlatformRepositoriesContainer().GroupsRepository.GetAll();
-            var model = new ProjectParticipationViewModel(groups.First().Id);
-
+            var model = new ProjectParticipationViewModel();
             return View(model);
         }
 
@@ -172,7 +170,7 @@ namespace LMPlatform.UI.Controllers
         public ActionResult ProjectParticipation(int groupId)
         {
             var model = new ProjectParticipationViewModel(groupId);
-            return View(model);
+            return PartialView("_studentProjectsList", model);
         }
 
         [HttpPost]

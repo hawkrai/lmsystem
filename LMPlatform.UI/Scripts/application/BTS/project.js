@@ -1,15 +1,9 @@
 ﻿var projectManagement = {
+
     init: function () {
         var that = this;
-        $(".addProjectButton").tooltip({ title: "Добавить проект", placement: 'right' });
+        //$(".addProjectButton").tooltip({ title: "Добавить проект", placement: 'right' });
         that.initButtonAction();
-
-        $("#chat-btn").on('click', function () {
-            //var form = $(event.target).parents('form');
-            var commentText = $('#CommentText').val();
-            $.post('/BTS/ProjectManagement', { comment: commentText });
-            $("#CommentText").val('');
-        });
     },
 
     initButtonAction: function () {

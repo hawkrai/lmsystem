@@ -39,19 +39,20 @@ namespace LMPlatform.Data.Infrastructure
 
 	    private static void CreateBugSymptoms(LmPlatformModelsContext context)
         {
-            context.BugSymptoms.Add(new BugSymptom { Name = "Косметический дефект" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Повреждение/потеря данных" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Проблема в документации" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Некорректная операция" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Проблема инсталляции" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Ошибка локализации" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Нереализованная функциональность" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Низкая производительность" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Крах системы" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Неожиданное поведение" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Запрос на улучшение" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Инсталяционная ошибка" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Искажение данных" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Косметическая ошибка" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Локализационные проблемы" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Неверное действие" });
             context.BugSymptoms.Add(new BugSymptom { Name = "Недружественное поведение" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Расхождение с требованиям" });
-            context.BugSymptoms.Add(new BugSymptom { Name = "Предложение по улучшению" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Неожиданное поведение" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Низкая производительность" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Отказ системы" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Отсутствующий функционал" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Ошибка документации" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Потеря данных" });
+            context.BugSymptoms.Add(new BugSymptom { Name = "Различие со спецификацией" });
         }
 
         private static void CreateBugSeverities(LmPlatformModelsContext context)
@@ -68,30 +69,31 @@ namespace LMPlatform.Data.Infrastructure
             context.BugStatuses.Add(new BugStatus { Name = "Присвоена" });
             context.BugStatuses.Add(new BugStatus { Name = "Исправлена" });
             context.BugStatuses.Add(new BugStatus { Name = "Отложена" });
-            context.BugStatuses.Add(new BugStatus { Name = "Невоспроизводима" });
-            context.BugStatuses.Add(new BugStatus { Name = "Повторяется" });
+            context.BugStatuses.Add(new BugStatus { Name = "Не воспроизводится" });
+            context.BugStatuses.Add(new BugStatus { Name = "Дубликат" });
+            context.BugStatuses.Add(new BugStatus { Name = "Не ошибка" });
             context.BugStatuses.Add(new BugStatus { Name = "Закрыта" });
         }
 
 	    private static void CreateProjectRoles(LmPlatformModelsContext context)
 	    {
-	        context.ProjectRoles.Add(new ProjectRole { Name = "Администратор" });
             context.ProjectRoles.Add(new ProjectRole { Name = "Разработчик" });
             context.ProjectRoles.Add(new ProjectRole { Name = "Тестировщик" });
+            context.ProjectRoles.Add(new ProjectRole { Name = "Руководитель проекта" });
 	    }
 
 	    private static void CreateGroups(LmPlatformModelsContext context)
 	    {
             context.Groups.Add(new Group
             {
-                Name = "107229",
+                Name = "107219",
                 StartYear = string.Format("2009"),
                 GraduationYear = string.Format("2014"),
             });
 
             context.Groups.Add(new Group
             {
-                Name = "107219",
+                Name = "107229",
                 StartYear = string.Format("2009"),
                 GraduationYear = string.Format("2014"),
             });

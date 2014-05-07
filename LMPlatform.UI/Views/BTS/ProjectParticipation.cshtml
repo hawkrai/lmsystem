@@ -22,74 +22,79 @@
 }
 
 <div>
-    <div align="center">
-        <h3>Группа @Model.GroupId</h3>
+    <div>
+        <h3>Занятость студентов в проектах</h3>
     </div>
     <hr />
     <div class="projectParticipation">
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row" style="padding: 10px 10px 0px 10px ">
+            @*<div class="col-md-6">
                 @Html.LabelFor(e => e.GroupId, new { @class = "control-label" })
                 <div>
                     @Html.DropDownListFor(e => e.GroupId, Model.GetGroups(), new { @class = "form-control", @id = "groups" })
                 </div>
-            </div>
+            </div>*@
+            @if (Model.GetGroups().Count == 0)
+            {
+                <h2>Вы не привязаны ни к одной группе</h2>
+            }
+            else
+            {
+                foreach (var group in Model.GetGroups())
+                {
+                <button class="btn btn-primary btn-sm groupButton">
+                    @group.Text
+                    <input type="hidden" value="@group.Value"/>
+                </button>
+                }
+            }
         </div>
         <br />
 
-        @if (Model.GetGroups().Count != 0)
-        {
-            <div class="container" style="width: 960px">
-                <div class="row">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Подгруппа 1</h3>
-                            <span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
-                        </div>
-                        <div class="panel-body" style="padding: 10px">
-
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>№</th>
-                                            <th>ФИО студента</th>
-                                            <th>Проект</th>
-                                            <th>Создатель проекта</th>
-                                            <th>Роль на проекте</th>
-                                        </tr>
-                                    </thead>
-                                    @foreach (var student in Model.GetStudentGroupUserList(Model.GroupId))
+        <div class="row" style="padding: 10px">
+            @if (Model.GetGroups().Count != 0)
+            {
+                <div id="studentProjectsTable"></div>
+                
+                @*<div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>ФИО студента</th>
+                                <th>Проект</th>
+                                <th>Создатель проекта</th>
+                                <th>Роль на проекте</th>
+                            </tr>
+                        </thead>
+                        @foreach (var student in Model.GetStudentGroupUserList(Model.GroupId))
+                        {
+                            <tr>
+                                <td>@student.Number</td>
+                                <td>@student.Name</td>
+                                <td>
+                                    @foreach (var project in student.ProjectName)
                                     {
-                                        <tr>
-                                            <td>@student.Number</td>
-                                            <td>@student.Name</td>
-                                            <td>
-                                                @foreach (var project in student.ProjectName)
-                                                {
-                                                    <div>@project</div>
-                                                }
-                                            </td>
-                                            <td>
-                                                @foreach (var project in student.ProjectCreatorName)
-                                                {
-                                                    <div>@project</div>
-                                                }
-                                            </td>
-                                            <td>
-                                                @foreach (var role in student.ProjectRole)
-                                                {
-                                                    <div>@role</div>
-                                                }
-                                            </td>
-                                        </tr>
+                                        <div>@project</div>
                                     }
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
+                                </td>
+                                <td>
+                                    @foreach (var project in student.ProjectCreatorName)
+                                    {
+                                        <div>@project</div>
+                                    }
+                                </td>
+                                <td>
+                                    @foreach (var role in student.ProjectRole)
+                                    {
+                                        <div>@role</div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>*@
+            }
+        </div>
     </div>
 </div>

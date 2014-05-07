@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Globalization;
 using System.Linq;
@@ -35,6 +37,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int ProjectId { get; set; }
 
+        [Required(ErrorMessage = "Поле Тема проекта обязательно для заполнения")]
+        [StringLength(100, ErrorMessage = "Тема проекта должна быть не менее 3 символов.", MinimumLength = 3)]
+        
+        [DataType(DataType.Text)]
         [DisplayName("Тема проекта")]
         public string Title { get; set; }
 
@@ -90,12 +96,15 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
             ProjectManagementService.SaveProject(project);
 
-            ProjectManagementService.AssingRole(new ProjectUser 
+            if (ProjectId == 0)
             {
-                UserId = creatorId, 
-                ProjectId = project.Id, 
-                ProjectRoleId = 1
-            });
+                ProjectManagementService.AssingRole(new ProjectUser
+                {
+                    UserId = creatorId,
+                    ProjectId = project.Id,
+                    ProjectRoleId = 1
+                });
+            }
         }
     }
 }

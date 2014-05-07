@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -54,13 +55,16 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 return _studentManagementService.Value;
             }
         }
-        
+
+        [Required(ErrorMessage = "Поле Группа обязательно для заполнения")]
         [DisplayName("Группа")]
         public int GroupId { get; set; }
 
+        [Required(ErrorMessage = "Поле Студент обязательно для заполнения")]
         [DisplayName("Студент")]
         public int StudentId { get; set; }
 
+        [Required(ErrorMessage = "Поле Роль обязательно для заполнения")]
         [DisplayName("Роль")]
         public int RoleId { get; set; }
 

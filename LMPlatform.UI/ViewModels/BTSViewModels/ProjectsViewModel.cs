@@ -161,7 +161,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         private void GetQuentityOfClosedBugs()
         {
-            QuentityOfClosedBugs = GetQuentity(6);
+            QuentityOfClosedBugs = GetQuentity(7);
         }
 
         private void GetQuentityOfResolvedBugs()

@@ -1,0 +1,16 @@
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectsViewModel
+
+@foreach (var comment in Model.GetProjectComments())
+{
+    <li>
+        <div class="chat-body">
+            <div class="header">
+                <strong class="primary-font">@comment.User.FullName</strong> <small class="pull-right text-muted">
+                    <span class="glyphicon glyphicon-time" style="margin-right: -15px;"></span>@comment.CommentingDate.ToString("HH:mm dd.MM.yyyy")</small>
+            </div>
+            <p>
+                @comment.CommentText
+            </p>
+        </div>
+    </li>
+}

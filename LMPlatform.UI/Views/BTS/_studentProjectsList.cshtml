@@ -1,0 +1,40 @@
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectParticipationViewModel
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>ФИО студента</th>
+                <th>Проект</th>
+                <th>Создатель проекта</th>
+                <th>Роль на проекте</th>
+            </tr>
+        </thead>
+        @foreach (var student in Model.GetStudentGroupUserList(Model.GroupId))
+        {
+            <tr>
+                <td>@student.Number</td>
+                <td>@student.Name</td>
+                <td>
+                    @foreach (var project in student.ProjectName)
+                    {
+                        <div>@project</div>
+                    }
+                </td>
+                <td>
+                    @foreach (var project in student.ProjectCreatorName)
+                    {
+                        <div>@project</div>
+                    }
+                </td>
+                <td>
+                    @foreach (var role in student.ProjectRole)
+                    {
+                        <div>@role</div>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
