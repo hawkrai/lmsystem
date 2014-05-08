@@ -159,6 +159,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\DP\CorrelationController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
     <Compile Include="ApiControllers\LabsController.cs" />
     <Compile Include="ApiControllers\NewsController.cs" />

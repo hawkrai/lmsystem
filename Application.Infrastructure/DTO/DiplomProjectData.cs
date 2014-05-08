@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Infrastructure.DTO
 {
@@ -6,6 +7,7 @@ namespace Application.Infrastructure.DTO
     {
         public int? Id { get; set; }
 
+        [Required]
         public string Theme { get; set; }
 
         public string Lecturer { get; set; }

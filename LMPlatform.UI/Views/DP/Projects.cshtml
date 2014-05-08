@@ -1,6 +1,8 @@
-﻿<div style="margin: 20px">
+﻿<script type="text/javascript" src="https://code.angularjs.org/1.2.16/angular-sanitize.js"></script>
+
+<div style="margin: 20px">
     <div id="buttonActionSection" style="margin-bottom: 20px;">
-        <a ng-click="createProject()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить проект</a>
+        <a ng-click="showModal()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить проект</a>
     </div>
     <div>
         <div loading-container="tableParams.settings().$loading">
@@ -9,8 +11,12 @@
                 <td width="70%" data-title="'Тема'">{{project.Theme}}</td>
                 <td width="20%" data-title="'Руководитель'">{{project.Lecturer}}</td>
                 <td width="10%" data-title="'Действие'">
-                    <a ng-click="editProject(project.Id)" class="editSubjectAction" style="margin-right: 10px"><i class="editSubject fa fa-edit fa-2x"></i></a>
-                    <a ng-click="deleteProject(project.Id)" class="deleteSubjectButton"><i class="deleteSubject fa fa-trash-o fa-2x"></i></a>
+                    <a ng-click="showModal(project.Id)" class="editSubjectAction" style="margin-right: 10px">
+                        <i tooltip-placement="left" tooltip="Редактировать" class="editSubject fa fa-edit fa-2x"></i>
+                    </a>
+                    <a ng-click="deleteProject(project.Id)" class="deleteSubjectButton">
+                        <i tooltip-placement="right" tooltip="Удалить" class="deleteSubject fa fa-trash-o fa-2x"></i>
+                    </a>
                 </td>
             </tr>
         </table></div>

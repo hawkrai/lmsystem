@@ -62,10 +62,13 @@
     <Compile Include="ApplicationServiceModule.cs" />
     <Compile Include="BugManagement\BugManagementService.cs" />
     <Compile Include="BugManagement\IBugManagementService.cs" />
+    <Compile Include="DPManagement\CorrelationService.cs" />
     <Compile Include="DPManagement\DpManagementService.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="DPManagement\ICorrelationService.cs" />
     <Compile Include="DPManagement\IDpManagementService.cs" />
+    <Compile Include="DTO\Correlation.cs" />
     <Compile Include="DTO\DiplomProjectData.cs" />
     <Compile Include="FilesManagement\AttachedFile.cs" />
     <Compile Include="FilesManagement\FilesManagementService.cs" />

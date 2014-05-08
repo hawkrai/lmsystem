@@ -2,6 +2,7 @@
     .module('dpApp', [
         'ngRoute',
         'frapontillo.bootstrap-duallistbox',
+        'ui.bootstrap',
         'dpApp.ctrl.home',
         'dpApp.ctrl.projects',
         'dpApp.ctrl.project',

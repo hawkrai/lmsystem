@@ -13,6 +13,6 @@ namespace Application.Infrastructure.DPManagement
 
         void SaveProject(DiplomProjectData projectData);
 
-        List<Group> GetAllGroups();
+        void DeleteProject(int id);
     }
 }

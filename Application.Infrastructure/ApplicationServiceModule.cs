@@ -33,6 +33,7 @@ namespace Application.Infrastructure
             containerWrapper.Register<IMessageManagementService, MessageManagementService>();
             containerWrapper.Register<IFilesManagementService, FilesManagementService>();
             containerWrapper.Register<IDpManagementService, DpManagementService>();
+            containerWrapper.Register<ICorrelationService, CorrelationService>();
 
 			return containerWrapper;
 		}

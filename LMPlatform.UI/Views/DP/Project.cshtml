@@ -1,20 +1,32 @@
 ﻿<script type="text/javascript" src="/Scripts/jquery.bootstrap-duallistbox.js"></script>
-<link rel="stylesheet" href="/Content/bootstrap-duallistbox.css"/>
+<link rel="stylesheet" href="/Content/bootstrap-duallistbox.css" />
 
-<div>
-    <label for="Theme">Тема</label>
-    <input name="Theme" type="text" ng-model="project.Theme" style="width: 100%;"/>
-    
-    <select
-    ng-options="group.Id as group.Name for group in groups"
-    multiple
-    ng-model="project.SelectedGroupsIds"
-    bs-duallistbox
-    select-min-height="300"
-    ></select>
-    
-    <div style="text-align:right;padding:20px 0;">
-    <button class="btn btn-primary btn-sm" data-ng-click="saveProject()"></i> Сохранить</button>
-    <button class="btn btn-primary btn-sm" data-ng-click="returnToList()"></i>Отмена</button>
+<div class="modal-dialog panel panel-primary" style="margin: 0;">
+    <div class="panel-heading">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="returnToList()">&times;</button>
+        <h4 class="modal-title">Редактирование проекта</h4>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="saveProject()" name="projectForm">
+            <div ng-class="{'has-error': submitted && projectForm.Theme.$error.required}">
+                <label class="control-label" for="Theme">Тема</label>
+                <input class="form-control" name="Theme" type="text" ng-model="project.Theme" style="width: 100%;"
+                    required />
+                <span class="help-block" ng-show="submitted && projectForm.Theme.$error.required">Введите тему!</span>
+            </div>
+
+            <select
+                ng-options="group.Id as group.Name for group in groups"
+                multiple
+                ng-model="project.SelectedGroupsIds"
+                bs-duallistbox
+                select-min-height="300">
+            </select>
+
+            <div style="text-align: right; padding: 20px 0;">
+                <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+                <button class="btn btn-primary btn-sm" ng-click="returnToList()">Отмена</button>
+            </div>
+        </form>
     </div>
 </div>

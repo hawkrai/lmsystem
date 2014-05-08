@@ -4,9 +4,30 @@
         '$scope',
         '$timeout',
         '$location',
+        '$modal',
         'projectService',
         'ngTableParams',
-        function ($scope, $timeout, $location, projectService, ngTableParams) {
+        function ($scope, $timeout, $location, $modal, projectService, ngTableParams) {
+
+            $scope.showModal = function (projectId) {
+                var modalInstance = $modal.open({
+                    templateUrl: '/Dp/Project',
+                    controller: 'projectCtrl',
+                    //                    size: size,
+                    resolve: {
+                        projectId: function () {
+                            return projectId;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
+                });
+
+            };
+
+
 
             $scope.createProject = function () {
                 $location.path("/Project").search({});
@@ -17,8 +38,11 @@
             $scope.deleteProject = function (id) {
                 bootbox.confirm("Вы действительно хотите удалить тему?", function (isConfirmed) {
                     if (isConfirmed) {
-                        projectService.deleteproject(id).success(function() {
+                        projectService.deleteproject(id).success(function () {
+                            $scope.tableParams.reload();
                             alertify.success("Тема успешно удалена.");
+                        }).error(function(error) {
+                            alertify.error(error);
                         });
                     }
                 });

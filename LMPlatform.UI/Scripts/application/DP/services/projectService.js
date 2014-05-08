@@ -6,6 +6,7 @@ angular
         function ($http) {
 
             var apiUrl = '/api/diplomProject/';
+            var correlationApiUrl = '/api/correlation/';
 
             return {
                 getProjects: function (params) {
@@ -13,6 +14,14 @@ angular
                         method: 'GET',
                         url: apiUrl,
                         params: params
+                    });
+                },
+                
+                getGroupCorrelation: function () {
+                    return $http({
+                        method: 'GET',
+                        url: correlationApiUrl,
+                        params: {entity: 'Group'}
                     });
                 },
 

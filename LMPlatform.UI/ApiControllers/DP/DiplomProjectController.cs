@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using Application.Core;
@@ -33,36 +34,36 @@ namespace LMPlatform.UI.ApiControllers.DP
                 };
         }
         
-        public object Get(int id)
+        public DiplomProjectData Get(int id)
         {
-            var dp = DpManagementService.GetProject(id);
-            var groups = DpManagementService.GetAllGroups();
-
-            return new
-                {
-                    Project = dp,
-                    Groups = groups.Select(g => new
-                        {
-                            Id = g.Id,
-                            Name = g.Name
-                        }),
-                };
+            return DpManagementService.GetProject(id);
         }
 
-        public void Post([FromBody]DiplomProjectData project)
+        public HttpResponseMessage Post([FromBody]DiplomProjectData project)
         {
-            project.LecturerId = WebSecurity.CurrentUserId;
-            DpManagementService.SaveProject(project);
+            return SaveProject(project);
         }
 
-        public void Put([FromBody]DiplomProjectData project)
+        public HttpResponseMessage Put([FromBody]DiplomProjectData project)
         {
-            project.LecturerId = WebSecurity.CurrentUserId;
-            DpManagementService.SaveProject(project);
+            return SaveProject(project);
         }
 
         public void Delete(int id)
         {
+            DpManagementService.DeleteProject(id);
+        }
+
+        private HttpResponseMessage SaveProject(DiplomProjectData project)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            project.LecturerId = WebSecurity.CurrentUserId;
+            DpManagementService.SaveProject(project);
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }
 }

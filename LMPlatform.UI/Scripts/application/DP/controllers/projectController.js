@@ -5,9 +5,11 @@
         '$routeParams',
         '$location',
         'projectService',
-        function ($scope, $routeParams, $location, projectService) {
+        'projectId',
+        '$modalInstance',
+        function ($scope, $routeParams, $location, projectService, projectId, $modalInstance) {
 
-            $scope.isNew = angular.isUndefined($routeParams.id);
+            $scope.isNew = angular.isUndefined(projectId);
 
             $scope.project = {
                 Theme: '',
@@ -15,43 +17,50 @@
                 SelectedGroupsIds: []
             };
             $scope.groups = [];
-            
+
             if (!$scope.isNew) {
                 projectService
-                    .getProject($routeParams.id)
+                    .getProject(projectId)
                     .success(function (data, status, headers, config) {
-                        $scope.project = data.Project;
-                        $scope.groups = data.Groups;
+                        $scope.project = data;
                     });
             }
 
+            projectService
+                .getGroupCorrelation()
+                .success(function (data, status, headers, config) {
+                    $scope.groups = data;
+                });
 
             $scope.saveProject = function () {
+                $scope.submitted = true;
+                //              TODO  if ($scope.projectForm.Theme.$error.required) return; 
 
-                if ($scope.isNew) {
-                    projectService
-                        .createProject($scope.project)
-                        .success(function (data, status, headers, config) {
-                            $scope.navigationManager.goToListPage();
-                        })
-                        .error(function (data, status, headers, config) {
-                            $scope.errorMessage = (data || { message: "Create operation failed." }).message + (' [HTTP-' + status + ']');
-                        });
-                } else {
-                    projectService
-                        .updateProject($scope.project)
-                        .success(function (data, status, headers, config) {
-                            $scope.navigationManager.goToListPage();
-                        })
-                        .error(function (data, status, headers, config) {
-                            $scope.errorMessage = (data || { message: "Update operation failed." }).message + (' [HTTP-' + status + ']');
-                        });
-                }
+                var saveFunc = $scope.isNew ? projectService.createProject : projectService.updateProject;
+
+                saveFunc($scope.project)
+                    .success(function (data, status, headers, config) {
+                        $modalInstance.close();
+                        alertify.success('Проект успешно сохранен.');
+                    })
+                    .error(function (data) {
+                        var message = '';
+
+                        for (var prop in data.ModelState) {
+                            if (data.ModelState.hasOwnProperty(prop)) {
+                                $.each(data.ModelState[prop], function () {
+                                    message += this + '<br/>';
+                                });
+                            }
+                        }
+                        $modalInstance.close();
+                        alertify.error(message);
+                    });
             };
 
 
             $scope.returnToList = function () {
-                $scope.navigationManager.goToListPage();
+                $modalInstance.close();
             };
-      
+
         }]);

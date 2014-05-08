@@ -6,7 +6,6 @@ using Application.Core;
 using Application.Core.Extensions;
 using Application.Infrastructure.DTO;
 using LMPlatform.Data.Infrastructure;
-using LMPlatform.Models;
 using LMPlatform.Models.DP;
 
 namespace Application.Infrastructure.DPManagement
@@ -64,7 +63,7 @@ namespace Application.Infrastructure.DPManagement
             }
             else
             {
-                project = new DiplomProject { AssignedDiplomProjects = new List<AssignedDiplomProject>() };
+                project = new DiplomProject();
                 Context.DiplomProjects.Add(project);
             }
 
@@ -89,9 +88,11 @@ namespace Application.Infrastructure.DPManagement
             Context.SaveChanges();
         }
 
-        public List<Group> GetAllGroups()
+        public void DeleteProject(int id)
         {
-            return Context.Groups.ToList();
+            var project = Context.DiplomProjects.Single(x => x.DiplomProjectId == id);
+            Context.DiplomProjects.Remove(project);
+            Context.SaveChanges();
         }
     }
 }
