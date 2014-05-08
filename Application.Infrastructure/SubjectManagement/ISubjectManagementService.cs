@@ -4,6 +4,8 @@ using LMPlatform.Models;
 
 namespace Application.Infrastructure.SubjectManagement
 {
+    using System;
+
     public interface ISubjectManagementService
     {
         List<Subject> GetUserSubjects(int userId);
@@ -37,5 +39,7 @@ namespace Application.Infrastructure.SubjectManagement
         Practical GetPractical(int id);
 
         Practical SavePractical(Practical practical, IList<Attachment> attachments);
+
+        void SaveDateLectures(int subjectId, DateTime date);
     }
 }

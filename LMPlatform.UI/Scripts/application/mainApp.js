@@ -20,18 +20,82 @@
                 controller: 'PracticalsController'
             });
     });
-angular.module('mainApp.controllers', [])
+angular.module('mainApp.controllers', ['ui.bootstrap'])
     .controller('MainCtrl', function ($scope) {
 
+        $scope.today = function () {
+            $scope.dt = new Date();
+        };
+        $scope.today();
+
+        $scope.showWeeks = true;
+        $scope.toggleWeeks = function () {
+            $scope.showWeeks = !$scope.showWeeks;
+        };
+
+        $scope.clear = function () {
+            $scope.dt = null;
+        };
+
+        // Disable weekend selection
+        $scope.disabled = function (date, mode) {
+            return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
+        };
+
+        $scope.toggleMin = function () {
+            $scope.minDate = ($scope.minDate) ? null : new Date();
+        };
+        $scope.toggleMin();
+
+        $scope.openDate = function ($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.opened = true;
+        };
+
+        $scope.dateOptions = {
+            'year-format': "'yy'",
+            'starting-day': 1
+        };
+
+        $scope.formats = ['dd-MM-yyyy', 'yyyy/MM/dd', 'shortDate'];
+        $scope.format = $scope.formats[0];
+
+
         $scope.subjectId = 0;
+        $scope.UrlServiceMain = '/Services/CoreService.svc/';
+        $scope.groups = [];
+
+        $scope.selectedGroup = [];
 
         $scope.init = function (subjectId) {
             $scope.subjectId = subjectId;
+            $scope.loadGroups();
         };
 
-        $scope.getLecturesFileAttachments = function() {
+        $scope.loadGroups = function () {
+            $.ajax({
+                type: 'GET',
+                url: $scope.UrlServiceMain + "GetGroups/" + $scope.subjectId,
+                dataType: "json",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.$apply(function () {
+                        $scope.groups = data.Groups;
+                        $scope.selectedGroup = $scope.groups[0];
+                    });
+                }
+            });
+        };
+
+        $scope.getLecturesFileAttachments = function () {
             var itemAttachmentsTable = $('#fileupload').find('table').find('tbody tr');
-            var data = $.map(itemAttachmentsTable, function(e) {
+            var data = $.map(itemAttachmentsTable, function (e) {
                 var newObject = null;
                 if (e.className === "template-download fade in") {
                     if (e.id === "-1") {
@@ -147,9 +211,35 @@ angular.module('mainApp.controllers', [])
             Id: 0
         };
 
+        $scope.editVisitData = {
+            Date: ""
+        };
+
+        $scope.lecturesCalendar = [];
+
+
         $scope.init = function () {
             $scope.lectures = [];
             $scope.loadLectures();
+            $scope.loadCalendar();
+        };
+
+        $scope.loadCalendar = function () {
+            $.ajax({
+                type: 'GET',
+                url: $scope.UrlServiceLectures + "GetCalendar/" + $scope.subjectId,
+                dataType: "json",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.$apply(function () {
+                        $scope.lecturesCalendar = data.Calendar;
+                    });
+                }
+            });
         };
 
         $scope.loadLectures = function () {
@@ -185,7 +275,7 @@ angular.module('mainApp.controllers', [])
                 contentType: "application/json",
 
             }).success(function (data, status) {
-                $scope.$apply(function() {
+                $scope.$apply(function () {
                     $("#lecturesFile").append(data);
                 });
             });
@@ -214,9 +304,8 @@ angular.module('mainApp.controllers', [])
             });
             $('#dialogAddLectures').modal();
         };
-        
+
         $scope.saveLectures = function () {
-            var day = $scope.getLecturesFileAttachments();
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLectures + "Save",
@@ -259,11 +348,47 @@ angular.module('mainApp.controllers', [])
                 }
             });
         };
+
+        $scope.addSheduleVisitingGraph = function() {
+            $('#dialogAddVisitData').modal();
+        };
+
+        $scope.addDate = function () {
+            var dd = $scope.dt.getDate();
+            var mm = $scope.dt.getMonth() + 1; //January is 0!
+            var yyyy = $scope.dt.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+
+            date = dd + '-' + mm + '-' + yyyy;
+
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLectures + "SaveDateLectures",
+                data: {
+                    subjectId: $scope.subjectId,
+                    date: date
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.loadCalendar();
+                    alertify.success(data.Message);
+                }
+            });
+        };
     })
     .controller('LabsController', function ($scope, $http) {
 
         $scope.labs = [];
-        $scope.groups = [];
 
         $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
 
@@ -298,7 +423,7 @@ angular.module('mainApp.controllers', [])
                 }
             });
         };
-        
+
         $scope.addLabs = function () {
             $scope.editLabsData.TitleForm = "Создание лабораторной работы";
             $scope.editLabsData.Theme = "";
@@ -394,7 +519,6 @@ angular.module('mainApp.controllers', [])
     .controller('PracticalsController', function ($scope, $http) {
 
         $scope.practicals = [];
-        $scope.groups = [];
 
         $scope.UrlServicePractical = '/Services/Practicals/PracticalService.svc/';
 

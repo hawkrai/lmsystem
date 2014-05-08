@@ -65,5 +65,11 @@ namespace LMPlatform.Models
             get;
             set;
         }
+
+        public ICollection<LecturesScheduleVisiting> LecturesScheduleVisitings
+        {
+            get;
+            set;
+        }
     }
 }

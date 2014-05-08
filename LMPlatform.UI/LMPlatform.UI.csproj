@@ -196,6 +196,10 @@
     <Compile Include="Services\Messages\MessagesService.svc.cs">
       <DependentUpon>MessagesService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\CoreService.svc.cs">
+      <DependentUpon>CoreService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ICoreService.cs" />
     <Compile Include="Services\Labs\ILabsService.cs" />
     <Compile Include="Services\Labs\LabsService.svc.cs">
       <DependentUpon>LabsService.svc</DependentUpon>
@@ -204,10 +208,13 @@
     <Compile Include="Services\Lectures\LecturesService.svc.cs">
       <DependentUpon>LecturesService.svc</DependentUpon>
     </Compile>
-    <Compile Include="Services\Modules\Messages\MessagesViewData.cs" />
-    <Compile Include="Services\Modules\Messages\MessagesResult.cs" />
+    <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
+    <Compile Include="Services\Modules\CoreModels\GroupsViewData.cs" />
+    <Compile Include="Services\Modules\CoreModels\StudentsViewData.cs" />
     <Compile Include="Services\Modules\Labs\LabsResult.cs" />
     <Compile Include="Services\Modules\Labs\LabsViewData.cs" />
+    <Compile Include="Services\Modules\Lectures\CalendarResult.cs" />
+    <Compile Include="Services\Modules\Lectures\CalendarViewData.cs" />
     <Compile Include="Services\Modules\Lectures\LecturesResult.cs" />
     <Compile Include="Services\Modules\Lectures\LecturesViewData.cs" />
     <Compile Include="Services\Modules\AttachmentViewData.cs" />
@@ -896,6 +903,7 @@
     <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Services\CoreService.svc" />
     <Content Include="Services\Messages\MessagesService.svc" />
     <Content Include="Services\Labs\LabsService.svc" />
     <Content Include="Services\Lectures\LecturesService.svc" />
@@ -983,11 +991,9 @@
     <Content Include="Views\Tests\_TestUnlocksSelector.cshtml" />
     <Content Include="Views\Tests\_TestUnlocksSelectorResult.cshtml" />
     <Content Include="Views\Tests\EditorTemplates\TestUnlockInfo.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\Lectures\_EditLectures.cshtml" />
     <Content Include="Views\Shared\_MessageDisplayRow.cshtml" />
     <Content Include="Views\Shared\Common\_DisplayMessage.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsModule.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\Labs\_EditLabs.cshtml" />
     <Content Include="Views\BTS\_AddOrEditBugForm.cshtml" />
     <Content Include="Views\BTS\_AddOrEditProjectForm.cshtml" />
     <Content Include="Views\BTS\_ProjectBugStatistics.cshtml" />
@@ -1007,7 +1013,6 @@
     <Content Include="Views\TestPassing\EndTest.cshtml" />
     <Content Include="Views\BTS\_BugsGridActions.cshtml" />
     <Content Include="Views\BTS\BugDetails.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\Practicals\_EditPractical.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Practicals\_PracticalModule.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\ScheduleProtection\_ScheduleProtectionLabs.cshtml" />
     <Content Include="Views\Parental\_ViewStart.cshtml" />
@@ -1034,6 +1039,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Services\Modules\Messages\" />
     <Folder Include="UploadedFilesTemp\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>

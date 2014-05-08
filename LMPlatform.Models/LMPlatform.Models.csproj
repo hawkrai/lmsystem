@@ -89,6 +89,7 @@
     <Compile Include="Labs.cs" />
     <Compile Include="Lecturer.cs" />
     <Compile Include="Lectures.cs" />
+    <Compile Include="LecturesScheduleVisiting.cs" />
     <Compile Include="Membership.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Module.cs" />

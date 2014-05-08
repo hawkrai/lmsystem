@@ -7,6 +7,8 @@ using System.Text;
 
 namespace LMPlatform.UI.Services.Lectures
 {
+    using System.Globalization;
+
     using Application.Core;
     using Application.Infrastructure.SubjectManagement;
 
@@ -52,6 +54,33 @@ namespace LMPlatform.UI.Services.Lectures
             }
         }
 
+        public CalendarResult GetCalendar(string subjectId)
+        {
+            try
+            {
+                var entities =
+                    SubjectManagementService.GetSubject(int.Parse(subjectId))
+                        .LecturesScheduleVisitings.ToList().OrderBy(e => e.Date)
+                        .ToList();
+                var model = entities.Select(e => new CalendarViewData(e)).ToList();
+
+                return new CalendarResult
+                {
+                    Calendar = model,
+                    Message = "Рассписание лекций успешно загружено",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new CalendarResult()
+                {
+                    Message = "Произошла ошибка при получении рассписания лекций",
+                    Code = "500"
+                };
+            }
+        }
+
         public ResultViewData Save(string subjectId, string id, string theme, string duration, string pathFile, string attachments)
         {
             try
@@ -86,6 +115,27 @@ namespace LMPlatform.UI.Services.Lectures
         public ResultViewData Delete(string id, string subjectId)
         {
             throw new NotImplementedException();
+        }
+
+        public ResultViewData SaveDateLectures(string subjectId, string date)
+        {
+            try
+            {
+                SubjectManagementService.SaveDateLectures(int.Parse(subjectId), DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture));
+                return new ResultViewData()
+                {
+                    Message = "Дата успешно добавлена",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при добавлении даты",
+                    Code = "500"
+                };
+            }    
         }
     }
 }

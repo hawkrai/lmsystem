@@ -70,6 +70,7 @@ namespace Application.Infrastructure.SubjectManagement
                     .Include(e => e.Lectures)
                     .Include(e => e.Labs.Select(x => x.ScheduleProtectionLabs.Select(v => v.Labs)))
                     .Include(e => e.Practicals)
+                    .Include(e => e.LecturesScheduleVisitings)
                     .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(v => v.ScheduleProtectionLabs))));
             }
         }
@@ -257,6 +258,19 @@ namespace Application.Infrastructure.SubjectManagement
             }
 
             return practical;
+        }
+
+        public void SaveDateLectures(int subjectId, DateTime date)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>().Save(new LecturesScheduleVisiting
+                                                                                         {
+                                                                                             Date = date,
+                                                                                             SubjectId = subjectId
+                                                                                         });
+                repositoriesContainer.ApplyChanges();
+            }
         }
 
         public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)

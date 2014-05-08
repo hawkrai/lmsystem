@@ -8,7 +8,7 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/datatable", "~/Scripts/ckeditor/ckeditor.js")
-    @*@Scripts.Render("~/bundle/subjectWorking")*@
+    @Scripts.Render("~/bundle/subjectWorking")
 
 }
 
@@ -39,7 +39,8 @@
     {
         @Model.SubjectName
     }
-
+    <input type="hidden" ng-click="loadGroups()" id="loadGroups" />
+    <div class="conteinerModule" data-subjectid="@Model.SubjectId"></div>
     <div ng-view></div>
 
 </div>

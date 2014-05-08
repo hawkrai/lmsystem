@@ -46,9 +46,39 @@
                 </table>
             </div>
         </tab>
-        <tab heading="Посещение лекций">Посещение лекций</tab>
+        <tab heading="Посещение лекций">
+            <div id="navPanel" style="margin-top: 10px">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div id="buttonActionSection">
+                                    <a ng-click="addSheduleVisitingGraph()" style="margin-right: 10px" class="btn btn-primary btn-sm">Управление рассписанием</a>
+                                </div>
+                            </td>
+                            <td>
+                                <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups()" class="form-control"></select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>    
+            <div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Студент</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="student in selectedGroup.Students">
+                        <td style="width: 40px">{{student.StudentId}}</td>
+                        <td style="max-width: 200px">{{student.FullName}}</td>
+                    </tr>  
+                </table>
+            </div>
+        </tab>
     </tabset>
-
 
 
     <div id="dialogAddLectures" class="modal">
@@ -71,13 +101,44 @@
                 <div>
                     <h4 class="page-header">Прикрепленный материал</h4>
                     <div id="lecturesFile">
-                        @*@Html.Partial("Common/_FilesUploader", Model.Attachments.ToList())*@
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
                 <a href="#" class="btn btn-primary btn-sm" ng-click="saveLectures()" data-dismiss="modal">Сохранить</a>
+            </div>
+        </div>
+    </div>
+    
+    <div id="dialogAddVisitData" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 300px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">График посещения</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label class="control-label">Дата</label>
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="width: 100%" />
+                    </div>
+                    <div>
+                        <input ng-click="addDate()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width: 100%" />
+                    </div>
+                    <div>
+                        <label class="control-label">График</label>
+                        <table class="table table-bordered table-striped">
+                            <tr ng-repeat="data in lecturesCalendar">
+                                <td><p>{{data.Date}}</p></td>
+                                <td style="width: 20px"><a ng-click="" style="margin-right: 10px"><i class="fa fa-edit fa-2x"></i></a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
             </div>
         </div>
     </div>
