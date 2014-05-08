@@ -192,6 +192,10 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Messages\IMessagesService.cs" />
+    <Compile Include="Services\Messages\MessagesService.svc.cs">
+      <DependentUpon>MessagesService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Services\Labs\ILabsService.cs" />
     <Compile Include="Services\Labs\LabsService.svc.cs">
       <DependentUpon>LabsService.svc</DependentUpon>
@@ -200,6 +204,8 @@
     <Compile Include="Services\Lectures\LecturesService.svc.cs">
       <DependentUpon>LecturesService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\Modules\Messages\MessagesViewData.cs" />
+    <Compile Include="Services\Modules\Messages\MessagesResult.cs" />
     <Compile Include="Services\Modules\Labs\LabsResult.cs" />
     <Compile Include="Services\Modules\Labs\LabsViewData.cs" />
     <Compile Include="Services\Modules\Lectures\LecturesResult.cs" />
@@ -515,6 +521,7 @@
     <Content Include="Scripts\application\mainApp.js" />
     <Content Include="Scripts\application\masterPageManagement.js" />
     <Content Include="Scripts\application\message.js" />
+    <Content Include="Scripts\application\msgModule.js" />
     <Content Include="Scripts\application\shared.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestsListScript.js" />
     <Content Include="Scripts\application\spinFunction.js" />
@@ -889,6 +896,7 @@
     <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Services\Messages\MessagesService.svc" />
     <Content Include="Services\Labs\LabsService.svc" />
     <Content Include="Services\Lectures\LecturesService.svc" />
     <Content Include="Services\News\NewsService.svc" />

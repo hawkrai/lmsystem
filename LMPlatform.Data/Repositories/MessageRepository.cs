@@ -40,6 +40,7 @@ namespace LMPlatform.Data.Repositories
                     .Include("Message")
                     .Include("Author.Lecturer")
                     .Include("Author.Student")
+                    .Include("Message.Attachments")
                     .Where(m => m.AuthorId == userId || m.RecipientId == userId);
         }
 

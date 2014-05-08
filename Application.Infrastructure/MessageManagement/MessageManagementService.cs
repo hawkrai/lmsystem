@@ -125,7 +125,7 @@ namespace Application.Infrastructure.MessageManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var userMessages = repositoriesContainer.MessageRepository.GetUserMessages(userId);
+                var userMessages = repositoriesContainer.MessageRepository.GetUserMessages(userId).ToList();
                 return userMessages;
             }
         }
