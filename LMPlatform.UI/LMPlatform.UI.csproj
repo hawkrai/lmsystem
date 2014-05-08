@@ -219,6 +219,8 @@
     <Compile Include="Services\Modules\Lectures\LecturesResult.cs" />
     <Compile Include="Services\Modules\Lectures\LecturesViewData.cs" />
     <Compile Include="Services\Modules\AttachmentViewData.cs" />
+    <Compile Include="Services\Modules\Messages\MessagesResult.cs" />
+    <Compile Include="Services\Modules\Messages\MessagesViewData.cs" />
     <Compile Include="Services\Modules\News\NewsResult.cs" />
     <Compile Include="Services\Modules\News\NewsViewData.cs" />
     <Compile Include="Services\Modules\Practicals\PracticalsResult.cs" />
@@ -1040,7 +1042,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Services\Modules\Messages\" />
     <Folder Include="UploadedFilesTemp\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
