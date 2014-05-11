@@ -61,11 +61,11 @@
     _getNewQuestion: function () {
         return {
             Id: 0,
-            Title: 'Название вопроса',
+            Title: '',
             ComplexityLevel: 1,
             Answers: [
-                { Content: 'Ответ 1', IsCorrect: 0 },
-                { Content: 'Ответ 2', IsCorrect: 0 }]
+                { Content: '', IsCorrect: 0 },
+                { Content: '', IsCorrect: 0 }]
         };
     },
     
@@ -114,6 +114,7 @@
         var questionModel = this._getNewQuestion();
         questionModel.templateName = questionType + 'Template';
         this._fillQuestion(questionModel);
+        //$('#taskArea').css("display", "block");
         $('#quetionDetails').modal();
     },
     

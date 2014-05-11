@@ -9,18 +9,17 @@
 @section content{
 
     <label for="inputEmail" class="control-label">Текст вопроса:</label>
-    <input type="text" data-bind="value: Title" class="form-control input-sm" id="inputEmail">
-    <label for="textArea" class="сontrol-label">Задание к вопросу:</label>
+    <input type="text" data-bind="value: Title" placeholder="Текст вопроса" class="form-control input-sm" id="inputEmail">
+    <label for="taskArea" class="сontrol-label">Задание к вопросу:</label>
     <textarea class="form-control input-sm" rows="2" id="taskArea"></textarea>
 
     <div class="row">
-        <label for="inputEmail" class="control-label">Ответы:</label>
+        <h5 style="margin-left: 15px;">Ответы</h5>
+        <hr  style="margin-left: 15px;"/>
         <div class="row navbar col-lg-6" style="margin-left: 0">
-
-            <a href="#" id="addNewVariant">
-                <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить ответ
+            <a href="#" id="addNewVariant" class="btn btn-primary btn-sm">
+                Добавить ответ
             </a>
-
         </div>
     </div>
     <div style="padding-right: 15px;" data-bind="template: { name: templateName, foreach: Answers }"></div>

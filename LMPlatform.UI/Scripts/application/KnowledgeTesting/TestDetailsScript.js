@@ -16,7 +16,7 @@
     getTextForTimeLabel: function () {
         return koWrapper.getModel().SetTimeForAllTest
             ? 'Время на весь тест (мин)'
-            : 'Время на 1 вопрос(сек)';
+            : 'Время на 1 вопрос (сек)';
     },
 
     _onSaveButtonClicked: function () {

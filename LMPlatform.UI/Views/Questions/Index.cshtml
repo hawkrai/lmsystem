@@ -2,7 +2,7 @@
 @using LMPlatform.UI.Controllers
 @using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Управление вопросами";
     Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
 }
 
@@ -23,15 +23,15 @@
     <li><a href="@Url.Action("Index", "Tests", new {subjectId = Model.SubjectId})" class="linkNavbar"><i class="fa fa-arrow-left fa-1x"></i> &nbsp; К тестам</a></li>
 }
 
-<h3>@string.Format("Вопросы теста \"{0}\"", Model.Title)
+<h3>@string.Format("Вопросы для теста \"{0}\"", Model.Title)
 </h3>
 <hr />
 <div>
     <a id="addNewQuestionButton" class="btn btn-primary btn-sm">
-        <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить вопрос
+        Добавить вопрос
     </a>
     <a id="selectQuestionButton" class="btn btn-primary btn-sm">
-        <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить вопрос из другого теста
+        Добавить вопрос из другого теста
     </a>
    
 
