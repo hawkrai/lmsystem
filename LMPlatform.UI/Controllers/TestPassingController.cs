@@ -57,6 +57,7 @@ namespace LMPlatform.UI.Controllers
             NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
             if (nextQuestion.Question == null)
             {
+                ViewBag.Mark = nextQuestion.Mark;
                 return PartialView("EndTest", nextQuestion.QuestionsStatuses);
             }
 
@@ -78,18 +79,10 @@ namespace LMPlatform.UI.Controllers
         }
 
         [Authorize, HttpGet]
-        public ActionResult TestsForPassing(int subjectId)
+        public ActionResult RealTimePassingForTest(int subjectId)
         {
             ViewBag.SubjectId = subjectId;
-            IEnumerable<Test> tests = TestPassingService.GetTestsForSubject(subjectId);
-            return View(tests);
-        }
-
-        [Authorize, HttpGet]
-        public ActionResult RealTimePassingForTest(int testId)
-        {
-            ViewBag.SubjectId = TestsManagementService.GetTest(testId).SubjectId;
-            IEnumerable<RealTimePassingResult> passingResults = TestPassingService.GetRealTimePassingResults(testId);
+            IEnumerable<RealTimePassingResult> passingResults = TestPassingService.GetRealTimePassingResults(subjectId);
             return View(passingResults);
         }
 

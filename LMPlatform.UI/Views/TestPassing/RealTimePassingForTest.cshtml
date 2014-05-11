@@ -2,7 +2,7 @@
 @model IEnumerable<LMPlatform.Models.KnowledgeTesting.RealTimePassingResult>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Контроль прохождения тестов";
     Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
 }
 
@@ -19,13 +19,13 @@
      @Html.Partial("~/Views/Tests/_TestsLeftPanel.cshtml", (int)ViewBag.SubjectId)
 }
 
-<h3>Прохождение тестов в режиме реального времени
+<h3>В данный момент тесты проходят:
 </h3>
 <hr />
 <div>
     @if (!Model.Any())
     {
-        <h4>В текущий момент ни один студент не проходит данный тест</h4>
+        <h4>В текущий момент ни один студент не проходит тесты по данному предмету</h4>
     }
     @foreach (RealTimePassingResult result in Model)
     {

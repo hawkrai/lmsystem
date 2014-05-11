@@ -15,7 +15,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         IEnumerable<Test> GetAvailableTestsForStudent(int studentId, int subjectId);
 
-        IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int testId);
+        IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int subjectId);
 
         IEnumerable<Test> GetTestsForSubject(int subjectId);
 

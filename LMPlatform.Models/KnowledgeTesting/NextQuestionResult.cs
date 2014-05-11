@@ -21,5 +21,11 @@ namespace LMPlatform.Models.KnowledgeTesting
             get;
             set;
         }
+
+        public int Mark
+        {
+            get;
+            set;
+        }
     }
 }

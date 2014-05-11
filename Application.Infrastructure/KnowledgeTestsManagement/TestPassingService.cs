@@ -22,23 +22,31 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             var result = new NextQuestionResult
             {
-                Question = nextQuestion == null ? null : nextQuestion.Item1,
-                Number = nextQuestion == null ? 0 : nextQuestion.Item2,
+                Question = nextQuestion.Item1 == null ? null : nextQuestion.Item1,
+                Number = nextQuestion.Item1 == null ? 0 : nextQuestion.Item2,
                 QuestionsStatuses = questionsStatuses
             };
+
+            if (nextQuestion.Item1 == null)
+            {
+                result.Mark = nextQuestion.Item2;
+            }
 
             return result;
         }
 
-        public IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int testId)
+        public IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int subjectId)
         {
             IEnumerable<TestUnlock> unockResults;
             var results = new List<RealTimePassingResult>();
+
+            var testIds = GetTestsForSubject(subjectId).Select(test => test.Id);
+
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 unockResults =
                     repositoriesContainer.TestUnlocksRepository.GetAll(new Query<TestUnlock>(
-                        testUnlock => testUnlock.TestId == testId)
+                        testUnlock => testIds.Contains(testUnlock.TestId))
                         .Include(testUnlock => testUnlock.Student.User.UserAnswersOnTestQuestions))
                         .ToList();
             }
@@ -308,16 +316,17 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 return nextQuestion;
             }
 
-            CloseTest(testAnswers, userId);
-            return null;
+            int mark = CloseTest(testAnswers, userId);
+            return new Tuple<Question, int>(null, mark);
         }
 
-        private void CloseTest(IEnumerable<AnswerOnTestQuestion> testAnswers, int userId)
+        private int CloseTest(IEnumerable<AnswerOnTestQuestion> testAnswers, int userId)
         {
             int testId = testAnswers.First().TestId;
             TestPassResult testPassResult = GetTestPassResult(testId, userId);
 
-            testPassResult.Points = GetResultPoints(testAnswers);
+            int points = GetResultPoints(testAnswers);
+            testPassResult.Points = points;
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -336,6 +345,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
                 repositoriesContainer.ApplyChanges();
             }
+
+            return points;
         }
 
         private TestPassResult GetTestPassResult(int testId, int userId)

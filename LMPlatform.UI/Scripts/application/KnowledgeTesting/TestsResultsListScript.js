@@ -30,7 +30,6 @@
 };
 
 function initTestResultsList() {
-    testsResultsList.init();
 }
 
 $(document).ready(function () {
