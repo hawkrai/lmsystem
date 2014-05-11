@@ -90,6 +90,7 @@
     <Compile Include="Lecturer.cs" />
     <Compile Include="Lectures.cs" />
     <Compile Include="LecturesScheduleVisiting.cs" />
+    <Compile Include="LecturesVisitMark.cs" />
     <Compile Include="Membership.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Module.cs" />
@@ -102,9 +103,14 @@
     <Compile Include="ProjectUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="ScheduleProtectionLabMark.cs" />
     <Compile Include="ScheduleProtectionLabs.cs" />
+    <Compile Include="ScheduleProtectionPractical.cs" />
+    <Compile Include="ScheduleProtectionPracticalMark.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentGroupUser.cs" />
+    <Compile Include="StudentLabMark.cs" />
+    <Compile Include="StudentPracticalMark.cs" />
     <Compile Include="SubGroup.cs" />
     <Compile Include="Subject.cs" />
     <Compile Include="SubjectGroup.cs" />

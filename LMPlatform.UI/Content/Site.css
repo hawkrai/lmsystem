@@ -205,11 +205,6 @@ h1 {
         padding: 15px 15px 15px 25px;
     }
 
-.fa-1x {
-    font-size: 2em;
-}
-
-
 fileUpload {
     position: relative;
     overflow: hidden;

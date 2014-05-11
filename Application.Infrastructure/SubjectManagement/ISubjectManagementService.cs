@@ -41,5 +41,7 @@ namespace Application.Infrastructure.SubjectManagement
         Practical SavePractical(Practical practical, IList<Attachment> attachments);
 
         void SaveDateLectures(int subjectId, DateTime date);
+
+        List<LecturesScheduleVisiting> GetScheduleVisitings(int subjectId);
     }
 }

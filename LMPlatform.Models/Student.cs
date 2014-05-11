@@ -66,5 +66,15 @@ namespace LMPlatform.Models
             get;
             set;
         } 
+
+        public ICollection<LecturesVisitMark> LecturesVisitMarks { get; set; } 
+
+        public ICollection<ScheduleProtectionLabMark> ScheduleProtectionLabMarks { get; set; } 
+
+        public ICollection<StudentLabMark> StudentLabMarks { get; set; } 
+
+        public ICollection<ScheduleProtectionPracticalMark> ScheduleProtectionPracticalMarks { get; set; }
+
+        public ICollection<StudentPracticalMark> StudentPracticalMarks { get; set; } 
     }
 }

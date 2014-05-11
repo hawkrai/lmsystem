@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using LMPlatform.UI.Services.Modules;
+using LMPlatform.UI.Services.Modules.Lectures;
 
 namespace LMPlatform.UI.Services
 {
@@ -44,7 +46,7 @@ namespace LMPlatform.UI.Services
             {
                 var id = int.Parse(subjectId);
                 var groups =
-                    GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id)).Include(e => e.Students))
+                    GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id)).Include(e => e.Students.Select(x => x.LecturesVisitMarks)))
                         .ToList();
 
                 var model = new List<GroupsViewData>();
@@ -52,10 +54,54 @@ namespace LMPlatform.UI.Services
                 foreach (Group group in groups)
                 {
                     IList<SubGroup> subGroups = this.SubjectManagementService.GetSubGroups(id, group.Id);
+
+                    var lecturesVisitingData = SubjectManagementService.GetScheduleVisitings(int.Parse(subjectId)).OrderBy(e => e.Date);
+
+                    var lecturesVisiting = new List<LecturesMarkVisitingViewData>();
+
+                    foreach (var student in group.Students.OrderBy(e => e.FullName))
+                    {
+                        var data = new List<MarkViewData>();
+
+                        foreach (var lecturesScheduleVisiting in lecturesVisitingData.OrderBy(e => e.Date))
+                        {
+                            if (
+                                student.LecturesVisitMarks.Any(
+                                    e => e.LecturesScheduleVisitingId == lecturesScheduleVisiting.Id))
+                            {
+                                data.Add(new MarkViewData
+                                {
+                                    Date = lecturesScheduleVisiting.Date.ToShortDateString(),
+                                    LecuresVisitId = lecturesScheduleVisiting.Id,
+                                    Mark = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == lecturesScheduleVisiting.Id).Mark,
+                                    MarkId = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == lecturesScheduleVisiting.Id).Id
+                                });    
+                            }
+                            else
+                            {
+                                data.Add(new MarkViewData
+                                {
+                                    Date = lecturesScheduleVisiting.Date.ToShortDateString(),
+                                    LecuresVisitId = lecturesScheduleVisiting.Id,
+                                    Mark = string.Empty,
+                                    MarkId = 0
+                                });    
+                            }
+                        }
+
+                        lecturesVisiting.Add(new LecturesMarkVisitingViewData
+                        {
+                            StudentId = student.Id,
+                            StudentName = student.FullName,
+                            Marks = data
+                        });    
+                    }
+
                     model.Add(new GroupsViewData
                                   {
                                       GroupId = group.Id, 
                                       GroupName = group.Name, 
+                                      LecturesMarkVisiting = lecturesVisiting,
                                       Students = group.Students.Select(e => new StudentsViewData(e)).ToList(),
                                       SubGroupsOne = subGroups.Any() ? subGroups.FirstOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student)).ToList() : new List<StudentsViewData>(),
                                       SubGroupsTwo = subGroups.Any() ? subGroups.LastOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student)).ToList() : new List<StudentsViewData>()

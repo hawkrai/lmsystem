@@ -1,4 +1,6 @@
-﻿namespace LMPlatform.UI.Services.Modules.CoreModels
+﻿using LMPlatform.UI.Services.Modules.Lectures;
+
+namespace LMPlatform.UI.Services.Modules.CoreModels
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -23,5 +25,8 @@
 
         [DataMember]
         public List<StudentsViewData> SubGroupsTwo { get; set; }
+
+        [DataMember]
+        public List<LecturesMarkVisitingViewData> LecturesMarkVisiting { get; set; }
     }
 }

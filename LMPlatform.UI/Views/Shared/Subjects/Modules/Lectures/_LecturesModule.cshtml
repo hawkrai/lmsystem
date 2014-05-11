@@ -64,18 +64,24 @@
                 </table>
             </div>    
             <div>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Студент</th>
-                        </tr>
-                    </thead>
-                    <tr ng-repeat="student in selectedGroup.Students">
-                        <td style="width: 40px">{{student.StudentId}}</td>
-                        <td style="max-width: 200px">{{student.FullName}}</td>
-                    </tr>  
-                </table>
+                <div style="max-width: 1200px; overflow-x: auto;">
+                    <table class="table table-bordered table-striped" style=" font-size: 10px">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Студент</th>
+                                <th ng-repeat="data in lecturesCalendar">
+                                    <div style="cursor: pointer" ng-click="editMarks(data)">{{data.Date}}</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="student in selectedGroup.LecturesMarkVisiting">
+                            <td style="width: 40px">{{student.StudentId}}</td>
+                            <td style="max-width: 200px">{{student.StudentName}}</td>
+                            <td ng-repeat="data in student.Marks" style="text-align: center">{{data.Mark}}</td>
+                        </tr>  
+                    </table>
+                </div>
             </div>
         </tab>
     </tabset>
@@ -110,9 +116,9 @@
             </div>
         </div>
     </div>
-    
+
     <div id="dialogAddVisitData" class="modal">
-        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 300px">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
             <div class="panel-heading">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">График посещения</h4>
@@ -128,17 +134,48 @@
                     </div>
                     <div>
                         <label class="control-label">График</label>
-                        <table class="table table-bordered table-striped">
-                            <tr ng-repeat="data in lecturesCalendar">
-                                <td><p>{{data.Date}}</p></td>
-                                <td style="width: 20px"><a ng-click="" style="margin-right: 10px"><i class="fa fa-edit fa-2x"></i></a></td>
-                            </tr>
-                        </table>
+                        <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
+                            <table class="table table-bordered table-striped">
+                                <tr ng-repeat="data in lecturesCalendar">
+                                    <td>
+                                        <p>{{data.Date}}</p>
+                                    </td>
+                                    <td style="width: 20px"><a ng-click="" style="margin-right: 10px"><i class="fa fa-edit fa-2x"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialogEditMarks" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{editMarks.Date}}</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <table class="table table-bordered table-striped">
+                        <tr ng-repeat="data in editMarks.Marks">
+                            <td>
+                                <p>{{data.Name}}</p>
+                            </td>
+                            <td>
+                                <input ng-model="data.Mark"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
+                <a href="#" class="btn btn-primary btn-sm" id="saveButton" ng-click="saveMarks()" data-dismiss="modal">Сохранить</a>
             </div>
         </div>
     </div>

@@ -1,4 +1,6 @@
-﻿namespace LMPlatform.Models
+﻿using System.Collections.Generic;
+
+namespace LMPlatform.Models
 {
     using System;
 
@@ -11,5 +13,7 @@
         public int SubjectId { get; set; }
 
         public Subject Subject { get; set; }
+
+        public ICollection<LecturesVisitMark> LecturesVisitMarks { get; set; } 
     }
 }

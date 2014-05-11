@@ -273,6 +273,18 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
+        public List<LecturesScheduleVisiting> GetScheduleVisitings(int subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return
+                    repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>()
+                        .GetAll(new Query<LecturesScheduleVisiting>(e => e.SubjectId == subjectId)
+                        .Include(e => e.LecturesVisitMarks.Select(x => x.Student)))
+                        .ToList();
+            }
+        }
+
         public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

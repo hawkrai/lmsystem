@@ -1,4 +1,6 @@
-﻿namespace LMPlatform.Models
+﻿using System.Collections.Generic;
+
+namespace LMPlatform.Models
 {
     using Application.Core.Data;
 
@@ -44,6 +46,10 @@
         {
             get;
             set;
-        }        
+        }    
+   
+        public ICollection<ScheduleProtectionPractical> ScheduleProtectionPracticals { get; set; } 
+
+        public ICollection<StudentPracticalMark> StudentPracticalMarks { get; set; } 
     }
 }

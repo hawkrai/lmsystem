@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using Application.Core.Data;
+using Application.Infrastructure.GroupManagement;
 
 namespace LMPlatform.UI.Services.Lectures
 {
@@ -22,6 +24,15 @@ namespace LMPlatform.UI.Services.Lectures
     public class LecturesService : ILecturesService
     {
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
+        private readonly LazyDependency<IGroupManagementService> groupManagementService = new LazyDependency<IGroupManagementService>();
+
+        public IGroupManagementService GroupManagementService
+        {
+            get
+            {
+                return groupManagementService.Value;
+            }
+        }
 
         public ISubjectManagementService SubjectManagementService
         {

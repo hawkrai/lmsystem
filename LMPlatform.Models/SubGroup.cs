@@ -34,5 +34,7 @@ namespace LMPlatform.Models
             get;
             set;
         } 
+
+        public ICollection<ScheduleProtectionPractical> ScheduleProtectionPracticals { get; set; } 
     }
 }

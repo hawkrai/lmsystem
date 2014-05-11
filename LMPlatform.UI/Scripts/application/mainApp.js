@@ -217,6 +217,10 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
 
         $scope.lecturesCalendar = [];
 
+        $scope.editMarks = {            
+            Date: "",
+            Marks: []
+        };
 
         $scope.init = function () {
             $scope.lectures = [];
@@ -384,6 +388,14 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
                     alertify.success(data.Message);
                 }
             });
+        };
+
+        $scope.saveMarks = function() {
+
+        };
+
+        $scope.editMarks = function(calendar) {
+            $('#dialogEditMarks').modal();
         };
     })
     .controller('LabsController', function ($scope, $http) {

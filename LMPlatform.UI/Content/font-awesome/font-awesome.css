@@ -26,17 +26,20 @@
   line-height: 0.75em;
   vertical-align: -15%;
 }
+.fa-1x {
+  font-size: 24px;
+}
 .fa-2x {
-  font-size: 2em;
+  font-size: 32px;
 }
 .fa-3x {
-  font-size: 3em;
+  font-size: 48px;
 }
 .fa-4x {
-  font-size: 4em;
+  font-size: 64px;
 }
 .fa-5x {
-  font-size: 5em;
+  font-size: 80px;
 }
 .fa-fw {
   width: 1.2857142857142858em;

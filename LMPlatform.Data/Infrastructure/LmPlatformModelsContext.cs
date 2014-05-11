@@ -153,6 +153,18 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<LecturesVisitMark> LecturesVisitMarks { get; set; }
+
+        public DbSet<ScheduleProtectionLabMark> ScheduleProtectionLabMarks { get; set; } 
+
+        public DbSet<StudentLabMark> StudentLabMarks { get; set; }
+
+        public DbSet<ScheduleProtectionPractical> ScheduleProtectionPracticals { get; set; }
+
+        public DbSet<ScheduleProtectionPracticalMark> ScheduleProtectionPracticalMarks { get; set; } 
+
+        public DbSet<StudentPracticalMark> StudentPracticalMarks { get; set; } 
+
         #endregion DataContext Members
 
         #region Protected Members
@@ -311,6 +323,78 @@ namespace LMPlatform.Data.Infrastructure
                 .HasMany<LecturesScheduleVisiting>(e => e.LecturesScheduleVisitings)
                 .WithRequired(e => e.Subject)
                 .HasForeignKey(e => e.SubjectId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<LecturesScheduleVisiting>()
+                .HasMany<LecturesVisitMark>(e => e.LecturesVisitMarks)
+                .WithRequired(e => e.LecturesScheduleVisiting)
+                .HasForeignKey(e => e.LecturesScheduleVisitingId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Student>()
+                .HasMany<LecturesVisitMark>(e => e.LecturesVisitMarks)
+                .WithRequired(e => e.Student)
+                .HasForeignKey(e => e.StudentId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Student>()
+                .HasMany<ScheduleProtectionLabMark>(e => e.ScheduleProtectionLabMarks)
+                .WithRequired(e => e.Student)
+                .HasForeignKey(e => e.StudentId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ScheduleProtectionLabs>()
+                .HasMany<ScheduleProtectionLabMark>(e => e.ScheduleProtectionLabMarks)
+                .WithRequired(e => e.ScheduleProtectionLab)
+                .HasForeignKey(e => e.ScheduleProtectionLabId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Student>()
+                .HasMany<StudentLabMark>(e => e.StudentLabMarks)
+                .WithRequired(e => e.Student)
+                .HasForeignKey(e => e.StudentId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Labs>()
+                .HasMany<StudentLabMark>(e => e.StudentLabMarks)
+                .WithRequired(e => e.Lab)
+                .HasForeignKey(e => e.LabId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SubGroup>()
+               .HasMany<ScheduleProtectionPractical>(e => e.ScheduleProtectionPracticals)
+               .WithRequired(e => e.SubGroup)
+               .HasForeignKey(e => e.SuGroupId)
+               .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Practical>()
+               .HasMany<ScheduleProtectionPractical>(e => e.ScheduleProtectionPracticals)
+               .WithRequired(e => e.Practical)
+               .HasForeignKey(e => e.PracticalId)
+               .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Student>()
+                .HasMany<ScheduleProtectionPracticalMark>(e => e.ScheduleProtectionPracticalMarks)
+                .WithRequired(e => e.Student)
+                .HasForeignKey(e => e.StudentId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ScheduleProtectionPractical>()
+                .HasMany<ScheduleProtectionPracticalMark>(e => e.ScheduleProtectionPracticalMarks)
+                .WithRequired(e => e.ScheduleProtectionPractical)
+                .HasForeignKey(e => e.ScheduleProtectionPracticalId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Student>()
+                .HasMany<StudentPracticalMark>(e => e.StudentPracticalMarks)
+                .WithRequired(e => e.Student)
+                .HasForeignKey(e => e.StudentId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Practical>()
+                .HasMany<StudentPracticalMark>(e => e.StudentPracticalMarks)
+                .WithRequired(e => e.Practical)
+                .HasForeignKey(e => e.PracticalId)
                 .WillCascadeOnDelete(false);
 
             MapKnowledgeTestingEntities(modelBuilder);

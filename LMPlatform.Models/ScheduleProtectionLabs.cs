@@ -1,4 +1,6 @@
-﻿namespace LMPlatform.Models
+﻿using System.Collections.Generic;
+
+namespace LMPlatform.Models
 {
     using System;
 
@@ -19,5 +21,7 @@
         public int LabsId { get; set; }
 
         public Labs Labs { get; set; }
+
+        public ICollection<ScheduleProtectionLabMark> ScheduleProtectionLabMarks { get; set; }
     }
 }
