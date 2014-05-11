@@ -1043,6 +1043,8 @@
     <Content Include="Views\DP\Project.cshtml" />
     <Content Include="Views\BTS\_studentProjectsList.cshtml" />
     <Content Include="Views\BTS\_ChatForm.cshtml" />
+    <Content Include="Views\BTS\_studentOptions.cshtml" />
+    <Content Include="Views\BTS\_lectorerOptions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

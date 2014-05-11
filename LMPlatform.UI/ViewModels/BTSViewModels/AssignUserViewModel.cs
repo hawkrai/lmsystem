@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Application.Core;
 using Application.Infrastructure.GroupManagement;
+using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.Data.Infrastructure;
@@ -60,9 +61,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Группа")]
         public int GroupId { get; set; }
 
-        [Required(ErrorMessage = "Поле Студент обязательно для заполнения")]
-        [DisplayName("Студент")]
-        public int StudentId { get; set; }
+        [Required(ErrorMessage = "Поле ФИО обязательно для заполнения")]
+        [DisplayName("ФИО")]
+        public int UserId { get; set; }
 
         [Required(ErrorMessage = "Поле Роль обязательно для заполнения")]
         [DisplayName("Роль")]
@@ -85,7 +86,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 var projectUser = ProjectManagementService.GetProjectUser(id);
                 ProjectId = projectUser.ProjectId;
                 RoleId = projectUser.ProjectRoleId;
-                StudentId = projectUser.UserId;
+                UserId = projectUser.UserId;
                 Id = projectUser.Id;
             }
         }
@@ -112,6 +113,27 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }).ToList();
         }
 
+        public IList<SelectListItem> GetLecturers()
+        {
+            var lecturers = new LecturerManagementService().GetLecturers();
+
+            var lecturerList = new List<Lecturer>();
+
+            foreach (var lecturer in lecturers)
+            {
+                if (ProjectManagementService.IsUserAssignedOnProject(lecturer.Id, ProjectId) == false)
+                {
+                    lecturerList.Add(lecturer);
+                }
+            }
+
+            return lecturers.Select(v => new SelectListItem
+            {
+                Text = v.LastName + " " + v.FirstName + " " + v.MiddleName,
+                Value = v.Id.ToString(CultureInfo.InvariantCulture)
+            }).ToList();
+        }
+
         public IList<SelectListItem> GetRoles()
         {
             var roles = new LmPlatformModelsContext().ProjectRoles.ToList();
@@ -127,7 +149,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             var projectUser = new ProjectUser
             {
                 Id = Id,
-                UserId = StudentId,
+                UserId = UserId,
                 ProjectId = projectId,
                 ProjectRoleId = RoleId
             };

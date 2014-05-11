@@ -4,6 +4,22 @@
         var that = this;
         //$(".addProjectButton").tooltip({ title: "Добавить проект", placement: 'right' });
         that.initButtonAction();
+        that._setColumnsSize();
+    },
+
+    _actionsColumnWidth: 110,
+    _numberingColumnWidth: 20,
+
+    _setColumnsSize: function () {
+        // Set "№" column size
+        $('.odd')
+            .children(":first")
+            .width(this._numberingColumnWidth);
+
+        //set "Действия" column width
+        $('[name="projectGridActionsCol"]')
+            .parent()
+            .width(this._actionsColumnWidth);
     },
 
     initButtonAction: function () {
@@ -17,6 +33,7 @@
     },
 
     projectEditItemActionHandler: function () {
+        projectManagement.init();
         $('.editProjectButton').handle("click", function () {
             var that = this;
             $.savingDialog("Редактирование проекта", $(that).attr('href'), null, "primary", function (data) {

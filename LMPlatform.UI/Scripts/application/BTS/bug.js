@@ -3,6 +3,22 @@
         var that = this;
         //$(".addBugButton").tooltip({ title: "Задокументировать ошибку", placement: 'right' });
         that.initButtonAction();
+        that._setColumnsSize();
+    },
+
+    _actionsColumnWidth: 70,
+    _numberingColumnWidth: 20,
+
+    _setColumnsSize: function () {
+        // Set "№" column size
+        $('.odd')
+            .children(":first")
+            .width(this._numberingColumnWidth);
+
+        //set "Действия" column width
+        $('[name="bugGridActionsCol"]')
+            .parent()
+            .width(this._actionsColumnWidth);
     },
 
     initButtonAction: function () {
@@ -16,6 +32,7 @@
     },
 
     bugEditItemActionHandler: function () {
+        bugManagement.init();
         $('.editBugButton').handle("click", function () {
             var that = this;
             $.savingDialog("Редактирование ошибки", $(that).attr('href'), null, "primary", function (data) {

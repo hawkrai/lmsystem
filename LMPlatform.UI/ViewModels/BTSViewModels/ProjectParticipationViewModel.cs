@@ -2,15 +2,18 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using Application.Core.Data;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
+using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
@@ -36,6 +39,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         {
             var groups = new GroupManagementService().GetGroups();
 
+            //var groups = GetAssignedGroups(WebSecurity.CurrentUserId);
             return groups.Select(v => new SelectListItem
             {
                 Text = v.Name,
@@ -43,6 +47,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }).ToList();
         }
 
+        //public IList<Group> GetAssignedGroups(int userId)
+        //{
+        //}
         public List<StudentGroupUser> StudentGroupUserList { get; set; }
 
         public List<StudentGroupUser> GetStudentGroupUserList(string groupName)

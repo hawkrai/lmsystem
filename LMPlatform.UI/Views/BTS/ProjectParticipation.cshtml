@@ -27,19 +27,17 @@
     </div>
     <hr />
     <div class="projectParticipation">
-        <div class="row" style="padding: 10px 10px 0px 10px ">
-            @*<div class="col-md-6">
-                @Html.LabelFor(e => e.GroupId, new { @class = "control-label" })
-                <div>
-                    @Html.DropDownListFor(e => e.GroupId, Model.GetGroups(), new { @class = "form-control", @id = "groups" })
-                </div>
-            </div>*@
+        <div class="row" style="padding: 0px 10px 0px 15px ">
             @if (Model.GetGroups().Count == 0)
             {
                 <h2>Вы не привязаны ни к одной группе</h2>
             }
             else
             {
+                <div>
+                    Выберите номер интересующей группы:
+                </div>   
+                <br/>
                 foreach (var group in Model.GetGroups())
                 {
                 <button class="btn btn-primary btn-sm groupButton">

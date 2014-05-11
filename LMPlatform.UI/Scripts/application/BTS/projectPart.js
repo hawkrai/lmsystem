@@ -3,6 +3,7 @@
         var that = this;
         //$(".projectUserButton").tooltip({ title: "Добавить участника", placement: 'right' });
         that.initButtonAction();
+        that._setColumnsSize();
 
         $("#groups").change(function () {
             $("#students").empty();
@@ -16,6 +17,21 @@
         });
     },
 
+    _actionsColumnWidth: 70,
+    _numberingColumnWidth: 20,
+
+    _setColumnsSize: function () {
+        // Set "№" column size
+        $('.odd')
+            .children(":first")
+            .width(this._numberingColumnWidth);
+
+        //set "Действия" column width
+        $('[name="projectUserGridActionsCol"]')
+            .parent()
+            .width(this._actionsColumnWidth);
+    },
+
     initButtonAction: function () {
         $('.projectUserButton').handle("click", function () {
             $.savingDialog("Добавление участника к проекту", "/BTS/AssignUserOnProject", null, "primary", function (data) {
@@ -27,6 +43,7 @@
     },
 
     projectUserEditItemActionHandler: function () {
+        projectUserManagement.init();
         $('.editProjectUserButton').handle("click", function () {
             var that = this;
             $.savingDialog("Редактирование участника проекта", $(that).attr('href'), null, "primary", function (data) {

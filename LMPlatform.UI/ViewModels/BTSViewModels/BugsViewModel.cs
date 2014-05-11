@@ -25,19 +25,19 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         
         public int ProjectId { get; set; }
 
-        [Display(Name = "Кем добавлена")]
+        [DisplayName("Кем добавлена")]
         public string ReporterName { get; set; }
 
-        [Display(Name = "Название")]
+        [DisplayName("Название")]
         public string Summary { get; set; }
 
-        [Display(Name = "Описание")]
+        [DisplayName("Описание")]
         public string Description { get; set; }
 
-        [Display(Name = "Шаги выполнения")]
+        [DisplayName("Шаги выполнения")]
         public string Steps { get; set; }
 
-        [Display(Name = "Ожидаемый результат")]
+        [DisplayName("Ожидаемый результат")]
         public string ExpectedResult { get; set; }
 
         [DisplayName("Важность")]
@@ -52,10 +52,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Проект")]
         public string Project { get; set; }
 
-        [Display(Name = "Дата документирования")]
+        [DisplayName("Дата документирования")]
         public string ReportingDate { get; set; }
 
-        [Display(Name = "Дата последнего изменения")]
+        [DisplayName("Дата последнего изменения")]
         public string ModifyingDate { get; set; }
 
         public int SymptomId { get; set; }

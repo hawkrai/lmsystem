@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 using Application.Core;
 using Application.Core.Data;
@@ -19,6 +20,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
     public class BugListViewModel : BaseNumberedGridItem
     {
         private static LmPlatformModelsContext context = new LmPlatformModelsContext();
+
+        [DisplayName("ID")]
+        public int Id { get; set; }
         
         [DisplayName("Название")]
         public string Summary { get; set; }
@@ -48,8 +52,6 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public string ReporterName { get; set; }
 
         public string ReportingDate { get; set; }
-
-        public int Id { get; set; }
 
         public static BugListViewModel FromBug(Bug bug, string htmlLinks)
         {

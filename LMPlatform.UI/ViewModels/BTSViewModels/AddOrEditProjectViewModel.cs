@@ -38,7 +38,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public int ProjectId { get; set; }
 
         [Required(ErrorMessage = "Поле Тема проекта обязательно для заполнения")]
-        [StringLength(100, ErrorMessage = "Тема проекта должна быть не менее 3 символов.", MinimumLength = 3)]
+        [StringLength(300, ErrorMessage = "Тема проекта должна быть не менее 3 символов и не более 300.", MinimumLength = 3)]
         
         [DataType(DataType.Text)]
         [DisplayName("Тема проекта")]
