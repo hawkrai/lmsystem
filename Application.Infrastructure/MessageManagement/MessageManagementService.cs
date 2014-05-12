@@ -208,6 +208,16 @@ namespace Application.Infrastructure.MessageManagement
             }
         }
 
+        public bool DeleteMessages(IEnumerable<int> ids)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var result = repositoriesContainer.MessageRepository.DeleteMessages(ids);
+                repositoriesContainer.ApplyChanges();
+                return result;
+            }
+        }
+
         private static IEnumerable<User> GetRecipientsList(User currentUser)
         {
             var recipientsList = new List<User>();

@@ -11,6 +11,10 @@ using Newtonsoft.Json;
 
 namespace LMPlatform.UI.Services.Messages
 {
+    using Application.Core.Extensions;
+
+    using WebMatrix.WebData;
+
     public class MessagesService : IMessagesService
     {
         private readonly LazyDependency<IMessageManagementService> _messageManagementService =
@@ -21,16 +25,17 @@ namespace LMPlatform.UI.Services.Messages
             get { return _messageManagementService.Value; }
         }
 
-        public MessagesResult GetMessages(string userId)
+        public MessagesResult GetMessages()
         {
             try
             {
-                var model =
-                    MessageManagementService.GetUserMessages(int.Parse(userId)).Select(e => new MessagesViewData(e)).ToList();
+                var userId = WebSecurity.CurrentUserId;
+                var model = MessageManagementService.GetUserMessages(userId).DistinctBy(m => m.MessageId).ToList();
 
                 return new MessagesResult
                     {
-                        Messages = model,
+                        InboxMessages = model.Where(m => m.AuthorId != userId).Select(e => new MessagesViewData(e)).ToList(),
+                        OutboxMessages = model.Where(m => m.AuthorId == userId).Select(e => new MessagesViewData(e)).ToList(),
                         Message = "Сообщения успешно загружены",
                         Code = "200"
                     };
@@ -42,6 +47,29 @@ namespace LMPlatform.UI.Services.Messages
                         Message = "Произошла ошибка при получении сообщений",
                         Code = "500"
                     };
+            }
+        }
+
+        public ResultViewData Delete(int[] messagesToDelete)
+        {
+            try
+            {
+                ////var messageId = int.Parse(messagesToDelete);
+                var model = MessageManagementService.DeleteMessages(new List<int>());
+
+                return new MessagesResult
+                {
+                    Message = "Удаление прошло успешно",
+                    Code = "200"
+                };
+            }
+            catch (Exception e)
+            {
+                return new MessagesResult
+                {
+                    Message = "Произошла ошибка при удалении",
+                    Code = "500"
+                };
             }
         }
     }

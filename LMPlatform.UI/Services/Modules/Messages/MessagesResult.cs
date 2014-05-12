@@ -7,6 +7,9 @@
     public class MessagesResult : ResultViewData
     {
         [DataMember]
-        public List<MessagesViewData> Messages { get; set; } 
+        public List<MessagesViewData> InboxMessages { get; set; }
+
+        [DataMember]
+        public List<MessagesViewData> OutboxMessages { get; set; } 
     }
 }

@@ -84,5 +84,24 @@ namespace LMPlatform.Data.Repositories
 
             return true;
         }
+
+        public bool DeleteMessages(IEnumerable<int> ids)
+        {
+            try
+            {
+                foreach (var id in ids)
+                {
+                    var msgId = id;
+                    var msg = this.GetBy(new Query<Message>(m => m.Id == msgId));
+                    Delete(msg);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

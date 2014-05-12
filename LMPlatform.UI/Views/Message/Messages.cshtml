@@ -7,6 +7,7 @@
 @section css
 {
     <link rel="stylesheet" href="/Content/chosen/chosen.css">
+
 }
 @section scripts
 {
@@ -23,20 +24,117 @@
     .nav a {
         cursor: pointer;
     }
-</style>
 
-<div ng-app="msgApp">
-    <div class="page-header">
-        <h2>Сообщения</h2>
-    </div>
+    .bordered {
+        border-bottom: #ddd solid 1px;
+    }
+
+    .msg-row {
+        height: 45px;
+    }
+
+        .msg-row i.is-read {
+            color: #008cba;
+        }
+
+        .msg-row .fa-envelope {
+            color: gray;
+        }
+
+        .msg-row td:first-child {
+            width: 55px;
+            -moz-min-width: 50px;
+            -ms-min-width: 50px;
+            -o-min-width: 50px;
+            -webkit-min-width: 50px;
+            min-width: 50px;
+        }
+
+    sub.paperclip {
+        font-size: 11px;
+        top: 12px;
+        padding-left: -15px;
+        margin-left: -5px;
+        color: gray;
+    }
+
+    .msg-row .athor-name {
+        font-size: 17px;
+        max-width: 250px;
+        width: 250px;
+        line-height: 40px;
+        overflow: hidden;
+        -moz-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 10px 0 3px;
+    }
+
+    .msg-row .subject {
+        font-size: 15px;
+        color: #515151;
+        padding-left: 10px;
+        max-width: 140px;
+        overflow: hidden;
+        -moz-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .msg-row .preview-text {
+        font-size: 15px;
+        color: #515151;
+        overflow: hidden;
+        -moz-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 180px;
+        padding-left: 10px;
+    }
+
+    .msg-row .date {
+        text-align: right;
+        font-size: 16px;
+        max-width: 85px;
+        width: 85px;
+        padding-left: 10px;
+    }
+
+    #buttonActionSection {
+        margin: 20px 0;
+        padding-left: 10px;
+    }
+
+    .ng-table-pager {
+        padding-top: 20px;
+    }
+
+    .row {
+        padding: 0 10px;
+    }
+</style>
+@section navleft
+{
+    <li>
+        <a href="@(Request.UrlReferrer != null && !string.IsNullOrEmpty(Request.UrlReferrer.ToString()) ? Request.UrlReferrer.ToString() : "/" )" style="font-size: 17px">
+            <i class="fa fa-reply fa-1x fa-tab"></i> Вернуться
+        </a>
+    </li>
+}
+
+<div ng-app="msgApp" ng-controller="msgController" ng-init="init(@WebSecurity.CurrentUserId)">
+
+    <h3>Сообщения</h3>
+    <hr>
     <div>
         <div id="buttonActionSection">
             <a href="#" class="msg-send msgButton btn btn-primary btn-sm" data-url="@Url.Action("WriteMessage", "Message")" data-toggle="tooltip">Написать</a>
+            <a href="#" class="msgButton btn btn-primary btn-sm" ng-click="deleteMessages()" data-toggle="tooltip">Удалить отмеченые</a>
         </div>
     </div>
-    <div class="row" ng-controller="msgController" ng-init="init(@WebSecurity.CurrentUserId)">
+    <div class="row">
         <div class="col-md-12 tabbable tabs-left">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" style="height: 100%; ">
                 <li ng-class="{'active': activeTab === 'inbox'}">
                     <a ng-click="switchTabTo('inbox')">Входящие</a>
                 </li>
@@ -44,55 +142,39 @@
                     <a ng-click="switchTabTo('outbox')">Отправленные</a>
                 </li>
             </ul>
-            <div class="tab-content">
-                <table>
-                    <thead>
-                        <th>Автор
-                        </th>
-                        <th>Тема
-                        </th>
-                    </thead>
-                    <tbody>
-
-                        <tr ng-repeat="msg in messages">
-                            <td>{{msg.AuthorName}}</td>
-                            <td>{{msg.Subject}}</td>
-                            <td style="width: 78px;"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                @*<div class="tab-pane message-tab active" id="inbox">*@
-                @* <div>@Html.Partial("_MessageDataTable", new DataTableViewModel
-             {
-                 DataTable = Html.DataTable("incomingMessageList", (MessageController controller) => controller.GetCollectionMessages(null), new { isIncoming = true }),
-                 DataTableOptions = new DataTableOptions
-                     {
-                         Pagination = false,
-                         Searchable = true,
-                         Sortable = false,
-                         Filterable = false,
-                         Info = false,
-                         OnComplete = "initDisplayMessageDialog"
-                     }
-             })
-                </div>*@
-                @*</div>*@
-                @*<div class="tab-pane message-tab" id="sent">*@
-                @*     <div>@Html.Partial("_MessageDataTable", new DataTableViewModel
-             {
-                 DataTable = Html.DataTable("outcomingMessageList", (MessageController controller) => controller.GetCollectionMessages(null), new { isIncoming = false }),
-                 DataTableOptions = new DataTableOptions
-                     {
-                         Pagination = true,
-                         Searchable = true,
-                         Sortable = false,
-                         Filterable = false,
-                         Info = false,
-                         OnComplete = "initDisplayMessageDialog"
-                     }
-             })
-                </div> *@
-                @*</div>*@
+            <div style="margin-left: 133px; border-left: #ddd 1px solid; padding-left: 35px;" >
+                <div class="tab-content" style="width: 100%">
+                    <table ng-table="tableParams" style="width: 100%">
+                        <tbody>
+                            <tr class="msg-row" ng-repeat="msg in $data">
+                                <td>
+                                    <i ng-class="{'is-read': !msg.IsRead && activeTab === 'inbox'}" class="fa fa-2x  fa-envelope"></i>
+                                    <sub class="paperclip" ng-if="msg.Attachments.length > 0">
+                                        <span ng-if="msg.Attachments.length > 0">
+                                            <i class="glyphicon glyphicon-paperclip"></i>
+                                            {{msg.Attachments.length}}
+                                        </span>
+                                    </sub>
+                                </td>
+                                <td width="30" style="text-align: left">
+                                    <input type="checkbox" ng-model="checkboxes.items[msg.Id]" />
+                                </td>
+                                <td class="athor-name bordered">
+                                    {{msg.AthorName}}
+                                </td>
+                                <td class="subject bordered">
+                                    {{msg.Subject}}
+                                </td>
+                                <td class="preview-text bordered">
+                                    {{msg.PreviewText}}
+                                </td>
+                                <td class="date bordered">
+                                    {{msg.Date}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

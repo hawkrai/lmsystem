@@ -36,5 +36,7 @@ namespace Application.Infrastructure.MessageManagement
         UserMessages GetUserMessage(int userMessageId);
 
         bool DeleteUserMessages(int userId);
+
+        bool DeleteMessages(IEnumerable<int> ids);
     }
 }
