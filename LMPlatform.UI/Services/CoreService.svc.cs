@@ -9,6 +9,8 @@ using LMPlatform.UI.Services.Modules.Lectures;
 
 namespace LMPlatform.UI.Services
 {
+    using System.Data.Entity.ModelConfiguration.Conventions;
+
     using Application.Core;
     using Application.Core.Data;
     using Application.Infrastructure.GroupManagement;
@@ -55,7 +57,9 @@ namespace LMPlatform.UI.Services
                 {
                     IList<SubGroup> subGroups = this.SubjectManagementService.GetSubGroups(id, group.Id);
 
-                    var lecturesVisitingData = SubjectManagementService.GetScheduleVisitings(int.Parse(subjectId)).OrderBy(e => e.Date);
+                    var subjectIntId = int.Parse(subjectId);
+
+                    var lecturesVisitingData = SubjectManagementService.GetScheduleVisitings(new Query<LecturesScheduleVisiting>(e => e.SubjectId == subjectIntId)).OrderBy(e => e.Date);
 
                     var lecturesVisiting = new List<LecturesMarkVisitingViewData>();
 

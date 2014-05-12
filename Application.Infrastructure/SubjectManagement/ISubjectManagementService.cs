@@ -42,6 +42,8 @@ namespace Application.Infrastructure.SubjectManagement
 
         void SaveDateLectures(int subjectId, DateTime date);
 
-        List<LecturesScheduleVisiting> GetScheduleVisitings(int subjectId);
+        List<LecturesScheduleVisiting> GetScheduleVisitings(Query<LecturesScheduleVisiting> query);
+
+        void SaveMarksCalendarData(List<LecturesVisitMark> lecturesVisitMarks);
     }
 }

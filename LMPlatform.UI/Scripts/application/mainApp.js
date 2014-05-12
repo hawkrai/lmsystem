@@ -217,15 +217,20 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
 
         $scope.lecturesCalendar = [];
 
-        $scope.editMarks = {            
+        $scope.editMarks = {
+            DateId: "",
             Date: "",
-            Marks: []
+            StudentMarkForDate: [],
         };
 
         $scope.init = function () {
             $scope.lectures = [];
             $scope.loadLectures();
             $scope.loadCalendar();
+        };
+
+        $scope.changeGroups = function (selectedGroup) {
+            $scope.selectedGroup = selectedGroup;
         };
 
         $scope.loadCalendar = function () {
@@ -353,7 +358,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
             });
         };
 
-        $scope.addSheduleVisitingGraph = function() {
+        $scope.addSheduleVisitingGraph = function () {
             $('#dialogAddVisitData').modal();
         };
 
@@ -385,17 +390,56 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
                     alertify.error(data.Message);
                 } else {
                     $scope.loadCalendar();
+                    $scope.loadGroups();
                     alertify.success(data.Message);
                 }
             });
         };
 
-        $scope.saveMarks = function() {
-
+        $scope.saveMarks = function () {
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLectures + "SaveMarksCalendarData",
+                data: {
+                    dateId: $scope.editMarks.DateId,
+                    subjectId: $scope.subjectId,
+                    groupId: $scope.selectedGroup.groupId,
+                    marks: $scope.editMarks.StudentMarkForDate
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    alertify.success(data.Message);
+                    $scope.loadGroups();
+                    $('#dialogEditMarks').modal('hide');
+                }
+            });
         };
 
-        $scope.editMarks = function(calendar) {
-            $('#dialogEditMarks').modal();
+        $scope.editMarks = function (calendar) {
+            var id = $scope.selectedGroup.GroupId;
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLectures + "GetMarksCalendarData",
+                data: {
+                    dateId: calendar.Id,
+                    subjectId: $scope.subjectId,
+                    groupId: $scope.selectedGroup.GroupId
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.editMarks.Date = data.Date;
+                    $scope.editMarks.DateId = data.DateId;
+                    $scope.editMarks.StudentMarkForDate = data.StudentMarkForDate;
+                    $('#dialogEditMarks').modal();
+                }
+            });
+
         };
     })
     .controller('LabsController', function ($scope, $http) {

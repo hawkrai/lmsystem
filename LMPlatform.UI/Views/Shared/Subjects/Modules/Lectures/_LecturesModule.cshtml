@@ -57,7 +57,7 @@
                                 </div>
                             </td>
                             <td>
-                                <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups()" class="form-control"></select>
+                                <select ng-model="selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(selectedGroup)" class="form-control"></select>
                             </td>
                         </tr>
                     </tbody>
@@ -160,14 +160,14 @@
                 <h4 class="modal-title" id="myModalLabel">{{editMarks.Date}}</h4>
             </div>
             <div class="modal-body">
-                <div>
+                <div style="max-height: 600px; overflow-y: auto">
                     <table class="table table-bordered table-striped">
-                        <tr ng-repeat="data in editMarks.Marks">
+                        <tr ng-repeat="data in editMarks.StudentMarkForDate">
                             <td>
-                                <p>{{data.Name}}</p>
+                                <p>{{data.StudentName}}</p>
                             </td>
                             <td>
-                                <input ng-model="data.Mark"/>
+                                <input ng-model="data.Mark" class="form-control" style="width: 50px; text-align: center" maxlength="1" />
                             </td>
                         </tr>
                     </table>

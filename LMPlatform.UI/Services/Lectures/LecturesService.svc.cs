@@ -148,5 +148,87 @@ namespace LMPlatform.UI.Services.Lectures
                 };
             }    
         }
+
+        public StudentMarkForDateResult GetMarksCalendarData(string dateId, string subjectId, string groupId)
+        {
+            try
+            {
+                var subjectIntId = int.Parse(subjectId);
+                var dateIntId = int.Parse(dateId);
+                var visitingDate =
+                    SubjectManagementService.GetScheduleVisitings(
+                        new Query<LecturesScheduleVisiting>(e => e.SubjectId == subjectIntId && e.Id == dateIntId)).FirstOrDefault();
+
+                var group = GroupManagementService.GetGroup(int.Parse(groupId));
+                var model = new List<StudentMarkForDateViewData>();
+                foreach (var student in group.Students.OrderBy(e => e.FullName))
+                {
+                    if (student.LecturesVisitMarks.Any(e => e.LecturesScheduleVisitingId == visitingDate.Id))
+                    {
+                        model.Add(new StudentMarkForDateViewData
+                                      {
+                                          MarkId = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Id,
+                                          StudentId = student.Id,
+                                          StudentName = student.FullName,
+                                          Mark = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Mark   
+                                      });
+                    }
+                    else
+                    {
+                        model.Add(new StudentMarkForDateViewData
+                        {
+                            MarkId = 0,
+                            StudentId = student.Id,
+                            StudentName = student.FullName,
+                            Mark = string.Empty
+                        });    
+                    }
+                }
+
+                return new StudentMarkForDateResult()
+                {
+                    DateId = dateIntId,
+                    Date = visitingDate.Date.ToShortDateString(),
+                    StudentMarkForDate = model,
+                    Message = "Данные успешно загружены",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new StudentMarkForDateResult()
+                {
+                    Message = "Произошла ошибка",
+                    Code = "500"
+                };
+            }    
+        }
+
+        public ResultViewData SaveMarksCalendarData(string dateId, List<StudentMarkForDateViewData> marks)
+        {
+            try
+            {
+                SubjectManagementService.SaveMarksCalendarData(marks.Select(e => new LecturesVisitMark
+                                                                                     {
+                                                                                         Id = e.MarkId,
+                                                                                         Mark = e.Mark,
+                                                                                         LecturesScheduleVisitingId = int.Parse(dateId),
+                                                                                         StudentId = e.StudentId
+                                                                                     }).ToList());
+                return new ResultViewData()
+                {
+                    Message = "Данные успешно добавлены",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при добавлении данных",
+                    Code = "500"
+                };
+            }
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace Application.Infrastructure.GroupManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId));
+                return repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId).Include(e => e.Students.Select(x => x.LecturesVisitMarks)));
             }
         }
 
