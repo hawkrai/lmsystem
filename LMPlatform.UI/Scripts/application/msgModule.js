@@ -64,20 +64,19 @@ msgApp
         }, true);
 
 
-        $scope.deleteMessages = function () {
+        $scope.deleteMessage = function (msgId) {
             bootbox.confirm("Вы действительно хотите удалить выбранные сообщения?", function (isConfirmed) {
                 if (isConfirmed) {
-                    var messagesToDelete = [];
                     
-                    for (var propName in $scope.checkboxes.items) {
-                        messagesToDelete.push(propName);
-                    }
-                    alert(messagesToDelete);
+                    //var messagesToDelete = [];
+                    //for (var propName in $scope.checkboxes.items) {
+                    //    messagesToDelete.push(propName);
+                    //}
 
                     $http({
                         method: 'POST',
                         url: $scope.UrlServiceMessages + "Delete",
-                        data: { messagesToDelete: messagesToDelete },
+                        data: { messageId: msgId },
                         headers: { 'Content-Type': 'application/json' }
                     }).success(function (data, status) {
                         if (data.Code != '200') {

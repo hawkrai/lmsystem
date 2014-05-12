@@ -202,17 +202,17 @@ namespace Application.Infrastructure.MessageManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var result = repositoriesContainer.MessageRepository.DeleteUserMessage(userId);
+                var result = repositoriesContainer.MessageRepository.DeleteUserMessages(userId);
                 repositoriesContainer.ApplyChanges();
                 return result;
             }
         }
 
-        public bool DeleteMessages(IEnumerable<int> ids)
+        public bool DeleteMessage(int messageId, int userId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var result = repositoriesContainer.MessageRepository.DeleteMessages(ids);
+                var result = repositoriesContainer.MessageRepository.DeleteMessage(messageId, userId);
                 repositoriesContainer.ApplyChanges();
                 return result;
             }

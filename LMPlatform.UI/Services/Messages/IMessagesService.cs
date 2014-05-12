@@ -18,6 +18,6 @@ namespace LMPlatform.UI.Services.Messages
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Delete")]
-        ResultViewData Delete(int[] messagesToDelete);
+        ResultViewData Delete(int messageId);
     }
 }

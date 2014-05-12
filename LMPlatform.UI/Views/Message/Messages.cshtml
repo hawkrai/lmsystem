@@ -100,9 +100,21 @@
         padding-left: 10px;
     }
 
+    .msg-row .delete-button {
+        width: 45px;
+        text-align: right;
+    }
+
     #buttonActionSection {
         margin: 20px 0;
         padding-left: 10px;
+    }
+
+    .tab-content-wrapper {
+        margin-left: 133px; 
+        border-left: #ddd 1px solid; 
+        padding-left: 35px; 
+        min-height: 150px
     }
 
     .ng-table-pager {
@@ -116,8 +128,8 @@
 @section navleft
 {
     <li>
-        <a href="@(Request.UrlReferrer != null && !string.IsNullOrEmpty(Request.UrlReferrer.ToString()) ? Request.UrlReferrer.ToString() : "/" )" style="font-size: 17px">
-            <i class="fa fa-reply fa-1x fa-tab"></i> Вернуться
+        <a href="@(Request.UrlReferrer != null && !string.IsNullOrEmpty(Request.UrlReferrer.ToString()) ? Request.UrlReferrer.ToString() : "/")" style="font-size: 17px">
+            <i class="fa fa-reply fa-1x fa-tab"></i>Вернуться
         </a>
     </li>
 }
@@ -129,12 +141,11 @@
     <div>
         <div id="buttonActionSection">
             <a href="#" class="msg-send msgButton btn btn-primary btn-sm" data-url="@Url.Action("WriteMessage", "Message")" data-toggle="tooltip">Написать</a>
-            <a href="#" class="msgButton btn btn-primary btn-sm" ng-click="deleteMessages()" data-toggle="tooltip">Удалить отмеченые</a>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 tabbable tabs-left">
-            <ul class="nav nav-tabs" style="height: 100%; ">
+            <ul class="nav nav-tabs" style="height: 100%;">
                 <li ng-class="{'active': activeTab === 'inbox'}">
                     <a ng-click="switchTabTo('inbox')">Входящие</a>
                 </li>
@@ -142,7 +153,7 @@
                     <a ng-click="switchTabTo('outbox')">Отправленные</a>
                 </li>
             </ul>
-            <div style="margin-left: 133px; border-left: #ddd 1px solid; padding-left: 35px;" >
+            <div class="tab-content-wrapper">
                 <div class="tab-content" style="width: 100%">
                     <table ng-table="tableParams" style="width: 100%">
                         <tbody>
@@ -159,17 +170,18 @@
                                 <td width="30" style="text-align: left">
                                     <input type="checkbox" ng-model="checkboxes.items[msg.Id]" />
                                 </td>
-                                <td class="athor-name bordered">
-                                    {{msg.AthorName}}
+                                <td class="athor-name bordered">{{msg.AthorName}}
                                 </td>
-                                <td class="subject bordered">
-                                    {{msg.Subject}}
+                                <td class="subject bordered">{{msg.Subject}}
                                 </td>
-                                <td class="preview-text bordered">
-                                    {{msg.PreviewText}}
+                                <td class="preview-text bordered">{{msg.PreviewText}}
                                 </td>
-                                <td class="date bordered">
-                                    {{msg.Date}}
+                                <td class="date bordered">{{msg.Date}}
+                                </td>
+                                <td class="delete-button">
+                                    <a href="#" ng-click="deleteMessage(msg.Id)" title="Удалить">
+                                        <span class="fa fa-trash-o fa-2x" />
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

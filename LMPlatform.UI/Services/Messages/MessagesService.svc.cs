@@ -50,14 +50,14 @@ namespace LMPlatform.UI.Services.Messages
             }
         }
 
-        public ResultViewData Delete(int[] messagesToDelete)
+        public ResultViewData Delete(int messageId)
         {
             try
             {
-                ////var messageId = int.Parse(messagesToDelete);
-                var model = MessageManagementService.DeleteMessages(new List<int>());
+                var userId = WebSecurity.CurrentUserId;
+                var result = MessageManagementService.DeleteMessage(messageId, userId);
 
-                return new MessagesResult
+                return new ResultViewData
                 {
                     Message = "Удаление прошло успешно",
                     Code = "200"
@@ -65,7 +65,7 @@ namespace LMPlatform.UI.Services.Messages
             }
             catch (Exception e)
             {
-                return new MessagesResult
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при удалении",
                     Code = "500"

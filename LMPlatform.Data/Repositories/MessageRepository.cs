@@ -66,7 +66,7 @@ namespace LMPlatform.Data.Repositories
                     .ToList();
         }
 
-        public bool DeleteUserMessage(int userId)
+        public bool DeleteUserMessages(int userId)
         {
             var targets = GetUserMessages(userId);
             var context = DataContext.Set<UserMessages>();
@@ -85,15 +85,30 @@ namespace LMPlatform.Data.Repositories
             return true;
         }
 
-        public bool DeleteMessages(IEnumerable<int> ids)
+        public bool DeleteMessage(int messageId, int userId)
         {
             try
             {
-                foreach (var id in ids)
                 {
-                    var msgId = id;
-                    var msg = this.GetBy(new Query<Message>(m => m.Id == msgId));
-                    Delete(msg);
+                    var context = DataContext.Set<UserMessages>();
+                    var userMsg =
+                        context.FirstOrDefault(e => e.MessageId == messageId && e.RecipientId == userId);
+
+                    context.Remove(userMsg);
+
+                    var authorMsgs =
+                         context.Where(e => e.MessageId == messageId && e.AuthorId == userId);
+
+                    foreach (var msg in authorMsgs)
+                    {
+                        msg.IsDeleted = true;
+                    }
+
+                    if (!context.Any(e => e.MessageId == messageId))
+                    {
+                        var msg = GetBy(new Query<Message>(m => m.Id == messageId));
+                        Delete(msg);
+                    }
                 }
             }
             catch

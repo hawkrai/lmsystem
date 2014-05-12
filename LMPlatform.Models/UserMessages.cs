@@ -30,6 +30,8 @@ namespace LMPlatform.Models
 
         public bool IsRead { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public User Recipient { get; set; }
 
         public User Author { get; set; }
