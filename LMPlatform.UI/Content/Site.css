@@ -474,6 +474,13 @@ legend.scheduler-border {
     text-align: center !important;
 }
 
+.dataTable tr td:first-child,
+.dataTable tr th:first-child
+ {
+    width: 30px;
+    text-align: center;
+}
+
 .alert-error {
     color: #ffffff;
     background-color: red;

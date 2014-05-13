@@ -41,7 +41,7 @@ namespace LMPlatform.Data.Repositories
                     .Include("Author.Lecturer")
                     .Include("Author.Student")
                     .Include("Message.Attachments")
-                    .Where(m => m.AuthorId == userId || m.RecipientId == userId);
+                    .Where(m => (m.AuthorId == userId || m.RecipientId == userId) && (m.DeletedById != userId));
         }
 
         public IEnumerable<User> GetMessageRecipients(int messageId)
@@ -91,23 +91,49 @@ namespace LMPlatform.Data.Repositories
             {
                 {
                     var context = DataContext.Set<UserMessages>();
-                    var userMsg =
-                        context.FirstOrDefault(e => e.MessageId == messageId && e.RecipientId == userId);
 
-                    context.Remove(userMsg);
+                    var reciepMsg = context.FirstOrDefault(e => e.MessageId == messageId && e.RecipientId == userId);
 
-                    var authorMsgs =
-                         context.Where(e => e.MessageId == messageId && e.AuthorId == userId);
-
-                    foreach (var msg in authorMsgs)
+                    if (reciepMsg != null)
                     {
-                        msg.IsDeleted = true;
+                        if (reciepMsg.DeletedById == reciepMsg.AuthorId)
+                        {
+                            context.Remove(reciepMsg);
+                        }
+                        else
+                        {
+                            reciepMsg.DeletedById = userId;
+                        }
                     }
+
+                    var authorMsg = context.Where(e => e.MessageId == messageId && e.AuthorId == userId);
+
+                    foreach (var msg in authorMsg)
+                    {
+                        if (msg.DeletedById == msg.RecipientId)
+                        {
+                            context.Remove(msg);
+                        }
+                        else
+                        {
+                            msg.DeletedById = userId;
+                        }
+                    }
+
+                    DataContext.SaveChanges();
 
                     if (!context.Any(e => e.MessageId == messageId))
                     {
-                        var msg = GetBy(new Query<Message>(m => m.Id == messageId));
-                        Delete(msg);
+                        var msg = GetBy(new Query<Message>(m => m.Id == messageId).Include(m => m.Attachments));
+                        if (msg.Attachments.Any())
+                        {
+                            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+                            {
+                                repositoriesContainer.AttachmentRepository.Delete(msg.Attachments);
+                                repositoriesContainer.MessageRepository.Delete(msg);
+                                repositoriesContainer.ApplyChanges();
+                            }
+                        }
                     }
                 }
             }
