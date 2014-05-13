@@ -313,12 +313,6 @@ namespace LMPlatform.Data.Infrastructure
                .HasForeignKey(e => e.SuGroupId)
                .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Labs>()
-               .HasMany<ScheduleProtectionLabs>(e => e.ScheduleProtectionLabs)
-               .WithRequired(e => e.Labs)
-               .HasForeignKey(e => e.LabsId)
-               .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Subject>()
                 .HasMany<LecturesScheduleVisiting>(e => e.LecturesScheduleVisitings)
                 .WithRequired(e => e.Subject)

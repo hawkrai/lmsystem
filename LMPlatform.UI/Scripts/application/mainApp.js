@@ -65,9 +65,12 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
 
         $scope.subjectId = 0;
         $scope.UrlServiceMain = '/Services/CoreService.svc/';
-        $scope.groups = [];
 
-        $scope.selectedGroup = [];
+        //groups
+        $scope.groups = [];
+        $scope.selectedSubGroup = null;
+        $scope.selectedGroup = null;
+        $scope.subGroups = [];
 
         $scope.init = function (subjectId) {
             $scope.subjectId = subjectId;
@@ -88,6 +91,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
                     $scope.$apply(function () {
                         $scope.groups = data.Groups;
                         $scope.selectedGroup = $scope.groups[0];
+                        $scope.subGroups = [$scope.selectedGroup.SubGroupsOne, $scope.selectedGroup.SubGroupsTwo];
+                        $scope.selectedSubGroup = $scope.subGroups[0];
                     });
                 }
             });
@@ -452,6 +457,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
             TitleForm: "",
             Theme: "",
             Duration: "",
+            Order: 0,
             PathFile: "",
             ShortName: "",
             Id: 0
@@ -487,6 +493,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
             $scope.editLabsData.PathFile = "";
             $scope.editLabsData.ShortName = "";
             $scope.editLabsData.Id = "0";
+            $scope.editLabsData.Order = "0";
 
             $("#labsFile").empty();
 
@@ -511,6 +518,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
             $scope.editLabsData.PathFile = lab.PathFile;
             $scope.editLabsData.ShortName = lab.ShortName;
             $scope.editLabsData.Id = lab.LabId;
+            $scope.editLabsData.Order = lab.Order;
 
             $("#labsFile").empty();
 
@@ -536,6 +544,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
                     id: $scope.editLabsData.Id,
                     theme: $scope.editLabsData.Theme,
                     duration: $scope.editLabsData.Duration,
+                    order: $scope.editLabsData.Order,
                     shortName: $scope.editLabsData.ShortName,
                     pathFile: $scope.editLabsData.PathFile,
                     attachments: $scope.getLecturesFileAttachments()
@@ -570,6 +579,20 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
                     });
                 }
             });
+        };
+
+        $scope.changeGroups = function (selectedGroup) {
+            $scope.selectedGroup = selectedGroup;
+            $scope.subGroups = [];
+            $scope.selectedSubGroup = null;
+            if (selectedGroup.SubGroupsOne != null && selectedGroup.SubGroupsTwo != null) {
+                $scope.subGroups = [selectedGroup.SubGroupsOne, selectedGroup.SubGroupsTwo];
+                $scope.selectedSubGroup = $scope.subGroups[0];
+            }
+        };
+
+        $scope.editMarks = function(date) {
+
         };
     })
     .controller('PracticalsController', function ($scope, $http) {

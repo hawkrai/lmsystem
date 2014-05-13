@@ -21,10 +21,10 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
         public List<StudentsViewData> Students { get; set; }
 
         [DataMember]
-        public List<StudentsViewData> SubGroupsOne { get; set; }
+        public SubGroupsViewData SubGroupsOne { get; set; }
 
         [DataMember]
-        public List<StudentsViewData> SubGroupsTwo { get; set; }
+        public SubGroupsViewData SubGroupsTwo { get; set; }
 
         [DataMember]
         public List<LecturesMarkVisitingViewData> LecturesMarkVisiting { get; set; }

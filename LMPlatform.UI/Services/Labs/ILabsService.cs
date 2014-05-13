@@ -20,7 +20,7 @@ namespace LMPlatform.UI.Services.Labs
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Save")]
-        ResultViewData Save(string subjectId, string id, string theme, string duration, string shortName, string pathFile, string attachments);
+        ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string shortName, string pathFile, string attachments);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Delete")]

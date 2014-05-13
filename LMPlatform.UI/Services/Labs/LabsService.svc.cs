@@ -30,7 +30,7 @@ namespace LMPlatform.UI.Services.Labs
         {
             try
             {
-                var model = SubjectManagementService.GetSubject(int.Parse(subjectId)).Labs.Select(e => new LabsViewData(e)).ToList();
+                var model = SubjectManagementService.GetSubject(int.Parse(subjectId)).Labs.OrderBy(e => e.Order).Select(e => new LabsViewData(e)).ToList();
 
                 return new LabsResult
                 {
@@ -49,7 +49,7 @@ namespace LMPlatform.UI.Services.Labs
             }
         }
 
-        public ResultViewData Save(string subjectId, string id, string theme, string duration, string shortName, string pathFile, string attachments)
+        public ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string shortName, string pathFile, string attachments)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace LMPlatform.UI.Services.Labs
                     SubjectId = int.Parse(subjectId),
                     Duration = int.Parse(duration),
                     Theme = theme,
-                    Order = 0,
+                    Order = int.Parse(order),
                     ShortName = shortName,
                     Attachments = pathFile,
                     Id = int.Parse(id)

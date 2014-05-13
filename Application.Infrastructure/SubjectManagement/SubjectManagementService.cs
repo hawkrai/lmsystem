@@ -68,7 +68,7 @@ namespace Application.Infrastructure.SubjectManagement
                     .Include(e => e.SubjectModules.Select(x => x.Module))
                     .Include(e => e.SubjectNewses)
                     .Include(e => e.Lectures)
-                    .Include(e => e.Labs.Select(x => x.ScheduleProtectionLabs.Select(v => v.Labs)))
+                    .Include(e => e.Labs)
                     .Include(e => e.Practicals)
                     .Include(e => e.LecturesScheduleVisitings)
                     .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(v => v.ScheduleProtectionLabs))));
@@ -138,7 +138,9 @@ namespace Application.Infrastructure.SubjectManagement
             {
                 var subjectGroup =
                     repositoriesContainer.SubjectRepository.GetBy(
-                        new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId)).Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student)))));
+                        new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId))
+                        .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student))))
+                        .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.ScheduleProtectionLabs))));
                 return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
             }
         }

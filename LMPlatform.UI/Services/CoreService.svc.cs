@@ -79,7 +79,7 @@ namespace LMPlatform.UI.Services
                                     LecuresVisitId = lecturesScheduleVisiting.Id,
                                     Mark = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == lecturesScheduleVisiting.Id).Mark,
                                     MarkId = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == lecturesScheduleVisiting.Id).Id
-                                });    
+                                });
                             }
                             else
                             {
@@ -89,7 +89,7 @@ namespace LMPlatform.UI.Services
                                     LecuresVisitId = lecturesScheduleVisiting.Id,
                                     Mark = string.Empty,
                                     MarkId = 0
-                                });    
+                                });
                             }
                         }
 
@@ -98,17 +98,33 @@ namespace LMPlatform.UI.Services
                             StudentId = student.Id,
                             StudentName = student.FullName,
                             Marks = data
-                        });    
+                        });
                     }
 
                     model.Add(new GroupsViewData
                                   {
-                                      GroupId = group.Id, 
-                                      GroupName = group.Name, 
+                                      GroupId = group.Id,
+                                      GroupName = group.Name,
                                       LecturesMarkVisiting = lecturesVisiting,
                                       Students = group.Students.Select(e => new StudentsViewData(e)).ToList(),
-                                      SubGroupsOne = subGroups.Any() ? subGroups.FirstOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student)).ToList() : new List<StudentsViewData>(),
-                                      SubGroupsTwo = subGroups.Any() ? subGroups.LastOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student)).ToList() : new List<StudentsViewData>()
+                                      SubGroupsOne = subGroups.Any() ? new SubGroupsViewData
+                                                         {
+                                                             GroupId = group.Id,
+                                                             Name = "Подгруппа 1",
+                                                             ScheduleProtectionLabs = subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
+                                                             SubGroupId = subGroups.FirstOrDefault().Id,
+                                                             Students = subGroups.FirstOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student)).ToList()
+                                                         } 
+                                                         : null,
+                                      SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
+                                                          {
+                                                              GroupId = group.Id,
+                                                              Name = "Подгруппа 2",
+                                                              ScheduleProtectionLabs = subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
+                                                              SubGroupId = subGroups.LastOrDefault().Id,
+                                                              Students = subGroups.LastOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student)).ToList()
+                                                          } 
+                                                          : null
                                   });
                 }
 
