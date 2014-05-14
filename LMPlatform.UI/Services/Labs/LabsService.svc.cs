@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 
 namespace LMPlatform.UI.Services.Labs
 {
+    using System.Globalization;
+
     public class LabsService : ILabsService
     {
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
@@ -31,7 +33,6 @@ namespace LMPlatform.UI.Services.Labs
             try
             {
                 var model = SubjectManagementService.GetSubject(int.Parse(subjectId)).Labs.OrderBy(e => e.Order).Select(e => new LabsViewData(e)).ToList();
-
                 return new LabsResult
                 {
                     Labs = model,
@@ -84,6 +85,27 @@ namespace LMPlatform.UI.Services.Labs
         public ResultViewData Delete(string id, string subjectId)
         {
             throw new NotImplementedException();
+        }
+
+        public ResultViewData SaveScheduleProtectionDate(string subGroupId, string date)
+        {
+            try
+            {
+                SubjectManagementService.SaveScheduleProtectionLabsDate(int.Parse(subGroupId), DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture));
+                return new ResultViewData()
+                {
+                    Message = "Дата успешно добавлена",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при добавлении даты",
+                    Code = "500"
+                };
+            }
         }
     }
 }

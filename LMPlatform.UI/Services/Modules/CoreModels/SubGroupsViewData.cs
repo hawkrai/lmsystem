@@ -22,6 +22,12 @@
         public List<StudentsViewData> Students { get; set; }
 
         [DataMember]
+        public List<LabsViewData> Labs { get; set; }
+            
+        [DataMember]
         public List<ScheduleProtectionLabsViewData> ScheduleProtectionLabs { get; set; }
+        
+        [DataMember]
+        public List<ScheduleProtectionLab> ScheduleProtectionLabsRecomendMark { get; set; }
     }
 }

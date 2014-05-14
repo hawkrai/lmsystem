@@ -65,8 +65,8 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>    
-            </div>  
+                </table>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -74,48 +74,52 @@
                             <th>#</th>
                             <th>Лабораторная работа</th>
                             <th ng-repeat="data in selectedSubGroup.ScheduleProtectionLabs">
-                                <div style="cursor: pointer" ng-click="editMarks(data)">{{data.Date}}</div>
+                                <div style="cursor: pointer">{{data.Date}}</div>
                             </th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="data in labs">
+                    <tr ng-repeat="data in selectedSubGroup.Labs">
                         <td style="width: 40px">{{data.Order}}</td>
                         <td style="max-width: 200px">{{data.ShortName}}</td>
-                        <td ng-repeat="data in selectedSubGroup.ScheduleProtectionLabs">
-                            10
+                        <td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
+                            {{recomend.Mark}}
                         </td>
                     </tr>
                 </table>
-            </div>  
+            </div>
         </tab>
         <tab heading="Статистика посещения">
-            <div id="navPanel" style="margin-top: 10px">
+            <div>
                 <table>
                     <tbody>
                         <tr>
                             <td>
-                                <div id="buttonActionSection">
-                                    <a style="margin-right: 10px" class="btn btn-primary btn-sm">Добавить график</a>
-                                </div>
+                                <select ng-model="selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(selectedGroup)" class="form-control"></select>
                             </td>
                             <td>
-                                <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups()" class="form-control"></select>
+                                <select ng-model="selectedSubGroup" ng-options="subGroup.Name for subGroup in subGroups" class="form-control"></select>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div>
+            <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Студент</th>
+                            <th ng-repeat="data in selectedSubGroup.ScheduleProtectionLabs">
+                                <div style="cursor: pointer" ng-click="editVisitingMarks(data)">{{data.Date}}</div>
+                            </th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="student in selectedGroup.Students">
+                    <tr ng-repeat="student in selectedSubGroup.Students">
                         <td style="width: 40px">{{student.StudentId}}</td>
                         <td style="max-width: 200px">{{student.FullName}}</td>
+                        <td ng-repeat="data in student.LabVisitingMark">
+                            {{data.Marks}}
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -125,7 +129,7 @@
                 <table>
                     <tbody>
                         <tr>
-                           <td>
+                            <td>
                                 <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups()" class="form-control"></select>
                             </td>
                         </tr>
@@ -148,7 +152,7 @@
             </div>
         </tab>
     </tabset>
-    
+
     <div id="dialogAddLabs" class="modal">
         <div class="modal-dialog panel panel-primary" style="padding: 0px">
             <div class="panel-heading">
@@ -177,13 +181,48 @@
                 <div>
                     <h4 class="page-header">Прикрепленный материал</h4>
                     <div id="labsFile">
-                        @*@Html.Partial("Common/_FilesUploader", Model.Attachments.ToList())*@
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
                 <a href="#" class="btn btn-primary btn-sm" ng-click="saveLabs()" data-dismiss="modal">Сохранить</a>
+            </div>
+        </div>
+    </div>
+    
+    <div id="dialogmanagementData" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">График посещения</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label class="control-label">Дата</label>
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="width: 100%" />
+                    </div>
+                    <div>
+                        <input ng-click="addDate()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width: 100%" />
+                    </div>
+                    <div>
+                        <label class="control-label">График</label>
+                        <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
+                            <table class="table table-bordered table-striped">
+                                <tr ng-repeat="data in selectedSubGroup.ScheduleProtectionLabs">
+                                    <td>
+                                        <p>{{data.Date}}</p>
+                                    </td>
+                                    <td style="width: 20px"><a ng-click="" style="margin-right: 10px"><i class="fa fa-edit fa-2x"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
             </div>
         </div>
     </div>

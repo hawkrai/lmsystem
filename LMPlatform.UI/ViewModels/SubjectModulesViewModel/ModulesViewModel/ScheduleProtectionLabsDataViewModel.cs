@@ -39,7 +39,6 @@
         {
             SuGroupId = subGroupId;
             LabId = lab.Id;
-            ScheduleProtection = lab.ScheduleProtectionLabs.ToList();
             Order = lab.Order;
             Name = lab.Theme;
         }

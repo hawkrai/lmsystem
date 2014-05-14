@@ -555,6 +555,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
                     alertify.error(data.Message);
                 } else {
                     $scope.loadLabs();
+                    $scope.loadGroups();
                     alertify.success(data.Message);
                 }
                 $("#dialogAddLabs").modal('hide');
@@ -593,6 +594,43 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
 
         $scope.editMarks = function(date) {
 
+        };
+
+        $scope.managementDate = function() {
+            $('#dialogmanagementData').modal();
+        };
+
+        $scope.addDate = function () {
+            var dd = $scope.dt.getDate();
+            var mm = $scope.dt.getMonth() + 1; //January is 0!
+            var yyyy = $scope.dt.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+
+            date = dd + '-' + mm + '-' + yyyy;
+
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
+                data: {
+                    subGroupId: $scope.selectedSubGroup.SubGroupId,
+                    date: date
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.loadGroups();
+                    alertify.success(data.Message);
+                }
+            });
         };
     })
     .controller('PracticalsController', function ($scope, $http) {

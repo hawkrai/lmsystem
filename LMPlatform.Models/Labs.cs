@@ -48,8 +48,6 @@
             set;
         }
 
-        public ICollection<ScheduleProtectionLabs> ScheduleProtectionLabs { get; set; } 
-
         public ICollection<StudentLabMark> StudentLabMarks { get; set; } 
     }
 }

@@ -215,6 +215,8 @@
     <Compile Include="Services\Modules\CoreModels\SubGroupsViewData.cs" />
     <Compile Include="Services\Modules\Labs\LabsResult.cs" />
     <Compile Include="Services\Modules\Labs\LabsViewData.cs" />
+    <Compile Include="Services\Modules\Labs\LabVisitingMark.cs" />
+    <Compile Include="Services\Modules\Labs\ScheduleProtectionLab.cs" />
     <Compile Include="Services\Modules\Labs\ScheduleProtectionLabsViewData.cs" />
     <Compile Include="Services\Modules\Lectures\CalendarResult.cs" />
     <Compile Include="Services\Modules\Lectures\CalendarViewData.cs" />

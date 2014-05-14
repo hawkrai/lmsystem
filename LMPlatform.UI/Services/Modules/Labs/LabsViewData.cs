@@ -31,6 +31,10 @@
             }
         }
 
+        public LabsViewData()
+        {
+        }
+
         public LabsViewData(Labs labs)
         {
             Theme = labs.Theme;
@@ -69,6 +73,9 @@
         {
             get;
             set;
-        } 
+        }
+
+        [DataMember]
+        public List<ScheduleProtectionLab> ScheduleProtectionLabsRecomend { get; set; }
     }
 }

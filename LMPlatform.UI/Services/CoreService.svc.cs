@@ -10,6 +10,7 @@ using LMPlatform.UI.Services.Modules.Lectures;
 namespace LMPlatform.UI.Services
 {
     using System.Data.Entity.ModelConfiguration.Conventions;
+    using System.Globalization;
 
     using Application.Core;
     using Application.Core.Data;
@@ -101,6 +102,77 @@ namespace LMPlatform.UI.Services
                         });
                     }
 
+                    var labs = SubjectManagementService.GetSubject(int.Parse(subjectId)).Labs.OrderBy(e => e.Order);
+
+                    //first subGroupLabs
+                    var labsFirstSubGroup = labs.Select(e => new LabsViewData
+                    {
+                        Theme = e.Theme,
+                        Order = e.Order,
+                        Duration = e.Duration,
+                        ShortName = e.ShortName,
+                        ScheduleProtectionLabsRecomend = subGroups.Any() ? subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date)
+                            .Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty }).ToList() : new List<ScheduleProtectionLab>()
+                    }).ToList();
+
+                    var durationCount = 0;
+
+                    foreach (var lab in labsFirstSubGroup)
+                    {
+                        var mark = 10;
+                        durationCount += lab.Duration / 2;
+                        for (int i = 0; i < lab.ScheduleProtectionLabsRecomend.Count; i++)
+                        {
+                            if (i + 1 > durationCount - (lab.Duration / 2))
+                            {
+                                lab.ScheduleProtectionLabsRecomend[i].Mark = mark.ToString(CultureInfo.InvariantCulture);
+
+                                if (i + 1 >= durationCount)
+                                {
+                                    if (mark != 0)
+                                    {
+                                        mark -= 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    //second subGroupLabs
+                    var labsSecondSubGroup = labs.Select(e => new LabsViewData
+                    {
+                        Theme = e.Theme,
+                        Order = e.Order,
+                        Duration = e.Duration,
+                        ShortName = e.ShortName,
+                        ScheduleProtectionLabsRecomend = subGroups.Any() ?
+                            subGroups.LastOrDefault()
+                            .ScheduleProtectionLabs.OrderBy(x => x.Date)
+                            .Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty })
+                            .ToList() : new List<ScheduleProtectionLab>()
+                    }).ToList();
+                    durationCount = 0;
+                    foreach (var lab in labsSecondSubGroup)
+                    {
+                        var mark = 10;
+                        durationCount += lab.Duration / 2;
+                        for (int i = 0; i < lab.ScheduleProtectionLabsRecomend.Count; i++)
+                        {
+                            if (i + 1 > durationCount - (lab.Duration / 2))
+                            {
+                                lab.ScheduleProtectionLabsRecomend[i].Mark = mark.ToString(CultureInfo.InvariantCulture);
+
+                                if (i + 1 >= durationCount)
+                                {
+                                    if (mark != 0)
+                                    {
+                                        mark -= 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     model.Add(new GroupsViewData
                                   {
                                       GroupId = group.Id,
@@ -111,19 +183,21 @@ namespace LMPlatform.UI.Services
                                                          {
                                                              GroupId = group.Id,
                                                              Name = "Подгруппа 1",
+                                                             Labs = labsFirstSubGroup,
                                                              ScheduleProtectionLabs = subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
                                                              SubGroupId = subGroups.FirstOrDefault().Id,
-                                                             Students = subGroups.FirstOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student)).ToList()
-                                                         } 
+                                                             Students = subGroups.FirstOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student, subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList())).ToList()
+                                                         }
                                                          : null,
                                       SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
                                                           {
                                                               GroupId = group.Id,
                                                               Name = "Подгруппа 2",
+                                                              Labs = labsSecondSubGroup,
                                                               ScheduleProtectionLabs = subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
                                                               SubGroupId = subGroups.LastOrDefault().Id,
-                                                              Students = subGroups.LastOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student)).ToList()
-                                                          } 
+                                                              Students = subGroups.LastOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student, subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList())).ToList()
+                                                          }
                                                           : null
                                   });
                 }

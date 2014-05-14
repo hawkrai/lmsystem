@@ -45,5 +45,7 @@ namespace Application.Infrastructure.SubjectManagement
         List<LecturesScheduleVisiting> GetScheduleVisitings(Query<LecturesScheduleVisiting> query);
 
         void SaveMarksCalendarData(List<LecturesVisitMark> lecturesVisitMarks);
+
+        void SaveScheduleProtectionLabsDate(int subGroupId, DateTime date);
     }
 }

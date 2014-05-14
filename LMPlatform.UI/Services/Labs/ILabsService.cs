@@ -25,5 +25,9 @@ namespace LMPlatform.UI.Services.Labs
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Delete")]
         ResultViewData Delete(string id, string subjectId);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveScheduleProtectionDate")]
+        ResultViewData SaveScheduleProtectionDate(string subGroupId, string date);
     }
 }

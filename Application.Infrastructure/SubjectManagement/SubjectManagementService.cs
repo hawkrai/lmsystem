@@ -139,7 +139,7 @@ namespace Application.Infrastructure.SubjectManagement
                 var subjectGroup =
                     repositoriesContainer.SubjectRepository.GetBy(
                         new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId))
-                        .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student))))
+                        .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.ScheduleProtectionLabMarks))))
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.ScheduleProtectionLabs))));
                 return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
             }
@@ -291,6 +291,20 @@ namespace Application.Infrastructure.SubjectManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.RepositoryFor<LecturesVisitMark>().Save(lecturesVisitMarks);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void SaveScheduleProtectionLabsDate(int subGroupId, DateTime date)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.RepositoryFor<ScheduleProtectionLabs>().Save(new ScheduleProtectionLabs
+                                                                         {
+                                                                            SuGroupId    = subGroupId,
+                                                                            Date = date,
+                                                                            Id = 0
+                                                                         });
                 repositoriesContainer.ApplyChanges();
             }
         }
