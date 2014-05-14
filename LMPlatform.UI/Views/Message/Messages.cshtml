@@ -29,8 +29,16 @@
         border-bottom: #ddd solid 1px;
     }
 
+    .ellipsis {
+        overflow: hidden;
+        -moz-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .msg-row {
         height: 45px;
+        cursor: pointer;
     }
 
         .msg-row i.is-read {
@@ -42,12 +50,12 @@
         }
 
         .msg-row td:first-child {
-            width: 55px;
-            -moz-min-width: 50px;
-            -ms-min-width: 50px;
-            -o-min-width: 50px;
-            -webkit-min-width: 50px;
-            min-width: 50px;
+            width: 60px;
+            -moz-min-width: 60px;
+            -ms-min-width: 60px;
+            -o-min-width: 60px;
+            -webkit-min-width: 60px;
+            min-width: 60px;
         }
 
     sub.paperclip {
@@ -61,13 +69,25 @@
     .msg-row .athor-name {
         font-size: 17px;
         max-width: 250px;
+        min-width: 250px;
         width: 250px;
         line-height: 40px;
         overflow: hidden;
-        -moz-text-overflow: ellipsis;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        padding: 0 10px 0 3px;
+        padding: 0 10px 0 0;
+    }
+
+    .msg-row .recip-name {
+        width: 180px;
+        max-width: 180px;
+        float: left;
+    }
+
+    .msg-row .recip-name-add {
+        width: 70px;
+        max-width: 70px;
+        min-width: 70px;
+        color: #008cba;
+        text-decoration: none;
     }
 
     .msg-row .subject {
@@ -111,10 +131,10 @@
     }
 
     .tab-content-wrapper {
-        margin-left: 133px; 
-        border-left: #ddd 1px solid; 
-        padding-left: 35px; 
-        min-height: 150px
+        margin-left: 172px;
+        border-left: #ddd 1px solid;
+        padding-left: 35px;
+        min-height: 150px;
     }
 
     .ng-table-pager {
@@ -124,6 +144,41 @@
     .row {
         padding: 0 10px;
     }
+
+    .display-msg {
+    }
+
+        .display-msg .msg-body {
+            border: solid #ddd 1px;
+            padding: 10px;
+            margin: 10px 0 10px 0;
+            word-wrap: break-word;
+        }
+
+        .display-msg .author-name {
+            font-size: 22px;
+            padding: 5px 0 10px 0;
+        }
+
+        .display-msg label {
+            color: gray;
+            font-size: 15px;
+            padding-right: 10px;
+        }
+
+        .display-msg .recip-name .fa {
+            color: #D1D1D1;
+            margin: 0 3px 0 10px;
+            font-size: 13px;
+        }
+
+        .display-msg .attach-link {
+            padding-right: 15px;
+        }
+
+            .display-msg .attach-link .glyphicon {
+                margin-right: 3px;
+            }
 </style>
 @section navleft
 {
@@ -145,12 +200,12 @@
     </div>
     <div class="row">
         <div class="col-md-12 tabbable tabs-left">
-            <ul class="nav nav-tabs" style="height: 100%;">
+            <ul class="nav nav-tabs" style="width: 173px">
                 <li ng-class="{'active': activeTab === 'inbox'}">
-                    <a ng-click="switchTabTo('inbox')">Входящие</a>
+                    <a ng-click="switchTabTo('inbox')">Входящие ({{inboxMessages.length}})</a>
                 </li>
                 <li ng-class="{'active': activeTab === 'outbox'}">
-                    <a ng-click="switchTabTo('outbox')">Отправленные</a>
+                    <a ng-click="switchTabTo('outbox')">Отправленные ({{outboxMessages.length}})</a>
                 </li>
             </ul>
             <div class="tab-content-wrapper">
@@ -158,31 +213,42 @@
                     <table ng-table="tableParams" style="width: 100%">
                         <tbody>
                             <tr class="msg-row" ng-repeat="msg in $data">
-                                <td>
+                                <td ng-click="show(msg)">
                                     <i ng-class="{'is-read': !msg.IsRead && activeTab === 'inbox'}" class="fa fa-2x  fa-envelope"></i>
-                                    <sub class="paperclip" ng-if="msg.Attachments.length > 0">
-                                        <span ng-if="msg.Attachments.length > 0">
+                                    <sub class="paperclip" ng-if="msg.AttachmentsCount > 0">
+                                        <span>
                                             <i class="glyphicon glyphicon-paperclip"></i>
-                                            {{msg.Attachments.length}}
+                                            {{msg.AttachmentsCount}}
                                         </span>
                                     </sub>
                                 </td>
-                                <td class="athor-name bordered">{{msg.AthorName}}
+                                <td ng-click="show(msg)" class="athor-name bordered ellipsis">
+                                    <span ng-if="activeTab === 'inbox'">{{msg.AthorName}}
+                                    </span>
+                                    <span ng-if="activeTab === 'outbox'">
+                                        <span class="recip-name ellipsis">{{msg.Recipients[0]}}</span>
+                                        <span class="recip-name-add" ng-if="msg.Recipients.length > 1">+ ещё {{msg.Recipients.length - 1}}</span>
+                                    </span>
                                 </td>
-                                <td class="subject bordered">{{msg.Subject}}
+                                <td ng-click="show(msg)" class="subject bordered">{{msg.Subject}}
                                 </td>
-                                <td class="preview-text bordered">{{msg.PreviewText}}
+                                <td ng-click="show(msg)" class="preview-text bordered">{{msg.PreviewText}}
                                 </td>
-                                <td class="date bordered">{{msg.Date}}
+                                <td ng-click="show(msg)" class="date bordered">{{msg.Date}}
                                 </td>
                                 <td class="delete-button">
                                     <a href="#" ng-click="deleteMessage(msg.Id)" title="Удалить">
                                         <span class="fa fa-trash-o fa-2x" />
                                     </a>
                                 </td>
+
                             </tr>
                         </tbody>
                     </table>
+                    <div style="display: none">
+                        <display-message>
+                        </display-message>
+                    </div>
                 </div>
             </div>
         </div>

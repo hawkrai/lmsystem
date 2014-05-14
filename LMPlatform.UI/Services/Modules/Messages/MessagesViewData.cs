@@ -1,7 +1,10 @@
-﻿namespace LMPlatform.UI.Services.Modules.Messages
+﻿using System.Globalization;
+
+namespace LMPlatform.UI.Services.Modules.Messages
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
     using System.ServiceModel.Description;
 
@@ -39,11 +42,14 @@
             AthorName = userMessage.Author.FullName;
             AthorId = userMessage.Author.Id.ToString();
             Subject = userMessage.Message.Subject;
-            Body = userMessage.Message.Text;
-            PreviewText = !string.IsNullOrEmpty(Body) ? Body.Substring(0, Math.Min(Body.Length, 100)) : Body;
+            PreviewText = !string.IsNullOrEmpty(userMessage.Message.Text)
+                ? userMessage.Message.Text.Substring(0, Math.Min(userMessage.Message.Text.Length, 100))
+                : userMessage.Message.Text;
             IsRead = userMessage.IsRead;
-            Attachments = userMessage.Message.Attachments;
-            Date = userMessage.Date.ToString(userMessage.Date.Date == DateTime.Now.Date ? "t" : "d");
+            Date = userMessage.Date.ToString(userMessage.Date.Date == DateTime.Now.Date ? "t" : "d", new CultureInfo("ru-RU"));
+            Recipients = MessageManagementService.GetMessageRecipients(userMessage.MessageId)
+                .Select(e => string.IsNullOrEmpty(e.FullName) ? e.UserName : e.FullName);
+            AttachmentsCount = userMessage.Message.Attachments.Any() ? userMessage.Message.Attachments.Count : 0;
         }
 
         [DataMember]
@@ -54,9 +60,6 @@
 
         [DataMember]
         public string Subject { get; set; }
-
-        [DataMember]
-        public string Body { get; set; }
 
         [DataMember]
         public string PreviewText { get; set; }
@@ -71,10 +74,13 @@
         public int Id { get; set; }
 
         [DataMember]
-        public IEnumerable<Attachment> Attachments
+        public int AttachmentsCount { get; set; }
+
+        [DataMember]
+        public IEnumerable<string> Recipients
         {
             get;
             set;
-        } 
+        }
     }
 }

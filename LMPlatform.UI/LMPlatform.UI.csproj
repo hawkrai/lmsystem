@@ -229,6 +229,8 @@
     <Compile Include="Services\Modules\Lectures\StudentMarkForDate.cs" />
     <Compile Include="Services\Modules\Lectures\StudentMarkForDateResult.cs" />
     <Compile Include="Services\Modules\MarkViewData.cs" />
+    <Compile Include="Services\Modules\Messages\DisplayMessagesResult.cs" />
+    <Compile Include="Services\Modules\Messages\DisplayMessageViewData.cs" />
     <Compile Include="Services\Modules\Messages\MessagesResult.cs" />
     <Compile Include="Services\Modules\Messages\MessagesViewData.cs" />
     <Compile Include="Services\Modules\News\NewsResult.cs" />
@@ -396,6 +398,7 @@
     <Content Include="Content\datepicker.css" />
     <Content Include="Content\font-awesome\font-awesome.css" />
     <Content Include="Content\font-awesome\font-awesome.min.css" />
+    <Content Include="Content\fonts\admin-icons.svg" />
     <Content Include="Content\images\chosen-sprite.png" />
     <Content Include="Content\images\closebox.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
@@ -771,6 +774,9 @@
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\admin-icons.eot" />
+    <Content Include="Content\fonts\admin-icons.ttf" />
+    <Content Include="Content\fonts\admin-icons.woff" />
     <None Include="Properties\PublishProfiles\LMS.pubxml" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />

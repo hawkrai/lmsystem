@@ -31,14 +31,15 @@ namespace LMPlatform.UI.Services.Messages
             {
                 var userId = WebSecurity.CurrentUserId;
                 var model = MessageManagementService.GetUserMessages(userId).DistinctBy(m => m.MessageId).ToList();
-
-                return new MessagesResult
+                var result = new MessagesResult
                     {
                         InboxMessages = model.Where(m => m.AuthorId != userId).Select(e => new MessagesViewData(e)).ToList(),
                         OutboxMessages = model.Where(m => m.AuthorId == userId).Select(e => new MessagesViewData(e)).ToList(),
                         Message = "Сообщения успешно загружены",
                         Code = "200"
                     };
+
+                return result;
             }
             catch (Exception e)
             {
@@ -47,6 +48,39 @@ namespace LMPlatform.UI.Services.Messages
                         Message = "Произошла ошибка при получении сообщений",
                         Code = "500"
                     };
+            }
+        }
+
+        public DisplayMessageResult GetMessage(string id)
+        {
+            try
+            {
+                var userId = WebSecurity.CurrentUserId;
+                var msgId = int.Parse(id);
+
+                var msg = MessageManagementService.GetUserMessage(msgId);
+                if ((msg.AuthorId == userId) || (msg.RecipientId == userId))
+                {
+                    if (msg.RecipientId == userId && !msg.IsRead)
+                    {
+                        MessageManagementService.SetRead(msg.Id);
+                    }
+                }
+
+                return new DisplayMessageResult
+                {
+                    DisplayMessage = new DisplayMessageViewData(msg),
+                    Message = "Сообщение успешно загружено",
+                    Code = "200"
+                };
+            }
+            catch (Exception e)
+            {
+                return new DisplayMessageResult
+                {
+                    Message = "Произошла ошибка при получении сообщения",
+                    Code = "500"
+                };
             }
         }
 

@@ -38,7 +38,7 @@ namespace Application.Infrastructure.MessageManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var recipients = repositoriesContainer.MessageRepository.GetMessageRecipients(messageId);
+                var recipients = repositoriesContainer.MessageRepository.GetMessageRecipients(messageId).ToList();
 
                 return recipients;
             }
