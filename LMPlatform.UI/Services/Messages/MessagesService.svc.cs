@@ -59,12 +59,10 @@ namespace LMPlatform.UI.Services.Messages
                 var msgId = int.Parse(id);
 
                 var msg = MessageManagementService.GetUserMessage(msgId, userId);
-                if ((msg.AuthorId == userId) || (msg.RecipientId == userId))
+
+                if (msg.RecipientId == userId && !msg.IsRead)
                 {
-                    if (msg.RecipientId == userId && !msg.IsRead)
-                    {
-                        MessageManagementService.SetRead(msg.Id);
-                    }
+                    MessageManagementService.SetRead(msg.Id);
                 }
 
                 return new DisplayMessageResult

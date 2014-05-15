@@ -30,7 +30,7 @@ namespace LMPlatform.Data.Repositories
                     .Include("Message.Attachments")
                     .Include("Author.Lecturer")
                     .Include("Author.Student")
-                    .SingleOrDefault(m => m.MessageId == messageId 
+                    .First(m => m.MessageId == messageId 
                         && (m.AuthorId == userId || m.RecipientId == userId) 
                         && (m.DeletedById != userId));
         }
