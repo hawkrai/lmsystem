@@ -82,6 +82,20 @@ namespace LMPlatform.UI.Services.Messages
             }
         }
 
+        public RecipientsResult GetRecipients()
+        {
+            return new RecipientsResult()
+                       {
+                           Recipients = new List<RecipientViewData>()
+                                            {
+                                                new RecipientViewData(0, "Jack"),
+                                                new RecipientViewData(1, "Mike")
+                                            },
+                           Message = "Успешно",
+                           Code = "200"
+                       };
+        }
+
         public ResultViewData Delete(int messageId)
         {
             try

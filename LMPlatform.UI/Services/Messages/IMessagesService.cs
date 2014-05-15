@@ -21,6 +21,10 @@ namespace LMPlatform.UI.Services.Messages
         DisplayMessageResult GetMessage(string id);
 
         [OperationContract]
+        [WebInvoke(UriTemplate = "/GetRecipients/", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+        RecipientsResult GetRecipients();
+
+        [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Delete")]
         ResultViewData Delete(int messageId);
     }

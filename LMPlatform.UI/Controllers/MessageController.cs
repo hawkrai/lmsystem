@@ -52,6 +52,11 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Messages/_DisplayMessage");
         }
 
+        public ActionResult MessageForm()
+        {
+            return PartialView("Messages/_MessageForm");
+        }
+
         [HttpPost]
         public ActionResult WriteMessage(MessageViewModel msg, string itemAttachments)
         {

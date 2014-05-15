@@ -199,7 +199,7 @@
     <div>
         <div id="buttonActionSection">
             <a href="#" class="msg-send msgButton btn btn-primary btn-sm" data-url="@Url.Action("WriteMessage", "Message")" data-toggle="tooltip">Написать</a>
-        </div>
+            <a href="#" class="msgButton btn btn-primary btn-sm" ng-click="showForm()" data-toggle="tooltip">Написать!</a>
     </div>
     <div class="row">
         <div class="col-md-12 tabbable tabs-left">
@@ -249,8 +249,8 @@
                         </tbody>
                     </table>
                     <div style="display: none">
-                        <display-message>
-                        </display-message>
+                        <display-message></display-message>
+                        <message-form></message-form>
                     </div>
                 </div>
             </div>

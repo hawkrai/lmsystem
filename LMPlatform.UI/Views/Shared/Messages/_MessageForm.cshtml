@@ -1,0 +1,37 @@
+﻿@using System.Web.UI.WebControls
+
+<div id="msgForm">
+    @using (Html.BeginForm("WriteMessage", "Message", FormMethod.Post))
+    {
+        <div>
+            <hgroup style="text-align: center; margin-bottom: 20px"></hgroup>
+            <div>
+                <label>Кому:</label>
+                <select data-placeholder="Choose a Recipient" multiple class="span4 chzn-select" chosen="recipientsList"
+                        ng-model="recipients" ng-options="recipient.name for recipient in recipientsList"></select>
+                <p ng-repeat="recipient in recipients"><strong>{{recipient.name}}</strong></p>
+                @*<select data-placeholder="Введите имя получателя..." class="form-control chosen-select-a"></select>*@
+                <p></p>
+            </div>
+            <div>
+                <label>Тема:</label>
+                <input type="text" class="form-control" ng-model="formMsg.Subject" />
+            </div>
+            <div>
+                <label>Сообщение:</label>
+                <textarea class="form-control" ng-model="formMsg.Body"></textarea>
+                <p></p>
+                <p></p>
+            </div>
+            <div style="width: 60%">
+                @Html.Partial("Common/_FilesUploader", new List<LMPlatform.Models.Attachment>())
+            </div>
+            <input type="submit" style="display: none" />
+        </div>
+    }
+    <script type="text/javascript">
+        $('.modal-dialog').width('900px');
+    </script>
+</div>
+
+
