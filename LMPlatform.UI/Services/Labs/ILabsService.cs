@@ -11,6 +11,8 @@ using LMPlatform.UI.Services.Modules.Lectures;
 
 namespace LMPlatform.UI.Services.Labs
 {
+    using LMPlatform.UI.Services.Modules.CoreModels;
+
     [ServiceContract]
     public interface ILabsService
     {
@@ -29,5 +31,17 @@ namespace LMPlatform.UI.Services.Labs
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveScheduleProtectionDate")]
         ResultViewData SaveScheduleProtectionDate(string subGroupId, string date);
+        
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetLabsVisitingData")]
+        List<LabVisitingMarkViewData> GetLabsVisitingData(string dateId, string subGroupId);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveLabsVisitingData")]
+        ResultViewData SaveLabsVisitingData(List<LabVisitingMarkViewData> marks);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveStudentLabsMark")]
+        ResultViewData SaveStudentLabsMark(StudentsViewData student);
     }
 }

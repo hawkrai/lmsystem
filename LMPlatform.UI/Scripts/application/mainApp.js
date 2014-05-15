@@ -1,4 +1,4 @@
-﻿angular.module('mainApp', ['mainApp.controllers', 'ngRoute', 'ui.bootstrap'])
+﻿var app = angular.module('mainApp', ['mainApp.controllers', 'ngRoute', 'ui.bootstrap', 'xeditable'])
     .config(function ($locationProvider) {
     })
     .config(function ($routeProvider, $locationProvider) {
@@ -20,7 +20,10 @@
                 controller: 'PracticalsController'
             });
     });
-angular.module('mainApp.controllers', ['ui.bootstrap'])
+app.run(function (editableOptions) {
+    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});
+angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
     .controller('MainCtrl', function ($scope) {
 
         $scope.today = function () {
@@ -463,6 +466,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
             Id: 0
         };
 
+        $scope.editMarksVisiting = [];
+
         $scope.init = function () {
             $scope.labs = [];
             $scope.loadLabs();
@@ -592,8 +597,40 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
             }
         };
 
-        $scope.editMarks = function(date) {
+        $scope.editVisitingMarks = function (calendar) {
+            $scope.editVisitingDate = calendar.Date;
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLabs + "GetLabsVisitingData",
+                data: {
+                    dateId: calendar.ScheduleProtectionLabId,
+                    subGroupId: calendar.SubGroupId,
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                $scope.editMarksVisiting = data;
+                $('#dialogEditMarksVisiting').modal();
+            });
 
+        };
+
+        $scope.saveMarksVisiting = function () {
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLabs + "SaveLabsVisitingData",
+                data: {
+                    marks: $scope.editMarksVisiting
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    alertify.success(data.Message);
+                    $scope.loadGroups();
+                    $('#dialogEditMarksVisiting').modal('hide');
+                }
+            });
         };
 
         $scope.managementDate = function() {
@@ -621,6 +658,24 @@ angular.module('mainApp.controllers', ['ui.bootstrap'])
                 data: {
                     subGroupId: $scope.selectedSubGroup.SubGroupId,
                     date: date
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.loadGroups();
+                    alertify.success(data.Message);
+                }
+            });
+        };
+
+        $scope.saveMark = function(student) {
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
+                data: {
+                    student: student,
                 },
                 headers: { 'Content-Type': 'application/json' }
             }).success(function (data, status) {

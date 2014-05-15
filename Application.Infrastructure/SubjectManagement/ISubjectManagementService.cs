@@ -47,5 +47,11 @@ namespace Application.Infrastructure.SubjectManagement
         void SaveMarksCalendarData(List<LecturesVisitMark> lecturesVisitMarks);
 
         void SaveScheduleProtectionLabsDate(int subGroupId, DateTime date);
+
+        SubGroup GetSubGroup(int subGroupId);
+
+        void SaveLabsVisitingData(List<ScheduleProtectionLabMark> protectionLabMarks);
+
+        void SaveStudentLabsMark(List<StudentLabMark> studentLabMark);
     }
 }

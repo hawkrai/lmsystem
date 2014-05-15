@@ -140,6 +140,7 @@ namespace Application.Infrastructure.SubjectManagement
                     repositoriesContainer.SubjectRepository.GetBy(
                         new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId))
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.ScheduleProtectionLabMarks))))
+                        .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.StudentLabMarks))))
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.ScheduleProtectionLabs))));
                 return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
             }
@@ -305,6 +306,34 @@ namespace Application.Infrastructure.SubjectManagement
                                                                             Date = date,
                                                                             Id = 0
                                                                          });
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public SubGroup GetSubGroup(int subGroupId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return
+                    repositoriesContainer.RepositoryFor<SubGroup>().GetBy(new Query<SubGroup>(e => e.Id == subGroupId)
+                    .Include(e => e.SubjectStudents.Select(x => x.Student.ScheduleProtectionLabMarks)));
+            }
+        }
+
+        public void SaveLabsVisitingData(List<ScheduleProtectionLabMark> protectionLabMarks)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.RepositoryFor<ScheduleProtectionLabMark>().Save(protectionLabMarks);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void SaveStudentLabsMark(List<StudentLabMark> studentLabMark)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.RepositoryFor<StudentLabMark>().Save(studentLabMark);
                 repositoriesContainer.ApplyChanges();
             }
         }

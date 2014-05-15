@@ -16,6 +16,8 @@ namespace LMPlatform.UI.Services.Labs
 {
     using System.Globalization;
 
+    using LMPlatform.UI.Services.Modules.CoreModels;
+
     public class LabsService : ILabsService
     {
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
@@ -103,6 +105,62 @@ namespace LMPlatform.UI.Services.Labs
                 return new ResultViewData()
                 {
                     Message = "Произошла ошибка при добавлении даты",
+                    Code = "500"
+                };
+            }
+        }
+
+        public List<LabVisitingMarkViewData> GetLabsVisitingData(string dateId, string subGroupId)
+        {
+            try
+            {
+                var subGroup = SubjectManagementService.GetSubGroup(int.Parse(subGroupId));
+                var model = subGroup.SubjectStudents.Select(e => new LabVisitingMarkViewData(e.Student, int.Parse(dateId))).ToList();
+                return model;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public ResultViewData SaveLabsVisitingData(List<LabVisitingMarkViewData> marks)
+        {
+            try
+            {
+                SubjectManagementService.SaveLabsVisitingData(marks.Select(e => new ScheduleProtectionLabMark { Id = e.LabVisitingMarkId, Comment = e.Comment, Mark = e.Mark, StudentId = e.StudentId, ScheduleProtectionLabId = e.ScheduleProtectionLabId }).ToList());
+                return new ResultViewData()
+                {
+                    Message = "Данные успешно добавлена",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при добавлении данных",
+                    Code = "500"
+                };
+            }
+        }
+
+        public ResultViewData SaveStudentLabsMark(StudentsViewData student)
+        {
+            try
+            {
+                SubjectManagementService.SaveStudentLabsMark(student.StudentLabMarks.Select(e => new StudentLabMark { Id = e.StudentLabMarkId, LabId = e.LabId, StudentId = e.StudentId, Mark = e.Mark }).ToList());
+                return new ResultViewData()
+                {
+                    Message = "Данные успешно добавлена",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при добавлении данных",
                     Code = "500"
                 };
             }

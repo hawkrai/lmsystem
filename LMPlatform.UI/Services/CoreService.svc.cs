@@ -54,6 +54,8 @@ namespace LMPlatform.UI.Services
 
                 var model = new List<GroupsViewData>();
 
+                var labsData = SubjectManagementService.GetSubject(int.Parse(subjectId)).Labs.OrderBy(e => e.Order).ToList();
+
                 foreach (Group group in groups)
                 {
                     IList<SubGroup> subGroups = this.SubjectManagementService.GetSubGroups(id, group.Id);
@@ -102,10 +104,8 @@ namespace LMPlatform.UI.Services
                         });
                     }
 
-                    var labs = SubjectManagementService.GetSubject(int.Parse(subjectId)).Labs.OrderBy(e => e.Order);
-
                     //first subGroupLabs
-                    var labsFirstSubGroup = labs.Select(e => new LabsViewData
+                    var labsFirstSubGroup = labsData.Select(e => new LabsViewData
                     {
                         Theme = e.Theme,
                         Order = e.Order,
@@ -139,7 +139,7 @@ namespace LMPlatform.UI.Services
                     }
 
                     //second subGroupLabs
-                    var labsSecondSubGroup = labs.Select(e => new LabsViewData
+                    var labsSecondSubGroup = labsData.Select(e => new LabsViewData
                     {
                         Theme = e.Theme,
                         Order = e.Order,
@@ -186,7 +186,7 @@ namespace LMPlatform.UI.Services
                                                              Labs = labsFirstSubGroup,
                                                              ScheduleProtectionLabs = subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
                                                              SubGroupId = subGroups.FirstOrDefault().Id,
-                                                             Students = subGroups.FirstOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student, subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList())).ToList()
+                                                             Students = subGroups.FirstOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student, subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), labsData)).ToList()
                                                          }
                                                          : null,
                                       SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
@@ -196,7 +196,7 @@ namespace LMPlatform.UI.Services
                                                               Labs = labsSecondSubGroup,
                                                               ScheduleProtectionLabs = subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
                                                               SubGroupId = subGroups.LastOrDefault().Id,
-                                                              Students = subGroups.LastOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student, subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList())).ToList()
+                                                              Students = subGroups.LastOrDefault().SubjectStudents.Select(e => new StudentsViewData(e.Student, subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), labsData)).ToList()
                                                           }
                                                           : null
                                   });

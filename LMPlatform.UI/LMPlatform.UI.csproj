@@ -211,6 +211,7 @@
     </Compile>
     <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsViewData.cs" />
+    <Compile Include="Services\Modules\CoreModels\StudentLabMarkViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\SubGroupsViewData.cs" />
     <Compile Include="Services\Modules\Labs\LabsResult.cs" />
@@ -501,6 +502,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\wysiwyg-color.css" />
+    <Content Include="Content\xeditable.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -922,6 +924,7 @@
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
+    <Content Include="Scripts\xeditable.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Services\CoreService.svc" />
     <Content Include="Services\Messages\MessagesService.svc" />

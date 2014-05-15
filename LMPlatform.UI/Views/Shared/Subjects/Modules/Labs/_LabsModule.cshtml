@@ -117,8 +117,8 @@
                     <tr ng-repeat="student in selectedSubGroup.Students">
                         <td style="width: 40px">{{student.StudentId}}</td>
                         <td style="max-width: 200px">{{student.FullName}}</td>
-                        <td ng-repeat="data in student.LabVisitingMark">
-                            {{data.Marks}}
+                        <td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark">
+                            {{data.Mark}}
                         </td>
                     </tr>
                 </table>
@@ -130,7 +130,10 @@
                     <tbody>
                         <tr>
                             <td>
-                                <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups()" class="form-control"></select>
+                                <select ng-model="selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(selectedGroup)" class="form-control"></select>
+                            </td>
+                            <td>
+                                <select ng-model="selectedSubGroup" ng-options="subGroup.Name for subGroup in subGroups" class="form-control"></select>
                             </td>
                         </tr>
                     </tbody>
@@ -142,11 +145,29 @@
                         <tr>
                             <th>#</th>
                             <th>Студент</th>
+                            <th ng-repeat="lab in selectedSubGroup.Labs">
+                                {{lab.ShortName}}
+                            </th>
+                            <th style="width:100px">Действие</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="student in selectedGroup.Students">
+                    <tr ng-repeat="student in selectedSubGroup.Students">
                         <td style="width: 40px">{{student.StudentId}}</td>
                         <td style="max-width: 200px">{{student.FullName}}</td>
+                        <td style="width: 50px" ng-repeat="mark in student.StudentLabMarks">
+                            <span editable-text="mark.Mark" e-name="Mark" e-form="rowform">
+                                {{ mark.Mark || 'empty' }}
+                            </span>
+                        </td>
+                        <td style="width: 100px">
+                            <form editable-form name="rowform" onaftersave="saveMark(student)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == student">
+                                <a onclick="$(this).closest('form').submit()" style="margin-right: 10px" ng-disabled="rowform.$waiting"><i class="fa fa-check-circle fa-2x"></i></a>
+                                <a style="margin-right: 10px" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()"><i class="fa fa-times-circle fa-2x"></i></a>
+                            </form>
+                            <div ng-show="!rowform.$visible">
+                                <a style="margin-right: 10px" ng-click="rowform.$show()"><i class="fa fa-edit fa-2x"></i></a>
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -190,7 +211,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="dialogmanagementData" class="modal">
         <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
             <div class="panel-heading">
@@ -223,6 +244,36 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialogEditMarksVisiting" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{editVisitingDate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div style="max-height: 600px; overflow-y: auto">
+                    <table class="table table-bordered table-striped">
+                        <tr ng-repeat="data in editMarksVisiting">
+                            <td>
+                                <p>{{data.StudentName}}</p>
+                            </td>
+                            <td>
+                                <input ng-model="data.Mark" class="form-control" style="width: 50px; text-align: center" maxlength="1" />
+                            </td>
+                            <td>
+                                <input ng-model="data.Comment" class="form-control" style="width: 50px; text-align: center" maxlength="1" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
+                <a href="#" class="btn btn-primary btn-sm" id="saveButton" ng-click="saveMarksVisiting()" data-dismiss="modal">Сохранить</a>
             </div>
         </div>
     </div>
