@@ -1,0 +1,41 @@
+﻿<div id="displayMsg">
+    <div class="display-msg">
+        <div class="author-name">{{displayMessage.AthorName}}</div>
+        <div>
+            <label>Отправлено:</label>{{displayMessage.Date}}
+        </div>
+        <div>
+            <label>Кому:</label>
+            <span class="recip-name" ng-repeat="name in displayMessage.Recipients"><i class="fa fa-user"></i>{{name}}</span>
+        </div>
+        <div>
+            <span class="attach-link" ng-repeat="attach in displayMessage.Attachments">
+                <a href="/api/Upload/DowloadFile?fileName={{attach.PathName}}/{{attach.FileName}}">
+                    <span class="glyphicon glyphicon-paperclip"></span>
+                    {{attach.Name}}
+                </a>
+            </span>
+        </div>
+        <div class="msg-body">
+            {{displayMessage.Body}}
+        </div>
+    </div>
+</div>
+
+@*    @if (WebSecurity.CurrentUserId != Model.AuthorId)
+    {
+    
+        <div class="msg-replay">
+            <a class="bootbox-close-button replay" data-url="@Url.Action("WriteMessage", "Message", new { id = Model.AuthorId, resubject = Model.Subject })" href="" >
+                <span class="glyphicon glyphicon-share-alt "></span>
+                Ответить
+            </a>
+        </div>
+    }
+
+<script type="text/javascript">
+    $('.modal-dialog').width('900px');
+    $(".replay").on('click', function () {
+        getMessageForm($(this).data('url'));
+    });
+</script>*@

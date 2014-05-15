@@ -527,6 +527,7 @@
     <Content Include="Scripts\application\BTS\project.js" />
     <Content Include="Scripts\application\BTS\projectPart.js" />
     <Content Include="Scripts\application\BTS\studentProjectTable.js" />
+    <Content Include="Scripts\application\adminModule.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\DP\controllers\homeController.js" />
@@ -1015,7 +1016,7 @@
     <Content Include="Views\Tests\_TestUnlocksSelectorResult.cshtml" />
     <Content Include="Views\Tests\EditorTemplates\TestUnlockInfo.cshtml" />
     <Content Include="Views\Shared\_MessageDisplayRow.cshtml" />
-    <Content Include="Views\Shared\Common\_DisplayMessage.cshtml" />
+    <Content Include="Views\Shared\Messages\_DisplayMessage.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsModule.cshtml" />
     <Content Include="Views\BTS\_AddOrEditBugForm.cshtml" />
     <Content Include="Views\BTS\_AddOrEditProjectForm.cshtml" />

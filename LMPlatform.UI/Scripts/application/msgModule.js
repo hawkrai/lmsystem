@@ -122,26 +122,7 @@ msgApp
 .directive('displayMessage', function () {
     return {
         restrict: 'E',
-        template: '<div id="displayMsg">'
-                        + '<div class="display-msg">'
-                                + '<div class="author-name">{{displayMessage.AthorName}}</div>'
-                                + '<div><label>Отправлено:</label>{{displayMessage.Date}}</div>'
-                                + '<div><label>Кому:</label>'
-                                    + '<span class="recip-name" ng-repeat="name in displayMessage.Recipients"><i class="fa fa-user"></i>{{name}}</span>'
-                                + '</div>'
-                                + '<div>'
-                                    + '<span class="attach-link" ng-repeat="attach in displayMessage.Attachments">'
-                                        + '<a  href="/api/Upload/DowloadFile?fileName={{attach.PathName}}/{{attach.FileName}}">'
-                                            + '<span class="glyphicon glyphicon-paperclip"></span>'
-                                            + '{{attach.Name}}'
-                                        + '</a>'
-                                    + '</span>'
-                                + '</div>'
-                                + '<div class="msg-body">'
-                                    + '{{displayMessage.Body}}'
-                                + '</div>'
-                        + '</div>' +
-                  '</div>'
+        templateUrl: 'Message/DisplayMessage'
     };
 });
 

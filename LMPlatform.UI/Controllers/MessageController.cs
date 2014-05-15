@@ -47,15 +47,9 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Common/_MessageForm", messageViewModel);
         }
 
-        public ActionResult ViewMessage(int id)
+        public ActionResult DisplayMessage()
         {
-            var model = new DisplayMessageViewModel(id);
-            if (WebSecurity.CurrentUserId != model.AuthorId)
-            {
-                MessageManagementService.SetRead(model.UserMessageId);
-            }
-
-            return PartialView("Common/_DisplayMessage", model);
+            return PartialView("Messages/_DisplayMessage");
         }
 
         [HttpPost]
