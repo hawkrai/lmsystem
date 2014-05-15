@@ -253,6 +253,7 @@
     <Compile Include="ViewModels\AdministrationViewModels\LecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ModifyLecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModels\AttendanceViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\UserActivityViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\AddOrEditBugViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\AddOrEditProjectViewModel.cs" />
@@ -1055,6 +1056,7 @@
     <Content Include="Views\DP\Project.cshtml" />
     <Content Include="Views\BTS\_studentProjectsList.cshtml" />
     <Content Include="Views\BTS\_ChatForm.cshtml" />
+    <Content Include="Views\Administration\_AttendanceView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -23,7 +23,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
     [DisplayName("Последний вход")]
     public string LastLogin { get; set; }
 
-    [DisplayName("")]
+    [DisplayName("Действие")]
     public HtmlString HtmlLinks { get; set; }
 
     public int Id { get; set; }

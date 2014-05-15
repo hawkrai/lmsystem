@@ -49,6 +49,11 @@ namespace Application.Infrastructure.UserManagement
             return null;
         }
 
+        public User GetUser(int id)
+        {
+            return UsersRepository.GetBy(new Query<User>(u => u.Id == id));
+        }
+
         public bool IsExistsUser(string userName)
         {
             if (UsersRepository.GetAll().Any(e => e.UserName == userName))
@@ -112,6 +117,9 @@ namespace Application.Infrastructure.UserManagement
             var user = GetUser(userName);
             var now = DateTime.Now;
             user.LastLogin = now;
+            var attendanceList = user.AttendanceList;
+            attendanceList.Add(now);
+            user.AttendanceList = attendanceList;
             UsersRepository.Save(user, u => u.LastLogin == now);
         }
     }

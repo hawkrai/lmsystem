@@ -43,7 +43,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         [DisplayName("Количество студентов")]
         public int StudentsCount { get; set; }
 
-        [DisplayName("")]
+        [DisplayName("Действие")]
         public HtmlString HtmlLinks { get; set; }
 
         public int Id { get; set; }

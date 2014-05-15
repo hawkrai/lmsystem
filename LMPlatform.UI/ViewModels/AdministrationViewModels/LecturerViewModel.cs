@@ -31,7 +31,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
         private string MiddleName { get; set; }
 
-        [DisplayName("")]
+        [DisplayName("Действие")]
         public HtmlString HtmlLinks { get; set; }
 
         public int Id { get; set; }

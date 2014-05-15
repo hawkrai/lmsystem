@@ -184,7 +184,10 @@
 {
     <li>
         <a href="@(Request.UrlReferrer != null && !string.IsNullOrEmpty(Request.UrlReferrer.ToString()) ? Request.UrlReferrer.ToString() : "/")" style="font-size: 17px">
-            <i class="fa fa-reply fa-1x fa-tab"></i>Вернуться
+            <i class="fa fa-arrow-left fa-1x fa-tab"></i>Назад
+        </a>
+        <a href="/" style="font-size: 17px">
+            <i class="fa fa-reply fa-1x fa-tab"></i>В главное меню
         </a>
     </li>
 }

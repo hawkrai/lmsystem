@@ -291,12 +291,26 @@ namespace LMPlatform.UI.Controllers
             }
         }
 
+        public ActionResult Attendance(int id)
+        {
+            var user = UsersManagementService.GetUser(id);
+
+            if (user != null)
+            {
+                var model = new AttendanceViewModel();
+                return PartialView("_AttendanceView", model);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public DataTablesResult<StudentViewModel> GetCollectionStudents(DataTablesParam dataTableParam)
         {
             var searchString = dataTableParam.GetSearchString();
             ViewBag.EditActionLink = "/Administration/EditStudent";
             ViewBag.DeleteActionLink = "/Administration/DeleteUser";
+            ViewBag.StatActionLink = "/Administration/Attendance";
             var students = StudentManagementService.GetStudentsPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
             return DataTableExtensions.GetResults(students.Items.Select(s => StudentViewModel.FromStudent(s, PartialViewToString("_EditGlyphLinks", s.Id))), dataTableParam, students.TotalCount);
         }
@@ -307,6 +321,7 @@ namespace LMPlatform.UI.Controllers
             var searchString = dataTableParam.GetSearchString();
             ViewBag.EditActionLink = "/Administration/EditProfessor";
             ViewBag.DeleteActionLink = "/Administration/DeleteUser";
+            ViewBag.StatActionLink = "/Administration/Attendance";
             var lecturers = LecturerManagementService.GetLecturersPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
             return DataTableExtensions.GetResults(lecturers.Items.Select(l => LecturerViewModel.FormLecturers(l, PartialViewToString("_EditGlyphLinks", l.Id))), dataTableParam, lecturers.TotalCount);
         }

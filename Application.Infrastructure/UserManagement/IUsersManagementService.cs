@@ -10,6 +10,8 @@ namespace Application.Infrastructure.UserManagement
 	{
         User GetUser(string userName);
 
+        User GetUser(int id);
+
         bool IsExistsUser(string userName);
 
         User CurrentUser { get; }

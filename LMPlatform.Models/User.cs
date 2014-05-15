@@ -6,6 +6,8 @@ using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.Models
 {
+    using Newtonsoft.Json;
+
     public class User : ModelBase
     {
         public string UserName
@@ -84,6 +86,31 @@ namespace LMPlatform.Models
         {
             get;
             set;
+        }
+
+        public virtual string Attendance
+        {
+            get;
+            set;
+        }
+
+        [NotMapped]
+        public List<DateTime> AttendanceList
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Attendance))
+                {
+                    return (List<DateTime>)JsonConvert.DeserializeObject(Attendance, (new List<DateTime>()).GetType());
+                }
+
+                return new List<DateTime>();
+            }
+
+            set
+            {
+                Attendance = JsonConvert.SerializeObject(value);
+            }
         }
 
         [NotMapped]

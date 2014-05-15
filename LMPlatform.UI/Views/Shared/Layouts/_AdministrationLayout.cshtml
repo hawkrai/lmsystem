@@ -44,30 +44,37 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="@Html.ActivePage("Administration", "Professors")">
-                        <a href =" @Url.Action("Professors", "Administration")">
-                            <span class="admin-icon icon-study"></span>
-                            <span class="nav-item">Преподаватели</span>
-                        </a>
-                    </li>
-                    <li class="@Html.ActivePage("Administration", "Students")">
-                        <a href =" @Url.Action("Students", "Administration", new { id = string.Empty })">
-                            <span class="admin-icon icon-users"></span>
-                            <span class="nav-item">Студенты</span>
-                        </a>
-                    </li>
-                    <li class="@Html.ActivePage("Administration", "Groups")">
-                        <a href =" @Url.Action( "Groups", "Administration")">
-                            <span class="admin-icon icon-users2"></span>
-                            <span class="nav-item">Группы</span>
-                        </a>
-                    </li>
-                    <li class="@Html.ActivePage("Administration", "Files")">
-                        <a href =" @Url.Action( "Files", "Administration")">
-                            <span class="admin-icon icon-upload"></span>
-                            <span class="nav-item">Файлы</span>
-                        </a>
-                    </li>
+                    @if (IsSectionDefined("navleft"))
+                    {
+                        @RenderSection("navleft", false)
+                    }
+                    else
+                    {
+                        <li class="@Html.ActivePage("Administration", "Professors")">
+                            <a href="@Url.Action("Professors", "Administration")">
+                                <span class="admin-icon icon-study"></span>
+                                <span class="nav-item">Преподаватели</span>
+                            </a>
+                        </li>
+                        <li class="@Html.ActivePage("Administration", "Students")">
+                            <a href="@Url.Action("Students", "Administration", new { id = string.Empty })">
+                                <span class="admin-icon icon-users"></span>
+                                <span class="nav-item">Студенты</span>
+                            </a>
+                        </li>
+                        <li class="@Html.ActivePage("Administration", "Groups")">
+                            <a href="@Url.Action( "Groups", "Administration")">
+                                <span class="admin-icon icon-users2"></span>
+                                <span class="nav-item">Группы</span>
+                            </a>
+                        </li>
+                        <li class="@Html.ActivePage("Administration", "Files")">
+                            <a href="@Url.Action( "Files", "Administration")">
+                                <span class="admin-icon icon-upload"></span>
+                                <span class="nav-item">Файлы</span>
+                            </a>
+                        </li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
@@ -79,19 +86,21 @@
         </nav>
         @RenderSection("featured", required: false)
         @RenderSection("specificScripts", required: false)
-        <div style="padding: 15px 40px">
+        <div style="padding: 80px 30px">
             @RenderSection("scripts", false)
-            <div style="padding-top: 40px">
-                @if (IsSectionDefined("title"))
-                {
-                    <div class="page-header">
-                        <h2>@RenderSection("title", false)</h2>
+            <section class="well">
+                <div style="padding: 0 10px">
+                    @if (IsSectionDefined("title"))
+                    {
+
+                        <h3>@RenderSection("title", false)</h3>
+                        <hr>
+                    }
+                    <div style="margin: 5px">
+                        @RenderBody()
                     </div>
-                }
-                <div style="margin: 5px">
-                    @RenderBody()
                 </div>
-            </div>
+            </section>
         </div>
 
         <footer>

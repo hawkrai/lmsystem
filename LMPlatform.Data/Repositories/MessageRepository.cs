@@ -22,7 +22,20 @@ namespace LMPlatform.Data.Repositories
             return userMessages;
         }
 
-        public UserMessages GetUserMessagesById(int userMessagesId)
+        public UserMessages GetUserMessage(int messageId, int userId)
+        {
+            return
+                DataContext.Set<UserMessages>()
+                    .Include("Message")
+                    .Include("Message.Attachments")
+                    .Include("Author.Lecturer")
+                    .Include("Author.Student")
+                    .SingleOrDefault(m => m.MessageId == messageId 
+                        && (m.AuthorId == userId || m.RecipientId == userId) 
+                        && (m.DeletedById != userId));
+        }
+
+        public UserMessages GetUserMessage(int userMessagesId)
         {
             return
                 DataContext.Set<UserMessages>()

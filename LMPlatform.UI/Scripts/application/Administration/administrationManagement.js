@@ -5,12 +5,14 @@
 function initStudentManagement() {
     initManagement(".editButton", "Редактировать", "Редактирование студента", "#studentList");
     initDeleteDialog(".deleteButton", "Удалить", "Удаление студента", "#studentList");
+    initStatDialog(".statButton", "Статистика посещаемости");
 };
 
 function initLecturerManagement() {
     initManagement(".editButton", "Редактировать", "Редактирование преподавателя", "#professorsList");
     initManagement(".addButton", "Добавить преподавателя", "Добавление преподавателя", "#professorsList");
     initDeleteDialog(".deleteButton", "Удалить", "Удаление преподавателя", "#professorsList");
+    initStatDialog(".statButton", "Статистика посещаемости");
 };
 
 function initGroupManagement() {
@@ -33,6 +35,23 @@ function initManagement(btnSelector, btnTooltipTitle, saveDialogTitle, updateTab
         return false;
     });
 };
+
+function initStatDialog(btnSelector, btnTooltipTitle) {
+    var btn = $(btnSelector);
+    btn.tooltip({ title: btnTooltipTitle, placement: 'right' });
+
+    btn.handle("click", function () {
+        var actionUrl = $(this).attr('href');
+        $.get(actionUrl, {},
+          function (data) {
+              bootbox.dialog({
+                  message: data,
+                  title: "Статистика посещаемости",
+              });
+          });
+    });
+}
+
 
 function initDeleteDialog(btnSelector, btnTooltipTitle, saveDialogTitle, updateTableId) {
     var btn = $(btnSelector);

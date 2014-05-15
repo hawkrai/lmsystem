@@ -42,7 +42,15 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
     {
       if (student != null)
       {
-        Group = student.Group.Id.ToString(CultureInfo.InvariantCulture);
+          if (student.GroupId == 0)
+          {
+              Group = StudentManagementService.GetStudent(student.Id).GroupId.ToString(CultureInfo.InvariantCulture);
+          }
+          else
+          {
+              Group = student.GroupId.ToString(CultureInfo.InvariantCulture);
+          }
+         
         Name = student.FirstName;
         Surname = student.LastName;
         Patronymic = student.MiddleName;

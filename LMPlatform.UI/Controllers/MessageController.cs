@@ -22,6 +22,11 @@ namespace LMPlatform.UI.Controllers
     {
         public ActionResult Index()
         {
+            if (User.IsInRole(Constants.Roles.Admin))
+            {
+                return View("Messages", "Layouts/_AdministrationLayout");
+            }
+
             return View("Messages", "Layouts/_MainUsingNavLayout");
         }
 

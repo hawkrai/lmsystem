@@ -182,7 +182,7 @@ namespace Application.Infrastructure.MessageManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var message = repositoriesContainer.MessageRepository.GetUserMessagesById(userMessageId);
+                var message = repositoriesContainer.MessageRepository.GetUserMessage(userMessageId);
                 message.IsRead = true;
                 repositoriesContainer.ApplyChanges();
                 return message;
@@ -193,7 +193,16 @@ namespace Application.Infrastructure.MessageManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var message = repositoriesContainer.MessageRepository.GetUserMessagesById(userMessageId);
+                var message = repositoriesContainer.MessageRepository.GetUserMessage(userMessageId);
+                return message;
+            }
+        }
+
+        public UserMessages GetUserMessage(int messageId, int userId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var message = repositoriesContainer.MessageRepository.GetUserMessage(messageId, userId);
                 return message;
             }
         }
