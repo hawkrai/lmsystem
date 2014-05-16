@@ -1,5 +1,12 @@
 ﻿@using System.Web.UI.WebControls
 
+<div class="modal-header">
+    <button type="button" ng-click="cancel()" class="close">×</button>
+    <h4 class="modal-title">
+        <i class="fa fa-envelope"></i>
+        Отправка сообщения
+    </h4>
+</div>
 <div id="msgForm">
     @using (Html.BeginForm("WriteMessage", "Message", FormMethod.Post))
     {
@@ -7,8 +14,9 @@
             <hgroup style="text-align: center; margin-bottom: 20px"></hgroup>
             <div>
                 <label>Кому:</label>
-                <select data-placeholder="Choose a Recipient" multiple class="span4 chzn-select" chosen="recipientsList"
-                        ng-model="recipients" ng-options="recipient.name for recipient in recipientsList"></select>
+                <select data-placeholder="Введите имя получателя..." multiple class="span4 chzn-select" ajax-chosen="recipientsList" chosen="recipientsList"
+                    ng-model="recipients" ng-options="recipient.text for recipient in recipientsList">
+                </select>
                 <p ng-repeat="recipient in recipients"><strong>{{recipient.name}}</strong></p>
                 @*<select data-placeholder="Введите имя получателя..." class="form-control chosen-select-a"></select>*@
                 <p></p>
@@ -29,9 +37,11 @@
             <input type="submit" style="display: none" />
         </div>
     }
-    <script type="text/javascript">
-        $('.modal-dialog').width('900px');
-    </script>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
 </div>
 
 

@@ -1,4 +1,11 @@
-﻿<div id="displayMsg">
+﻿<div class="modal-header">
+    <button type="button" ng-click="cancel()" class="close">×</button>
+    <h4 class="modal-title">
+        <i class="fa fa-envelope"></i>
+        {{displayMessage.Subject}}
+    </h4>
+</div>
+<div id="displayMsg">
     <div class="display-msg">
         <div class="author-name">{{displayMessage.AthorName}}</div>
         <div>
@@ -21,6 +28,10 @@
         </div>
     </div>
 </div>
+@*<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>*@
 
 @*    @if (WebSecurity.CurrentUserId != Model.AuthorId)
     {

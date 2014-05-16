@@ -146,6 +146,7 @@
     }
 
     .display-msg {
+        padding: 10px 20px;
     }
 
         .display-msg .msg-body {
@@ -200,60 +201,57 @@
         <div id="buttonActionSection">
             <a href="#" class="msg-send msgButton btn btn-primary btn-sm" data-url="@Url.Action("WriteMessage", "Message")" data-toggle="tooltip">Написать</a>
             <a href="#" class="msgButton btn btn-primary btn-sm" ng-click="showForm()" data-toggle="tooltip">Написать!</a>
-    </div>
-    <div class="row">
-        <div class="col-md-12 tabbable tabs-left">
-            <ul class="nav nav-tabs" style="width: 173px">
-                <li ng-class="{'active': activeTab === 'inbox'}">
-                    <a ng-click="switchTabTo('inbox')">Входящие ({{inboxMessages.length}})</a>
-                </li>
-                <li ng-class="{'active': activeTab === 'outbox'}">
-                    <a ng-click="switchTabTo('outbox')">Отправленные ({{outboxMessages.length}})</a>
-                </li>
-            </ul>
-            <div class="tab-content-wrapper">
-                <div class="tab-content" style="width: 100%">
-                    <table ng-table="tableParams" style="width: 100%">
-                        <tbody>
-                            <tr class="msg-row" ng-repeat="msg in $data">
-                                <td ng-click="show(msg)">
-                                    <i ng-class="{'is-read': !msg.IsRead && activeTab === 'inbox'}" class="fa fa-2x  fa-envelope"></i>
-                                    <sub class="paperclip" ng-if="msg.AttachmentsCount > 0">
-                                        <span>
-                                            <i class="glyphicon glyphicon-paperclip"></i>
-                                            {{msg.AttachmentsCount}}
-                                        </span>
-                                    </sub>
-                                </td>
-                                <td ng-click="show(msg)" class="athor-name bordered ellipsis">
-                                    <span ng-if="activeTab === 'inbox'">{{msg.AthorName}}
-                                    </span>
-                                    <span ng-if="activeTab === 'outbox'">
-                                        <span class="recip-name ellipsis">{{msg.Recipients[0]}}</span>
-                                        <span class="recip-name-add" ng-if="msg.Recipients.length > 1">+ ещё {{msg.Recipients.length - 1}}</span>
-                                    </span>
-                                </td>
-                                <td ng-click="show(msg)" class="subject bordered">{{msg.Subject}}
-                                </td>
-                                <td ng-click="show(msg)" class="preview-text bordered">{{msg.PreviewText}}
-                                </td>
-                                <td ng-click="show(msg)" class="date bordered">{{msg.Date}}
-                                </td>
-                                <td class="delete-button">
-                                    <a href="#" ng-click="deleteMessage(msg.Id)" title="Удалить">
-                                        <span class="fa fa-trash-o fa-2x" />
-                                    </a>
-                                </td>
 
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div style="display: none">
-                        <display-message></display-message>
-                        <message-form></message-form>
+        </div>
+        <div class="row">
+            <div class="col-md-12 tabbable tabs-left">
+                <ul class="nav nav-tabs" style="width: 173px">
+                    <li ng-class="{'active': activeTab === 'inbox'}">
+                        <a ng-click="switchTabTo('inbox')">Входящие ({{inboxMessages.length}})</a>
+                    </li>
+                    <li ng-class="{'active': activeTab === 'outbox'}">
+                        <a ng-click="switchTabTo('outbox')">Отправленные ({{outboxMessages.length}})</a>
+                    </li>
+                </ul>
+                <div class="tab-content-wrapper">
+                    <div class="tab-content" style="width: 100%">
+                        @*                     <div ng-show="selected">Selection from a modal: {{ selected }}</div>*@
+                        <table ng-table="tableParams" style="width: 100%">
+                            <tbody>
+                                <tr class="msg-row" ng-repeat="msg in $data">
+                                    <td ng-click="openMsg(msg)">
+                                        <i ng-class="{'is-read': !msg.IsRead && activeTab === 'inbox'}" class="fa fa-2x  fa-envelope"></i>
+                                        <sub class="paperclip" ng-if="msg.AttachmentsCount > 0">
+                                            <span>
+                                                <i class="glyphicon glyphicon-paperclip"></i>
+                                                {{msg.AttachmentsCount}}
+                                            </span>
+                                        </sub>
+                                    </td>
+                                    <td ng-click="openMsg(msg)" class="athor-name bordered ellipsis">
+                                        <span ng-if="activeTab === 'inbox'">{{msg.AthorName}}
+                                        </span>
+                                        <span ng-if="activeTab === 'outbox'">
+                                            <span class="recip-name ellipsis">{{msg.Recipients[0]}}</span>
+                                            <span class="recip-name-add" ng-if="msg.Recipients.length > 1">+ ещё {{msg.Recipients.length - 1}}</span>
+                                        </span>
+                                    </td>
+                                    <td ng-click="openMsg(msg)" class="subject bordered">{{msg.Subject}}
+                                    </td>
+                                    <td ng-click="openMsg(msg)" class="preview-text bordered">{{msg.PreviewText}}
+                                    </td>
+                                    <td ng-click="openMsg(msg)" class="date bordered">{{msg.Date}}
+                                    </td>
+                                    <td class="delete-button">
+                                        <a href="#" ng-click="deleteMessage(msg.Id)" title="Удалить">
+                                            <span class="fa fa-trash-o fa-2x" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
