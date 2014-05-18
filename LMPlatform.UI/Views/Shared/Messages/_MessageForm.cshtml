@@ -7,27 +7,24 @@
         Отправка сообщения
     </h4>
 </div>
-<div id="msgForm">
+<div class="form-msg" id="msgForm">
     @using (Html.BeginForm("WriteMessage", "Message", FormMethod.Post))
     {
         <div>
             <hgroup style="text-align: center; margin-bottom: 20px"></hgroup>
             <div>
-                <label>Кому:</label>
-                <select data-placeholder="Введите имя получателя..." multiple class="span4 chzn-select" ajax-chosen="recipientsList" chosen="recipientsList"
-                    ng-model="recipients" ng-options="recipient.text for recipient in recipientsList">
-                </select>
-                <p ng-repeat="recipient in recipients"><strong>{{recipient.name}}</strong></p>
-                @*<select data-placeholder="Введите имя получателя..." class="form-control chosen-select-a"></select>*@
+                <label>Кому</label>
+                <select data-placeholder="Введите имя получателя..." multiple class="span4" ajax-chosen="recipientsList" chosen="recipientsList"
+                        ng-options="recipient.text for recipient in recipientsList"></select>
                 <p></p>
             </div>
             <div>
-                <label>Тема:</label>
-                <input type="text" class="form-control" ng-model="formMsg.Subject" />
+                <label>Тема</label>
+                <input type="text" class="form-control" ng-model="formMsg.subject" />
             </div>
             <div>
-                <label>Сообщение:</label>
-                <textarea class="form-control" ng-model="formMsg.Body"></textarea>
+                <label>Сообщение</label>
+                <textarea class="form-control" ng-model="formMsg.body"></textarea>
                 <p></p>
                 <p></p>
             </div>
@@ -39,8 +36,7 @@
     }
 
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="ok()">OK</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-primary btn-sm" ng-click="ok()">Отправить</button>
     </div>
 </div>
 

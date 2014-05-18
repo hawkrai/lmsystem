@@ -25,6 +25,10 @@ namespace LMPlatform.UI.Services.Messages
         RecipientsResult GetRecipients();
 
         [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Save")]
+        ResultViewData Save(string subject, string body, string recipients, string attachments);
+
+        [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Delete")]
         ResultViewData Delete(int messageId);
     }

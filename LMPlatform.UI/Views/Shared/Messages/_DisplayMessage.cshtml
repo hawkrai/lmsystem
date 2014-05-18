@@ -7,7 +7,9 @@
 </div>
 <div id="displayMsg">
     <div class="display-msg">
-        <div class="author-name">{{displayMessage.AthorName}}</div>
+        <a ng-click="replay()">
+            <div class="author-name">{{displayMessage.AthorName}}</div>
+        </a>
         <div>
             <label>Отправлено:</label>{{displayMessage.Date}}
         </div>
@@ -28,25 +30,3 @@
         </div>
     </div>
 </div>
-@*<div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-</div>*@
-
-@*    @if (WebSecurity.CurrentUserId != Model.AuthorId)
-    {
-    
-        <div class="msg-replay">
-            <a class="bootbox-close-button replay" data-url="@Url.Action("WriteMessage", "Message", new { id = Model.AuthorId, resubject = Model.Subject })" href="" >
-                <span class="glyphicon glyphicon-share-alt "></span>
-                Ответить
-            </a>
-        </div>
-    }
-
-<script type="text/javascript">
-    $('.modal-dialog').width('900px');
-    $(".replay").on('click', function () {
-        getMessageForm($(this).data('url'));
-    });
-</script>*@

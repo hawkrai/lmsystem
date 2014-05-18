@@ -96,6 +96,56 @@ namespace LMPlatform.UI.Services.Messages
                        };
         }
 
+        public ResultViewData Save(string subject, string body, string recipients, string attachments)
+        {
+            try
+            {
+                var attachmentsList = JsonConvert.DeserializeObject<List<Attachment>>(attachments).ToList();
+                var recipientsList = JsonConvert.DeserializeObject<List<int>>(recipients).ToList();
+                var fromId = WebSecurity.CurrentUserId;
+
+                var msg = new Message(body, subject);
+
+                if (attachmentsList.Any())
+                {
+                    msg.AttachmentsPath = Guid.NewGuid();
+                    attachmentsList.ForEach(a => a.PathName = msg.AttachmentsPath.ToString());
+                    msg.Attachments = attachmentsList;
+                }
+
+                MessageManagementService.SaveMessage(msg);
+
+                ////if (ToAdmin)
+                ////{
+                ////    var admin = UserManagementService.GetAdmin();
+                ////    var userMsg = new UserMessages(admin.Id, FromId, msg.Id);
+                ////    MessageManagementService.SaveUserMessages(userMsg);
+                ////}
+                ////else
+                ////{
+                foreach (var recipientId in recipientsList)
+                    {
+                        var userMsg = new UserMessages(recipientId, fromId, msg.Id);
+                        MessageManagementService.SaveUserMessages(userMsg);
+                    }
+                ////}
+
+                return new ResultViewData
+                {
+                    Message = "Сообщение отправлено",
+                    Code = "200"
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResultViewData
+                {
+                    Message = "Произошла ошибка при сохранение сообщения",
+                    Code = "500"
+                };
+            }
+        }
+
         public ResultViewData Delete(int messageId)
         {
             try
