@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -8,6 +9,7 @@ using Application.Core;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.Services.Modules;
+using LMPlatform.UI.Services.Modules.CoreModels;
 using LMPlatform.UI.Services.Modules.Labs;
 using LMPlatform.UI.Services.Modules.Practicals;
 using Newtonsoft.Json;
@@ -49,7 +51,7 @@ namespace LMPlatform.UI.Services.Practicals
             }
         }
 
-        public ResultViewData Save(string subjectId, string id, string theme, string duration, string shortName, string pathFile, string attachments)
+        public ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string shortName, string pathFile, string attachments)
         {
             try
             {
@@ -60,7 +62,7 @@ namespace LMPlatform.UI.Services.Practicals
                     SubjectId = int.Parse(subjectId),
                     Duration = int.Parse(duration),
                     Theme = theme,
-                    Order = 0,
+                    Order = int.Parse(order),
                     ShortName = shortName,
                     Attachments = pathFile,
                     Id = int.Parse(id)
@@ -82,6 +84,47 @@ namespace LMPlatform.UI.Services.Practicals
         }
 
         public ResultViewData Delete(string id, string subjectId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ResultViewData SaveScheduleProtectionDate(string groupId, string date, string subjectId)
+        {
+            try
+            {
+                SubjectManagementService.SaveScheduleProtectionPracticalDate(new ScheduleProtectionPractical
+                {
+                    GroupId = int.Parse(groupId),
+                    Date = DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                    SubjectId = int.Parse(subjectId)
+                });
+                return new ResultViewData()
+                {
+                    Message = "Дата успешно добавлена",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при добавлении даты",
+                    Code = "500"
+                };
+            }
+        }
+
+        public List<PracticalVisitingMarkViewData> GetPracticalsVisitingData(string dateId, string subGroupId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ResultViewData SavePracticalsVisitingData(List<PracticalVisitingMarkViewData> marks)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ResultViewData SaveStudentPracticalsMark(StudentsViewData student)
         {
             throw new NotImplementedException();
         }

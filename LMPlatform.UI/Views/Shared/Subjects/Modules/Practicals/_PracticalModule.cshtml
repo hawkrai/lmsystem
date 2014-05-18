@@ -54,11 +54,11 @@
                         <tr>
                             <td>
                                 <div id="buttonActionSection">
-                                    <a style="margin-right: 10px" class="btn btn-primary btn-sm">Добавить график</a>
+                                    <a style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="dateVisitingManagement()">Управление датами</a>
                                 </div>
                             </td>
                             <td>
-                                <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups()" class="form-control"></select>
+                                <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups(selectedGroup)" class="form-control"></select>
                             </td>
                         </tr>
                     </tbody>
@@ -70,11 +70,17 @@
                         <tr>
                             <th>#</th>
                             <th>Студент</th>
+                            <th ng-repeat="visitingDate in selectedGroup.ScheduleProtectionPracticals" ng-click="addVisitingMarks(visitingDate)">
+                                {{visitingDate.Date}}
+                            </th>
                         </tr>
                     </thead>
                     <tr ng-repeat="student in selectedGroup.Students">
                         <td style="width: 40px">{{student.StudentId}}</td>
                         <td style="max-width: 200px">{{student.FullName}}</td>
+                        <td ng-repeat="visitingMark in student.PracticalVisitingMark">
+                            {{visitingMark.Mark}}    
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -85,12 +91,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <div id="buttonActionSection">
-                                    <a style="margin-right: 10px" class="btn btn-primary btn-sm">Добавить график</a>
-                                </div>
-                            </td>
-                            <td>
-                                <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups()" class="form-control"></select>
+                                <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups(selectedGroup)" class="form-control"></select>
                             </td>
                         </tr>
                     </tbody>
@@ -102,11 +103,13 @@
                         <tr>
                             <th>#</th>
                             <th>Студент</th>
+                            <th ng-repeat="practical in practicals">{{practical.ShortName}}</th>
                         </tr>
                     </thead>
                     <tr ng-repeat="student in selectedGroup.Students">
                         <td style="width: 40px">{{student.StudentId}}</td>
                         <td style="max-width: 200px">{{student.FullName}}</td>
+                        <td ng-repeat="practicalMark in student.StudentPracticalMarks">{{practicalMark.Mark}}</td>
                     </tr>
                 </table>
             </div>
@@ -130,6 +133,10 @@
                         <input type="text" style="width: 545px" ng-model="editPracticalData.ShortName" />
                     </div>
                     <div>
+                        <label class="control-label">Порядок (без валидации)</label>
+                        <input type="text" style="width: 545px" ng-model="editPracticalData.Order" />
+                    </div>
+                    <div>
                         <label class="control-label">Количество часов (1-99)</label>
                         <input type="text" style="width: 545px" ng-model="editPracticalData.Duration" />
                     </div>
@@ -144,6 +151,42 @@
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
                 <a href="#" class="btn btn-primary btn-sm" ng-click="savePracticals()" data-dismiss="modal">Сохранить</a>
+            </div>
+        </div>
+    </div>
+    
+    <div id="dialogManagementData" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">График посещения</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label class="control-label">Дата</label>
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="width: 100%" />
+                    </div>
+                    <div>
+                        <input ng-click="addDate()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width: 100%" />
+                    </div>
+                    <div>
+                        <label class="control-label">График</label>
+                        <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
+                            <table class="table table-bordered table-striped">
+                                <tr ng-repeat="data in selectedGroup.ScheduleProtectionPracticals">
+                                    <td>
+                                        <p>{{data.Date}}</p>
+                                    </td>
+                                    <td style="width: 20px"><a ng-click="" style="margin-right: 10px"><i class="fa fa-edit fa-2x"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
             </div>
         </div>
     </div>

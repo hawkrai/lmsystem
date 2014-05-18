@@ -355,16 +355,16 @@ namespace LMPlatform.Data.Infrastructure
                 .HasForeignKey(e => e.LabId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<SubGroup>()
+            modelBuilder.Entity<Group>()
                .HasMany<ScheduleProtectionPractical>(e => e.ScheduleProtectionPracticals)
-               .WithRequired(e => e.SubGroup)
-               .HasForeignKey(e => e.SuGroupId)
+               .WithRequired(e => e.Group)
+               .HasForeignKey(e => e.GroupId)
                .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Practical>()
+            modelBuilder.Entity<Subject>()
                .HasMany<ScheduleProtectionPractical>(e => e.ScheduleProtectionPracticals)
-               .WithRequired(e => e.Practical)
-               .HasForeignKey(e => e.PracticalId)
+               .WithRequired(e => e.Subject)
+               .HasForeignKey(e => e.SubjectId)
                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Student>()

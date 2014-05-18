@@ -48,6 +48,8 @@ namespace Application.Infrastructure.SubjectManagement
 
         void SaveScheduleProtectionLabsDate(int subGroupId, DateTime date);
 
+        void SaveScheduleProtectionPracticalDate(ScheduleProtectionPractical scheduleProtectionPractical);
+
         SubGroup GetSubGroup(int subGroupId);
 
         void SaveLabsVisitingData(List<ScheduleProtectionLabMark> protectionLabMarks);

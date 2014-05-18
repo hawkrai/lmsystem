@@ -697,6 +697,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
         $scope.editPracticalData = {
             TitleForm: "",
             Theme: "",
+            Order: "",
             Duration: "",
             PathFile: "",
             ShortName: "",
@@ -730,6 +731,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             $scope.editPracticalData.TitleForm = "Создание практического занятия";
             $scope.editPracticalData.Theme = "";
             $scope.editPracticalData.Duration = "";
+            $scope.editPracticalData.Order = "";
             $scope.editPracticalData.PathFile = "";
             $scope.editPracticalData.ShortName = "";
             $scope.editPracticalData.Id = "0";
@@ -756,6 +758,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             $scope.editPracticalData.Duration = practical.Duration;
             $scope.editPracticalData.PathFile = practical.PathFile;
             $scope.editPracticalData.ShortName = practical.ShortName;
+            $scope.editPracticalData.Order = practical.Order;
             $scope.editPracticalData.Id = practical.PracticalId;
 
             $("#practicalsFile").empty();
@@ -782,6 +785,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                     id: $scope.editPracticalData.Id,
                     theme: $scope.editPracticalData.Theme,
                     duration: $scope.editPracticalData.Duration,
+                    order: $scope.editPracticalData.Order,
                     shortName: $scope.editPracticalData.ShortName,
                     pathFile: $scope.editPracticalData.PathFile,
                     attachments: $scope.getLecturesFileAttachments()
@@ -816,6 +820,52 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                     });
                 }
             });
+        };
+        
+        $scope.changeGroups = function (selectedGroup) {
+            $scope.selectedGroup = selectedGroup;
+        };
+
+        $scope.addVisitingMarks = function (visitingDate) {
+
+        };
+        
+        $scope.addDate = function () {
+            var dd = $scope.dt.getDate();
+            var mm = $scope.dt.getMonth() + 1; //January is 0!
+            var yyyy = $scope.dt.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+
+            date = dd + '-' + mm + '-' + yyyy;
+
+            $http({
+                method: 'POST',
+                url: $scope.UrlServicePractical + "SaveScheduleProtectionDate",
+                data: {
+                    groupId: $scope.selectedGroup.GroupId,
+                    date: date,
+                    subjectId: $scope.subjectId
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.loadGroups();
+                    alertify.success(data.Message);
+                }
+            });
+        };
+
+        $scope.dateVisitingManagement = function() {
+            $('#dialogManagementData').modal();
         };
     });
 

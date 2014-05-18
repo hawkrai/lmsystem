@@ -212,6 +212,7 @@
     <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentLabMarkViewData.cs" />
+    <Compile Include="Services\Modules\CoreModels\StudentPracticalMarkViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\SubGroupsViewData.cs" />
     <Compile Include="Services\Modules\Labs\LabsResult.cs" />
@@ -240,6 +241,8 @@
     <Compile Include="Services\Modules\News\NewsViewData.cs" />
     <Compile Include="Services\Modules\Practicals\PracticalsResult.cs" />
     <Compile Include="Services\Modules\Practicals\PracticalsViewData.cs" />
+    <Compile Include="Services\Modules\Practicals\PracticalVisitingMarkViewData.cs" />
+    <Compile Include="Services\Modules\Practicals\ScheduleProtectionPracticalViewData.cs" />
     <Compile Include="Services\Modules\ResultViewData.cs" />
     <Compile Include="Services\News\INewsService.cs" />
     <Compile Include="Services\News\NewsService.svc.cs">

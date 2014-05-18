@@ -1,4 +1,5 @@
 ﻿using LMPlatform.UI.Services.Modules.Lectures;
+using LMPlatform.UI.Services.Modules.Practicals;
 
 namespace LMPlatform.UI.Services.Modules.CoreModels
 {
@@ -28,5 +29,8 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
 
         [DataMember]
         public List<LecturesMarkVisitingViewData> LecturesMarkVisiting { get; set; }
+
+        [DataMember]
+        public List<ScheduleProtectionPracticalViewData> ScheduleProtectionPracticals { get; set; }
     }
 }

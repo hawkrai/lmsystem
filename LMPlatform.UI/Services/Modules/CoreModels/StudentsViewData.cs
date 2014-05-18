@@ -1,4 +1,6 @@
-﻿namespace LMPlatform.UI.Services.Modules.CoreModels
+﻿using LMPlatform.UI.Services.Modules.Practicals;
+
+namespace LMPlatform.UI.Services.Modules.CoreModels
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -10,13 +12,15 @@
     [DataContract]
     public class StudentsViewData
     {
-        public StudentsViewData(Student student, IEnumerable<ScheduleProtectionLabs> scheduleProtectionLabs = null, IEnumerable<Labs> labs = null)
+        public StudentsViewData(Student student, IEnumerable<ScheduleProtectionLabs> scheduleProtectionLabs = null, IEnumerable<ScheduleProtectionPractical> scheduleProtectionPracticals = null, IEnumerable<Labs> labs = null, IEnumerable<Practical> practicals = null)
         {
             StudentId = student.Id;
             FullName = student.FullName;
             GroupId = student.GroupId;
             LabVisitingMark = new List<LabVisitingMarkViewData>();
+            PracticalVisitingMark = new List<PracticalVisitingMarkViewData>();
             StudentLabMarks = new List<StudentLabMarkViewData>();
+            StudentPracticalMarks = new List<StudentPracticalMarkViewData>();
 
             if (labs != null)
             {
@@ -43,6 +47,33 @@
                         });    
                     }
                 }   
+            }
+
+            if (practicals != null)
+            {
+                foreach (var practical in practicals)
+                {
+                    if (student.StudentPracticalMarks.Any(e => e.PracticalId == practical.Id))
+                    {
+                        StudentPracticalMarks.Add(new StudentPracticalMarkViewData
+                        {
+                            PracticalId = practical.Id,
+                            Mark = student.StudentPracticalMarks.FirstOrDefault(e => e.PracticalId == practical.Id).Mark,
+                            StudentId = StudentId,
+                            StudentPracticalMarkId = student.StudentPracticalMarks.FirstOrDefault(e => e.PracticalId == practical.Id).Id
+                        });
+                    }
+                    else
+                    {
+                        StudentPracticalMarks.Add(new StudentPracticalMarkViewData
+                        {
+                            PracticalId = practical.Id,
+                            Mark = string.Empty,
+                            StudentId = StudentId,
+                            StudentPracticalMarkId = 0
+                        });
+                    }
+                }
             }
 
             if (scheduleProtectionLabs != null)
@@ -73,6 +104,35 @@
                     }
                 }
             }
+
+            if (scheduleProtectionPracticals != null)
+            {
+                foreach (var scheduleProtectionPractical in scheduleProtectionPracticals)
+                {
+                    if (student.ScheduleProtectionPracticalMarks.Any(e => e.ScheduleProtectionPracticalId == scheduleProtectionPractical.Id))
+                    {
+                        this.PracticalVisitingMark.Add(new PracticalVisitingMarkViewData
+                        {
+                            Comment = student.ScheduleProtectionPracticalMarks.FirstOrDefault(e => e.ScheduleProtectionPracticalId == scheduleProtectionPractical.Id).Comment,
+                            Mark = student.ScheduleProtectionPracticalMarks.FirstOrDefault(e => e.ScheduleProtectionPracticalId == scheduleProtectionPractical.Id).Mark,
+                            ScheduleProtectionPracticalId = scheduleProtectionPractical.Id,
+                            StudentId = this.StudentId,
+                            PracticalVisitingMarkId = student.ScheduleProtectionPracticalMarks.FirstOrDefault(e => e.ScheduleProtectionPracticalId == scheduleProtectionPractical.Id).Id
+                        });
+                    }
+                    else
+                    {
+                        this.PracticalVisitingMark.Add(new PracticalVisitingMarkViewData
+                        {
+                            Comment = string.Empty,
+                            Mark = string.Empty,
+                            ScheduleProtectionPracticalId = scheduleProtectionPractical.Id,
+                            StudentId = this.StudentId,
+                            PracticalVisitingMarkId = 0
+                        });
+                    }
+                }
+            }
         }
 
         [DataMember]
@@ -88,6 +148,12 @@
         public List<LabVisitingMarkViewData> LabVisitingMark { get; set; }
 
         [DataMember]
+        public List<PracticalVisitingMarkViewData> PracticalVisitingMark { get; set; }
+
+        [DataMember]
         public List<StudentLabMarkViewData> StudentLabMarks { get; set; }
+
+        [DataMember]
+        public List<StudentPracticalMarkViewData> StudentPracticalMarks { get; set; }
     }
 }

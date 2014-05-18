@@ -140,7 +140,9 @@ namespace Application.Infrastructure.SubjectManagement
                     repositoriesContainer.SubjectRepository.GetBy(
                         new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId))
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.ScheduleProtectionLabMarks))))
+                        .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.ScheduleProtectionPracticalMarks))))
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.StudentLabMarks))))
+                        .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.StudentPracticalMarks))))
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.ScheduleProtectionLabs))));
                 return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
             }
@@ -306,6 +308,15 @@ namespace Application.Infrastructure.SubjectManagement
                                                                             Date = date,
                                                                             Id = 0
                                                                          });
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void SaveScheduleProtectionPracticalDate(ScheduleProtectionPractical scheduleProtectionPractical)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.RepositoryFor<ScheduleProtectionPractical>().Save(scheduleProtectionPractical);
                 repositoriesContainer.ApplyChanges();
             }
         }
