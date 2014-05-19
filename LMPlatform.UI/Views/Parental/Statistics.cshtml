@@ -8,7 +8,7 @@
 }
 @section title
 {
-    Успеваемость
+Успеваемость
 }
 @section headscripts
 {
@@ -16,24 +16,72 @@
 <div ng-controller="StatCtrl" ng-init="init(@Model.Group.Id)">
     <select class="form-control" ng-model="subject" ng-options="sbjct.Name for sbjct in Subjects"></select><br />
     {{subject}}
+    
+    <table id="stat-table">
+        <caption>
+            {{subject.Name}}
+        </caption>
+        <thead>
+            <tr>
+                <th rowspan="2">ФИО</th>
+                <th colspan="3">Пропуски</th>
+                <th rowspan="2">Средний балл</th>
+            </tr>
+            <tr>
+                <th>Лекции</th>
+                <th>Лаб.</th>
+                <th>Практ.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="student in data.Students">
+                <td>{{student.FullName}}</td>
+                <td>{{getStudentStat(student.SudentId)}}</td>
+                <td>4</td>
+                <td>0</td>
+                <td>8.5</td>
+            </tr>
+        </tbody>
+    </table>
 
-    <div id="stat-table">
+
+    @*  <div id="stat-table">
         <div class="stat-row-head">
-            <div class="stat-cell">ФИО</div>
+            <div class="stat-cell bordered">ФИО</div>
+            <div>
+                <div>Пропуски</div>
+            </div>
+            <div class="stat-cell bordered">Пропуски (лекции)</div>
+            <div class="stat-cell bordered">Пропуски (лабораторные)</div>
+            <div class="stat-cell bordered">Пропуски (практические)</div>
+            <div class="stat-cell bordered">Всего пропусков</div>
+            <div class="stat-cell bordered">Средний балл</div>
         </div>
         <div class="stat-row" ng-repeat="student in data.Students">
             <div class="stat-cell">{{student.FullName}}</div>
         </div>
-    </div>
+    </div>*@
 
 </div>
 
 <style>
     #stat-table {
         margin: 20px 5px;
-        display: table;
+        font-size: 14px;
     }
-        #stat-table .stat-row-head {
+
+    #stat-table caption {
+        text-align: left
+    }
+
+    #stat-table th {
+        border: solid #ddd 1px;
+        padding: 5px;
+        text-align: center;
+    }
+   
+
+        /*#stat-table .stat-row-head {
             padding: 10px 0;
             display: table-header-group;
         }
@@ -42,14 +90,19 @@
             display: table-row;
         }
 
+        #stat-table .stat-column {
+            display: table-column-group;
+        }
+
         #stat-table .stat-cell {
             padding: 10px 0;
             display: table-cell;
+            padding: 5px;
         }
 
         #stat-table .stat-row-head .stat-cell {
             font-weight: bold;
-        }
+        }*/
 </style>
 
 

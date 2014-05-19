@@ -1,18 +1,4 @@
 ﻿var parentalApp = angular.module("parentalApp", ['ngRoute', 'ui.bootstrap']);
-//.config(function ($routeProvider, $locationProvider) {
-//    $routeProvider
-//        .when('/Statistcs', {
-//            templateUrl: 'Parental/Statistics',
-//            controller: 'StatisticsController'
-//        })
-//        .when('/Plan', {
-//            templateUrl: 'Parental/Plan',
-//            controller: 'PlanController'
-//        })
-//        .when('/', {
-//            templateUrl: 'Parental/'
-//        });
-//});
 
 parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
 
@@ -21,8 +7,7 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
 
     $scope.Subjects = [];
     $scope.subject = { Name: "Все предметы", Id: -1, ShortName: "" };
-    $scope.data = {};
-    $scope.data.Students = {};
+    $scope.studentsStat = [];
 
     $scope.init = function (groupId) {
         $scope.groupId = groupId;
@@ -31,11 +16,33 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
 
     $scope.$watch("subject", function (newValue, oldValue) {
         if (newValue.Id < 0) {
-
+            $scope.data = {};
+            $scope.data.Students = {};
         } else {
             $scope.loadData($scope.subject.Id);
         }
     });
+
+    $scope.getStudentStat = function (student) {
+        var lecHours = Enumerable.From($scope.data.LecturesMarkVisiting)
+            .First(function (x) { return x.StudentId == student.StudentId; }
+                .Select(function (x) {
+                    if (x.Mark === parseInt(x.Mark)) {
+                        return x.Mark;
+                    } else {
+                        return 0;
+                    }
+                })
+                .ToArray());
+        
+        var hours = 0;
+
+        lecHours.forEach(function (h) {
+            hours += h;
+        });
+
+        return hours;
+    };
 
     $scope.loadSubjects = function () {
         $http({
@@ -66,11 +73,11 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
             if (data.Code != '200') {
                 alertify.error(data.Message);
             } else {
-                
+
                 var queryData = Enumerable.From(data.Groups).First(function (x) { return x.GroupId == $scope.groupId; });
-            
-                    $scope.data = queryData;
-                
+
+                $scope.data = queryData;
+
 
                 alertify.success(data.Message);
             }

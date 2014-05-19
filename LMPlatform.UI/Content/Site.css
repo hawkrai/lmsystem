@@ -815,3 +815,7 @@ body {
   border-color: #ddd #ddd #ddd transparent;
   *border-left-color: #ffffff;
 }
+
+.bordered {
+        border-bottom: #ddd solid 1px;
+}
