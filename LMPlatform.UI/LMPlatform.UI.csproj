@@ -239,6 +239,8 @@
     <Compile Include="Services\Modules\Messages\MessagesViewData.cs" />
     <Compile Include="Services\Modules\News\NewsResult.cs" />
     <Compile Include="Services\Modules\News\NewsViewData.cs" />
+    <Compile Include="Services\Modules\Parental\SubjectListResult.cs" />
+    <Compile Include="Services\Modules\Parental\SubjectViewData.cs" />
     <Compile Include="Services\Modules\Practicals\PracticalsResult.cs" />
     <Compile Include="Services\Modules\Practicals\PracticalsViewData.cs" />
     <Compile Include="Services\Modules\Practicals\PracticalVisitingMarkViewData.cs" />
@@ -247,6 +249,10 @@
     <Compile Include="Services\News\INewsService.cs" />
     <Compile Include="Services\News\NewsService.svc.cs">
       <DependentUpon>NewsService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Parental\IParentalService.cs" />
+    <Compile Include="Services\Parental\ParentalService.svc.cs">
+      <DependentUpon>ParentalService.svc</DependentUpon>
     </Compile>
     <Compile Include="Services\Practicals\IPracticalService.cs" />
     <Compile Include="Services\Practicals\PracticalService.svc.cs">
@@ -527,6 +533,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\application\accountManagement.js" />
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
+    <Content Include="Scripts\application\parentalModule.js" />
     <Content Include="Scripts\application\BTS\bug.js" />
     <Content Include="Scripts\application\BTS\chat.js" />
     <Content Include="Scripts\application\BTS\project.js" />
@@ -937,6 +944,7 @@
     <Content Include="Services\Labs\LabsService.svc" />
     <Content Include="Services\Lectures\LecturesService.svc" />
     <Content Include="Services\News\NewsService.svc" />
+    <Content Include="Services\Parental\ParentalService.svc" />
     <Content Include="Services\Practicals\PracticalService.svc" />
     <Content Include="Unity.Mvc4.README.txt" />
     <Content Include="Web.config">

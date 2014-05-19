@@ -23,11 +23,14 @@
     @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/bootstrapcontrols")
+    @Scripts.Render("~/bundles/angular")
 
     @RenderSection("headScripts", false)
+    <script src="/Scripts/linq.min.js"></script>
+    <script src="/Scripts/application/parentalModule.js"></script>
 </head>
 <body>
-    <div id="parental">
+    <div id="parental" ng-app="parentalApp">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">

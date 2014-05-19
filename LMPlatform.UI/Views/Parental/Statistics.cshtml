@@ -8,36 +8,70 @@
 }
 @section title
 {
-Успеваемость
+    Успеваемость
 }
 @section headscripts
 {
-    <script src="~/Scripts/jquery-handsontable/jquery.handsontable.full.js" type="text/javascript"></script>
-    <link href="~/Scripts/jquery-handsontable/jquery.handsontable.full.css" type="text/css" />
 }
-<div>
-    @Html.DropDownList("students", Model.GetStudentsSelectList(), new { @class = "students-stat" })
-</div>
+<div ng-controller="StatCtrl" ng-init="init(@Model.Group.Id)">
+    <select class="form-control" ng-model="subject" ng-options="sbjct.Name for sbjct in Subjects"></select><br />
+    {{subject}}
 
-<div id="stat-table">
-    @Html.Partial("_StatDataTable", new StatDataTableViewModel
-             {
-                 DataTable = Html.DataTable("incomingMessageList", (ParentalController controller) => controller.GetStatCollection(null), new { param = true }),
-                 DataTableOptions = new DataTableOptions
-                     {
-                         Pagination = true,
-                         Searchable = true,
-                         Sortable = false,
-                         Filterable = false,
-                         Info = false,
-                         /*OnComplete = "initDisplayMessageDialog"*/
-                     }
-             })
+    <div id="stat-table">
+        <div class="stat-row-head">
+            <div class="stat-cell">ФИО</div>
+        </div>
+        <div class="stat-row" ng-repeat="student in data.Students">
+            <div class="stat-cell">{{student.FullName}}</div>
+        </div>
+    </div>
 
 </div>
 
-<script>
+<style>
+    #stat-table {
+        margin: 20px 5px;
+        display: table;
+    }
+        #stat-table .stat-row-head {
+            padding: 10px 0;
+            display: table-header-group;
+        }
 
-</script>
+        #stat-table .stat-row {
+            display: table-row;
+        }
+
+        #stat-table .stat-cell {
+            padding: 10px 0;
+            display: table-cell;
+        }
+
+        #stat-table .stat-row-head .stat-cell {
+            font-weight: bold;
+        }
+</style>
+
+
+@*<div>
+        @Html.DropDownList("students", Model.GetStudentsSelectList(), new { @class = "students-stat" })
+    </div>
+
+    <div id="stat-table">
+        @Html.Partial("_StatDataTable", new StatDataTableViewModel
+                 {
+                     DataTable = Html.DataTable("incomingMessageList", (ParentalController controller) => controller.GetStatCollection(null), new { param = true }),
+                     DataTableOptions = new DataTableOptions
+                         {
+                             Pagination = true,
+                             Searchable = true,
+                             Sortable = false,
+                             Filterable = false,
+                             Info = false,
+                             /*OnComplete = "initDisplayMessageDialog"*/
+                         }
+                 })
+
+    </div>*@
 
 

@@ -1,8 +1,7 @@
 ﻿var msgApp = angular.module("msgApp", ['ngTable', 'ui.bootstrap']);
 
 msgApp
-    .controller("msgController", [
-        '$scope', '$http', '$modal', '$filter', 'ngTableParams', function ($scope, $http, $modal, $filter, ngTableParams) {
+    .controller("msgController", ['$scope', '$http', '$modal', '$filter', 'ngTableParams', function ($scope, $http, $modal, $filter, ngTableParams) {
             $scope.activeTab = 'inbox';
             $scope.userId = 0;
             $scope.data = [];
