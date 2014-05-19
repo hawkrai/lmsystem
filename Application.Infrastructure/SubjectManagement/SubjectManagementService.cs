@@ -349,6 +349,24 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
+        public void SavePracticalVisitingData(List<ScheduleProtectionPracticalMark> protectionPracticalMarks)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.RepositoryFor<ScheduleProtectionPracticalMark>().Save(protectionPracticalMarks);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void SavePracticalMarks(List<StudentPracticalMark> studentPracticalMarks)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.RepositoryFor<StudentPracticalMark>().Save(studentPracticalMarks);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
         public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

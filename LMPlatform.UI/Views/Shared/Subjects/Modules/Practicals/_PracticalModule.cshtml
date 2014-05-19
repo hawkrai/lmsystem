@@ -4,6 +4,11 @@
         .nav, .pagination, .carousel, .panel-title a {
             cursor: pointer;
         }
+
+        .table-hoverT > tbody > tr:hover > td,
+        .table-hoverT > tbody > tr:hover > th {
+            background-color: #008b8b;
+        }
     </style>
 
     <tabset>
@@ -37,7 +42,7 @@
                         <td>{{data.Theme}}</td>
                         <td>{{data.ShortName}}</td>
                         <td>{{data.Duration}}</td>
-                        <td>
+                        <td style="width: 100px">
                             <div>
                                 <a style="margin-right: 10px" ng-click="editPracticals(data)"><i class="fa fa-edit fa-2x"></i></a>
                                 <a ng-click="deletePracticals(data)"><i class="fa fa-trash-o fa-2x"></i></a>
@@ -58,31 +63,44 @@
                                 </div>
                             </td>
                             <td>
-                                <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups(selectedGroup)" class="form-control"></select>
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Студент</th>
-                            <th ng-repeat="visitingDate in selectedGroup.ScheduleProtectionPracticals" ng-click="addVisitingMarks(visitingDate)">
-                                {{visitingDate.Date}}
-                            </th>
+                <form editable-form name="tableform" onaftersave="saveVisitingMark()" oncancel="cancel()">
+                    <table class="table table-bordered table-striped table-hoverT">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Студент</th>
+                                <th style="width: 50px; text-align: center" ng-repeat="visitingDate in groupWorkingData.selectedGroup.ScheduleProtectionPracticals" ng-click="addVisitingMarks(visitingDate)">
+                                    {{visitingDate.Date}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="student in groupWorkingData.selectedGroup.Students">
+                            <td style="width: 40px">{{student.StudentId}}</td>
+                            <td style="max-width: 200px">{{student.FullName}}</td>
+                            <td style="text-align: center" ng-repeat="visitingMark in student.PracticalVisitingMark">
+                                <span editable-text="visitingMark.Mark" e-name="Mark" e-form="tableform">
+                                    {{ visitingMark.Mark || '' }}
+                                </span>
+                            </td>
                         </tr>
-                    </thead>
-                    <tr ng-repeat="student in selectedGroup.Students">
-                        <td style="width: 40px">{{student.StudentId}}</td>
-                        <td style="max-width: 200px">{{student.FullName}}</td>
-                        <td ng-repeat="visitingMark in student.PracticalVisitingMark">
-                            {{visitingMark.Mark}}    
-                        </td>
-                    </tr>
-                </table>
+                    </table>
+                    <div>
+                        <button type="button" class="btn btn-default btn-sm" ng-show="!tableform.$visible" ng-click="tableform.$show()">
+                            Изменить
+                        </button>
+                    </div>
+                    <div ng-show="tableform.$visible">
+                        <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary btn-sm">Сохранить</button>
+                        <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default btn-sm">Отмена</button>
+                    </div>
+                </form>
             </div>
         </tab>
         <tab heading="Результаты">
@@ -91,31 +109,46 @@
                     <tbody>
                         <tr>
                             <td>
-                                <select ng-model="selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups(selectedGroup)" class="form-control"></select>
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Студент</th>
-                            <th ng-repeat="practical in practicals">{{practical.ShortName}}</th>
+                <form editable-form name="tableformMarks" onaftersave="savePracticalsMarks()" oncancel="cancel()">
+                    <table class="table table-bordered table-striped table-hoverT">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Студент</th>
+                                <th style="width: 50px; text-align: center" ng-repeat="practical in practicals">{{practical.ShortName}}</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="student in groupWorkingData.selectedGroup.Students">
+                            <td style="width: 40px">{{student.StudentId}}</td>
+                            <td style="max-width: 200px">{{student.FullName}}</td>
+                            <td ng-repeat="practicalMark in student.StudentPracticalMarks">
+                                <span editable-text="practicalMark.Mark" e-name="Mark" e-form="tableformMarks">
+                                    {{ practicalMark.Mark || '' }}
+                                </span>
+                            </td>
                         </tr>
-                    </thead>
-                    <tr ng-repeat="student in selectedGroup.Students">
-                        <td style="width: 40px">{{student.StudentId}}</td>
-                        <td style="max-width: 200px">{{student.FullName}}</td>
-                        <td ng-repeat="practicalMark in student.StudentPracticalMarks">{{practicalMark.Mark}}</td>
-                    </tr>
-                </table>
+                    </table>
+                    <div>
+                        <button type="button" class="btn btn-default btn-sm" ng-show="!tableformMarks.$visible" ng-click="tableformMarks.$show()">
+                            Изменить
+                        </button>
+                    </div>
+                    <div ng-show="tableformMarks.$visible">
+                        <button type="submit" ng-disabled="tableformMarks.$waiting" class="btn btn-primary btn-sm">Сохранить</button>
+                        <button type="button" ng-disabled="tableformMarks.$waiting" ng-click="tableformMarks.$cancel()" class="btn btn-default btn-sm">Отмена</button>
+                    </div>
+                </form>
             </div>
         </tab>
     </tabset>
-    
+
     <div id="dialogAddPracticals" class="modal">
         <div class="modal-dialog panel panel-primary" style="padding: 0px">
             <div class="panel-heading">
@@ -154,7 +187,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="dialogManagementData" class="modal">
         <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
             <div class="panel-heading">
@@ -174,7 +207,7 @@
                         <label class="control-label">График</label>
                         <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
                             <table class="table table-bordered table-striped">
-                                <tr ng-repeat="data in selectedGroup.ScheduleProtectionPracticals">
+                                <tr ng-repeat="data in groupWorkingData.selectedGroup.ScheduleProtectionPracticals">
                                     <td>
                                         <p>{{data.Date}}</p>
                                     </td>

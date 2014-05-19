@@ -110,25 +110,15 @@ namespace LMPlatform.UI.Services.Labs
             }
         }
 
-        public List<LabVisitingMarkViewData> GetLabsVisitingData(string dateId, string subGroupId)
+        public ResultViewData SaveLabsVisitingData(List<StudentsViewData> students)
         {
             try
             {
-                var subGroup = SubjectManagementService.GetSubGroup(int.Parse(subGroupId));
-                var model = subGroup.SubjectStudents.Select(e => new LabVisitingMarkViewData(e.Student, int.Parse(dateId))).ToList();
-                return model;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public ResultViewData SaveLabsVisitingData(List<LabVisitingMarkViewData> marks)
-        {
-            try
-            {
-                SubjectManagementService.SaveLabsVisitingData(marks.Select(e => new ScheduleProtectionLabMark { Id = e.LabVisitingMarkId, Comment = e.Comment, Mark = e.Mark, StudentId = e.StudentId, ScheduleProtectionLabId = e.ScheduleProtectionLabId }).ToList());
+                foreach (var student in students)
+                {
+                    SubjectManagementService.SaveLabsVisitingData(student.LabVisitingMark.Select(e => new ScheduleProtectionLabMark { Id = e.LabVisitingMarkId, Comment = e.Comment, Mark = e.Mark, StudentId = e.StudentId, ScheduleProtectionLabId = e.ScheduleProtectionLabId }).ToList());    
+                }
+                
                 return new ResultViewData()
                 {
                     Message = "Данные успешно добавлена",
@@ -145,11 +135,15 @@ namespace LMPlatform.UI.Services.Labs
             }
         }
 
-        public ResultViewData SaveStudentLabsMark(StudentsViewData student)
+        public ResultViewData SaveStudentLabsMark(List<StudentsViewData> students)
         {
             try
             {
-                SubjectManagementService.SaveStudentLabsMark(student.StudentLabMarks.Select(e => new StudentLabMark { Id = e.StudentLabMarkId, LabId = e.LabId, StudentId = e.StudentId, Mark = e.Mark }).ToList());
+                foreach (var student in students)
+                {
+                    SubjectManagementService.SaveStudentLabsMark(student.StudentLabMarks.Select(e => new StudentLabMark { Id = e.StudentLabMarkId, LabId = e.LabId, StudentId = e.StudentId, Mark = e.Mark }).ToList());    
+                }
+
                 return new ResultViewData()
                 {
                     Message = "Данные успешно добавлена",

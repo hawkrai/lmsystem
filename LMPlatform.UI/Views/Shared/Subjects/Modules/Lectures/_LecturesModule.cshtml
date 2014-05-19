@@ -57,7 +57,7 @@
                                 </div>
                             </td>
                             <td>
-                                <select ng-model="selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(selectedGroup)" class="form-control"></select>
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
                             </td>
                         </tr>
                     </tbody>
@@ -75,7 +75,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tr ng-repeat="student in selectedGroup.LecturesMarkVisiting">
+                        <tr ng-repeat="student in groupWorkingData.selectedGroup.LecturesMarkVisiting">
                             <td style="width: 40px">{{student.StudentId}}</td>
                             <td style="max-width: 200px">{{student.StudentName}}</td>
                             <td ng-repeat="data in student.Marks" style="text-align: center">{{data.Mark}}</td>

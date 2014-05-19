@@ -55,5 +55,9 @@ namespace Application.Infrastructure.SubjectManagement
         void SaveLabsVisitingData(List<ScheduleProtectionLabMark> protectionLabMarks);
 
         void SaveStudentLabsMark(List<StudentLabMark> studentLabMark);
+
+        void SavePracticalVisitingData(List<ScheduleProtectionPracticalMark> protectionPracticalMarks);
+
+        void SavePracticalMarks(List<StudentPracticalMark> studentPracticalMarks);
     }
 }

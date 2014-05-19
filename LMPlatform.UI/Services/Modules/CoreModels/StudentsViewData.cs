@@ -12,6 +12,10 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
     [DataContract]
     public class StudentsViewData
     {
+        public StudentsViewData()
+        {
+        }
+
         public StudentsViewData(Student student, IEnumerable<ScheduleProtectionLabs> scheduleProtectionLabs = null, IEnumerable<ScheduleProtectionPractical> scheduleProtectionPracticals = null, IEnumerable<Labs> labs = null, IEnumerable<Practical> practicals = null)
         {
             StudentId = student.Id;

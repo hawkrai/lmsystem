@@ -20,8 +20,10 @@
                 controller: 'PracticalsController'
             });
     });
-app.run(function (editableOptions) {
-    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+app.run(function (editableOptions, editableThemes) {
+    editableThemes.bs3.inputClass = 'input-sm text-center';
+    editableThemes.bs3.buttonsClass = 'btn-sm';
+    editableOptions.theme = 'bs3';
 });
 angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
     .controller('MainCtrl', function ($scope) {
@@ -71,9 +73,56 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
 
         //groups
         $scope.groups = [];
-        $scope.selectedSubGroup = null;
-        $scope.selectedGroup = null;
         $scope.subGroups = [];
+
+        $scope.groupWorkingData = {
+            selectedSubGroup: null,
+            selectedGroup: null,
+            selectedGroupId: 0,
+            selectedSubGroupId: 0
+        };
+
+        $scope.selectedGroupChange = function (groupId, subGroupId) {
+            if (groupId != null) {
+                $scope.groupWorkingData.selectedGroupId = groupId;
+                $scope.groupWorkingData.selectedSubGroupId = 0;
+            }
+            if (subGroupId != null) {
+                $scope.groupWorkingData.selectedSubGroupId = subGroupId;
+            }
+
+            $scope.groupWorkingData.selectedGroup = null;
+            $.each($scope.groups, function (index, value) {
+                if (value.GroupId == $scope.groupWorkingData.selectedGroupId) {
+                    $scope.groupWorkingData.selectedGroup = value;
+                    return;
+                }
+            });
+
+            if ($scope.groupWorkingData.selectedSubGroupId == 0) {
+                if ($scope.groupWorkingData.selectedGroup.SubGroupsOne != null) {
+                    $scope.groupWorkingData.selectedSubGroupId = $scope.groupWorkingData.selectedGroup.SubGroupsOne.SubGroupId;
+                }
+                else if ($scope.groupWorkingData.selectedGroup.SubGroupsTwo != null) {
+                    $scope.groupWorkingData.selectedSubGroupId = $scope.groupWorkingData.selectedGroup.SubGroupsTwo.SubGroupId;
+                }
+            }
+
+            if ($scope.groupWorkingData.selectedGroup.SubGroupsOne != null && $scope.groupWorkingData.selectedGroup.SubGroupsTwo != null) {
+                $scope.subGroups = [$scope.groupWorkingData.selectedGroup.SubGroupsOne, $scope.groupWorkingData.selectedGroup.SubGroupsTwo];
+            } else {
+                $scope.subGroups = [];
+            }
+
+            $scope.groupWorkingData.selectedSubGroup = null;
+            if ($scope.groupWorkingData.selectedSubGroupId != 0)
+                
+            if ($scope.subGroups[0] != null && $scope.groupWorkingData.selectedSubGroupId == $scope.subGroups[0].SubGroupId) {
+                $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[0];
+            } else if ($scope.subGroups[1] != null && $scope.groupWorkingData.selectedSubGroupId == $scope.subGroups[1].SubGroupId) {
+                $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[1];
+            }
+        };
 
         $scope.init = function (subjectId) {
             $scope.subjectId = subjectId;
@@ -93,9 +142,30 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                 } else {
                     $scope.$apply(function () {
                         $scope.groups = data.Groups;
-                        $scope.selectedGroup = $scope.groups[0];
-                        $scope.subGroups = [$scope.selectedGroup.SubGroupsOne, $scope.selectedGroup.SubGroupsTwo];
-                        $scope.selectedSubGroup = $scope.subGroups[0];
+
+                        if ($scope.groupWorkingData.selectedGroupId == 0) {
+                            if ($scope.groups[0].SubGroupsOne != null) {
+                                $scope.selectedGroupChange($scope.groups[0].GroupId, $scope.groups[0].SubGroupsOne.SubGroupId);
+                            }
+                            else if ($scope.groups[0].SubGroupsTwo != null) {
+                                $scope.selectedGroupChange($scope.groups[0].GroupId, $scope.groups[0].SubGroupsTwo.SubGroupId);
+                            } else {
+                                $scope.selectedGroupChange($scope.groups[0].GroupId, null);
+                            }
+
+                        } else if ($scope.groupWorkingData.selectedSubGroupId == 0) {
+                            if ($scope.groupWorkingData.selectedGroup.SubGroupsOne != null) {
+                                $scope.selectedGroupChange(null, $scope.groupWorkingData.selectedGroup.SubGroupsOne.SubGroupId);
+                            }
+                            else if ($scope.groupWorkingData.selectedGroup.SubGroupsTwo != null) {
+                                $scope.selectedGroupChange(null, $scope.groupWorkingData.selectedGroup.SubGroupsTwo.SubGroupId);
+                            } else {
+                                $scope.selectedGroupChange(null, null);
+                            }
+                        } else {
+                            $scope.selectedGroupChange(null, null);
+                        }
+
                     });
                 }
             });
@@ -238,7 +308,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
         };
 
         $scope.changeGroups = function (selectedGroup) {
-            $scope.selectedGroup = selectedGroup;
+            $scope.selectedGroupChange(selectedGroup.GroupId);
         };
 
         $scope.loadCalendar = function () {
@@ -411,7 +481,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                 data: {
                     dateId: $scope.editMarks.DateId,
                     subjectId: $scope.subjectId,
-                    groupId: $scope.selectedGroup.groupId,
+                    groupId: $scope.groupWorkingData.selectedGroup.groupId,
                     marks: $scope.editMarks.StudentMarkForDate
                 },
                 headers: { 'Content-Type': 'application/json' }
@@ -427,14 +497,14 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
         };
 
         $scope.editMarks = function (calendar) {
-            var id = $scope.selectedGroup.GroupId;
+            var id = $scope.groupWorkingData.selectedGroup.GroupId;
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLectures + "GetMarksCalendarData",
                 data: {
                     dateId: calendar.Id,
                     subjectId: $scope.subjectId,
-                    groupId: $scope.selectedGroup.GroupId
+                    groupId: $scope.groupWorkingData.selectedGroup.GroupId
                 },
                 headers: { 'Content-Type': 'application/json' }
             }).success(function (data, status) {
@@ -588,38 +658,27 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
         };
 
         $scope.changeGroups = function (selectedGroup) {
-            $scope.selectedGroup = selectedGroup;
-            $scope.subGroups = [];
-            $scope.selectedSubGroup = null;
-            if (selectedGroup.SubGroupsOne != null && selectedGroup.SubGroupsTwo != null) {
-                $scope.subGroups = [selectedGroup.SubGroupsOne, selectedGroup.SubGroupsTwo];
-                $scope.selectedSubGroup = $scope.subGroups[0];
+            if (selectedGroup.SubGroupsOne != null) {
+                $scope.selectedGroupChange(selectedGroup.GroupId, selectedGroup.SubGroupsOne.SubGroupId);
             }
-        };
-
-        $scope.editVisitingMarks = function (calendar) {
-            $scope.editVisitingDate = calendar.Date;
-            $http({
-                method: 'POST',
-                url: $scope.UrlServiceLabs + "GetLabsVisitingData",
-                data: {
-                    dateId: calendar.ScheduleProtectionLabId,
-                    subGroupId: calendar.SubGroupId,
-                },
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data, status) {
-                $scope.editMarksVisiting = data;
-                $('#dialogEditMarksVisiting').modal();
-            });
+            else if (selectedGroup.SubGroupsTwo != null) {
+                $scope.selectedGroupChange(selectedGroup.GroupId, selectedGroup.SubGroupsTwo.SubGroupId);
+            } else {
+                $scope.selectedGroupChange(selectedGroup.GroupId, null);
+            }
 
         };
 
-        $scope.saveMarksVisiting = function () {
+        $scope.changeSubGroup = function (selectedSubGroup) {
+            $scope.selectedGroupChange(null, selectedSubGroup.SubGroupId);
+        };
+
+        $scope.saveVisitingMark = function () {
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLabs + "SaveLabsVisitingData",
                 data: {
-                    marks: $scope.editMarksVisiting
+                    students: $scope.groupWorkingData.selectedSubGroup.Students
                 },
                 headers: { 'Content-Type': 'application/json' }
             }).success(function (data, status) {
@@ -628,12 +687,11 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                 } else {
                     alertify.success(data.Message);
                     $scope.loadGroups();
-                    $('#dialogEditMarksVisiting').modal('hide');
                 }
             });
         };
 
-        $scope.managementDate = function() {
+        $scope.managementDate = function () {
             $('#dialogmanagementData').modal();
         };
 
@@ -656,7 +714,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                 method: 'POST',
                 url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
                 data: {
-                    subGroupId: $scope.selectedSubGroup.SubGroupId,
+                    subGroupId: $scope.groupWorkingData.selectedSubGroup.SubGroupId,
                     date: date
                 },
                 headers: { 'Content-Type': 'application/json' }
@@ -670,12 +728,12 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             });
         };
 
-        $scope.saveMark = function(student) {
+        $scope.saveLabsMarks = function () {
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
                 data: {
-                    student: student,
+                    students: $scope.groupWorkingData.selectedSubGroup.Students,
                 },
                 headers: { 'Content-Type': 'application/json' }
             }).success(function (data, status) {
@@ -821,15 +879,15 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                 }
             });
         };
-        
+
         $scope.changeGroups = function (selectedGroup) {
-            $scope.selectedGroup = selectedGroup;
+            $scope.selectedGroupChange(selectedGroup.GroupId);
         };
 
         $scope.addVisitingMarks = function (visitingDate) {
 
         };
-        
+
         $scope.addDate = function () {
             var dd = $scope.dt.getDate();
             var mm = $scope.dt.getMonth() + 1; //January is 0!
@@ -849,7 +907,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                 method: 'POST',
                 url: $scope.UrlServicePractical + "SaveScheduleProtectionDate",
                 data: {
-                    groupId: $scope.selectedGroup.GroupId,
+                    groupId: $scope.groupWorkingData.selectedGroup.GroupId,
                     date: date,
                     subjectId: $scope.subjectId
                 },
@@ -864,8 +922,44 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             });
         };
 
-        $scope.dateVisitingManagement = function() {
+        $scope.dateVisitingManagement = function () {
             $('#dialogManagementData').modal();
+        };
+
+        $scope.saveVisitingMark = function () {
+            $http({
+                method: 'POST',
+                url: $scope.UrlServicePractical + "SavePracticalsVisitingData",
+                data: {
+                    students: $scope.groupWorkingData.selectedGroup.Students,
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.loadGroups();
+                    alertify.success(data.Message);
+                }
+            });
+        };
+
+        $scope.savePracticalsMarks = function () {
+            $http({
+                method: 'POST',
+                url: $scope.UrlServicePractical + "SaveStudentPracticalsMark",
+                data: {
+                    students: $scope.groupWorkingData.selectedGroup.Students,
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.loadGroups();
+                    alertify.success(data.Message);
+                }
+            });
         };
     });
 

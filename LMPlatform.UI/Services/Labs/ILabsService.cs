@@ -33,15 +33,11 @@ namespace LMPlatform.UI.Services.Labs
         ResultViewData SaveScheduleProtectionDate(string subGroupId, string date);
         
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetLabsVisitingData")]
-        List<LabVisitingMarkViewData> GetLabsVisitingData(string dateId, string subGroupId);
-
-        [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveLabsVisitingData")]
-        ResultViewData SaveLabsVisitingData(List<LabVisitingMarkViewData> marks);
+        ResultViewData SaveLabsVisitingData(List<StudentsViewData> students);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveStudentLabsMark")]
-        ResultViewData SaveStudentLabsMark(StudentsViewData student);
+        ResultViewData SaveStudentLabsMark(List<StudentsViewData> students);
     }
 }

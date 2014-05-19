@@ -119,14 +119,67 @@ namespace LMPlatform.UI.Services.Practicals
             throw new NotImplementedException();
         }
 
-        public ResultViewData SavePracticalsVisitingData(List<PracticalVisitingMarkViewData> marks)
+        public ResultViewData SavePracticalsVisitingData(List<StudentsViewData> students)
         {
-            throw new NotImplementedException();
+            try
+            {
+                foreach (var studentsViewData in students)
+                {
+                    SubjectManagementService.SavePracticalVisitingData(studentsViewData.PracticalVisitingMark.Select(e => new ScheduleProtectionPracticalMark
+                    {
+                        Comment = e.Comment,
+                        Mark = e.Mark,
+                        ScheduleProtectionPracticalId = e.ScheduleProtectionPracticalId,
+                        Id = e.PracticalVisitingMarkId,
+                        StudentId = e.StudentId
+                    }).ToList());   
+                }
+
+                return new ResultViewData()
+                {
+                    Message = "Данные успешно изменены",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при изменении данных",
+                    Code = "500"
+                };
+            }
         }
 
-        public ResultViewData SaveStudentPracticalsMark(StudentsViewData student)
+        public ResultViewData SaveStudentPracticalsMark(List<StudentsViewData> students)
         {
-            throw new NotImplementedException();
+            try
+            {
+                foreach (var studentsViewData in students)
+                {
+                    SubjectManagementService.SavePracticalMarks(studentsViewData.StudentPracticalMarks.Select(e => new StudentPracticalMark
+                    {
+                        Mark = e.Mark,
+                        PracticalId = e.PracticalId,
+                        Id = e.StudentPracticalMarkId,
+                        StudentId = e.StudentId
+                    }).ToList());
+                }
+
+                return new ResultViewData()
+                {
+                    Message = "Данные успешно изменены",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при изменении данных",
+                    Code = "500"
+                };
+            }
         }
     }
 }
