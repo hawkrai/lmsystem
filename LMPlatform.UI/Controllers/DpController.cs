@@ -19,5 +19,10 @@ namespace LMPlatform.UI.Controllers
         {
             return PartialView();
         }
+
+        public ActionResult Students()
+        {
+            return PartialView();
+        }
     }
 }

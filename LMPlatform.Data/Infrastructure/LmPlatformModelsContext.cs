@@ -577,6 +577,12 @@ namespace LMPlatform.Data.Infrastructure
                 .WithRequired(e => e.DiplomProjectConsultationDate)
                 .HasForeignKey(e => e.ConsultationDateId);
 
+            modelBuilder.Entity<Student>()
+                .HasMany(e => e.AssignedDiplomProjects)
+                .WithRequired(e => e.Student)
+                .HasForeignKey(e => e.StudentId)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<DiplomProjectConsultationMark>()
                 .Property(e => e.Mark)
                 .IsFixedLength()

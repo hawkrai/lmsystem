@@ -34,7 +34,7 @@
 
             $scope.saveProject = function () {
                 $scope.submitted = true;
-                //              TODO  if ($scope.projectForm.Theme.$error.required) return; 
+                if ($scope.forms.projectForm.Theme.$error.required) return; 
 
                 var saveFunc = $scope.isNew ? projectService.createProject : projectService.updateProject;
 
@@ -59,7 +59,7 @@
             };
 
 
-            $scope.returnToList = function () {
+            $scope.closeDialog = function () {
                 $modalInstance.close();
             };
 

@@ -6,7 +6,9 @@ angular
         function ($http) {
 
             var apiUrl = '/api/diplomProject/';
+            var projectAssignmentUrl = '/api/diplomProjectAssignment/';
             var correlationApiUrl = '/api/correlation/';
+            var studentApiUrl = '/api/student/';
 
             return {
                 getProjects: function (params) {
@@ -17,14 +19,6 @@ angular
                     });
                 },
                 
-                getGroupCorrelation: function () {
-                    return $http({
-                        method: 'GET',
-                        url: correlationApiUrl,
-                        params: {entity: 'Group'}
-                    });
-                },
-
                 getProject: function (projectId) {
                     return $http({
                         method: 'GET',
@@ -53,6 +47,39 @@ angular
                         method: 'DELETE',
                         url: apiUrl + projectId
                     });
-                }
+                },
+
+                assignProject: function (projectId, studentId) {
+                    return $http({
+                        method: 'POST',
+                        url: projectAssignmentUrl,
+                        data: { projectId: projectId, studentId: studentId }
+                    });
+                },
+
+                deleteAssignment: function (projectId) {
+                    return $http({
+                        method: 'DELETE',
+                        url: projectAssignmentUrl + projectId
+                    });
+                },
+
+
+                getStudents: function (projectId, params) {
+                    return $http({
+                        method: 'GET',
+                        url: studentApiUrl,
+                        params: angular.extend({ diplomProjectId: projectId }, params)
+                    });
+                },
+
+
+                getGroupCorrelation: function () {
+                    return $http({
+                        method: 'GET',
+                        url: correlationApiUrl,
+                        params: { entity: 'Group' }
+                    });
+            },
             };
         }]);

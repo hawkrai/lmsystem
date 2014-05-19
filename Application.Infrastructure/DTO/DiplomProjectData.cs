@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.Infrastructure.DTO
@@ -11,6 +12,20 @@ namespace Application.Infrastructure.DTO
         public string Theme { get; set; }
 
         public string Lecturer { get; set; }
+
+        public string Student { get; set; }
+
+        public string Group { get; set; }
+
+        public DateTime? ApproveDate { get; set; }
+
+        public string ApproveDateString
+        {
+            get
+            {
+                return ApproveDate.HasValue ? ApproveDate.Value.ToString("dd-MM-yyyy") : null;
+            }
+        }
 
         public int? LecturerId { get; set; }
 

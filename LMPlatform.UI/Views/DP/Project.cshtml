@@ -3,16 +3,15 @@
 
 <div class="modal-dialog panel panel-primary" style="margin: 0;">
     <div class="panel-heading">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="returnToList()">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
         <h4 class="modal-title">Редактирование проекта</h4>
     </div>
     <div class="modal-body">
-        <form ng-submit="saveProject()" name="projectForm">
-            <div ng-class="{'has-error': submitted && projectForm.Theme.$error.required}">
+        <form novalidate ng-submit="saveProject()" name="forms.projectForm">
+            <div ng-class="{'has-error': submitted && forms.projectForm.Theme.$error.required}">
                 <label class="control-label" for="Theme">Тема</label>
-                <input class="form-control" name="Theme" type="text" ng-model="project.Theme" style="width: 100%;"
-                    required />
-                <span class="help-block" ng-show="submitted && projectForm.Theme.$error.required">Введите тему!</span>
+                <input class="form-control" name="Theme" type="text" ng-model="project.Theme" style="width: 100%;" required />
+                <span class="help-block" ng-show="submitted && forms.projectForm.Theme.$error.required">Введите тему!</span>
             </div>
 
             <select
@@ -24,8 +23,8 @@
             </select>
 
             <div style="text-align: right; padding: 20px 0;">
+                <button class="btn btn-primary btn-sm" ng-click="closeDialog()">Отмена</button>
                 <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
-                <button class="btn btn-primary btn-sm" ng-click="returnToList()">Отмена</button>
             </div>
         </form>
     </div>

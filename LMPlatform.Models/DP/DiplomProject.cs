@@ -35,7 +35,5 @@ namespace LMPlatform.Models.DP
         public virtual ICollection<DiplomProjectGroup> DiplomProjectGroups { get; set; }
 
         public virtual Lecturer Lecturer { get; set; }
-
-//        public virtual ICollection<Group> Groups { get; set; }
     }
 }

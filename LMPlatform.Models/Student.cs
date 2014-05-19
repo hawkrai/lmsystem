@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Application.Core.Data;
+using LMPlatform.Models.DP;
 using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.Models
@@ -62,6 +63,12 @@ namespace LMPlatform.Models
         }
 
         public ICollection<TestUnlock> TestUnlocks
+        {
+            get;
+            set;
+        }
+
+        public virtual ICollection<AssignedDiplomProject> AssignedDiplomProjects
         {
             get;
             set;

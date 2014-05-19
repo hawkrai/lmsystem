@@ -51,7 +51,7 @@ namespace LMPlatform.UI.ApiControllers.DP
 
         public void Delete(int id)
         {
-            DpManagementService.DeleteProject(id);
+            DpManagementService.DeleteProject(WebSecurity.CurrentUserId, id);
         }
 
         private HttpResponseMessage SaveProject(DiplomProjectData project)

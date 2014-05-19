@@ -6,6 +6,7 @@
         'dpApp.ctrl.home',
         'dpApp.ctrl.projects',
         'dpApp.ctrl.project',
+        'dpApp.ctrl.students',
         'dpApp.service.project'
     ])
     .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
@@ -14,14 +15,6 @@
             templateUrl: '/Dp/Projects',
             controller: 'projectsCtrl',
             reloadOnSearch: false
-        });
-        $routeProvider.when('/Project', {
-            templateUrl: '/Dp/Project',
-            controller: 'projectCtrl'
-        });
-        $routeProvider.when('/Project/:id', {
-            templateUrl: '/Dp/Project',
-            controller: 'projectCtrl'
         });
         
         $routeProvider.when('/ProjectAssignment', {

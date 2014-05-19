@@ -160,7 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
+    <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
+    <Compile Include="ApiControllers\DP\StudentController.cs" />
     <Compile Include="ApiControllers\LabsController.cs" />
     <Compile Include="ApiControllers\NewsController.cs" />
     <Compile Include="ApiControllers\UploadController.cs" />
@@ -533,6 +535,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\application\accountManagement.js" />
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
+    <Content Include="Scripts\application\DP\controllers\studentsController.js" />
     <Content Include="Scripts\application\parentalModule.js" />
     <Content Include="Scripts\application\BTS\bug.js" />
     <Content Include="Scripts\application\BTS\chat.js" />
@@ -1075,6 +1078,7 @@
     <Content Include="Views\BTS\_ChatForm.cshtml" />
     <Content Include="Views\Administration\_AttendanceView.cshtml" />
     <Content Include="Views\Shared\Messages\_MessageForm.cshtml" />
+    <Content Include="Views\DP\Students.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

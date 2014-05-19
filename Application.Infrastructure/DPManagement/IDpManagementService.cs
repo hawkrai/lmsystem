@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using Application.Infrastructure.DTO;
-using LMPlatform.Models;
-using LMPlatform.Models.DP;
 
 namespace Application.Infrastructure.DPManagement
 {
@@ -13,6 +11,12 @@ namespace Application.Infrastructure.DPManagement
 
         void SaveProject(DiplomProjectData projectData);
 
-        void DeleteProject(int id);
+        void DeleteProject(int userId, int id);
+
+        void AssignProject(int userId, int projectId, int studentId);
+
+        void DeleteAssignment(int userId, int id);
+
+        List<StudentData> GetStudentsByDiplomProjectId(int diplomProjectId, int page, int count, out int total);
     }
 }

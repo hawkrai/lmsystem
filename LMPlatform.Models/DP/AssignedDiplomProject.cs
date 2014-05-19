@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration.Configuration;
 
 namespace LMPlatform.Models.DP
 {
@@ -15,5 +17,7 @@ namespace LMPlatform.Models.DP
         public int? Mark { get; set; }
 
         public virtual DiplomProject DiplomProject { get; set; }
+
+        public virtual Student Student { get; set; }
     }
 }

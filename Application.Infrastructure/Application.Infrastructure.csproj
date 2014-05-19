@@ -70,6 +70,7 @@
     <Compile Include="DPManagement\IDpManagementService.cs" />
     <Compile Include="DTO\Correlation.cs" />
     <Compile Include="DTO\DiplomProjectData.cs" />
+    <Compile Include="DTO\StudentData.cs" />
     <Compile Include="FilesManagement\AttachedFile.cs" />
     <Compile Include="FilesManagement\FilesManagementService.cs" />
     <Compile Include="FilesManagement\IFilesManagementService.cs" />
