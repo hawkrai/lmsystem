@@ -23,26 +23,16 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
         }
     });
 
-    $scope.getStudentStat = function (student) {
-        var lecHours = Enumerable.From($scope.data.LecturesMarkVisiting)
-            .First(function (x) { return x.StudentId == student.StudentId; }
-                .Select(function (x) {
-                    if (x.Mark === parseInt(x.Mark)) {
-                        return x.Mark;
-                    } else {
-                        return 0;
-                    }
-                })
-                .ToArray());
-        
-        var hours = 0;
+    $scope.$watch("data", function (newValue, oldValue) {
+        $scope.studentsStat = [];
+        if (newValue.Students.length) {
+            newValue.Students.forEach(
+                function (element, index) {
+                    $scope.studentsStat[index] = getStudentStat(element);
+                });
+        }
+    });
 
-        lecHours.forEach(function (h) {
-            hours += h;
-        });
-
-        return hours;
-    };
 
     $scope.loadSubjects = function () {
         $http({
@@ -82,6 +72,25 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
                 alertify.success(data.Message);
             }
         });
+    };
+
+    var getStudentStat = function (student) {
+        var studentStat = {
+            Name: student.FullName,
+            LecHours: 0
+        };
+
+        var lecMarks = Enumerable.From($scope.data.LecturesMarkVisiting).First(function (x) { return x.StudentId == student.StudentId; }).Marks;
+
+        studentStat.LecHours = 0;
+
+        lecMarks.forEach(function (mark) {
+            var hours = parseInt(mark.Mark);
+            if (hours)
+                studentStat.LecHours += hours;
+        });
+
+        return studentStat;
     };
 
 }]);

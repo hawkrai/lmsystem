@@ -34,12 +34,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="student in data.Students">
-                <td>{{student.FullName}}</td>
-                <td>{{getStudentStat(student.SudentId)}}</td>
-                <td>4</td>
+            <tr ng-repeat="student in studentsStat">
+                <td>{{student.Name}}</td>
+                <td>{{student.LecHours}}</td>
                 <td>0</td>
-                <td>8.5</td>
+                <td>0</td>
+                <td>0</td>
             </tr>
         </tbody>
     </table>
