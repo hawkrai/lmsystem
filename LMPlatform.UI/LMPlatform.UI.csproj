@@ -1079,6 +1079,10 @@
     <Content Include="Views\Administration\_AttendanceView.cshtml" />
     <Content Include="Views\Shared\Messages\_MessageForm.cshtml" />
     <Content Include="Views\DP\Students.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Practicals\_PracticalModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\News\_NewsModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Lectures\_LecturesModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Labs\_LabsModule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

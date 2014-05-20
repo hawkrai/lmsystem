@@ -1,0 +1,67 @@
+﻿<div ng-controller="LecturesController" ng-init="init()">
+
+    <style type="text/css">
+        .nav, .pagination, .carousel, .panel-title a {
+            cursor: pointer;
+        }
+    </style>
+
+    <tabset>
+        <tab heading="Лекции">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Тема</th>
+                            <th>Часы</th>
+                            <th>Скачать</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="data in lectures">
+                        <td>{{data.Order}}</td>
+                        <td>{{data.Theme}}</td>
+                        <td>{{data.Duration}}</td>
+                        <td style="width: 90px;">
+                            <div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </tab>
+        <tab heading="Посещение лекций">
+            <div id="navPanel" style="margin-top: 10px">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>    
+            <div>
+                <div style="max-width: 1200px; overflow-x: auto;">
+                    <table class="table table-bordered table-striped" style=" font-size: 10px">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Студент</th>
+                                <th ng-repeat="data in lecturesCalendar">
+                                    <div style="cursor: pointer" ng-click="editMarks(data)">{{data.Date}}</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="student in groupWorkingData.selectedGroup.LecturesMarkVisiting">
+                            <td style="width: 40px">{{student.StudentId}}</td>
+                            <td style="max-width: 200px">{{student.StudentName}}</td>
+                            <td ng-repeat="data in student.Marks" style="text-align: center">{{data.Mark}}</td>
+                        </tr>  
+                    </table>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+</div>

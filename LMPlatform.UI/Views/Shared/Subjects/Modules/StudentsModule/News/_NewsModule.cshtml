@@ -1,0 +1,28 @@
+﻿<div ng-controller="NewsController" ng-init="init()">
+    <style type="text/css">
+        .nav, .pagination, .carousel, .panel-title a {
+            cursor: pointer;
+        }
+    </style>
+
+    <div>
+        <div class="panel-group">
+            <accordion>
+                <accordion-group ng-repeat="data in news">
+                    <accordion-heading>
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.Title}}</a>
+                        </h4>
+                        <div style="text-align: right">
+                            <p class="text-muted" style="float: right; margin-left: 20px">{{data.DateCreate}}</p>
+                        </div>
+                        <div class="clear-fix"></div>
+                    </accordion-heading>
+                    <div>
+                        {{data.Body}}
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+</div>

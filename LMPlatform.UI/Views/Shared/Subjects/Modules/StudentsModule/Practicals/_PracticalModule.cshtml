@@ -1,0 +1,111 @@
+﻿<div ng-controller="PracticalsController" ng-init="init()">
+
+    <style type="text/css">
+        .nav, .pagination, .carousel, .panel-title a {
+            cursor: pointer;
+        }
+
+        .table-hoverT > tbody > tr:hover > td,
+        .table-hoverT > tbody > tr:hover > th {
+            background-color: #008b8b;
+        }
+    </style>
+
+    <tabset>
+        <tab heading="Практические занятия">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Краткое название</th>
+                            <th>Часы</th>
+                            <th>Скачать</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="data in practicals">
+                        <td>{{data.Order}}</td>
+                        <td>{{data.Theme}}</td>
+                        <td>{{data.ShortName}}</td>
+                        <td>{{data.Duration}}</td>
+                        <td style="width: 100px">
+                            <div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </tab>
+        <tab heading="Статистика посещения">
+            <div id="navPanel" style="margin-top: 10px">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table table-bordered table-striped table-hoverT">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Студент</th>
+                            <th style="width: 50px; text-align: center" ng-repeat="visitingDate in groupWorkingData.selectedGroup.ScheduleProtectionPracticals" ng-click="addVisitingMarks(visitingDate)">
+                                {{visitingDate.Date}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="student in groupWorkingData.selectedGroup.Students">
+                        <td style="width: 40px">{{student.StudentId}}</td>
+                        <td style="max-width: 200px">{{student.FullName}}</td>
+                        <td style="text-align: center" ng-repeat="visitingMark in student.PracticalVisitingMark">
+                            <span editable-text="visitingMark.Mark" e-name="Mark" e-form="tableform">
+                                {{ visitingMark.Mark || '' }}
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </tab>
+        <tab heading="Результаты">
+            <div id="navPanel" style="margin-top: 10px">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="c.GroupName for c in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table table-bordered table-striped table-hoverT">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Студент</th>
+                            <th style="width: 50px; text-align: center" ng-repeat="practical in practicals">{{practical.ShortName}}</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="student in groupWorkingData.selectedGroup.Students">
+                        <td style="width: 40px">{{student.StudentId}}</td>
+                        <td style="max-width: 200px">{{student.FullName}}</td>
+                        <td ng-repeat="practicalMark in student.StudentPracticalMarks">
+                            <span editable-text="practicalMark.Mark" e-name="Mark" e-form="tableformMarks">
+                                {{ practicalMark.Mark || '' }}
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </tab>
+    </tabset>
+</div>
+
+
