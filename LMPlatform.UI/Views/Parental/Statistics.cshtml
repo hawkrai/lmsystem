@@ -15,8 +15,7 @@
 }
 <div ng-controller="StatCtrl" ng-init="init(@Model.Group.Id)">
     <select class="form-control" ng-model="subject" ng-options="sbjct.Name for sbjct in Subjects"></select><br />
-    {{subject}}
-    
+
     <table id="stat-table">
         <caption>
             {{subject.Name}}
@@ -24,22 +23,29 @@
         <thead>
             <tr>
                 <th rowspan="2">ФИО</th>
-                <th colspan="3">Пропуски</th>
-                <th rowspan="2">Средний балл</th>
+                <th colspan="4">Пропуски, ч.</th>
+                <th colspan="2">Средний балл (Кол-во)</th>
             </tr>
             <tr>
                 <th>Лекции</th>
-                <th>Лаб.</th>
-                <th>Практ.</th>
+                <th>Лаборатоные</th>
+                <th>Практические</th>
+                <th>Всего</th>
+                <th>Лаборатоные</th>
+                <th>Практические</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="student in studentsStat">
-                <td>{{student.Name}}</td>
+                <td>{{$index + 1}}. {{student.Name}}</td>
                 <td>{{student.LecHours}}</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
+                <td>{{student.LabHours}}</td>
+                <td>{{student.PractHours}}</td>
+                <td>{{student.TotalHours}}</td>
+                <td ng-if="student.LabMark > 0" >{{student.LabMark}} ({{student.LabsCount}})</td>
+                <td ng-if="student.LabMark <= 0" >-</td>
+                <td ng-if="student.PractMark > 0">{{student.PractMark}} ({{student.PractsCount}})</td>
+                <td ng-if="student.PractMark <= 0" >-</td>
             </tr>
         </tbody>
     </table>
@@ -68,41 +74,27 @@
     #stat-table {
         margin: 20px 5px;
         font-size: 14px;
-    }
-
-    #stat-table caption {
-        text-align: left
-    }
-
-    #stat-table th {
+        background-color: white;
+        width: 100%;
         border: solid #ddd 1px;
-        padding: 5px;
-        text-align: center;
     }
-   
 
-        /*#stat-table .stat-row-head {
-            padding: 10px 0;
-            display: table-header-group;
-        }
-
-        #stat-table .stat-row {
-            display: table-row;
-        }
-
-        #stat-table .stat-column {
-            display: table-column-group;
-        }
-
-        #stat-table .stat-cell {
-            padding: 10px 0;
-            display: table-cell;
+        #stat-table caption {
+            text-align: left;
+            font-size: 17px;
             padding: 5px;
         }
 
-        #stat-table .stat-row-head .stat-cell {
-            font-weight: bold;
-        }*/
+        #stat-table th,
+        #stat-table td {
+            border: solid #ddd 1px;
+            padding: 5px;
+            text-align: center;
+        }
+
+            #stat-table td:first-child {
+                text-align: left;
+            }
 </style>
 
 
