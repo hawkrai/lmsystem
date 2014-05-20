@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using Application.Core.UI.HtmlHelpers;
+using Application.Infrastructure.ProjectManagement;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Models;
 
@@ -36,10 +37,14 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public static ProjectUserListViewModel FromProjectUser(ProjectUser projectUser)
         {
+            var context = new ProjectManagementService();
+            
             return new ProjectUserListViewModel
             {
                 Id = projectUser.Id,
-                UserName = projectUser.User.FullName,
+
+                //UserName = projectUser.User.FullName,
+                UserName = context.GetCreatorName(projectUser.User.Id),
                 RoleName = GetRoleName(projectUser.ProjectRoleId),
                 ProjectId = projectUser.ProjectId
             };
@@ -47,9 +52,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public static string GetProjectCreatorName(int projectId)
         {
+            var _context = new ProjectManagementService(); 
             var project = context.Projects.Find(projectId);
             var creator = context.Users.Find(project.CreatorId);
-            return creator.FullName;
+            return _context.GetCreatorName(creator.Id);
         }
 
         public static string GetRoleName(int id)

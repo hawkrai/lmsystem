@@ -21,6 +21,9 @@
     <script src="~/Scripts/application/BTS/project.js" type="text/javascript"></script>
     <script src="~/Scripts/application/BTS/projectPart.js" type="text/javascript"></script>
     <script src="~/Scripts/application/BTS/chat.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/jqplot/jquery.jqplot.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jqplot/jqplot.pieRenderer.min.js" type="text/javascript"></script>
 }
 
 @section navleft
@@ -32,23 +35,15 @@
     @Model.Title
 </h3>
 <hr />
-<div class="row bts">
-    <div class="col-md-8">
+<div class="row">
+    <div class="col-md-8" style="padding-right: 40px">
         <div class="row">
             <div class="col-md-12">
                 <div style="margin-top: 10px">
-                    <div class="row">
-                        <div class="col-md-4">
-                            @Html.LabelFor(p => p.Title):
-                        </div>
-                        <div class="col-md-8">
-                            @Model.Title
-                        </div>
-                    </div>
 
                     <div class="row">
                         <div class="col-md-4">
-                            @Html.LabelFor(p => p.Creator):
+                            @Html.LabelFor(p => p.Creator) проекта:
                         </div>
                         <div class="col-md-8">
                             @Model.CreatorName
@@ -57,189 +52,187 @@
 
                     <div class="row">
                         <div class="col-md-4">
-                            @Html.LabelFor(p => p.CreationDate):
+                            @Html.LabelFor(p => p.CreationDate) проекта:
                         </div>
                         <div class="col-md-4">
                             @Model.CreationDate.ToShortDateString()
                         </div>
                         <div class="col-md-4" style="float: right">
-                            <a type="button" class="btn btn-primary btn-sm" style="float: right" href="@Url.Action("BugManagement", "BTS")">Перейти к ошибкам проекта</a>
+                            @*<a type="button" class="btn btn-primary btn-sm" style="float: right" href="@Url.Action("BugManagement", "BTS")">Перейти к ошибкам проекта</a>*@
                         </div>
                     </div>
                 </div>
                 <hr />
-                <div class="row" style="margin-top: 10px">
+                <div class="row">
                     <div class="col-md-7">
                         <h4>Участники проекта</h4>
+                        <a class="projectUserButton btn btn-primary btn-sm" style="float: left; padding-top: 10px" href="@Url.Action("AssignUserOnProject", "BTS")">Добавить участника</a>
                     </div>
                     <div class="col-md-5">
-                        <a class="projectUserButton btn btn-primary btn-sm" style="float: right" href="@Url.Action("AssignUserOnProject", "BTS")">Добавить участника</a>
+                        @*<a class="projectUserButton btn btn-primary btn-sm" style="float: right" href="@Url.Action("AssignUserOnProject", "BTS")">Добавить участника</a>*@
                     </div>
                 </div>
 
                 <br />
                 <div>
                     @Html.Partial("_DataTable", new DataTableViewModel
-                {
-                    DataTable = Html.DataTable("ProjectUsersList", (BTSController controller) => controller.GetProjectUsers(new DataTablesParam() { }), new { projectId = Model.ProjectId }),
-                    DataTableOptions = new DataTableOptions
                     {
-                        Pagination = false,
-                        Searchable = false,
-                        Sortable = false,
-                        OnComplete = "projectUserManagement.projectUserEditItemActionHandler",
-                        Filterable = false,
-                        Info = false,
-                    }
-                })
+                        DataTable = Html.DataTable("ProjectUsersList", (BTSController controller) => controller.GetProjectUsers(new DataTablesParam() { }), new { projectId = Model.ProjectId }),
+                        DataTableOptions = new DataTableOptions
+                        {
+                            Pagination = false,
+                            Searchable = false,
+                            Sortable = false,
+                            OnComplete = "projectUserManagement.projectUserEditItemActionHandler",
+                            Filterable = false,
+                            Info = false,
+                        }
+                    })
                 </div>
 
             </div>
         </div>
+        <hr />
+        <div class="row">
+            <div id="commentPanel" style="padding: 0 15px 0 15px">
+                <div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" id="accordion">
+                            <h3 class="panel-title">Обсуждение проекта</h3>
+                            <span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
+                        </div>
+                        <div class="panel-body" style="padding: 10px; height: 200px">
+                            <ul class="chat">
+                                @foreach (var comment in Model.GetProjectComments())
+                                {
+                                    <li>
+                                        <div class="chat-body">
+                                            <div class="header">
+                                                <strong class="primary-font">@comment.User.FullName</strong> <small class="pull-right text-muted">
+                                                    <span class="glyphicon glyphicon-time" style="margin-right: -15px;"></span>@comment.CommentingDate.ToString("HH:mm dd.MM.yyyy")</small>
+                                            </div>
+                                            <p>
+                                                @comment.CommentText
+                                            </p>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="input-group">
+                                <input id="CommentText" type="text" class="form-control input-sm" placeholder="Введите свой комментарий..." />
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary btn-sm" id="chat-btn">
+                                        Отправить</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div class="col-md-4 float-right">
+    <div class="col-md-4 float-right" style="padding-right: 45px">
         <div class="row">
 
-            <div style="margin-top: 10px">
-                <div class="container" style="width: 308px" id="commentPanel">
-                    <div class="row">
-                        <div>
-                            <div class="panel panel-primary" style="width: 308px">
-                                <div class="panel-heading" id="accordion">
-                                    <h3 class="panel-title">Анализ ошибок проекта</h3>
-                                    <span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
-                                </div>
-                                <div class="panel-body" style="padding: 10px; overflow-y: hidden">
-                                    <div>
-                                        <p align="center">Количество ошибок: @Model.BugQuentity</p>
-                                        @if (Model.BugQuentity != 0)
-                                        {
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)) + "%;")">
-                                                    <span class="sr-only">Новые</span>
+            <div style="padding-left: 0px 20px 0px 20px">
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" id="accordion">
+                            <h3 class="panel-title">Анализ ошибок проекта</h3>
+                        </div>
+                        <div class="panel-body" style="padding: 10px; overflow: hidden">
+                            <div>
+                                <h5>Количество ошибок проекта: <b>@Model.BugQuentity</b></h5>
+                                @if (Model.BugQuentity != 0)
+                                {
+                                    <h5>Количество новых ошибок: <b>@Model.QuentityOfBugsBySeverity.First().Quentity</b></h5>
+                                    <h5>Важность ошибок:</h5>
+                                    foreach (var quentity in Model.QuentityOfBugsBySeverity)
+                                    {
+                                        <div class="progress">
+                                            @if (quentity == Model.QuentityOfBugsBySeverity.Last())
+                                            {
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@((int)(quentity.Quentity * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(quentity.Quentity * 100.0 / Model.BugQuentity)) + "%;")">
+                                                    <span class="sr-only">@quentity.Name</span>
                                                 </div>
-                                                <span class="progress-type">Новые</span>
-                                                <span class="progress-completed">@Model.QuentityOfNewBugs</span>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)) + "%;")">
-                                                    <span class="sr-only">Исправлены</span>
+                                            }
+                                            else
+                                            {
+                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(quentity.Quentity * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(quentity.Quentity * 100.0 / Model.BugQuentity)) + "%;")">
+                                                    <span class="sr-only">@quentity.Name</span>
                                                 </div>
-                                                <span class="progress-type">Исправлены</span>
-                                                <span class="progress-completed">@Model.QuentityOfResolvedBugs</span>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfPostponedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfPostponedBugs * 100.0 / Model.BugQuentity)) + "%;")">
-                                                    <span class="sr-only">Отложены</span>
-                                                </div>
-                                                <span class="progress-type">Отложены</span>
-                                                <span class="progress-completed">@Model.QuentityOfPostponedBugs</span>
-                                            </div>
-                        
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)) + "%;")">
-                                                    <span class="sr-only">Закрыты</span>
-                                                </div>
-                                                <span class="progress-type">Закрыты</span>
-                                                <span class="progress-completed">@Model.QuentityOfClosedBugs</span>
-                                            </div>
-                                        }
-
-                                    </div>
-                                </div>
+                                            }
+                                            <span class="progress-type">@quentity.Name</span>
+                                            <span class="progress-completed">@quentity.Quentity</span>
+                                        </div>
+                                    }
+                                    <h5>Статус ошибок:</h5>
+                                    <div id="chart1" style="width: 210px; height: 210px; display: table-cell"></div>
+                                }
+                            </div>
+                            <div align="center" style="padding-bottom: 10px">
+                                <a type="button" class="btn btn-primary btn-sm" href="@Url.Action("BugManagement", "BTS")">Перейти к ошибкам проекта</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            @*<div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title" align="center">Анализ ошибок проекта</h3>
-                </div>
-            </div>
-            <div class="row bts">
-                <div>
-                    <p align="center">Количество ошибок: @Model.BugQuentity</p>
-                    @if (Model.BugQuentity != 0)
-                    {
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfNewBugs * 100.0 / Model.BugQuentity)) + "%;")">
-                                <span class="sr-only">Новые</span>
-                            </div>
-                            <span class="progress-type">Новые</span>
-                            <span class="progress-completed">@Model.QuentityOfNewBugs</span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfResolvedBugs * 100.0 / Model.BugQuentity)) + "%;")">
-                                <span class="sr-only">Исправлены</span>
-                            </div>
-                            <span class="progress-type">Исправлены</span>
-                            <span class="progress-completed">@Model.QuentityOfResolvedBugs</span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfPostponedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfPostponedBugs * 100.0 / Model.BugQuentity)) + "%;")">
-                                <span class="sr-only">Отложены</span>
-                            </div>
-                            <span class="progress-type">Отложены</span>
-                            <span class="progress-completed">@Model.QuentityOfPostponedBugs</span>
-                        </div>
-                        
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfClosedBugs * 100.0 / Model.BugQuentity)) + "%;")">
-                                <span class="sr-only">Закрыты</span>
-                            </div>
-                            <span class="progress-type">Закрыты</span>
-                            <span class="progress-completed">@Model.QuentityOfClosedBugs</span>
-                        </div>
-                    }
-
-                </div>
-            </div>*@
-
-            <div style="margin-top: 10px">
-                <div class="container" style="width: 308px" id="commentPanel">
-                    <div class="row">
-                        <div>
-                            <div class="panel panel-primary" style="width: 308px">
-                                <div class="panel-heading" id="accordion">
-                                    <h3 class="panel-title">Обсуждение проекта</h3>
-                                    <span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
-                                </div>
-                                <div class="panel-body" style="padding: 10px; height: 200px">
-                                    <ul class="chat">
-                                        @foreach (var comment in Model.GetProjectComments())
-                                        {
-                                            <li>
-                                                <div class="chat-body">
-                                                    <div class="header">
-                                                        <strong class="primary-font">@comment.User.FullName</strong> <small class="pull-right text-muted">
-                                                            <span class="glyphicon glyphicon-time" style="margin-right: -15px;"></span>@comment.CommentingDate.ToString("HH:mm dd.MM.yyyy")</small>
-                                                    </div>
-                                                    <p>
-                                                        @comment.CommentText
-                                                    </p>
-                                                </div>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                                <div class="panel-footer">
-                                    <div class="input-group">
-                                        <input id="CommentText" type="text" class="form-control input-sm" placeholder="Введите свой комментарий..." />
-                                        <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-primary btn-sm" id="chat-btn">
-                                                Отправить</button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
+
     </div>
 </div>
+
+<style>
+    .jqplot-table-legend-swatch {
+        width: 20px;
+        height: 15px;
+        margin-right: 5px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+
+        var data = @Html.Raw(Model.BugStatusesJson);
+
+        var line = [];
+        for (var propName in data) {
+            line.push([propName, data[propName]]);
+        }
+
+        var plot1 = jQuery.jqplot('chart1', [line],
+          {
+              seriesDefaults: {
+                  // Make this a pie chart.
+                  renderer: jQuery.jqplot.PieRenderer,
+                  rendererOptions: {
+                      // Put data labels on the pie slices.
+                      // By default, labels show the percentage of the slice.
+                      showDataLabels: true,
+                      sliceMargin: 5
+                  }
+              },
+              grid: {
+                  drawGridLines: true,        // wether to draw lines across the grid or not.
+                  gridLineColor: '#cccccc',    // *Color of the grid lines.
+                  background: '#ffffff',      // CSS color spec for background color of grid.
+                  borderWidth: 0,           // pixel width of border around grid.
+                  shadow: false,               // draw a shadow for grid.
+                  renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
+                  rendererOptions: {}         // options to pass to the renderer.  Note, the default
+                  // CanvasGridRenderer takes no additional options.
+              },
+              legend: { 
+                  show: true, 
+                  location: 'e',
+                  placement: 'outside',
+                  
+              }
+          }
+        );
+    });
+</script>
+
 

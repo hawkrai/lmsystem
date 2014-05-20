@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using Application.Core.Data;
 using Application.Infrastructure.GroupManagement;
+using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
@@ -37,9 +38,8 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public IList<SelectListItem> GetGroups()
         {
-            var groups = new GroupManagementService().GetGroups();
+            var groups = GetAssignedGroups(WebSecurity.CurrentUserId);
 
-            //var groups = GetAssignedGroups(WebSecurity.CurrentUserId);
             return groups.Select(v => new SelectListItem
             {
                 Text = v.Name,
@@ -47,9 +47,40 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }).ToList();
         }
 
-        //public IList<Group> GetAssignedGroups(int userId)
-        //{
-        //}
+        public IList<Group> GetAssignedGroups(int userId)
+        {
+            var groups = new LmPlatformRepositoriesContainer().ProjectsRepository.GetGroups(userId);
+
+            return groups;
+        }
+
+        public List<StudentGroupUser> LecturerList { get; set; }
+
+        public List<StudentGroupUser> GetLecturerList()
+        {
+            LecturerList = new List<StudentGroupUser>();
+
+            var lecturers = new LecturerManagementService().GetLecturers().ToList();
+            var number = 1;
+
+            foreach (var lecturer in lecturers)
+            {
+                LecturerList.Add(new StudentGroupUser
+                {
+                    Number = number,
+                    Name = lecturer.LastName + " " + lecturer.FirstName + " " + lecturer.MiddleName,
+                    ProjectName = GetProjectNameList(lecturer.Id),
+                    ProjectRole = GetProjectRoleList(lecturer.Id),
+                    ProjectCreatorName = GetProjectCreatorNameList(lecturer.Id)
+                });
+                number++;
+            }
+
+            LecturerList.Sort();
+
+            return LecturerList;
+        }
+
         public List<StudentGroupUser> StudentGroupUserList { get; set; }
 
         public List<StudentGroupUser> GetStudentGroupUserList(string groupName)
@@ -66,10 +97,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 StudentGroupUserList.Add(new StudentGroupUser
                 {
                     Number = number,
-                    Name = student.FirstName + " " + student.MiddleName + " " + student.LastName,
+                    Name = student.LastName + " " + student.FirstName + " " + student.MiddleName,
                     ProjectName = GetProjectNameList(student.Id),
-                    ProjectCreatorName = GetProjectCreatorNameList(student.Id),
-                    ProjectRole = GetProjectRoleList(student.Id)
+                    ProjectRole = GetProjectRoleList(student.Id),
+                    ProjectCreatorName = GetProjectCreatorNameList(student.Id)
                 });
                 number++;
             }

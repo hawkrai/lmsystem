@@ -10,19 +10,20 @@ using LMPlatform.Models;
 
 namespace LMPlatform.Data.Repositories
 {
-  public class LecturerRepository : RepositoryBase<LmPlatformModelsContext, Lecturer>, ILecturerRepository
-  {
-    public LecturerRepository(LmPlatformModelsContext dataContext) : base(dataContext)
+    public class LecturerRepository : RepositoryBase<LmPlatformModelsContext, Lecturer>, ILecturerRepository
     {
-    }
+        public LecturerRepository(LmPlatformModelsContext dataContext)
+            : base(dataContext)
+        {
+        }
 
-    public void SaveLecturer(Lecturer lecturer)
-    {
-      using (var context = new LmPlatformModelsContext())
-      {
-        context.Set<Lecturer>().Add(lecturer);
-        context.SaveChanges();
-      }
+        public void SaveLecturer(Lecturer lecturer)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                context.Set<Lecturer>().Add(lecturer);
+                context.SaveChanges();
+            }
+        }
     }
-  }
 }

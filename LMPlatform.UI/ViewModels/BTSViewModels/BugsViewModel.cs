@@ -77,10 +77,14 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public void SetParams(Bug model)
         {
+            var context = new ProjectManagementService();
+
             Steps = model.Steps;
             ExpectedResult = model.ExpectedResult;
             Symptom = GetSymptomName(model.SymptomId);
-            ReporterName = GetReporterName(model.ReporterId);
+
+            //ReporterName = GetReporterName(model.ReporterId);
+            ReporterName = context.GetCreatorName(model.ReporterId);
             ReportingDate = model.ReportingDate.ToShortDateString();
             Summary = model.Summary;
             Description = model.Description;

@@ -20,6 +20,8 @@
         $('[name="projectGridActionsCol"]')
             .parent()
             .width(this._actionsColumnWidth);
+
+        //$("#jqplot-table-legend").attr("padding-left", "-100");
     },
 
     initButtonAction: function () {

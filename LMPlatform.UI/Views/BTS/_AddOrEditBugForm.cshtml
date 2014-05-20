@@ -31,13 +31,13 @@
 
         <div>
             @Html.LabelFor(model => model.Steps, new { @class = "control-label" })
-            @Html.EditorFor(model => model.Steps, new { @class = "form-control", @style = "width: 538px" })
+            @Html.EditorFor(model => model.Steps, new { @class = "form-control", @style = "height: 100px; width: 538px" })
             @Html.ValidationMessageFor(model => model.Steps, " ")
         </div>
             
         <div>
             @Html.LabelFor(model => model.ExpectedResult, new { @class = "control-label" })
-            @Html.EditorFor(model => model.ExpectedResult, new { @class = "form-control", @style = "width: 538px" })
+            @Html.EditorFor(model => model.ExpectedResult, new { @class = "form-control", @style = "height: 100px; width: 538px" })
             @Html.ValidationMessageFor(model => model.ExpectedResult, " ")
         </div>
 
@@ -53,7 +53,7 @@
 
         <div>
             @Html.LabelFor(model => model.StatusId, new { @class = "control-label" })
-            @Html.DropDownListFor(e => e.StatusId, Model.GetStatusNames(), new { @class = "form-control" })
+            @Html.DropDownListFor(e => e.StatusId, Model.GetStatusNames(), new { @class = "form-control"})
         </div>
     }
 

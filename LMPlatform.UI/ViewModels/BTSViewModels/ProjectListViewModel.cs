@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 using Application.Core.UI.HtmlHelpers;
+using Application.Infrastructure.ProjectManagement;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Models;
 using WebMatrix.WebData;
@@ -45,21 +46,24 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public static ProjectListViewModel FromProject(Project project)
         {
-            var context = new LmPlatformModelsContext().ProjectUsers;
+            var context = new LmPlatformModelsContext();
             var isAssigned = false;
-            foreach (var user in context)
+            foreach (var user in context.ProjectUsers)
             {
                 if (user.ProjectId == project.Id && user.UserId == WebSecurity.CurrentUserId)
                 {
                     isAssigned = true;
                 }
             }
-            
+
+            var _context = new ProjectManagementService();
+            var creatorId = project.Creator.Id;
+
             return new ProjectListViewModel
                 {
                     Id = project.Id,
                     Title = project.Title,
-                    CreatorName = project.Creator.UserName,
+                    CreatorName = _context.GetCreatorName(creatorId),
                     CreationDate = project.CreationDate.ToShortDateString(),
                     IsAssigned = isAssigned
                 };

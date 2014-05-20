@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Application.Core.Data;
+using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 
@@ -166,6 +167,30 @@ namespace Application.Infrastructure.ProjectManagement
             }
 
             return isAssigned;
+        }
+
+        public string GetCreatorName(int id)
+        {
+            var context = new LmPlatformModelsContext();
+            if (context.Students.Find(id) != null)
+            {
+                //var creator = context.Students.Find(id);
+                var creator = new Student();
+                foreach (var student in context.Students)
+                {
+                    if (student.Id == id)
+                    {
+                        creator = student;
+                    }
+                }
+
+                return creator.LastName + " " + creator.FirstName + " " + creator.MiddleName;
+            }
+            else
+            {
+                var creator = context.Lecturers.Find(id);
+                return creator.LastName + " " + creator.FirstName + " " + creator.MiddleName;
+            }
         }
     }
 }

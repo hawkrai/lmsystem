@@ -39,5 +39,7 @@ namespace Application.Infrastructure.ProjectManagement
         void AssingRole(ProjectUser projectUser);
 
         bool IsUserAssignedOnProject(int userId, int projectId);
+
+        string GetCreatorName(int id);
     }
 }

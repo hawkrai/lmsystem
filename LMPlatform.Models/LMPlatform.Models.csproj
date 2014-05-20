@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Attachment.cs" />
     <Compile Include="AttachmentType.cs" />
+    <Compile Include="BTS\BugQuentity.cs" />
     <Compile Include="BTS\BugSeverity.cs" />
     <Compile Include="BTS\BugStatus.cs" />
     <Compile Include="BTS\BugSymptom.cs" />

@@ -30,6 +30,8 @@
         $('[name="projectUserGridActionsCol"]')
             .parent()
             .width(this._actionsColumnWidth);
+
+        $("#ProjectUsersList_wrapper").css('margin-bottom', '0px');
     },
 
     initButtonAction: function () {

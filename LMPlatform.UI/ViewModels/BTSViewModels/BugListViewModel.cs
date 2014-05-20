@@ -63,12 +63,16 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public static BugListViewModel FromBug(Bug bug)
         {
+            var context = new ProjectManagementService();
+
             return new BugListViewModel
             {
                 Id = bug.Id,
                 Steps = bug.Steps,
                 Symptom = GetSymptomName(bug.SymptomId),
-                ReporterName = GetReporterName(bug.ReporterId),
+
+                //ReporterName = GetReporterName(bug.ReporterId),
+                ReporterName = context.GetCreatorName(bug.ReporterId),
                 ReportingDate = bug.ReportingDate.ToShortDateString(),
                 Summary = bug.Summary,
                 Description = bug.Description,

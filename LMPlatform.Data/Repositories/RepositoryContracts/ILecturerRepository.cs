@@ -8,8 +8,8 @@ using LMPlatform.Models;
 
 namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
-  public interface ILecturerRepository : IRepositoryBase<Lecturer>
-  {
-    void SaveLecturer(Lecturer lecturer);
-  }
+    public interface ILecturerRepository : IRepositoryBase<Lecturer>
+    {
+        void SaveLecturer(Lecturer lecturer);
+    }
 }
