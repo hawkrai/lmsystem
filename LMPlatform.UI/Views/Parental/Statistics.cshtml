@@ -8,14 +8,20 @@
 }
 @section title
 {
-Успеваемость
+    Успеваемость
 }
 @section headscripts
 {
 }
 <div ng-controller="StatCtrl" ng-init="init(@Model.Group.Id)">
-    <select class="form-control" ng-model="subject" ng-options="sbjct.Name for sbjct in Subjects"></select><br />
 
+    <select class="form-control" ng-model="subject" ng-options="sbjct.Name for sbjct in Subjects"></select><br />
+    <div class="print-btn">
+        <a href="#" onclick="window.print(); return false;">
+            <i class="fa fa-print"></i>
+            <span>Печать</span>
+        </a>
+    </div>
     <table id="stat-table">
         <caption>
             {{subject.Name}}
@@ -36,43 +42,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="student in studentsStat">
+            <tr ng-repeat="student in subjectStat">
                 <td>{{$index + 1}}. {{student.Name}}</td>
                 <td>{{student.LecHours}}</td>
                 <td>{{student.LabHours}}</td>
                 <td>{{student.PractHours}}</td>
                 <td>{{student.TotalHours}}</td>
-                <td ng-if="student.LabMark > 0" >{{student.LabMark}} ({{student.LabsCount}})</td>
-                <td ng-if="student.LabMark <= 0" >-</td>
+                <td ng-if="student.LabMark > 0">{{student.LabMark}} ({{student.LabsCount}})</td>
+                <td ng-if="student.LabMark <= 0">-</td>
                 <td ng-if="student.PractMark > 0">{{student.PractMark}} ({{student.PractsCount}})</td>
-                <td ng-if="student.PractMark <= 0" >-</td>
+                <td ng-if="student.PractMark <= 0">-</td>
             </tr>
         </tbody>
     </table>
-
-
-    @*  <div id="stat-table">
-        <div class="stat-row-head">
-            <div class="stat-cell bordered">ФИО</div>
-            <div>
-                <div>Пропуски</div>
-            </div>
-            <div class="stat-cell bordered">Пропуски (лекции)</div>
-            <div class="stat-cell bordered">Пропуски (лабораторные)</div>
-            <div class="stat-cell bordered">Пропуски (практические)</div>
-            <div class="stat-cell bordered">Всего пропусков</div>
-            <div class="stat-cell bordered">Средний балл</div>
-        </div>
-        <div class="stat-row" ng-repeat="student in data.Students">
-            <div class="stat-cell">{{student.FullName}}</div>
-        </div>
-    </div>*@
 
 </div>
 
 <style>
     #stat-table {
-        margin: 20px 5px;
+        margin: 20px 0px;
         font-size: 14px;
         background-color: white;
         width: 100%;
@@ -83,6 +71,9 @@
             text-align: left;
             font-size: 17px;
             padding: 5px;
+            background-color: white;
+            border: solid 1px #ddd;
+            border-bottom: none;
         }
 
         #stat-table th,
@@ -95,28 +86,12 @@
             #stat-table td:first-child {
                 text-align: left;
             }
+
+    .print-btn {
+        float: right;
+        padding: 3px 7px;
+    }
 </style>
 
-
-@*<div>
-        @Html.DropDownList("students", Model.GetStudentsSelectList(), new { @class = "students-stat" })
-    </div>
-
-    <div id="stat-table">
-        @Html.Partial("_StatDataTable", new StatDataTableViewModel
-                 {
-                     DataTable = Html.DataTable("incomingMessageList", (ParentalController controller) => controller.GetStatCollection(null), new { param = true }),
-                     DataTableOptions = new DataTableOptions
-                         {
-                             Pagination = true,
-                             Searchable = true,
-                             Sortable = false,
-                             Filterable = false,
-                             Info = false,
-                             /*OnComplete = "initDisplayMessageDialog"*/
-                         }
-                 })
-
-    </div>*@
 
 
