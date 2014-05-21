@@ -212,6 +212,7 @@
     <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentLabMarkViewData.cs" />
+    <Compile Include="Services\Modules\CoreModels\StudentPracticalMarkViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\SubGroupsViewData.cs" />
     <Compile Include="Services\Modules\Labs\LabsResult.cs" />
@@ -234,10 +235,16 @@
     <Compile Include="Services\Modules\Messages\DisplayMessageViewData.cs" />
     <Compile Include="Services\Modules\Messages\MessagesResult.cs" />
     <Compile Include="Services\Modules\Messages\MessagesViewData.cs" />
+    <Compile Include="Services\Modules\Messages\RecipientsResult.cs" />
+    <Compile Include="Services\Modules\Messages\RecipientViewData.cs" />
     <Compile Include="Services\Modules\News\NewsResult.cs" />
     <Compile Include="Services\Modules\News\NewsViewData.cs" />
+    <Compile Include="Services\Modules\Parental\SubjectListResult.cs" />
+    <Compile Include="Services\Modules\Parental\SubjectViewData.cs" />
     <Compile Include="Services\Modules\Practicals\PracticalsResult.cs" />
     <Compile Include="Services\Modules\Practicals\PracticalsViewData.cs" />
+    <Compile Include="Services\Modules\Practicals\PracticalVisitingMarkViewData.cs" />
+    <Compile Include="Services\Modules\Practicals\ScheduleProtectionPracticalViewData.cs" />
     <Compile Include="Services\Modules\ResultViewData.cs" />
     <Compile Include="Services\News\INewsService.cs" />
     <Compile Include="Services\News\NewsService.svc.cs">
