@@ -183,9 +183,9 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
             current.PractHours += student.PractHours;
             current.LabHours += student.LabHours;
             current.TotalHours += student.TotalHours;
-            current.LabMark += student.LabMark;
-            current.PractMark += student.PractMark;
-            current.LabsCount += student.LabsCount;
+            current.LabMark = (current.LabMark + student.LabMark) /2;
+            current.PractMark = (current.PractMark + student.PractMark) /2;
+            current.LabsCount +=  student.LabsCount;
             current.PractsCount += student.PractsCount;
         } else {
             return {
