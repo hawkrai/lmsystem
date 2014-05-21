@@ -144,18 +144,6 @@ function getUrlValue(varSearch) {
     }
 }
 
-function printArea(areaId) {
-    var divElements = document.getElementById(areaId).innerHTML;
-    var oldPage = document.body.innerHTML;
-    document.body.innerHTML =
-      "<html><head><title></title></head><body>" +
-      divElements + "</body>";
-    window.print();
-    //document.body.innerHTML = oldPage;
-}
-
-
-
 $(document).ready(function () {
 	shared.init();
 });
