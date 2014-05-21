@@ -561,6 +561,7 @@
     <Content Include="Scripts\application\masterPageManagement.js" />
     <Content Include="Scripts\application\message.js" />
     <Content Include="Scripts\application\msgModule.js" />
+    <Content Include="Scripts\application\parentalModule.js" />
     <Content Include="Scripts\application\shared.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestsListScript.js" />
     <Content Include="Scripts\application\spinFunction.js" />
@@ -1075,6 +1076,7 @@
     <Content Include="Views\BTS\_ChatForm.cshtml" />
     <Content Include="Views\Administration\_AttendanceView.cshtml" />
     <Content Include="Views\BTS\_UserInfo.cshtml" />
+    <Content Include="Views\Shared\Messages\_MessageForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
