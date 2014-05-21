@@ -250,6 +250,10 @@
     <Compile Include="Services\News\NewsService.svc.cs">
       <DependentUpon>NewsService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\Parental\IParentalService.cs" />
+    <Compile Include="Services\Parental\ParentalService.svc.cs">
+      <DependentUpon>ParentalService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Services\Practicals\IPracticalService.cs" />
     <Compile Include="Services\Practicals\PracticalService.svc.cs">
       <DependentUpon>PracticalService.svc</DependentUpon>
@@ -940,6 +944,7 @@
     <Content Include="Services\Labs\LabsService.svc" />
     <Content Include="Services\Lectures\LecturesService.svc" />
     <Content Include="Services\News\NewsService.svc" />
+    <Content Include="Services\Parental\ParentalService.svc" />
     <Content Include="Services\Practicals\PracticalService.svc" />
     <Content Include="Unity.Mvc4.README.txt" />
     <Content Include="Web.config">
