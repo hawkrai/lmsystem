@@ -74,9 +74,6 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
                             $scope.loadData(val.Id);
                         }
                     });
-
-                    
-
                 }
 
                 alertify.success(data.Message);
@@ -183,10 +180,16 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
             current.PractHours += student.PractHours;
             current.LabHours += student.LabHours;
             current.TotalHours += student.TotalHours;
-            current.LabMark = (current.LabMark + student.LabMark) /2;
-            current.PractMark = (current.PractMark + student.PractMark) /2;
-            current.LabsCount +=  student.LabsCount;
-            current.PractsCount += student.PractsCount;
+
+
+            var labsCount = current.LabsCount + student.LabsCount;
+            var practsCount = current.PractsCount + student.PractsCount;
+            
+            current.LabMark = labsCount != 0 ? Number(((current.LabMark * current.LabsCount + student.LabMark * student.LabsCount) / labsCount).toFixed(1)) : 0;
+            current.PractMark = practsCount != 0 ? Number(((current.PractMark * current.PractsCount + student.PractMark * student.PractsCount) / practsCount).toFixed(1)) : 0;
+            
+            current.LabsCount = labsCount;
+            current.PractsCount = practsCount;
         } else {
             return {
                 Name: student.Name,

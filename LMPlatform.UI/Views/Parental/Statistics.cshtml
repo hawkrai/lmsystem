@@ -30,7 +30,7 @@
             <tr>
                 <th rowspan="2">ФИО</th>
                 <th colspan="4">Пропуски, ч.</th>
-                <th colspan="2">Средний балл (Кол-во)</th>
+                <th colspan="3">Средний балл (Кол-во)</th>
             </tr>
             <tr>
                 <th>Лекции</th>
@@ -39,6 +39,7 @@
                 <th>Всего</th>
                 <th>Лаборатоные</th>
                 <th>Практические</th>
+                <th>Общий</th>
             </tr>
         </thead>
         <tbody>
@@ -51,6 +52,8 @@
                 <td ng-if="student.LabMark > 0">{{student.LabMark}} ({{student.LabsCount}})</td>
                 <td ng-if="student.LabMark <= 0">-</td>
                 <td ng-if="student.PractMark > 0">{{student.PractMark}} ({{student.PractsCount}})</td>
+                <td ng-if="student.PractMark <= 0">-</td>
+                <td ng-if="student.PractMark > 0">{{(student.PractMark + student.LabMark)/2}}</td>
                 <td ng-if="student.PractMark <= 0">-</td>
             </tr>
         </tbody>
