@@ -160,9 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
-    <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
-    <Compile Include="ApiControllers\DP\StudentController.cs" />
     <Compile Include="ApiControllers\LabsController.cs" />
     <Compile Include="ApiControllers\NewsController.cs" />
     <Compile Include="ApiControllers\UploadController.cs" />
@@ -214,7 +212,6 @@
     <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentLabMarkViewData.cs" />
-    <Compile Include="Services\Modules\CoreModels\StudentPracticalMarkViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\SubGroupsViewData.cs" />
     <Compile Include="Services\Modules\Labs\LabsResult.cs" />
@@ -235,26 +232,16 @@
     <Compile Include="Services\Modules\MarkViewData.cs" />
     <Compile Include="Services\Modules\Messages\DisplayMessagesResult.cs" />
     <Compile Include="Services\Modules\Messages\DisplayMessageViewData.cs" />
-    <Compile Include="Services\Modules\Messages\RecipientViewData.cs" />
-    <Compile Include="Services\Modules\Messages\RecipientsResult.cs" />
     <Compile Include="Services\Modules\Messages\MessagesResult.cs" />
     <Compile Include="Services\Modules\Messages\MessagesViewData.cs" />
     <Compile Include="Services\Modules\News\NewsResult.cs" />
     <Compile Include="Services\Modules\News\NewsViewData.cs" />
-    <Compile Include="Services\Modules\Parental\SubjectListResult.cs" />
-    <Compile Include="Services\Modules\Parental\SubjectViewData.cs" />
     <Compile Include="Services\Modules\Practicals\PracticalsResult.cs" />
     <Compile Include="Services\Modules\Practicals\PracticalsViewData.cs" />
-    <Compile Include="Services\Modules\Practicals\PracticalVisitingMarkViewData.cs" />
-    <Compile Include="Services\Modules\Practicals\ScheduleProtectionPracticalViewData.cs" />
     <Compile Include="Services\Modules\ResultViewData.cs" />
     <Compile Include="Services\News\INewsService.cs" />
     <Compile Include="Services\News\NewsService.svc.cs">
       <DependentUpon>NewsService.svc</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Parental\IParentalService.cs" />
-    <Compile Include="Services\Parental\ParentalService.svc.cs">
-      <DependentUpon>ParentalService.svc</DependentUpon>
     </Compile>
     <Compile Include="Services\Practicals\IPracticalService.cs" />
     <Compile Include="Services\Practicals\PracticalService.svc.cs">
@@ -276,6 +263,7 @@
     <Compile Include="ViewModels\BTSViewModels\BugsViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectParticipationViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\UserInfoViewModel.cs" />
     <Compile Include="ViewModels\DPViewModels\DiplomProjectViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionItemListViewModel.cs" />
@@ -535,8 +523,6 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\application\accountManagement.js" />
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
-    <Content Include="Scripts\application\DP\controllers\studentsController.js" />
-    <Content Include="Scripts\application\parentalModule.js" />
     <Content Include="Scripts\application\BTS\bug.js" />
     <Content Include="Scripts\application\BTS\chat.js" />
     <Content Include="Scripts\application\BTS\project.js" />
@@ -947,7 +933,6 @@
     <Content Include="Services\Labs\LabsService.svc" />
     <Content Include="Services\Lectures\LecturesService.svc" />
     <Content Include="Services\News\NewsService.svc" />
-    <Content Include="Services\Parental\ParentalService.svc" />
     <Content Include="Services\Practicals\PracticalService.svc" />
     <Content Include="Unity.Mvc4.README.txt" />
     <Content Include="Web.config">
@@ -1077,12 +1062,7 @@
     <Content Include="Views\BTS\_studentProjectsList.cshtml" />
     <Content Include="Views\BTS\_ChatForm.cshtml" />
     <Content Include="Views\Administration\_AttendanceView.cshtml" />
-    <Content Include="Views\Shared\Messages\_MessageForm.cshtml" />
-    <Content Include="Views\DP\Students.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Practicals\_PracticalModule.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\News\_NewsModule.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Lectures\_LecturesModule.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Labs\_LabsModule.cshtml" />
+    <Content Include="Views\BTS\_UserInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

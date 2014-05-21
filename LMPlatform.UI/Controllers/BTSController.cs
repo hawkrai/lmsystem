@@ -152,6 +152,13 @@ namespace LMPlatform.UI.Controllers
             return Json(new SelectList(students, "Value", "Text"));
         }
 
+        [HttpPost]
+        public ActionResult GetUserInformation(int id)
+        {
+            var model = new UserInfoViewModel(id);
+            return PartialView("_UserInfo", model);
+        }
+
         [HttpGet]
         public ActionResult BugDetails(int id)
         {

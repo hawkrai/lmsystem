@@ -71,7 +71,37 @@
     }
 };
 
-$(document).ready(function () {
+$(document).ready(function() {
     projectUserManagement.init();
     $("#groups").change();
+
+    document.onmouseover = document.onmouseout = handler;
+
+    function handler(e) {
+        e = e || event;
+        if (e.type == 'mouseover') {
+            var toElem = e.srcElement || e.target;
+            if (str(toElem) == "TD") {
+                //var id = toElem.parentElement.outerHTML.find("span").val();
+                var name = toElem.parentNode.childNodes[1];
+                var id = toElem.parentNode.childNodes[3].children[0].children[0].children[0].textContent;
+                $.post("/BTS/GetUserInformation", { id: id }, function (data) {
+                    //$("#userPanel").append(data);
+                    name.easyTooltip({
+                        tooltipId: "easyTooltip2",
+                        content: data
+                    });
+                });
+            }
+        }
+    }
+
+//else if (e.type == 'mouseout') {
+    //    fromElem = e.srcElement || e.target;
+    //    toElem = e.toElement || e.relatedTarget;
+    //}
+
+    function str(el) {
+        return el ? (el.id || el.nodeName) : 'null';
+    }
 });

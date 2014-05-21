@@ -1,0 +1,32 @@
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.UserInfoViewModel
+
+@if (@Model.Role == "Студент")
+{
+    <div>
+        @Model.Role: <b>@Model.UserName</b>
+    </div>
+    <div>
+        Группа: <b>@Model.GroupNumber</b>
+    </div>
+    <div>
+        Количество проектов, на которых занят: <b>@Model.ProjectQuentity</b>
+    </div>
+}
+else
+{
+    <div>
+        @Model.Role: <b>@Model.UserName</b>
+    </div>
+    <div>
+        Количество проектов, на которых занят: <b>@Model.ProjectQuentity</b>
+    </div>
+    <div>
+        Привязанные предметы:
+        @foreach (var subject in Model.SubjectList)
+        {
+            <div>
+                @subject.Name
+            </div>
+        }
+    </div>
+}

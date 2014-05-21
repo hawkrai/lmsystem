@@ -74,7 +74,10 @@
                 </div>
 
                 <br />
-                <div>
+                
+                <div id="userPanel"></div>
+
+                <div class="projectUsersList">
                     @Html.Partial("_DataTable", new DataTableViewModel
                     {
                         DataTable = Html.DataTable("ProjectUsersList", (BTSController controller) => controller.GetProjectUsers(new DataTablesParam() { }), new { projectId = Model.ProjectId }),
@@ -203,36 +206,66 @@
         }
 
         var plot1 = jQuery.jqplot('chart1', [line],
-          {
-              seriesDefaults: {
-                  // Make this a pie chart.
-                  renderer: jQuery.jqplot.PieRenderer,
-                  rendererOptions: {
-                      // Put data labels on the pie slices.
-                      // By default, labels show the percentage of the slice.
-                      showDataLabels: true,
-                      sliceMargin: 5
-                  }
-              },
-              grid: {
-                  drawGridLines: true,        // wether to draw lines across the grid or not.
-                  gridLineColor: '#cccccc',    // *Color of the grid lines.
-                  background: '#ffffff',      // CSS color spec for background color of grid.
-                  borderWidth: 0,           // pixel width of border around grid.
-                  shadow: false,               // draw a shadow for grid.
-                  renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
-                  rendererOptions: {}         // options to pass to the renderer.  Note, the default
-                  // CanvasGridRenderer takes no additional options.
-              },
-              legend: { 
-                  show: true, 
-                  location: 'e',
-                  placement: 'outside',
+            {
+                seriesDefaults: {
+                    // Make this a pie chart.
+                    renderer: jQuery.jqplot.PieRenderer,
+                    rendererOptions: {
+                        // Put data labels on the pie slices.
+                        // By default, labels show the percentage of the slice.
+                        showDataLabels: true,
+                        sliceMargin: 5
+                    }
+                },
+                grid: {
+                    drawGridLines: true,        // wether to draw lines across the grid or not.
+                    gridLineColor: '#cccccc',    // *Color of the grid lines.
+                    background: '#ffffff',      // CSS color spec for background color of grid.
+                    borderWidth: 0,           // pixel width of border around grid.
+                    shadow: false,               // draw a shadow for grid.
+                    renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
+                    rendererOptions: {}         // options to pass to the renderer.  Note, the default
+                    // CanvasGridRenderer takes no additional options.
+                },
+                legend: { 
+                    show: true, 
+                    location: 'e',
+                    placement: 'outside',
                   
-              }
-          }
+                }
+            }
         );
     });
 </script>
+
+@*<div style="width:100px; font-size: 32px; margin-top: 0; background:green" id="Боб">Боб</div>
+<div style="width:100px; font-size: 30px; background:blue" id="Алиса">Алиса</div>
+Mouseover: <span id="mouseover">элементы</span>
+Mouseout: <span id="mouseout">элементы</span>*@
+
+@*<script>
+
+    function handler(e) {
+        e = e || event;
+        if (e.type == 'mouseover') {
+            var fromElem = e.fromElement || e.relatedTarget;
+            var toElem = e.srcElement || e.target;
+            if (str(toElem) == "TD") {
+                var id = fromElem.find("userSpan").val();
+                alert(id);
+            }
+        }
+        //else if (e.type == 'mouseout') {
+        //    fromElem = e.srcElement || e.target;
+        //    toElem = e.toElement || e.relatedTarget;
+        //}
+
+        function str(el) {
+            return el ? (el.id || el.nodeName) : 'null';
+        }
+    }
+
+    document.onmouseover = document.onmouseout = handler;
+</script>*@
 
 
