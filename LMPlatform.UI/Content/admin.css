@@ -10,10 +10,11 @@
 }
 
 #admin .navbar-brand,
-#parental .navbar-brand { 
+#parental .navbar-brand {
     font-size: 30px;
     line-height: 28px;
 }
+
     #admin .navbar-brand sup,
     #parental .navbar-brand sup {
         font-size: 14px;
@@ -21,11 +22,11 @@
         vertical-align: middle;
     }
 
-#admin .navbar-brand .admin-icon,
-#parental .navbar-brand .admin-icon {
-    font-size: 24px;
-    margin-right: 5px;
-}
+    #admin .navbar-brand .admin-icon,
+    #parental .navbar-brand .admin-icon {
+        font-size: 24px;
+        margin-right: 5px;
+    }
 
 #parental ul.dropdown-menu .nav-item {
     padding-left: 22px;
@@ -54,4 +55,37 @@ select.students-stat {
     font-size: 18px;
     padding: 5px;
     margin: 5px;
+}
+/*statistics*/
+#stat-table {
+    margin: 20px 0px;
+    font-size: 14px;
+    background-color: white;
+    width: 100%;
+    border: solid #ddd 1px;
+}
+
+    #stat-table caption {
+        text-align: left;
+        font-size: 17px;
+        padding: 5px;
+        background-color: white;
+        border: solid 1px #ddd;
+        border-bottom: none;
+    }
+
+    #stat-table th,
+    #stat-table td {
+        border: solid #ddd 1px;
+        padding: 5px;
+        text-align: center;
+    }
+
+        #stat-table td:first-child {
+            text-align: left;
+        }
+
+.print-btn {
+    float: right;
+    padding: 3px 7px;
 }

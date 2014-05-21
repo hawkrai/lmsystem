@@ -17,83 +17,55 @@
 
     <select class="form-control" ng-model="subject" ng-options="sbjct.Name for sbjct in Subjects"></select><br />
     <div class="print-btn">
-        <a href="#" onclick="window.print(); return false;">
+        <a href="#" onclick="printArea('print-table')">
             <i class="fa fa-print"></i>
             <span>Печать</span>
         </a>
     </div>
-    <table id="stat-table">
-        <caption>
-            {{subject.Name}}
-        </caption>
-        <thead>
-            <tr>
-                <th rowspan="2">ФИО</th>
-                <th colspan="4">Пропуски, ч.</th>
-                <th colspan="3">Средний балл (Кол-во)</th>
-            </tr>
-            <tr>
-                <th>Лекции</th>
-                <th>Лаборатоные</th>
-                <th>Практические</th>
-                <th>Всего</th>
-                <th>Лаборатоные</th>
-                <th>Практические</th>
-                <th>Общий</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="student in subjectStat">
-                <td>{{$index + 1}}. {{student.Name}}</td>
-                <td>{{student.LecHours}}</td>
-                <td>{{student.LabHours}}</td>
-                <td>{{student.PractHours}}</td>
-                <td>{{student.TotalHours}}</td>
-                <td ng-if="student.LabMark > 0">{{student.LabMark}} ({{student.LabsCount}})</td>
-                <td ng-if="student.LabMark <= 0">-</td>
-                <td ng-if="student.PractMark > 0">{{student.PractMark}} ({{student.PractsCount}})</td>
-                <td ng-if="student.PractMark <= 0">-</td>
-                <td ng-if="student.PractMark > 0">{{(student.PractMark + student.LabMark)/2}}</td>
-                <td ng-if="student.PractMark <= 0">-</td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="print-table">
+        <link rel="stylesheet" href="/Content/admin.css">
+        <table id="stat-table">
+            <caption>
+                {{subject.Name}}
+            </caption>
+            <thead>
+                <tr>
+                    <th rowspan="2">ФИО</th>
+                    <th colspan="4">Пропуски, ч.</th>
+                    <th colspan="3">Средний балл (Кол-во)</th>
+                </tr>
+                <tr>
+                    <th>Лекции</th>
+                    <th>Лаборатоные</th>
+                    <th>Практические</th>
+                    <th>Всего</th>
+                    <th>Лаборатоные</th>
+                    <th>Практические</th>
+                    <th>Общий</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="student in subjectStat">
+                    <td>{{$index + 1}}. {{student.Name}}</td>
+                    <td>{{student.LecHours}}</td>
+                    <td>{{student.LabHours}}</td>
+                    <td>{{student.PractHours}}</td>
+                    <td>{{student.TotalHours}}</td>
+                    <td ng-if="student.LabMark > 0">{{student.LabMark}} ({{student.LabsCount}})</td>
+                    <td ng-if="student.LabMark <= 0">-</td>
+                    <td ng-if="student.PractMark > 0">{{student.PractMark}} ({{student.PractsCount}})</td>
+                    <td ng-if="student.PractMark <= 0">-</td>
+                    <td ng-if="student.PractMark > 0">{{(student.PractMark + student.LabMark)/2}}</td>
+                    <td ng-if="student.PractMark <= 0">-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>
 
 <style>
-    #stat-table {
-        margin: 20px 0px;
-        font-size: 14px;
-        background-color: white;
-        width: 100%;
-        border: solid #ddd 1px;
-    }
 
-        #stat-table caption {
-            text-align: left;
-            font-size: 17px;
-            padding: 5px;
-            background-color: white;
-            border: solid 1px #ddd;
-            border-bottom: none;
-        }
-
-        #stat-table th,
-        #stat-table td {
-            border: solid #ddd 1px;
-            padding: 5px;
-            text-align: center;
-        }
-
-            #stat-table td:first-child {
-                text-align: left;
-            }
-
-    .print-btn {
-        float: right;
-        padding: 3px 7px;
-    }
 </style>
 
 
