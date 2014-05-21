@@ -367,6 +367,39 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
+        public List<string> GetLecturesAttachments(int subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var model = new List<string>();
+                model.AddRange(
+                    repositoriesContainer.LecturesRepository.GetAll(new Query<Lectures>(e => e.SubjectId == subjectId).Include(e => e.Attachments)).Select(e => e.Attachments).ToList());
+                return model;
+            }
+        }
+
+        public List<string> GetLabsAttachments(int subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var model = new List<string>();
+                model.AddRange(
+                    repositoriesContainer.LabsRepository.GetAll(new Query<Labs>(e => e.SubjectId == subjectId).Include(e => e.Attachments)).Select(e => e.Attachments).ToList());
+                return model;
+            }
+        }
+
+        public List<string> GetPracticalsAttachments(int subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var model = new List<string>();
+                model.AddRange(
+                    repositoriesContainer.PracticalRepository.GetAll(new Query<Practical>(e => e.SubjectId == subjectId).Include(e => e.Attachments)).Select(e => e.Attachments).ToList());
+                return model;
+            }
+        }
+
         public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

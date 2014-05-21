@@ -30,7 +30,7 @@
             bootbox.confirm("Вы действительно хотите удалить предмет?", function (isConfirmed) {
                 if (isConfirmed) {
                     dataTables.deleteRow("subjectList", $(that).attr("href"));
-                    alertify.success("Предмет удале");
+                    alertify.success("Предмет удален");
                 }
             });
             return false;

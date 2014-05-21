@@ -15,15 +15,19 @@
         //    });
         //});
 
-        //$('.navLink').handle("click", function () {
-        //    var that = this;
-        //    var links = $('ul.nav.navbar-nav.side-nav').find('li');
-        //    links.each(function () {
-        //        $(this).removeClass("active");
-        //    });
-        //    $(that).addClass("active");
-        //    return false;
-        //});
+        var links = $('ul.nav.navbar-nav.side-nav').find('li');
+
+        $(links).first().find('a')[0].click();
+        $(links).first().addClass("active");
+
+        $('.navLink').handle("click", function () {
+            var that = this;
+            var links = $('ul.nav.navbar-nav.side-nav').find('li');
+            links.each(function () {
+                $(this).removeClass("active");
+            });
+            $(that).addClass("active");
+        });
 
         $('#subGroups').handle("click", function() {
             var that = this;
@@ -58,147 +62,6 @@
         });
         return studentIds;
     },
-
-    //applyCss: function () {
-    //    $('.addNewsButton.fa').tooltip({ title: 'Добавить новость', placement: 'right' });
-    //    $('.editNewsButton.fa').tooltip({ title: 'Редактировать новость', placement: 'left' });
-    //    $('.deleteNewsButton.fa').tooltip({ title: 'Удалить новость', placement: 'right' });
-    // },
-
-    //updateHandlerActions: function() {
-    //    $('#addNewsButton').handle("click", function() {
-    //        var that = this;
-    //        $.savingDialog("Создание новости", $(that).attr("href"), null, "primary", function(data) {
-    //            $('.conteinerModule').empty();
-    //            $('.conteinerModule').append(data);
-    //            subjectWorking.updateHandlerActions();
-    //            alertify.success("Создана новая новость");
-    //        });
-    //        return false;
-    //    });
-    //    $('a.editNewsButton').handle("click", function() {
-    //        var that = this;
-    //        $.savingDialog("Редактирование новости", $(that).attr("href"), null, "primary", function(data) {
-    //            $('.conteinerModule').empty();
-    //            $('.conteinerModule').append(data);
-    //            subjectWorking.updateHandlerActions();
-    //            alertify.success("Новость успешно изменена");
-    //        });
-    //        return false;
-    //    });
-    //    $('a.deleteNewsButton').handle("click", function() {
-    //        var that = this;
-    //        bootbox.confirm("Вы действительно хотите удалить новость?", function(isConfirmed) {
-    //            if (isConfirmed) {
-    //                $.post($(that).attr("href"), null, function(data) {
-    //                    $('.conteinerModule').empty();
-    //                    $('.conteinerModule').append(data);
-    //                    subjectWorking.updateHandlerActions();
-    //                    alertify.success("Новость успешна удалена");
-    //                });
-    //            }
-    //        });
-    //        return false;
-    //    });
-    //    $('#addLecturesButton').handle("click", function() {
-    //        var that = this;
-    //        $.savingDialog("Создание лекции", $(that).attr("href"), null, "primary", function(data) {
-    //                $('.conteinerModule').empty();
-    //                $('.conteinerModule').append(data);
-    //                subjectWorking.updateHandlerActions();
-    //                alertify.success("Создана новая лекция");
-    //            },
-    //            function(forms) {
-    //                $(forms).append('<input type=\"hidden\" id=\"attachments\" name=\"attachments\" />');
-    //                $("#attachments").val(subjectWorking.getLecturesFileAttachments());
-    //            });
-    //        subjectWorking.applyCss();
-
-    //        return false;
-
-    //    });
-
-    //    $('a.deleteLecturesButton').handle("click", function () {
-    //        var that = this;
-    //        bootbox.confirm("Вы действительно хотите удалить лекцию?", function (isConfirmed) {
-    //            if (isConfirmed) {
-    //                $.post($(that).attr("href"), null, function (data) {
-    //                    $('.conteinerModule').empty();
-    //                    $('.conteinerModule').append(data);
-    //                    subjectWorking.updateHandlerActions();
-    //                    alertify.success("Лекция успешна удалена");
-    //                });
-    //            }
-    //        });
-    //        return false;
-    //    });
-
-    //    $('a.editLecturesButton').handle("click", function () {
-    //        var that = this;
-    //        $.savingDialog("Редактирование лекции", $(that).attr("href"), null, "primary", function (data) {
-    //            $('.conteinerModule').empty();
-    //            $('.conteinerModule').append(data);
-    //            subjectWorking.updateHandlerActions();
-    //            alertify.success("Лекция успешно изменена");
-    //        },
-    //        function (forms) {
-    //            $(forms).append('<input type=\"hidden\" id=\"attachments\" name=\"attachments\" />');
-    //            $("#attachments").val(subjectWorking.getLecturesFileAttachments());
-    //        });
-    //        return false;
-    //    });
-
-    //    $('#addLabsButton').handle("click", function () {
-    //        var that = this;
-    //        $.savingDialog("Добавление лабораторной работы", $(that).attr("href"), null, "primary", function (data) {
-    //            $('.conteinerModule').empty();
-    //            $('.conteinerModule').append(data);
-    //            subjectWorking.updateHandlerActions();
-    //            alertify.success("Создана новая лабораторная работа");
-    //        },
-    //            function (forms) {
-    //                $(forms).append('<input type=\"hidden\" id=\"attachments\" name=\"attachments\" />');
-    //                $("#attachments").val(subjectWorking.getLecturesFileAttachments());
-    //            });
-    //        subjectWorking.applyCss();
-
-    //        return false;
-
-    //    });
-
-    //    $('a.deleteLabsButton').handle("click", function () {
-    //        var that = this;
-    //        bootbox.confirm("Вы действительно хотите удалить лабораторную работу?", function (isConfirmed) {
-    //            if (isConfirmed) {
-    //                $.post($(that).attr("href"), null, function (data) {
-    //                    $('.conteinerModule').empty();
-    //                    $('.conteinerModule').append(data);
-    //                    subjectWorking.updateHandlerActions();
-    //                    alertify.success("Лабораторная работа успешна удалена");
-    //                });
-    //            }
-    //        });
-    //        return false;
-    //    });
-
-    //    $('a.editLabsButton').handle("click", function () {
-    //        var that = this;
-    //        $.savingDialog("Редактирование лабораторной работы", $(that).attr("href"), null, "primary", function (data) {
-    //            $('.conteinerModule').empty();
-    //            $('.conteinerModule').append(data);
-    //            subjectWorking.updateHandlerActions();
-    //            alertify.success("Лабораторная работа успешно изменена");
-    //        },
-    //        function (forms) {
-    //            $(forms).append('<input type=\"hidden\" id=\"attachments\" name=\"attachments\" />');
-    //            $("#attachments").val(subjectWorking.getLecturesFileAttachments());
-    //        });
-    //        return false;
-    //    });
-
-
-    //    subjectWorking.applyCss();
-    //},
 
     getLecturesFileAttachments : function() {
         var itemAttachmentsTable = $('#fileupload').find('table').find('tbody tr');

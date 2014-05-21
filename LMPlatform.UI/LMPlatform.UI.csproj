@@ -311,6 +311,7 @@
     <Compile Include="ViewModels\SubjectViewModels\ModulesDataWorkingViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubGroupEditingViewModel.cs" />
+    <Compile Include="ViewModels\SubjectViewModels\SubjectAttachmentsViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectEditViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectListViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectManagementViewModel.cs" />
@@ -1077,6 +1078,12 @@
     <Content Include="Views\Administration\_AttendanceView.cshtml" />
     <Content Include="Views\BTS\_UserInfo.cshtml" />
     <Content Include="Views\Shared\Messages\_MessageForm.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Labs\_LabsModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Lectures\_LecturesModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\News\_NewsModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Practicals\_PracticalModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\SubjectAttachments\_SubjectAttachmentsModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\_FilesUploaderNoAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

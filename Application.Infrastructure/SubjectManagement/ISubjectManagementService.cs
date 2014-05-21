@@ -59,5 +59,11 @@ namespace Application.Infrastructure.SubjectManagement
         void SavePracticalVisitingData(List<ScheduleProtectionPracticalMark> protectionPracticalMarks);
 
         void SavePracticalMarks(List<StudentPracticalMark> studentPracticalMarks);
+
+        List<string> GetLecturesAttachments(int subjectId);
+
+        List<string> GetLabsAttachments(int subjectId);
+
+        List<string> GetPracticalsAttachments(int subjectId);
     }
 }

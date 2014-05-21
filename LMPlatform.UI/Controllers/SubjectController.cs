@@ -82,6 +82,43 @@ namespace LMPlatform.UI.Controllers
             return this.PartialView("Subjects/Modules/Practicals/_PracticalModule");
         }
 
+        public ActionResult SubjectAttachments()
+        {
+            return this.PartialView("Subjects/Modules/SubjectAttachments/_SubjectAttachmentsModule");
+        }
+
+        public ActionResult GetFileSubject(string subjectId)
+        {
+            var lectures = new List<Attachment>();
+            foreach (var att in SubjectManagementService.GetLecturesAttachments(int.Parse(subjectId)))
+            {
+                lectures.AddRange(FilesManagementService.GetAttachments(att).ToList());
+            }
+
+            var labs = new List<Attachment>();
+            foreach (var att in SubjectManagementService.GetLabsAttachments(int.Parse(subjectId)))
+            {
+                lectures.AddRange(FilesManagementService.GetAttachments(att).ToList());
+            }
+
+            var practicals = new List<Attachment>();
+            foreach (var att in SubjectManagementService.GetPracticalsAttachments(int.Parse(subjectId)))
+            {
+                lectures.AddRange(FilesManagementService.GetAttachments(att).ToList());
+            }
+
+            return new JsonResult()
+                       {
+                           Data = new
+                                      {
+                                          Lectures = this.PartialViewToString("Subjects/Modules/_FilesUploaderNoAdd", lectures),
+                                          Labs = this.PartialViewToString("Subjects/Modules/_FilesUploaderNoAdd", labs),
+                                          Practicals = this.PartialViewToString("Subjects/Modules/_FilesUploaderNoAdd", practicals)
+                                      },
+                                      JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                       };
+        }
+
         public ActionResult Index(int subjectId)
         {
             var model = new SubjectWorkingViewModel(subjectId);

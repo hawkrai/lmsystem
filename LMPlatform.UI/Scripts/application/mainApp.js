@@ -18,6 +18,10 @@
             .when('/Practical', {
                 templateUrl: 'Subject/Practicals',
                 controller: 'PracticalsController'
+            })
+            .when('/SubjectAttachments', {
+                templateUrl: 'Subject/SubjectAttachments',
+                controller: 'SubjectAttachmentsController'
             });
     });
 app.run(function (editableOptions, editableThemes) {
@@ -116,12 +120,12 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
 
             $scope.groupWorkingData.selectedSubGroup = null;
             if ($scope.groupWorkingData.selectedSubGroupId != 0)
-                
-            if ($scope.subGroups[0] != null && $scope.groupWorkingData.selectedSubGroupId == $scope.subGroups[0].SubGroupId) {
-                $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[0];
-            } else if ($scope.subGroups[1] != null && $scope.groupWorkingData.selectedSubGroupId == $scope.subGroups[1].SubGroupId) {
-                $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[1];
-            }
+
+                if ($scope.subGroups[0] != null && $scope.groupWorkingData.selectedSubGroupId == $scope.subGroups[0].SubGroupId) {
+                    $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[0];
+                } else if ($scope.subGroups[1] != null && $scope.groupWorkingData.selectedSubGroupId == $scope.subGroups[1].SubGroupId) {
+                    $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[1];
+                }
         };
 
         $scope.init = function (subjectId) {
@@ -961,5 +965,21 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                 }
             });
         };
-    });
+    })
+.controller('SubjectAttachmentsController', function ($scope, $http) {
+    $scope.init = function () {
+        $.ajax({
+            type: 'GET',
+            url: "/Subject/GetFileSubject?subjectId=" + $scope.subjectId,
+            contentType: "application/json",
+
+        }).success(function (data, status) {
+            $scope.$apply(function () {
+                $(".lecturesF").append(data.Lectures);
+                $(".labsF").append(data.Labs);
+                $(".practF").append(data.Practicals);
+            });
+        });
+    };
+});
 

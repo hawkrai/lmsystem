@@ -27,8 +27,8 @@ namespace LMPlatform.Data.Infrastructure
             context.Modules.Add(new Module { DisplayName = "Лабораторные работы", Name = "Labs", ModuleType = ModuleType.Labs, Visible = true });
             context.Modules.Add(new Module { DisplayName = "Курсовые проекты/работы", Name = "YEManagment", ModuleType = ModuleType.YeManagment, Visible = true });
             context.Modules.Add(new Module { DisplayName = "Файлы", Name = "SubjectAttachments", ModuleType = ModuleType.SubjectAttachments, Visible = true });
-            context.Modules.Add(new Module { DisplayName = "Архив", Name = "LabAttachments", ModuleType = ModuleType.LabAttachments, Visible = true });
-            context.Modules.Add(new Module { DisplayName = "Проекты", Name = "Projects", ModuleType = ModuleType.Projects, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "Архив", Name = "LabAttachments", ModuleType = ModuleType.LabAttachments, Visible = false });
+            context.Modules.Add(new Module { DisplayName = "Проекты", Name = "Projects", ModuleType = ModuleType.Projects, Visible = false });
             context.Modules.Add(new Module { DisplayName = "Тестирование знаний", Name = "SmartTest", ModuleType = ModuleType.SmartTest, Visible = true });
             context.Modules.Add(new Module { DisplayName = "Методические материалы", Name = "DSM", ModuleType = ModuleType.Dsm, Visible = true });
             context.Modules.Add(new Module { DisplayName = "График защиты", Name = "ScheduleProtection", ModuleType = ModuleType.ScheduleProtection, Visible = false });

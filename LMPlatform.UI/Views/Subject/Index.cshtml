@@ -17,10 +17,18 @@
     {
         @foreach (var module in Model.Modules.Where(e => e.Type != ModuleType.Results && e.Type != ModuleType.StatisticsVisits && e.Type != ModuleType.ScheduleProtection).ToList())
         {
-            <li class="navLink">
-                <a class="moduleLinks linkNavbar" href="#@module.Type">@module.Name</a>
-            </li>
-
+            if (module.Type == ModuleType.SmartTest)
+            {
+                <li class="navLink">
+                <a class="moduleLinks linkNavbar" href="@Url.Action("Index", "Tests", new { subjectId = Model.SubjectId })">@module.Name</a>
+            </li>    
+            }
+            else
+            {
+                <li class="navLink">
+                    <a class="moduleLinks linkNavbar" href="#@module.Type">@module.Name</a>
+                </li>
+            }
         }
         <div>
             <img style="margin-left: 15%; margin-top: 10%; width: 200px" src="../../Images/schoolclass.png" />
