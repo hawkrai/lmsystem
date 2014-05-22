@@ -67,8 +67,8 @@ select.students-stat {
 
     #stat-table caption {
         text-align: left;
-        font-size: 17px;
-        padding: 5px;
+        font-size: 14px;
+        padding: 10px;
         background-color: white;
         border: solid 1px #ddd;
         border-bottom: none;
@@ -82,10 +82,18 @@ select.students-stat {
     }
 
         #stat-table td:first-child {
+            width: 35px;
+        }
+        #stat-table td:nth-child(2) {
             text-align: left;
+            padding-left: 10px;
         }
 
-.print-btn {
+.stat-btn-section {
     float: right;
     padding: 3px 7px;
 }
+
+    .stat-btn-section a {
+        padding-left: 5px;
+    }

@@ -938,6 +938,7 @@
     <Content Include="Scripts\prettify.js" />
     <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\spin.js" />
+    <Content Include="Scripts\tableToExcel.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\xeditable.js" />

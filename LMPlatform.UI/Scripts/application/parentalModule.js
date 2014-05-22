@@ -6,9 +6,10 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
     $scope.UrlServiceCore = '/Services/CoreService.svc/';
 
     $scope.Subjects = [];
-    $scope.subject = { Name: "Все предметы", Id: 0, ShortName: "" };
+    $scope.subject = { Name: "Все предметы", Id: -1, ShortName: "" };
     $scope.subjectStat = [];
     $scope.totalStat = [];
+    $scope.allSubjectsStat = [];
 
     $scope.init = function (groupId) {
         $scope.statData = [];
@@ -17,39 +18,37 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
     };
 
     $scope.$watch("subject", function (newValue, oldValue) {
-        if (newValue.Id <= 0) {
-            $scope.subjectStat = $scope.totalStat;
-        } else {
-            if ($scope.statData.length > 0 && $scope.statData[newValue.Id])
-                $scope.subjectStat = $scope.statData[newValue.Id];
-        }
+        showCurrent();
     });
 
     $scope.$watch("statData", function (newValue, oldValue) {
         if (newValue.length > 0)
-            $scope.initStatData($scope.subject.Id, newValue);
+            $scope.initStatData($scope.subject, newValue);
     });
 
-    $scope.initStatData = function (subjectId, data) {
+    $scope.initStatData = function (subject, data) {
+        var subjectId = subject.Id;
+        var subjectName = subject.ShortName != "" ? subject.ShortName : subject.Name;
+        
         $scope.subjectStat = [];
-        $scope.statData[subjectId] = [];
+        var statObj = { subjectName: subjectName, subjectId: subjectId, students: [] };
 
         if (data.SubGroupsOne.Students.length) {
             data.SubGroupsOne.Students.forEach(
                 function (element, index) {
-                    $scope.statData[subjectId][index] = getStudentStat(element, data);
+                    statObj.students[index] = getStudentStat(element, data);
                 });
         }
 
         if (data.SubGroupsTwo.Students.length) {
-            var length = $scope.statData[subjectId].length;
+            var length = statObj.students.length;
             data.SubGroupsTwo.Students.forEach(
                 function (element, index) {
-                    $scope.statData[subjectId][length + index] = getStudentStat(element, data);
+                    statObj.students[length + index] = getStudentStat(element, data);
                 });
         }
 
-        getTotalStat();
+        $scope.statData.push(statObj);
     };
 
 
@@ -65,15 +64,16 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
 
                 if (data.Subjects.length > 0) {
 
-
-                    $scope.Subjects = data.Subjects;
-                    $scope.Subjects.splice(0, 0, $scope.subject);
-
                     data.Subjects.forEach(function (val) {
                         if (val.Id) {
-                            $scope.loadData(val.Id);
+                            $scope.loadData(val);
                         }
                     });
+
+                    $scope.Subjects = data.Subjects;
+
+                    $scope.Subjects.splice(0, 0, { Name: "Все предметы (суммарная статистика)", Id: 0, ShortName: "" });
+                    $scope.Subjects.splice(0, 0, $scope.subject);
                 }
 
                 alertify.success(data.Message);
@@ -81,10 +81,10 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
         });
     };
 
-    $scope.loadData = function (subjectId) {
+    $scope.loadData = function (subject) {
         $http({
             method: 'Get',
-            url: $scope.UrlServiceCore + "GetGroups/" + subjectId,
+            url: $scope.UrlServiceCore + "GetGroups/" + subject.Id,
             headers: { 'Content-Type': 'application/json' }
         }).success(function (data, status) {
             if (data.Code != '200') {
@@ -93,29 +93,38 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
 
                 var queryData = Enumerable.From(data.Groups).First(function (x) { return x.GroupId == $scope.groupId; });
 
-                $scope.initStatData(subjectId, queryData);
+                $scope.groupName = queryData.GroupName;
+                $scope.initStatData(subject, queryData);
+                
                 $scope.totalStat = getTotalStat();
+                $scope.allSubjectsStat = getAllSubjectsStat();
+                
                 showCurrent();
 
-               // alertify.success(data.Message);
+                // alertify.success(data.Message);
             }
         });
     };
 
     var showCurrent = function () {
         var id = $scope.subject.Id;
-        if (id <= 0) {
+        if (id == 0) {
             $scope.subjectStat = $scope.totalStat;
-        } else {
-            if ($scope.statData.length > 0 && $scope.statData[id])
-                $scope.subjectStat = $scope.statData[id];
+        }
+        if (id < 0) {
+            $scope.subjectStat = [];
+        }
+        if (id > 0) {
+            var subject = Enumerable.From($scope.statData).First(function (x) { return x.subjectId == id; });
+            if (subject && subject.students)
+                $scope.subjectStat = subject.students;
         }
     };
 
     var getStudentStat = function (subGroupStudent, data) {
         var studentStat = {
             Name: subGroupStudent.FullName,
-            Id: subGroupStudent.studentId,
+            Id: subGroupStudent.StudentId,
             LecHours: 0,
             PractHours: 0,
             LabHours: 0,
@@ -162,8 +171,8 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
         if ($scope.statData && $scope.statData.length > 0) {
 
             $scope.statData.forEach(function (studentsStatData) {
-                if (studentsStatData.length > 0)
-                    studentsStatData.forEach(function (student, index) {
+                if (studentsStatData.students.length > 0)
+                    studentsStatData.students.forEach(function (student, index) {
                         totalResult[index] = sumStudentStat(totalResult[index], student);
                     });
 
@@ -171,6 +180,38 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
         }
 
         return totalResult;
+    };
+    
+    var getAllSubjectsStat = function () {
+        var allSubjectsResult = [];
+
+        if ($scope.statData && $scope.statData.length > 0) {
+            var anySubject = Enumerable.From($scope.statData).First();
+
+            anySubject.students.forEach(function (student) {
+                var statStudentObj = { studentName: student.Name, studentId: student.Id, subjectsStat: [] };
+                
+                $scope.statData.forEach(function (subject) {
+                    var subStudent = Enumerable.From(subject.students).First(function (x) { return x.Id == student.Id; });
+                    var avgMark = (student.PractMark > 0 && student.LabMark > 0) ? (student.PractMark + student.LabMark) / 2 :
+                        ((student.PractMark == 0 && student.LabMark > 0) || (student.PractMark > 0 && student.LabMark == 0) ?
+                         (student.PractMark + student.LabMark) : '-');
+                    
+                    var statSubjectObj = {
+                        SubjectName: subject.subjectName,
+                        SubjectId: subject.subjectId,
+                        TotalHours: subStudent.TotalHours,
+                        AvgMark: avgMark
+                    };
+
+                    statStudentObj.subjectsStat.push(statSubjectObj);
+                });
+
+                allSubjectsResult.push(statStudentObj);
+            });
+        }
+
+        return allSubjectsResult;
     };
 
     var sumStudentStat = function (current, student) {
@@ -184,10 +225,10 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
 
             var labsCount = current.LabsCount + student.LabsCount;
             var practsCount = current.PractsCount + student.PractsCount;
-            
+
             current.LabMark = labsCount != 0 ? Number(((current.LabMark * current.LabsCount + student.LabMark * student.LabsCount) / labsCount).toFixed(1)) : 0;
             current.PractMark = practsCount != 0 ? Number(((current.PractMark * current.PractsCount + student.PractMark * student.PractsCount) / practsCount).toFixed(1)) : 0;
-            
+
             current.LabsCount = labsCount;
             current.PractsCount = practsCount;
         } else {
