@@ -4,6 +4,11 @@
         .nav, .pagination, .carousel, .panel-title a {
             cursor: pointer;
         }
+        chart {
+            display: block;
+            width: 400px;
+            height: 200px;
+        }
     </style>
 
     <tabset>
@@ -62,7 +67,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>    
+            </div>
             <div>
                 <div style="max-width: 1200px; overflow-x: auto;">
                     <table class="table table-bordered table-striped" style=" font-size: 10px">
@@ -79,9 +84,25 @@
                             <td style="width: 40px">{{student.StudentId}}</td>
                             <td style="max-width: 200px">{{student.StudentName}}</td>
                             <td ng-repeat="data in student.Marks" style="text-align: center">{{data.Mark}}</td>
-                        </tr>  
+                        </tr>
                     </table>
                 </div>
+            </div>
+        </tab>
+        <tab heading="График посещяемости">
+            <div id="navPanel" style="margin-top: 10px">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <div id="barchart" style="width:600px; height:300px;"></div>
             </div>
         </tab>
     </tabset>

@@ -1,4 +1,4 @@
-﻿var app = angular.module('mainApp', ['mainApp.controllers', 'ngRoute', 'ui.bootstrap', 'xeditable'])
+﻿var app = angular.module('mainApp', ['mainApp.controllers', 'ngRoute', 'ui.bootstrap', 'xeditable', 'ui.chart'])
     .config(function ($locationProvider) {
     })
     .config(function ($routeProvider, $locationProvider) {
@@ -23,7 +23,18 @@
                 templateUrl: 'Subject/SubjectAttachments',
                 controller: 'SubjectAttachmentsController'
             });
+    }).value('charting', {
+        pieChartOptions: {
+            seriesDefaults: {
+                renderer: jQuery.jqplot.PieRenderer,
+                rendererOptions: {
+                    showDataLabels: true
+                }
+            },
+            legend: { show: true, location: 'e' }
+        }
     });
+
 app.run(function (editableOptions, editableThemes) {
     editableThemes.bs3.inputClass = 'input-sm text-center';
     editableThemes.bs3.buttonsClass = 'btn-sm';
@@ -280,7 +291,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             });
         };
     })
-    .controller('LecturesController', function ($scope, $http) {
+    .controller('LecturesController', function ($scope, charting, $http) {
 
         $scope.lectures = [];
         $scope.UrlServiceLectures = '/Services/Lectures/LecturesService.svc/';
@@ -305,10 +316,18 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             StudentMarkForDate: [],
         };
 
+        $scope.ticks = [];
+        $scope.barvalues = [];
+
         $scope.init = function () {
             $scope.lectures = [];
             $scope.loadLectures();
             $scope.loadCalendar();
+
+            $scope.ticks = ['1', '2', '3'];
+            $scope.barvalues = [2, 4, 6];
+
+            $scope.setBarChart();
         };
 
         $scope.changeGroups = function (selectedGroup) {
@@ -523,6 +542,25 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             });
 
         };
+
+        
+        $scope.setBarChart = function () {
+            $.jqplot('barchart', [$scope.barvalues], {
+                seriesDefaults: {
+                    renderer: $.jqplot.BarRenderer,
+
+                    pointLabels: { show: true, location: 'e', edgeTolerance: -15 },
+
+                },
+                axes: {
+                    xaxis: {
+                        renderer: $.jqplot.CategoryAxisRenderer,
+                        ticks: $scope.ticks
+                    }
+                }
+            });
+        }
+
     })
     .controller('LabsController', function ($scope, $http) {
 
