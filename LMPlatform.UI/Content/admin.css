@@ -96,4 +96,5 @@ select.students-stat {
 
     .stat-btn-section a {
         padding-left: 5px;
+        cursor: pointer;
     }

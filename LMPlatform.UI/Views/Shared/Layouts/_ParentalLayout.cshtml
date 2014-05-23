@@ -68,19 +68,21 @@
         </nav>
         @if (Model != null)
         {
-            <div style="padding: 15px 25px 15px 300px">
+            <div style="padding: 70px 0 80px 310px;">
                 @RenderSection("scripts", false)
-                <div style="padding: 20px">
+                <section class="well">
+                <div style="padding: 0 10px">
                     @if (IsSectionDefined("title"))
                     {
-                        <div class="page-header">
-                            <h2>@RenderSection("title", false)</h2>
-                        </div>
+
+                        <h3>@RenderSection("title", false)</h3>
+                        <hr>
                     }
                     <div style="margin: 5px">
                         @RenderBody()
                     </div>
                 </div>
+            </section>
             </div>
         }
         else

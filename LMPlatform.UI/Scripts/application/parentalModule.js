@@ -1,6 +1,36 @@
-﻿var parentalApp = angular.module("parentalApp", ['ngRoute', 'ui.bootstrap']);
+﻿var parentalApp = angular.module("parentalApp", ['parentalApp.controllers', 'ngRoute', 'ui.bootstrap'])
+    .config(function ($locationProvider) {
+    })
+    .config(function ($routeProvider, $locationProvider) {
+        $routeProvider
+            .when('/Statistics', {
+                templateUrl: '/Parental/Statistics',
+                controller: 'StatCtrl'
+            })
+        .when('/Plan:subjectId*', {
+            templateUrl: '/Parental/Plan',
+            controller: 'PlanCtrl'
+        })
+        .when('/', {
+            templateUrl: '/Parental/Front',
+        });
+    });
 
-parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
+var controllersApp = angular.module('parentalApp.controllers', ['ui.bootstrap', 'xeditable']);
+
+controllersApp.controller('MainCtrl', function ($scope) {
+    $scope.init = function (groupId) {
+        $scope.groupId = groupId;
+    };
+});
+
+controllersApp.controller("PlanCtrl", ['$scope', '$routeParams', '$http', '$modal', function ($scope, $routeParams, $http, $modal) {
+    $scope.init = function () {
+        $scope.params = $routeParams;
+    };
+}]);
+
+controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
 
     $scope.UrlServiceParental = '/Services/Parental/ParentalService.svc/';
     $scope.UrlServiceCore = '/Services/CoreService.svc/';
@@ -11,9 +41,8 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
     $scope.totalStat = [];
     $scope.allSubjectsStat = [];
 
-    $scope.init = function (groupId) {
+    $scope.init = function () {
         $scope.statData = [];
-        $scope.groupId = groupId;
         $scope.loadSubjects();
     };
 
@@ -22,14 +51,14 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
     });
 
     $scope.$watch("statData", function (newValue, oldValue) {
-        if (newValue.length > 0)
+        if (newValue && newValue.length > 0)
             $scope.initStatData($scope.subject, newValue);
     });
 
     $scope.initStatData = function (subject, data) {
         var subjectId = subject.Id;
         var subjectName = subject.ShortName != "" ? subject.ShortName : subject.Name;
-        
+
         $scope.subjectStat = [];
         var statObj = { subjectName: subjectName, subjectId: subjectId, students: [] };
 
@@ -95,10 +124,10 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
 
                 $scope.groupName = queryData.GroupName;
                 $scope.initStatData(subject, queryData);
-                
+
                 $scope.totalStat = getTotalStat();
                 $scope.allSubjectsStat = getAllSubjectsStat();
-                
+
                 showCurrent();
 
                 // alertify.success(data.Message);
@@ -181,7 +210,7 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
 
         return totalResult;
     };
-    
+
     var getAllSubjectsStat = function () {
         var allSubjectsResult = [];
 
@@ -190,13 +219,13 @@ parentalApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scop
 
             anySubject.students.forEach(function (student) {
                 var statStudentObj = { studentName: student.Name, studentId: student.Id, subjectsStat: [] };
-                
+
                 $scope.statData.forEach(function (subject) {
                     var subStudent = Enumerable.From(subject.students).First(function (x) { return x.Id == student.Id; });
                     var avgMark = (student.PractMark > 0 && student.LabMark > 0) ? (student.PractMark + student.LabMark) / 2 :
                         ((student.PractMark == 0 && student.LabMark > 0) || (student.PractMark > 0 && student.LabMark == 0) ?
                          (student.PractMark + student.LabMark) : '-');
-                    
+
                     var statSubjectObj = {
                         SubjectName: subject.subjectName,
                         SubjectId: subject.subjectId,

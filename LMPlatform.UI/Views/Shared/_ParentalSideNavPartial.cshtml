@@ -2,7 +2,7 @@
 @model LMPlatform.UI.ViewModels.ParentalViewModels.ParentalViewModel
 
 <ul class="nav navbar-nav side-nav">
-    <li class="@Html.ActivePage("Parental", "Plan") dropdown">
+    <li class="dropdown navLink" >
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <span class="admin-icon icon-study"></span>
             <span class="nav-item">Предметы</span>
@@ -11,8 +11,8 @@
         <ul class="dropdown-menu">
             @foreach (var subject in @Model.Subjects)
             {
-                <li>
-                    <a href="@Url.Action("Plan","Parental", new { id = @Model.Group.Name, subjectId = subject.Id})">
+                <li class="navLink">
+                    <a href="#Plan/@subject.Id">
                         <i class="linkNavbarLevelBelow"></i>
                         <span class="nav-item">@subject.Name</span>
                     </a>
@@ -20,10 +20,24 @@
             }
         </ul>
     </li>
-    <li class="@Html.ActivePage("Parental", "Statistics")">
-        <a href ="@Url.Action("Statistics", "Parental", new {id = @Model.Group.Name})">
+    <li class="navLink">
+        <a href="#Statistics">
             <span class="admin-icon icon-stats"></span>
             <span class="nav-item">Статистика</span>
         </a>
     </li>
 </ul>
+<script>
+    $(document).ready(function () {
+
+        $('.navLink').handle("click", function () {
+            var that = this;
+            var links = $('ul.nav.navbar-nav.side-nav').find('li');
+            links.each(function () {
+                $(this).removeClass("active");
+            });
+            $(that).addClass("active");
+        });
+
+    });
+</script>

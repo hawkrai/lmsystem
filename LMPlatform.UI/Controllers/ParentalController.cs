@@ -36,30 +36,19 @@ namespace LMPlatform.UI.Controllers
             return RedirectToAction("GroupNotFound");
         }
 
-        public ActionResult Plan(string id, int subjectId)
+        public ActionResult Front()
         {
-            var group = GroupManagementService.GetGroupByName(id);
-            if (group != null)
-            {
-                var model = new PlanViewModel(group, subjectId);
-                
-                return View(model);
-            }
-
-            return RedirectToAction("GroupNotFound");
+            return this.PartialView("Parental/_Front");
         }
 
-        public ActionResult Statistics(string id)
+        public ActionResult Statistics()
         {
-            var group = GroupManagementService.GetGroupByName(id);
-            if (group != null)
-            {
-                var model = new StatisticsViewModel(group);
+            return this.PartialView("Parental/_Statistics");
+        }
 
-                return View(model);
-            }
-
-            return RedirectToAction("GroupNotFound");
+        public ActionResult Plan()
+        {
+            return this.PartialView("Parental/_Plan");
         }
 
         public ActionResult GetSideNav(int groupId)
@@ -87,30 +76,6 @@ namespace LMPlatform.UI.Controllers
         public bool IsValidGroup(string groupName)
         {
             return GroupManagementService.GetGroupByName(groupName) != null;
-        }
-
-        [HttpPost]
-        public DataTablesResult<DataTableStat> GetStatCollection(DataTablesParam dataTableParam)
-        {
-            var searchString = dataTableParam.GetSearchString();
-            bool? param = null;
-            try
-            {
-                param = bool.Parse(Request.QueryString["param"]);
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (FormatException)
-            {
-            }
-
-            var models = new List<ModelBase>();
-            return DataTableExtensions.GetResults(
-                models.Select(m =>
-                    new DataTableStat(PartialViewToString("_MessageDisplayRow", DisplayStatViewModel.FormStatToDisplay()))),
-                    dataTableParam,
-                    models.Count);
         }
 
         public IGroupManagementService GroupManagementService

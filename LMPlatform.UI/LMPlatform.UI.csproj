@@ -311,7 +311,6 @@
     <Compile Include="ViewModels\SubjectViewModels\ModulesDataWorkingViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\ModulesViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubGroupEditingViewModel.cs" />
-    <Compile Include="ViewModels\SubjectViewModels\SubjectAttachmentsViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectEditViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectListViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModels\SubjectManagementViewModel.cs" />
@@ -940,9 +939,7 @@
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\prettify.js" />
-    <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\spin.js" />
-    <Content Include="Scripts\tableToExcel.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\xeditable.js" />
@@ -1062,8 +1059,6 @@
     <Content Include="Views\Shared\Subjects\Modules\ScheduleProtection\_ScheduleProtectionLabs.cshtml" />
     <Content Include="Views\Parental\_ViewStart.cshtml" />
     <Content Include="Views\Parental\Index.cshtml" />
-    <Content Include="Views\Parental\Plan.cshtml" />
-    <Content Include="Views\Parental\Statistics.cshtml" />
     <Content Include="Views\Shared\Layouts\_ParentalLayout.cshtml" />
     <Content Include="Views\Shared\_ParentalSideNavPartial.cshtml" />
     <Content Include="Views\Parental\GroupNotFound.cshtml" />
@@ -1084,12 +1079,9 @@
     <Content Include="Views\Administration\_AttendanceView.cshtml" />
     <Content Include="Views\BTS\_UserInfo.cshtml" />
     <Content Include="Views\Shared\Messages\_MessageForm.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Labs\_LabsModule.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Lectures\_LecturesModule.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\News\_NewsModule.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Practicals\_PracticalModule.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\SubjectAttachments\_SubjectAttachmentsModule.cshtml" />
-    <Content Include="Views\Shared\Subjects\Modules\_FilesUploaderNoAdd.cshtml" />
+    <Content Include="Views\Shared\Parental\_Statistics.cshtml" />
+    <Content Include="Views\Shared\Parental\_Plan.cshtml" />
+    <Content Include="Views\Shared\Parental\_Front.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
