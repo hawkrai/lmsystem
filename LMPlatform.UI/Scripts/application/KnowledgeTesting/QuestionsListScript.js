@@ -8,7 +8,7 @@
         this._setColumnsSize();
     },
     
-    _actionsColumnWidth: 50,
+    _actionsColumnWidth: 75,
     _numberingColumnWidth: 10,
     
     _setColumnsSize: function () {

@@ -10,7 +10,7 @@
         this._setColumnsSize();
     },
     
-    _actionsColumnWidth: 160,
+    _actionsColumnWidth: 190,
     _numberingColumnWidth: 10,
     
     _initializeTooltips: function() {

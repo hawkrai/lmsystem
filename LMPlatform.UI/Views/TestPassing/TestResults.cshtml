@@ -13,6 +13,9 @@
     @Scripts.Render("~/bundles/datatable", "~/bundles/knockoutBundles")
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/TestsResultsListScript.js",
                 "~/Scripts/linq.js")
+    <script src="~/Scripts/jqplot/jquery.jqplot.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/Scripts/jqplot/jqplot.pieRenderer.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jqplot/chart.js"></script>
 }
 
 @section navleft
@@ -40,3 +43,6 @@ else
 }
 
 <div id="testReultsTable"></div>
+<div id="chart1"></div>
+
+
