@@ -11,7 +11,6 @@ using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
-using Application.Infrastructure.UserManagement;
 using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
@@ -50,6 +49,13 @@ namespace LMPlatform.UI.Controllers
         }
 
         #endregion
+
+        [Authorize, HttpGet]
+        public ActionResult KnowledgeTesting(int subjectId)
+        {
+            Subject subject = SubjectsManagementService.GetSubject(subjectId);
+            return View("KnowledgeTesting", subject);
+        }
 
         [Authorize, HttpGet]
         public ActionResult Index(int subjectId)

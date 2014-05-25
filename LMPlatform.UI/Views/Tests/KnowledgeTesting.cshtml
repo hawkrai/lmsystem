@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Тестирование знаний";
+    Layout = "~/Views/Shared/Layouts/_LayoutBase.cshtml";
+}
+
+@model LMPlatform.Models.Subject
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js")
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsNavigationController.js")
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsController.js",
+        "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
+        "~/Scripts/application/KnowledgeTesting/Controllers/resultsController.js")
+}
+
+
+@section navleft
+{
+    <div class="nav navbar-nav side-nav" data-ng-controller="testsNavigationCtrl">
+        <li class="linkNavbar" data-ng-class="{'active':isActive('/tests')}"><a href="#/tests"><i class="fa fa-pencil-square-o fa-1x"></i>&nbsp; Тесты</a></li>
+        <li class="linkNavbar" data-ng-class="{'active':isActive('/control')}"><a href="#/control"><i class="fa fa-eye fa-1x"></i>&nbsp; Контроль прохождения тестов</a></li>
+        <li class="linkNavbar" data-ng-class="{'active':isActive('/results')}"><a href="#/results"><i class="fa fa-tasks fa-1x"></i>&nbsp; Результаты</a></li>
+        <li class="linkNavbar"><a href="@Url.Action("Index", "Lms")"><i class="fa fa-1x fa-reply fa-tab"></i>&nbsp;В главное меню</a></li>
+    </div>
+}
+
+@section bodyAttributes{ ng-app="knowledgeTestingApp" }
+
+@section body
+{
+    <div style="padding-top: 40px">
+        <section id="body" class="well">
+            <div style="margin: 5px;">
+                <h4 align="right" style="color: #007196">@Model.Name</h4>
+                <div data-ng-view=""></div>
+            </div>
+        </section>
+    </div>
+}
+

@@ -428,6 +428,8 @@
     <Content Include="Content\images\star_blue.png" />
     <Content Include="Content\images\star_white.png" />
     <Content Include="Content\images\trash_blue.png" />
+    <Content Include="Content\KnowledgeTesting\control.html" />
+    <Content Include="Content\KnowledgeTesting\results.html" />
     <Content Include="Content\mvcfileupload\css\jquery.fileupload-ui-noscript.css" />
     <Content Include="Content\mvcfileupload\css\jquery.fileupload-ui.css" />
     <Content Include="Content\mvcfileupload\css\style.css" />
@@ -549,8 +551,13 @@
     <Content Include="Scripts\application\DP\services\projectService.js" />
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\resultsController.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\passingController.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\testsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\kkcountdown.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\knowledgeTestingModule.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestPassingScript.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\testsNavigationController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestsResultsListScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestUnlocksScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\QuestionsListScript.js" />
@@ -952,6 +959,7 @@
     <Content Include="Services\Parental\ParentalService.svc" />
     <Content Include="Services\Practicals\PracticalService.svc" />
     <Content Include="Unity.Mvc4.README.txt" />
+    <Content Include="Content\KnowledgeTesting\tests.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -1082,6 +1090,7 @@
     <Content Include="Views\Shared\Parental\_Statistics.cshtml" />
     <Content Include="Views\Shared\Parental\_Plan.cshtml" />
     <Content Include="Views\Shared\Parental\_Front.cshtml" />
+    <Content Include="Views\Tests\KnowledgeTesting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1135,7 +1144,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>24040</DevelopmentServerPort>
+          <DevelopmentServerPort>21163</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:20612/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
