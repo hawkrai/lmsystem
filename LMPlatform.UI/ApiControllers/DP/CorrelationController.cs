@@ -4,6 +4,7 @@ using System.Web.Http;
 using Application.Core;
 using Application.Infrastructure.DPManagement;
 using Application.Infrastructure.DTO;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ApiControllers.DP
 {
@@ -20,7 +21,7 @@ namespace LMPlatform.UI.ApiControllers.DP
         public List<Correlation> Get()
         {
             var entity = HttpUtility.ParseQueryString(Request.RequestUri.Query)["entity"];
-            return CorrelationService.GetCorrelation(entity);
+            return CorrelationService.GetCorrelation(entity, WebSecurity.CurrentUserId);
         }
     }
 }

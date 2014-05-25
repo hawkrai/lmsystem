@@ -1,4 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Data.Entity;
+using System.Linq;
+using System.Web.Mvc;
+using Application.Infrastructure.Export;
+using LMPlatform.Data.Infrastructure;
 
 namespace LMPlatform.UI.Controllers
 {
@@ -21,6 +25,51 @@ namespace LMPlatform.UI.Controllers
         }
 
         public ActionResult Students()
+        {
+            return PartialView();
+        }
+
+        public ActionResult TaskSheet()
+        {
+            return PartialView();
+        }
+
+        public void GetTasksSheetDocument(int diplomProjectId)
+        {
+            //todo
+            var diplomProject =
+                new LmPlatformModelsContext().DiplomProjects
+                .Include(x => x.AssignedDiplomProjects.Select(y => y.Student.Group))
+                .Single(x => x.DiplomProjectId == diplomProjectId);
+
+            string docName;
+            if (diplomProject.AssignedDiplomProjects.Count == 1)
+            {
+                var stud = diplomProject.AssignedDiplomProjects.Single().Student;
+                docName = string.Format("{0}_{1}", stud.LastName, stud.FirstName);
+            }
+            else
+            {
+                docName = string.Format("{0}", diplomProject.Theme);
+            }
+
+            Word.DiplomProjectToWord(docName, diplomProject, Response);
+        }
+        
+        public string GetTasksSheetHtml(int diplomProjectId)
+        {
+            //todo
+            var diplomProject =
+                new LmPlatformModelsContext().DiplomProjects
+                .Include(x => x.AssignedDiplomProjects.Select(y => y.Student.Group))
+                .Single(x => x.DiplomProjectId == diplomProjectId);
+
+            return diplomProject.AssignedDiplomProjects.Count == 1 ? 
+                Word.DiplomProjectToDocView(diplomProject.AssignedDiplomProjects.First()) : 
+                Word.DiplomProjectToDocView(diplomProject);
+        }
+
+        public ActionResult TaskSheetEdit()
         {
             return PartialView();
         }

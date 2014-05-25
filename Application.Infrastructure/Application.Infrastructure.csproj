@@ -36,6 +36,9 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -45,6 +48,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -71,6 +75,7 @@
     <Compile Include="DTO\Correlation.cs" />
     <Compile Include="DTO\DiplomProjectData.cs" />
     <Compile Include="DTO\StudentData.cs" />
+    <Compile Include="Export\Word.cs" />
     <Compile Include="FilesManagement\AttachedFile.cs" />
     <Compile Include="FilesManagement\FilesManagementService.cs" />
     <Compile Include="FilesManagement\IFilesManagementService.cs" />
@@ -100,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="Export\tasklist.doc" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -116,7 +122,9 @@
       <Name>LMPlatform.Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Export\tasklist.xslt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

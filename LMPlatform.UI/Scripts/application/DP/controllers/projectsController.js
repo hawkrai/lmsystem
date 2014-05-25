@@ -72,6 +72,10 @@
                     }
                 });
             };
+
+            $scope.downloadTaskSheet = function(id) {
+                projectService.downloadTaskSheet(id);
+            };
             
             $scope.tableParams = new ngTableParams(
                 angular.extend({

@@ -96,6 +96,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/DP/controllers/projectsController.js",
                 "~/Scripts/application/DP/controllers/projectController.js",
                 "~/Scripts/application/DP/controllers/studentsController.js",
+                "~/Scripts/application/DP/controllers/taskSheetController.js",
                 "~/Scripts/application/DP/services/projectService.js"));
         }
     }

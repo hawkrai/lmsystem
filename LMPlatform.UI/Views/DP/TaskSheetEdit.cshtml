@@ -1,0 +1,28 @@
+﻿<div class="modal-dialog panel panel-primary" style="margin: 0;width:700px;">
+    <div class="panel-heading">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
+        <h4 class="modal-title">Редактирование листа задания</h4>
+    </div>
+    <div class="modal-body">
+        <form>
+            <tabset>
+                <tab heading="Входные данные">
+                    <textarea ng-model="taskSheet.InputData"></textarea>
+                </tab>
+                <tab heading="Содержание">
+                    <textarea ng-model="taskSheet.RpzContent"></textarea>
+                </tab>
+                <tab heading="Графические материалы">
+                    <textarea ng-model="taskSheet.DrawMaterials"></textarea>
+                </tab>
+                <tab heading="Консультанты">
+                    <textarea ng-model="taskSheet.Consultants"></textarea>
+                </tab>
+            </tabset>
+            <div style="text-align: right; padding: 20px 0;">
+                <button ng-click="closeDialog()" class="btn btn-primary btn-sm">Отмена</button>
+                <button ng-click="saveTaskSheet()" type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>

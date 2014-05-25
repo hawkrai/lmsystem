@@ -160,7 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
+    <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
+    <Compile Include="ApiControllers\DP\StudentController.cs" />
     <Compile Include="ApiControllers\LabsController.cs" />
     <Compile Include="ApiControllers\NewsController.cs" />
     <Compile Include="ApiControllers\UploadController.cs" />
@@ -546,6 +548,8 @@
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\DP\controllers\homeController.js" />
     <Content Include="Scripts\application\DP\controllers\projectController.js" />
+    <Content Include="Scripts\application\DP\controllers\studentsController.js" />
+    <Content Include="Scripts\application\DP\controllers\taskSheetController.js" />
     <Content Include="Scripts\application\DP\dpModule.js" />
     <Content Include="Scripts\application\DP\controllers\projectsController.js" />
     <Content Include="Scripts\application\DP\services\projectService.js" />
@@ -1091,6 +1095,9 @@
     <Content Include="Views\Shared\Parental\_Plan.cshtml" />
     <Content Include="Views\Shared\Parental\_Front.cshtml" />
     <Content Include="Views\Tests\KnowledgeTesting.cshtml" />
+    <Content Include="Views\DP\Students.cshtml" />
+    <Content Include="Views\DP\TaskSheet.cshtml" />
+    <Content Include="Views\DP\TaskSheetEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

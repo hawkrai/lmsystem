@@ -13,18 +13,21 @@
                 <td width="10%" data-title="'Студент'">{{project.Student}}</td>
                 <td width="10%" data-title="'Группа'">{{project.Group}}</td>
                 <td width="10%" data-title="'Дата'">{{project.ApproveDateString}}</td>
-                <td width="15%" data-title="'Действие'">
-                    <a ng-click="editProject(project.Id)" class="editSubjectAction" style="margin-right: 10px">
-                        <i tooltip-placement="left" tooltip="Редактировать" class="editSubject fa fa-edit fa-2x"></i>
+                <td width="20%" data-title="'Действие'">
+                    <a ng-click="editProject(project.Id)" style="margin-right: 10px">
+                        <i tooltip-placement="left" tooltip="Редактировать" class="fa fa-edit fa-2x"></i>
                     </a>
-                    <a ng-show="project.Student.trim()==''" ng-click="assignProject(project.Id)" class="deleteSubjectButton" style="margin-right: 10px">
-                        <i tooltip-placement="left" tooltip="Назначить" class="deleteSubject fa fa-list-alt fa-2x"></i>
+                    <a ng-show="project.Student.trim()==''" ng-click="assignProject(project.Id)" style="margin-right: 10px">
+                        <i tooltip-placement="left" tooltip="Назначить" class="fa fa-list-alt fa-2x"></i>
                     </a>
-                    <a ng-click="deleteProject(project.Id)" class="deleteSubjectButton" style="margin-right: 10px">
-                        <i tooltip-placement="left" tooltip="Удалить" class="deleteSubject fa fa-trash-o fa-2x"></i>
+                    <a ng-show="project.Student.trim()!=''" ng-click="deleteAssignment(project.Id)" style="margin-right: 10px">
+                        <i tooltip-placement="left" tooltip="Удалить назначение" class="fa fa-minus-square-o fa-2x"></i>
                     </a>
-                    <a ng-show="project.Student.trim()!=''" ng-click="deleteAssignment(project.Id)" class="deleteSubjectButton">
-                        <i tooltip-placement="left" tooltip="Удалить назначение" class="deleteSubject fa fa-minus-square-o fa-2x"></i>
+                    <a ng-show="project.Student.trim()!=''" ng-click="downloadTaskSheet(project.Id)" style="margin-right: 10px">
+                        <i tooltip-placement="left" tooltip="Скачать лист задания" class="fa fa-download fa-2x"></i>
+                    </a>
+                    <a ng-click="deleteProject(project.Id)" style="margin-right: 10px">
+                        <i tooltip-placement="left" tooltip="Удалить" class="fa fa-trash-o fa-2x"></i>
                     </a>
                 </td>
             </tr>

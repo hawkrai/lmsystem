@@ -6,6 +6,7 @@
         'dpApp.ctrl.home',
         'dpApp.ctrl.projects',
         'dpApp.ctrl.project',
+        'dpApp.ctrl.taskSheet',
         'dpApp.ctrl.students',
         'dpApp.service.project'
     ])
@@ -17,9 +18,9 @@
             reloadOnSearch: false
         });
         
-        $routeProvider.when('/ProjectAssignment', {
-            templateUrl: '/Dp/ProjectAssignment',
-            controller: 'projectAssignmentsCtrl'
+        $routeProvider.when('/TaskSheet', {
+            templateUrl: '/Dp/TaskSheet',
+            controller: 'taskSheetCtrl'
         });
         
         $routeProvider.otherwise({

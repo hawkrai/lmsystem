@@ -9,6 +9,8 @@ angular
             var projectAssignmentUrl = '/api/diplomProjectAssignment/';
             var correlationApiUrl = '/api/correlation/';
             var studentApiUrl = '/api/student/';
+            var downloadTaskSheetUrl = "/Dp/GetTasksSheetDocument?diplomProjectId=";
+            var downloadTaskSheetHtmlUrl = "/Dp/GetTasksSheetHtml?diplomProjectId=";
 
             return {
                 getProjects: function (params) {
@@ -80,6 +82,26 @@ angular
                         url: correlationApiUrl,
                         params: { entity: 'Group' }
                     });
-            },
+                },
+
+
+                getDiplomProjectCorrelation: function () {
+                    return $http({
+                        method: 'GET',
+                        url: correlationApiUrl,
+                        params: { entity: 'DiplomProject' }
+                    });
+                },
+
+                downloadTaskSheetHtml: function (projectId) {
+                    return $http({
+                        method: 'GET',
+                        url: downloadTaskSheetHtmlUrl + projectId,
+                    });
+                },
+
+                downloadTaskSheet: function (projectId) {
+                    location.href = downloadTaskSheetUrl + projectId;
+                },
             };
         }]);
