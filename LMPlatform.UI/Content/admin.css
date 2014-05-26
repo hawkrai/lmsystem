@@ -1,3 +1,8 @@
+td:first-child {
+    width: 35px;
+    text-align: center;
+}
+
 .admin-icon {
     font-size: 22px;
     vertical-align: -4px;
@@ -58,11 +63,8 @@ select.students-stat {
 }
 /*statistics*/
 #stat-table {
-    margin: 20px 0px;
     font-size: 14px;
     background-color: white;
-    width: 100%;
-    border: solid #ddd 1px;
 }
 
     #stat-table caption {
@@ -76,14 +78,11 @@ select.students-stat {
 
     #stat-table th,
     #stat-table td {
-        border: solid #ddd 1px;
-        padding: 5px;
         text-align: center;
+        vertical-align: middle;
     }
 
-        #stat-table td:first-child {
-            width: 35px;
-        }
+
         #stat-table td:nth-child(2) {
             text-align: left;
             padding-left: 10px;

@@ -7,7 +7,7 @@
                 templateUrl: '/Parental/Statistics',
                 controller: 'StatCtrl'
             })
-        .when('/Plan:subjectId*', {
+        .when('/Plan/:subjectId*', {
             templateUrl: '/Parental/Plan',
             controller: 'PlanCtrl'
         })
@@ -18,22 +18,101 @@
 
 var controllersApp = angular.module('parentalApp.controllers', ['ui.bootstrap', 'xeditable']);
 
-controllersApp.controller('MainCtrl', function ($scope) {
-    $scope.init = function (groupId) {
-        $scope.groupId = groupId;
-    };
-});
-
-controllersApp.controller("PlanCtrl", ['$scope', '$routeParams', '$http', '$modal', function ($scope, $routeParams, $http, $modal) {
-    $scope.init = function () {
-        $scope.params = $routeParams;
-    };
-}]);
-
-controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
+controllersApp.controller('MainCtrl', function ($scope, $http) {
 
     $scope.UrlServiceParental = '/Services/Parental/ParentalService.svc/';
     $scope.UrlServiceCore = '/Services/CoreService.svc/';
+
+    $scope.init = function (groupId) {
+        $scope.groupId = groupId;
+    };
+
+});
+
+controllersApp.controller("PlanCtrl", ['$scope', '$routeParams', '$http', '$modal', function ($scope, $routeParams, $http, $modal) {
+    $scope.lectures = [];
+    $scope.labs = [];
+    $scope.practicals = [];
+
+
+    $scope.UrlServiceLectures = '/Services/Lectures/LecturesService.svc/';
+    $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
+    $scope.UrlServicePractical = '/Services/Practicals/PracticalService.svc/';
+
+    
+
+    $scope.init = function () {
+
+        $scope.subject = { Id: $routeParams.subjectId };
+
+        $http.get($scope.UrlServiceParental + "GetGroupSubjects/" + $scope.groupId)
+            .then(function(response) {
+                $scope.subject = Enumerable.From(response.data.Subjects).First(function(x) { return x.Id == $scope.subject.Id; });
+            });
+
+        $scope.loadLectures();
+        $scope.loadLabs();
+        $scope.loadPracticals();
+
+    };
+
+    $scope.loadLectures = function () {
+        $.ajax({
+            type: 'GET',
+            url: $scope.UrlServiceLectures + "GetLectures/" + $scope.subject.Id,
+            dataType: "json",
+            contentType: "application/json",
+
+        }).success(function (data, status) {
+            if (data.Code != '200') {
+                alertify.error(data.Message);
+            } else {
+                $scope.$apply(function () {
+                    $scope.lectures = data.Lectures;
+                });
+            }
+        });
+    };
+
+    $scope.loadLabs = function () {
+        $.ajax({
+            type: 'GET',
+            url: $scope.UrlServiceLabs + "GetLabs/" + $scope.subject.Id,
+            dataType: "json",
+            contentType: "application/json",
+
+        }).success(function (data, status) {
+            if (data.Code != '200') {
+                alertify.error(data.Message);
+            } else {
+                $scope.$apply(function () {
+                    $scope.labs = data.Labs;
+                });
+            }
+        });
+    };
+
+    $scope.loadPracticals = function () {
+        $.ajax({
+            type: 'GET',
+            url: $scope.UrlServicePractical + "GetPracticals/" + $scope.subject.Id,
+            dataType: "json",
+            contentType: "application/json",
+
+        }).success(function (data, status) {
+            if (data.Code != '200') {
+                alertify.error(data.Message);
+            } else {
+                $scope.$apply(function () {
+                    $scope.practicals = data.Practicals;
+                });
+            }
+        });
+    };
+
+}]);
+
+controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
 
     $scope.Subjects = [];
     $scope.subject = { Name: "Все предметы", Id: -1, ShortName: "" };

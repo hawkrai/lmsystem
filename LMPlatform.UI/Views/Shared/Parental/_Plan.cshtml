@@ -1,16 +1,80 @@
-﻿<div ng-controller="PlanCtrl" ng-init="init()">
-    <div>
-        <div>
-            <span>Лекции:</span>
+﻿<style>
+    blockquote {
+        padding: 0.5px 14px;
+        margin: 42px 0 21px;
+
+    }
+ </style>
+<div ng-controller="PlanCtrl" ng-init="init()">
+    <h3>{{subject.Name}} ({{subject.ShortName}})</h3>
+    <hr>
+    <div ng-show="lectures.length > 0">
+        <blockquote>
+            <h4>Лекции</h4>
+        </blockquote>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Тема</th>
+                        <th>Часы</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="data in lectures">
+                    <td>{{$index + 1}}</td>
+                    <td>{{data.Theme}}</td>
+                    <td>{{data.Duration}}</td>
+
+                </tr>
+            </table>
         </div>
-        <ul>
-        </ul>
     </div>
-    <div>
-        <div>
-            <span>Практические:</span>
+    <div ng-show="labs.length > 0">
+        <blockquote>
+            <h4>Лабораторные</h4>
+        </blockquote>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Название</th>
+                        <th>Краткое название</th>
+                        <th>Часы</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="data in labs">
+                    <td>{{$index + 1}}</td>
+                    <td>{{data.Theme}}</td>
+                    <td>{{data.ShortName}}</td>
+                    <td>{{data.Duration}}</td>
+                </tr>
+            </table>
         </div>
-        <ul>
-        </ul>
+    </div>
+    <div ng-show="practicals.length > 0">
+        <blockquote>
+            <h4>Практические</h4>
+        </blockquote>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Название</th>
+                        <th>Краткое название</th>
+                        <th>Часы</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="data in practicals">
+                    <td>{{data.Order}}</td>
+                    <td>{{data.Theme}}</td>
+                    <td>{{data.ShortName}}</td>
+                    <td>{{data.Duration}}</td>
+                </tr>
+            </table>
+        </div>
+
     </div>
 </div>

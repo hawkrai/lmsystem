@@ -1,8 +1,15 @@
 ﻿<h3>Статистика</h3>
 <hr>
 <div ng-controller="StatCtrl" ng-init="init()">
+    
+    <div class="form-group">
+        <label class="control-label">Выберите пердмет:</label>
 
-    <select class="form-control" ng-model="subject" ng-options="sbjct.Name for sbjct in Subjects"></select><br />
+            <select class="form-control" ng-model="subject" placeholder="Выберите пердмет..." ng-options="sbjct.Name for sbjct in Subjects">
+                @*<option value="" disabled selected>Выберите предмет</option>*@
+            </select><br />
+    </div>
+
     <div class="stat-btn-section">
         <a onclick="tableToExcel('stat-table', 'Статистика')">
             <i class="fa fa-download"></i>
@@ -14,7 +21,12 @@
         </a>
     </div>
     <div id="print-table">
-        <table id="stat-table" ng-if="subject.Id < 0 && allSubjectsStat.length">
+        <table id="stat-table" class="table table-bordered table-hover" ng-if="subject.Id < 0 && allSubjectsStat.length">
+            <caption>
+                <span style="font-weight: bold">Группа: </span>{{groupName}}
+                <span style="font-weight: bold">Предмет: </span>{{subject.Name}}
+                <span ng-if="subject.ShortName">({{subject.ShortName}})</span>
+            </caption>
             <thead>
                 <tr>
                     <th rowspan="2">№</th>
@@ -36,9 +48,9 @@
             </tbody>
         </table>
 
-        <table id="stat-table" ng-if="subject.Id >= 0">
+        <table id="stat-table" class="table table-bordered table-hover" ng-if="subject.Id >= 0">
             <caption>
-                <span style="font-weight: bold">Группа: </span>{{groupName}} 
+                <span style="font-weight: bold">Группа: </span>{{groupName}}
                 <span style="font-weight: bold">Предмет: </span>{{subject.Name}}
                 <span ng-if="subject.ShortName">({{subject.ShortName}})</span>
             </caption>
@@ -72,7 +84,8 @@
                     <td ng-if="student.PractMark > 0">{{student.PractMark}} ({{student.PractsCount}})</td>
                     <td ng-if="student.PractMark <= 0">-</td>
                     <td ng-if="student.PractMark > 0 && student.LabMark > 0">{{(student.PractMark + student.LabMark)/2}}</td>
-                    <td ng-if="(student.PractMark == 0 && student.LabMark > 0) || (student.PractMark > 0 && student.LabMark == 0)">{{(student.PractMark + student.LabMark)}}
+                    <td ng-if="(student.PractMark == 0 && student.LabMark > 0) || (student.PractMark > 0 && student.LabMark == 0)">
+                        {{(student.PractMark + student.LabMark)}}
                     </td>
                     <td ng-if="student.PractMark == 0 && student.LabMark==0">-</td>
                 </tr>
