@@ -69,7 +69,7 @@ namespace LMPlatform.UI.Services.Practicals
                 }, attachmentsModel);
                 return new ResultViewData()
                 {
-                    Message = "Практическое занятие успешно сохранена",
+                    Message = "Практическое занятие успешно сохранено",
                     Code = "200"
                 };
             }
