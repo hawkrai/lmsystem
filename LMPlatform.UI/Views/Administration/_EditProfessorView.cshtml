@@ -18,18 +18,18 @@
             </hgroup>
             @Html.HiddenFor(m => m.UserName)
             <div>
-                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                <div>
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(e => e.Name, " ")
-                </div>
-                <p></p>
-            </div>
-            <div>
                 @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
                 <div>
                     @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
                     @Html.ValidationMessageFor(e => e.Surname, " ")
+                </div>
+                <p></p>
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Name, " ")
                 </div>
                 <p></p>
             </div>
