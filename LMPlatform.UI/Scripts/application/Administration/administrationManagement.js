@@ -21,20 +21,30 @@ function initGroupManagement() {
     initDeleteDialog(".deleteButton", "Удалить", "Удаление группы", "#groupList");
 };
 
-function initManagement(btnSelector, btnTooltipTitle, saveDialogTitle, updateTableId) {
+function initManagement(btnSelector, btnTooltipTitle, dialogTitle, updateTableId) {
     var btn = $(btnSelector);
     btn.tooltip({ title: btnTooltipTitle, placement: 'right' });
 
     btn.handle("click", function () {
         var actionUrl = $(this).attr('href');
-        $.savingDialog(saveDialogTitle, actionUrl, null, "primary", function (data) {
-            updateTable(updateTableId);
-            alertify.success("Сохранено");
-            return false;
-        });
+        showForm(actionUrl, dialogTitle);
         return false;
     });
 };
+
+function successAjaxForm(result) {
+    var box = $('#adminModal').parents(".modal");
+    if (result.resultMessage) {
+        $(box).modal('hide');
+        updateTable(".dataTable");
+        alertify.success(result.resultMessage);
+    } else {
+        $('#adminModal').html(result);
+        $('form').removeData('validator');
+        $('form').removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse('form');
+    }
+}
 
 function initStatDialog(btnSelector, btnTooltipTitle) {
     var btn = $(btnSelector);
@@ -65,20 +75,20 @@ function initDeleteDialog(btnSelector, btnTooltipTitle, saveDialogTitle, updateT
             buttons: {
                 'cancel': {
                     label: "Отмена",
-                    className: 'btn-default pull-left'
+                    className: 'btn btn-sm'
                 },
                 'confirm': {
                     label: 'Да',
-                    className: 'btn-danger pull-right'
+                    className: 'btn btn-primary btn-sm'
                 }
             },
 
-
             callback: function (result) {
                 if (result) {
-                    $.post(actionUrl, function () {
+                    $.post(actionUrl, function (data) {
                         updateTable(updateTableId);
-                        alertify.success("Удаление прошло успешно");
+                        if (data.resultMessage)
+                            alertify.success(data.resultMessage);
                     }).fail(function () {
                         alertify.error("Произошла ошибка");
                     });
@@ -87,6 +97,17 @@ function initDeleteDialog(btnSelector, btnTooltipTitle, saveDialogTitle, updateT
         });
     });
 };
+
+function showForm(formUrl, formTitle) {
+    $.get(formUrl,
+            {},
+          function (data) {
+              bootbox.dialog({
+                  message: data,
+                  title: formTitle
+              });
+          });
+}
 
 function updateTable(updateTableId) {
     if (updateTableId) {

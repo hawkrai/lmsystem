@@ -162,16 +162,48 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
-                    model.AddGroup();
+                    if (!model.CheckGroupName())
+                    {
+                        ModelState.AddModelError(string.Empty, "Группа с таким номером уже существует");
+                    }
+                    else
+                    {
+                        model.AddGroup();
+                    }
                 }
                 catch (MembershipCreateUserException e)
                 {
                     ModelState.AddModelError(string.Empty, e.StatusCode.ToString());
-                    return View(model);
                 }
             }
 
-            return null;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddGroupAjax(GroupViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (!model.CheckGroupName())
+                    {
+                        ModelState.AddModelError(string.Empty, "Группа с таким номером уже существует");
+                    }
+                    else
+                    {
+                        model.AddGroup();
+                        return Json(new { resultMessage = "Группа сохранена" });
+                    }
+                }
+                catch (MembershipCreateUserException e)
+                {
+                    ModelState.AddModelError(string.Empty, e.StatusCode.ToString());
+                }
+            }
+
+            return PartialView("_AddGroupView", model);
         }
 
         public ActionResult EditGroup(int id)
@@ -194,7 +226,7 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
-                    model.ModifyGroup(id);
+                    model.ModifyGroup();
                     ViewBag.ResultSuccess = true;
                 }
                 catch
@@ -204,6 +236,25 @@ namespace LMPlatform.UI.Controllers
             }
 
             return null;
+        }
+
+        [HttpPost]
+        public ActionResult EditGroupAjax(GroupViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.ModifyGroup();
+                    return Json(new { resultMessage = "Группа сохранена" });
+                }
+                catch
+                {
+                    ModelState.AddModelError(string.Empty, string.Empty);
+                }
+            }
+
+            return PartialView("_EditGroupView", model);
         }
 
         public ActionResult Professors()
@@ -278,16 +329,27 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
-        public bool DeleteGroup(int id)
+        public JsonResult DeleteGroup(int id)
         {
             try
             {
-                GroupManagementService.DeleteGroup(id);
-                return true;
+                var group = GroupManagementService.GetGroup(id);
+                if (group != null)
+                {
+                    if (group.Students != null && group.Students.Count > 0)
+                    {
+                        return Json(new { resultMessage = "Группа содержит студентов и не может быть удалена" });
+                    }
+
+                    GroupManagementService.DeleteGroup(id);
+                    return Json(new { resultMessage = string.Format("Группа {0} удалена", group.Name) });
+                }
+
+                return Json(new { resultMessage = "Группы не существует" });
             }
             catch
             {
-                return false;
+                return Json(new { resultMessage = "Произошла ошибка при удалении" });
             }
         }
 

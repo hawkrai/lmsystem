@@ -1,7 +1,13 @@
 ﻿@model LMPlatform.UI.ViewModels.AdministrationViewModels.GroupViewModel
 
-<div id="editProfessor">
-    @using (Html.BeginForm("EditGroup", "Administration", FormMethod.Post))
+<div id="adminModal">
+
+        @using (Ajax.BeginForm("EditGroup", "Administration", new AjaxOptions
+                                                    {
+                                                        Url = Url.Action("EditGroupAjax"),
+                                                        OnSuccess = "successAjaxForm",
+                                                        HttpMethod = "POST"
+                                                    }))
     {
         <div class="error-limit-registr">
             @if (ViewBag.ResultSuccess != null && ViewBag.ResultSuccess)
@@ -28,7 +34,7 @@
             <div>
                 @Html.LabelFor(m => m.StartYear, new { @class = "control-label" })
                 <div>
-                    @Html.DropDownListFor(m => m.StartYear, @Model.GetYears(),  new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.StartYear, @Model.GetYears(), new { @class = "control-label" })
                     @Html.ValidationMessageFor(e => e.StartYear, " ")
                 </div>
                 <p></p>
@@ -36,11 +42,16 @@
             <div>
                 @Html.LabelFor(m => m.GraduationYear, new { @class = "control-label" })
                 <div>
-                    @Html.DropDownListFor(m => m.GraduationYear, @Model.GetYears(),  new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.GraduationYear, @Model.GetYears(), new { @class = "control-label" })
                     @Html.ValidationMessageFor(e => e.GraduationYear, " ")
                 </div>
                 <p></p>
             </div>
         </div>
+        <div class="modal-footer">
+            <input type="button" class="btn btn-sm bootbox-close-button" value="Отмена" style="width: auto" />
+            <input type="submit" class="btn btn-primary btn-sm" value="Сохранить" style="width: auto" />
+        </div>
     }
 </div>
+

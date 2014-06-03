@@ -1,43 +1,52 @@
 ﻿@model LMPlatform.UI.ViewModels.AdministrationViewModels.GroupViewModel
 
-<div id="addGroup">
-@using (Html.BeginForm("AddGroup", "Administration", FormMethod.Post))
-{
-    <div class="error-limit-registr">
-        @Html.ValidationSummary("Ошибка!", new {@class = "alert alert-error"})
-    </div>
+<div id="adminModal">
+    @using (Ajax.BeginForm("AddGroup", "Administration", new AjaxOptions
+                                                    {
+                                                        Url = Url.Action("AddGroupAjax"),
+                                                        OnSuccess = "successAjaxForm",
+                                                        HttpMethod = "POST"
+                                                    }))
+    {
+        <div class="error-limit-registr">
+            @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
+        </div>
 
-    @Html.AntiForgeryToken()
-
-    <div>
-        <hgroup style="text-align: center; margin-bottom: 20px">
-            <h1>@ViewBag.Title</h1>
-        </hgroup>
+        @Html.AntiForgeryToken()
 
         <div>
-            @Html.LabelFor(m => m.Name, new {@class = "control-label"})
+            <hgroup style="text-align: center; margin-bottom: 20px">
+                <h1>@ViewBag.Title</h1>
+            </hgroup>
+
             <div>
-                @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
-                @Html.ValidationMessageFor(e => e.Name, " ")
+                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Name, " ")
+                </div>
+                <p></p>
             </div>
-            <p></p>
-        </div>
-        <div>
-            @Html.LabelFor(m => m.StartYear, new {@class = "control-label"})
             <div>
-                @Html.TextBoxFor(m => m.StartYear, new {@class = "form-control"})
-                @Html.ValidationMessageFor(e => e.StartYear, " ")
+                @Html.LabelFor(m => m.StartYear, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.StartYear, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.StartYear, " ")
+                </div>
+                <p></p>
             </div>
-            <p></p>
-        </div>
-        <div>
-            @Html.LabelFor(m => m.GraduationYear, new {@class = "control-label"})
             <div>
-                @Html.TextBoxFor(m => m.GraduationYear, new {@class = "form-control"})
-                @Html.ValidationMessageFor(e => e.GraduationYear, " ")
+                @Html.LabelFor(m => m.GraduationYear, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.GraduationYear, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.GraduationYear, " ")
+                </div>
+                <p></p>
             </div>
-            <p></p>
         </div>
-    </div>
-}
+        <div class="modal-footer">
+            <input type="button" class="btn btn-sm bootbox-close-button" value="Отмена" style="width: auto" />
+            <input type="submit" class="btn btn-primary btn-sm" value="Сохранить" style="width: auto" />
+        </div>
+    }
 </div>

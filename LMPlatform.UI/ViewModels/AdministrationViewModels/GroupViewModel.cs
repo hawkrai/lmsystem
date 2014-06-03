@@ -54,6 +54,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
         public GroupViewModel(Group group)
         {
+            Id = group.Id;
             Name = group.Name;
             StartYear = group.StartYear;
             GraduationYear = group.GraduationYear;
@@ -94,15 +95,21 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
             GroupManagementService.AddGroup(GetGroupFromViewModel());
         }
 
-        public void ModifyGroup(int groupId)
+        public void ModifyGroup()
         {
             GroupManagementService.UpdateGroup(new Group()
             {
-                Id = groupId,
+                Id = Id,
                 Name = Name,
                 GraduationYear = GraduationYear,
                 StartYear = StartYear
             });
+        }
+
+        public bool CheckGroupName()
+        {
+            var group = GroupManagementService.GetGroupByName(this.Name);
+            return @group == null;
         }
 
         private Group GetGroupFromViewModel()
