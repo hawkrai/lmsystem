@@ -67,12 +67,13 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
         }
 
-        public IEnumerable<Test> GetTestForSubject(int? subjectId)
+        public IEnumerable<Test> GetTestsForSubject(int? subjectId)
         {
             IEnumerable<Test> searchResults;
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var query = new Query<Test>();
+                var query = new Query<Test>().Include(test => test.TestUnlocks);
+
                 if (subjectId.HasValue)
                 {
                     query.AddFilterClause(test => test.SubjectId == subjectId.Value);

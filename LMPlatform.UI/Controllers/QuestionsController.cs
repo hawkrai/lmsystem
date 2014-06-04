@@ -45,7 +45,7 @@ namespace LMPlatform.UI.Controllers
         public ActionResult Index(int testId)
         {
             Test test = TestsManagementService.GetTest(testId);
-            List<TestItemListViewModel> testModels = TestsManagementService.GetTestForSubject(test.SubjectId).Select(TestItemListViewModel.FromTest).ToList();
+            List<TestItemListViewModel> testModels = TestsManagementService.GetTestsForSubject(test.SubjectId).Select(TestItemListViewModel.FromTest).ToList();
             testModels.Add(new TestItemListViewModel { Id = 0, Title = "Все тесты" });
             ViewBag.Tests = testModels;
             return View(test);

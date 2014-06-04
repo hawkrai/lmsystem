@@ -48,6 +48,14 @@ namespace LMPlatform.UI.Controllers
             return Json(savedTest);
         }
 
+        public JsonResult GetTests(int? subjectId)
+        {
+            var tests = TestsManagementService.GetTestsForSubject(subjectId);
+            var testViewModels = tests.Select(TestItemListViewModel.FromTest);
+
+            return Json(testViewModels, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         [Authorize, HttpGet]

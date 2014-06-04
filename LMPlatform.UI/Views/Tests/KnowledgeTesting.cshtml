@@ -12,6 +12,17 @@
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/resultsController.js")
+
+    @* Move to another file *@
+    <script type="text/javascript">
+        window.kt = {
+            actions: {
+                tests: {
+                    getTests: '@Url.Action("GetTests", "Tests")'
+                }
+            }
+        };
+    </script>
 }
 
 

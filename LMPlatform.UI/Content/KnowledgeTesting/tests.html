@@ -1,6 +1,39 @@
 ﻿<h3>Управление тестами</h3>
 <hr />
 
-<div>
-    <a id="addNewTestButton" ng-click="editProject()" class="btn btn-primary btn-sm">Добавить тест</a>
+<div class="row">
+    <div class="col-lg-3">
+        <a id="addNewTestButton" ng-click="addTest()" class="btn btn-primary btn-sm">Добавить тест</a>
+    </div>
+    <div class="input-group input-group-sm col-lg-4 col-lg-offset-8">
+        <!--<span class="input-group-addon"></span>-->
+        <input ng-model="query" type="text" class="form-control" placeholder="Введите название теста">
+    </div>
+</div>
+
+<div style="height: 20px"></div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr style="font-size: 16px; margin-bottom: 10px;">
+                <th>№</th>
+                <th>Тема</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="test in tests | filter:query">
+            <td width="30px">{{test.Number}}</td>
+            <td>{{test.Title}}</td>
+            <td style="width: 220px;">
+                <div>
+                    <a ng-click="" style="margin-right: 10px"><i class="fa fa-edit fa-2x"></i></a>
+                    <a ng-click="" style="margin-right: 10px"><i class="fa fa-trash-o fa-2x"></i></a>
+                    <a ng-click="" style="margin-right: 10px"><i class="fa fa-question fa-2x"></i></a>
+                    <a ng-click="" style="margin-right: 10px"><i class="fa fa-rocket fa-2x"></i></a>
+                    <a ng-click=""><i class="fa fa-2x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>
