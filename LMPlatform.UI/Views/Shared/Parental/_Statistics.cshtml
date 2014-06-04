@@ -3,8 +3,8 @@
 <div ng-controller="StatCtrl" ng-init="init()">
     
     <div class="form-group">
-        <label class="control-label">Выберите пердмет:</label>
-            <select class="form-control" ng-model="subject" placeholder="Выберите пердмет..." ng-options="sbjct.Name for sbjct in Subjects">
+        <label class="control-label">Выберите предмет:</label>
+            <select class="form-control" ng-model="subject" placeholder="Выберите предмет..." ng-options="sbjct.Name for sbjct in Subjects">
             </select><br />
     </div>
 
@@ -37,7 +37,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="student in allSubjectsStat">
+                <tr ng-repeat="student in allSubjectsStat | orderBy:'studentName'">
                     <td>{{$index + 1}}</td>
                     <td>{{student.studentName}}</td>
                     <td ng-repeat-start="subject in student.subjectsStat">{{subject.TotalHours}}</td>
@@ -61,7 +61,7 @@
                 </tr>
                 <tr>
                     <th>Лекции</th>
-                    <th>Лаборатоные</th>
+                    <th>Лабораторные</th>
                     <th>Практические</th>
                     <th>Всего</th>
                     <th>Лаборатоные</th>
@@ -70,7 +70,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="student in subjectStat">
+                <tr ng-repeat="student in subjectStat| orderBy:'Name'">
                     <td>{{$index + 1}}</td>
                     <td>{{student.Name}}</td>
                     <td>{{student.LecHours}}</td>

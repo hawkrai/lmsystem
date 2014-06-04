@@ -25,39 +25,9 @@ namespace LMPlatform.UI.Controllers
             return View(activityModel);
         }
 
-        public ActionResult Students(int? id)
+        public ActionResult Students()
         {
-            if (id.HasValue)
-            {
-                var student = StudentManagementService.GetStudent(id.Value);
-
-                if (student != null)
-                {
-                    var model = new ModifyStudentViewModel(student);
-                    return View("EditStudent", model);
-                }
-            }
-
             return View();
-        }
-
-        [HttpPost]
-        public ActionResult Students(ModifyStudentViewModel model, int id)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    model.ModifyStudent(id);
-                    ViewBag.ResultSuccess = true;
-                }
-                catch
-                {
-                    ModelState.AddModelError(string.Empty, string.Empty);
-                }
-            }
-
-            return View("EditStudent", model);
         }
 
         public ActionResult EditStudent(int id)
@@ -80,7 +50,7 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
-                    model.ModifyStudent(id);
+                    model.ModifyStudent();
                     ViewBag.ResultSuccess = true;
                 }
                 catch
@@ -92,9 +62,47 @@ namespace LMPlatform.UI.Controllers
             return null;
         }
 
+        [HttpPost]
+        public ActionResult EditStudentAjax(ModifyStudentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.ModifyStudent();
+                    return Json(new { resultMessage = "Студент сохранен" });
+                }
+                catch
+                {
+                    ModelState.AddModelError(string.Empty, string.Empty);
+                }
+            }
+
+            return PartialView("_EditStudentView", model);
+        }
+
         public ActionResult AddProfessor()
         {
             var model = new RegisterViewModel();
+            return PartialView("_AddProfessorView", model);
+        }
+
+        [HttpPost]
+        public ActionResult AddProfessorAjax(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.RegistrationUser(new[] { "lector" });
+                    return Json(new { resultMessage = "Преподаватель сохранен" });
+                }
+                catch (MembershipCreateUserException e)
+                {
+                    ModelState.AddModelError(string.Empty, e.StatusCode.ToString());
+                }
+            }
+
             return PartialView("_AddProfessorView", model);
         }
 
@@ -131,13 +139,13 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditProfessor(ModifyLecturerViewModel model, int id)
+        public ActionResult EditProfessor(ModifyLecturerViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    model.ModifyLecturer(id);
+                    model.ModifyLecturer();
                     ViewBag.ResultSuccess = true;
                 }
                 catch
@@ -147,6 +155,25 @@ namespace LMPlatform.UI.Controllers
             }
 
             return null;
+        }
+
+        [HttpPost]
+        public ActionResult EditProfessorAjax(ModifyLecturerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.ModifyLecturer();
+                    return Json(new { resultMessage = "Преподаватель сохранен" });
+                }
+                catch
+                {
+                    ModelState.AddModelError(string.Empty, string.Empty);
+                }
+            }
+
+            return PartialView("_EditProfessorView", model);
         }
 
         public ActionResult AddGroup()

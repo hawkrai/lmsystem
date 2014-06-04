@@ -1,60 +1,68 @@
 ﻿@model LMPlatform.UI.ViewModels.AccountViewModels.RegisterViewModel
 
 
-<div id="addProfessor">
-@using (Html.BeginForm("AddProfessor","Administration",FormMethod.Post))
-{
-    <div class="error-limit-registr">
-        @Html.ValidationSummary("Ошибка!", new {@class = "alert alert-error"})
-    </div>
+<div id="adminModal">
+    @using (Ajax.BeginForm("AddProfessor", "Administration", new AjaxOptions
+                                                                {
+                                                                    Url = Url.Action("AddProfessorAjax"),
+                                                                    OnSuccess = "successAjaxForm",
+                                                                    HttpMethod = "POST"
+                                                                }))
+    {
+        <div class="error-limit-registr">
+            @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
+        </div>
 
-    @Html.AntiForgeryToken()
-
-    <div>
-        <hgroup style="text-align: center; margin-bottom: 20px">
-            <h1>@ViewBag.Title</h1>
-        </hgroup>
+        @Html.AntiForgeryToken()
 
         <div>
-            @Html.LabelFor(m => m.UserName)
-            @Html.TextBoxFor(m => m.UserName, new {@class = "form-control"})
-            @Html.ValidationMessageFor(e => e.UserName, " ")
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Password)
-            @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
-            @Html.ValidationMessageFor(m => m.Password, " ")
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ConfirmPassword)
-            @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control"})
-            @Html.ValidationMessageFor(m => m.ConfirmPassword, " ")
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
+            <hgroup style="text-align: center; margin-bottom: 20px">
+                <h1>@ViewBag.Title</h1>
+            </hgroup>
+
             <div>
-                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
-                @Html.ValidationMessageFor(e => e.Surname, " ")
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.UserName, " ")
             </div>
-            <p></p>
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Name, new {@class = "control-label"})
             <div>
-                @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
-                @Html.ValidationMessageFor(e => e.Name, " ")
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password, " ")
             </div>
-            <p></p>
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Patronymic, new {@class = "control-label"})
             <div>
-                @Html.TextBoxFor(m => m.Patronymic, new {@class = "form-control"})
-                @Html.ValidationMessageFor(e => e.Patronymic, " ")
+                @Html.LabelFor(m => m.ConfirmPassword)
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, " ")
             </div>
-            <p></p>
+            <div>
+                @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Surname, " ")
+                </div>
+                <p></p>
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Name, " ")
+                </div>
+                <p></p>
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Patronymic, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(m => m.Patronymic, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.Patronymic, " ")
+                </div>
+                <p></p>
+            </div>
         </div>
-    </div>
-}
+        <div class="modal-footer">
+            <input type="button" class="btn btn-sm bootbox-close-button" value="Отмена" style="width: auto" />
+            <input type="submit" class="btn btn-primary btn-sm" value="Сохранить" style="width: auto" />
+        </div>
+    }
 </div>
-

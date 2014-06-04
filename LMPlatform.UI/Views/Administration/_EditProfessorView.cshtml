@@ -1,7 +1,12 @@
 ﻿@model LMPlatform.UI.ViewModels.AdministrationViewModels.ModifyLecturerViewModel
 
-<div id="editProfessor">
-    @using (Html.BeginForm("EditProfessor", "Administration", FormMethod.Post))
+<div id="adminModal">
+    @using (Ajax.BeginForm("EditProfessor", "Administration", new AjaxOptions
+                                                                    {
+                                                                        Url = Url.Action("EditProfessorAjax"),
+                                                                        OnSuccess = "successAjaxForm",
+                                                                        HttpMethod = "POST"
+                                                                    }))
     {
         <div class="error-limit-registr">
             @if (ViewBag.ResultSuccess != null && ViewBag.ResultSuccess)
@@ -17,6 +22,7 @@
                 <h1>@Model.FullName</h1>
             </hgroup>
             @Html.HiddenFor(m => m.UserName)
+            @Html.HiddenFor(m => m.LecturerId)
             <div>
                 @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
                 <div>
@@ -46,6 +52,10 @@
 
                 <p></p>
             </div>
+        </div>
+        <div class="modal-footer">
+            <input type="button" class="btn btn-sm bootbox-close-button" value="Отмена" style="width: auto" />
+            <input type="submit" class="btn btn-primary btn-sm" value="Сохранить" style="width: auto" />
         </div>
     }
 </div>

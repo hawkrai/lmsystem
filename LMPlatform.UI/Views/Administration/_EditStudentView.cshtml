@@ -1,7 +1,12 @@
 ﻿@model LMPlatform.UI.ViewModels.AdministrationViewModels.ModifyStudentViewModel
 
-<div id="editStudent">
-    @using (Html.BeginForm("EditStudent", "Administration", FormMethod.Post))
+<div id="adminModal">
+    @using (Ajax.BeginForm("EditStudent", "Administration", new AjaxOptions
+                                                    {
+                                                        Url = Url.Action("EditStudentAjax"),
+                                                        OnSuccess = "successAjaxForm",
+                                                        HttpMethod = "POST"
+                                                    }))
     {
         <div class="error-limit-registr">
             @if (ViewBag.ResultSuccess != null && ViewBag.ResultSuccess)
@@ -12,10 +17,12 @@
             }
             @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
         </div>
-    
-        @Html.AntiForgeryToken()
 
-        <div>@* id="registration" class="hero-unit center">*@
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+
+        <div>
+            @* id="registration" class="hero-unit center">*@
             <hgroup style="text-align: center; margin-bottom: 20px">
                 <h1>@Model.FullName</h1>
             </hgroup>
@@ -55,6 +62,10 @@
                 @Html.ActionLink("Сбросить пароль ", "ResetPassword", new { id = @Model.UserName })
                 <p></p>
             </div>
+        </div>
+        <div class="modal-footer">
+            <input type="button" class="btn btn-sm bootbox-close-button" value="Отмена" style="width: auto" />
+            <input type="submit" class="btn btn-primary btn-sm" value="Сохранить" style="width: auto" />
         </div>
     }
 </div>

@@ -126,7 +126,7 @@ namespace LMPlatform.UI.Controllers
                     Id = WebSecurity.CurrentUserId
                 });
 
-                modData.ModifyLecturer(WebSecurity.CurrentUserId);
+                modData.ModifyLecturer();
             }
             else
             {
@@ -143,7 +143,7 @@ namespace LMPlatform.UI.Controllers
                     Id = WebSecurity.CurrentUserId
                 }); 
    
-                modData.ModifyStudent(WebSecurity.CurrentUserId);
+                modData.ModifyStudent();
             }
 
             return Json(true);

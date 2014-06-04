@@ -950,7 +950,9 @@
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\prettify.js" />
+    <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\spin.js" />
+    <Content Include="Scripts\tableToExcel.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\xeditable.js" />
@@ -1010,7 +1012,6 @@
     <Content Include="Views\Questions\_AnswerTemplates.cshtml" />
     <Content Include="Views\Subject\Management.cshtml" />
     <Content Include="Views\Shared\Lms\_LmsNaBar.cshtml" />
-    <Content Include="Views\Administration\EditStudent.cshtml" />
     <Content Include="Views\Shared\_EditGlyphLinks.cshtml" />
     <Content Include="Views\Shared\Layouts\_MainUsingNavLectorLayout.cshtml" />
     <Content Include="Views\Subject\_CreateSubjectView.cshtml" />
