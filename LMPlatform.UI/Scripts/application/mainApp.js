@@ -416,27 +416,52 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
         };
 
         $scope.saveLectures = function () {
-            $http({
-                method: 'POST',
-                url: $scope.UrlServiceLectures + "Save",
-                data: {
-                    subjectId: $scope.subjectId,
-                    id: $scope.editLecturesData.Id,
-                    theme: $scope.editLecturesData.Theme,
-                    duration: $scope.editLecturesData.Duration,
-                    pathFile: $scope.editLecturesData.PathFile,
-                    attachments: $scope.getLecturesFileAttachments()
-                },
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    $scope.loadLectures();
-                    alertify.success(data.Message);
-                }
-                $("#dialogAddLectures").modal('hide');
-            });
+            var isError = false;
+            $("#dialogAddLectures .alert-error").empty();
+            if ($scope.editLecturesData.Theme == "") {
+                $("#dialogAddLectures .alert-error").append("<p style=\"font-\">Необходимо заполнить поле Тема лекции</p>");
+                isError = true;
+            }
+            
+            if ($scope.editLecturesData.Duration == "") {
+                $("#dialogAddLectures .alert-error").append("<p>Необходимо заполнить поле Количество часов</p>");
+                isError = true;
+            }
+            
+            if (parseInt($scope.editLecturesData.Duration) < 1 || parseInt($scope.editLecturesData.Duration) > 100) {
+                $("#dialogAddLectures .alert-error").append("<p>Количество часов допускается в диапазоне [1..99]</p>");
+                isError = true;
+            }
+            
+            if (isError) {
+                $("#dialogAddLectures .alert-error").attr("style", "");
+            } else {
+                $("#dialogAddLectures .alert-error").attr("style", "display: none");
+                $("#dialogAddLectures .alert-error").empty();
+                $http({
+                    method: 'POST',
+                    url: $scope.UrlServiceLectures + "Save",
+                    data: {
+                        subjectId: $scope.subjectId,
+                        id: $scope.editLecturesData.Id,
+                        theme: $scope.editLecturesData.Theme,
+                        duration: $scope.editLecturesData.Duration,
+                        pathFile: $scope.editLecturesData.PathFile,
+                        attachments: $scope.getLecturesFileAttachments()
+                    },
+                    headers: { 'Content-Type': 'application/json' }
+                }).success(function (data, status) {
+                    if (data.Code != '200') {
+                        alertify.error(data.Message);
+                    } else {
+                        $scope.loadLectures();
+                        alertify.success(data.Message);
+                    }
+                    $("#dialogAddLectures").modal('hide');
+                });
+            }
+
+            
         };
 
         $scope.deleteLectures = function (lectures) {

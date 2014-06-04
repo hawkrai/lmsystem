@@ -113,11 +113,11 @@ namespace LMPlatform.UI.Services.Lectures
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new ResultViewData()
                 {
-                    Message = "Произошла ошибка при сохранении лекции",
+                    Message = "Произошла ошибка при сохранении лекции." + e.Message,
                     Code = "500"
                 };
             }

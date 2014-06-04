@@ -58,7 +58,7 @@
                         <tr>
                             <td>
                                 <div id="buttonActionSection">
-                                    <a ng-click="addSheduleVisitingGraph()" style="margin-right: 10px" class="btn btn-primary btn-sm">Управление рассписанием</a>
+                                    <a ng-click="addSheduleVisitingGraph()" style="margin-right: 10px" class="btn btn-primary btn-sm">Управление расписанием</a>
                                 </div>
                             </td>
                             <td>
@@ -89,7 +89,7 @@
                 </div>
             </div>
         </tab>
-        <tab heading="График посещяемости">
+        <tab heading="График посещаемости">
             <div id="navPanel" style="margin-top: 10px">
                 <table>
                     <tbody>
@@ -115,6 +115,8 @@
                 <h4 class="modal-title" id="myModalLabel">{{editLecturesData.TitleForm}}</h4>
             </div>
             <div class="modal-body">
+                <div class="alert alert-error" style="display: none">
+                </div>
                 <div>
                     <div>
                         <label class="control-label">Тема лекции</label>
@@ -133,7 +135,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                <a href="#" class="btn btn-primary btn-sm" ng-click="saveLectures()" data-dismiss="modal">Сохранить</a>
+                <a class="btn btn-primary btn-sm" ng-click="saveLectures()" >Сохранить</a>
             </div>
         </div>
     </div>
