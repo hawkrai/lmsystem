@@ -30,7 +30,7 @@
             <div>
                 @Html.LabelFor(m => m.StartYear, new { @class = "control-label" })
                 <div>
-                    @Html.TextBoxFor(m => m.StartYear, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.StartYear, @Model.GetYears(), new Dictionary<string, object> { { "class" , "form-control" }, { "data-placeholder", "Выберете год" } })
                     @Html.ValidationMessageFor(e => e.StartYear, " ")
                 </div>
                 <p></p>
@@ -38,7 +38,7 @@
             <div>
                 @Html.LabelFor(m => m.GraduationYear, new { @class = "control-label" })
                 <div>
-                    @Html.TextBoxFor(m => m.GraduationYear, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.GraduationYear, @Model.GetYears(), new { @class = "form-control" })
                     @Html.ValidationMessageFor(e => e.GraduationYear, " ")
                 </div>
                 <p></p>

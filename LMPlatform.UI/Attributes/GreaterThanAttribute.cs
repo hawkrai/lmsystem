@@ -26,7 +26,7 @@ namespace LMPlatform.UI.Attributes
                 return null;
             }
 
-            return new ValidationResult(validationContext.DisplayName);
+            return new ValidationResult(base.ErrorMessage);
         }
     }
 }

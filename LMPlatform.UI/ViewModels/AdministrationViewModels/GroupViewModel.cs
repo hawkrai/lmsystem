@@ -28,6 +28,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         }
 
         [DisplayName("Номер")]
+        [MaxLength(10, ErrorMessage = "Длина поля Номер группы не должна превышать 10 символов")]
         [Required(ErrorMessage = "Поле Номер обязательно для заполнения")]
         public string Name { get; set; }
 
