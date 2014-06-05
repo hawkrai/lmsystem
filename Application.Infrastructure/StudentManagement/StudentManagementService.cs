@@ -42,8 +42,10 @@ namespace Application.Infrastructure.StudentManagement
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                query.AddFilterClause(
-                    e => e.LastName.ToLower().StartsWith(searchString) || e.LastName.ToLower().Contains(searchString));
+                query.AddFilterClause(e => e.FirstName.ToLower().Contains(searchString) 
+                    || e.LastName.ToLower().Contains(searchString) 
+                    || e.MiddleName.ToLower().Contains(searchString)
+                    || e.Group.Name.ToLower().Contains(searchString));
             }
 
             query.OrderBy(sortCriterias);
