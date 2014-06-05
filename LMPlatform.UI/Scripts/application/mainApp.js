@@ -968,7 +968,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                     $http({
                         method: 'POST',
                         url: $scope.UrlServicePractical + "Delete",
-                        data: { id: practical.LabId, subjectId: $scope.subjectId },
+                        data: { id: practical.PracticalId, subjectId: $scope.subjectId },
                         headers: { 'Content-Type': 'application/json' }
                     }).success(function (data, status) {
                         if (data.Code != '200') {
@@ -976,6 +976,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                         } else {
                             alertify.success(data.Message);
                             $scope.practicals.splice($scope.practicals.indexOf(practical), 1);
+                            $scope.loadGroups();
                         }
                     });
                 }
@@ -1060,6 +1061,26 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 } else {
                     $scope.loadGroups();
                     alertify.success(data.Message);
+                }
+            });
+        };
+        
+        $scope.deleteVisitingDate = function (idDate) {
+            bootbox.confirm("Вы действительно хотите удалить дату и все связанные с ней данные?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $http({
+                        method: 'POST',
+                        url: $scope.UrlServicePractical + "DeleteVisitingDate",
+                        data: { id: idDate },
+                        headers: { 'Content-Type': 'application/json' }
+                    }).success(function (data, status) {
+                        if (data.Code != '200') {
+                            alertify.error(data.Message);
+                        } else {
+                            alertify.success(data.Message);
+                            $scope.loadGroups();
+                        }
+                    });
                 }
             });
         };

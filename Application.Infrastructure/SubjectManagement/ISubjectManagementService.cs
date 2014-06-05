@@ -26,7 +26,11 @@ namespace Application.Infrastructure.SubjectManagement
 
         void DeleteLectionVisitingDate(int id);
 
+        void DeletePracticalsVisitingDate(int id);
+
         void DeleteLabs(int id);
+
+        void DeletePracticals(int id);
 
         SubjectNews GetNews(int id, int subjecttId);
 

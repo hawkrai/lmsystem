@@ -85,7 +85,23 @@ namespace LMPlatform.UI.Services.Practicals
 
         public ResultViewData Delete(string id, string subjectId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                SubjectManagementService.DeletePracticals(int.Parse(id));
+                return new ResultViewData()
+                {
+                    Message = "Практическое занятие успешно удалено",
+                    Code = "200"
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при удалении практического занятия" + e.Message,
+                    Code = "500"
+                };
+            }
         }
 
         public ResultViewData SaveScheduleProtectionDate(string groupId, string date, string subjectId)
@@ -177,6 +193,28 @@ namespace LMPlatform.UI.Services.Practicals
                 return new ResultViewData()
                 {
                     Message = "Произошла ошибка при изменении данных",
+                    Code = "500"
+                };
+            }
+        }
+
+        public ResultViewData DeleteVisitingDate(string id)
+        {
+            try
+            {
+                SubjectManagementService.DeletePracticalsVisitingDate(int.Parse(id));
+
+                return new ResultViewData()
+                {
+                    Message = "Дата успешно удалена",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при удалении даты",
                     Code = "500"
                 };
             }

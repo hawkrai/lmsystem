@@ -170,6 +170,32 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
+        public void DeletePracticalsVisitingDate(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var dateModelmarks =
+                    repositoriesContainer.RepositoryFor<ScheduleProtectionPracticalMark>()
+                        .GetAll(new Query<ScheduleProtectionPracticalMark>(e => e.ScheduleProtectionPracticalId == id))
+                        .ToList();
+
+                foreach (var practicalVisitMark in dateModelmarks)
+                {
+                    repositoriesContainer.RepositoryFor<ScheduleProtectionPracticalMark>().Delete(practicalVisitMark);
+                }
+
+                repositoriesContainer.ApplyChanges();
+
+                var dateModel =
+                    repositoriesContainer.RepositoryFor<ScheduleProtectionPractical>()
+                        .GetBy(new Query<ScheduleProtectionPractical>(e => e.Id == id));
+
+                repositoriesContainer.RepositoryFor<ScheduleProtectionPractical>().Delete(dateModel);
+
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
         public void DeleteLabs(int id)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -200,6 +226,41 @@ namespace Application.Infrastructure.SubjectManagement
                 repositoriesContainer.ApplyChanges();
 
                 repositoriesContainer.LabsRepository.Delete(labs);
+
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void DeletePracticals(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var practicals =
+                    repositoriesContainer.PracticalRepository.GetBy(
+                        new Query<Practical>(e => e.Id == id).Include(e => e.StudentPracticalMarks));
+
+                var deleteFiles =
+                        repositoriesContainer.AttachmentRepository.GetAll(
+                            new Query<Attachment>(e => e.PathName == practicals.Attachments)).ToList();
+
+                var studentPracticalsMarks =
+                    repositoriesContainer.RepositoryFor<StudentPracticalMark>()
+                        .GetAll(new Query<StudentPracticalMark>(e => e.PracticalId == id))
+                        .ToList();
+
+                foreach (var attachment in deleteFiles)
+                {
+                    FilesManagementService.DeleteFileAttachment(attachment);
+                }
+
+                foreach (var mark in studentPracticalsMarks)
+                {
+                    repositoriesContainer.RepositoryFor<StudentPracticalMark>().Delete(mark);
+                }
+
+                repositoriesContainer.ApplyChanges();
+
+                repositoriesContainer.PracticalRepository.Delete(practicals);
 
                 repositoriesContainer.ApplyChanges();
             }
