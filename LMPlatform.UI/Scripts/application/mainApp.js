@@ -40,9 +40,11 @@ app.run(function (editableOptions, editableThemes) {
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 });
-angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
-    .controller('MainCtrl', function ($scope) {
-
+angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular'])
+    .controller('MainCtrl', function ($scope,$sce) {
+        $scope.renderHtml = function (htmlCode) {
+            return $sce.trustAsHtml(htmlCode);
+        };
         $scope.today = function () {
             $scope.dt = new Date();
         };
@@ -142,6 +144,9 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
         $scope.init = function (subjectId) {
             $scope.subjectId = subjectId;
             $scope.loadGroups();
+            bootbox.setDefaults({
+                locale: "ru"
+            });
         };
 
         $scope.loadGroups = function () {
@@ -211,6 +216,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             TitleForm: "",
             Title: "",
             Body: "",
+            IsOldDate: false,
             Id: 0
         };
 
@@ -243,6 +249,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             $scope.editNewsData.Title = "";
             $scope.editNewsData.Body = "";
             $scope.editNewsData.Id = "0";
+            $scope.editNewsData.IsOldDate = false;
+            $("#newsIsOLd").attr('disabled', 'disabled');
             $('#dialogAddNews').modal();
         };
 
@@ -251,6 +259,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             $scope.editNewsData.Title = news.Title;
             $scope.editNewsData.Body = news.Body;
             $scope.editNewsData.Id = news.NewsId;
+            $scope.editNewsData.IsOldDate = false;
+            $("#newsIsOLd").removeAttr('disabled');
             $('#dialogAddNews').modal();
         };
 
@@ -258,7 +268,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceNews + "Save",
-                data: { subjectId: $scope.subjectId, id: $scope.editNewsData.Id, title: $scope.editNewsData.Title, body: $scope.editNewsData.Body },
+                data: { subjectId: $scope.subjectId, id: $scope.editNewsData.Id, title: $scope.editNewsData.Title, body: $scope.editNewsData.Body, isOldDate: $scope.editNewsData.IsOldDate },
                 headers: { 'Content-Type': 'application/json' }
             }).success(function (data, status) {
                 if (data.Code != '200') {
@@ -301,6 +311,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             Theme: "",
             Duration: "",
             PathFile: "",
+            Order: "",
             Id: 0
         };
 
@@ -375,6 +386,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             $scope.editLecturesData.Theme = "";
             $scope.editLecturesData.Duration = "";
             $scope.editLecturesData.PathFile = "";
+            $scope.editLecturesData.Order = "";
             $scope.editLecturesData.Id = "0";
 
             $("#lecturesFile").empty();
@@ -399,6 +411,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
             $scope.editLecturesData.Duration = lectures.Duration;
             $scope.editLecturesData.PathFile = lectures.PathFile;
             $scope.editLecturesData.Id = lectures.LecturesId;
+            $scope.editLecturesData.Order = lectures.Order;
 
             $("#lecturesFile").empty();
 
@@ -446,6 +459,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                         id: $scope.editLecturesData.Id,
                         theme: $scope.editLecturesData.Theme,
                         duration: $scope.editLecturesData.Duration,
+                        order: $scope.editLecturesData.Order,
                         pathFile: $scope.editLecturesData.PathFile,
                         attachments: $scope.getLecturesFileAttachments()
                     },
@@ -568,8 +582,29 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
 
         };
 
-        
-        $scope.setBarChart = function () {
+        $scope.deleteVisitData = function(idDate) {
+            bootbox.confirm("Вы действительно хотите удалить дату и все связанные с ней данные?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $http({
+                        method: 'POST',
+                        url: $scope.UrlServiceLectures + "DeleteVisitingDate",
+                        data: { id: idDate },
+                        headers: { 'Content-Type': 'application/json' }
+                    }).success(function (data, status) {
+                        if (data.Code != '200') {
+                            alertify.error(data.Message);
+                        } else {
+                            alertify.success(data.Message);
+                            $scope.loadCalendar();
+                            $scope.loadGroups();
+                        }
+                    });
+                }
+            });
+        };
+
+
+        $scope.setBarChart = function() {
             $.jqplot('barchart', [$scope.barvalues], {
                 seriesDefaults: {
                     renderer: $.jqplot.BarRenderer,
@@ -584,7 +619,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable'])
                     }
                 }
             });
-        }
+        };
 
     })
     .controller('LabsController', function ($scope, $http) {

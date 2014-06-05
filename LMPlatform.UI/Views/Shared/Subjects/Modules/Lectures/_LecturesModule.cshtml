@@ -31,9 +31,9 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Тема</th>
-                            <th>Часы</th>
+                            <th>№</th>
+                            <th>Тема лекции</th>
+                            <th>Количество часов</th>
                             <th>Действие</th>
                         </tr>
                     </thead>
@@ -126,6 +126,10 @@
                         <label class="control-label">Количество часов (1-99)</label>
                         <input type="text" style="width: 545px" class="form-control" ng-model="editLecturesData.Duration" />
                     </div>
+                    <div>
+                        <label class="control-label">Порядок (без валидации)</label>
+                        <input type="text" class="form-control" style="width: 545px" ng-model="editLecturesData.Order" />
+                    </div>
                 </div>
                 <div>
                     <h4 class="page-header">Прикрепленный материал</h4>
@@ -163,7 +167,7 @@
                                     <td>
                                         <p>{{data.Date}}</p>
                                     </td>
-                                    <td style="width: 20px"><a ng-click="" style="margin-right: 10px"><i class="fa fa-edit fa-2x"></i></a></td>
+                                    <td style="width: 20px"><a ng-click="deleteVisitData(data.Id)" style="margin-right: 10px"><i class="fa fa-trash-o fa-2x"></i></a></td>
                                 </tr>
                             </table>
                         </div>

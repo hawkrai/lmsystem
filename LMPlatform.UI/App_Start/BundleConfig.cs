@@ -53,6 +53,11 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/ui-bootstrap-tpls-0.10.0.js",
                 "~/Scripts/xeditable.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/textAngular").Include(
+                "~/Scripts/textAngular/textAngular-sanitize.js",
+                "~/Scripts/textAngular/textAngular.js",
+                "~/Scripts/textAngular/textAngularSetup.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/fileupload").Include(
                 "~/Scripts/mvcfileupload/vendor/jquery.ui.widget.js",
                 "~/Scripts/mvcfileupload/tmpl.js",

@@ -17,7 +17,7 @@
             </tbody>
         </table>
     </div>
-    <div class="page-header" style="margin-top: 5px"></div>
+    <div style="margin-top: 5px"></div>
 
     <div>
         <div class="panel-group">
@@ -34,8 +34,8 @@
                         </div>
                         <div class="clear-fix"></div>
                     </accordion-heading>
-                    <div>
-                        {{data.Body}}
+                    <div ng-bind-html="renderHtml(data.Body)">
+
                     </div>
                 </accordion-group>
             </accordion>
@@ -55,7 +55,13 @@
                     </div>
                     <div>
                         <label class="control-label">Текст новости</label>
-                        <textarea id="newsHtml" class="form-control" style="width: 545px; height: 300px" ng-model="editNewsData.Body"></textarea>
+                        <div class="lighter" style="width: 545px">
+                            <div text-angular ng-model="editNewsData.Body" name="demo-editor" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
+                        </div>
+                        @*<textarea id="newsHtml" class="form-control" style="width: 545px; height: 300px" ng-model="editNewsData.Body"></textarea>*@
+                    </div>
+                    <div>
+                        <input type="checkbox" id="newsIsOLd" ng-model="editNewsData.IsOldDate" />Оставить старую дату новости
                     </div>
                 </div>
             </div>

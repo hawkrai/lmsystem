@@ -953,6 +953,9 @@
     <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\tableToExcel.js" />
+    <Content Include="Scripts\textAngular\textAngular-sanitize.js" />
+    <Content Include="Scripts\textAngular\textAngular.js" />
+    <Content Include="Scripts\textAngular\textAngularSetup.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\xeditable.js" />
@@ -1099,6 +1102,12 @@
     <Content Include="Views\DP\Students.cshtml" />
     <Content Include="Views\DP\TaskSheet.cshtml" />
     <Content Include="Views\DP\TaskSheetEdit.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Labs\_LabsModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Lectures\_LecturesModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\News\_NewsModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\StudentsModule\Practicals\_PracticalModule.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\_FilesUploaderNoAdd.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\SubjectAttachments\_SubjectAttachmentsModule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

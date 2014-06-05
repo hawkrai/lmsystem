@@ -838,3 +838,7 @@ body {
 #easyTooltip2 h4, #easyTooltip2 p{
 	margin:.25em 0;
 	}
+
+.lighter {
+padding: 0.5em;
+}

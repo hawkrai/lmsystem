@@ -38,7 +38,7 @@ namespace LMPlatform.UI.Services.News
 
                 return new NewsResult
                            {
-                               News = model,
+                               News = model.OrderByDescending(e => e.DateCreate).ToList(),
                                Message = "Новости успешно загружены",
                                Code = "200"
                            };
@@ -53,16 +53,24 @@ namespace LMPlatform.UI.Services.News
             }
         }
 
-        public ResultViewData Save(string subjectId, string id, string title, string body)
+        public ResultViewData Save(string subjectId, string id, string title, string body, bool isOldDate)
         {
             try
             {
+                var newsIds = string.IsNullOrEmpty(id) ? 0 : int.Parse(id);
+                var date = DateTime.Now;
+
+                if (newsIds != 0 && isOldDate)
+                {
+                    date = SubjectManagementService.GetNews(newsIds, int.Parse(subjectId)).EditDate;
+                }
+
                 var model = new SubjectNews
                                 {
-                                    Id = string.IsNullOrEmpty(id) ? 0 : int.Parse(id),
+                                    Id = newsIds,
                                     SubjectId = int.Parse(subjectId),
                                     Body = body,
-                                    EditDate = DateTime.Now,
+                                    EditDate = date,
                                     Title = title
                                 };
                 SubjectManagementService.SaveNews(model);

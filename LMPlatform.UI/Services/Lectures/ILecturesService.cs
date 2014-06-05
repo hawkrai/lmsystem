@@ -26,7 +26,7 @@ namespace LMPlatform.UI.Services.Lectures
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Save")]
-        ResultViewData Save(string subjectId, string id, string theme, string duration, string pathFile, string attachments);
+        ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string pathFile, string attachments);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Delete")]
@@ -43,5 +43,9 @@ namespace LMPlatform.UI.Services.Lectures
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveMarksCalendarData")]
         ResultViewData SaveMarksCalendarData(string dateId, List<StudentMarkForDateViewData> marks);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/DeleteVisitingDate")]
+        ResultViewData DeleteVisitingDate(string id);
     }
 }

@@ -124,6 +124,87 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
+        public void DeleteLection(Lectures lectures)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var lectModel =
+                    repositoriesContainer.LecturesRepository.GetBy(new Query<Lectures>(e => e.Id == lectures.Id));
+                var deleteFiles =
+                        repositoriesContainer.AttachmentRepository.GetAll(
+                            new Query<Attachment>(e => e.PathName == lectModel.Attachments)).ToList();
+
+                foreach (var attachment in deleteFiles)
+                {
+                    FilesManagementService.DeleteFileAttachment(attachment);
+                }
+
+                repositoriesContainer.SubjectRepository.DeleteLection(lectures);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void DeleteLectionVisitingDate(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var dateModelmarks =
+                    repositoriesContainer.RepositoryFor<LecturesVisitMark>()
+                        .GetAll(new Query<LecturesVisitMark>(e => e.LecturesScheduleVisitingId == id))
+                        .ToList();
+                
+                foreach (var lecturesVisitMark in dateModelmarks)
+                {
+                    repositoriesContainer.RepositoryFor<LecturesVisitMark>().Delete(lecturesVisitMark);      
+                }
+
+                repositoriesContainer.ApplyChanges();
+
+                var dateModel =
+                    repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>()
+                        .GetBy(new Query<LecturesScheduleVisiting>(e => e.Id == id));
+
+                repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>().Delete(dateModel);
+
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void DeleteLabs(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var labs =
+                    repositoriesContainer.LabsRepository.GetBy(
+                        new Query<Labs>(e => e.Id == id).Include(e => e.StudentLabMarks));
+
+                var deleteFiles =
+                        repositoriesContainer.AttachmentRepository.GetAll(
+                            new Query<Attachment>(e => e.PathName == labs.Attachments)).ToList();
+
+                var studentLabMarks =
+                    repositoriesContainer.RepositoryFor<StudentLabMark>()
+                        .GetAll(new Query<StudentLabMark>(e => e.LabId == id))
+                        .ToList();
+
+                foreach (var attachment in deleteFiles)
+                {
+                    FilesManagementService.DeleteFileAttachment(attachment);
+                }
+
+                foreach (var mark in studentLabMarks)
+                {
+                    repositoriesContainer.RepositoryFor<StudentLabMark>().Delete(mark);    
+                }
+
+                repositoriesContainer.ApplyChanges();
+
+                repositoriesContainer.LabsRepository.Delete(labs);
+
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
         public SubjectNews GetNews(int id, int subjecttId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

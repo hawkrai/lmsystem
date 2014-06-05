@@ -50,7 +50,7 @@ namespace LMPlatform.UI.Services.Lectures
 
                 return new LecturesResult
                 {
-                    Lectures = model,
+                    Lectures = model.OrderBy(e => e.Order).ToList(),
                     Message = "Лекции успешно загружены",
                     Code = "200"
                 };
@@ -92,7 +92,7 @@ namespace LMPlatform.UI.Services.Lectures
             }
         }
 
-        public ResultViewData Save(string subjectId, string id, string theme, string duration, string pathFile, string attachments)
+        public ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string pathFile, string attachments)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace LMPlatform.UI.Services.Lectures
                     SubjectId = int.Parse(subjectId),
                     Duration = int.Parse(duration),
                     Theme = theme,
-                    Order = 0,
+                    Order = int.Parse(order),
                     Attachments = pathFile,
                     Id = int.Parse(id)
                 }, attachmentsModel);
@@ -125,7 +125,23 @@ namespace LMPlatform.UI.Services.Lectures
 
         public ResultViewData Delete(string id, string subjectId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                SubjectManagementService.DeleteLection(new Lectures { Id = int.Parse(id) });
+                return new ResultViewData()
+                {
+                    Message = "Лекция успешно удалена",
+                    Code = "200"
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при удалении лекции." + e.Message,
+                    Code = "500"
+                };
+            }
         }
 
         public ResultViewData SaveDateLectures(string subjectId, string date)
@@ -146,7 +162,7 @@ namespace LMPlatform.UI.Services.Lectures
                     Message = "Произошла ошибка при добавлении даты",
                     Code = "500"
                 };
-            }    
+            }
         }
 
         public StudentMarkForDateResult GetMarksCalendarData(string dateId, string subjectId, string groupId)
@@ -170,7 +186,7 @@ namespace LMPlatform.UI.Services.Lectures
                                           MarkId = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Id,
                                           StudentId = student.Id,
                                           StudentName = student.FullName,
-                                          Mark = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Mark   
+                                          Mark = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Mark
                                       });
                     }
                     else
@@ -181,7 +197,7 @@ namespace LMPlatform.UI.Services.Lectures
                             StudentId = student.Id,
                             StudentName = student.FullName,
                             Mark = string.Empty
-                        });    
+                        });
                     }
                 }
 
@@ -201,7 +217,7 @@ namespace LMPlatform.UI.Services.Lectures
                     Message = "Произошла ошибка",
                     Code = "500"
                 };
-            }    
+            }
         }
 
         public ResultViewData SaveMarksCalendarData(string dateId, List<StudentMarkForDateViewData> marks)
@@ -226,6 +242,28 @@ namespace LMPlatform.UI.Services.Lectures
                 return new ResultViewData()
                 {
                     Message = "Произошла ошибка при добавлении данных",
+                    Code = "500"
+                };
+            }
+        }
+
+        public ResultViewData DeleteVisitingDate(string id)
+        {
+            try
+            {
+                SubjectManagementService.DeleteLectionVisitingDate(int.Parse(id));
+
+                return new ResultViewData()
+                {
+                    Message = "Дата успешно удалена",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при удалении даты",
                     Code = "500"
                 };
             }

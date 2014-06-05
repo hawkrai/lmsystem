@@ -11,5 +11,7 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
         SubjectNews SaveNews(SubjectNews news);
 
         void DeleteNews(SubjectNews news);
+
+        void DeleteLection(Lectures lectures);
     }
 }

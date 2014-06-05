@@ -86,7 +86,23 @@ namespace LMPlatform.UI.Services.Labs
 
         public ResultViewData Delete(string id, string subjectId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                SubjectManagementService.DeleteLabs(int.Parse(id));
+                return new ResultViewData()
+                {
+                    Message = "Лабораторная работа успешно удалена",
+                    Code = "200"
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при удалении лабораторной работы" + e.Message,
+                    Code = "500"
+                };
+            }
         }
 
         public ResultViewData SaveScheduleProtectionDate(string subGroupId, string date)

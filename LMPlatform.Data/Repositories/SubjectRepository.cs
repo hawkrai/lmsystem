@@ -9,7 +9,11 @@ using LMPlatform.Models;
 
 namespace LMPlatform.Data.Repositories
 {
-	public class SubjectRepository : RepositoryBase<LmPlatformModelsContext, Subject>, ISubjectRepository
+    using System.IO;
+
+    using Newtonsoft.Json;
+
+    public class SubjectRepository : RepositoryBase<LmPlatformModelsContext, Subject>, ISubjectRepository
 	{
 		public SubjectRepository(LmPlatformModelsContext dataContext)
 			: base(dataContext)
@@ -64,7 +68,19 @@ namespace LMPlatform.Data.Repositories
 			}
 		}
 
-		protected override void PerformAdd(Subject model, LmPlatformModelsContext dataContext)
+	    public void DeleteLection(Lectures lectures)
+	    {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var model = context.Set<Lectures>().FirstOrDefault(e => e.Id == lectures.Id);
+                
+                context.Delete(model);
+
+                context.SaveChanges();
+            }
+	    }
+
+	    protected override void PerformAdd(Subject model, LmPlatformModelsContext dataContext)
 		{
 			base.PerformAdd(model, dataContext);
 

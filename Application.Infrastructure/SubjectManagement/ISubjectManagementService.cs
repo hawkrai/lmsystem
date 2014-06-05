@@ -22,6 +22,12 @@ namespace Application.Infrastructure.SubjectManagement
 
         void DeleteNews(SubjectNews news);
 
+        void DeleteLection(Lectures lectures);
+
+        void DeleteLectionVisitingDate(int id);
+
+        void DeleteLabs(int id);
+
         SubjectNews GetNews(int id, int subjecttId);
 
 	    IList<SubGroup> GetSubGroups(int subjectId, int groupId);
