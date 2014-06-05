@@ -281,7 +281,7 @@ namespace LMPlatform.Data.Infrastructure
                .HasMany<SubjectStudent>(e => e.SubjectStudents)
                .WithRequired(e => e.Student)
                .HasForeignKey(e => e.StudentId)
-               .WillCascadeOnDelete(false);
+               .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<SubjectGroup>()
                .HasMany<SubjectStudent>(e => e.SubjectStudents)
@@ -329,13 +329,13 @@ namespace LMPlatform.Data.Infrastructure
                 .HasMany<LecturesVisitMark>(e => e.LecturesVisitMarks)
                 .WithRequired(e => e.Student)
                 .HasForeignKey(e => e.StudentId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Student>()
                 .HasMany<ScheduleProtectionLabMark>(e => e.ScheduleProtectionLabMarks)
                 .WithRequired(e => e.Student)
                 .HasForeignKey(e => e.StudentId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ScheduleProtectionLabs>()
                 .HasMany<ScheduleProtectionLabMark>(e => e.ScheduleProtectionLabMarks)
@@ -347,7 +347,7 @@ namespace LMPlatform.Data.Infrastructure
                 .HasMany<StudentLabMark>(e => e.StudentLabMarks)
                 .WithRequired(e => e.Student)
                 .HasForeignKey(e => e.StudentId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Labs>()
                 .HasMany<StudentLabMark>(e => e.StudentLabMarks)
@@ -371,7 +371,7 @@ namespace LMPlatform.Data.Infrastructure
                 .HasMany<ScheduleProtectionPracticalMark>(e => e.ScheduleProtectionPracticalMarks)
                 .WithRequired(e => e.Student)
                 .HasForeignKey(e => e.StudentId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ScheduleProtectionPractical>()
                 .HasMany<ScheduleProtectionPracticalMark>(e => e.ScheduleProtectionPracticalMarks)
@@ -383,7 +383,7 @@ namespace LMPlatform.Data.Infrastructure
                 .HasMany<StudentPracticalMark>(e => e.StudentPracticalMarks)
                 .WithRequired(e => e.Student)
                 .HasForeignKey(e => e.StudentId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Practical>()
                 .HasMany<StudentPracticalMark>(e => e.StudentPracticalMarks)

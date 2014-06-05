@@ -15,5 +15,7 @@ namespace Application.Infrastructure.LecturerManagement
         Lecturer Save(Lecturer lecturer);
 
         Lecturer UpdateLecturer(Lecturer lecturer);
+
+        bool DeleteLecturer(int id);
     }
 }

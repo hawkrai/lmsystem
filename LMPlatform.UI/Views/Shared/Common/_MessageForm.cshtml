@@ -44,7 +44,6 @@
             </div>
             <div style="width: 60%">
                 @Html.Partial("Common/_FilesUploader", Model.Attachment)
-               
             </div>
             <input type="submit" style="display: none" />
         </div>
@@ -52,7 +51,7 @@
 </div>
 
 <script type="text/javascript">
-    $('.modal-dialog').width('900px');
+    $('.modal-dialog').width('600px');
     @if (!Model.ToAdmin) {
         @: ajaxChosenInit(".chosen-select");
         }

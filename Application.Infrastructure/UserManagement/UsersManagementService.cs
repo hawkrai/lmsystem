@@ -74,14 +74,16 @@ namespace Application.Infrastructure.UserManagement
             }
         }
 
-        public void DeleteUser(int id)
+        public bool DeleteUser(int id)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>().AddFilterClause(u => u.Id == id));
                 repositoriesContainer.MessageRepository.DeleteUserMessages(user.Id);
-                AccountManagementService.DeleteAccount(user.UserName);
+                var result = AccountManagementService.DeleteAccount(user.UserName);
                 repositoriesContainer.ApplyChanges();
+
+                return result;
             }
         }
 

@@ -12,6 +12,6 @@ namespace Application.Infrastructure.AccountManagement
 
 		bool ChangePassword(string userName, string oldPassword, string newPassword);
 
-	    void DeleteAccount(string login);
+	    bool DeleteAccount(string login);
 	}
 }

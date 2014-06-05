@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Application.Core;
 using Application.Core.Data;
+using Application.Infrastructure.MessageManagement;
+using Application.Infrastructure.UserManagement;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 
@@ -67,6 +70,19 @@ namespace Application.Infrastructure.StudentManagement
                 repositoriesContainer.StudentsRepository.Save(student);
                 repositoriesContainer.ApplyChanges();
             }
+        }
+
+        public bool DeleteStudent(int id)
+        {
+            return UserManagementService.DeleteUser(id);
+        }
+
+        private readonly LazyDependency<IUsersManagementService> _userManagementService =
+            new LazyDependency<IUsersManagementService>();
+
+        public IUsersManagementService UserManagementService
+        {
+            get { return _userManagementService.Value; }
         }
     }
 }

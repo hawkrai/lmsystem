@@ -52,11 +52,13 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         [StringLength(50, ErrorMessage = "Имя не может иметь размер больше 50 символов")]
         [DataType(DataType.Text)]
         [Display(Name = "Имя")]
+        [Required(ErrorMessage = "Поле Имя обязательно для заполнения")]
         public string Name { get; set; }
 
         [StringLength(50, ErrorMessage = "Фамилия не может иметь размер больше 50 символов")]
         [DataType(DataType.Text)]
         [Display(Name = "Фамилия")]
+        [Required(ErrorMessage = "Поле Фамилия обязательно для заполнения")]
         public string Surname { get; set; }
 
         [StringLength(50, ErrorMessage = "Отчество не может иметь размер больше 50 символов")]

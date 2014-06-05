@@ -81,7 +81,7 @@ namespace LMPlatform.Data.Repositories
 
         public bool DeleteUserMessages(int userId)
         {
-            var targets = GetUserMessages(userId);
+            var targets = DataContext.Set<UserMessages>().Where(m => m.AuthorId == userId).ToArray();
             var context = DataContext.Set<UserMessages>();
             try
             {
@@ -89,6 +89,8 @@ namespace LMPlatform.Data.Repositories
                 {
                     context.Remove(item);
                 }
+
+                DataContext.SaveChanges();
             }
             catch
             {

@@ -45,7 +45,7 @@ namespace Application.Infrastructure.AccountManagement
 			return WebSecurity.ChangePassword(userName, oldPassword, newPassword);
 		}
 
-        public void DeleteAccount(string login)
+        public bool DeleteAccount(string login)
 	    {
            var result = ((SimpleMembershipProvider)Membership.Provider).DeleteAccount(login);
 
@@ -55,11 +55,10 @@ namespace Application.Infrastructure.AccountManagement
             }
             catch (Exception e)
             {
+                return false;
             }
-            finally
-            {
-                result = result;
-            }
+
+            return result;
 	    }
 	}
 }

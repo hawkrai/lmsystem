@@ -356,6 +356,63 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
+        public JsonResult DeleteStudent(int id)
+        {
+            try
+            {
+                var student = StudentManagementService.GetStudent(id);
+                if (student != null)
+                {
+                    var result = StudentManagementService.DeleteStudent(id);
+                    if (result)
+                    {
+                        return Json(new { resultMessage = string.Format("Студент {0} удален", student.FullName) });
+                    }
+
+                    return Json(new { resultMessage = string.Format("Не удалось удалить студента {0}", student.FullName) });
+                }
+
+                return Json(new { resultMessage = "Удаление невозможно. Студента не существует" });
+            }
+            catch
+            {
+                return Json(new { resultMessage = "Произошла ошибка при удалении" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteLecturer(int id)
+        {
+            try
+            {
+                var lecturer = LecturerManagementService.GetLecturer(id);
+
+                if (lecturer != null)
+                {
+                    if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Count > 0)
+                    {
+                        return Json(new { resultMessage = string.Format("Преподаватель {0} прикреплён к предметам и не может быть удален", lecturer.FullName) });
+                    }
+
+                    var result = LecturerManagementService.DeleteLecturer(id);
+
+                    if (result)
+                    {
+                        return Json(new { resultMessage = string.Format("Преподаватель {0} удален", lecturer.FullName) });
+                    }
+
+                    return Json(new { resultMessage = string.Format("Не удалось удалить преподавателя {0}", lecturer.FullName) });
+                }
+
+                return Json(new { resultMessage = "Удаление невозможно. Преподавателя не существует" });
+            }
+            catch
+            {
+                return Json(new { resultMessage = "Произошла ошибка при удалении" });
+            }
+        }
+
+        [HttpPost]
         public JsonResult DeleteGroup(int id)
         {
             try
@@ -398,7 +455,7 @@ namespace LMPlatform.UI.Controllers
         {
             var searchString = dataTableParam.GetSearchString();
             ViewBag.EditActionLink = "/Administration/EditStudent";
-            ViewBag.DeleteActionLink = "/Administration/DeleteUser";
+            ViewBag.DeleteActionLink = "/Administration/DeleteStudent";
             ViewBag.StatActionLink = "/Administration/Attendance";
             var students = StudentManagementService.GetStudentsPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
             return DataTableExtensions.GetResults(students.Items.Select(s => StudentViewModel.FromStudent(s, PartialViewToString("_EditGlyphLinks", s.Id))), dataTableParam, students.TotalCount);
@@ -409,7 +466,7 @@ namespace LMPlatform.UI.Controllers
         {
             var searchString = dataTableParam.GetSearchString();
             ViewBag.EditActionLink = "/Administration/EditProfessor";
-            ViewBag.DeleteActionLink = "/Administration/DeleteUser";
+            ViewBag.DeleteActionLink = "/Administration/DeleteLecturer";
             ViewBag.StatActionLink = "/Administration/Attendance";
             var lecturers = LecturerManagementService.GetLecturersPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
             return DataTableExtensions.GetResults(lecturers.Items.Select(l => LecturerViewModel.FormLecturers(l, PartialViewToString("_EditGlyphLinks", l.Id))), dataTableParam, lecturers.TotalCount);
