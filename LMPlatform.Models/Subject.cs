@@ -18,6 +18,8 @@ namespace LMPlatform.Models
             set;
         }
 
+        public bool IsArchive { get; set; }
+
         public ICollection<SubjectGroup> SubjectGroups
         {
             get; 

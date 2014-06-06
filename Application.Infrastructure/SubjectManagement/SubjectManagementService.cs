@@ -77,7 +77,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         public IPageableList<Subject> GetSubjectsLecturer(int lecturerId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
-            var query = new PageableQuery<Subject>(pageInfo, e => e.SubjectLecturers.Any(x => x.LecturerId == lecturerId));
+            var query = new PageableQuery<Subject>(pageInfo, e => e.SubjectLecturers.Any(x => x.LecturerId == lecturerId && !e.IsArchive));
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -539,6 +539,17 @@ namespace Application.Infrastructure.SubjectManagement
                 model.AddRange(
                     repositoriesContainer.PracticalRepository.GetAll(new Query<Practical>(e => e.SubjectId == subjectId).Include(e => e.Attachments)).Select(e => e.Attachments).ToList());
                 return model;
+            }
+        }
+
+        public void DeleteSubject(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var model = repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == id));
+                model.IsArchive = true;
+                repositoriesContainer.SubjectRepository.Save(model);
+                repositoriesContainer.ApplyChanges();
             }
         }
 

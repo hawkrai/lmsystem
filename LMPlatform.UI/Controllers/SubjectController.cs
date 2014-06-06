@@ -146,6 +146,7 @@ namespace LMPlatform.UI.Controllers
 
         public ActionResult DeleteSubject(int id)
         {
+            SubjectManagementService.DeleteSubject(id);
             return null;
         }
 

@@ -19,7 +19,23 @@
 {
     <li><a href="@Url.Action("Index","Lms")" class="linkNavbar"><i class="fa fa-arrow-left fa-1x"></i> Назад</a></li>
 }
+<style>
+    #subjectList th:first-child {
+        width: 80%
+    }
 
+    #subjectList th:first-child + th {
+        width: 20px;
+    }
+
+        #subjectList th:last-child{
+            width: 10px;
+            text-align: center
+        }
+    #subjectList td {
+        text-align: center
+    }
+</style>
 <div style="margin: 20px">
     <div id="buttonActionSection">
         <a href="@Url.Action("Create", "Subject")" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить предмет</a>

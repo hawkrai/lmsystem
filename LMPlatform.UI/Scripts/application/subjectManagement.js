@@ -19,16 +19,24 @@
         $('.editSubjectAction').handle("click", function () {
             var that = this;
             $.savingDialog("Редактирование предмета", $(that).attr('href'), null, "primary", function (data) {
-                datatable.fnDraw();
+                dataTables.fnDraw();
                 alertify.success("Предмет успешно изменен");
             });
             return false;
         });
         
-        $(".deleteSubjectAction").handle("click", function () {
+        $(".deleteSubjectButton").handle("click", function () {
             var that = this;
             bootbox.confirm("Вы действительно хотите удалить предмет?", function (isConfirmed) {
                 if (isConfirmed) {
+                    $.ajax({
+                        type: 'GET',
+                        url: $(that).attr("href"),
+                        dataType: "json",
+                        contentType: "application/json",
+
+                    }).success(function (data, status) {
+                    });
                     dataTables.deleteRow("subjectList", $(that).attr("href"));
                     alertify.success("Предмет удален");
                 }

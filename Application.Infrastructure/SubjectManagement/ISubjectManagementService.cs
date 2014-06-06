@@ -75,5 +75,7 @@ namespace Application.Infrastructure.SubjectManagement
         List<string> GetLabsAttachments(int subjectId);
 
         List<string> GetPracticalsAttachments(int subjectId);
+
+        void DeleteSubject(int id);
     }
 }
