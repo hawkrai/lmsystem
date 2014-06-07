@@ -34,11 +34,11 @@ namespace LMPlatform.UI.Services.News
         {
             try
             {
-                var model = SubjectManagementService.GetSubject(int.Parse(subjectId)).SubjectNewses.Select(e => new NewsViewData(e)).ToList();
+                var model = SubjectManagementService.GetSubject(int.Parse(subjectId)).SubjectNewses.OrderByDescending(e => e.EditDate).Select(e => new NewsViewData(e)).ToList();
 
                 return new NewsResult
                            {
-                               News = model.OrderByDescending(e => e.DateCreate).ToList(),
+                               News = model,
                                Message = "Новости успешно загружены",
                                Code = "200"
                            };

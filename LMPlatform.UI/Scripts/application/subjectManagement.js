@@ -19,7 +19,7 @@
         $('.editSubjectAction').handle("click", function () {
             var that = this;
             $.savingDialog("Редактирование предмета", $(that).attr('href'), null, "primary", function (data) {
-                dataTables.fnDraw();
+                datatable.fnDraw();
                 alertify.success("Предмет успешно изменен");
             });
             return false;

@@ -9,6 +9,20 @@
             width: 400px;
             height: 200px;
         }
+
+        /*div.vertical {
+            text-align: center;
+            vertical-align: middle;
+            width: 20px;
+            margin: 0px;
+            padding: 0px;
+            padding-left: 3px;
+            padding-right: 3px;
+            padding-top: 10px;
+            white-space: nowrap;
+            -webkit-transform: rotate(-90deg);
+            -moz-transform: rotate(-90deg);
+        }*/
     </style>
 
     <tabset>
@@ -70,13 +84,13 @@
             </div>
             <div>
                 <div style="max-width: 1200px; overflow-x: auto;">
-                    <table class="table table-bordered table-striped" style=" font-size: 10px">
+                    <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Студент</th>
                                 <th ng-repeat="data in lecturesCalendar">
-                                    <div style="cursor: pointer" ng-click="editMarks(data)">{{data.Date}}</div>
+                                    <div style="cursor: pointer" class="vertical" ng-click="editMarks(data)">{{data.Date}}</div>
                                 </th>
                             </tr>
                         </thead>
