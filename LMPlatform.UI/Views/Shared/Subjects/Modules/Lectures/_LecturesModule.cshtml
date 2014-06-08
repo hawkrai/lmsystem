@@ -52,7 +52,7 @@
                         </tr>
                     </thead>
                     <tr ng-repeat="data in lectures">
-                        <td>{{data.Order}}</td>
+                        <td style="width: 20px">{{data.Order}}</td>
                         <td>{{data.Theme}}</td>
                         <td>{{data.Duration}}</td>
                         <td style="width: 90px;">
@@ -87,7 +87,7 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>№</th>
                                 <th>Студент</th>
                                 <th ng-repeat="data in lecturesCalendar">
                                     <div style="cursor: pointer" class="vertical" ng-click="editMarks(data)">{{data.Date}}</div>
@@ -95,7 +95,7 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedGroup.LecturesMarkVisiting">
-                            <td style="width: 40px">{{student.StudentId}}</td>
+                            <td style="width: 42px">{{$index + 1}}</td>
                             <td style="max-width: 200px">{{student.StudentName}}</td>
                             <td ng-repeat="data in student.Marks" style="text-align: center">{{data.Mark}}</td>
                         </tr>
@@ -168,7 +168,7 @@
                 <div>
                     <div>
                         <label class="control-label">Дата</label>
-                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="width: 100%" />
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" language="ru-Ru" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="width: 100%" />
                     </div>
                     <div>
                         <input ng-click="addDate()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width: 100%" />

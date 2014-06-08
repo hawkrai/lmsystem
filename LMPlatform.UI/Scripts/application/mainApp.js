@@ -78,7 +78,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
         $scope.dateOptions = {
             'year-format': "'yy'",
-            'starting-day': 1
+            'starting-day': 1,
+            
         };
 
         $scope.formats = ['dd-MM-yyyy', 'yyyy/MM/dd', 'shortDate'];
@@ -515,25 +516,56 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 mm = '0' + mm;
             }
 
-            date = dd + '-' + mm + '-' + yyyy;
-
-            $http({
-                method: 'POST',
-                url: $scope.UrlServiceLectures + "SaveDateLectures",
-                data: {
-                    subjectId: $scope.subjectId,
-                    date: date
-                },
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    $scope.loadCalendar();
-                    $scope.loadGroups();
-                    alertify.success(data.Message);
+            date = dd + '.' + mm + '.' + yyyy;
+            var isDate = false;
+            $.each($scope.lecturesCalendar, function(key, value) {
+                if (value.Date == date) {
+                    isDate = true;
                 }
             });
+
+            if (isDate) {
+                bootbox.confirm("Данная дата уже добавлена. Добавить еще одну такую дату?", function(isConfirmed) {
+                    if (isConfirmed) {
+                        $http({
+                            method: 'POST',
+                            url: $scope.UrlServiceLectures + "SaveDateLectures",
+                            data: {
+                                subjectId: $scope.subjectId,
+                                date: date
+                            },
+                            headers: { 'Content-Type': 'application/json' }
+                        }).success(function (data, status) {
+                            if (data.Code != '200') {
+                                alertify.error(data.Message);
+                            } else {
+                                $scope.loadCalendar();
+                                $scope.loadGroups();
+                                alertify.success(data.Message);
+                            }
+                        });
+                    }
+                });
+            } else {
+                $http({
+                    method: 'POST',
+                    url: $scope.UrlServiceLectures + "SaveDateLectures",
+                    data: {
+                        subjectId: $scope.subjectId,
+                        date: date
+                    },
+                    headers: { 'Content-Type': 'application/json' }
+                }).success(function (data, status) {
+                    if (data.Code != '200') {
+                        alertify.error(data.Message);
+                    } else {
+                        $scope.loadCalendar();
+                        $scope.loadGroups();
+                        alertify.success(data.Message);
+                    }
+                });
+            }
+            
         };
 
         $scope.saveMarks = function () {

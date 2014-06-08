@@ -65,17 +65,15 @@
             </div>
             <p></p>
         </div>
-        <div>
+        <div style="float: left">
             <input type="submit" class="btn btn-primary btn-sm" value="Регистрация" />
         </div>
-        <div>
-            <a href=@Url.Action("Login")>
-                <strong>Войти в систему?</strong>
-            </a>
+        <div style="text-align: right">
+            <a href=@Url.Action("Login") class="btn btn-primary btn-sm" style="margin-top: 5px;">Вернуться на страницу входа в систему</a>
         </div>
     </div>
     <div style="text-align: center; padding-top: 10px">
-        <span id="copyright">Copyright © 2013 BNTU. All rights reserved.</span>
+        <span id="copyright">Copyright © 2013 - @DateTime.Now.Year.ToString() BNTU. Все права защищены.</span>
     </div>
 }
 

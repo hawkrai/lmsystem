@@ -142,10 +142,6 @@ h1 {
     -moz-border-radius: 0px;
 }
 
-    #registration input {
-        width: 500px;
-    }
-
         #registration input[type="checkbox"],
         #registration input[type="submit"],
         #registration input[type="button"],

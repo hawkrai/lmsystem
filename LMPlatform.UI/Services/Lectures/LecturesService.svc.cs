@@ -148,7 +148,7 @@ namespace LMPlatform.UI.Services.Lectures
         {
             try
             {
-                SubjectManagementService.SaveDateLectures(int.Parse(subjectId), DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture));
+                SubjectManagementService.SaveDateLectures(int.Parse(subjectId), DateTime.ParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture));
                 return new ResultViewData()
                 {
                     Message = "Дата успешно добавлена",
