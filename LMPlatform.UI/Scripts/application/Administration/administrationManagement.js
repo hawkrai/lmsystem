@@ -21,7 +21,7 @@ function initGroupManagement() {
     initDeleteDialog(".deleteButton", "Удалить", "Удаление группы", "#groupList");
 };
 
-function initManagement(btnSelector, btnTooltipTitle, dialogTitle, updateTableId) {
+function initManagement(btnSelector, btnTooltipTitle, dialogTitle) {
     var btn = $(btnSelector);
     btn.tooltip({ title: btnTooltipTitle, placement: 'right' });
 
@@ -32,31 +32,54 @@ function initManagement(btnSelector, btnTooltipTitle, dialogTitle, updateTableId
     });
 };
 
-function successAjaxForm(result) {
-    var box = $('#adminModal').parents(".modal");
-    if (result.resultMessage) {
-        $(box).modal('hide');
-        updateTable(".dataTable");
-        alertify.success(result.resultMessage);
-    } else {
-        $('#adminModal').html(result);
-        $('form').removeData('validator');
-        $('form').removeData('unobtrusiveValidation');
-        $.validator.unobtrusive.parse('form');
-    }
-}
 
 function initStatDialog(btnSelector, btnTooltipTitle) {
     var btn = $(btnSelector);
     btn.tooltip({ title: btnTooltipTitle, placement: 'right' });
 
+
     btn.handle("click", function () {
+
+        $('body').append("<div id='chart' style='width: 500px;'></div>");
+
         var actionUrl = $(this).attr('href');
         $.get(actionUrl, {},
           function (data) {
+
+              var line = [];
+
+              if (data.attendance) {
+                  data.attendance.forEach(function(val, index) {
+                      line.push([val.day, val.count]);
+                  });
+              } else {
+                  var today = new Date();
+                  line = [[today, 0]];
+              }
+
+              var plot = $.jqplot('chart', [line], {
+                  title: data.resultMessage,
+                  axes: {
+                      xaxis: {
+                          renderer: $.jqplot.DateAxisRenderer
+                      },
+
+                      yaxis: {
+                          min: 0,
+                          tickInterval: 1,
+                          padMax: 1.5
+
+                      },
+                  },
+                  series: [{ lineWidth: 4, markerOptions: { style: 'square' } }]
+              });
+
               bootbox.dialog({
-                  message: data,
+                  message: $('#chart'),
                   title: "Статистика посещаемости",
+                  onEscape: function () {
+                      plot.destroy();
+                  },
               });
           });
     });
@@ -107,6 +130,20 @@ function showForm(formUrl, formTitle) {
                   title: formTitle
               });
           });
+}
+
+function successAjaxForm(result) {
+    var box = $('#adminModal').parents(".modal");
+    if (result.resultMessage) {
+        $(box).modal('hide');
+        updateTable(".dataTable");
+        alertify.success(result.resultMessage);
+    } else {
+        $('#adminModal').html(result);
+        $('form').removeData('validator');
+        $('form').removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse('form');
+    }
 }
 
 function updateTable(updateTableId) {

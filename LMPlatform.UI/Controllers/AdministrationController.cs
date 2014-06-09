@@ -389,11 +389,6 @@ namespace LMPlatform.UI.Controllers
 
                 if (lecturer != null)
                 {
-                    if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Count > 0)
-                    {
-                        return Json(new { resultMessage = string.Format("Преподаватель {0} прикреплён к предметам и не может быть удален", lecturer.FullName) });
-                    }
-
                     var result = LecturerManagementService.DeleteLecturer(id);
 
                     if (result)
@@ -437,17 +432,17 @@ namespace LMPlatform.UI.Controllers
             }
         }
 
-        public ActionResult Attendance(int id)
+        public JsonResult Attendance(int id)
         {
             var user = UsersManagementService.GetUser(id);
 
-            if (user != null)
+            if (user != null && user.Attendance != null)
             {
-                var model = new AttendanceViewModel();
-                return PartialView("_AttendanceView", model);
+                var data = user.AttendanceList.GroupBy(e => e.Date).Select(d => new { day = d.Key.ToString("d"), count = d.Count() });
+                return Json(new { resultMessage = user.FullName, attendance = data }, JsonRequestBehavior.AllowGet);
             }
 
-            return RedirectToAction("Index");
+            return Json(new { resultMessage = "Нет данных", data = "[]" }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

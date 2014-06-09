@@ -72,6 +72,19 @@ namespace Application.Infrastructure.LecturerManagement
 
         public bool DeleteLecturer(int id)
         {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var lecturer = repositoriesContainer.LecturerRepository.GetBy(
+                     new Query<Lecturer>(e => e.Id == id).Include(e => e.SubjectLecturers));
+
+                if (lecturer != null && lecturer.SubjectLecturers != null)
+                {
+                    var subjects = lecturer.SubjectLecturers.ToList();
+                    repositoriesContainer.RepositoryFor<SubjectLecturer>().Delete(subjects);
+                    repositoriesContainer.ApplyChanges();
+                }
+            }
+
             return UserManagementService.DeleteUser(id);
         }
 
