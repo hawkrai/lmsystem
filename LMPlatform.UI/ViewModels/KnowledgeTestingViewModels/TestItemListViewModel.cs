@@ -47,8 +47,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             {
                 Id = test.Id,
                 Title = test.Title,
-                Unlocked = test.Unlocked,
-                Number = 4
+                Unlocked = test.Unlocked
             };
         }
     }
