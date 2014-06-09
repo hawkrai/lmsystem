@@ -200,38 +200,48 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">{{editLabsData.TitleForm}}</h4>
             </div>
-            <div class="modal-body">
-                <div>
+            <form name="labsInput" ng-submit="saveLabs()" novalidate>
+                <div class="modal-body">
                     <div>
-                        <label class="control-label">Название лабораторной работы</label>
-                        <textarea class="form-control" style="max-width: 545px; width: 545px; " ng-model="editLabsData.Theme"></textarea>
-                        <span class="error" ng-show="myForm.userName.$error.required">
-                            Поле обязательно для заполнения!
-                        </span><br>
+                        <div class="control-group" ng-class="{'has-error':labsInput.Theme.$invalid}">
+                            <label class="control-label">Название лабораторной работы</label>
+                            <textarea class="form-control" name="Theme" style="max-width: 545px; width: 545px;" ng-model="editLabsData.Theme" required></textarea>
+                            <span class="help-block error" ng-show="labsInput.Theme.$error.required">Поле обязательно для заполнения!
+                            </span>
+                        </div>
+                        <div class="control-group" ng-class="{'has-error':labsInput.ShortName.$invalid}">
+                            <label class="control-label">Короткое название</label>
+                            <input type="text" name="ShortName" class="form-control" style="width: 545px" ng-model="editLabsData.ShortName" required/>
+                            <span class="help-block error" ng-show="labsInput.ShortName.$error.required">Поле обязательно для заполнения!
+                            </span>
+                        </div>
+                        <div class="control-group" ng-class="{'has-error':labsInput.Order.$invalid}">
+                            <label class="control-label">Порядок (без валидации)</label>
+                            <input type="number" class="form-control" name="Order" style="width: 545px" ng-model="editLabsData.Order" required/>
+                            <span class="help-block error" ng-show="labsInput.Order.$error.required">Поле обязательно для заполнения
+                            </span>
+                        </div>
+                        <div ng-class="{'has-error':labsInput.Duration.$error.required || (labsInput.Duration.$error.max || labsInput.Duration.$error.min)}">
+                            <label class="control-label">Количество часов (1-99)</label>
+                            <input type="number" class="form-control" name="Duration" min="1" max="99" style="width: 545px" ng-model="editLabsData.Duration" required />
+                            <span class="help-block error" ng-show="labsInput.Duration.$error.required">Поле обязательно для заполнения
+                            </span>
+                            <span class="help-block error" ng-show="labsInput.Duration.$error.max || labsInput.Duration.$error.min">Диапазон допустимых значений [1..99]
+                            </span>
+                        </div>
                     </div>
+
                     <div>
-                        <label class="control-label">Короткое название</label>
-                        <input type="text" class="form-control" style="width: 545px" ng-model="editLabsData.ShortName" />
-                    </div>
-                    <div>
-                        <label class="control-label">Порядок (без валидации)</label>
-                        <input type="text" class="form-control" style="width: 545px" ng-model="editLabsData.Order" />
-                    </div>
-                    <div>
-                        <label class="control-label">Количество часов (1-99)</label>
-                        <input type="text" class="form-control" style="width: 545px" ng-model="editLabsData.Duration" />
+                        <h6 class="page-header">Прикрепленный материал</h6>
+                        <div id="labsFile">
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <h6 class="page-header">Прикрепленный материал</h6>
-                    <div id="labsFile">
-                    </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                    <button type="submit" class="btn btn-primary btn-sm" ng-disabled="labsInput.$invalid">Сохранить</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                <a href="#" class="btn btn-primary btn-sm" ng-click="saveLabs()" data-dismiss="modal">Сохранить</a>
-            </div>
+            </form>
         </div>
     </div>
 

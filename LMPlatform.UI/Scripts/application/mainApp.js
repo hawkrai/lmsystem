@@ -745,6 +745,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.saveLabs = function () {
+            
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLabs + "Save",
