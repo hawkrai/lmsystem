@@ -122,14 +122,15 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public List<string> GetProjectCreatorNameList(int studentId)
         {
-            var projectUserList = new ProjectManagementService().GetProjectsOfUser(studentId).ToList();
+            var context = new ProjectManagementService();
+            var projectUserList = context.GetProjectsOfUser(studentId).ToList();
             var projectCreatorNameList = new List<string>();
             foreach (var project in projectUserList)
             {
                 var creator =
                     new LmPlatformRepositoriesContainer().UsersRepository.GetBy(
                         new Query<User>(e => e.Id == project.Project.CreatorId));
-                projectCreatorNameList.Add(creator.FullName);
+                projectCreatorNameList.Add(context.GetCreatorName(creator.Id));
             }
 
             return projectCreatorNameList;

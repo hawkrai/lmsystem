@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Globalization;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Application.Core;
 using Application.Infrastructure.ProjectManagement;
-using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
 using WebMatrix.WebData;
@@ -39,13 +32,16 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         [Required(ErrorMessage = "Поле Тема проекта обязательно для заполнения")]
         [StringLength(300, ErrorMessage = "Тема проекта должна быть не менее 3 символов и не более 300.", MinimumLength = 3)]
-        
         [DataType(DataType.Text)]
         [DisplayName("Тема проекта")]
         public string Title { get; set; }
 
-        [DisplayName("Дата создания")]
-        public DateTime CreationDate { get; set; }
+        [DataType(DataType.MultilineText)]
+        [DisplayName("Описание проекта")]
+        public string Details { get; set; }
+
+        [DisplayName("Дата изменения")]
+        public DateTime DateOfChange { get; set; }
 
         [DisplayName("Создатель")]
         public int CreatorId { get; set; }
@@ -69,7 +65,8 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             {
                 var project = ProjectManagementService.GetProject(projectId);
                 CreatorId = project.CreatorId;
-                CreationDate = project.CreationDate;
+                Details = project.Details;
+                DateOfChange = project.DateOfChange;
                 ProjectId = project.Id;
                 Title = project.Title;
             }
@@ -90,8 +87,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             {
                 Id = ProjectId,
                 Title = Title,
+                Details = Details,
                 CreatorId = creatorId,
-                CreationDate = DateTime.Today
+                DateOfChange = DateTime.Today
             };
 
             ProjectManagementService.SaveProject(project);
@@ -102,7 +100,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 {
                     UserId = creatorId,
                     ProjectId = project.Id,
-                    ProjectRoleId = 1
+                    ProjectRoleId = 3
                 });
             }
         }

@@ -1,4 +1,5 @@
 ﻿@using System.Collections.ObjectModel
+@using Application.Core.UI.HtmlHelpers
 @using LMPlatform.Models
 @model LMPlatform.UI.ViewModels.LmsViewModels.LmsViewModel
 
@@ -23,7 +24,7 @@
         <ul class="dropdown-menu">
             @foreach (var subject in Model.Subjects)
             {
-                <li><a href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>    
+                <li><a title="@subject.DisplayName" href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" class="linkNavbarLevelBelow">@subject.DisplayName.Truncate(30)</a></li>    
             }
             <li class="divider"></li>
             @if (User.IsInRole("lector"))

@@ -43,6 +43,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Тема проекта")]
         public string Title { get; set; }
 
+        [DisplayName("Описание проекта")]
+        public string Details { get; set; }
+
         [DisplayName("Дата создания")]
         public DateTime CreationDate { get; set; }
 
@@ -75,11 +78,22 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public void SetParams(Project model)
         {
             Title = model.Title;
-            CreationDate = model.CreationDate;
-
-            //CreatorName = model.Creator.FullName;
+            CreationDate = model.DateOfChange;
+            Details = model.Details ?? string.Empty;
             GetCreatorName(model.CreatorId);
             SetBugStatistics(ProjectId);
+        }
+
+        public bool IsProjectManager()
+        {
+            var projectUser = new ProjectManagementService().GetProjectUsers(ProjectId).Count(e => e.UserId == WebSecurity.CurrentUserId && e.ProjectRoleId == 3);
+
+            if (projectUser == 0)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public void GetCreatorName(int id)
@@ -128,14 +142,23 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 GetQuentityOfBugsBySeverity();
 
                 var dictionary = new Dictionary<string, int>();
+
                 foreach (var quentity in QuentityOfBugsByType)
                 {
-                    dictionary.Add(quentity.Name, quentity.Quentity);
+                    if (quentity.Quentity != 0)
+                    {
+                        dictionary.Add(quentity.Name, (int)quentity.Quentity * 100 / BugQuentity);
+                    }
                 }
 
                 var jsonSerialiser = new JavaScriptSerializer();
 
                 BugStatusesJson = jsonSerialiser.Serialize(dictionary);
+            }
+            else
+            {
+                var jsonSerialiser = new JavaScriptSerializer();
+                BugStatusesJson = jsonSerialiser.Serialize(" ");
             }
         }
 

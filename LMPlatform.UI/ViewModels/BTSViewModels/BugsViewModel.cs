@@ -58,6 +58,12 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Дата последнего изменения")]
         public string ModifyingDate { get; set; }
 
+        [DisplayName("Кем изменена")]
+        public string EditorName { get; set; }
+
+        [DisplayName("Назначенный разработчик")]
+        public string AssignedDeveloperName { get; set; }
+
         public int SymptomId { get; set; }
 
         public int SeverityId { get; set; }
@@ -65,6 +71,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public int StatusId { get; set; }
 
         public int ReporterId { get; set; }
+
+        public int EditorId { get; set; }
+
+        public int AssignedDeveloperId { get; set; }
 
         public int BugId { get; set; }
 
@@ -82,17 +92,18 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             Steps = model.Steps;
             ExpectedResult = model.ExpectedResult;
             Symptom = GetSymptomName(model.SymptomId);
-
-            //ReporterName = GetReporterName(model.ReporterId);
+            EditorName = context.GetCreatorName(model.EditorId);
             ReporterName = context.GetCreatorName(model.ReporterId);
-            ReportingDate = model.ReportingDate.ToShortDateString();
             Summary = model.Summary;
             Description = model.Description;
             Severity = GetSeverityName(model.SeverityId);
             Status = GetStatusName(model.StatusId);
             Project = GetProjectTitle(model.ProjectId);
+            ProjectId = model.ProjectId;
             ModifyingDate = model.ModifyingDate.ToShortDateString();
             ReportingDate = model.ReportingDate.ToShortDateString();
+            AssignedDeveloperId = model.AssignedDeveloperId;
+            AssignedDeveloperName = (AssignedDeveloperId == 0) ? "-" : context.GetCreatorName(AssignedDeveloperId);
         }
 
         public static string GetProjectTitle(int id)

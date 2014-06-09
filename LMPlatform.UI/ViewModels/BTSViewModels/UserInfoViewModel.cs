@@ -27,9 +27,11 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Количество проектов, на которых занят:")]
         public int ProjectQuentity { get; set; }
 
-        public UserInfoViewModel(int id)
+        public UserInfoViewModel(int _id)
         {
             var context = new LmPlatformModelsContext();
+            var id = context.ProjectUsers.Find(_id).UserId;
+
             if (context.Students.Find(id) != null)
             {
                 //var creator = context.Students.Find(id);

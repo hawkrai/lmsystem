@@ -30,7 +30,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>№</th>
                             <th>Название</th>
                             <th>Краткое название</th>
                             <th>Часы</th>
@@ -76,7 +76,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>№</th>
                             <th>Лабораторная работа</th>
                             <th ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
                                 <div style="cursor: pointer">{{data.Date}}</div>
@@ -113,7 +113,7 @@
                     <table class="table table-bordered table-striped table-hoverT">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>№</th>
                                 <th>Студент</th>
                                 <th ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
                                     <div style="cursor: pointer">{{data.Date}}</div>
@@ -162,7 +162,7 @@
                     <table class="table table-bordered table-striped table-hoverT">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>№</th>
                                 <th>Студент</th>
                                 <th ng-repeat="lab in groupWorkingData.selectedSubGroup.Labs">
                                     {{lab.ShortName}}
@@ -204,7 +204,10 @@
                 <div>
                     <div>
                         <label class="control-label">Название лабораторной работы</label>
-                        <textarea class="form-control" style="width: 545px" ng-model="editLabsData.Theme"></textarea>
+                        <textarea class="form-control" style="max-width: 545px; width: 545px; " ng-model="editLabsData.Theme"></textarea>
+                        <span class="error" ng-show="myForm.userName.$error.required">
+                            Поле обязательно для заполнения!
+                        </span><br>
                     </div>
                     <div>
                         <label class="control-label">Короткое название</label>

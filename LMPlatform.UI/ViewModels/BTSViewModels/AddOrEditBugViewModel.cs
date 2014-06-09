@@ -9,9 +9,11 @@ using System.Web.Mvc;
 using Application.Core;
 using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.ProjectManagement;
+using Application.Infrastructure.UserManagement;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
+using LMPlatform.Models.BTS;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.BTSViewModels
@@ -73,6 +75,13 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Статус")]
         public int StatusId { get; set; }
 
+        public int EditorId { get; set; }
+
+        [DisplayName("Назначенный разработчик")]
+        public int AssignedDeveloperId { get; set; }
+
+        public int SavedAssignedDeveloperId { get; set; }
+
         public int CreatorId { get; set; }
 
         public DateTime ReportingDate { get; set; }
@@ -87,6 +96,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public AddOrEditBugViewModel(int bugId)
         {
             BugId = bugId;
+            SavedAssignedDeveloperId = AssignedDeveloperId;
 
             if (bugId != 0)
             {
@@ -103,12 +113,179 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 Summary = bug.Summary;
                 ReportingDate = bug.ReportingDate;
                 ModifyingDate = bug.ModifyingDate;
+                AssignedDeveloperId = bug.AssignedDeveloperId;
+                SavedAssignedDeveloperId = bug.AssignedDeveloperId;
+                EditorId = bug.EditorId;
             }
+        }
+
+        public IList<SelectListItem> GetDeveloperNames()
+        {
+            var _context = new UsersManagementService();
+            var context = new ProjectManagementService();
+            var projectUsers = context.GetProjectUsers(ProjectId).ToList().Where(e => e.ProjectRoleId == 1);
+            
+            var users = new List<User>();
+            foreach (var user in projectUsers)
+            {
+                users.Add(_context.GetUser(user.UserId));
+            }
+
+            return users.Select(e => new SelectListItem
+            {
+                Text = context.GetCreatorName(e.Id),
+                Value = e.Id.ToString(CultureInfo.InvariantCulture)
+            }).ToList();
         }
 
         public IList<SelectListItem> GetStatusNames()
         {
-            var statuses = new LmPlatformModelsContext().BugStatuses.ToList();
+            var allStatuses = new LmPlatformModelsContext().BugStatuses.ToList();
+            var statuses = new List<BugStatus>();
+
+            var userRoleOnProject =
+                new ProjectManagementService().GetProjectsOfUser(WebSecurity.CurrentUserId).Single(e => e.ProjectId == ProjectId).ProjectRoleId;
+
+            switch (userRoleOnProject)
+            {
+                //Роль "Разработчик"
+                case 1:
+                    switch (StatusId)
+                    {
+                        //Статус "Обнаружена"
+                        case 1:
+                            statuses.Add(allStatuses[0]);
+                            break;
+
+                        //Статус "Назначена"
+                        case 2:
+                            statuses.Add(allStatuses[2]);
+                            statuses.Add(allStatuses[1]);
+                            statuses.Add(allStatuses[5]);
+                            break;
+
+                        //Статус "Исправлена"
+                        case 3:
+                            statuses.Add(allStatuses[2]);
+                            break;
+
+                        //Статус "Проверена"
+                        case 4:
+                            statuses.Add(allStatuses[3]);
+                            statuses.Add(allStatuses[6]);
+                            break;
+
+                        //Статус "Отложена"
+                        case 5:
+                            statuses.Add(allStatuses[4]);
+                            break;
+
+                        //Статус "Отклонена"
+                        case 6:
+                            statuses.Add(allStatuses[5]);
+                            statuses.Add(allStatuses[6]);
+                            break;
+                    }
+
+                    break;
+
+                //Роль "Тестировщик"
+                case 2:
+                    switch (StatusId)
+                    {
+                        //Статус "Обнаружена"
+                        case 1:
+                            statuses.Add(allStatuses[0]);
+                            statuses.Add(allStatuses[4]);
+                            statuses.Add(allStatuses[5]);
+                            break;
+
+                        //Статус "Назначена"
+                        case 2:
+                            statuses.Add(allStatuses[1]);
+                            break;
+
+                        //Статус "Исправлена"
+                        case 3:
+                            statuses.Add(allStatuses[2]);
+                            statuses.Add(allStatuses[3]);
+                            statuses.Add(allStatuses[4]);
+                            break;
+
+                        //Статус "Проверена"
+                        case 4:
+                            statuses.Add(allStatuses[3]);
+                            break;
+
+                        //Статус "Отложена"
+                        case 5:
+                            statuses.Add(allStatuses[0]);
+                            if (AssignedDeveloperId != 0)
+                            {
+                                statuses.Add(allStatuses[2]);
+                            }
+
+                            statuses.Add(allStatuses[4]);
+                            statuses.Add(allStatuses[5]);
+                            break;
+
+                        //Статус "Отклонена"
+                        case 6:
+                            statuses.Add(allStatuses[5]);
+                            break;
+                    }
+
+                    break;
+
+                //Роль "Руководитель проекта"
+                case 3:
+                    switch (StatusId)
+                    {
+                        //Статус "Обнаружена"
+                        case 1:
+                            statuses.Add(allStatuses[1]);
+                            statuses.Add(allStatuses[0]);
+                            statuses.Add(allStatuses[4]);
+                            break;
+
+                        //Статус "Назначена"
+                        case 2:
+                            statuses.Add(allStatuses[1]);
+                            break;
+
+                        //Статус "Исправлена"
+                        case 3:
+                            statuses.Add(allStatuses[2]);
+                            statuses.Add(allStatuses[4]);
+                            break;
+
+                        //Статус "Проверена"
+                        case 4:
+                            statuses.Add(allStatuses[3]);
+                            statuses.Add(allStatuses[6]);
+                            break;
+
+                        //Статус "Отложена"
+                        case 5:
+                            statuses.Add(allStatuses[0]);
+                            if (AssignedDeveloperId != 0)
+                            {
+                                statuses.Add(allStatuses[2]);
+                            }
+
+                            statuses.Add(allStatuses[4]);
+                            break;
+
+                        //Статус "Отклонена"
+                        case 6:
+                            statuses.Add(allStatuses[5]);
+                            statuses.Add(allStatuses[6]);
+                            break;
+                    }
+
+                    break;
+            }
+
             return statuses.Select(e => new SelectListItem
             {
                 Text = e.Name,
@@ -138,7 +315,12 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public IList<SelectListItem> GetProjectNames()
         {
-            var projects = new ProjectManagementService().GetProjects();
+            var projectUsers = new ProjectManagementService().GetProjectsOfUser(WebSecurity.CurrentUserId);
+            var projects = new List<Project>();
+            foreach (var projectUser in projectUsers)
+            {
+                projects.Add(new ProjectManagementService().GetProject(projectUser.ProjectId));
+            }
 
             return projects.Select(e => new SelectListItem
             {
@@ -147,23 +329,45 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }).ToList();
         }
 
-        public void Save(int reporterId)
+        public void Save(int reporterId, int projectId)
         {
+            if (projectId != 0)
+            {
+                ProjectId = projectId;
+            }
+
             var bug = new Bug
             {
                 Id = BugId,
                 ReporterId = reporterId,
                 ProjectId = ProjectId,
                 SeverityId = SeverityId,
+
                 StatusId = StatusId,
                 SymptomId = SymptomId,
                 Steps = Steps,
                 ExpectedResult = ExpectedResult,
                 Description = Description,
                 Summary = Summary,
-                ReportingDate = DateTime.Today,
-                ModifyingDate = DateTime.Today
+                ModifyingDate = DateTime.Today,
+                EditorId = WebSecurity.CurrentUserId,
+                AssignedDeveloperId = AssignedDeveloperId
             };
+
+            if (BugId == 0)
+            {
+                bug.ReportingDate = DateTime.Today;
+                bug.StatusId = 1;
+                bug.AssignedDeveloperId = 0;
+            }
+            else
+            {
+                bug.ReportingDate = BugManagementService.GetBug(BugId).ReportingDate;
+                if (StatusId != 2 && SavedAssignedDeveloperId != AssignedDeveloperId)
+                {
+                    bug.AssignedDeveloperId = SavedAssignedDeveloperId;
+                }
+            }
 
             BugManagementService.SaveBug(bug);
         }

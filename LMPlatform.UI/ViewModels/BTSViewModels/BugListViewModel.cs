@@ -27,14 +27,14 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Название")]
         public string Summary { get; set; }
 
-        [DisplayName("Описание")]
-        public string Description { get; set; }
-
         [DisplayName("Важность")]
         public string Severity { get; set; }
 
         [DisplayName("Статус")]
         public string Status { get; set; }
+
+        [DisplayName("Назначенный разработчик")]
+        public string AssignedDeveloperName { get; set; }
 
         [DisplayName("Проект")]
         public string Project { get; set; }
@@ -53,66 +53,29 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public string ReportingDate { get; set; }
 
-        public static BugListViewModel FromBug(Bug bug, string htmlLinks)
-        {
-            var model = FromBug(bug);
-            model.Action = new HtmlString(htmlLinks);
+        public string AssignedDeveloperId { get; set; }
 
-            return model;
+        public int ProjectId { get; set; }
+
+        public int StatusId { get; set; }
+
+        public int CurrentProjectId { get; set; }
+
+        public string CurrentProjectName { get; set; }
+
+        public BugListViewModel()
+        {
         }
 
-        public static BugListViewModel FromBug(Bug bug)
+        public BugListViewModel(int id)
         {
-            var context = new ProjectManagementService();
-
-            return new BugListViewModel
+            CurrentProjectId = id;
+            CurrentProjectName = string.Empty;
+            if (id != 0)
             {
-                Id = bug.Id,
-                Steps = bug.Steps,
-                Symptom = GetSymptomName(bug.SymptomId),
-
-                //ReporterName = GetReporterName(bug.ReporterId),
-                ReporterName = context.GetCreatorName(bug.ReporterId),
-                ReportingDate = bug.ReportingDate.ToShortDateString(),
-                Summary = bug.Summary,
-                Description = bug.Description,
-                Severity = GetSeverityName(bug.SeverityId),
-                Status = GetStatusName(bug.StatusId),
-                Project = GetProjectTitle(bug.ProjectId),
-                ModifyingDate = bug.ModifyingDate.ToShortDateString()
-            };
-        }
-
-        public static string GetProjectTitle(int id)
-        {
-            var projectManagementService = new ProjectManagementService();
-            var project = projectManagementService.GetProject(id);
-            return project.Title;
-        }
-
-        public static string GetReporterName(int id)
-        {
-            var context = new LmPlatformRepositoriesContainer();
-            var user = context.UsersRepository.GetBy(new Query<User>(e => e.Id == id));
-            return user.FullName;
-        }
-
-        public static string GetStatusName(int id)
-        {
-            var status = context.BugStatuses.Find(id);
-            return status.Name;
-        }
-
-        public static string GetSeverityName(int id)
-        {
-            var severity = context.BugSeverities.Find(id);
-            return severity.Name;
-        }
-
-        public static string GetSymptomName(int id)
-        {
-            var symptom = context.BugSymptoms.Find(id);
-            return symptom.Name;
+                var project = new ProjectManagementService().GetProject(id);
+                CurrentProjectName = project.Title;
+            }
         }
     }
 }

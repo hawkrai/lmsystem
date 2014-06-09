@@ -69,6 +69,14 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Роль")]
         public int RoleId { get; set; }
 
+        [Required(ErrorMessage = "Поле ФИО обязательно для заполнения")]
+        [DisplayName("ФИО")]
+        public int LecturerId { get; set; }
+
+        [Required(ErrorMessage = "Поле Роль обязательно для заполнения")]
+        [DisplayName("Роль")]
+        public int LecturerRoleId { get; set; }
+
         public int ProjectId { get; set; }
 
         public int Id { get; set; }
@@ -127,7 +135,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 }
             }
 
-            return lecturers.Select(v => new SelectListItem
+            return lecturerList.Select(v => new SelectListItem
             {
                 Text = v.LastName + " " + v.FirstName + " " + v.MiddleName,
                 Value = v.Id.ToString(CultureInfo.InvariantCulture)
@@ -151,7 +159,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 Id = Id,
                 UserId = UserId,
                 ProjectId = projectId,
-                ProjectRoleId = RoleId
+                ProjectRoleId = RoleId,
             };
 
             ProjectManagementService.AssingRole(projectUser);
