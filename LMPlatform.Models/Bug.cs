@@ -45,6 +45,10 @@ namespace LMPlatform.Models
 
         public int ReporterId { get; set; }
 
+        public int EditorId { get; set; }
+
+        public int AssignedDeveloperId { get; set; }
+
         public Project Project { get; set; }
 
         public BugSymptom Symptom { get; set; }

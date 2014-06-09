@@ -7,7 +7,7 @@
         that._setColumnsSize();
     },
 
-    _actionsColumnWidth: 110,
+    _actionsColumnWidth: 65,
     _numberingColumnWidth: 20,
 
     _setColumnsSize: function () {
@@ -20,8 +20,6 @@
         $('[name="projectGridActionsCol"]')
             .parent()
             .width(this._actionsColumnWidth);
-
-        //$("#jqplot-table-legend").attr("padding-left", "-100");
     },
 
     initButtonAction: function () {
@@ -56,8 +54,7 @@
             });
             return false;
         });
-        $(".projectDetailsButton").tooltip({ title: "Информация о проекте", placement: 'left' });
-        $(".editProject").tooltip({ title: "Редактировать проект", placement: 'top' });
+        $(".editProject").tooltip({ title: "Редактировать проект", placement: 'left' });
         $(".deleteProject").tooltip({ title: "Удалить проект", placement: 'right' });
     }
 };

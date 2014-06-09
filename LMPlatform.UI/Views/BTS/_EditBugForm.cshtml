@@ -1,0 +1,71 @@
+﻿@model LMPlatform.UI.ViewModels.BTSViewModels.AddOrEditBugViewModel
+
+<div id="editBugForm">
+
+    @using (Html.BeginForm("SaveBug", "BTS", FormMethod.Post))
+    {
+        <div>
+            @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
+        </div>
+    
+        @Html.AntiForgeryToken()
+        
+        @Html.HiddenFor(e => e.BugId)
+
+        @Html.HiddenFor(e => e.ProjectId)
+
+        @Html.HiddenFor(e => e.AssignedDeveloperId)
+
+        <div>
+            @Html.LabelFor(model => model.Summary, new { @class = "control-label" })
+            @Html.EditorFor(model => model.Summary, new { @class = "form-control", @style = "width: 538px" })
+            @Html.ValidationMessageFor(model => model.Summary, " ")
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+            @Html.EditorFor(model => model.Description, new { @class = "form-control", @style = "width: 538px" })
+            @Html.ValidationMessageFor(model => model.Description, " ")
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Steps, new { @class = "control-label" })
+            @Html.EditorFor(model => model.Steps, new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Steps, " ")
+        </div>
+            
+        <div>
+            @Html.LabelFor(model => model.ExpectedResult, new { @class = "control-label" })
+            @Html.EditorFor(model => model.ExpectedResult, new { @class = "form-control", @style = "width: 538px" })
+            @Html.ValidationMessageFor(model => model.ExpectedResult, " ")
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.SymptomId, new { @class = "control-label" })
+            @Html.DropDownListFor(e => e.SymptomId, Model.GetSymptomNames(), new { @class = "form-control" })
+        </div>
+            
+        <div>
+            @Html.LabelFor(model => model.SeverityId, new { @class = "control-label" })
+            @Html.DropDownListFor(e => e.SeverityId, Model.GetSeverityNames(), new { @class = "form-control" })
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.StatusId, new { @class = "control-label" })
+            @Html.DropDownListFor(e => e.StatusId, Model.GetStatusNames(), new { @class = "form-control"})
+        </div>
+    }
+
+    <div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.modal-dialog').width('540px');
+    $('#editBugForm a').tooltip(
+    {
+        placement: "right",
+    });
+
+    shared.initPlugins();
+</script>

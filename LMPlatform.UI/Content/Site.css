@@ -299,8 +299,10 @@ input, textarea {
 
 textarea {
     font-family: inherit;
-    width: 500px;
-    height: 200px;
+    max-width: 500px;
+    min-width: 500px;
+    max-height: 100px;
+    min-height: 100px;
 }
 
 .dataTables_wrapper input {
@@ -820,14 +822,14 @@ body {
 #easyTooltip{
 	padding:5px 10px;
 	border:1px solid #195fa4;
-	background:#195fa4 url(bg.gif) repeat-x;
+	background:#195fa4;
 	color:#fff;
 	}
 
 #easyTooltip2{
 	padding:5px 10px;
 	border:1px solid #5e5e5e;
-	background:#5e5e5e url(bg2.gif) repeat-x;
+	background:#5e5e5e;
 	color:#fff;
 	width:250px;
 	}

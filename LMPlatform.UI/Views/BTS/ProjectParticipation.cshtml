@@ -42,7 +42,7 @@
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>№</th>
+                                            <th style="width: 20px">№</th>
                                             <th>ФИО лектора</th>
                                             <th>Проект</th>
                                             <th>Роль на проекте</th>
@@ -52,7 +52,7 @@
                                     @foreach (var lecturer in Model.GetLecturerList())
                                     {
                                         <tr>
-                                            <td>@lecturer.Number</td>
+                                            <td style="width: 20px">@lecturer.Number</td>
                                             <td>@lecturer.Name</td>
                                             <td>
                                                 @foreach (var project in lecturer.ProjectName)
@@ -67,9 +67,9 @@
                                                 }
                                             </td>
                                             <td>
-                                                @foreach (var project in lecturer.ProjectCreatorName)
+                                                @foreach (var projectCreator in lecturer.ProjectCreatorName)
                                                 {
-                                                    <div style="padding-bottom: 10px">@project</div>
+                                                    <div style="padding-bottom: 10px">@projectCreator</div>
                                                 }
                                             </td>
                                         </tr>

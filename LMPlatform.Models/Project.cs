@@ -9,34 +9,20 @@ namespace LMPlatform.Models
     public class Project : ModelBase
     {
         [Required]
-        [DisplayName("Тема проекта")]
         public string Title { get; set; }
 
-        [DisplayName("Дата создания")]
-        public DateTime CreationDate { get; set; }
+        public string Details { get; set; }
 
-        [DisplayName("Создатель")]
+        public DateTime DateOfChange { get; set; }
+
         public int CreatorId { get; set; }
 
-        //[DisplayName("Создатель")]
         public User Creator { get; set; }
 
-        public ICollection<ProjectUser> ProjectUsers
-        {
-            get; 
-            set; 
-        }
+        public ICollection<ProjectUser> ProjectUsers { get; set; }
+        
+        public ICollection<ProjectComment> ProjectComments { get; set; }
 
-        public ICollection<ProjectComment> ProjectComments
-        {
-            get;
-            set;
-        }
-
-        public ICollection<Bug> Bugs
-        {
-            get;
-            set;
-        }
+        public ICollection<Bug> Bugs { get; set; }
     }
 }

@@ -24,10 +24,12 @@
 
 <h3>Проекты</h3>
 <hr/>
-<div>
-    @*<a href="@Url.Action("AddProject", "BTS")" class="addProjectButton" data-url="@Url.Action("AddProject", "BTS")" data-toggle="tooltip"><i class="addProject glyphicon glyphicon-plus fa-tab"></i>Добавить проект</a>*@
-    <a class="addProjectButton btn btn-primary btn-sm" href="@Url.Action("AddProject", "BTS")">Добавить проект</a>
-</div>
+@if (User.IsInRole("lector"))
+{
+    <div>
+        <a class="addProjectButton btn btn-primary btn-sm" href="@Url.Action("AddProject", "BTS")">Добавить проект</a>
+    </div>
+}
 <div class="row">
     <div class="col-md-12">
         <div class="tab-pane active" id="allProjects">
@@ -38,11 +40,11 @@
                         DataTableOptions = new DataTableOptions
                         {
                             Filterable = true,
-                            Info = true,
+                            Info = false,
                             OnComplete = "projectManagement.projectEditItemActionHandler",
-                            Pagination = true,
+                            Pagination = false,
                             Searchable = true,
-                            Sortable = false,
+                            Sortable = false                       
                         }
                 })
             </div>

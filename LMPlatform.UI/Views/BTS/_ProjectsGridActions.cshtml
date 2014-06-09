@@ -1,6 +1,6 @@
 ﻿@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectListViewModel
 <div name="projectGridActionsCol" align="center">
-    <a class="projectDetailsButton" href="@Url.Action("ProjectManagement", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="projectDetails fa fa-gears fa-1x"></i></a>
+    @*<a class="projectDetailsButton" href="@Url.Action("ProjectManagement", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="projectDetails fa fa-gears fa-1x"></i></a>*@
     <a class="editProjectButton" href="@Url.Action("EditProject", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="editProject fa fa-edit fa-1x"></i></a>
     <a class="deleteProjectButton" href="@Url.Action("DeleteProject", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="deleteProject fa fa-trash-o fa-1x"></i></a>
 </div>

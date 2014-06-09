@@ -1,6 +1,6 @@
 ﻿@model LMPlatform.UI.ViewModels.BTSViewModels.BugListViewModel
 <div name="bugGridActionsCol" align="center">
-    <a class="bugDetailsButton" href="@Url.Action("BugDetails", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="bugDetails fa fa-gears fa-1x"></i></a>
+    @*<a class="bugDetailsButton" href="@Url.Action("BugDetails", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="bugDetails fa fa-gears fa-1x"></i></a>*@
     @*<a class="editBugButton" href="@Url.Action("EditBug", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="editBug fa fa-edit fa-1x"></i></a>*@
     <a class="deleteBugButton" href="@Url.Action("DeleteBug", "BTS", new { id = Model.Id })" style="margin-right: 10px" ><i class="deleteBug fa fa-trash-o fa-1x"></i></a>
 </div>

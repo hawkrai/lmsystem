@@ -1,7 +1,6 @@
 ﻿var projectUserManagement = {
     init: function () {
         var that = this;
-        //$(".projectUserButton").tooltip({ title: "Добавить участника", placement: 'right' });
         that.initButtonAction();
         that._setColumnsSize();
 
@@ -17,7 +16,7 @@
         });
     },
 
-    _actionsColumnWidth: 70,
+    _actionsColumnWidth: 60,
     _numberingColumnWidth: 20,
 
     _setColumnsSize: function () {
@@ -25,18 +24,24 @@
         $('.odd')
             .children(":first")
             .width(this._numberingColumnWidth);
-
+        
         //set "Действия" column width
         $('[name="projectUserGridActionsCol"]')
             .parent()
             .width(this._actionsColumnWidth);
-
-        $("#ProjectUsersList_wrapper").css('margin-bottom', '0px');
     },
 
     initButtonAction: function () {
-        $('.projectUserButton').handle("click", function () {
-            $.savingDialog("Добавление участника к проекту", "/BTS/AssignUserOnProject", null, "primary", function (data) {
+        $('.projectStudentButton').handle("click", function () {
+            $.savingDialog("Добавление участника к проекту", "/BTS/AssignStudentOnProject", null, "primary", function (data) {
+                datatable.fnDraw();
+                alertify.success("Добавлен новый участник");
+            });
+            return false;
+        });
+
+        $('.projectLecturerButton').handle("click", function () {
+            $.savingDialog("Добавление участника к проекту", "/BTS/AssignLecturerOnProject", null, "primary", function (data) {
                 datatable.fnDraw();
                 alertify.success("Добавлен новый участник");
             });
@@ -82,24 +87,17 @@ $(document).ready(function() {
         if (e.type == 'mouseover') {
             var toElem = e.srcElement || e.target;
             if (str(toElem) == "TD") {
-                //var id = toElem.parentElement.outerHTML.find("span").val();
                 var name = toElem.parentNode.childNodes[1];
                 var id = toElem.parentNode.childNodes[3].children[0].children[0].children[0].textContent;
                 $.post("/BTS/GetUserInformation", { id: id }, function (data) {
-                    //$("#userPanel").append(data);
-                    name.easyTooltip({
-                        tooltipId: "easyTooltip2",
+                    $(name).easyTooltip({
+                        tooltipId: "easyTooltip",
                         content: data
                     });
                 });
             }
         }
     }
-
-//else if (e.type == 'mouseout') {
-    //    fromElem = e.srcElement || e.target;
-    //    toElem = e.toElement || e.relatedTarget;
-    //}
 
     function str(el) {
         return el ? (el.id || el.nodeName) : 'null';

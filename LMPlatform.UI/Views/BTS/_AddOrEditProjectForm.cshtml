@@ -17,6 +17,11 @@
             @Html.EditorFor(e => e.Title, new { @class = "form-control", @style = "float:left" })
             @Html.ValidationMessageFor(e => e.Title, " ")
         </div>
+        
+        <div style="width: 560px">
+            @Html.LabelFor(e => e.Details, new { @class = "control-label" })
+            @Html.EditorFor(e => e.Details, new { @class = "form-control", @style = "float:left" })
+        </div>
     }
 
     <div>

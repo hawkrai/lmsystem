@@ -8,6 +8,14 @@
 {
     <link rel="stylesheet" href="/Content/chosen/chosen.css">
     <link rel="stylesheet" href="/Content/Site.css" />
+    <link rel="stylesheet" href="/Content/clickablePanel.css">
+    <link rel="stylesheet" href="/Content/Chat.css" />
+}
+
+@section scripts
+{
+    <script src="~/Scripts/application/BTS/bugDetails.js" type="text/javascript"></script>
+    <script src="~/Scripts/application/BTS/chat.js" type="text/javascript"></script>
 }
 
 @section navleft
@@ -15,96 +23,166 @@
     @Html.Partial("_BTSSubnavbar")
 }
 
+@Html.HiddenFor(e => e.ProjectId)
+
 <h3>
     @Model.Summary
 </h3>
 <hr />
-<div class="row bts">
-    <div class="col-md-12" style="margin-top: 10px">
-        <div class="row">
-            <div class="col-md-1">
-                <span class="fa fa-bug fa-3x" />
+<div>
+    <div class="row">
+        <div class="col-md-12" style="margin-top: 10px">
+            <div class="row">
+                <div class="col-md-1">
+                    <span class="fa fa-bug fa-3x" />
+                </div>
+                <div class="col-md-11">
+                    <div class="row">
+                        <i class="glyphicon glyphicon-calendar fa-tab"></i>Задокументирована @Model.ReportingDate пользователем <font color="blue">@Model.ReporterName</font>
+                    </div>
+
+                    <div class="row" style="color: #999">
+                        <i class="glyphicon glyphicon-time fa-tab"></i>Изменена @Model.ModifyingDate пользователем <font color="blue">@Model.EditorName</font>
+                    </div>
+
+                </div>
             </div>
-            <div class="col-md-11">
+            <br>
+            <div class="col-md-12">
                 <div class="row">
-                    <i class="glyphicon glyphicon-calendar fa-tab"></i>Задокументирована @Model.ReportingDate пользователем <font color="blue">@Model.ReporterName</font>
+                    <div class="col-md-9" style="padding-left: 0px">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Название ошибки:</b>
+                            </div>
+                            <div class="col-md-9">
+                                @Model.Summary
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Проект:</b>
+                            </div>
+                            <div class="col-md-9">
+                                @Model.Project
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Назначенный разработчик:</b>
+                            </div>
+                            @if (@Model.AssignedDeveloperId == 0)
+                            {
+                                <div class="col-md-9">
+                                    отсутствует
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-9">
+                                    <font color="blue">@Model.AssignedDeveloperName</font>
+                                </div>
+                            }
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Описание ошибки:</b>
+                            </div>
+                            <div class="col-md-9">
+                                @Model.Description
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Шаги выполнения:</b>
+                            </div>
+                            <div class="col-md-9">
+                                @Model.Steps
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Ожидаемый результат:</b>
+                            </div>
+                            <div class="col-md-9">
+                                @Model.ExpectedResult
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("ProjectManagement", "BTS", new { id = Model.ProjectId })">Перейти к проекту текущей ошибки</a>
+                        </div>
+                        <p></p>
+                        @if (@Model.Status != "Закрыта")
+                        {
+                            <div class="row hidden" id="editBug">
+                                <a class="editBugButton btn btn-primary btn-sm" style="width: 234px" href="@Url.Action("EditBug", "BTS", new { id = Model.BugId })">Редактировать ошибку</a>
+                            </div>
+                            <p></p>
+                        }
+                        <div class="row">
+                            <b>Важность ошибки:</b>
+                            @Model.Severity
+                        </div>
+
+                        <div class="row">
+                            <b>Статус ошибки:</b>
+                            @if (@Model.Status == "Обнаружена")
+                            {
+                                <b><font color="red">@Model.Status</font></b>
+                            }
+                            else if (@Model.Status == "Закрыта")
+                            {
+                                <b><font color="green">@Model.Status</font></b>
+                            }
+                            else
+                            {
+                                @Model.Status
+                            }
+                        </div>
+
+                        <div class="row">
+                            <b>Симптом ошибки:</b>
+                            @Model.Symptom
+                        </div>
+
+                    </div>
                 </div>
-
-                <div class="row" style="color: #999">
-                    <i class="glyphicon glyphicon-time fa-tab"></i>Изменена @Model.ModifyingDate
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.Summary):
-            </div>
-            <div class="col-md-9">
-                @Model.Summary
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.Description):
-            </div>
-            <div class="col-md-9">
-                @Model.Description
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.Project):
-            </div>
-            <div class="col-md-9">
-                @Model.Project
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.Steps):
-            </div>
-            <div class="col-md-9">
-                @Model.Steps
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.ExpectedResult):
-            </div>
-            <div class="col-md-9">
-                @Model.ExpectedResult
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.Severity):
-            </div>
-            <div class="col-md-9">
-                @Model.Severity
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.Status):
-            </div>
-            <div class="col-md-9">
-                @Model.Status
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.Symptom):
-            </div>
-            <div class="col-md-9">
-                @Model.Symptom
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <br />
+            <div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading" id="accordion">
+                        <h3 class="panel-title">Галерея прикрепленных к ошибке изображений</h3>
+                        <span class="pull-right clickable panel-collapsed"><i class="glyphicon glyphicon-plus"></i></span>
+                    </div>
+                    <div class="panel-body" style="display: none">
+                        <h4>Изображения отсутствуют</h4>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
 </div>
+
+<script>
+
+</script>
+
+<style>
+
+</style>
+

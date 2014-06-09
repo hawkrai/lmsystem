@@ -27,24 +27,38 @@
 </h3>
 <hr />
 <div>
-    @*<a href="@Url.Action("AddBug", "BTS")" class="addBugButton" data-url="@Url.Action("AddBug", "BTS")" data-toggle="tooltip"><i class="addBug glyphicon glyphicon-plus fa-tab"></i>Документировать ошибку</a>*@
-    <a class="addBugButton btn btn-primary btn-sm" href="@Url.Action("AddBug", "BTS")">Задокументировать ошибку</a>
+    @if (Model.CurrentProjectId != 0)
+    {
+        <h5>Отображаются ошибки проекта "@Model.CurrentProjectName"</h5> 
+        <a class="btn btn-primary btn-sm" href="@Url.Action("BugManagement", "BTS", new { id = 0 })">Отобразить ошибки всех проектов</a>
+    }
+    else
+    {
+        <h5>Отображаются ошибки всех проектов</h5>
+        <a class="btn btn-primary btn-sm" href="@Url.Action("Index", "BTS")">Выбрать проект</a>
+    }
 </div>
+<hr />
+<div>
+    <a class="addBugButton btn btn-primary btn-sm" href="@Url.Action("AddBug", "BTS", new { id = Model.CurrentProjectId })">Задокументировать ошибку</a>
+</div>
+<br/>
 <div class="row">
     <div class="col-md-12">
+        
         <div>
             @Html.Partial("_DataTable", new DataTableViewModel
                     {
                         DataTable = Html.DataTable("BugList", (BTSController controller) => controller.GetAllBugs(null)),
                         DataTableOptions = new DataTableOptions
-                            {
-                                Filterable = true,
-                                Info = true,
-                                OnComplete = "bugManagement.bugEditItemActionHandler",
-                                Pagination = true,
-                                Searchable = true,
-                                Sortable = false,
-                            }
+                        {
+                            Filterable = true,
+                            Info = false,
+                            OnComplete = "bugManagement.bugEditItemActionHandler",
+                            Pagination = false,
+                            Searchable = true,
+                            Sortable = false,
+                        }
                     })
         </div>
     </div>

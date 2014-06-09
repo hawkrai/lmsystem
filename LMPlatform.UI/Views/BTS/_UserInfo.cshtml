@@ -9,7 +9,7 @@
         Группа: <b>@Model.GroupNumber</b>
     </div>
     <div>
-        Количество проектов, на которых занят: <b>@Model.ProjectQuentity</b>
+        Количество проектов: <b>@Model.ProjectQuentity</b>
     </div>
 }
 else
@@ -18,14 +18,14 @@ else
         @Model.Role: <b>@Model.UserName</b>
     </div>
     <div>
-        Количество проектов, на которых занят: <b>@Model.ProjectQuentity</b>
+        Количество проектов: <b>@Model.ProjectQuentity</b>
     </div>
     <div>
         Привязанные предметы:
         @foreach (var subject in Model.SubjectList)
         {
             <div>
-                @subject.Name
+                <b>@subject.Name</b>
             </div>
         }
     </div>

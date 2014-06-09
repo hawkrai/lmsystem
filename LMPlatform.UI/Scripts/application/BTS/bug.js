@@ -6,7 +6,7 @@
         that._setColumnsSize();
     },
 
-    _actionsColumnWidth: 70,
+    _actionsColumnWidth: 60,
     _numberingColumnWidth: 20,
 
     _setColumnsSize: function () {
@@ -53,7 +53,7 @@
             });
             return false;
         });
-        $(".bugDetailsButton").tooltip({ title: "Информация об ошибке", placement: 'left' });
+        //$(".bugDetailsButton").tooltip({ title: "Информация об ошибке", placement: 'left' });
         $(".editBug").tooltip({ title: "Редактировать ошибку", placement: 'top' });
         $(".deleteBug").tooltip({ title: "Удалить ошибку", placement: 'right' });
     }

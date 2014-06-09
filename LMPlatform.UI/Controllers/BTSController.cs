@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using Application.Core.Data;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.BugManagement;
+using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
+using Application.Infrastructure.UserManagement;
+using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.BTSViewModels;
@@ -19,6 +24,7 @@ namespace LMPlatform.UI.Controllers
     public class BTSController : BasicController
     {
         private static int _currentProjectId;
+        private static int _currentBugId;
         
         [HttpGet]
         public ActionResult Index()
@@ -32,10 +38,16 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
-        public ActionResult AssignUserOnProject()
+        public ActionResult AssignStudentOnProject()
         {
             var projectUserViewModel = new AssignUserViewModel(0, _currentProjectId);
-            return PartialView("_AssignUserOnProjectForm", projectUserViewModel);
+            return PartialView("_AssignStudentOnProjectForm", projectUserViewModel);
+        }
+
+        public ActionResult AssignLecturerOnProject()
+        {
+            var projectUserViewModel = new AssignUserViewModel(0, _currentProjectId);
+            return PartialView("_AssignLecturerOnProjectForm", projectUserViewModel);
         }
 
         public ActionResult DeleteProjectUser(int id)
@@ -48,6 +60,7 @@ namespace LMPlatform.UI.Controllers
         public ActionResult SaveProjectUser(AssignUserViewModel model)
         {
             model.SaveAssignment(_currentProjectId);
+
             return null;
         }
 
@@ -94,9 +107,11 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult BugManagement()
+        public ActionResult BugManagement(int id)
         {
-            return View();
+            _currentProjectId = id;
+            var model = new BugListViewModel(id);
+            return View(model);
         }
 
         [HttpPost]
@@ -108,13 +123,29 @@ namespace LMPlatform.UI.Controllers
         public ActionResult AddBug()
         {
             var addBugViewModel = new AddOrEditBugViewModel(0);
-            return PartialView("_AddOrEditBugForm", addBugViewModel);
+            if (_currentProjectId == 0)
+            {
+                return PartialView("_AddBugForm", addBugViewModel);
+            }
+                
+            return PartialView("_AddBugOrCurrentProjectForm", addBugViewModel);
         }
 
         public ActionResult EditBug(int id)
         {
+            var bug = BugManagementService.GetBug(id);
+            _currentProjectId = bug.ProjectId;
+
             var bugViewModel = new AddOrEditBugViewModel(id);
-            return PartialView("_AddOrEditBugForm", bugViewModel);
+            var projectUser =
+                new ProjectManagementService().GetProjectUsers(bug.ProjectId).Single(e => e.UserId == WebSecurity.CurrentUserId);
+            if ((projectUser.ProjectRoleId == 1 && bug.StatusId == 2) ||
+                (projectUser.ProjectRoleId == 3 && bug.StatusId == 1))
+            {
+                return PartialView("_EditBugFormWithAssignment", bugViewModel);
+            }
+
+            return PartialView("_EditBugForm", bugViewModel);
         }
 
         public ActionResult DeleteBug(int id)
@@ -126,7 +157,7 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public ActionResult SaveBug(AddOrEditBugViewModel model)
         {
-            model.Save(WebSecurity.CurrentUserId);
+            model.Save(WebSecurity.CurrentUserId, _currentProjectId);
             return null;
         }
         
@@ -153,6 +184,67 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetDeveloperNames()
+        {
+            var _context = new UsersManagementService();
+            var context = new ProjectManagementService();
+            var projectUsers = context.GetProjectUsers(_currentProjectId).ToList().Where(e => e.ProjectRoleId == 1);
+
+            var users = new List<User>();
+            foreach (var user in projectUsers)
+            {
+                users.Add(_context.GetUser(user.UserId));
+            }
+
+            var userList = users.Select(e => new SelectListItem
+            {
+                Text = context.GetCreatorName(e.Id),
+                Value = e.Id.ToString(CultureInfo.InvariantCulture)
+            }).ToList();
+
+            return Json(new SelectList(userList, "Value", "Text"));
+        }
+
+        [HttpPost]
+        public bool IsUserAnAssignedDeveloper()
+        {
+            var bug = new BugManagementService().GetBug(_currentBugId);
+            var context = new ProjectManagementService();
+            var projectRoleId = context.GetProjectUsers(bug.ProjectId).Single(e => e.UserId == WebSecurity.CurrentUserId).ProjectRoleId;
+            if (bug.AssignedDeveloperId != WebSecurity.CurrentUserId && projectRoleId == 1)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetLecturers()
+        {
+            var _lecturers = new LecturerManagementService().GetLecturers();
+
+            var lecturerList = new List<Lecturer>();
+            foreach (var lecturer in _lecturers)
+            {
+                if (ProjectManagementService.IsUserAssignedOnProject(lecturer.Id, _currentProjectId) == false)
+                {
+                    lecturerList.Add(lecturer);
+                }
+            }
+
+            var lecturers = lecturerList.Select(v => new SelectListItem
+            {
+                Text = v.FullName,
+                Value = v.Id.ToString(CultureInfo.InvariantCulture)
+            }).ToList();
+
+            return Json(new SelectList(lecturers, "Value", "Text"));
+        }
+
+        [HttpPost]
         public ActionResult GetUserInformation(int id)
         {
             var model = new UserInfoViewModel(id);
@@ -163,6 +255,7 @@ namespace LMPlatform.UI.Controllers
         public ActionResult BugDetails(int id)
         {
             var model = new BugsViewModel(id);
+            _currentBugId = id;
             return View(model);
         }
 
@@ -186,7 +279,84 @@ namespace LMPlatform.UI.Controllers
             var searchString = dataTableParam.GetSearchString();
             var projects = ProjectManagementService.GetProjects(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
 
-            return DataTableExtensions.GetResults(projects.Items.Select(model => ProjectListViewModel.FromProject(model, PartialViewToString("_ProjectsGridActions", ProjectListViewModel.FromProject(model)))).Where(e => e.IsAssigned), dataTableParam, projects.TotalCount);
+            if (User.IsInRole("lector"))
+            {
+                return DataTableExtensions.GetResults(projects.Items.Select(model => FromProject(model, PartialViewToString("_ProjectsGridActions", FromProject(model)))).Where(e => e.IsAssigned), dataTableParam, projects.TotalCount);   
+            }
+
+            return DataTableExtensions.GetResults(projects.Items.Select(FromProject).Where(e => e.IsAssigned), dataTableParam, projects.TotalCount);
+        }
+
+        public ProjectUserListViewModel FromProjectUser(ProjectUser projectUser, string htmlLinks)
+        {
+            var model = FromProjectUser(projectUser);
+            model.Action = new HtmlString(htmlLinks);
+
+            return model;
+        }
+
+        public ProjectUserListViewModel FromProjectUser(ProjectUser projectUser)
+        {
+            var context = new ProjectManagementService();
+            
+            return new ProjectUserListViewModel
+            {
+                Id = projectUser.Id,
+                UserName = context.GetCreatorName(projectUser.User.Id),
+                RoleName = GetRoleName(projectUser.ProjectRoleId),
+                ProjectId = projectUser.ProjectId
+            };
+        }
+
+        public static string GetProjectCreatorName(int projectId)
+        {
+            var context = new LmPlatformModelsContext();
+            var _context = new ProjectManagementService(); 
+            var project = context.Projects.Find(projectId);
+            var creator = context.Users.Find(project.CreatorId);
+            return _context.GetCreatorName(creator.Id);
+        }
+
+        public static string GetRoleName(int id)
+        {
+            var context = new LmPlatformModelsContext();
+            var role = context.ProjectRoles.Find(id);
+            return role.Name;
+        }
+
+        public ProjectListViewModel FromProject(Project project, string htmlLinks)
+        {
+            var model = FromProject(project);
+            model.Action = new HtmlString(htmlLinks);
+
+            return model;
+        }
+
+        public ProjectListViewModel FromProject(Project project)
+        {
+            var context = new LmPlatformModelsContext();
+            var isAssigned = false;
+            foreach (var user in context.ProjectUsers)
+            {
+                if (user.ProjectId == project.Id && user.UserId == WebSecurity.CurrentUserId)
+                {
+                    isAssigned = true;
+                }
+            }
+
+            var _context = new ProjectManagementService();
+            var creatorId = project.Creator.Id;
+
+            return new ProjectListViewModel
+            {
+                Id = project.Id,
+                Title =
+                    string.Format("<a href=\"{0}\">{1}</a>", Url.Action("ProjectManagement", "BTS", new { id = project.Id }), project.Title),
+                CreatorName = _context.GetCreatorName(creatorId),
+                CreationDate = project.DateOfChange.ToShortDateString(),
+                UserQuentity = _context.GetProjectUsers(project.Id).Count,
+                IsAssigned = isAssigned
+            };
         }
 
         [HttpPost]
@@ -195,7 +365,84 @@ namespace LMPlatform.UI.Controllers
             var searchString = dataTableParam.GetSearchString();
             var bugs = BugManagementService.GetAllBugs(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
 
-            return DataTableExtensions.GetResults(bugs.Items.Select(model => BugListViewModel.FromBug(model, PartialViewToString("_BugsGridActions", BugListViewModel.FromBug(model)))), dataTableParam, bugs.TotalCount);
+            if (User.IsInRole("lector"))
+            {
+                if (_currentProjectId != 0)
+                {
+                    return DataTableExtensions.GetResults(bugs.Items.Select(model => FromBug(model, PartialViewToString("_BugsGridActions", FromBug(model)))).Where(e => e.ProjectId == _currentProjectId), dataTableParam, bugs.TotalCount);
+                }
+
+                return DataTableExtensions.GetResults(bugs.Items.Select(model => FromBug(model, PartialViewToString("_BugsGridActions", FromBug(model)))), dataTableParam, bugs.TotalCount);
+            }
+
+            if (_currentProjectId != 0)
+            {
+                return DataTableExtensions.GetResults(bugs.Items.Select(FromBug).Where(e => e.ProjectId == _currentProjectId), dataTableParam, bugs.TotalCount);
+            }
+
+            return DataTableExtensions.GetResults(bugs.Items.Select(FromBug), dataTableParam, bugs.TotalCount);
+        }
+
+        public BugListViewModel FromBug(Bug bug, string htmlLinks)
+        {
+            var model = FromBug(bug);
+            model.Action = new HtmlString(htmlLinks);    
+
+            return model;
+        }
+
+        public BugListViewModel FromBug(Bug bug)
+        {
+            var context = new ProjectManagementService();
+
+            return new BugListViewModel
+            {
+                Id = bug.Id,
+                Steps = bug.Steps,
+                Symptom = GetSymptomName(bug.SymptomId),
+                ProjectId = bug.ProjectId,
+                ReporterName = context.GetCreatorName(bug.ReporterId),
+                ReportingDate = bug.ReportingDate.ToShortDateString(),
+                Summary = string.Format("<a href=\"{0}\">{1}</a>", Url.Action("BugDetails", "BTS", new { id = bug.Id }), bug.Summary),
+                Severity = GetSeverityName(bug.SeverityId),
+                Status = GetStatusName(bug.StatusId),
+                StatusId = bug.StatusId,
+                Project = GetProjectTitle(bug.ProjectId),
+                ModifyingDate = bug.ModifyingDate.ToShortDateString(),
+                AssignedDeveloperName = (bug.AssignedDeveloperId == 0) ? "отсутствует" : context.GetCreatorName(bug.AssignedDeveloperId)
+            };
+        }
+
+        public string GetProjectTitle(int id)
+        {
+            var projectManagementService = new ProjectManagementService();
+            var project = projectManagementService.GetProject(id);
+            return project.Title;
+        }
+
+        public string GetReporterName(int id)
+        {
+            var context = new LmPlatformRepositoriesContainer();
+            var user = context.UsersRepository.GetBy(new Query<User>(e => e.Id == id));
+            return user.FullName;
+        }
+
+        public string GetStatusName(int id)
+        {
+            var status = new LmPlatformModelsContext().BugStatuses.Find(id);
+            return status.Name;
+        }
+
+        public string GetSeverityName(int id)
+        {
+            var severity = new LmPlatformModelsContext().BugSeverities.Find(id);
+            return severity.Name;
+        }
+
+        public string GetSymptomName(int id)
+        {
+            var symptom = new LmPlatformModelsContext().BugSymptoms.Find(id);
+            return symptom.Name;
         }
 
         [HttpPost]
@@ -206,7 +453,12 @@ namespace LMPlatform.UI.Controllers
                 searchString: searchString);
             var projectId = int.Parse(Request.QueryString["projectId"]);
 
-            return DataTableExtensions.GetResults(projectUsers.Items.Select(model => ProjectUserListViewModel.FromProjectUser(model, PartialViewToString("_ProjectUsersGridActions", ProjectUserListViewModel.FromProjectUser(model)))).Where(e => e.ProjectId == projectId && e.UserName != ProjectUserListViewModel.GetProjectCreatorName(projectId)), dataTablesParam, projectUsers.TotalCount);
+            if (User.IsInRole("lector"))
+            {
+                return DataTableExtensions.GetResults(projectUsers.Items.Select(model => FromProjectUser(model, PartialViewToString("_ProjectUsersGridActions", FromProjectUser(model)))).Where(e => e.ProjectId == projectId && e.UserName != GetProjectCreatorName(projectId)), dataTablesParam, projectUsers.TotalCount);    
+            }
+
+            return DataTableExtensions.GetResults(projectUsers.Items.Select(FromProjectUser).Where(e => e.ProjectId == projectId && e.UserName != GetProjectCreatorName(projectId)), dataTablesParam, projectUsers.TotalCount);
         }
 
         public IProjectManagementService ProjectManagementService

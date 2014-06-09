@@ -4,7 +4,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>№</th>
+                <th style="width: 20px">№</th>
                 <th>ФИО студента</th>
                 <th>Проект</th>
                 <th>Роль на проекте</th>
@@ -14,7 +14,7 @@
         @foreach (var student in Model.GetStudentGroupUserList(Model.GroupId))
         {
             <tr>
-                <td>@student.Number</td>
+                <td style="width: 20px">@student.Number</td>
                 <td>@student.Name</td>
                 <td>
                     @foreach (var project in student.ProjectName)
