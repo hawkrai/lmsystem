@@ -153,7 +153,7 @@ $scope.loadMessages = function (initLoad) {
                             params.total(filteredData.length);
                             $defer.resolve(filteredData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                         },
-
+                        counts: [],
                         $scope: { $data: {} }
                     });
                 } else {
