@@ -79,6 +79,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             return new TestViewModel
             {
                 Id = test.Id,
+                SubjectId = test.SubjectId,
                 Title = test.Title,
                 Description = test.Description,
                 TimeForCompleting = test.TimeForCompleting,
