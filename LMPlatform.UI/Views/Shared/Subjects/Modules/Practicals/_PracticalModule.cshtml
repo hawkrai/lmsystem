@@ -123,16 +123,18 @@
                                 <th>№</th>
                                 <th>Студент</th>
                                 <th style="width: 50px; text-align: center" ng-repeat="practical in practicals">{{practical.ShortName}}</th>
+                                <th>Итог</th>
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedGroup.Students">
                             <td style="width: 40px">{{student.StudentId}}</td>
                             <td style="max-width: 200px">{{student.FullName}}</td>
-                            <td ng-repeat="practicalMark in student.StudentPracticalMarks">
+                            <td style="width: 50px;text-align: center;" ng-repeat="practicalMark in student.StudentPracticalMarks">
                                 <span editable-text="practicalMark.Mark" e-name="Mark" e-form="tableformMarks">
                                     {{ practicalMark.Mark || '' }}
                                 </span>
                             </td>
+                            <td style="width: 50px;text-align: center;color: red"><b>{{student.PracticalMarkTotal}}</b></td>
                         </tr>
                     </table>
                     <div>

@@ -167,16 +167,18 @@
                                 <th ng-repeat="lab in groupWorkingData.selectedSubGroup.Labs">
                                     {{lab.ShortName}}
                                 </th>
+                                <th>Итог</th>
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
                             <td style="width: 40px">{{student.StudentId}}</td>
                             <td style="max-width: 200px">{{student.FullName}}</td>
-                            <td style="width: 50px" ng-repeat="mark in student.StudentLabMarks">
+                            <td style="width: 50px;text-align: center" ng-repeat="mark in student.StudentLabMarks">
                                 <span editable-text="mark.Mark" e-name="Mark" e-form="tableformLabsMarks">
                                     {{ mark.Mark || '' }}
                                 </span>
                             </td>
+                            <td style="width: 50px;text-align: center;color: red"><b>{{student.LabsMarkTotal}}</b></td>
                         </tr>
                     </table>
                     

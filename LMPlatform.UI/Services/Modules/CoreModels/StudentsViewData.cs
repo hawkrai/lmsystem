@@ -3,6 +3,7 @@
 namespace LMPlatform.UI.Services.Modules.CoreModels
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Runtime.Serialization;
 
@@ -137,6 +138,21 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
                     }
                 }
             }
+
+            var summ = this.StudentLabMarks.Where(studentLabMarkViewData => !string.IsNullOrEmpty(studentLabMarkViewData.Mark)).Sum(studentLabMarkViewData => double.Parse(studentLabMarkViewData.Mark));
+            if (StudentLabMarks.Count() != 0)
+            {
+                LabsMarkTotal = (summ / StudentLabMarks.Count()).ToString(CultureInfo.InvariantCulture);    
+            }
+
+            summ = this.StudentPracticalMarks.Where(studentPracticalMarkViewData => !string.IsNullOrEmpty(studentPracticalMarkViewData.Mark)).Sum(studentPracticalMarkViewData => double.Parse(studentPracticalMarkViewData.Mark));
+
+            var countMark =
+                this.StudentPracticalMarks.Count(studentPracticalMarkViewData => !string.IsNullOrEmpty(studentPracticalMarkViewData.Mark));
+            if (countMark != 0)
+            {
+                PracticalMarkTotal = (summ / countMark).ToString(CultureInfo.InvariantCulture);
+            }
         }
 
         [DataMember]
@@ -156,6 +172,12 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
 
         [DataMember]
         public List<StudentLabMarkViewData> StudentLabMarks { get; set; }
+
+        [DataMember]
+        public string LabsMarkTotal { get; set; }
+
+        [DataMember]
+        public string PracticalMarkTotal { get; set; }
 
         [DataMember]
         public List<StudentPracticalMarkViewData> StudentPracticalMarks { get; set; }
