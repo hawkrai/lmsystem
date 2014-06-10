@@ -554,7 +554,6 @@
     <Content Include="Scripts\application\BTS\project.js" />
     <Content Include="Scripts\application\BTS\projectPart.js" />
     <Content Include="Scripts\application\BTS\studentProjectTable.js" />
-    <Content Include="Scripts\application\Administration\adminModule.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\DP\controllers\homeController.js" />
