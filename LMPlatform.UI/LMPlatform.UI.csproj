@@ -195,6 +195,10 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Files\FilesService.svc.cs">
+      <DependentUpon>FilesService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Files\IFilesService.cs" />
     <Compile Include="Services\Messages\IMessagesService.cs" />
     <Compile Include="Services\Messages\MessagesService.svc.cs">
       <DependentUpon>MessagesService.svc</DependentUpon>
@@ -217,6 +221,7 @@
     <Compile Include="Services\Modules\CoreModels\StudentPracticalMarkViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\SubGroupsViewData.cs" />
+    <Compile Include="Services\Modules\Files\AttachmentResult.cs" />
     <Compile Include="Services\Modules\Labs\LabsResult.cs" />
     <Compile Include="Services\Modules\Labs\LabsViewData.cs" />
     <Compile Include="Services\Modules\Labs\LabVisitingMark.cs" />
@@ -432,6 +437,7 @@
     <Content Include="Content\KnowledgeTesting\control.html" />
     <Content Include="Content\KnowledgeTesting\testDetails.html" />
     <Content Include="Content\KnowledgeTesting\results.html" />
+    <Content Include="Content\messages.css" />
     <Content Include="Content\morris.css" />
     <Content Include="Content\mvcfileupload\css\jquery.fileupload-ui-noscript.css" />
     <Content Include="Content\mvcfileupload\css\jquery.fileupload-ui.css" />
@@ -539,6 +545,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\application\accountManagement.js" />
     <Content Include="Scripts\application\Administration\administrationManagement.js" />
+    <Content Include="Scripts\application\Administration\filesModule.js" />
     <Content Include="Scripts\application\BTS\bug.js" />
     <Content Include="Scripts\application\BTS\bugDetails.js" />
     <Content Include="Scripts\application\BTS\chat.js" />
@@ -547,7 +554,7 @@
     <Content Include="Scripts\application\BTS\project.js" />
     <Content Include="Scripts\application\BTS\projectPart.js" />
     <Content Include="Scripts\application\BTS\studentProjectTable.js" />
-    <Content Include="Scripts\application\adminModule.js" />
+    <Content Include="Scripts\application\Administration\adminModule.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
     <Content Include="Scripts\application\datatables.js" />
     <Content Include="Scripts\application\DP\controllers\homeController.js" />
@@ -575,9 +582,9 @@
     <Content Include="Scripts\application\labsApp.js" />
     <Content Include="Scripts\application\mainApp.js" />
     <Content Include="Scripts\application\masterPageManagement.js" />
-    <Content Include="Scripts\application\message.js" />
-    <Content Include="Scripts\application\msgModule.js" />
-    <Content Include="Scripts\application\parentalModule.js" />
+    <Content Include="Scripts\application\Messages\message.js" />
+    <Content Include="Scripts\application\Messages\msgModule.js" />
+    <Content Include="Scripts\application\Parental\parentalModule.js" />
     <Content Include="Scripts\application\shared.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestsListScript.js" />
     <Content Include="Scripts\application\spinFunction.js" />
@@ -966,6 +973,7 @@
     <Content Include="Scripts\xeditable.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Services\CoreService.svc" />
+    <Content Include="Services\Files\FilesService.svc" />
     <Content Include="Services\Messages\MessagesService.svc" />
     <Content Include="Services\Labs\LabsService.svc" />
     <Content Include="Services\Lectures\LecturesService.svc" />
@@ -1023,7 +1031,6 @@
     <Content Include="Views\Shared\_EditGlyphLinks.cshtml" />
     <Content Include="Views\Shared\Layouts\_MainUsingNavLectorLayout.cshtml" />
     <Content Include="Views\Subject\_CreateSubjectView.cshtml" />
-    <Content Include="Views\Administration\AddProfessor.cshtml" />
     <Content Include="Views\Administration\ResetPassword.cshtml" />
     <Content Include="Views\Subject\_SubjectActionList.cshtml" />
     <Content Include="Views\Subject\Subjects.cshtml" />
@@ -1032,7 +1039,6 @@
     <Content Include="Views\Administration\_EditProfessorView.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\Administration\AddGroup.cshtml" />
     <Content Include="Views\Administration\_AddGroupView.cshtml" />
     <Content Include="Views\Subject\SubjectsForTests.cshtml" />
     <Content Include="Views\Tests\_TestsGridActions.cshtml" />

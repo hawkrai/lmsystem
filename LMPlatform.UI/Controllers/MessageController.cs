@@ -79,38 +79,15 @@ namespace LMPlatform.UI.Controllers
             return messagesCount;
         }
 
-        [HttpPost]
-        public DataTablesResult<DataTableMessage> GetCollectionMessages(DataTablesParam dataTableParam)
-        {
-            var searchString = dataTableParam.GetSearchString();
-            bool? incoming = null;
-            try
-            {
-                incoming = bool.Parse(Request.QueryString["isIncoming"]);
-            }
-            catch (ArgumentNullException)
-            {
-            }
-            catch (FormatException)
-            {
-            }
-
-            var messages = MessageManagementService.GetUserMessagesPageable(WebSecurity.CurrentUserId, incoming, pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
-            return DataTableExtensions.GetResults(
-                messages.Items.DistinctBy(i => i.MessageId).Select(m =>
-                    new DataTableMessage(PartialViewToString("_MessageDisplayRow", DisplayMessageViewModel.FormMessageToDisplay(m)))),
-                    dataTableParam,
-                    messages.TotalCount);
-        }
-
         public JsonResult GetSelectListOptions(string term)
         {
             var recip = MessageManagementService.GetRecipients(WebSecurity.CurrentUserId);
 
-            var result = recip.Where(r => r.FullName.ToLower().Contains(term.ToLower()))
+            var result = recip.Where(r => r.FullName.ToLower().Contains(term.ToLower())
+                                            || r.UserName.ToLower().Contains(term.ToLower()))
                 .Select(r => new
                 {
-                    text = r.FullName,
+                    text = string.Format("{0} ({1})", r.FullName, r.UserName),
                     value = r.Id.ToString()
                 }).ToList();
 

@@ -32,14 +32,6 @@
     </div>
 </div>
 
-
-<style>
-    .jqplot-table-legend-swatch {
-        width: 20px;
-        height: 15px;
-        margin-right: 5px;
-    }
-</style>
 <script>
     $(document).ready(function () {
 
@@ -56,8 +48,6 @@
                   // Make this a pie chart.
                   renderer: jQuery.jqplot.PieRenderer,
                   rendererOptions: {
-                      // Put data labels on the pie slices.
-                      // By default, labels show the percentage of the slice.
                       showDataLabels: true,
                       sliceMargin: 5
                   }
@@ -70,7 +60,6 @@
                   shadow: false,               // draw a shadow for grid.
                   renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
                   rendererOptions: {}         // options to pass to the renderer.  Note, the default
-                  // CanvasGridRenderer takes no additional options.
               },
               legend: { show: true, location: 'e' }
           }

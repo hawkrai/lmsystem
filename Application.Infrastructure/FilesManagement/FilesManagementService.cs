@@ -46,7 +46,8 @@ namespace Application.Infrastructure.FilesManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.AttachmentRepository.GetAll(new Query<Attachment>(e => e.PathName == path)).ToList();
+                return string.IsNullOrEmpty(path) ? repositoriesContainer.AttachmentRepository.GetAll().ToList() 
+                    : repositoriesContainer.AttachmentRepository.GetAll(new Query<Attachment>(e => e.PathName == path)).ToList();
             }
         }
 

@@ -227,17 +227,14 @@ $scope.loadMessages = function (initLoad) {
     }])
     .directive('ajaxChosen', function () {
         var linker = function (scope, element, attrs) {
-
             var recipientsList = [];
-
-            // var url = '/Services/Messages/MessagesService.svc/' + 'GetRecipients/';
 
             $(element).ajaxChosen({
                 type: 'GET',
                 url: '/Message/GetSelectListOptions',
                 dataType: 'json',
                 keepTypingMsg: "Продолжайте печатать...",
-                lookingForMsg: "Поиск"
+                lookingForMsg: "Поиск..."
             },
                 function (data) {
 

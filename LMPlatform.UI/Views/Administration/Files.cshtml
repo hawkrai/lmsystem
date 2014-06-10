@@ -9,3 +9,54 @@
 {
     Файлы
 }
+
+@section headScripts
+{
+    <script src="~/Scripts/application/Administration/filesModule.js" type="text/javascript"></script>
+}
+
+<style>
+    tfoot > tr > td {
+        display: none;
+    }
+</style>
+<div ng-app="filesApp" ng-controller="filesController" ng-init="init()">
+
+    <div style="margin-bottom: 20px">
+        <div>  Расположение файлов: {{serverPath}}</div>
+        <div>  Количество файлов: {{data.length}}</div>
+    </div>
+
+    <table class="table table-bordered table-hover" ng-table="tableParams" style="width: 100%">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Имя файла</th>
+                <th>Имя на диске</th>
+                <th>Папка на диске</th>
+                <th>Тип</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="file in $data">
+                <td>{{$index + 1}}</td>
+                <td>
+                    <a href="/api/Upload/DowloadFile?fileName={{attach.PathName}}/{{attach.FileName}}">
+                        <span class="glyphicon glyphicon-paperclip"></span>
+                        {{file.Name}}
+                    </a>
+
+                </td>
+                <td>
+                    {{file.FileName}}
+                </td>
+                <td>
+                    {{file.PathName}}
+                </td>
+                <td>
+                    {{file.AttachmentType}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -32,7 +32,6 @@ function initManagement(btnSelector, btnTooltipTitle, dialogTitle) {
     });
 };
 
-
 function initStatDialog(btnSelector, btnTooltipTitle) {
     var btn = $(btnSelector);
     btn.tooltip({ title: btnTooltipTitle, placement: 'right' });

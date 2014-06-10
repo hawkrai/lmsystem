@@ -1,0 +1,167 @@
+﻿.nav a {
+    cursor: pointer;
+}
+
+.bordered {
+    border-bottom: #ddd solid 1px;
+}
+
+.ellipsis {
+    overflow: hidden;
+    -moz-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.msg-row {
+    height: 45px;
+    cursor: pointer;
+}
+
+    .msg-row i.is-read {
+        color: #008cba;
+    }
+
+    .msg-row .fa-envelope {
+        color: gray;
+    }
+
+    .msg-row td:first-child {
+        width: 60px;
+        -moz-min-width: 60px;
+        -ms-min-width: 60px;
+        -o-min-width: 60px;
+        -webkit-min-width: 60px;
+        min-width: 60px;
+    }
+
+sub.paperclip {
+    font-size: 11px;
+    top: 12px;
+    padding-left: -15px;
+    margin-left: -5px;
+    color: gray;
+}
+
+.msg-row .athor-name {
+    font-size: 17px;
+    max-width: 250px;
+    min-width: 250px;
+    width: 250px;
+    line-height: 40px;
+    overflow: hidden;
+    padding: 0 10px 0 0;
+}
+
+.msg-row .recip-name {
+    width: 180px;
+    max-width: 180px;
+    float: left;
+}
+
+.msg-row .recip-name-add {
+    width: 70px;
+    max-width: 70px;
+    min-width: 70px;
+    color: #008cba;
+    text-decoration: none;
+}
+
+.msg-row .subject {
+    font-size: 15px;
+    color: #515151;
+    padding-left: 10px;
+    max-width: 140px;
+    overflow: hidden;
+    -moz-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.msg-row .preview-text {
+    font-size: 15px;
+    color: #515151;
+    overflow: hidden;
+    -moz-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 180px;
+    padding-left: 10px;
+}
+
+.msg-row .date {
+    text-align: right;
+    font-size: 16px;
+    max-width: 85px;
+    width: 85px;
+    padding-left: 10px;
+}
+
+.msg-row .delete-button {
+    width: 45px;
+    text-align: right;
+}
+
+#buttonActionSection {
+    margin: 20px 0;
+    padding-left: 10px;
+}
+
+.tab-content-wrapper {
+    margin-left: 172px;
+    border-left: #ddd 1px solid;
+    padding-left: 35px;
+    min-height: 150px;
+}
+
+.ng-table-pager {
+    padding-top: 20px;
+}
+
+.row {
+    padding: 0 10px;
+}
+
+#msgForm textarea {
+    max-width: 558px;
+}
+
+#msgForm .search-field > input {
+    width: 180px !important;
+}
+
+.display-msg, .form-msg {
+    padding: 10px 20px;
+}
+
+    .display-msg .msg-body {
+        border: solid #ddd 1px;
+        padding: 10px;
+        margin: 20px 0 15px 0;
+        word-wrap: break-word;
+    }
+
+    .display-msg .author-name {
+        font-size: 22px;
+        padding: 5px 0 10px 0;
+    }
+
+    .display-msg label {
+        color: gray;
+        font-size: 15px;
+        padding-right: 10px;
+    }
+
+    .display-msg .recip-name .fa {
+        color: #D1D1D1;
+        margin: 0 3px 0 10px;
+        font-size: 13px;
+    }
+
+    .display-msg .attach-link {
+        padding-right: 15px;
+    }
+
+        .display-msg .attach-link .glyphicon {
+            margin-right: 3px;
+        }
