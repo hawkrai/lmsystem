@@ -196,6 +196,32 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
+        public void DeleteLabsVisitingDate(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var dateModelmarks =
+                    repositoriesContainer.RepositoryFor<ScheduleProtectionLabMark>()
+                        .GetAll(new Query<ScheduleProtectionLabMark>(e => e.ScheduleProtectionLabId == id))
+                        .ToList();
+
+                foreach (var labsVisitMark in dateModelmarks)
+                {
+                    repositoriesContainer.RepositoryFor<ScheduleProtectionLabMark>().Delete(labsVisitMark);
+                }
+
+                repositoriesContainer.ApplyChanges();
+
+                var dateModel =
+                    repositoriesContainer.RepositoryFor<ScheduleProtectionLabs>()
+                        .GetBy(new Query<ScheduleProtectionLabs>(e => e.Id == id));
+
+                repositoriesContainer.RepositoryFor<ScheduleProtectionLabs>().Delete(dateModel);
+
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
         public void DeleteLabs(int id)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

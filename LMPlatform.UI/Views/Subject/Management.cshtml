@@ -10,11 +10,6 @@
     @Scripts.Render("~/bundle/subjectManagement")
 }
 
-@section navpanel
-{
-    Управление предметами
-}
-
 @section navleft
 {
     <li><a href="@Url.Action("Index","Lms")" class="linkNavbar"><i class="fa fa-arrow-left fa-1x"></i> Назад</a></li>
@@ -37,24 +32,27 @@
     }
 </style>
 <div style="margin: 20px">
+    
+    <div class="page-header" style="margin-top: 10px; padding: 0"><h3>Управление предметами</h3></div>
+
     <div id="buttonActionSection">
         <a href="@Url.Action("Create", "Subject")" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить предмет</a>
     </div>
     <div>
         @Html.Partial("_DataTable", new DataTableViewModel
-        {
-            DataTable = Html.DataTable("subjectList", (SubjectController controller) => controller.GetSubjects(null)),
-            DataTableOptions = new DataTableOptions
-            {
-                Filterable = true,
-                Info = true,
-                OnComplete = "subjectManagement.subjectEditItemActionHandler",
-                Pagination = true,
-                Searchable = true,
-                Sortable = false,
+                                        {
+                                            DataTable = Html.DataTable("subjectList", (SubjectController controller) => controller.GetSubjects(null)),
+                                            DataTableOptions = new DataTableOptions
+                                                                   {
+                                                                       Filterable = true,
+                                                                       Info = true,
+                                                                       OnComplete = "subjectManagement.subjectEditItemActionHandler",
+                                                                       Pagination = true,
+                                                                       Searchable = true,
+                                                                       Sortable = false,
                 
-            }
-        })    
+                                                                   }
+                                        })    
     </div>
     
 </div>

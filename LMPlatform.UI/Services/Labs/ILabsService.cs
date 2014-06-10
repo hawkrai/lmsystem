@@ -39,5 +39,9 @@ namespace LMPlatform.UI.Services.Labs
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveStudentLabsMark")]
         ResultViewData SaveStudentLabsMark(List<StudentsViewData> students);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/DeleteVisitingDate")]
+        ResultViewData DeleteVisitingDate(string id);
     }
 }

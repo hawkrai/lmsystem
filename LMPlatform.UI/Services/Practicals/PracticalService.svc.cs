@@ -111,7 +111,7 @@ namespace LMPlatform.UI.Services.Practicals
                 SubjectManagementService.SaveScheduleProtectionPracticalDate(new ScheduleProtectionPractical
                 {
                     GroupId = int.Parse(groupId),
-                    Date = DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                    Date = DateTime.Parse(date),
                     SubjectId = int.Parse(subjectId)
                 });
                 return new ResultViewData()

@@ -30,5 +30,7 @@ namespace LMPlatform.Models
             get; 
             set;
         }
+
+        public int Order { get; set; }
     }
 }

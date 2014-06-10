@@ -62,7 +62,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             SubjectId = subjectId;
             Subject = SubjectManagementService.GetSubject(subjectId);
             SubjectName = Subject.Name;
-            Modules = Subject.SubjectModules.Select(e => new ModulesViewModel(e.Module)).ToList();
+            Modules = Subject.SubjectModules.OrderBy(e => e.Module.Order).Select(e => new ModulesViewModel(e.Module)).ToList();
             NotVisibleModules = ModulesManagementService.GetModules().Where(e => !e.Visible).Select(e => new ModulesViewModel(e)).ToList();
         }
 

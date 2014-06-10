@@ -82,7 +82,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             
         };
 
-        $scope.formats = ['dd-MM-yyyy', 'yyyy/MM/dd', 'shortDate'];
+        $scope.formats = ['dd/MM/yyyy', 'yyyy/MM/dd', 'shortDate'];
         $scope.format = $scope.formats[0];
 
 
@@ -508,15 +508,15 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             var mm = $scope.dt.getMonth() + 1; //January is 0!
             var yyyy = $scope.dt.getFullYear();
 
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
+            //if (dd < 10) {
+            //    dd = '0' + dd;
+            //}
 
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
+            //if (mm < 10) {
+            //    mm = '0' + mm;
+            //}
 
-            date = dd + '.' + mm + '.' + yyyy;
+            date = dd + '/' + mm + '/' + yyyy;
             var isDate = false;
             $.each($scope.lecturesCalendar, function(key, value) {
                 if (value.Date == date) {
@@ -830,37 +830,58 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $('#dialogmanagementData').modal();
         };
 
-        $scope.addDate = function () {
+        $scope.addDate = function() {
             var dd = $scope.dt.getDate();
             var mm = $scope.dt.getMonth() + 1; //January is 0!
             var yyyy = $scope.dt.getFullYear();
 
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-
-            date = dd + '-' + mm + '-' + yyyy;
-
-            $http({
-                method: 'POST',
-                url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
-                data: {
-                    subGroupId: $scope.groupWorkingData.selectedSubGroup.SubGroupId,
-                    date: date
-                },
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    $scope.loadGroups();
-                    alertify.success(data.Message);
+            date = dd + '/' + mm + '/' + yyyy;
+            var isDate = false;
+            $.each($scope.groupWorkingData.selectedSubGroup.ScheduleProtectionLabs, function(key, value) {
+                if (value.Date == date) {
+                    isDate = true;
                 }
             });
+
+            if (isDate) {
+                bootbox.confirm("Данная дата уже добавлена. Добавить еще одну такую дату?", function(isConfirmed) {
+                    if (isConfirmed) {
+                        $http({
+                            method: 'POST',
+                            url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
+                            data: {
+                                subGroupId: $scope.groupWorkingData.selectedSubGroup.SubGroupId,
+                                date: date
+                            },
+                            headers: { 'Content-Type': 'application/json' }
+                        }).success(function(data, status) {
+                            if (data.Code != '200') {
+                                alertify.error(data.Message);
+                            } else {
+                                $scope.loadGroups();
+                                alertify.success(data.Message);
+                            }
+                        });
+                    }
+                });
+            } else {
+                $http({
+                    method: 'POST',
+                    url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
+                    data: {
+                        subGroupId: $scope.groupWorkingData.selectedSubGroup.SubGroupId,
+                        date: date
+                    },
+                    headers: { 'Content-Type': 'application/json' }
+                }).success(function(data, status) {
+                    if (data.Code != '200') {
+                        alertify.error(data.Message);
+                    } else {
+                        $scope.loadGroups();
+                        alertify.success(data.Message);
+                    }
+                });
+            }
         };
 
         $scope.saveLabsMarks = function () {
@@ -877,6 +898,26 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 } else {
                     $scope.loadGroups();
                     alertify.success(data.Message);
+                }
+            });
+        };
+
+        $scope.deleteVisitingDate = function (idDate) {
+            bootbox.confirm("Вы действительно хотите удалить дату и все связанные с ней данные?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $http({
+                        method: 'POST',
+                        url: $scope.UrlServiceLabs + "DeleteVisitingDate",
+                        data: { id: idDate },
+                        headers: { 'Content-Type': 'application/json' }
+                    }).success(function (data, status) {
+                        if (data.Code != '200') {
+                            alertify.error(data.Message);
+                        } else {
+                            alertify.success(data.Message);
+                            $scope.loadGroups();
+                        }
+                    });
                 }
             });
         };
@@ -1029,33 +1070,57 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             var mm = $scope.dt.getMonth() + 1; //January is 0!
             var yyyy = $scope.dt.getFullYear();
 
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
+            date = dd + '/' + mm + '/' + yyyy;
 
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-
-            date = dd + '-' + mm + '-' + yyyy;
-
-            $http({
-                method: 'POST',
-                url: $scope.UrlServicePractical + "SaveScheduleProtectionDate",
-                data: {
-                    groupId: $scope.groupWorkingData.selectedGroup.GroupId,
-                    date: date,
-                    subjectId: $scope.subjectId
-                },
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    $scope.loadGroups();
-                    alertify.success(data.Message);
+            var isDate = false;
+            $.each($scope.groupWorkingData.selectedGroup.ScheduleProtectionPracticals, function (key, value) {
+                if (value.Date == date) {
+                    isDate = true;
                 }
             });
+
+            if (isDate) {
+                bootbox.confirm("Данная дата уже добавлена. Добавить еще одну такую дату?", function(isConfirmed) {
+                    if (isConfirmed) {
+                        $http({
+                            method: 'POST',
+                            url: $scope.UrlServicePractical + "SaveScheduleProtectionDate",
+                            data: {
+                                groupId: $scope.groupWorkingData.selectedGroup.GroupId,
+                                date: date,
+                                subjectId: $scope.subjectId
+                            },
+                            headers: { 'Content-Type': 'application/json' }
+                        }).success(function(data, status) {
+                            if (data.Code != '200') {
+                                alertify.error(data.Message);
+                            } else {
+                                $scope.loadGroups();
+                                alertify.success(data.Message);
+                            }
+                        });
+                    }
+                });
+            } else {
+                $http({
+                    method: 'POST',
+                    url: $scope.UrlServicePractical + "SaveScheduleProtectionDate",
+                    data: {
+                        groupId: $scope.groupWorkingData.selectedGroup.GroupId,
+                        date: date,
+                        subjectId: $scope.subjectId
+                    },
+                    headers: { 'Content-Type': 'application/json' }
+                }).success(function (data, status) {
+                    if (data.Code != '200') {
+                        alertify.error(data.Message);
+                    } else {
+                        $scope.loadGroups();
+                        alertify.success(data.Message);
+                    }
+                });
+            }
+
         };
 
         $scope.dateVisitingManagement = function () {

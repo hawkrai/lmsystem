@@ -109,7 +109,7 @@ namespace LMPlatform.UI.Services.Labs
         {
             try
             {
-                SubjectManagementService.SaveScheduleProtectionLabsDate(int.Parse(subGroupId), DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture));
+                SubjectManagementService.SaveScheduleProtectionLabsDate(int.Parse(subGroupId), DateTime.Parse(date));
                 return new ResultViewData()
                 {
                     Message = "Дата успешно добавлена",
@@ -171,6 +171,28 @@ namespace LMPlatform.UI.Services.Labs
                 return new ResultViewData()
                 {
                     Message = "Произошла ошибка при добавлении данных",
+                    Code = "500"
+                };
+            }
+        }
+
+        public ResultViewData DeleteVisitingDate(string id)
+        {
+            try
+            {
+                SubjectManagementService.DeleteLabsVisitingDate(int.Parse(id));
+
+                return new ResultViewData()
+                {
+                    Message = "Дата успешно удалена",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new ResultViewData()
+                {
+                    Message = "Произошла ошибка при удалении даты",
                     Code = "500"
                 };
             }

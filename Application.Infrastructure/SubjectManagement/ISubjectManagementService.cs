@@ -28,6 +28,8 @@ namespace Application.Infrastructure.SubjectManagement
 
         void DeletePracticalsVisitingDate(int id);
 
+        void DeleteLabsVisitingDate(int id);
+
         void DeleteLabs(int id);
 
         void DeletePracticals(int id);
