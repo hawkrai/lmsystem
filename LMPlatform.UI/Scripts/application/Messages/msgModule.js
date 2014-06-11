@@ -2,201 +2,208 @@
 
 msgApp
     .controller("msgController", ['$scope', '$http', '$modal', '$filter', 'ngTableParams', function ($scope, $http, $modal, $filter, ngTableParams) {
-            $scope.activeTab = 'inbox';
-            $scope.userId = 0;
-            $scope.data = [];
-            $scope.displayMessage = {};
-            $scope.inboxMessages = [];
-            $scope.outboxMessages = [];
+        $scope.activeTab = 'inbox';
+        $scope.userId = 0;
+        $scope.data = [];
+        $scope.displayMessage = {};
+        $scope.inboxMessages = [];
+        $scope.outboxMessages = [];
 
-            $scope.UrlServiceMessages = '/Services/Messages/MessagesService.svc/';
+        $scope.UrlServiceMessages = '/Services/Messages/MessagesService.svc/';
 
-            $scope.recipients = [];
-            $scope.selectedRecipients = [];
+        $scope.recipients = [];
+        $scope.selectedRecipients = [];
 
 
-            $scope.init = function (userId) {
-                $scope.userId = userId;
-                $scope.loadMessages(true);
-            };
+        $scope.init = function (userId) {
+            $scope.userId = userId;
+            $scope.loadMessages(true);
+        };
 
-            $scope.switchTabTo = function (tabName) {
-                $scope.activeTab = tabName;
-            };
+        $scope.switchTabTo = function (tabName) {
+            $scope.activeTab = tabName;
+        };
 
-            $scope.isInbox = function (item) {
-                return (item.AthorId == $scope.userId & $scope.activeTab != 'inbox') ||
-                (item.AthorId != $scope.userId & $scope.activeTab == 'inbox');
-            };
+        $scope.isInbox = function (item) {
+            return (item.AthorId == $scope.userId & $scope.activeTab != 'inbox') ||
+            (item.AthorId != $scope.userId & $scope.activeTab == 'inbox');
+        };
 
-            $scope.openMsg = function (msg) {
-                $.ajax({
-                    type: 'GET',
-                    url: $scope.UrlServiceMessages + "GetMessage/" + msg.Id,
-                    dataType: "json",
-                    contentType: "application/json",
-                }).success(function (data, status) {
-                    if (data.Code != '200') {
-                        alertify.error(data.Message);
-                    } else {
-                        $scope.$apply(function () {
-                            $scope.displayMessage = data.DisplayMessage;
-                            msg.IsRead = true;
-                        });
-                        var modalInstance = $modal.open({
-                            templateUrl: 'Message/DisplayMessage',
-                            controller: 'DisplayMsgCtrl',
-                            //size: size,
-                            resolve: {
-                                displayMsg: function () {
-                                    return data.DisplayMessage;
-                                }
+        $scope.openMsg = function (msg) {
+            $.ajax({
+                type: 'GET',
+                url: $scope.UrlServiceMessages + "GetMessage/" + msg.Id,
+                dataType: "json",
+                contentType: "application/json",
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.$apply(function () {
+                        $scope.displayMessage = data.DisplayMessage;
+                        $scope.displayMessage.currentUserId = $scope.userId;
+
+                        msg.IsRead = true;
+                    });
+                    var modalInstance = $modal.open({
+                        templateUrl: 'Message/DisplayMessage',
+                        controller: 'DisplayMsgCtrl',
+                        //size: size,
+                        resolve: {
+                            displayMsg: function () {
+                                return data.DisplayMessage;
                             }
-                        });
-
-                        modalInstance.result.then(function (dataFromModal) {
-                        }, function () {
-                            //alert('dismissed!');
-                        });
-                    }
-                }).error(function () {
-                    alertify.error("Ошибка сервиса");
-                });
-            };
-
-
-            $scope.showForm = function (replayData) {
-                var modalInstance = $modal.open({
-                    templateUrl: 'Message/MessageForm',
-                    controller: 'WriteMsgCtrl',
-                    resolve: {
-                        replayData: function () {
-                            return replayData;
                         }
+                    });
+
+                    modalInstance.result.then(function (replayMsg) {
+                        if (replayMsg) {
+                            $scope.showForm(replayMsg);
+                        }
+
+                    }, function () {
+                        //alert('dismissed!');
+                    });
+                }
+            }).error(function () {
+                alertify.error("Ошибка сервиса");
+            });
+        };
+
+
+        $scope.showForm = function (replayData) {
+            var modalInstance = $modal.open({
+                templateUrl: 'Message/MessageForm',
+                controller: 'WriteMsgCtrl',
+                resolve: {
+                    replayData: function () {
+                        return replayData;
                     }
-                });
+                }
+            });
 
-                modalInstance.result.then(function (dataFromModal) {
-                    saveMessage(dataFromModal);
-                }, function () {
-                });
-            };
+            modalInstance.result.then(function (dataFromModal) {
+                saveMessage(dataFromModal);
+            }, function () {
+            });
+        };
 
-            var saveMessage = function (formMsg) {
-                $http({
-                    method: 'POST',
-                    url: $scope.UrlServiceMessages + "Save",
-                    data: {
-                        subject: formMsg.subject,
-                        body: formMsg.body,
-                        recipients: JSON.stringify(formMsg.recipients),
-                        attachments: formMsg.attachments
-                    } ,
-                    headers: { 'Content-Type': 'application/json' }
-        }).success(function(data, status) {
-            if (data.Code != '200') {
-                alertify.error(data.Message);
-            } else {
-                $scope.loadMessages();
-                alertify.success(data.Message);
-            }
-        });
-};
-
-$scope.deleteMessage = function (msgId) {
-    bootbox.confirm("Вы действительно хотите удалить сообщение?", function (isConfirmed) {
-        if (isConfirmed) {
+        var saveMessage = function (formMsg) {
             $http({
                 method: 'POST',
-                url: $scope.UrlServiceMessages + "Delete",
-                data: { messageId: msgId },
+                url: $scope.UrlServiceMessages + "Save",
+                data: {
+                    subject: formMsg.subject,
+                    body: formMsg.body,
+                    recipients: JSON.stringify(formMsg.recipients),
+                    attachments: formMsg.attachments
+                },
                 headers: { 'Content-Type': 'application/json' }
             }).success(function (data, status) {
                 if (data.Code != '200') {
                     alertify.error(data.Message);
                 } else {
-                    alertify.success(data.Message);
                     $scope.loadMessages();
+                    alertify.success(data.Message);
                 }
             });
-        }
-    });
-};
+        };
 
-$scope.getData = function () {
-    return $scope.activeTab === 'inbox' ? $scope.inboxMessages : $scope.outboxMessages;
-};
-
-$scope.loadMessages = function (initLoad) {
-    $.ajax({
-        type: 'GET',
-        url: $scope.UrlServiceMessages + "GetMessages/",
-        dataType: "json",
-        contentType: "application/json",
-    }).success(function (data, status) {
-        if (data.Code != '200') {
-            alertify.error(data.Message);
-        } else {
-            $scope.$apply(function () {
-                $scope.inboxMessages = data.InboxMessages;
-                $scope.outboxMessages = data.OutboxMessages;
-
-                if (initLoad) {
-
-                    $scope.tableParams = new ngTableParams({
-                        page: 1,
-                        count: 10
-                    },
-                    {
-                        getData: function ($defer, params) {
-                            var filteredData = $scope.getData();
-                            params.total(filteredData.length);
-                            $defer.resolve(filteredData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                        },
-                        counts: [],
-                        $scope: { $data: {} }
+        $scope.deleteMessage = function (msgId) {
+            bootbox.confirm("Вы действительно хотите удалить сообщение?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $http({
+                        method: 'POST',
+                        url: $scope.UrlServiceMessages + "Delete",
+                        data: { messageId: msgId },
+                        headers: { 'Content-Type': 'application/json' }
+                    }).success(function (data, status) {
+                        if (data.Code != '200') {
+                            alertify.error(data.Message);
+                        } else {
+                            alertify.success(data.Message);
+                            $scope.loadMessages();
+                        }
                     });
-                } else {
-                    $scope.tableParams.reload();
                 }
-
             });
+        };
 
-            $scope.$watch("activeTab", function () {
-                $scope.tableParams.reload();
+        $scope.getData = function () {
+            return $scope.activeTab === 'inbox' ? $scope.inboxMessages : $scope.outboxMessages;
+        };
+
+        $scope.loadMessages = function (initLoad) {
+            $.ajax({
+                type: 'GET',
+                url: $scope.UrlServiceMessages + "GetMessages/",
+                dataType: "json",
+                contentType: "application/json",
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.$apply(function () {
+                        $scope.inboxMessages = data.InboxMessages;
+                        $scope.outboxMessages = data.OutboxMessages;
+
+                        if (initLoad) {
+
+                            $scope.tableParams = new ngTableParams({
+                                page: 1,
+                                count: 10
+                            },
+                            {
+                                getData: function ($defer, params) {
+                                    var filteredData = $scope.getData();
+                                    params.total(filteredData.length);
+                                    $defer.resolve(filteredData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                                },
+                                counts: [],
+                                $scope: { $data: {} }
+                            });
+                        } else {
+                            $scope.tableParams.reload();
+                        }
+
+                    });
+
+                    $scope.$watch("activeTab", function () {
+                        $scope.tableParams.reload();
+                    });
+                }
+            }).error(function () {
+                alertify.error("Ошибка сервиса");
             });
-        }
-    }).error(function () {
-        alertify.error("Ошибка сервиса");
-    });
-};
-}
-])
-    .controller("DisplayMsgCtrl", ["$scope", "$modalInstance", "displayMsg", function ($scope, $modalInstance, displayMsg) {
+        };
+    }])
+    .controller("DisplayMsgCtrl",  function ($scope, $modalInstance, displayMsg) {
 
         $scope.displayMessage = displayMsg;
 
-        $scope.replay = function() {
-            $scope.showForm(displayMsg);
+        $scope.replay = function () {
+            $modalInstance.close($scope.displayMessage);
         };
 
         $scope.ok = function () {
-            $modalInstance.close($scope.displayMessage.Id);
+            $modalInstance.close();
         };
 
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
-    }])
-    .controller("WriteMsgCtrl", ["$scope", "$http", "$modalInstance", "replayData", function ($scope, $http, $modalInstance, replayData) {
+    })
+    .controller("WriteMsgCtrl",  function ($scope, $http, $modalInstance, replayData) {
 
         $scope.formMsg = {};
         $scope.formMsg.recipients = [];
+        $scope.formMsg.recipientsList = [];
 
         if (replayData) {
             $scope.formMsg.subject = "Re: " + replayData.Subject;
-            $scope.formMsg.recipients.add(replayData.AthorId);
-            alert($scope.formMsg.recipients);
+            //$scope.formMsg.recipients.push({value:replayData.AthorId, text:"test"});
+            $scope.formMsg.recipients.push(replayData.AthorId);
+            $scope.formMsg.recipientsList.push({ value: replayData.AthorId, text: replayData.AthorName });
         }
 
         $scope.getAttachments = function () {
@@ -224,38 +231,47 @@ $scope.loadMessages = function (initLoad) {
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
-    }])
+    })
     .directive('ajaxChosen', function () {
-        var linker = function (scope, element, attrs) {
-            var recipientsList = [];
-
-            $(element).ajaxChosen({
-                type: 'GET',
-                url: '/Message/GetSelectListOptions',
-                dataType: 'json',
-                keepTypingMsg: "Продолжайте печатать...",
-                lookingForMsg: "Поиск..."
-            },
-                function (data) {
-
-                    $.each(data, function (i, val) {
-                        recipientsList[i] = val;
-                    });
-
-                    return recipientsList;
-                },
-              {
-                  no_results_text: "Пользователь не найден...",
-                  width: '100%'
-              }
-            ).change(function () {
-                scope.formMsg.recipients = $(element).val();
-            });
-        };
 
         return {
             restrict: 'A',
-            link: linker
+            link: function (scope, element, attrs) {
+                var recipientsList = [];
+                var recipients = [];
+
+
+                $.each(scope.formMsg.recipientsList, function (i, val) {
+                    recipientsList.push({ text: val.text, value: val.value });
+                    $(element).append("<option value = '" + val.value + "' selected='selected'>" + val.text + "</option>");
+                });
+
+                //$(element).val(recipients);
+
+                $(element).ajaxChosen({
+                    type: 'GET',
+                    url: '/Message/GetSelectListOptions',
+                    dataType: 'json',
+                    keepTypingMsg: "Продолжайте печатать...",
+                    lookingForMsg: "Поиск..."
+                },
+                    function (data) {
+
+                        $.each(data, function (i, val) {
+                            recipientsList[i] = val;
+                        });
+
+                        return recipientsList;
+                    },
+                  {
+                      no_results_text: "Пользователь не найден...",
+                      width: '100%'
+                  }
+                ).change(function () {
+                    scope.formMsg.recipients = $(element).val();
+                });
+            }
+
         };
     });
 

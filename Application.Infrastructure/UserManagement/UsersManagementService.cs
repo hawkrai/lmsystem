@@ -49,6 +49,33 @@ namespace Application.Infrastructure.UserManagement
             return null;
         }
 
+        public User GetUserByName(string firstName, string lastName, string middleName)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var checkPatronymic = !string.IsNullOrEmpty(middleName);
+
+                var lecturers = repositoriesContainer.LecturerRepository.GetAll(
+                        new Query<Lecturer>(e =>
+                            (e.FirstName == firstName && e.LastName == lastName && !checkPatronymic)
+                            || (checkPatronymic && (e.MiddleName == middleName && e.FirstName == firstName && e.LastName == lastName))))
+                            .Select(l => l.User).ToList();
+
+                if (lecturers.Any())
+                {
+                    return lecturers.First();
+                }
+
+                var students = repositoriesContainer.StudentsRepository.GetAll(
+                        new Query<Student>(e =>
+                            (e.FirstName == firstName && e.LastName == lastName && !checkPatronymic)
+                            || (checkPatronymic && (e.MiddleName == middleName && e.FirstName == firstName && e.LastName == lastName))))
+                            .Select(l => l.User);
+
+                return students.Any() ? students.First() : null;
+            }
+        }
+
         public User GetUser(int id)
         {
             return UsersRepository.GetBy(new Query<User>(u => u.Id == id));

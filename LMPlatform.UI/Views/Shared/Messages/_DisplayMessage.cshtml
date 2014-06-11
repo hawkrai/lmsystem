@@ -7,26 +7,35 @@
 </div>
 <div id="displayMsg">
     <div class="display-msg">
-        <a ng-click="replay()">
-            <div class="author-name">{{displayMessage.AthorName}}</div>
-        </a>
-        <div>
-            <label>Отправлено:</label>{{displayMessage.Date}}
-        </div>
-        <div>
-            <label>Кому:</label>
-            <span class="recip-name" ng-repeat="name in displayMessage.Recipients"><i class="fa fa-user"></i>{{name}}</span>
-        </div>
-        <div>
-            <span class="attach-link" ng-repeat="attach in displayMessage.Attachments">
-                <a href="/api/Upload/DowloadFile?fileName={{attach.PathName}}/{{attach.FileName}}">
-                    <span class="glyphicon glyphicon-paperclip"></span>
-                    {{attach.Name}}
+        <div class="control-section">
+            <div class="author-name">
+                <a ng-click="replay()">
+                    {{displayMessage.AthorName}}
                 </a>
-            </span>
+            </div>
+
+            <div>
+                <label>Отправлено:</label>{{displayMessage.Date}}
+            </div>
+            <div>
+                <label>Кому:</label>
+                <span class="recip-name" ng-repeat="name in displayMessage.Recipients"><i class="fa fa-user"></i>{{name}}</span>
+            </div>
+            <div>
+                <span class="attach-link" ng-repeat="attach in displayMessage.Attachments">
+                    <a href="/api/Upload/DowloadFile?fileName={{attach.PathName}}/{{attach.FileName}}">
+                        <span class="glyphicon glyphicon-paperclip"></span>
+                        {{attach.Name}}
+                    </a>
+                </span>
+            </div>
         </div>
         <div class="msg-body">
             {{displayMessage.Body}}
         </div>
+    </div>
+
+    <div class="modal-footer" ng-if="displayMessage.currentUserId != displayMessage.AthorId">
+        <button ng-click="replay()" class=" btn btn-primary btn-sm">Ответить</button>
     </div>
 </div>

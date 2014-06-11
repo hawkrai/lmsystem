@@ -33,6 +33,7 @@
         -o-min-width: 60px;
         -webkit-min-width: 60px;
         min-width: 60px;
+        text-align: left;
     }
 
 sub.paperclip {
@@ -108,10 +109,11 @@ sub.paperclip {
 }
 
 .tab-content-wrapper {
-    margin-left: 172px;
+    /*margin-left: 172px;
     border-left: #ddd 1px solid;
-    padding-left: 35px;
+    padding-left: 35px;*/
     min-height: 150px;
+    padding: 20px;
 }
 
 .ng-table-pager {
@@ -122,28 +124,40 @@ sub.paperclip {
     padding: 0 10px;
 }
 
-#msgForm textarea {
-    max-width: 558px;
+.form-msg {
+    padding: 0 20px;
 }
 
-#msgForm .search-field > input {
-    width: 180px !important;
+    .form-msg textarea {
+        max-width: 560px;
+    }
+
+    .form-msg .search-field > input {
+        width: 180px !important;
+    }
+
+.display-msg {
 }
 
-.display-msg, .form-msg {
-    padding: 10px 20px;
-}
+    .display-msg .control-section {
+        background: whitesmoke;
+        padding: 20px;
+    }
 
     .display-msg .msg-body {
-        border: solid #ddd 1px;
-        padding: 10px;
+        padding: 10px 20px;
         margin: 20px 0 15px 0;
         word-wrap: break-word;
+        font-size: 18px;
     }
 
     .display-msg .author-name {
         font-size: 22px;
-        padding: 5px 0 10px 0;
+        padding: 5px 0 25px 0;
+        cursor: pointer;
+    }
+    .display-msg .author-name a:hover {
+        text-decoration: none !important;
     }
 
     .display-msg label {

@@ -243,12 +243,12 @@ namespace Application.Infrastructure.MessageManagement
                     {
                         case Constants.Roles.Student:
                             recipientsList = repositoriesContainer.UsersRepository
-                            .GetAll(new Query<User>(u => u.Id != currentUser.Id && u.Lecturer != null)
+                            .GetAll(new Query<User>(u => u.Lecturer != null)
                             .Include(u => u.Lecturer)).ToList();
                             break;
                         case Constants.Roles.Lector:
                             recipientsList = repositoriesContainer.UsersRepository
-                            .GetAll(new Query<User>(u => u.Id != currentUser.Id && (u.Lecturer != null || u.Student != null))
+                            .GetAll(new Query<User>(u => u.Lecturer != null || u.Student != null)
                             .Include(u => u.Student).Include(u => u.Lecturer)).ToList();
                             break;
                         case Constants.Roles.Admin:

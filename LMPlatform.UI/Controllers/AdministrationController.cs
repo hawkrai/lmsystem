@@ -69,8 +69,14 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
-                    model.ModifyStudent();
-                    return Json(new { resultMessage = "Студент сохранен" });
+                    var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
+                    if (user == null || user.Id == model.Id)
+                    {
+                        model.ModifyStudent();
+                        return Json(new { resultMessage = "Студент сохранен" });
+                    }
+
+                    ModelState.AddModelError(string.Empty, "Пользователь с таким именем уже существует");
                 }
                 catch
                 {
@@ -94,8 +100,14 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
-                    model.RegistrationUser(new[] { "lector" });
-                    return Json(new { resultMessage = "Преподаватель сохранен" });
+                    var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
+                    if (user == null)
+                    {
+                        model.RegistrationUser(new[] { "lector" });
+                        return Json(new { resultMessage = "Преподаватель сохранен" });
+                    }
+
+                    ModelState.AddModelError(string.Empty, "Пользователь с таким именем уже существует");
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -164,8 +176,14 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
-                    model.ModifyLecturer();
-                    return Json(new { resultMessage = "Преподаватель сохранен" });
+                    var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
+                    if (user == null || user.Id == model.LecturerId)
+                    {
+                        model.ModifyLecturer();
+                        return this.Json(new { resultMessage = "Преподаватель сохранен" });
+                    }
+
+                    ModelState.AddModelError(string.Empty, "Пользователь с таким именем уже существует");
                 }
                 catch
                 {
@@ -268,16 +286,28 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public ActionResult EditGroupAjax(GroupViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!model.CheckGroupName())
+            {
+                this.ModelState.AddModelError(string.Empty, "Группа с таким именем уже существует");
+            }
+
+            if (ModelState.IsValid && model.CheckGroupName())
             {
                 try
                 {
-                    model.ModifyGroup();
-                    return Json(new { resultMessage = "Группа сохранена" });
+                    if (!model.CheckGroupName())
+                    {
+                        this.ModelState.AddModelError(string.Empty, "Группа с таким именем уже существует");
+                    }
+                    else
+                    {
+                        model.ModifyGroup();
+                        return Json(new { resultMessage = "Группа сохранена" });
+                    }
                 }
                 catch
                 {
-                    ModelState.AddModelError(string.Empty, string.Empty);
+                    ModelState.AddModelError(string.Empty, "Произошла ошибка");
                 }
             }
 
