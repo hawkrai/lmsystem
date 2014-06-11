@@ -17,7 +17,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>№</th>
                             <th>Название</th>
                             <th>Краткое название</th>
                             <th>Часы</th>
@@ -53,7 +53,7 @@
                 <table class="table table-bordered table-striped table-hoverT">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>№</th>
                             <th>Студент</th>
                             <th style="width: 50px; text-align: center" ng-repeat="visitingDate in groupWorkingData.selectedGroup.ScheduleProtectionPracticals" ng-click="addVisitingMarks(visitingDate)">
                                 {{visitingDate.Date}}
@@ -61,12 +61,10 @@
                         </tr>
                     </thead>
                     <tr ng-repeat="student in groupWorkingData.selectedGroup.Students">
-                        <td style="width: 40px">{{student.StudentId}}</td>
+                        <td style="width: 42px">{{$index + 1}}</td>
                         <td style="max-width: 200px">{{student.FullName}}</td>
                         <td style="text-align: center" ng-repeat="visitingMark in student.PracticalVisitingMark">
-                            <span editable-text="visitingMark.Mark" e-name="Mark" e-form="tableform">
-                                {{ visitingMark.Mark || '' }}
-                            </span>
+                            {{ visitingMark.Mark || '' }}
                         </td>
                     </tr>
                 </table>
@@ -88,19 +86,19 @@
                 <table class="table table-bordered table-striped table-hoverT">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>№</th>
                             <th>Студент</th>
                             <th style="width: 50px; text-align: center" ng-repeat="practical in practicals">{{practical.ShortName}}</th>
+                            <th>Итог</th>
                         </tr>
                     </thead>
                     <tr ng-repeat="student in groupWorkingData.selectedGroup.Students">
-                        <td style="width: 40px">{{student.StudentId}}</td>
+                        <td style="width: 42px">{{$index + 1}}</td>
                         <td style="max-width: 200px">{{student.FullName}}</td>
-                        <td ng-repeat="practicalMark in student.StudentPracticalMarks">
-                            <span editable-text="practicalMark.Mark" e-name="Mark" e-form="tableformMarks">
+                        <td style="width: 50px;text-align: center;" ng-repeat="practicalMark in student.StudentPracticalMarks">
                                 {{ practicalMark.Mark || '' }}
-                            </span>
                         </td>
+                        <td style="width: 50px;text-align: center;color: red"><b>{{student.PracticalMarkTotal}}</b></td>
                     </tr>
                 </table>
             </div>

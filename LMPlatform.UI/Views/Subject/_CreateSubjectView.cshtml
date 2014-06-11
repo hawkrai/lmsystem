@@ -15,13 +15,13 @@
         @Html.HiddenFor(e => e.Title)
         <div>
             @Html.LabelFor(e => e.DisplayName, new { @class = "control-label" })
-            @Html.TextBoxFor(e => e.DisplayName, new { @class = "form-control", @style = "width: 500px;float:left" })
+            @Html.TextBoxFor(e => e.DisplayName, new { @class = "form-control", @style = "float:left" })
             @Html.ValidationMessageFor(e => e.DisplayName, " ")
         </div>
         <div class="clear-fix"></div>
         <div>
             @Html.LabelFor(e => e.ShortName, new { @class = "control-label" })
-            @Html.TextBoxFor(e => e.ShortName, new { @class = "form-control", @style = "width: 500px; float:left"  })
+            @Html.TextBoxFor(e => e.ShortName, new { @class = "form-control", @style = "float:left"  })
             @Html.ValidationMessageFor(e => e.ShortName, " ")
         </div>
         <div>

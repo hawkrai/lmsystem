@@ -16,7 +16,11 @@
     <script type="text/javascript" src="~/Scripts/jqplot/jqplot.canvasAxisTickRenderer.js"></script>
     <script type="text/javascript" src="~/Scripts/jqplot/chart.js"></script>
 }
-
+<style>
+    textarea {
+        max-width: none;
+    }
+</style>
 <div ng-app="mainApp" ng-controller="MainCtrl" ng-init="init('@Model.SubjectId')">
     @section navleft
     {
@@ -25,8 +29,8 @@
             if (module.Type == ModuleType.SmartTest)
             {
                 <li class="navLink">
-                <a class="moduleLinks linkNavbar" href="@Url.Action("Index", "Tests", new { subjectId = Model.SubjectId })">@module.Name</a>
-            </li>    
+                    <a class="moduleLinks linkNavbar" href="@Url.Action("Index", "Tests", new { subjectId = Model.SubjectId })">@module.Name</a>
+                </li>
             }
             else
             {
@@ -35,16 +39,12 @@
                 </li>
             }
         }
-        <div>
-            <img style="margin-left: 15%; margin-top: 10%; width: 200px" src="../../Images/schoolclass.png" />
-        </div>
-
         @if (User.IsInRole("lector"))
         {
-            <li><a id="subGroups" class="linkNavbar" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-2x fa-tab"></i>Управление подгруппами</a></li>
+            <li style="position: absolute; top: 70%"><a id=" subgroups" class="linkNavbar" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-1x fa-tab"></i>Управление подгруппами</a></li>
         }
-        <li><a class="linkNavbar" href="@Url.Action("Subjects", "Subject")"><i class="fa fa-reply fa-1x fa-tab"></i>Сменить предмет</a></li>
-        <li><a class="linkNavbar" href="@Url.Action("Index", "Lms")"><i class="fa fa-arrow-left fa-1x fa-tab"></i>Назад</a></li>
+        <li style="position: absolute; top: 75%"><a class=" linknavbar" href="@Url.Action("Subjects", "Subject")"><i class="fa fa-reply fa-1x fa-tab"></i>Сменить предмет</a></li>
+        <li style="position: absolute; top: 80%"><a class="linkNavbar" href="@Url.Action("Index", "Lms")"><i class="fa fa-arrow-left fa-1x fa-tab"></i>Назад</a></li>
 
     }
 

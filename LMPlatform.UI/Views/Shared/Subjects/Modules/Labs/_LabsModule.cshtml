@@ -13,7 +13,7 @@
 
     <tabset>
         <tab heading="Лабораторные работы">
-            <div style="margin-top: 10px">
+            <div style="margin-top: 10px; margin-bottom: 10px">
                 <table>
                     <tbody>
                         <tr>
@@ -53,13 +53,13 @@
             </div>
         </tab>
         <tab heading="График защиты">
-            <div>
+            <div style="margin-bottom: 10px; margin-top: 10px">
                 <table>
                     <tbody>
                         <tr>
                             <td>
                                 <div id="buttonActionSection">
-                                    <a style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="managementDate()">Управление датами</a>
+                                    <a style="margin-right: 10px;" class="btn btn-primary btn-sm" ng-click="managementDate()">Управление датами</a>
                                 </div>
                             </td>
                             <td>
@@ -94,7 +94,7 @@
             </div>
         </tab>
         <tab heading="Статистика посещения">
-            <div>
+            <div style="margin-bottom: 10px; margin-top: 10px">
                 <table>
                     <tbody>
                         <tr>
@@ -121,7 +121,7 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
-                            <td style="width: 40px">{{student.StudentId}}</td>
+                            <td style="width: 42px">{{$index + 1}}</td>
                             <td style="max-width: 200px">{{student.FullName}}</td>
                             <td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark">
                                 <span editable-text="data.Mark" e-name="Mark" e-form="tableformVisiting">
@@ -143,7 +143,7 @@
             </div>
         </tab>
         <tab heading="Результаты">
-            <div id="navPanel" style="margin-top: 10px">
+            <div id="navPanel" style="margin-bottom: 10px; margin-top: 10px">
                 <table>
                     <tbody>
                         <tr>
@@ -171,7 +171,7 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
-                            <td style="width: 40px">{{student.StudentId}}</td>
+                            <td style="width: 42px">{{$index + 1}}</td>
                             <td style="max-width: 200px">{{student.FullName}}</td>
                             <td style="width: 50px;text-align: center" ng-repeat="mark in student.StudentLabMarks">
                                 <span editable-text="mark.Mark" e-name="Mark" e-form="tableformLabsMarks">

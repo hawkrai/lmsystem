@@ -41,7 +41,7 @@ app.run(function (editableOptions, editableThemes) {
     editableOptions.theme = 'bs3';
 });
 angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular'])
-    .controller('MainCtrl', function ($scope,$sce) {
+    .controller('MainCtrl', function ($scope, $sce) {
         $scope.renderHtml = function (htmlCode) {
             return $sce.trustAsHtml(htmlCode);
         };
@@ -79,7 +79,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         $scope.dateOptions = {
             'year-format': "'yy'",
             'starting-day': 1,
-            
+
         };
 
         $scope.formats = ['dd/MM/yyyy', 'yyyy/MM/dd', 'shortDate'];
@@ -283,24 +283,40 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.deleteNews = function (news) {
-            bootbox.confirm("Вы действительно хотите удалить новость?", function (isConfirmed) {
-                if (isConfirmed) {
-                    $http({
-                        method: 'POST',
-                        url: $scope.UrlServiceNews + "Delete",
-                        data: { id: news.NewsId, subjectId: $scope.subjectId },
-                        headers: { 'Content-Type': 'application/json' }
-                    }).success(function (data, status) {
-                        if (data.Code != '200') {
-                            alertify.error(data.Message);
-                        } else {
-                            alertify.success(data.Message);
-                            $scope.news.splice($scope.news.indexOf(news), 1);
+            bootbox.dialog({
+                message: "Вы действительно хотите удалить новость?",
+                title: "Удаление новости",
+                buttons: {
+                    danger: {
+                        label: "Отмена",
+                        className: "btn-default btn-sm",
+                        callback: function () {
+
                         }
-                    });
+                    },
+                    success: {
+                        label: "Удалить",
+                        className: "btn-primary btn-sm",
+                        callback: function () {
+                            $http({
+                                method: 'POST',
+                                url: $scope.UrlServiceNews + "Delete",
+                                data: { id: news.NewsId, subjectId: $scope.subjectId },
+                                headers: { 'Content-Type': 'application/json' }
+                            }).success(function (data, status) {
+                                if (data.Code != '200') {
+                                    alertify.error(data.Message);
+                                } else {
+                                    alertify.success(data.Message);
+                                    $scope.news.splice($scope.news.indexOf(news), 1);
+                                }
+                            });
+                        }
+                    }
                 }
             });
         };
+
     })
     .controller('LecturesController', function ($scope, charting, $http) {
 
@@ -436,17 +452,17 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 $("#dialogAddLectures .alert-error").append("<p style=\"font-\">Необходимо заполнить поле Тема лекции</p>");
                 isError = true;
             }
-            
+
             if ($scope.editLecturesData.Duration == "") {
                 $("#dialogAddLectures .alert-error").append("<p>Необходимо заполнить поле Количество часов</p>");
                 isError = true;
             }
-            
+
             if (parseInt($scope.editLecturesData.Duration) < 1 || parseInt($scope.editLecturesData.Duration) > 100) {
                 $("#dialogAddLectures .alert-error").append("<p>Количество часов допускается в диапазоне [1..99]</p>");
                 isError = true;
             }
-            
+
             if (isError) {
                 $("#dialogAddLectures .alert-error").attr("style", "");
             } else {
@@ -476,25 +492,40 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 });
             }
 
-            
+
         };
 
         $scope.deleteLectures = function (lectures) {
-            bootbox.confirm("Вы действительно хотите удалить лекцию?", function (isConfirmed) {
-                if (isConfirmed) {
-                    $http({
-                        method: 'POST',
-                        url: $scope.UrlServiceLectures + "Delete",
-                        data: { id: lectures.LecturesId, subjectId: $scope.subjectId },
-                        headers: { 'Content-Type': 'application/json' }
-                    }).success(function (data, status) {
-                        if (data.Code != '200') {
-                            alertify.error(data.Message);
-                        } else {
-                            alertify.success(data.Message);
-                            $scope.lectures.splice($scope.lectures.indexOf(lectures), 1);
+            bootbox.dialog({
+                message: "Вы действительно хотите удалить лекцию?",
+                title: "Удаление лекции",
+                buttons: {
+                    danger: {
+                        label: "Отмена",
+                        className: "btn-default btn-sm",
+                        callback: function () {
+
                         }
-                    });
+                    },
+                    success: {
+                        label: "Удалить",
+                        className: "btn-primary btn-sm",
+                        callback: function () {
+                            $http({
+                                method: 'POST',
+                                url: $scope.UrlServiceLectures + "Delete",
+                                data: { id: lectures.LecturesId, subjectId: $scope.subjectId },
+                                headers: { 'Content-Type': 'application/json' }
+                            }).success(function (data, status) {
+                                if (data.Code != '200') {
+                                    alertify.error(data.Message);
+                                } else {
+                                    alertify.success(data.Message);
+                                    $scope.lectures.splice($scope.lectures.indexOf(lectures), 1);
+                                }
+                            });
+                        }
+                    }
                 }
             });
         };
@@ -518,34 +549,50 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
             date = dd + '/' + mm + '/' + yyyy;
             var isDate = false;
-            $.each($scope.lecturesCalendar, function(key, value) {
+            $.each($scope.lecturesCalendar, function (key, value) {
                 if (value.Date == date) {
                     isDate = true;
                 }
             });
 
             if (isDate) {
-                bootbox.confirm("Данная дата уже добавлена. Добавить еще одну такую дату?", function(isConfirmed) {
-                    if (isConfirmed) {
-                        $http({
-                            method: 'POST',
-                            url: $scope.UrlServiceLectures + "SaveDateLectures",
-                            data: {
-                                subjectId: $scope.subjectId,
-                                date: date
-                            },
-                            headers: { 'Content-Type': 'application/json' }
-                        }).success(function (data, status) {
-                            if (data.Code != '200') {
-                                alertify.error(data.Message);
-                            } else {
-                                $scope.loadCalendar();
-                                $scope.loadGroups();
-                                alertify.success(data.Message);
+                bootbox.dialog({
+                    message: "Данная дата уже добавлена. Добавить еще одну такую дату?",
+                    title: "Добавление даты",
+                    buttons: {
+                        danger: {
+                            label: "Отмена",
+                            className: "btn-default btn-sm",
+                            callback: function () {
+
                             }
-                        });
+                        },
+                        success: {
+                            label: "Добавить",
+                            className: "btn-primary btn-sm",
+                            callback: function () {
+                                $http({
+                                    method: 'POST',
+                                    url: $scope.UrlServiceLectures + "SaveDateLectures",
+                                    data: {
+                                        subjectId: $scope.subjectId,
+                                        date: date
+                                    },
+                                    headers: { 'Content-Type': 'application/json' }
+                                }).success(function (data, status) {
+                                    if (data.Code != '200') {
+                                        alertify.error(data.Message);
+                                    } else {
+                                        $scope.loadCalendar();
+                                        $scope.loadGroups();
+                                        alertify.success(data.Message);
+                                    }
+                                });
+                            }
+                        }
                     }
                 });
+
             } else {
                 $http({
                     method: 'POST',
@@ -565,7 +612,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                     }
                 });
             }
-            
+
         };
 
         $scope.saveMarks = function () {
@@ -614,29 +661,44 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
         };
 
-        $scope.deleteVisitData = function(idDate) {
-            bootbox.confirm("Вы действительно хотите удалить дату и все связанные с ней данные?", function (isConfirmed) {
-                if (isConfirmed) {
-                    $http({
-                        method: 'POST',
-                        url: $scope.UrlServiceLectures + "DeleteVisitingDate",
-                        data: { id: idDate },
-                        headers: { 'Content-Type': 'application/json' }
-                    }).success(function (data, status) {
-                        if (data.Code != '200') {
-                            alertify.error(data.Message);
-                        } else {
-                            alertify.success(data.Message);
-                            $scope.loadCalendar();
-                            $scope.loadGroups();
+        $scope.deleteVisitData = function (idDate) {
+            bootbox.dialog({
+                message: "Вы действительно хотите удалить дату и все связанные с ней данные?",
+                title: "Удаление даты",
+                buttons: {
+                    danger: {
+                        label: "Отмена",
+                        className: "btn-default btn-sm",
+                        callback: function () {
+
                         }
-                    });
+                    },
+                    success: {
+                        label: "Удалить",
+                        className: "btn-primary btn-sm",
+                        callback: function () {
+                            $http({
+                                method: 'POST',
+                                url: $scope.UrlServiceLectures + "DeleteVisitingDate",
+                                data: { id: idDate },
+                                headers: { 'Content-Type': 'application/json' }
+                            }).success(function (data, status) {
+                                if (data.Code != '200') {
+                                    alertify.error(data.Message);
+                                } else {
+                                    alertify.success(data.Message);
+                                    $scope.loadCalendar();
+                                    $scope.loadGroups();
+                                }
+                            });
+                        }
+                    }
                 }
             });
         };
 
 
-        $scope.setBarChart = function() {
+        $scope.setBarChart = function () {
             $.jqplot('barchart', [$scope.barvalues], {
                 seriesDefaults: {
                     renderer: $.jqplot.BarRenderer,
@@ -745,7 +807,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.saveLabs = function () {
-            
+
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLabs + "Save",
@@ -773,21 +835,36 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.deleteLabs = function (lab) {
-            bootbox.confirm("Вы действительно хотите удалить лабораторную работу?", function (isConfirmed) {
-                if (isConfirmed) {
-                    $http({
-                        method: 'POST',
-                        url: $scope.UrlServiceLabs + "Delete",
-                        data: { id: lab.LabId, subjectId: $scope.subjectId },
-                        headers: { 'Content-Type': 'application/json' }
-                    }).success(function (data, status) {
-                        if (data.Code != '200') {
-                            alertify.error(data.Message);
-                        } else {
-                            alertify.success(data.Message);
-                            $scope.labs.splice($scope.labs.indexOf(lab), 1);
+            bootbox.dialog({
+                message: "Вы действительно хотите удалить лабораторную работу?",
+                title: "Удаление лабораторной работы",
+                buttons: {
+                    danger: {
+                        label: "Отмена",
+                        className: "btn-default btn-sm",
+                        callback: function () {
+
                         }
-                    });
+                    },
+                    success: {
+                        label: "Удалить",
+                        className: "btn-primary btn-sm",
+                        callback: function () {
+                            $http({
+                                method: 'POST',
+                                url: $scope.UrlServiceLabs + "Delete",
+                                data: { id: lab.LabId, subjectId: $scope.subjectId },
+                                headers: { 'Content-Type': 'application/json' }
+                            }).success(function (data, status) {
+                                if (data.Code != '200') {
+                                    alertify.error(data.Message);
+                                } else {
+                                    alertify.success(data.Message);
+                                    $scope.labs.splice($scope.labs.indexOf(lab), 1);
+                                }
+                            });
+                        }
+                    }
                 }
             });
         };
@@ -830,38 +907,53 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $('#dialogmanagementData').modal();
         };
 
-        $scope.addDate = function() {
+        $scope.addDate = function () {
             var dd = $scope.dt.getDate();
             var mm = $scope.dt.getMonth() + 1; //January is 0!
             var yyyy = $scope.dt.getFullYear();
 
             date = dd + '/' + mm + '/' + yyyy;
             var isDate = false;
-            $.each($scope.groupWorkingData.selectedSubGroup.ScheduleProtectionLabs, function(key, value) {
+            $.each($scope.groupWorkingData.selectedSubGroup.ScheduleProtectionLabs, function (key, value) {
                 if (value.Date == date) {
                     isDate = true;
                 }
             });
 
             if (isDate) {
-                bootbox.confirm("Данная дата уже добавлена. Добавить еще одну такую дату?", function(isConfirmed) {
-                    if (isConfirmed) {
-                        $http({
-                            method: 'POST',
-                            url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
-                            data: {
-                                subGroupId: $scope.groupWorkingData.selectedSubGroup.SubGroupId,
-                                date: date
-                            },
-                            headers: { 'Content-Type': 'application/json' }
-                        }).success(function(data, status) {
-                            if (data.Code != '200') {
-                                alertify.error(data.Message);
-                            } else {
-                                $scope.loadGroups();
-                                alertify.success(data.Message);
+                bootbox.dialog({
+                    message: "Данная дата уже добавлена. Добавить еще одну такую дату?",
+                    title: "Добавление даты",
+                    buttons: {
+                        danger: {
+                            label: "Отмена",
+                            className: "btn-default btn-sm",
+                            callback: function () {
+
                             }
-                        });
+                        },
+                        success: {
+                            label: "Добавить",
+                            className: "btn-primary btn-sm",
+                            callback: function () {
+                                $http({
+                                    method: 'POST',
+                                    url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
+                                    data: {
+                                        subGroupId: $scope.groupWorkingData.selectedSubGroup.SubGroupId,
+                                        date: date
+                                    },
+                                    headers: { 'Content-Type': 'application/json' }
+                                }).success(function (data, status) {
+                                    if (data.Code != '200') {
+                                        alertify.error(data.Message);
+                                    } else {
+                                        $scope.loadGroups();
+                                        alertify.success(data.Message);
+                                    }
+                                });
+                            }
+                        }
                     }
                 });
             } else {
@@ -873,7 +965,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                         date: date
                     },
                     headers: { 'Content-Type': 'application/json' }
-                }).success(function(data, status) {
+                }).success(function (data, status) {
                     if (data.Code != '200') {
                         alertify.error(data.Message);
                     } else {
@@ -903,21 +995,36 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.deleteVisitingDate = function (idDate) {
-            bootbox.confirm("Вы действительно хотите удалить дату и все связанные с ней данные?", function (isConfirmed) {
-                if (isConfirmed) {
-                    $http({
-                        method: 'POST',
-                        url: $scope.UrlServiceLabs + "DeleteVisitingDate",
-                        data: { id: idDate },
-                        headers: { 'Content-Type': 'application/json' }
-                    }).success(function (data, status) {
-                        if (data.Code != '200') {
-                            alertify.error(data.Message);
-                        } else {
-                            alertify.success(data.Message);
-                            $scope.loadGroups();
+            bootbox.dialog({
+                message: "Вы действительно хотите удалить дату и все связанные с ней данные?",
+                title: "Удаление даты",
+                buttons: {
+                    danger: {
+                        label: "Отмена",
+                        className: "btn-default btn-sm",
+                        callback: function () {
+
                         }
-                    });
+                    },
+                    success: {
+                        label: "Удалить",
+                        className: "btn-primary btn-sm",
+                        callback: function () {
+                            $http({
+                                method: 'POST',
+                                url: $scope.UrlServiceLabs + "DeleteVisitingDate",
+                                data: { id: idDate },
+                                headers: { 'Content-Type': 'application/json' }
+                            }).success(function (data, status) {
+                                if (data.Code != '200') {
+                                    alertify.error(data.Message);
+                                } else {
+                                    alertify.success(data.Message);
+                                    $scope.loadGroups();
+                                }
+                            });
+                        }
+                    }
                 }
             });
         };
@@ -1037,22 +1144,37 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.deletePracticals = function (practical) {
-            bootbox.confirm("Вы действительно хотите удалить практическое занятие?", function (isConfirmed) {
-                if (isConfirmed) {
-                    $http({
-                        method: 'POST',
-                        url: $scope.UrlServicePractical + "Delete",
-                        data: { id: practical.PracticalId, subjectId: $scope.subjectId },
-                        headers: { 'Content-Type': 'application/json' }
-                    }).success(function (data, status) {
-                        if (data.Code != '200') {
-                            alertify.error(data.Message);
-                        } else {
-                            alertify.success(data.Message);
-                            $scope.practicals.splice($scope.practicals.indexOf(practical), 1);
-                            $scope.loadGroups();
+            bootbox.dialog({
+                message: "Вы действительно хотите удалить практическое занятие?",
+                title: "Удаление практического занятия",
+                buttons: {
+                    danger: {
+                        label: "Отмена",
+                        className: "btn-default btn-sm",
+                        callback: function () {
+
                         }
-                    });
+                    },
+                    success: {
+                        label: "Удалить",
+                        className: "btn-primary btn-sm",
+                        callback: function () {
+                            $http({
+                                method: 'POST',
+                                url: $scope.UrlServicePractical + "Delete",
+                                data: { id: practical.PracticalId, subjectId: $scope.subjectId },
+                                headers: { 'Content-Type': 'application/json' }
+                            }).success(function (data, status) {
+                                if (data.Code != '200') {
+                                    alertify.error(data.Message);
+                                } else {
+                                    alertify.success(data.Message);
+                                    $scope.practicals.splice($scope.practicals.indexOf(practical), 1);
+                                    $scope.loadGroups();
+                                }
+                            });
+                        }
+                    }
                 }
             });
         };
@@ -1080,25 +1202,40 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             });
 
             if (isDate) {
-                bootbox.confirm("Данная дата уже добавлена. Добавить еще одну такую дату?", function(isConfirmed) {
-                    if (isConfirmed) {
-                        $http({
-                            method: 'POST',
-                            url: $scope.UrlServicePractical + "SaveScheduleProtectionDate",
-                            data: {
-                                groupId: $scope.groupWorkingData.selectedGroup.GroupId,
-                                date: date,
-                                subjectId: $scope.subjectId
-                            },
-                            headers: { 'Content-Type': 'application/json' }
-                        }).success(function(data, status) {
-                            if (data.Code != '200') {
-                                alertify.error(data.Message);
-                            } else {
-                                $scope.loadGroups();
-                                alertify.success(data.Message);
+                bootbox.dialog({
+                    message: "Данная дата уже добавлена. Добавить еще одну такую дату?",
+                    title: "Добавление даты",
+                    buttons: {
+                        danger: {
+                            label: "Отмена",
+                            className: "btn-default btn-sm",
+                            callback: function () {
+
                             }
-                        });
+                        },
+                        success: {
+                            label: "Добавить",
+                            className: "btn-primary btn-sm",
+                            callback: function () {
+                                $http({
+                                    method: 'POST',
+                                    url: $scope.UrlServicePractical + "SaveScheduleProtectionDate",
+                                    data: {
+                                        groupId: $scope.groupWorkingData.selectedGroup.GroupId,
+                                        date: date,
+                                        subjectId: $scope.subjectId
+                                    },
+                                    headers: { 'Content-Type': 'application/json' }
+                                }).success(function (data, status) {
+                                    if (data.Code != '200') {
+                                        alertify.error(data.Message);
+                                    } else {
+                                        $scope.loadGroups();
+                                        alertify.success(data.Message);
+                                    }
+                                });
+                            }
+                        }
                     }
                 });
             } else {
@@ -1162,23 +1299,38 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 }
             });
         };
-        
+
         $scope.deleteVisitingDate = function (idDate) {
-            bootbox.confirm("Вы действительно хотите удалить дату и все связанные с ней данные?", function (isConfirmed) {
-                if (isConfirmed) {
-                    $http({
-                        method: 'POST',
-                        url: $scope.UrlServicePractical + "DeleteVisitingDate",
-                        data: { id: idDate },
-                        headers: { 'Content-Type': 'application/json' }
-                    }).success(function (data, status) {
-                        if (data.Code != '200') {
-                            alertify.error(data.Message);
-                        } else {
-                            alertify.success(data.Message);
-                            $scope.loadGroups();
+            bootbox.dialog({
+                message: "Вы действительно хотите удалить дату и все связанные с ней данные?",
+                title: "Удаление даты",
+                buttons: {
+                    danger: {
+                        label: "Отмена",
+                        className: "btn-default btn-sm",
+                        callback: function () {
+
                         }
-                    });
+                    },
+                    success: {
+                        label: "Удалить",
+                        className: "btn-primary btn-sm",
+                        callback: function () {
+                            $http({
+                                method: 'POST',
+                                url: $scope.UrlServicePractical + "DeleteVisitingDate",
+                                data: { id: idDate },
+                                headers: { 'Content-Type': 'application/json' }
+                            }).success(function (data, status) {
+                                if (data.Code != '200') {
+                                    alertify.error(data.Message);
+                                } else {
+                                    alertify.success(data.Message);
+                                    $scope.loadGroups();
+                                }
+                            });
+                        }
+                    }
                 }
             });
         };

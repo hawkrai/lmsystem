@@ -18,7 +18,7 @@ window.bootbox = window.bootbox || (function init($, undefined) {
         "</div>" +
       "</div>",
     header:
-      "<div class='modal-header'>" +
+      "<div class='modal-header panel-heading'>" +
         "<h4 class='modal-title'></h4>" +
       "</div>",
     footer:

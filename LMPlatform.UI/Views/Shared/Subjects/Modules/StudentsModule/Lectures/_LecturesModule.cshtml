@@ -12,18 +12,19 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Тема</th>
-                            <th>Часы</th>
+                            <th>№</th>
+                            <th>Тема лекции</th>
+                            <th>Количество часов</th>
                             <th>Скачать</th>
                         </tr>
                     </thead>
                     <tr ng-repeat="data in lectures">
-                        <td>{{data.Order}}</td>
+                        <td style="width: 20px">{{data.Order}}</td>
                         <td>{{data.Theme}}</td>
                         <td>{{data.Duration}}</td>
                         <td style="width: 90px;">
                             <div>
+                                
                             </div>
                         </td>
                     </tr>
@@ -47,7 +48,7 @@
                     <table class="table table-bordered table-striped" style=" font-size: 10px">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>№</th>
                                 <th>Студент</th>
                                 <th ng-repeat="data in lecturesCalendar">
                                     <div style="cursor: pointer" ng-click="editMarks(data)">{{data.Date}}</div>
@@ -55,7 +56,7 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedGroup.LecturesMarkVisiting">
-                            <td style="width: 40px">{{student.StudentId}}</td>
+                            <td style="width: 42px">{{$index + 1}}</td>
                             <td style="max-width: 200px">{{student.StudentName}}</td>
                             <td ng-repeat="data in student.Marks" style="text-align: center">{{data.Mark}}</td>
                         </tr>  

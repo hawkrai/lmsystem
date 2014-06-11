@@ -17,7 +17,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>№</th>
                             <th>Название</th>
                             <th>Краткое название</th>
                             <th>Часы</th>
@@ -56,7 +56,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>№</th>
                             <th>Лабораторная работа</th>
                             <th ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
                                 <div style="cursor: pointer">{{data.Date}}</div>
@@ -89,26 +89,22 @@
                 </table>
             </div>
             <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hoverT">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Студент</th>
-                                <th ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
-                                    <div style="cursor: pointer">{{data.Date}}</div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
-                            <td style="width: 40px">{{student.StudentId}}</td>
-                            <td style="max-width: 200px">{{student.FullName}}</td>
-                            <td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark">
-                                <span editable-text="data.Mark" e-name="Mark" e-form="tableformVisiting">
-                                    {{ data.Mark || '' }}
-                                </span>
-                            </td>
-                        </tr>
-                    </table>
+                <table class="table table-bordered table-striped table-hoverT">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Студент</th>
+                        <th ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
+                            <div style="cursor: pointer">{{data.Date}}</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
+                    <td style="width: 42px">{{$index + 1}}</td>
+                    <td style="max-width: 200px">{{student.FullName}}</td>
+                    <td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark">{{ data.Mark || '' }}</td>
+                </tr>
+                </table>
             </div>
         </tab>
         <tab heading="Результаты">
@@ -130,21 +126,19 @@
                 <table class="table table-bordered table-striped table-hoverT">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>№</th>
                             <th>Студент</th>
                             <th ng-repeat="lab in groupWorkingData.selectedSubGroup.Labs">
                                 {{lab.ShortName}}
                             </th>
+                            <th>Итог</th>
                         </tr>
                     </thead>
                     <tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
                         <td style="width: 40px">{{student.StudentId}}</td>
                         <td style="max-width: 200px">{{student.FullName}}</td>
-                        <td style="width: 50px" ng-repeat="mark in student.StudentLabMarks">
-                            <span editable-text="mark.Mark" e-name="Mark" e-form="tableformLabsMarks">
-                                {{ mark.Mark || '' }}
-                            </span>
-                        </td>
+                        <td style="width: 50px;text-align: center" ng-repeat="mark in student.StudentLabMarks">{{ mark.Mark || '' }}</td>
+                        <td style="width: 50px;text-align: center;color: red"><b>{{student.LabsMarkTotal}}</b></td>
                     </tr>
                 </table>
             </div>
