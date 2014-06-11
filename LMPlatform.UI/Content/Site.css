@@ -142,12 +142,12 @@ h1 {
     -moz-border-radius: 0px;
 }
 
-        #registration input[type="checkbox"],
-        #registration input[type="submit"],
-        #registration input[type="button"],
-        #registration button {
-            width: auto;
-        }
+    #registration input[type="checkbox"],
+    #registration input[type="submit"],
+    #registration input[type="button"],
+    #registration button {
+        width: auto;
+    }
 
 .error-limit-login {
     width: 440px;
@@ -167,7 +167,7 @@ h1 {
     left: 225px;
     position: fixed;
     width: 300px;
-    top: 53px;
+    top: 54px;
     height: 100%;
     border-radius: 0;
     border: none;
@@ -473,8 +473,7 @@ legend.scheduler-border {
 }
 
 .dataTable tr td:first-child,
-.dataTable tr th:first-child
- {
+.dataTable tr th:first-child {
     width: 30px;
     text-align: center;
 }
@@ -685,157 +684,203 @@ legend.scheduler-border {
 
 
 body {
-    padding: 10px !important;   
+    padding: 10px !important;
 }
 
 .loading-container {
     position: relative;
 }
-.loading-container .loading:before, .loading-container .loading:after {
-    content: " ";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    min-height: 50px;
-    min-width: 50px;
-}
-.loading-container .loading:before {
-    background-color: white;
-    opacity: 0.5;
-}
+
+    .loading-container .loading:before, .loading-container .loading:after {
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        min-height: 50px;
+        min-width: 50px;
+    }
+
+    .loading-container .loading:before {
+        background-color: white;
+        opacity: 0.5;
+    }
 
 /* custom inclusion of right, left and below tabs */
 
 .tabs-below > .nav-tabs,
 .tabs-right > .nav-tabs,
 .tabs-left > .nav-tabs {
-  border-bottom: 0;
+    border-bottom: 0;
 }
 
 .tab-content > .tab-pane,
 .pill-content > .pill-pane {
-  display: none;
+    display: none;
 }
 
 .tab-content > .active,
 .pill-content > .active {
-  display: block;
+    display: block;
 }
 
 .tabs-below > .nav-tabs {
-  border-top: 1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
 
-.tabs-below > .nav-tabs > li {
-  margin-top: -1px;
-  margin-bottom: 0;
-}
+    .tabs-below > .nav-tabs > li {
+        margin-top: -1px;
+        margin-bottom: 0;
+    }
 
-.tabs-below > .nav-tabs > li > a {
-  -webkit-border-radius: 0 0 4px 4px;
-     -moz-border-radius: 0 0 4px 4px;
-          border-radius: 0 0 4px 4px;
-}
+        .tabs-below > .nav-tabs > li > a {
+            -webkit-border-radius: 0 0 4px 4px;
+            -moz-border-radius: 0 0 4px 4px;
+            border-radius: 0 0 4px 4px;
+        }
 
-.tabs-below > .nav-tabs > li > a:hover,
-.tabs-below > .nav-tabs > li > a:focus {
-  border-top-color: #ddd;
-  border-bottom-color: transparent;
-}
+            .tabs-below > .nav-tabs > li > a:hover,
+            .tabs-below > .nav-tabs > li > a:focus {
+                border-top-color: #ddd;
+                border-bottom-color: transparent;
+            }
 
-.tabs-below > .nav-tabs > .active > a,
-.tabs-below > .nav-tabs > .active > a:hover,
-.tabs-below > .nav-tabs > .active > a:focus {
-  border-color: transparent #ddd #ddd #ddd;
-}
+    .tabs-below > .nav-tabs > .active > a,
+    .tabs-below > .nav-tabs > .active > a:hover,
+    .tabs-below > .nav-tabs > .active > a:focus {
+        border-color: transparent #ddd #ddd #ddd;
+    }
 
 .tabs-left > .nav-tabs > li,
 .tabs-right > .nav-tabs > li {
-  float: none;
+    float: none;
 }
 
-.tabs-left > .nav-tabs > li > a,
-.tabs-right > .nav-tabs > li > a {
-  min-width: 74px;
-  margin-right: 0;
-  margin-bottom: 3px;
-}
+    .tabs-left > .nav-tabs > li > a,
+    .tabs-right > .nav-tabs > li > a {
+        min-width: 74px;
+        margin-right: 0;
+        margin-bottom: 3px;
+    }
 
 .tabs-left > .nav-tabs {
-  float: left;
-  margin-right: 19px;
-  border-right: 1px solid #ddd;
+    float: left;
+    margin-right: 19px;
+    border-right: 1px solid #ddd;
 }
 
-.tabs-left > .nav-tabs > li > a {
-  margin-right: -1px;
-  -webkit-border-radius: 4px 0 0 4px;
-     -moz-border-radius: 4px 0 0 4px;
-          border-radius: 4px 0 0 4px;
-}
+    .tabs-left > .nav-tabs > li > a {
+        margin-right: -1px;
+        -webkit-border-radius: 4px 0 0 4px;
+        -moz-border-radius: 4px 0 0 4px;
+        border-radius: 4px 0 0 4px;
+    }
 
-.tabs-left > .nav-tabs > li > a:hover,
-.tabs-left > .nav-tabs > li > a:focus {
-  border-color: #eeeeee #dddddd #eeeeee #eeeeee;
-}
+        .tabs-left > .nav-tabs > li > a:hover,
+        .tabs-left > .nav-tabs > li > a:focus {
+            border-color: #eeeeee #dddddd #eeeeee #eeeeee;
+        }
 
-.tabs-left > .nav-tabs .active > a,
-.tabs-left > .nav-tabs .active > a:hover,
-.tabs-left > .nav-tabs .active > a:focus {
-  border-color: #ddd transparent #ddd #ddd;
-  *border-right-color: #ffffff;
-}
+    .tabs-left > .nav-tabs .active > a,
+    .tabs-left > .nav-tabs .active > a:hover,
+    .tabs-left > .nav-tabs .active > a:focus {
+        border-color: #ddd transparent #ddd #ddd;
+        *border-right-color: #ffffff;
+    }
 
 .tabs-right > .nav-tabs {
-  float: right;
-  margin-left: 19px;
-  border-left: 1px solid #ddd;
+    float: right;
+    margin-left: 19px;
+    border-left: 1px solid #ddd;
 }
 
-.tabs-right > .nav-tabs > li > a {
-  margin-left: -1px;
-  -webkit-border-radius: 0 4px 4px 0;
-     -moz-border-radius: 0 4px 4px 0;
-          border-radius: 0 4px 4px 0;
-}
+    .tabs-right > .nav-tabs > li > a {
+        margin-left: -1px;
+        -webkit-border-radius: 0 4px 4px 0;
+        -moz-border-radius: 0 4px 4px 0;
+        border-radius: 0 4px 4px 0;
+    }
 
-.tabs-right > .nav-tabs > li > a:hover,
-.tabs-right > .nav-tabs > li > a:focus {
-  border-color: #eeeeee #eeeeee #eeeeee #dddddd;
-}
+        .tabs-right > .nav-tabs > li > a:hover,
+        .tabs-right > .nav-tabs > li > a:focus {
+            border-color: #eeeeee #eeeeee #eeeeee #dddddd;
+        }
 
-.tabs-right > .nav-tabs .active > a,
-.tabs-right > .nav-tabs .active > a:hover,
-.tabs-right > .nav-tabs .active > a:focus {
-  border-color: #ddd #ddd #ddd transparent;
-  *border-left-color: #ffffff;
-}
+    .tabs-right > .nav-tabs .active > a,
+    .tabs-right > .nav-tabs .active > a:hover,
+    .tabs-right > .nav-tabs .active > a:focus {
+        border-color: #ddd #ddd #ddd transparent;
+        *border-left-color: #ffffff;
+    }
 
 .bordered {
-        border-bottom: #ddd solid 1px;
+    border-bottom: #ddd solid 1px;
 }
 
 
-#easyTooltip{
-	padding:5px 10px;
-	border:1px solid #195fa4;
-	background:#195fa4;
-	color:#fff;
-	}
+#easyTooltip {
+    padding: 5px 10px;
+    border: 1px solid #195fa4;
+    background: #195fa4;
+    color: #fff;
+}
 
-#easyTooltip2{
-	padding:5px 10px;
-	border:1px solid #5e5e5e;
-	background:#5e5e5e;
-	color:#fff;
-	width:250px;
-	}
-#easyTooltip2 h4, #easyTooltip2 p{
-	margin:.25em 0;
-	}
+#easyTooltip2 {
+    padding: 5px 10px;
+    border: 1px solid #5e5e5e;
+    background: #5e5e5e;
+    color: #fff;
+    width: 250px;
+}
 
-.lighter {
-padding: 0.5em;
+    #easyTooltip2 h4, #easyTooltip2 p {
+        margin: .25em 0;
+    }
+
+
+.border-around {
+    border: 1px solid #cccccc;
+    vertical-align: text-bottom;
+}
+
+.browsers {
+    height: 32px;
+}
+
+    .browsers > span {
+        height: 24px;
+        width: 24px;
+        float: left;
+        display: block;
+        margin-right: 3px;
+        opacity: .5;
+        -ms-filter: "alpha(opacity=50)";
+        filter: alpha(opacity=50);
+        -moz-opacity: .5;
+        -khtml-opacity: .5;
+    }
+
+.firefox {
+    background: url("../Images/browser-icons.png") no-repeat -24px 0;
+}
+
+.chrome {
+    background: url("../Images/browser-icons.png") no-repeat 0 0;
+}
+
+.safari {
+    background: url("../Images/browser-icons.png") no-repeat -49px 0;
+}
+
+.iexplorer {
+    background: url("../Images/browser-icons.png") no-repeat -72px 0;
+}
+
+.browsers > span:hover {
+    opacity: 1;
+    -ms-filter: "alpha(opacity=100)";
+    filter: alpha(opacity=100);
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
 }

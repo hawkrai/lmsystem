@@ -534,6 +534,7 @@
     <Content Include="Images\1391087088_settings.png" />
     <Content Include="Images\ajax-loader-mini.gif" />
     <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\browser-icons.png" />
     <Content Include="Images\collection.png" />
     <Content Include="Images\data_privacy.png" />
     <Content Include="Images\glyphicons-halflings.png" />

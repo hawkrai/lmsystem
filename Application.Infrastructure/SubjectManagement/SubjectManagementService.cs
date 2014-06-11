@@ -292,6 +292,19 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
+        public bool IsWorkingSubject(int userId, int subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var subjectlect =
+                    repositoriesContainer.RepositoryFor<SubjectLecturer>()
+                        .GetAll(new Query<SubjectLecturer>(e => e.LecturerId == userId && e.SubjectId == subjectId))
+                        .ToList();
+
+                return subjectlect.Any();
+            }
+        }
+
         public SubjectNews GetNews(int id, int subjecttId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

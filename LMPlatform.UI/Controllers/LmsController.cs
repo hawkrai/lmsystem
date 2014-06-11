@@ -10,8 +10,13 @@ namespace LMPlatform.UI.Controllers
     {
         public ActionResult Index()
         {
-            var model = new LmsViewModel(WebSecurity.CurrentUserId);
-            return View(model);
+            if (User.IsInRole("lector") || User.IsInRole("student"))
+            {
+                var model = new LmsViewModel(WebSecurity.CurrentUserId);
+                return View(model);    
+            }
+
+            return RedirectToAction("Login", "Account");
         }
     }
 }

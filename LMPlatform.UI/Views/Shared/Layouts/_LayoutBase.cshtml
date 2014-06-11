@@ -46,7 +46,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="@Url.Action("Index", "Message")"><i class="fa fa-envelope"></i> Сообщения <span class="badge">@Html.Action("MessagesCount","Message")</span></a>
+                        <a href="@Url.Action("Index", "Message")"><i class="fa fa-envelope"></i>Сообщения <span class="badge">@Html.Action("MessagesCount", "Message")</span></a>
                     </li>
                     @Html.Partial("_LoginPartial")
                 </ul>
@@ -58,15 +58,36 @@
         <div style="padding: 15px 30px">
             @RenderSection("scripts", false)
             @RenderSection("body", false)
+            <div id="infoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog panel panel-primary" style="padding: 0px">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-1x fa-info-circle"></i> О програме</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="text-align: center">
+                            <h2>Система управления учебным процессом v2.0</h2>
+                        </div>
+                        <div style="text-align: left ;margin-top: 70px; font-size: 11px; margin-bottom: -40px;">
+                            <p>Разработчики: <b>Яцынович С.В. Колосовский К.А. Завистовская Е.С. Борковская О.Н. Петров П.П.</b></p>
+                            <p>Руководитель: <b>Попова Ю.Б.</b></p>
+                            <p>БНТУ, ФИТР, ПОВТ и АС </p>
+                            <p>© 2013 - @DateTime.Now.Date.Year.ToString()</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">ОК</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <footer>
         <div class="content-wrapper">
             <div style="padding-left: 300px;">
-                <div class="page-header" >
-                    
+                <div class="page-header">
                 </div>
-                <p style="margin: 5px">   &copy; @DateTime.Now.Year - LMP разработка</p>
+                <p style="margin: 5px">&copy; @DateTime.Now.Year - LMP разработка</p>
             </div>
         </div>
     </footer>

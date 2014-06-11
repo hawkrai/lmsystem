@@ -34,6 +34,8 @@ namespace Application.Infrastructure.SubjectManagement
 
         void DeletePracticals(int id);
 
+        bool IsWorkingSubject(int userId, int subjectId);
+
         SubjectNews GetNews(int id, int subjecttId);
 
 	    IList<SubGroup> GetSubGroups(int subjectId, int groupId);

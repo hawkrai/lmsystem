@@ -121,8 +121,13 @@ namespace LMPlatform.UI.Controllers
 
         public ActionResult Index(int subjectId)
         {
-            var model = new SubjectWorkingViewModel(subjectId);
-            return View(model);
+            if (SubjectManagementService.IsWorkingSubject(WebSecurity.CurrentUserId, subjectId))
+            {
+                var model = new SubjectWorkingViewModel(subjectId);
+                return View(model);    
+            }
+
+            return RedirectToAction("Index", "Lms");
         }
 
         public ActionResult Management()
