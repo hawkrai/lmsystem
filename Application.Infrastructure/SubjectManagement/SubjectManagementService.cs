@@ -592,6 +592,14 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
+        public List<Subject> GetSubjects()
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.SubjectRepository.GetAll().ToList();
+            }
+        }
+
         public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

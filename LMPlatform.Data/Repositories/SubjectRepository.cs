@@ -26,13 +26,16 @@ namespace LMPlatform.Data.Repositories
 			{
 				if (groupId != 0)
 				{
-					var subjectGroup = context.Set<SubjectGroup>().Include(e => e.Subject).Where(e => e.GroupId == groupId).ToList();
+					var subjectGroup = context.Set<SubjectGroup>().Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
+                            .Where(e => e.GroupId == groupId).ToList();
 					return subjectGroup.Select(e => e.Subject).ToList();
 				}
 				else
 				{
 					var subjectLecturer =
-						context.Set<SubjectLecturer>().Include(e => e.Subject).Where(e => e.LecturerId == lecturerId);
+                        context.Set<SubjectLecturer>()
+                        .Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
+                        .Where(e => e.LecturerId == lecturerId).ToList();
 					return subjectLecturer.Select(e => e.Subject).ToList();
 				}
 			}

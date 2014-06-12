@@ -15,7 +15,14 @@
 {
     @Scripts.Render("~/bundles/bootstrapcontrols")
     <script src="/Scripts/locales/bootstrap-datepicker.ru.js"></script>
+    <script src="~/Scripts/jqplot/jquery.jqplot.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jqplot/jqplot.pieRenderer.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/Scripts/jqplot/jqplot.barRenderer.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jqplot/jqplot.pointLabels.min.js"></script>
 }
+
+
 
 @section navleft
 {
@@ -24,12 +31,12 @@
         <ul class="dropdown-menu">
             @foreach (var subject in Model.Subjects)
             {
-                <li><a title="@subject.DisplayName" href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" class="linkNavbarLevelBelow">@subject.DisplayName.Truncate(30)</a></li>    
+                <li><a title="@subject.DisplayName" href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" class="linkNavbarLevelBelow">@subject.DisplayName.Truncate(30)</a></li>
             }
             <li class="divider"></li>
             @if (User.IsInRole("lector"))
             {
-                <li><a href="@Url.Action("Management", "Subject")"class="linkNavbarLevelBelow">Управление предметами</a></li>   
+                <li><a href="@Url.Action("Management", "Subject")" class="linkNavbarLevelBelow">Управление предметами</a></li>
             }
         </ul>
     </li>
@@ -41,8 +48,8 @@
                 var url = User.IsInRole("lector")
                     ? Url.Action("Index", "Tests", new { subjectId = subject.SubjectId })
                     : Url.Action("GetAvailableTests", "TestPassing", new { subjectId = subject.SubjectId });
-            
-                <li><a href="@url" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>    
+
+                <li><a href="@url" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>
             }
             <li class="divider"></li>
             <li><a href="@Url.Action("SubjectsForTests", "Subject")" class="linkNavbarLevelBelow">Все тесты</a></li>
@@ -52,9 +59,134 @@
     <li><a href="#" class="linkNavbar"><i class="fa fa-book fa-1x fa-tab"></i>Методические материалы</a></li>
     <li><a href="@Url.Action("Index", "DP")" class="linkNavbar"><i class="fa fa-briefcase fa-1x fa-tab"></i>Дипломное проектирование</a></li>
 }
-
+<style>
+    .jqplot-table-legend-swatch {
+        width: 20px;
+        height: 15px;
+        margin-right: 5px;
+    }
+</style>
 <div style="margin: 10px">
 
-    <div class="clear-fix"></div>
+    <div style="display: inline-block">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <h4>Активность пользователей</h4>
+                <span>Показывает процентное соотношение пользователей, осуществиших свой последний вход в систему в последние сутки, от суток до недели  и тд., от общего числа пользователей</span>
+            </div>
+            <div class="col-md-6" style="border-left: 1px #dddddd solid;">
+                <h5>Всего пользователей: @Model.UserActivity.TotalUsersCount</h5>
+                <h5>Зарегистрировано студентов: @Model.UserActivity.TotalStudentsCount</h5>
+                <h5>Зарегистрировано преподавателей: @Model.UserActivity.TotalLecturersCount</h5>
+                <h5>Сервисных аккаунтов: @Model.UserActivity.ServiceAccountsCount</h5>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-top: 40px;">
+            <div id="chart1" style="width: 600px; height: 350px; display: inline-block;"></div>
+        </div>
+    </div>
 
+    <div style="display: inline-block">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <h4>Информация по предметам системы</h4>
+                <span>Показывает полное количество предметов и количество предметов связанных с текущим пользователем</span>
+            </div>
+            @if (User.IsInRole("lector"))
+            {
+                <div class="col-md-6" style="border-left: 1px #dddddd solid;">
+                    <h4>Информация по студентам</h4>
+                    <span>Показывает полное количество студентов и количество студентов обучаемых текущим пользователем</span>
+                </div>
+            }
+        </div>
+        <div class="col-md-12" style="margin-top: 40px;">
+            <div class="col-md-6">
+                <div id="chartBar" class="jqplot-target" style="height: 500px; width: 400px; position: relative;">
+                </div>
+            </div>
+            @if (User.IsInRole("lector"))
+            {
+                <div class="col-md-6">
+                    <div id="chartBarStudents" class="jqplot-target" style="height: 500px; width: 400px; position: relative;">
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                var data = @Html.Raw(Model.UserActivity.UserActivityJson);
+
+                var line = [];
+                for (var propName in data) {
+                    line.push([propName, data[propName]]);
+                }
+
+                var plot1 = jQuery.jqplot('chart1', [line],
+                  {
+                      seriesDefaults: {
+                          renderer: jQuery.jqplot.PieRenderer,
+                          rendererOptions: {
+                              showDataLabels: true,
+                              sliceMargin: 5
+                          }
+                      },
+                      grid: {
+                          drawGridLines: true,        // wether to draw lines across the grid or not.
+                          gridLineColor: '#cccccc',    // *Color of the grid lines.
+                          background: '#fafafa',      // CSS color spec for background color of grid.
+                          borderWidth: 0,           // pixel width of border around grid.
+                          shadow: false,               // draw a shadow for grid.
+                          renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
+                          rendererOptions: {}         // options to pass to the renderer.  Note, the default
+                      },
+                      legend: { show: true, location: 'e' }
+                  }
+                );
+
+                var lineSubject = [['Всего предметов', @Model.TotalSubject],['Мои предметы', @Model.CurrentSubjects]];
+
+                var plotBar = $('#chartBar').jqplot([lineSubject], {
+                    title:'Предметы',
+                    seriesColors:['#007196', '#008cba'],
+                    seriesDefaults:{
+                        renderer:jQuery.jqplot.BarRenderer,
+                        rendererOptions: {
+                            varyBarColor: true,
+                            showDataLabels: true,
+                            barWidth: 40
+                        }
+                    },
+                    axes:{
+                        xaxis:{
+                            renderer: $.jqplot.CategoryAxisRenderer
+                        }
+                    }
+                });
+
+                var lineStudents = [['Всего студентов', @Model.TotalStudents],['Обучаеемые мною', @Model.CurrentStudents]];
+
+                var plotBarStudents = $('#chartBarStudents').jqplot([lineStudents], {
+                    title:'Студенты',
+                    seriesColors:['#007196', '#008cba'],
+                    seriesDefaults:{
+                        renderer:jQuery.jqplot.BarRenderer,
+                        rendererOptions: {
+                            varyBarColor: true,
+                            showDataLabels: true,
+                            barWidth: 40
+                        }
+                    },
+                    axes:{
+                        xaxis:{
+                            renderer: $.jqplot.CategoryAxisRenderer
+                        }
+                    }
+                });
+            });
+        </script>
+
+    

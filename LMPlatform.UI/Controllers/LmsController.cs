@@ -5,6 +5,8 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
+    using LMPlatform.UI.ViewModels.AdministrationViewModels;
+
     [Authorize(Roles = "student, lector")]
     public class LmsController : BasicController
     {
@@ -12,7 +14,8 @@ namespace LMPlatform.UI.Controllers
         {
             if (User.IsInRole("lector") || User.IsInRole("student"))
             {
-                var model = new LmsViewModel(WebSecurity.CurrentUserId);
+                var model = new LmsViewModel(WebSecurity.CurrentUserId, User.IsInRole("lector"));
+                model.UserActivity = new UserActivityViewModel();
                 return View(model);    
             }
 
