@@ -137,9 +137,10 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
     $scope.initStatData = function (subject, data) {
         var subjectId = subject.Id;
         var subjectName = subject.ShortName != "" ? subject.ShortName : subject.Name;
+        var subjectFullName = subject.Name;
 
         $scope.subjectStat = [];
-        var statObj = { subjectName: subjectName, subjectId: subjectId, students: [] };
+        var statObj = { subjectName: subjectName, subjectFullName: subjectFullName, subjectId: subjectId, students: [] };
 
         if (data.SubGroupsOne.Students.length) {
             data.SubGroupsOne.Students.forEach(
@@ -307,6 +308,7 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
 
                     var statSubjectObj = {
                         SubjectName: subject.subjectName,
+                        SubjectFullName: subject.subjectFullName,
                         SubjectId: subject.subjectId,
                         TotalHours: subStudent.TotalHours,
                         AvgMark: avgMark

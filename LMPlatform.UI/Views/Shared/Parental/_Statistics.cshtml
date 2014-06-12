@@ -9,11 +9,11 @@
     </div>
 
     <div class="stat-btn-section">
-        <a onclick="tableToExcel('stat-table', 'Статистика')">
+        <a  class="btn btn-primary btn-sm" onclick="tableToExcel('stat-table', 'Статистика')" tooltip="Загрузить документ Excel">
             <i class="fa fa-download"></i>
             <span>Excel</span>
         </a>
-        <a onclick="$('#print-table').printThis();">
+        <a class="btn btn-primary btn-sm" onclick="$('#print-table').printThis();" tooltip="Печать таблицы">
             <i class="fa fa-print"></i>
             <span>Печать</span>
         </a>
@@ -29,7 +29,7 @@
                 <tr>
                     <th rowspan="2">№</th>
                     <th rowspan="2">ФИО</th>
-                    <th colspan="2" ng-repeat="subject in allSubjectsStat[0].subjectsStat" tooltip="{{subject.Name}}">{{subject.SubjectName}}</th>
+                    <th colspan="2" ng-repeat="subject in allSubjectsStat[0].subjectsStat" tooltip="{{subject.SubjectFullName}}">{{subject.SubjectName}}</th>
                 </tr>
                 <tr>
                     <th ng-repeat-start="subject in statData">Пропуски, ч</th>
@@ -41,7 +41,7 @@
                     <td>{{$index + 1}}</td>
                     <td>{{student.studentName}}</td>
                     <td ng-repeat-start="subject in student.subjectsStat">{{subject.TotalHours}}</td>
-                    <td ng-repeat-end>{{subject.AvgMark}}</td>
+                    <td ng-repeat-end>{{subject.AvgMark.toString().replace(".", ",")}}</td>
                 </tr>
             </tbody>
         </table>
