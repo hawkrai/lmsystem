@@ -32,12 +32,13 @@ namespace Application.Infrastructure.LecturerManagement
             var query = new PageableQuery<Lecturer>(pageInfo);
             query.Include(l => l.SubjectLecturers).Include(e => e.User);
 
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
+                searchString = searchString.Replace(" ", string.Empty);
+
+                //search by full name
                 query.AddFilterClause(
-                    e => e.FirstName.ToLower().Contains(searchString)
-                        || e.LastName.ToLower().Contains(searchString)
-                        || e.MiddleName.ToLower().Contains(searchString));
+                    e => (e.LastName + e.FirstName + e.MiddleName).Contains(searchString));
             }
 
             query.OrderBy(sortCriterias);

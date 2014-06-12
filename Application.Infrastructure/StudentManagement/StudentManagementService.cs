@@ -40,15 +40,16 @@ namespace Application.Infrastructure.StudentManagement
             var query = new PageableQuery<Student>(pageInfo);
             query.Include(e => e.Group).Include(e => e.User);
 
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
-                query.AddFilterClause(e => e.FirstName.ToLower().Contains(searchString) 
-                    || e.LastName.ToLower().Contains(searchString) 
-                    || e.MiddleName.ToLower().Contains(searchString)
+                searchString = searchString.Replace(" ", string.Empty);
+
+                //search by full name
+                query.AddFilterClause(
+                    e => (e.LastName + e.FirstName + e.MiddleName).Contains(searchString)
                     || e.Group.Name.ToLower().Contains(searchString));
             }
 
-            query.OrderBy(sortCriterias);
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var students = repositoriesContainer.StudentsRepository.GetPageableBy(query);
