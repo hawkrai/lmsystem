@@ -107,10 +107,10 @@ select.students-stat {
 
 .stat-btn-section {
     float: right;
-    padding: 10px 5px;
+    padding: 10px;
 }
 
     .stat-btn-section a {
-        padding-left: 10px;
+        padding-left: 16px;
         cursor: pointer;
     }
