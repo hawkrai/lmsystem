@@ -13,24 +13,29 @@
                 <h1>@ViewBag.Title</h1>
             </hgroup>
             @Html.HiddenFor(m => m.FromId)
-               <div>
+            <div>
                 @Html.LabelFor(m => m.Recipients, new { @class = "control-label" })
                 @if (Model.ToAdmin)
                 {
-                    @Html.LabelFor(m => m.ToAdmin, new {style="font-size: 16px; display: block; text-align: center;"})
+                    /*@Html.LabelFor(m => m.ToAdmin, new {style="font-size: 16px; display: block; text-align: center;"})*/
+                    @Html.ListBoxFor(m => m.Recipients, new List<SelectListItem>() { new SelectListItem() { Selected = true, Text = "Администратор", Value = "1" } },
+                                     new Dictionary<string, object> {
+                                         { "data-placeholder", "Введите имя получателя..." },
+                                         { "class", "form-control chosen-select" } })
+                    
                     @Html.HiddenFor(m => m.ToAdmin)
                     @Html.HiddenFor(m => m.Recipients)
                 }
                 else
                 {
                     @Html.ListBoxFor(m => m.Recipients, Enumerable.Empty<SelectListItem>(),
-                                 new Dictionary<string, object> {
-                                     { "data-placeholder", "Введите имя получателя..." },
-                                     { "class", "form-control chosen-select" } })
+                                     new Dictionary<string, object> {
+                                         { "data-placeholder", "Введите имя получателя..." },
+                                         { "class", "form-control chosen-select" } })
 
                     @Html.ValidationMessageFor(m => m.Recipients, " ")
                 }
-                 <p></p>
+                <p></p>
             </div>
             <div>
                 @Html.LabelFor(m => m.Subject)
@@ -38,7 +43,7 @@
             </div>
             <div>
                 @Html.LabelFor(m => m.MessageText)
-                @Html.TextAreaFor(m => m.MessageText, new { @class = "form-control" })
+                @Html.TextAreaFor(m => m.MessageText, new { @class = "form-control", style = "width:100%; max-width: 600px;" })
                 <p></p>
                 <p></p>
             </div>
@@ -49,10 +54,8 @@
         </div>
     }
 </div>
-
+<link rel="stylesheet" href="/Content/chosen/chosen.css">
 <script type="text/javascript">
     $('.modal-dialog').width('600px');
-    @if (!Model.ToAdmin) {
-        @: ajaxChosenInit(".chosen-select");
-        }
+    ajaxChosenInit(".chosen-select");
 </script>

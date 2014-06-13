@@ -4,31 +4,11 @@
     });
 });
 
-function initDisplayMessageDialog() {
-    $(".msg-row").unbind();
-    $(".msg-row").on('click', function () {
-        getMessagePartial($(this).data('url'));
-
-        setReadStyle($(this));
-    });
-}
-
 function getMessageForm(messageFormUrl) {
     $.get(messageFormUrl,
             {},
           function (data) {
               showDialog(data);
-          });
-}
-
-function getMessagePartial(partialViewUrl) {
-    $.get(partialViewUrl,
-            {},
-          function (data) {
-              bootbox.dialog({
-                  message: data,
-                  title: " <i class='fa fa-envelope'></i> Cообщение",
-              });
           });
 }
 
@@ -103,14 +83,7 @@ function ajaxChosenInit(elem) {
        },
        {
            no_results_text: "Пользователь не найден...",
-           width: '858px'
+           width: "100%"
        }
    );
-}
-
-function setReadStyle(row) {
-    var tabId = $(row).parents(".message-tab").attr('id');
-    if (tabId == 'inbox') {
-        $(row).removeClass("unread").addClass("is-read");
-    }
 }
