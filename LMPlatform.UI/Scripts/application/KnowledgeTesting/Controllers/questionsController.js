@@ -54,18 +54,12 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
         $http({ method: "GET", url: kt.actions.questions.getQuestions, dataType: 'json', params: { testId: testId } })
             .success(function(data) {
                 $scope.questions = data;
-                initializeTooltips();
             })
             .error(function(data, status, headers, config) {
                 alertify.error("Во время получения данных произошла ошибка");
             });
     };
 
-    function initializeTooltips() {
-        $(".fa-edit").tooltip({ title: "Редактировать вопрос", placement: 'left' });
-        $(".fa-trash-o").tooltip({ title: "Удалить вопрос", placement: 'left' });
-    }
-    
     function loadQuestion(questionId) {
         //var modalInstance = $modal.open({
         //    templateUrl: '/Content/KnowledgeTesting/testDetails.html',
