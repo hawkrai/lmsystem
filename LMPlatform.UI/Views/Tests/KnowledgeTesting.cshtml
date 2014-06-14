@@ -9,7 +9,7 @@
 {
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js")
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsNavigationController.js")
-    @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsController.js",
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsController.js", "~/Scripts/application/KnowledgeTesting/Controllers/questionsController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/resultsController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js")
@@ -23,11 +23,24 @@
                     getTest: '@Url.Action("GetTest", "Tests")',
                     saveTest: '@Url.Action("SaveTest", "Tests")',
                     deleteTest: '@Url.Action("DeleteTest", "Tests")'
+                },
+                questions: {
+                    getQuestions: '@Url.Action("GetQuestions", "Questions")'
                 }
             }
         };
     </script>
+
+    <style>
+        a:hover {
+            cursor: pointer;
+        }
+
+
+    </style>
 }
+
+
 
 
 @section navleft
@@ -44,7 +57,7 @@
 
 @section body
 {
-    <div style="padding-top: 40px">
+    <div style="padding-top: 70px">
         <section id="body" class="well">
             <div style="margin: 5px;">
                 <h4 align="right" style="color: #007196">@Model.Name</h4>

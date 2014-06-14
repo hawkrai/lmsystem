@@ -15,6 +15,7 @@ namespace LMPlatform.UI.Controllers
     public class QuestionsController : BasicController
     {
         #region API
+
         [HttpGet]
         public JsonResult GetQuestion(int id)
         {
@@ -23,6 +24,13 @@ namespace LMPlatform.UI.Controllers
                 : QuestionViewModel.FromQuestion(QuestionsManagementService.GetQuestion(id));
 
             return Json(test, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetQuestions(int testId)
+        {
+            var questions = QuestionsManagementService.GetQuestionsForTest(testId).Select(QuestionItemListViewModel.FromQuestion).ToArray();
+            return Json(questions, JsonRequestBehavior.AllowGet);
         }
 
         [HttpDelete]

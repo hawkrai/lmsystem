@@ -435,6 +435,7 @@
     <Content Include="Content\images\star_white.png" />
     <Content Include="Content\images\trash_blue.png" />
     <Content Include="Content\KnowledgeTesting\control.html" />
+    <Content Include="Content\KnowledgeTesting\questions.html" />
     <Content Include="Content\KnowledgeTesting\testDetails.html" />
     <Content Include="Content\KnowledgeTesting\results.html" />
     <Content Include="Content\messages.css" />
@@ -566,6 +567,7 @@
     <Content Include="Scripts\application\DP\services\projectService.js" />
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\questionsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\resultsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\passingController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\testDetailsController.js" />
