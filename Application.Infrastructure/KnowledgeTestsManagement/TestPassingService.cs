@@ -388,7 +388,13 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 questionId = answerOnTestQuestion.QuestionId;
             }
 
-            return new Tuple<Question, int>(GetQuestionById(questionId), nextQuestionNumber);
+            Question resultQuestion = GetQuestionById(questionId);
+            if (resultQuestion.QuestionType == QuestionType.TextAnswer)
+            {
+                resultQuestion.Answers = resultQuestion.Answers.Take(1).ToList();
+            }
+
+            return new Tuple<Question, int>(resultQuestion, nextQuestionNumber);
         }
 
         private Question GetQuestionById(int id)

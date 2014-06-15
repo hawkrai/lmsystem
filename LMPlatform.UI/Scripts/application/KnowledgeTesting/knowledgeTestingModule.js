@@ -17,6 +17,11 @@ knowledgeTestingApp.config(function ($routeProvider) {
         templateUrl: "/Content/KnowledgeTesting/results.html"
     });
     
+    $routeProvider.when("/passing", {
+        controller: "passingCtrl",
+        templateUrl: "/Content/KnowledgeTesting/passing.html"
+    });
+    
     $routeProvider.when("/questions", {
         controller: "questionsCtrl",
         templateUrl: "/Content/KnowledgeTesting/questions.html"

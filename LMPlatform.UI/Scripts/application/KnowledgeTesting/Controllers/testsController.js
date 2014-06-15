@@ -9,6 +9,19 @@ knowledgeTestingApp.controller('testsCtrl', function ($scope, $http, $modal) {
         loadTest(testId);
     };
 
+    $scope.onUnlockButtonClicked = function (testId, testName) {
+        var modalInstance = $modal.open({
+            templateUrl: '/Content/KnowledgeTesting/testUnlocks.html',
+            controller: 'testUnlocksCtrl',
+            scope: $scope,
+            resolve: {
+                id: function () {
+                    return testId;
+                }
+            }
+        });
+    };
+
     $scope.onDeleteButtonClicked = function (testId, testName) {
         var context = {
             id: testId
@@ -38,7 +51,7 @@ knowledgeTestingApp.controller('testsCtrl', function ($scope, $http, $modal) {
                     $scope.loadTests();
                     alertify.success('Тест успешно удалён');
                 })
-                .error(function(data, status, headers, config) {
+                .error(function() {
                     alertify.error("Во время удаления произошла ошибка");
                 });
         }

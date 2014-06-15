@@ -7,12 +7,15 @@
 
 @section scripts
 {
-    @Scripts.Render("~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js")
+    @Scripts.Render("~/Scripts/application/KnowledgeTesting/TestPassingScript.js")
+    @Scripts.Render("~/Scripts/linq.js", "~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js")
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsNavigationController.js")
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsController.js", "~/Scripts/application/KnowledgeTesting/Controllers/questionsController.js",
+   
         "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/resultsController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js")
+        "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js",
+        "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js")
 
     @* Move to another file *@
     <script type="text/javascript">
@@ -22,7 +25,12 @@
                     getTests: '@Url.Action("GetTests", "Tests")',
                     getTest: '@Url.Action("GetTest", "Tests")',
                     saveTest: '@Url.Action("SaveTest", "Tests")',
-                    deleteTest: '@Url.Action("DeleteTest", "Tests")'
+                    deleteTest: '@Url.Action("DeleteTest", "Tests")', 
+                    getNextQuestion: '@Url.Action("GetNextQuestion", "TestPassing")'
+                },
+                groups: {
+                    getGroupsForSubject: '@Url.Action("GetGroups", "Tests")',
+                    getSubgroups: '@Url.Action("GetSubGroups", "Tests")'
                 },
                 questions: {
                     getQuestions: '@Url.Action("GetQuestions", "Questions")'

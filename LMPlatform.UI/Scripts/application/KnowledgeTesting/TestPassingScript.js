@@ -9,14 +9,13 @@
     _makeUserAnswerMethodName: 'AnswerQuestionAndGetNext',
     
     _onNextButtonClicked: function () {
-        var testId = getUrlValue('testId');
+        var testId = getHashValue('testId');
         this._getNextQuestion(testId);
-        //document.getElementById('questionContent').requestFullscreen()
     },
     
     _onProgressBarClicked: function(eventArgs) {
         this._nextQuestionNumber = new Number(eventArgs.target.textContent);
-        var testId = getUrlValue('testId');
+        var testId = getHashValue('testId');
         this._getNextQuestion(testId);
     },
     
@@ -43,12 +42,12 @@
                 }).ToArray();
         }
 
-        this._makeUserAnswer(userAnswers, getUrlValue('testId'), this._nextQuestionNumber);
+        this._makeUserAnswer(userAnswers, getHashValue('testId'), this._nextQuestionNumber);
     },
     
     _onSkipButtonClicked: function() {
         this._nextQuestionNumber++;
-        var testId = getUrlValue('testId');
+        var testId = getHashValue('testId');
         this._getNextQuestion(testId);
     },
     
@@ -81,13 +80,12 @@
     },
     
     _onUserMadeAnswer: function() {
-        var testId = getUrlValue('testId');
+        var testId = getHashValue('testId');
         this._getNextQuestion(testId);
     },
     
     _onTestLoaded: function (content) {
         $('#questionContent').html(content);
-        $(".kkcountdown").kkcountdown();
         $('.progress-bar-notPassed').on('click', $.proxy(this._onProgressBarClicked, this));
         $('#answerButton').on('click', $.proxy(this._onAnswerButtonClicked, this));
         $('#skipButton').on('click', $.proxy(this._onSkipButtonClicked, this));

@@ -56,6 +56,26 @@ namespace LMPlatform.UI.Controllers
             return Json(testViewModels, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetGroups(int subjectId)
+        {
+            Subject subject = SubjectsManagementService.GetSubject(subjectId);
+            int[] groupIds = subject.SubjectGroups.Select(subjectGroup => subjectGroup.GroupId).ToArray();
+            var groups = GroupManagementService.GetGroups(new Query<Group>(group => groupIds.Contains(group.Id)))
+                .Select(group => new
+                {
+                    Id = group.Id,
+                    Name = group.Name
+                }).ToArray();
+
+            return Json(groups, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSubGroups(int groupId, int subjectId)
+        {
+            var subgroups = SubjectsManagementService.GetSubGroups(subjectId, groupId).ToArray();
+            return Json(subgroups, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         [Authorize, HttpGet]

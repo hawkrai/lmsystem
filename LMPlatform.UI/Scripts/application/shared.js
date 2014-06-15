@@ -144,6 +144,17 @@ function getUrlValue(varSearch) {
     }
 }
 
+function getHashValue(varSearch) {
+    var searchString = window.location.hash.substring(window.location.hash.indexOf('?') + 1);
+    var variableArray = searchString.split('&');
+    for (var i = 0; i < variableArray.length; i++) {
+        var keyValuePair = variableArray[i].split('=');
+        if (keyValuePair[0] == varSearch) {
+            return keyValuePair[1];
+        }
+    }
+}
+
 $(document).ready(function () {
 	shared.init();
 });
