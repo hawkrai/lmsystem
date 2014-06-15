@@ -39,6 +39,20 @@ namespace LMPlatform.UI.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize, HttpGet]
+        public JsonResult GetControlItems(int subjectId)
+        {
+            RealTimePassingResult[] passingResults = TestPassingService.GetRealTimePassingResults(subjectId).Where(result => result.PassResults.Count() > 0).ToArray();
+            var groupedResults = passingResults.GroupBy(result => result.TestName).ToArray();
+
+            var results = groupedResults.Select(result => new
+            {
+                Test = result.Key,
+                Students = result.ToArray()
+            }).ToArray();
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
         public DataTablesResult<TestResultItemListViewModel> GetTestsTesults(DataTablesParam dataTableParam, int groupId)
         {
             var searchString = dataTableParam.GetSearchString();

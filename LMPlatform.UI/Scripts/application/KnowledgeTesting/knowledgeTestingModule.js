@@ -8,7 +8,7 @@ knowledgeTestingApp.config(function ($routeProvider) {
     });
     
     $routeProvider.when("/control", {
-        controller: "passingCtrl",
+        controller: "controlCtrl",
         templateUrl: "/Content/KnowledgeTesting/control.html"
     });
     

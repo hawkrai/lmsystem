@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using Application.Core.Data;
@@ -48,6 +49,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                     repositoriesContainer.TestUnlocksRepository.GetAll(new Query<TestUnlock>(
                         testUnlock => testIds.Contains(testUnlock.TestId))
                         .Include(testUnlock => testUnlock.Student.User.UserAnswersOnTestQuestions))
+                        .Include(testUnlock => testUnlock.Test)
                         .ToList();
             }
 
@@ -56,7 +58,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 results.Add(new RealTimePassingResult
                 {
                     StudentName = unockResult.Student.FullName,
-                    PassResults = unockResult.Student.User.UserAnswersOnTestQuestions.ToDictionary(question => question.Number, GetQuestionStatus)
+                    PassResults = unockResult.Student.User.UserAnswersOnTestQuestions.Select(GetQuestionStatus).ToList(),
+                    TestName = unockResult.Test.Title
                 });
             }
 

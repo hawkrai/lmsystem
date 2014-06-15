@@ -14,7 +14,8 @@
         "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/resultsController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js")
+        "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
+        "~/Scripts/application/KnowledgeTesting/Controllers/controlController.js")
 
     @* Move to another file *@
     <script type="text/javascript">
@@ -35,7 +36,8 @@
                     getQuestions: '@Url.Action("GetQuestions", "Questions")'
                 },
                 results: {
-                    getResults: '@Url.Action("GetResults", "TestPassing")'
+                    getResults: '@Url.Action("GetResults", "TestPassing")',
+                    getControl: '@Url.Action("GetControlItems", "TestPassing")'
                 }
             }
         };
@@ -44,6 +46,16 @@
     <style>
         a:hover {
             cursor: pointer;
+        }
+
+        .progress-notPassed {
+            background-color: #007196;
+}
+        .progress-success {
+            background-color: rgb(143, 207, 118)
+        }
+        .progress-error {
+            background-color: rgb(250, 112, 112)
         }
 
 

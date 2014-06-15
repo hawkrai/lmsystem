@@ -10,7 +10,13 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
-        public Dictionary<int, PassedQuestionResult> PassResults
+        public string TestName
+        {
+            get;
+            set;
+        }
+
+        public List<PassedQuestionResult> PassResults
         {
             get;
             set;

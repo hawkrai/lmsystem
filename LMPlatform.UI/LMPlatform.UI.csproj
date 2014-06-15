@@ -569,6 +569,7 @@
     <Content Include="Scripts\application\DP\services\projectService.js" />
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\controlController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\questionsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\resultsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\passingController.js" />
