@@ -2,7 +2,10 @@
 knowledgeTestingApp.controller('testUnlocksCtrl', function ($scope, $http, $modalInstance) {
     //$scope.SelectedGroup = 'A';
     var subjectId = getUrlValue('subjectId');
-    
+
+    $scope.context = $scope;
+    $scope.context.group = null;
+
     $http({ method: "GET", url: kt.actions.groups.getGroupsForSubject, dataType: 'json', params: { subjectId: subjectId } })
             .success(function (data) {
                 $scope.groups = data;
@@ -14,8 +17,8 @@ knowledgeTestingApp.controller('testUnlocksCtrl', function ($scope, $http, $moda
             });
 
     $scope.loadStudents = function () {
-        if ($scope.SelectedGroup) {
-            $http({ method: "GET", url: kt.actions.groups.getSubgroups, dataType: 'json', params: { groupId: $scope.selectedGroup.Id, subjectId: subjectId } })
+        if ($scope.group) {
+            $http({ method: "GET", url: kt.actions.groups.getSubgroups, dataType: 'json', params: { groupId: $scope.group.Id, subjectId: subjectId } })
                 .success(function(data) {
                     $scope.subGroups = data;
                 })

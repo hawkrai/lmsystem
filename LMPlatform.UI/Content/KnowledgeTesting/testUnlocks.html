@@ -6,9 +6,10 @@
     <div class="row">
         <div class="col-lg-6 input-group input-group-sm">
             <span style='display: table-cell; text-align: right'>Группы&nbsp;</span>
-            <select data-ng-change="loadStudents()" class="form-control input-xs" data-ng-model="SelectedGroup" data-ng-options="group.Name for group in groups" ></select>
+            <select class="form-control input-xs" data-ng-model="context.group" data-ng-options="group.Name for group in groups"></select>
         </div>
         <div class="col-lg-6">Поиск</div>
+        <button data-ng-click="loadStudents()">qweqweqweqweqwe</button>
     </div>
     <div></div>
 </div>

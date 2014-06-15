@@ -15,8 +15,8 @@
         <div class="table-responsive">
             <table class="table table-hover table-striped">
                 <tr data-ng-repeat="student in item.Students | filter : query">
-                    <td width="250px">{{student.StudentName}}</td>
-                    <td style="padding: 0px" data-ng-repeat="res in student.PassResults track by $index">
+                    <td style="border:none" width="250px">{{student.StudentName}}</td>
+                    <td style="padding: 0; border:none" data-ng-repeat="res in student.PassResults track by $index">
                         <div style="text-align: center; margin-top: 10px;" tooltip="{{res == 0 ? 'Не пройден' : (res == 1 ? 'Правильный ответ' : 'Неправильный ответ')}}" data-ng-class="{'progress-notPassed': res == 0, 'progress-success': res == 1, 'progress-error': res == 2}">{{$index + 1}}</div>
                     </td>
                 </tr>
