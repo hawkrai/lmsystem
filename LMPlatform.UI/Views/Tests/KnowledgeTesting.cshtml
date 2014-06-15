@@ -7,7 +7,6 @@
 
 @section scripts
 {
-    @Scripts.Render("~/Scripts/application/KnowledgeTesting/TestPassingScript.js")
     @Scripts.Render("~/Scripts/linq.js", "~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js")
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsNavigationController.js")
     @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsController.js", "~/Scripts/application/KnowledgeTesting/Controllers/questionsController.js",
@@ -25,7 +24,7 @@
                     getTests: '@Url.Action("GetTests", "Tests")',
                     getTest: '@Url.Action("GetTest", "Tests")',
                     saveTest: '@Url.Action("SaveTest", "Tests")',
-                    deleteTest: '@Url.Action("DeleteTest", "Tests")', 
+                    deleteTest: '@Url.Action("DeleteTest", "Tests")',
                     getNextQuestion: '@Url.Action("GetNextQuestion", "TestPassing")'
                 },
                 groups: {
@@ -34,6 +33,9 @@
                 },
                 questions: {
                     getQuestions: '@Url.Action("GetQuestions", "Questions")'
+                },
+                results: {
+                    getResults: '@Url.Action("GetResults", "TestPassing")'
                 }
             }
         };

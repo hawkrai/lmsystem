@@ -17,7 +17,7 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
-        public int Points
+        public int? Points
         {
             get;
             set;
@@ -44,6 +44,12 @@ namespace LMPlatform.Models.KnowledgeTesting
         public int? CalculationType
         {
             get;
+            set;
+        }
+
+        public string TestName
+        {
+            get; 
             set;
         }
     }

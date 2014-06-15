@@ -1,4 +1,4 @@
-﻿var knowledgeTestingApp = angular.module('knowledgeTestingApp', ['ngRoute', 'ui.bootstrap']);
+﻿var knowledgeTestingApp = angular.module('knowledgeTestingApp', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.tooltip']);
 
 knowledgeTestingApp.config(function ($routeProvider) {
 

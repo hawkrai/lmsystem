@@ -135,14 +135,16 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return studentResults;
         }
 
-        private List<TestPassResult> GetTestPassResultsForStudent(int[] testIds, Student rawStudent)
+        private List<TestPassResult> GetTestPassResultsForStudent(int[] testIds, Student rawStudent, int subjectId = 1)
         {
+            var tests = GetTestsForSubject(subjectId);
             var testPassResults = new List<TestPassResult>();
             foreach (int testId in testIds)
             {
                 testPassResults.Add(new TestPassResult
                 {
                     TestId = testId,
+                    TestName = tests.Single(test => test.Id == testId).Title, 
                     Points = GetPoints(rawStudent, testId)
                 });
             }
@@ -150,7 +152,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return testPassResults;
         }
 
-        private int GetPoints(Student rawStudent, int testId)
+        private int? GetPoints(Student rawStudent, int testId)
         {
             var passResult = rawStudent.User.TestPassResults.Where(result => result.TestId == testId);
             if (passResult.Count() == 1)
@@ -163,7 +165,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 return passResult.Sum(result => result.Points);
             }
 
-            return 0;
+            return null;
         }
 
         public IEnumerable<Test> GetAvailableTestsForStudent(int studentId, int subjectId)

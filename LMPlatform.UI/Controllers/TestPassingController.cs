@@ -32,6 +32,13 @@ namespace LMPlatform.UI.Controllers
             return PartialView("TestResultsTable", groupId);
         }
 
+        [Authorize, HttpGet]
+        public JsonResult GetResults(int groupId, int subjectId)
+        {
+            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
         public DataTablesResult<TestResultItemListViewModel> GetTestsTesults(DataTablesParam dataTableParam, int groupId)
         {
             var searchString = dataTableParam.GetSearchString();

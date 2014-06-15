@@ -9,13 +9,13 @@
     _makeUserAnswerMethodName: 'AnswerQuestionAndGetNext',
     
     _onNextButtonClicked: function () {
-        var testId = getHashValue('testId');
+        var testId = getUrlValue('testId');
         this._getNextQuestion(testId);
     },
     
     _onProgressBarClicked: function(eventArgs) {
         this._nextQuestionNumber = new Number(eventArgs.target.textContent);
-        var testId = getHashValue('testId');
+        var testId = getUrlValue('testId');
         this._getNextQuestion(testId);
     },
     
@@ -42,12 +42,12 @@
                 }).ToArray();
         }
 
-        this._makeUserAnswer(userAnswers, getHashValue('testId'), this._nextQuestionNumber);
+        this._makeUserAnswer(userAnswers, getUrlValue('testId'), this._nextQuestionNumber);
     },
     
     _onSkipButtonClicked: function() {
         this._nextQuestionNumber++;
-        var testId = getHashValue('testId');
+        var testId = getUrlValue('testId');
         this._getNextQuestion(testId);
     },
     
@@ -80,7 +80,7 @@
     },
     
     _onUserMadeAnswer: function() {
-        var testId = getHashValue('testId');
+        var testId = getUrlValue('testId');
         this._getNextQuestion(testId);
     },
     
