@@ -38,7 +38,7 @@
                         </tr>
                     </thead>
                     <tr ng-repeat="data in practicals">
-                        <td>{{data.Order}}</td>
+                        <td style="width: 20px">{{data.Order}}</td>
                         <td>{{data.Theme}}</td>
                         <td>{{data.ShortName}}</td>
                         <td>{{data.Duration}}</td>
@@ -82,7 +82,7 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedGroup.Students">
-                            <td style="width: 42px">{{$index + 1}}</td>
+                            <td style="width: 20px">{{$index + 1}}</td>
                             <td style="max-width: 200px">{{student.FullName}}</td>
                             <td style="text-align: center" ng-repeat="visitingMark in student.PracticalVisitingMark">
                                 <span editable-text="visitingMark.Mark" e-name="Mark" e-form="tableform">
@@ -127,7 +127,7 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedGroup.Students">
-                            <td style="width: 42px">{{$index + 1}}</td>
+                            <td style="width: 20px">{{$index + 1}}</td>
                             <td style="max-width: 200px">{{student.FullName}}</td>
                             <td style="width: 50px;text-align: center;" ng-repeat="practicalMark in student.StudentPracticalMarks">
                                 <span editable-text="practicalMark.Mark" e-name="Mark" e-form="tableformMarks">

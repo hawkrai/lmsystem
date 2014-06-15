@@ -95,7 +95,7 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedGroup.LecturesMarkVisiting">
-                            <td style="width: 42px">{{$index + 1}}</td>
+                            <td style="width: 20px">{{$index + 1}}</td>
                             <td style="max-width: 200px">{{student.StudentName}}</td>
                             <td ng-repeat="data in student.Marks" style="text-align: center">{{data.Mark}}</td>
                         </tr>
@@ -103,7 +103,7 @@
                 </div>
             </div>
         </tab>
-        <tab heading="График посещаемости">
+@*        <tab heading="График посещаемости">
             <div id="navPanel" style="margin-top: 10px; margin-bottom: 10px">
                 <table>
                     <tbody>
@@ -118,7 +118,7 @@
             <div>
                 <div id="barchart" style="width:600px; height:300px;"></div>
             </div>
-        </tab>
+        </tab>*@
     </tabset>
 
 

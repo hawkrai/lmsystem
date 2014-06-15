@@ -38,7 +38,7 @@
                         </tr>
                     </thead>
                     <tr ng-repeat="data in labs">
-                        <td>{{data.Order}}</td>
+                        <td style="width: 20px">{{data.Order}}</td>
                         <td>{{data.Theme}}</td>
                         <td>{{data.ShortName}}</td>
                         <td>{{data.Duration}}</td>
@@ -72,7 +72,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive" style="overflow-x: auto;">
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -84,7 +84,7 @@
                         </tr>
                     </thead>
                     <tr ng-repeat="data in groupWorkingData.selectedSubGroup.Labs">
-                        <td style="width: 40px">{{data.Order}}</td>
+                        <td style="width: 20px">{{data.Order}}</td>
                         <td style="max-width: 200px">{{data.ShortName}}</td>
                         <td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
                             {{recomend.Mark}}
@@ -108,7 +108,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive" style="overflow-x: auto;">
                 <form editable-form name="tableformVisiting" onaftersave="saveVisitingMark()" oncancel="cancel()">
                     <table class="table table-bordered table-striped table-hoverT">
                         <thead>
@@ -121,7 +121,7 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
-                            <td style="width: 42px">{{$index + 1}}</td>
+                            <td style="width: 20px">{{$index + 1}}</td>
                             <td style="max-width: 200px">{{student.FullName}}</td>
                             <td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark">
                                 <span editable-text="data.Mark" e-name="Mark" e-form="tableformVisiting">
@@ -157,7 +157,7 @@
                     </tbody>
                 </table>
             </div>
-            <div>
+            <div style="overflow-x: auto;">
                 <form editable-form name="tableformLabsMarks" onaftersave="saveLabsMarks()" oncancel="cancel()">
                     <table class="table table-bordered table-striped table-hoverT">
                         <thead>
