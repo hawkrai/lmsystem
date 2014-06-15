@@ -4,44 +4,41 @@
 </div>
 <div class="modal-body">
     <form data-ng-submit='saveTest()' name="testDetailsForm">
-        <div class="row">
+        <div>
             <div class="form-group">
-            <div class="row col-lg-12"><label for="inputEmail" class="control-label">Название теста:</label></div>
-                <div class="row col-lg-12">
-                    <input type="text" required placeholder="Введите название" class="form-control input-sm" id="inputEmail" data-ng-model="test.Title">
-                </div>
-                </div>
-            <div class="form-group">
-                <label for="textArea" class="col-lg-3 control-label">Описание:</label>
-                <div class="col-lg-9">
-                    <textarea style="min-width: 100px!important;" class="form-control input-sm" rows="3" id="textArea" data-ng-model="test.Description"></textarea>
-                </div>
+                <label for="inputEmail" class="control-label">Название теста:</label>
+                <input type="text" required placeholder="Введите название" class="form-control input-sm" id="inputEmail" data-ng-model="test.Title">
             </div>
             <div class="form-group">
-                <label for="countOfQuestions" class="col-lg-3 control-label">Количество вопросов:</label>
-                <div class="col-lg-9">
-                    <input type="number" min="1" max="100" required class="form-control input-sm" id="countOfQuestions" data-ng-model="test.CountOfQuestions"></input>
-                </div>
+                <label for="textArea" class="control-label">Описание:</label>
+                <textarea placeholder="Введите описание" style="min-width: 100px!important;" class="form-control input-sm" rows="3" id="textArea" data-ng-model="test.Description"></textarea>
             </div>
-            <div class="form-group">
-                <label for="textArea" class="col-lg-3 control-label" data-ng-bind="test.SetTimeForAllTest ? 'Время на весь тест (мин)' : 'Время на 1 вопрос (сек)'"></label>
-                <div class="col-lg-9">
+            <div class="row">
+
+                <div class="form-group col-lg-6">
+                    <label for="textArea" class="control-label" data-ng-bind="test.SetTimeForAllTest ? 'Время на весь тест (мин)' : 'Время на 1 вопрос (сек)'"></label>
                     <input class="form-control input-sm" type="number" min="1" max="1000" required data-ng-model="test.TimeForCompleting" />
-                </div>
-                <div class="col-lg-9 col-lg-offset-3">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" data-ng-model="test.SetTimeForAllTest">
-                            Задать время на весь тест
-                        </label>
+                    <div class="">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-ng-model="test.SetTimeForAllTest">
+                                Задать время на весь тест
+                            </label>
+                        </div>
                     </div>
                 </div>
+                <div class="form-group col-lg-6">
+                    <label for="countOfQuestions" class="control-label">Количество вопросов:</label>
+
+                    <input type="number" min="1" max="100" required class="form-control input-sm" id="countOfQuestions" data-ng-model="test.CountOfQuestions"></input>
+
+                </div>
             </div>
-            <div class="form-group">
-                <div class="col-lg-9 col-lg-offset-3">
+            <div >
+                <div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" data-ng-mode="test.ForSelfStudy">
+                            <input type="checkbox" data-ng-model="test.ForSelfStudy">
                             Предназначен для самообучения
                         </label>
                     </div>
