@@ -38,7 +38,8 @@
                 questions: {
                     getQuestions: '@Url.Action("GetQuestions", "Questions")',
                     getQuestion: '@Url.Action("GetQuestion", "Questions")',
-                    deleteQuestion: '@Url.Action("DeleteQuestion", "Questions")'
+                    deleteQuestion: '@Url.Action("DeleteQuestion", "Questions")',
+                    saveQuestion: '@Url.Action("SaveQuestion", "Questions")'
                 },
                 results: {
                     getResults: '@Url.Action("GetResults", "TestPassing")',
@@ -66,6 +67,10 @@
 
         textarea {
             max-width: 1000px;
+        }
+
+        input {
+            width: auto;
         }
     </style>
 }

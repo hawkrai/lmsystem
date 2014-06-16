@@ -3,13 +3,84 @@
     <h4>{{question.Title ? question.Title : 'Новый вопрос'}}</h4>
 </div>
 <div class="modal-body">
-    <form data-ng-submit='saveTest()' name="testDetailsForm">
+<form data-ng-submit='saveQuestion()' name="questionDetailsForm">
+    <label class="control-label">Текст вопроса:</label>
+    <input type="text" required data-ng-model="question.Title" placeholder="Текст вопроса" class="form-control input-sm">
+    <label for="taskArea" class="сontrol-label">Задание к вопросу:</label>
+    <textarea data-ng-model="question.Description" class="form-control input-sm" rows="2" id="taskArea"></textarea>
         
+    <div class="row">
+        <div class="col-lg-2" style="margin-top: 10px;">Ответы</div>
+        <div class="col-lg-10"> <hr /></div>
+    </div>
+       
 
-    </form>
-</div>
-<div class="modal-footer" style="margin: 0">
-    <a data-ng-click="closeDialog()" class="btn btn-primary btn-sm">Отмена</a>
-    <button type="submit" id="saveButton" class="btn btn-primary btn-sm">Сохранить</button>
-</div>
+    <div class="row">
+        <div class="col-lg-4">
+            <a id="addNewVariant" data-ng-click="question.Answers.push({IsCorrect: 0, Content: ''});" class="btn btn-primary btn-sm" style="width: 100%">Добавить ответ
+            </a>
+        </div>
+        <div class="col-lg-8">
+            <select class="form-control" data-ng-model="question.QuestionType" ng-options="type.Id as type.Name for type in types"></select></div>
+    </div>
+        
+    <div style="height: 15px"></div>
+
+    <!-- One variant template -->
+    <div ng-show="question.QuestionType == 1" class="table-responsive">
+        <table class="table">
+            <tr data-ng-repeat="answer in question.Answers">
+                <td style="width: 20px; border: none; padding-top: 12px">
+                    <input style="width: 15px; height: 15px;" type="checkbox" ng-model="answer.IsCorrect" ng-true-value="1" ng-false-value="0" /></td>
+                <td style="border: none">
+                    <input placeholder="Введите вариант ответа" class="form-control input-sm" ng-model="answer.Content" style="margin: 0px" /></td>
+                <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Many variants template -->
+    <div ng-show="question.QuestionType == 0" class="table-responsive">
+        <table class="table">
+            <tr data-ng-repeat="answer in question.Answers">
+                <td style="width: 20px; border: none; padding-top: 12px">
+                    <input style="width: 15px; height: 15px;" type="radio" name="answer" ng-model="answer.IsCorrect" ng-value="1" /></td>
+                <td style="border: none">
+                    <input placeholder="Введите вариант ответа" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" /></td>
+                <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Text answer template -->
+    <div ng-show="question.QuestionType == 2" class="table-responsive">
+        <table class="table">
+            <tr data-ng-repeat="answer in question.Answers">
+                <td style="border: none">
+                    <input placeholder="Введите правильный ответ" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" /></td>
+                <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- sequnce answer template -->
+    <div ng-show="question.QuestionType == 3" class="table-responsive">
+        <table class="table">
+            <tr data-ng-repeat="answer in question.Answers">
+                <td style="width: 20px; border: none; padding-top: 12px;">{{$index + 1}}</td>
+                <td style="border: none">
+                    <input placeholder="Введите элемент последовательности" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" /></td>
+                <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
+            </tr>
+        </table>
+    </div>
+
+    
+
+    <div class="modal-footer" style="margin: 0; padding: 15px 0px;">
+        <a data-ng-click="closeDialog()" class="btn btn-primary btn-sm">Отмена</a>
+        <button type="submit" id="saveButton" class="btn btn-primary btn-sm">Сохранить</button>
+    </div>
+</form>
+    </div>
 

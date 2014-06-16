@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Application.Core.Data;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.KnowledgeTestsManagement;
+using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
 using Mvc.JQuery.Datatables;
@@ -43,9 +45,15 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public JsonResult SaveQuestion(QuestionViewModel questionViewModel)
         {
-            var savedQuestion = QuestionsManagementService.SaveQuestion(questionViewModel.ToQuestion());
-
-            return Json(QuestionViewModel.FromQuestion(savedQuestion));
+            try
+            {
+                var savedQuestion = QuestionsManagementService.SaveQuestion(questionViewModel.ToQuestion());
+                return Json(QuestionViewModel.FromQuestion(savedQuestion));
+            }
+            catch (Exception e)
+            {
+                return Json(new { ErrorMessage = e.Message });
+            }
         }
 
         #endregion

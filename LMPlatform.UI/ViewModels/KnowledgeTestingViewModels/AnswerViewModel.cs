@@ -22,7 +22,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
-        public int IsCorrect
+        public string IsCorrect
         {
             get;
             set;
@@ -35,7 +35,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Id = Id,
                 QuestionId = QuestionId,
                 Content = Content,
-                СorrectnessIndicator = IsCorrect
+                СorrectnessIndicator = int.Parse(IsCorrect)
             };
         }
 
@@ -46,7 +46,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Id = answer.Id,
                 QuestionId = answer.QuestionId,
                 Content = answer.Content,
-                IsCorrect = answer.СorrectnessIndicator
+                IsCorrect = answer.СorrectnessIndicator.ToString()
             };
         }
     }
