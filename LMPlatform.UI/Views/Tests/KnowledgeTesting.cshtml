@@ -16,7 +16,8 @@
         "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/controlController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/testUnlocksController.js")
+        "~/Scripts/application/KnowledgeTesting/Controllers/testUnlocksController.js",
+        "~/Scripts/application/KnowledgeTesting/Controllers/questionDetailsController.js")
 
 
     @* Move to another file *@
@@ -35,7 +36,9 @@
                     getSubgroups: '@Url.Action("GetSubGroups", "Tests")'
                 },
                 questions: {
-                    getQuestions: '@Url.Action("GetQuestions", "Questions")'
+                    getQuestions: '@Url.Action("GetQuestions", "Questions")',
+                    getQuestion: '@Url.Action("GetQuestion", "Questions")',
+                    deleteQuestion: '@Url.Action("DeleteQuestion", "Questions")'
                 },
                 results: {
                     getResults: '@Url.Action("GetResults", "TestPassing")',

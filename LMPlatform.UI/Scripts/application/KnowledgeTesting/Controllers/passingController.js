@@ -1,5 +1,5 @@
 ﻿'use strict';
-knowledgeTestingApp.controller('passingCtrl', function($scope, $http) {
+knowledgeTestingApp.controller('questionDetailsCtrl', function($scope, $http) {
 
     $scope.init = function() {
         testPassing.init();
