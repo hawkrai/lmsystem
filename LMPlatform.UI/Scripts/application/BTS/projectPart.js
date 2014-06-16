@@ -24,7 +24,7 @@
         $('.odd')
             .children(":first")
             .width(this._numberingColumnWidth);
-        
+
         //set "Действия" column width
         $('[name="projectUserGridActionsCol"]')
             .parent()
@@ -44,6 +44,18 @@
             $.savingDialog("Добавление участника к проекту", "/BTS/AssignLecturerOnProject", null, "primary", function (data) {
                 datatable.fnDraw();
                 alertify.success("Добавлен новый участник");
+            });
+            return false;
+        });
+
+        $(".clearProjectButton").handle("click", function () {
+            var that = this;
+            bootbox.confirm("Вы действительно хотите очистить проект (удалить участников, ошибки и комментарии) ?", function (isConfirmed) {
+                if (isConfirmed) {
+                    $.post("/BTS/ClearProject", null, function () {
+                    });
+                    location.reload();
+                }
             });
             return false;
         });
@@ -76,9 +88,17 @@
     }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     projectUserManagement.init();
     $("#groups").change();
+
+    //$('#ProjectUserList').dataTable({ "bRetrieve": true });
+
+    //$('#ProjectUserList').dataTable({
+    //    "oLanguage": {
+    //        "sZeroRecords": "Ничего не найдено"
+    //    }
+    //});
 
     document.onmouseover = document.onmouseout = handler;
 

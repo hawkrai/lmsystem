@@ -120,7 +120,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             return user.FullName;
         }
 
-        public static string GetStatusName(int id)
+        public string GetStatusName(int id)
         {
             var status = context.BugStatuses.Find(id);
             return status.Name;
@@ -136,6 +136,13 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         {
             var symptom = context.BugSymptoms.Find(id);
             return symptom.Name;
+        }
+
+        public List<BugLog> GetBugLogs()
+        {
+            var bugLogList = new BugManagementService().GetBugLogs(BugId).ToList();
+
+            return bugLogList;
         }
     }
 }

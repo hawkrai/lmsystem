@@ -42,7 +42,7 @@
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th style="width: 20px">№</th>
+                                            @*<th style="width: 20px">№</th>*@
                                             <th>ФИО лектора</th>
                                             <th>Проект</th>
                                             <th>Роль на проекте</th>
@@ -50,29 +50,25 @@
                                         </tr>
                                     </thead>
                                     @foreach (var lecturer in Model.GetLecturerList())
-                                    {
-                                        <tr>
-                                            <td style="width: 20px">@lecturer.Number</td>
-                                            <td>@lecturer.Name</td>
-                                            <td>
-                                                @foreach (var project in lecturer.ProjectName)
+                                    {                                       
+                                        for (int i = 0; i < lecturer.QuentityOfProjects; i++)
+                                        {
+                                            <tr>
+                                                @if (i == 0)
                                                 {
-                                                    <div style="padding-bottom: 10px">@project</div>
+                                                @*<td style="width: 20px">@lecturer.Number</td>*@
+                                                <td>@lecturer.Name</td>
                                                 }
-                                            </td>
-                                            <td>
-                                                @foreach (var role in lecturer.ProjectRole)
+                                                else
                                                 {
-                                                    <div style="padding-bottom: 10px">@role</div>
+                                                @*<td></td>*@
+                                                <td></td>
                                                 }
-                                            </td>
-                                            <td>
-                                                @foreach (var projectCreator in lecturer.ProjectCreatorName)
-                                                {
-                                                    <div style="padding-bottom: 10px">@projectCreator</div>
-                                                }
-                                            </td>
-                                        </tr>
+                                                <td>@lecturer.ProjectName[i]</td>
+                                                <td>@lecturer.ProjectRole[i]</td>
+                                                <td>@lecturer.ProjectCreatorName[i]</td>        
+                                            </tr>
+                                        }
                                     }
                                 </table>
                             </div>

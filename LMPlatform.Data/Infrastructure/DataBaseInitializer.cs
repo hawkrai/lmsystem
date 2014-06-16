@@ -72,6 +72,7 @@ namespace LMPlatform.Data.Infrastructure
             context.BugStatuses.Add(new BugStatus { Name = "Отложена" });
             context.BugStatuses.Add(new BugStatus { Name = "Отклонена" });
             context.BugStatuses.Add(new BugStatus { Name = "Закрыта" });
+            context.BugStatuses.Add(new BugStatus { Name = "Открыта заново" });
         }
 
 	    private static void CreateProjectRoles(LmPlatformModelsContext context)

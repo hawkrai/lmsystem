@@ -71,13 +71,13 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                     Name = lecturer.LastName + " " + lecturer.FirstName + " " + lecturer.MiddleName,
                     ProjectName = GetProjectNameList(lecturer.Id),
                     ProjectRole = GetProjectRoleList(lecturer.Id),
-                    ProjectCreatorName = GetProjectCreatorNameList(lecturer.Id)
+                    ProjectCreatorName = GetProjectCreatorNameList(lecturer.Id),
+                    QuentityOfProjects = GetProjectNameList(lecturer.Id).Count()
                 });
                 number++;
             }
 
-            LecturerList.Sort();
-
+            //LecturerList.Sort();
             return LecturerList;
         }
 
@@ -100,7 +100,8 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                     Name = student.LastName + " " + student.FirstName + " " + student.MiddleName,
                     ProjectName = GetProjectNameList(student.Id),
                     ProjectRole = GetProjectRoleList(student.Id),
-                    ProjectCreatorName = GetProjectCreatorNameList(student.Id)
+                    ProjectCreatorName = GetProjectCreatorNameList(student.Id),
+                    QuentityOfProjects = GetProjectNameList(student.Id).Count()
                 });
                 number++;
             }

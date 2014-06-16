@@ -34,6 +34,8 @@ namespace Application.Infrastructure.ProjectManagement
 
         void DeleteProject(int projectId);
 
+        void ClearProject(int projectId);
+
         void DeleteProjectUser(int projectUserId);
 
         void AssingRole(ProjectUser projectUser);

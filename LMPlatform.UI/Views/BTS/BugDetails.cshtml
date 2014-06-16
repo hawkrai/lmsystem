@@ -38,11 +38,10 @@
                 </div>
                 <div class="col-md-11">
                     <div class="row">
-                        <i class="glyphicon glyphicon-calendar fa-tab"></i>Задокументирована @Model.ReportingDate пользователем <font color="blue">@Model.ReporterName</font>
+                        <i class="glyphicon glyphicon-calendar fa-tab"></i>Задокументирована @Model.ReportingDate пользователем <b>@Model.ReporterName</b>
                     </div>
-
                     <div class="row" style="color: #999">
-                        <i class="glyphicon glyphicon-time fa-tab"></i>Изменена @Model.ModifyingDate пользователем <font color="blue">@Model.EditorName</font>
+                        <i class="glyphicon glyphicon-time fa-tab"></i>Изменена @Model.ModifyingDate пользователем <b>@Model.EditorName</b>
                     </div>
 
                 </div>
@@ -59,7 +58,7 @@
                                 @Model.Summary
                             </div>
                         </div>
-
+                        <p></p>
                         <div class="row">
                             <div class="col-md-3">
                                 <b>Проект:</b>
@@ -82,7 +81,7 @@
                             else
                             {
                                 <div class="col-md-9">
-                                    <font color="blue">@Model.AssignedDeveloperName</font>
+                                    @Model.AssignedDeveloperName
                                 </div>
                             }
                         </div>
@@ -92,7 +91,7 @@
                                 <b>Описание ошибки:</b>
                             </div>
                             <div class="col-md-9">
-                                @Model.Description
+                                @Html.Raw(Html.Encode(Model.Description).Replace("\n", "<br/>"))
                             </div>
                         </div>
                         <p></p>
@@ -101,7 +100,9 @@
                                 <b>Шаги выполнения:</b>
                             </div>
                             <div class="col-md-9">
-                                @Model.Steps
+                                <div class="display-field">
+                                    @Html.Raw(Html.Encode(Model.Steps).Replace("\n", "<br/>"))
+                                </div>
                             </div>
                         </div>
                         <p></p>
@@ -110,7 +111,47 @@
                                 <b>Ожидаемый результат:</b>
                             </div>
                             <div class="col-md-9">
-                                @Model.ExpectedResult
+                                <div class="display-field">
+                                    @Html.Raw(Html.Encode(Model.ExpectedResult).Replace("\n", "<br/>"))
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Важность ошибки:</b>
+                            </div>
+                            <div class="col-md-9">
+                                @Model.Severity
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Статус ошибки:</b>
+                            </div>
+                            <div class="col-md-9">
+                                @if (@Model.Status == "Обнаружена" || @Model.Status == "Открыта заново")
+                                {
+                                    <b><font color="red">@Model.Status</font></b>
+                                }
+                                else if (@Model.Status == "Закрыта")
+                                {
+                                    <b><font color="green">@Model.Status</font></b>
+                                }
+                                else
+                                {
+                                    @Model.Status
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Симптом ошибки:</b>
+                            </div>
+                            <div class="col-md-9">
+                                @Model.Symptom
                             </div>
                         </div>
                     </div>
@@ -126,30 +167,51 @@
                             </div>
                             <p></p>
                         }
-                        <div class="row">
-                            <b>Важность ошибки:</b>
-                            @Model.Severity
-                        </div>
 
                         <div class="row">
-                            <b>Статус ошибки:</b>
-                            @if (@Model.Status == "Обнаружена")
-                            {
-                                <b><font color="red">@Model.Status</font></b>
-                            }
-                            else if (@Model.Status == "Закрыта")
-                            {
-                                <b><font color="green">@Model.Status</font></b>
-                            }
-                            else
-                            {
-                                @Model.Status
-                            }
-                        </div>
+                            <div class="panel panel-primary" style="margin-top: 10px">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Жизненный цикл ошибки</h3>
+                                </div>
+                                <div class="panel-body" id="bugLog" style="padding: 10px; height: 200px">
+                                    <div>
 
-                        <div class="row">
-                            <b>Симптом ошибки:</b>
-                            @Model.Symptom
+                                        @foreach (var bugLog in Model.GetBugLogs())
+                                        {
+                                            <div class="chat-body">
+                                                <div class="header">
+                                                    <strong class="primary-font"></strong><small class="pull-left text-muted">
+                                                        <span class="glyphicon glyphicon-time" style="margin-right: -15px;"></span>@bugLog.LogDate.ToString("HH:mm dd.MM.yyyy")</small>
+                                                </div>
+                                                <p>
+                                                    @*@if (bugLog == Model.GetBugLogs().First())
+                                                        {
+                                                            <p><b>@Model.GetLogUserName(Model.ReporterId)</b> задокументировал ошибку, выставив статус <font color="green"><b>@Model.GetStatusName(bugLog.CurrStatusId)</b></font></p>
+                                                        }
+                                                        else
+                                                        {*@
+                                                    @if (bugLog.CurrStatusId == bugLog.PrevStatusId)
+                                                    {
+                                                        <p>
+                                                            <b>Пользователь:</b> @bugLog.UserName<br />
+                                                            <b>Действие:</b> редактирование ошибки
+                                                        </p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>
+                                                            <b>Пользователь:</b> @bugLog.UserName<br />
+                                                            <b>Действие:</b> изменение статуса ошибки <font color="red"><b>@Model.GetStatusName(bugLog.PrevStatusId)</b></font>&nbsp; на статус <font color="green"><b>@Model.GetStatusName(bugLog.CurrStatusId)</b></font>
+                                                        </p>
+                                                    }
+                                                    @*}*@
+                                                </p>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

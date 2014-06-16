@@ -48,8 +48,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public string Summary { get; set; }
 
         [Required(ErrorMessage = "Поле Описание обязательно для заполнения")]
-        [StringLength(150, ErrorMessage = "Описание не может иметь размер больше 150 символов")]
-        [DataType(DataType.Text)]
+        [DataType(DataType.MultilineText)]
         [DisplayName("Описание")]
         public string Description { get; set; }
 
@@ -124,11 +123,21 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             var _context = new UsersManagementService();
             var context = new ProjectManagementService();
             var projectUsers = context.GetProjectUsers(ProjectId).ToList().Where(e => e.ProjectRoleId == 1);
-            
+
             var users = new List<User>();
-            foreach (var user in projectUsers)
+
+            var currProjectUser =
+                context.GetProjectUsers(ProjectId).Single(e => e.UserId == WebSecurity.CurrentUserId);
+            if (currProjectUser.ProjectRoleId == 1)
             {
-                users.Add(_context.GetUser(user.UserId));
+                users.Add(_context.GetUser(currProjectUser.UserId));
+            }
+            else
+            {
+                foreach (var user in projectUsers)
+                {
+                    users.Add(_context.GetUser(user.UserId));
+                }
             }
 
             return users.Select(e => new SelectListItem
@@ -155,12 +164,14 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                         //Статус "Обнаружена"
                         case 1:
                             statuses.Add(allStatuses[0]);
+                            statuses.Add(allStatuses[1]);
+                            statuses.Add(allStatuses[5]);
                             break;
 
                         //Статус "Назначена"
                         case 2:
-                            statuses.Add(allStatuses[2]);
                             statuses.Add(allStatuses[1]);
+                            statuses.Add(allStatuses[2]);
                             statuses.Add(allStatuses[5]);
                             break;
 
@@ -184,6 +195,16 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                         case 6:
                             statuses.Add(allStatuses[5]);
                             statuses.Add(allStatuses[6]);
+                            break;
+
+                        //Статус "Открыта заново"
+                        case 8:
+                            if (AssignedDeveloperId == 0)
+                            {
+                                statuses.Add(allStatuses[1]);
+                            }
+
+                            statuses.Add(allStatuses[7]);
                             break;
                     }
 
@@ -196,6 +217,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                         //Статус "Обнаружена"
                         case 1:
                             statuses.Add(allStatuses[0]);
+                            statuses.Add(allStatuses[1]);
                             statuses.Add(allStatuses[4]);
                             statuses.Add(allStatuses[5]);
                             break;
@@ -210,6 +232,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                             statuses.Add(allStatuses[2]);
                             statuses.Add(allStatuses[3]);
                             statuses.Add(allStatuses[4]);
+                            statuses.Add(allStatuses[7]);
                             break;
 
                         //Статус "Проверена"
@@ -219,7 +242,6 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
                         //Статус "Отложена"
                         case 5:
-                            statuses.Add(allStatuses[0]);
                             if (AssignedDeveloperId != 0)
                             {
                                 statuses.Add(allStatuses[2]);
@@ -227,11 +249,25 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
                             statuses.Add(allStatuses[4]);
                             statuses.Add(allStatuses[5]);
+                            statuses.Add(allStatuses[7]);
                             break;
 
                         //Статус "Отклонена"
                         case 6:
                             statuses.Add(allStatuses[5]);
+                            statuses.Add(allStatuses[7]);
+                            break;
+
+                        //Статус "Открыта заново"
+                        case 8:
+                            if (AssignedDeveloperId != 0)
+                            {
+                                statuses.Add(allStatuses[2]);
+                            }
+
+                            statuses.Add(allStatuses[4]);
+                            statuses.Add(allStatuses[5]);
+                            statuses.Add(allStatuses[7]);
                             break;
                     }
 
@@ -243,9 +279,10 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                     {
                         //Статус "Обнаружена"
                         case 1:
-                            statuses.Add(allStatuses[1]);
                             statuses.Add(allStatuses[0]);
+                            statuses.Add(allStatuses[1]);
                             statuses.Add(allStatuses[4]);
+                            statuses.Add(allStatuses[5]);
                             break;
 
                         //Статус "Назначена"
@@ -267,19 +304,29 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
                         //Статус "Отложена"
                         case 5:
-                            statuses.Add(allStatuses[0]);
                             if (AssignedDeveloperId != 0)
                             {
                                 statuses.Add(allStatuses[2]);
                             }
 
                             statuses.Add(allStatuses[4]);
+                            statuses.Add(allStatuses[5]);
+                            statuses.Add(allStatuses[7]);
                             break;
 
                         //Статус "Отклонена"
                         case 6:
                             statuses.Add(allStatuses[5]);
                             statuses.Add(allStatuses[6]);
+                            statuses.Add(allStatuses[7]);
+                            break;
+
+                        //Статус "Открыта заново"
+                        case 8:
+                            statuses.Add(allStatuses[1]);
+                            statuses.Add(allStatuses[4]);
+                            statuses.Add(allStatuses[5]);
+                            statuses.Add(allStatuses[7]);
                             break;
                     }
 
@@ -339,10 +386,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             var bug = new Bug
             {
                 Id = BugId,
-                ReporterId = reporterId,
+                ReporterId = CreatorId,
                 ProjectId = ProjectId,
                 SeverityId = SeverityId,
-
                 StatusId = StatusId,
                 SymptomId = SymptomId,
                 Steps = Steps,
@@ -350,7 +396,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 Description = Description,
                 Summary = Summary,
                 ModifyingDate = DateTime.Today,
-                EditorId = WebSecurity.CurrentUserId,
+                EditorId = reporterId,
                 AssignedDeveloperId = AssignedDeveloperId
             };
 
@@ -359,6 +405,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 bug.ReportingDate = DateTime.Today;
                 bug.StatusId = 1;
                 bug.AssignedDeveloperId = 0;
+                bug.ReporterId = WebSecurity.CurrentUserId;
             }
             else
             {
@@ -369,7 +416,17 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 }
             }
 
+            if (bug.StatusId == 1 || bug.StatusId == 8)
+            {
+                bug.AssignedDeveloperId = 0;
+            }
+
             BugManagementService.SaveBug(bug);
+        }
+
+        public void SaveBugLog(BugLog bugLog)
+        {
+            new BugManagementService().SaveBugLog(bugLog);
         }
     }
 }

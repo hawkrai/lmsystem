@@ -14,6 +14,7 @@
         $('.editBugButton').handle("click", function () {
             var that = this;
             $.savingDialog("Редактирование ошибки", $(that).attr('href'), null, "primary", function (data) {
+                location.reload(true);
                 alertify.success("Ошибка успешно изменена");
             });
             return false;

@@ -49,12 +49,7 @@
         <div>
             @Html.LabelFor(model => model.SeverityId, new { @class = "control-label" })
             @Html.DropDownListFor(e => e.SeverityId, Model.GetSeverityNames(), new { @class = "form-control" })
-        </div>@*
-
-        <div>
-            @Html.LabelFor(model => model.StatusId, new { @class = "control-label" })
-            @Html.DropDownListFor(e => e.StatusId, Model.GetStatusNames(), new { @class = "form-control" })
-        </div>*@
+        </div>
     }
 
     <div>

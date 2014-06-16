@@ -10,5 +10,6 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     public interface IProjectCommentsRepository : IRepositoryBase<ProjectComment>
     {
+        void DeleteComment(ProjectComment comment);
     }
 }

@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Application.Core;
 using Application.Core.Data;
+using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.MessageManagement;
+using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;

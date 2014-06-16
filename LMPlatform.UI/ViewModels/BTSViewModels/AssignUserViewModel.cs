@@ -11,10 +11,12 @@ using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
+using Application.Infrastructure.UserManagement;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
@@ -99,9 +101,26 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }
         }
 
+        public List<Group> GetAssignedGroups(int userId)
+        {
+            var groups = new LmPlatformRepositoriesContainer().ProjectsRepository.GetGroups(userId);
+
+            return groups;
+        }
+
         public IList<SelectListItem> GetGroups()
         {
-            var groups = GroupManagementService.GetGroups();
+            var groups = new List<Group>(); 
+
+            var user = new UsersManagementService().GetUser(WebSecurity.CurrentUserId);
+            if (user != null)
+            {
+                groups = GetAssignedGroups(WebSecurity.CurrentUserId);
+            }
+            else
+            {
+                groups = new GroupManagementService().GetGroups();
+            }
 
             return groups.Select(v => new SelectListItem
             {
@@ -110,9 +129,9 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }).ToList();
         }
 
-        public IList<SelectListItem> GetStudents(int groupId)
+        public List<SelectListItem> GetStudents(int groupId)
         {
-            var students = StudentManagementService.GetGroupStudents(groupId);
+            var students = StudentManagementService.GetGroupStudents(groupId).OrderBy(e => e.FirstName);
 
             return students.Select(v => new SelectListItem
             {

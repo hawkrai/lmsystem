@@ -15,5 +15,16 @@ namespace LMPlatform.Data.Repositories
         public ProjectCommentsRepository(LmPlatformModelsContext dataContext) : base(dataContext)
         {
         }
+
+        public void DeleteComment(ProjectComment comment)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var model = context.Set<ProjectComment>().FirstOrDefault(e => e.Id == comment.Id);
+                context.Delete(model);
+
+                context.SaveChanges();
+            }
+        }
     }
 }

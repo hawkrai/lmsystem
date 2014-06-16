@@ -4,7 +4,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th style="width: 20px">№</th>
+@*                <th style="width: 20px">№</th>*@
                 <th>ФИО студента</th>
                 <th>Проект</th>
                 <th>Роль на проекте</th>
@@ -13,28 +13,24 @@
         </thead>
         @foreach (var student in Model.GetStudentGroupUserList(Model.GroupId))
         {
+            for (int i = 0; i < student.QuentityOfProjects; i++)
+            {
             <tr>
-                <td style="width: 20px">@student.Number</td>
-                <td>@student.Name</td>
-                <td>
-                    @foreach (var project in student.ProjectName)
-                    {
-                        <div style="padding-bottom: 10px">@project</div>
-                    }
-                </td>
-                <td>
-                    @foreach (var role in student.ProjectRole)
-                    {
-                        <div style="padding-bottom: 10px">@role</div>
-                    }
-                </td>
-                <td>
-                    @foreach (var project in student.ProjectCreatorName)
-                    {
-                        <div style="padding-bottom: 10px">@project</div>
-                    }
-                </td>
+                @if (i == 0)
+                {
+                    @*<td style="width: 20px">@student.Number</td>*@
+                    <td>@student.Name</td>
+                }
+                else
+                {
+                    @*<td></td>*@
+                    <td></td>
+                }
+                <td>@student.ProjectName[i]</td>
+                <td>@student.ProjectRole[i]</td>
+                <td>@student.ProjectCreatorName[i]</td>
             </tr>
+            }
         }
     </table>
 </div>

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Application.Core.Data;
@@ -56,5 +58,9 @@ namespace LMPlatform.Models
         public BugSeverity Severity { get; set; }
 
         public BugStatus Status { get; set; }
+
+        public string Attachments { get; set; }
+
+        public ICollection<BugLog> BugLogs { get; set; }
     }
 }

@@ -124,6 +124,11 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         private static List<BugStatus> _statuses;
         private static List<BugSeverity> _severities;
 
+        public string GetCommentUserName(int userId)
+        {
+            return new ProjectManagementService().GetCreatorName(userId);
+        }
+
         public List<ProjectComment> GetProjectComments()
         {
             var commentList = ProjectManagementService.GetProjectComments(ProjectId).ToList();

@@ -19,6 +19,8 @@ namespace LMPlatform.Data.Repositories
 
         public IBugsRepository BugsRepository { get; set; }
 
+        public IBugLogsRepository BugLogsRepository { get; set; }
+
         public IGroupsRepository GroupsRepository { get; set; }
 
         public IProjectsRepository ProjectsRepository { get; set; }
@@ -67,6 +69,7 @@ namespace LMPlatform.Data.Repositories
         {
             UsersRepository = new UsersRepository(_dataContext);
             BugsRepository = new BugsRepository(_dataContext);
+            BugLogsRepository = new BugLogsRepository(_dataContext);
             GroupsRepository = new GroupsRepository(_dataContext);
             ProjectsRepository = new ProjectsRepository(_dataContext);
             ProjectUsersRepository = new ProjectUsersRepository(_dataContext);

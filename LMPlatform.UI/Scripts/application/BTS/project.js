@@ -2,7 +2,6 @@
 
     init: function () {
         var that = this;
-        //$(".addProjectButton").tooltip({ title: "Добавить проект", placement: 'right' });
         that.initButtonAction();
         that._setColumnsSize();
     },
@@ -54,7 +53,9 @@
             });
             return false;
         });
+
         $(".editProject").tooltip({ title: "Редактировать проект", placement: 'left' });
+        //$(".clearProject").tooltip({ title: "Очистить проект", placement: 'top' });
         $(".deleteProject").tooltip({ title: "Удалить проект", placement: 'right' });
     }
 };

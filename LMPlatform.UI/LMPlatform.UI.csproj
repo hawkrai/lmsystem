@@ -53,6 +53,9 @@
     <Reference Include="Bootstrapper.UnityExtension">
       <HintPath>..\packages\Bootstrapper.Unity.2.0.3.9\lib\Net40\Bootstrapper.UnityExtension.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\packages\FluentValidation.5.3.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -577,7 +580,6 @@
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\passingController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\testDetailsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\testsController.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\Controllers\testUnlocksController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\kkcountdown.js" />
     <Content Include="Scripts\application\KnowledgeTesting\knowledgeTestingModule.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestPassingScript.js" />
@@ -1062,12 +1064,14 @@
     <Content Include="Views\Subject\_SubGroupsEditTemplate.cshtml" />
     <Content Include="Views\Subject\_SubGroupEdit.cshtml" />
     <Content Include="Views\Questions\EditorTemplates\QuestionItemListViewModel.cshtml" />
+    <Content Include="Views\Shared\_MessageDataTable.cshtml" />
     <Content Include="Views\Administration\_EditGroupView.cshtml" />
     <Content Include="Views\Account\_PersonalData.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Lectures\_LecturesModule.cshtml" />
     <Content Include="Views\Tests\_TestUnlocksSelector.cshtml" />
     <Content Include="Views\Tests\_TestUnlocksSelectorResult.cshtml" />
     <Content Include="Views\Tests\EditorTemplates\TestUnlockInfo.cshtml" />
+    <Content Include="Views\Shared\_MessageDisplayRow.cshtml" />
     <Content Include="Views\Shared\Messages\_DisplayMessage.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsModule.cshtml" />
     <Content Include="Views\BTS\_AddBugForm.cshtml" />
@@ -1099,6 +1103,8 @@
     <Content Include="Views\BTS\ProjectParticipation.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsPartial.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_ScheduleProtectionLabsPartial.cshtml" />
+    <Content Include="Views\Shared\_StatDataTable.cshtml" />
+    <Content Include="Views\Shared\_StatDisplayRow.cshtml" />
     <Content Include="Views\TestPassing\TestResultsTable.cshtml" />
     <Content Include="Views\TestPassing\TestResults.cshtml" />
     <Content Include="Views\TestPassing\_TestsResultsGridColumn.cshtml" />

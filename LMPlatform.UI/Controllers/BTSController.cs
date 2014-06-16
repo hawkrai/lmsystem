@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+using Application.Core;
 using Application.Core.Data;
+using Application.Core.Extensions;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.BugManagement;
+using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
@@ -25,6 +30,17 @@ namespace LMPlatform.UI.Controllers
     {
         private static int _currentProjectId;
         private static int _currentBugId;
+        private static int _prevBugStatus;
+
+        private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
+
+        public IFilesManagementService FilesManagementService
+        {
+            get
+            {
+                return filesManagementService.Value;
+            }
+        }
         
         [HttpGet]
         public ActionResult Index()
@@ -53,6 +69,7 @@ namespace LMPlatform.UI.Controllers
         public ActionResult DeleteProjectUser(int id)
         {
             ProjectManagementService.DeleteProjectUser(id);
+
             return null;
         }
 
@@ -79,6 +96,12 @@ namespace LMPlatform.UI.Controllers
         public ActionResult DeleteProject(int id)
         {
             ProjectManagementService.DeleteProject(id);
+            return null;
+        }
+
+        public ActionResult ClearProject()
+        {
+            ProjectManagementService.ClearProject(_currentProjectId);
             return null;
         }
 
@@ -137,6 +160,7 @@ namespace LMPlatform.UI.Controllers
             _currentProjectId = bug.ProjectId;
 
             var bugViewModel = new AddOrEditBugViewModel(id);
+            _prevBugStatus = bugViewModel.StatusId;
             var projectUser =
                 new ProjectManagementService().GetProjectUsers(bug.ProjectId).Single(e => e.UserId == WebSecurity.CurrentUserId);
             if ((projectUser.ProjectRoleId == 1 && bug.StatusId == 2) ||
@@ -145,7 +169,7 @@ namespace LMPlatform.UI.Controllers
                 return PartialView("_EditBugFormWithAssignment", bugViewModel);
             }
 
-            return PartialView("_EditBugForm", bugViewModel);
+            return PartialView("_EditBugFormWithAssignment", bugViewModel);
         }
 
         public ActionResult DeleteBug(int id)
@@ -158,9 +182,23 @@ namespace LMPlatform.UI.Controllers
         public ActionResult SaveBug(AddOrEditBugViewModel model)
         {
             model.Save(WebSecurity.CurrentUserId, _currentProjectId);
+            var bugLog = new BugLog
+            {
+                BugId = model.BugId,
+                UserId = WebSecurity.CurrentUserId,
+                UserName = ProjectManagementService.GetCreatorName(WebSecurity.CurrentUserId),
+                PrevStatusId = _prevBugStatus,
+                CurrStatusId = model.StatusId,
+                LogDate = DateTime.Now
+            };
+            if (model.BugId != 0)
+            {
+                model.SaveBugLog(bugLog);
+            }
+
             return null;
         }
-        
+
         [HttpPost]
         public JsonResult GetStudents(int groupId)
         {
@@ -191,9 +229,19 @@ namespace LMPlatform.UI.Controllers
             var projectUsers = context.GetProjectUsers(_currentProjectId).ToList().Where(e => e.ProjectRoleId == 1);
 
             var users = new List<User>();
-            foreach (var user in projectUsers)
+
+             var currProjectUser =
+                context.GetProjectUsers(_currentProjectId).Single(e => e.UserId == WebSecurity.CurrentUserId);
+            if (currProjectUser.ProjectRoleId == 1)
             {
-                users.Add(_context.GetUser(user.UserId));
+                users.Add(_context.GetUser(currProjectUser.UserId));
+            }
+            else
+            {
+                foreach (var user in projectUsers)
+                {
+                    users.Add(_context.GetUser(user.UserId));
+                }
             }
 
             var userList = users.Select(e => new SelectListItem
@@ -211,13 +259,20 @@ namespace LMPlatform.UI.Controllers
             var bug = new BugManagementService().GetBug(_currentBugId);
             var context = new ProjectManagementService();
             var projectRoleId = context.GetProjectUsers(bug.ProjectId).Single(e => e.UserId == WebSecurity.CurrentUserId).ProjectRoleId;
-            if (bug.AssignedDeveloperId != WebSecurity.CurrentUserId && projectRoleId == 1)
+            if (bug.AssignedDeveloperId == 0 && projectRoleId == 1)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                if (bug.AssignedDeveloperId != WebSecurity.CurrentUserId && projectRoleId == 1)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
 
@@ -452,8 +507,7 @@ namespace LMPlatform.UI.Controllers
             var projectUsers = ProjectManagementService.GetProjectUsers(pageInfo: dataTablesParam.ToPageInfo(),
                 searchString: searchString);
             var projectId = int.Parse(Request.QueryString["projectId"]);
-
-            if (User.IsInRole("lector"))
+            if (User.IsInRole("lector") && ProjectManagementService.GetProject(projectId).CreatorId == WebSecurity.CurrentUserId)
             {
                 return DataTableExtensions.GetResults(projectUsers.Items.Select(model => FromProjectUser(model, PartialViewToString("_ProjectUsersGridActions", FromProjectUser(model)))).Where(e => e.ProjectId == projectId && e.UserName != GetProjectCreatorName(projectId)), dataTablesParam, projectUsers.TotalCount);    
             }

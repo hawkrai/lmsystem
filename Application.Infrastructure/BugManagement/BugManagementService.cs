@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Application.Core.Data;
-using Application.Infrastructure.ProjectManagement;
-using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 
@@ -47,6 +45,14 @@ namespace Application.Infrastructure.BugManagement
             }
         }
 
+        public List<BugLog> GetBugLogs(int bugId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.BugLogsRepository.GetAll(new Query<BugLog>(e => e.BugId == bugId).Include(e => e.User)).ToList();
+            }
+        }
+
         public Bug SaveBug(Bug bug)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -58,6 +64,17 @@ namespace Application.Infrastructure.BugManagement
             return bug;
         }
 
+        public BugLog SaveBugLog(BugLog bugLog)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.BugLogsRepository.Save(bugLog);
+                repositoriesContainer.ApplyChanges();
+            }
+
+            return bugLog;
+        }
+
         public void DeleteBug(int bugId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -66,6 +83,24 @@ namespace Application.Infrastructure.BugManagement
                     repositoriesContainer.BugsRepository.GetBy(
                         new Query<Bug>().AddFilterClause(u => u.Id == bugId));
                 repositoriesContainer.BugsRepository.DeleteBug(bug);
+                repositoriesContainer.ApplyChanges();
+            }
+
+            ClearBugLogs(bugId);
+        }
+
+        public void ClearBugLogs(int bugId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var bugLogs =
+                    repositoriesContainer.BugLogsRepository.GetAll(
+                        new Query<BugLog>().AddFilterClause(u => u.BugId == bugId));
+                foreach (var bugLog in bugLogs)
+                {
+                    repositoriesContainer.BugLogsRepository.DeleteBugLog(bugLog);
+                }
+
                 repositoriesContainer.ApplyChanges();
             }
         }

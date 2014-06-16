@@ -163,6 +163,40 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
+        public void ClearProject(int projectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var project = repositoriesContainer.ProjectsRepository.GetBy(new Query<Project>(e => e.Id == projectId));
+                var projectUserList =
+                    repositoriesContainer.ProjectUsersRepository.GetAll(
+                        new Query<ProjectUser>().AddFilterClause(u => u.ProjectId == projectId));
+                foreach (var projectUser in projectUserList)
+                {
+                    if (projectUser.Id != project.Id)
+                    {
+                        repositoriesContainer.ProjectUsersRepository.DeleteProjectUser(projectUser);   
+                    }
+                }
+
+                var commentList =
+                    repositoriesContainer.ProjectCommentsRepository.GetAll(
+                        new Query<ProjectComment>().AddFilterClause(u => u.ProjectId == projectId));
+                foreach (var comment in commentList)
+                {
+                    repositoriesContainer.ProjectCommentsRepository.DeleteComment(comment);
+                }
+
+                var bugList =
+                    repositoriesContainer.BugsRepository.GetAll(
+                        new Query<Bug>().AddFilterClause(u => u.ProjectId == projectId));
+                foreach (var bug in bugList)
+                {
+                    repositoriesContainer.BugsRepository.DeleteBug(bug);   
+                }
+            }
+        }
+
         public void DeleteProjectUser(int projectUserId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
