@@ -46,7 +46,7 @@
             @foreach (var subject in Model.Subjects)
             {
                 var url = User.IsInRole("lector")
-                    ? Url.Action("Index", "Tests", new { subjectId = subject.SubjectId })
+                    ? Url.Action("KnowledgeTesting", "Tests", new { subjectId = subject.SubjectId })
                     : Url.Action("GetAvailableTests", "TestPassing", new { subjectId = subject.SubjectId });
 
                 <li><a href="@url" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>
