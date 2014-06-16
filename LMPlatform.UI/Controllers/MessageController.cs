@@ -73,6 +73,30 @@ namespace LMPlatform.UI.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult WriteMessageAjax(MessageViewModel msg, string itemAttachments)
+        {
+            if (ModelState.IsValid && msg.FromId == WebSecurity.CurrentUserId)
+            {
+                try
+                {
+                    var jsonSerializer = new JavaScriptSerializer();
+                    var attachments = jsonSerializer.Deserialize<List<Attachment>>(itemAttachments);
+
+                    msg.Attachment = attachments;
+
+                    msg.SaveMessage();
+                    return Json(new { code = 200, resultMessage = "Сообщение отправлено" });
+                }
+                catch
+                {
+                    return Json(new { code = 500, resultMessage = "При сохранении сообщения произошла ошибка" });
+                }
+            }
+
+            return PartialView("Common/_MessageForm", msg);
+        }
+
         public int MessagesCount()
         {
             var messagesCount = MessageManagementService.GetUnreadUserMessages(WebSecurity.CurrentUserId).Count();

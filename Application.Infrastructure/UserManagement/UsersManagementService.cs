@@ -10,7 +10,9 @@ namespace Application.Infrastructure.UserManagement
 
     using Application.Core;
     using Application.Core.Constants;
+    using Application.Core.Extensions;
     using Application.Infrastructure.AccountManagement;
+    using Application.Infrastructure.ProjectManagement;
 
     using LMPlatform.Data.Repositories;
     using LMPlatform.Data.Repositories.RepositoryContracts;
@@ -20,6 +22,7 @@ namespace Application.Infrastructure.UserManagement
     {
         private readonly LazyDependency<IUsersRepository> _usersRepository = new LazyDependency<IUsersRepository>();
         private readonly LazyDependency<IAccountManagementService> _accountManagementService = new LazyDependency<IAccountManagementService>();
+        private readonly LazyDependency<IProjectManagementService> _projectManagementService = new LazyDependency<IProjectManagementService>();
 
         public IUsersRepository UsersRepository
         {
@@ -34,6 +37,14 @@ namespace Application.Infrastructure.UserManagement
             get
             {
                 return _accountManagementService.Value;
+            }
+        }
+
+        public IProjectManagementService ProjectManagementService
+        {
+            get
+            {
+                return _projectManagementService.Value;
             }
         }
 
@@ -78,7 +89,8 @@ namespace Application.Infrastructure.UserManagement
 
         public User GetUser(int id)
         {
-            return UsersRepository.GetBy(new Query<User>(u => u.Id == id));
+            return UsersRepository.GetBy(new Query<User>(u => u.Id == id)
+                .Include(u => u.Student).Include(u => u.Lecturer).Include(u => u.Membership.Roles));
         }
 
         public bool IsExistsUser(string userName)
@@ -105,8 +117,17 @@ namespace Application.Infrastructure.UserManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>().AddFilterClause(u => u.Id == id));
+                var query = new Query<User>().AddFilterClause(u => u.Id == id).Include(u => u.ProjectUsers);
+                var user = repositoriesContainer.UsersRepository.GetBy(query);
+
                 repositoriesContainer.MessageRepository.DeleteUserMessages(user.Id);
+
+                var projects = user.ProjectUsers.DistinctBy(e => e.ProjectId).Select(e => e.ProjectId);
+                foreach (var projectId in projects)
+                {
+                    ProjectManagementService.DeleteUserFromProject(id, projectId);
+                }
+
                 var result = AccountManagementService.DeleteAccount(user.UserName);
                 repositoriesContainer.ApplyChanges();
 

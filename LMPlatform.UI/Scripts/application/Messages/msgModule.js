@@ -110,21 +110,35 @@ msgApp
         };
 
         $scope.deleteMessage = function (msgId) {
-            bootbox.confirm("Вы действительно хотите удалить сообщение?", function (isConfirmed) {
-                if (isConfirmed) {
-                    $http({
-                        method: 'POST',
-                        url: $scope.UrlServiceMessages + "Delete",
-                        data: { messageId: msgId },
-                        headers: { 'Content-Type': 'application/json' }
-                    }).success(function (data, status) {
-                        if (data.Code != '200') {
-                            alertify.error(data.Message);
-                        } else {
-                            alertify.success(data.Message);
-                            $scope.loadMessages();
-                        }
-                    });
+
+
+            bootbox.confirm({
+                title: 'Подтверждение удаления',
+                message: 'Вы действительно хотите удалить выбранное сообщение?',
+                buttons: {
+                    'cancel': {
+                        label: 'Отмена',
+                    },
+                    'confirm': {
+                        label: 'Удалить',
+                    }
+                },
+                callback: function (isConfirmed) {
+                    if (isConfirmed) {
+                        $http({
+                            method: 'POST',
+                            url: $scope.UrlServiceMessages + "Delete",
+                            data: { messageId: msgId },
+                            headers: { 'Content-Type': 'application/json' }
+                        }).success(function (data, status) {
+                            if (data.Code != '200') {
+                                alertify.error(data.Message);
+                            } else {
+                                alertify.success(data.Message);
+                                $scope.loadMessages();
+                            }
+                        });
+                    }
                 }
             });
         };
@@ -160,6 +174,7 @@ msgApp
                                     $defer.resolve(filteredData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                                 },
                                 counts: [],
+                                hideDataTablesInfo: true,
                                 $scope: { $data: {} }
                             });
                         } else {
@@ -177,7 +192,7 @@ msgApp
             });
         };
     }])
-    .controller("DisplayMsgCtrl",  function ($scope, $modalInstance, displayMsg) {
+    .controller("DisplayMsgCtrl", function ($scope, $modalInstance, displayMsg) {
 
         $scope.displayMessage = displayMsg;
 
@@ -193,17 +208,30 @@ msgApp
             $modalInstance.dismiss('cancel');
         };
     })
-    .controller("WriteMsgCtrl",  function ($scope, $http, $modalInstance, replayData) {
-
-        $scope.formMsg = {};
-        $scope.formMsg.recipients = [];
-        $scope.formMsg.recipientsList = [];
+    .controller("WriteMsgCtrl", function ($scope, $http, $modalInstance, replayData) {
+        $scope.recipientsList = [];
+        $scope.replayData = replayData;
 
         if (replayData) {
-            $scope.formMsg.subject = "Re: " + replayData.Subject;
-            //$scope.formMsg.recipients.push({value:replayData.AthorId, text:"test"});
-            $scope.formMsg.recipients.push(replayData.AthorId);
-            $scope.formMsg.recipientsList.push({ value: replayData.AthorId, text: replayData.AthorName });
+            $scope.recipientsList.push({ value: replayData.AthorId, text: replayData.AthorName });
+        }
+
+        $scope.cancelModal = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        $scope.submitModal = function (formData) {
+            $modalInstance.close(formData);
+        };
+    })
+    .controller("FormMsgCtrl", function ($scope) {
+
+        $scope.formData = {};
+        $scope.formData.recipients = [];
+
+        if ($scope.replayData) {
+            $scope.formData.subject = "Re: " + $scope.replayData.Subject;
+            $scope.formData.recipients.push($scope.replayData.AthorId);
         }
 
         $scope.getAttachments = function () {
@@ -223,30 +251,28 @@ msgApp
             return dataAsString;
         };
 
-        $scope.ok = function () {
-            $scope.formMsg.attachments = $scope.getAttachments();
-            $modalInstance.close($scope.formMsg);
-        };
 
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+        $scope.send = function () {
+            $scope.submitted = true;
+
+            if ($scope.msgForm.$valid) {
+                $scope.formData.attachments = $scope.getAttachments();
+                $scope.submitModal($scope.formData);
+            }
+
         };
     })
+
     .directive('ajaxChosen', function () {
 
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
                 var recipientsList = [];
-                var recipients = [];
-
-
-                $.each(scope.formMsg.recipientsList, function (i, val) {
+                $.each(scope.recipientsList, function (i, val) {
                     recipientsList.push({ text: val.text, value: val.value });
                     $(element).append("<option value = '" + val.value + "' selected='selected'>" + val.text + "</option>");
                 });
-
-                //$(element).val(recipients);
 
                 $(element).ajaxChosen({
                     type: 'GET',
@@ -268,7 +294,7 @@ msgApp
                       width: '100%'
                   }
                 ).change(function () {
-                    scope.formMsg.recipients = $(element).val();
+                    scope.formData.recipients = $(element).val();
                 });
             }
 

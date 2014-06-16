@@ -15,33 +15,36 @@ function getMessageForm(messageFormUrl) {
 function showDialog(messageForm) {
     bootbox.dialog({
         message: messageForm,
-        title: "Написать сообщение",
-        buttons: {
-            main: {
-                label: "Отправить",
-                className: "btn-primary btn-submit btn-sm",
-                callback: function () {
-                }
-            }
-        }
-    });
-
-    var form = $('#msgForm').find('form');
-    var sendBtn = $('#msgForm').parents().find('.modal-dialog').find('.btn-submit');
-
-    sendBtn.click(function () {
-        return submitMessageForm(form);
+        title: "Отправка сообщения",
     });
 }
 
-function submitMessageForm(form) {
-    $(form).append('<input type=\"hidden\" id=\"itemAttachments\" name=\"itemAttachments\" />');
-    $.validator.unobtrusive.parse($(form));
-    if ($(form).valid()) {
-        $("#itemAttachments").val(getCollectionItemAttachments());
-        form.find('input[type = submit]').trigger('click');
+function submitMessageForm() {
+    var form = $('#msgForm').find('form');
+    if (form) {
+        $(form).append('<input type=\"hidden\" id=\"itemAttachments\" name=\"itemAttachments\" />');
+        $.validator.unobtrusive.parse($(form));
+        if ($(form).valid()) {
+            $("#itemAttachments").val(getCollectionItemAttachments());
+            $(form).submit();
+        }
+    }
+}
+
+function successAjaxForm(result) {
+    var box = $('#msgForm').parents(".modal");
+    if (result.resultMessage) {
+        if (result.code == 200) {
+            $(box).modal('hide');
+            alertify.success(result.resultMessage);
+        } else {
+            alertify.error(result.resultMessage);
+        }
     } else {
-        return false;
+        $('#msgForm').parent().html(result);
+        $('form').removeData('validator');
+        $('form').removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse('form');
     }
 }
 

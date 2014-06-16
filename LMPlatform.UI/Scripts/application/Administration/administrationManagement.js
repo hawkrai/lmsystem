@@ -3,27 +3,29 @@
 
 ////functions
 function initStudentManagement() {
-    initManagement(".editButton", "Редактировать", "Редактирование студента", "#studentList");
-    initDeleteDialog(".deleteButton", "Удалить", "Удаление студента", "#studentList");
+    initManagement(".editButton", "Редактировать", "Редактирование студента");
+    initDeleteDialog(".deleteButton", "Удалить", "Удаление студента");
     initStatDialog(".statButton", "Статистика посещаемости");
 };
 
 function initLecturerManagement() {
-    initManagement(".editButton", "Редактировать", "Редактирование преподавателя", "#professorsList");
-    initManagement(".addButton", "Добавить преподавателя", "Добавление преподавателя", "#professorsList");
-    initDeleteDialog(".deleteButton", "Удалить", "Удаление преподавателя", "#professorsList");
+    initManagement(".editButton", "Редактировать", "Редактирование преподавателя");
+    initManagement(".addButton", "", "Добавление преподавателя");
+    initDeleteDialog(".deleteButton", "Удалить", "Удаление преподавателя");
     initStatDialog(".statButton", "Статистика посещаемости");
 };
 
 function initGroupManagement() {
-    initManagement(".editButton", "Редактировать", "Редактирование группы", "#groupList");
-    initManagement(".addButton", "Добавить группу", "Добавление группы", "#groupList");
-    initDeleteDialog(".deleteButton", "Удалить", "Удаление группы", "#groupList");
+    initManagement(".editButton", "Редактировать", "Редактирование группы");
+    initManagement(".addButton", "Добавить группу", "Добавление группы");
+    initDeleteDialog(".deleteButton", "Удалить", "Удаление группы");
 };
 
 function initManagement(btnSelector, btnTooltipTitle, dialogTitle) {
     var btn = $(btnSelector);
-    btn.tooltip({ title: btnTooltipTitle, placement: 'right' });
+    if (btnTooltipTitle) {
+        btn.tooltip({ title: btnTooltipTitle, placement: 'right' });
+    }
 
     btn.handle("click", function () {
         var actionUrl = $(this).attr('href');
@@ -35,12 +37,8 @@ function initManagement(btnSelector, btnTooltipTitle, dialogTitle) {
 function initStatDialog(btnSelector, btnTooltipTitle) {
     var btn = $(btnSelector);
     btn.tooltip({ title: btnTooltipTitle, placement: 'right' });
-
-
     btn.handle("click", function () {
-
         $('body').append("<div id='chart' style='width: 500px;'></div>");
-
         var actionUrl = $(this).attr('href');
         $.get(actionUrl, {},
           function (data) {
@@ -48,7 +46,7 @@ function initStatDialog(btnSelector, btnTooltipTitle) {
               var line = [];
 
               if (data.attendance) {
-                  data.attendance.forEach(function(val, index) {
+                  data.attendance.forEach(function (val) {
                       line.push([val.day, val.count]);
                   });
               } else {
@@ -85,7 +83,7 @@ function initStatDialog(btnSelector, btnTooltipTitle) {
 }
 
 
-function initDeleteDialog(btnSelector, btnTooltipTitle, saveDialogTitle, updateTableId) {
+function initDeleteDialog(btnSelector, btnTooltipTitle) {
     var btn = $(btnSelector);
     btn.tooltip({ title: btnTooltipTitle, placement: 'right' });
 
@@ -93,14 +91,14 @@ function initDeleteDialog(btnSelector, btnTooltipTitle, saveDialogTitle, updateT
         var actionUrl = $(this).attr('href');
         bootbox.confirm({
             message: "Вы действительно хотите удалить?",
-
+            title: "Подтверждение удаления",
             buttons: {
                 'cancel': {
                     label: "Отмена",
                     className: 'btn btn-sm'
                 },
                 'confirm': {
-                    label: 'Да',
+                    label: 'Удалить',
                     className: 'btn btn-primary btn-sm'
                 }
             },
@@ -108,7 +106,7 @@ function initDeleteDialog(btnSelector, btnTooltipTitle, saveDialogTitle, updateT
             callback: function (result) {
                 if (result) {
                     $.post(actionUrl, function (data) {
-                        updateTable(updateTableId);
+                        updateDataTable();
                         if (data.resultMessage)
                             alertify.success(data.resultMessage);
                     }).fail(function () {
@@ -135,7 +133,7 @@ function successAjaxForm(result) {
     var box = $('#adminModal').parents(".modal");
     if (result.resultMessage) {
         $(box).modal('hide');
-        updateTable(".dataTable");
+        updateDataTable();
         alertify.success(result.resultMessage);
     } else {
         $('#adminModal').html(result);
@@ -145,9 +143,11 @@ function successAjaxForm(result) {
     }
 }
 
-function updateTable(updateTableId) {
+function updateDataTable(updateTableId) {
     if (updateTableId) {
         $(updateTableId).dataTable().fnDraw();
+    } else {
+        $(".dataTable").dataTable().fnDraw();
     }
 };
 

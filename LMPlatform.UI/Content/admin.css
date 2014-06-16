@@ -15,6 +15,12 @@ td:first-child {
     margin-right: 5px;
 }
 
+#adminModal .modal-footer {
+    margin-top: 50px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
 #admin .side-nav .nav-item,
 #parental .side-nav .nav-item {
     font-size: 17px;

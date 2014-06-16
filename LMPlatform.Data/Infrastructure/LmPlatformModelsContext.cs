@@ -539,7 +539,7 @@ namespace LMPlatform.Data.Infrastructure
                .HasMany<Bug>(e => e.Bugs)
                .WithRequired(e => e.Project)
                .HasForeignKey(e => e.ProjectId)
-               .WillCascadeOnDelete(false);
+               .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<BugStatus>()
                 .HasMany<Bug>(e => e.Bug)

@@ -66,6 +66,7 @@ namespace Application.Infrastructure.BugManagement
                     repositoriesContainer.BugsRepository.GetBy(
                         new Query<Bug>().AddFilterClause(u => u.Id == bugId));
                 repositoriesContainer.BugsRepository.DeleteBug(bug);
+                repositoriesContainer.ApplyChanges();
             }
         }
     }

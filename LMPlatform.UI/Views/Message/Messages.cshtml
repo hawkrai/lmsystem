@@ -27,12 +27,11 @@
     </li>
 }
 
-<div ng-app="msgApp" ng-controller="msgController" ng-init="init(@WebSecurity.CurrentUserId)">
-
+<div id="messages" ng-app="msgApp" ng-controller="msgController" ng-init="init(@WebSecurity.CurrentUserId)">
     <h3>Сообщения</h3>
     <hr>
     <div>
-        <div id="buttonActionSection">
+        <div class="buttonActionSection">
             <a href="#" class="msgButton btn btn-primary btn-sm" ng-click="showForm()" data-toggle="tooltip">Написать сообщение</a>
 
         </div>
@@ -49,6 +48,10 @@
                 <div class="tab-content-wrapper">
                     <div class="tab-content" style="width: 100%">
                         <table ng-table="tableParams" style="width: 100%">
+                            <div ng-if="!getData().length" style="text-align: center">
+                                <span class="h4 icon-sad" style="margin-right: 5px"></span>
+                                <span>Нет сообщений</span>
+                            </div>
                             <tbody>
                                 <tr class="msg-row" ng-repeat="msg in $data">
                                     <td ng-click="openMsg(msg)">

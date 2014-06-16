@@ -10,7 +10,7 @@ namespace Application.Infrastructure.ProjectManagement
 {
     public interface IProjectManagementService
     {
-        Project GetProject(int projectId);
+        Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false);
 
         List<Project> GetProjects();
 
@@ -41,5 +41,7 @@ namespace Application.Infrastructure.ProjectManagement
         bool IsUserAssignedOnProject(int userId, int projectId);
 
         string GetCreatorName(int id);
+
+        void DeleteUserFromProject(int userId, int projectId);
     }
 }

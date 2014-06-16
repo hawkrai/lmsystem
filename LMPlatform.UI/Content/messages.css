@@ -2,31 +2,36 @@
     cursor: pointer;
 }
 
-.bordered {
+#messages .ng-table-pager {
+    text-align: center;
+    padding-top: 30px;
+}
+
+#messages .bordered {
     border-bottom: #ddd solid 1px;
 }
 
-.ellipsis {
+#messages .ellipsis {
     overflow: hidden;
     -moz-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.msg-row {
+#messages .msg-row {
     height: 45px;
     cursor: pointer;
 }
 
-    .msg-row i.is-read {
+    #messages .msg-row i.is-read {
         color: #008cba;
     }
 
-    .msg-row .fa-envelope {
+    #messages .msg-row .fa-envelope {
         color: gray;
     }
 
-    .msg-row td:first-child {
+    #messages .msg-row td:first-child {
         width: 60px;
         -moz-min-width: 60px;
         -ms-min-width: 60px;
@@ -36,7 +41,68 @@
         text-align: left;
     }
 
-sub.paperclip {
+
+
+    #messages .msg-row .athor-name {
+        font-size: 17px;
+        max-width: 250px;
+        min-width: 250px;
+        width: 250px;
+        line-height: 40px;
+        overflow: hidden;
+        padding: 0 10px 0 0;
+    }
+
+    #messages .msg-row .recip-name {
+        width: 180px;
+        max-width: 180px;
+        float: left;
+    }
+
+    #messages .msg-row .recip-name-add {
+        width: 70px;
+        max-width: 70px;
+        min-width: 70px;
+        color: #008cba;
+        text-decoration: none;
+    }
+
+    #messages .msg-row .subject {
+        font-size: 15px;
+        color: #515151;
+        padding-left: 10px;
+        max-width: 140px;
+        overflow: hidden;
+        -moz-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    #messages .msg-row .preview-text {
+        font-size: 15px;
+        color: #515151;
+        overflow: hidden;
+        -moz-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 180px;
+        padding-left: 10px;
+    }
+
+    #messages .msg-row .date {
+        text-align: right;
+        font-size: 16px;
+        max-width: 85px;
+        width: 85px;
+        padding-left: 10px;
+    }
+
+    #messages .msg-row .delete-button {
+        width: 45px;
+        text-align: right;
+    }
+
+#messages sub.paperclip {
     font-size: 11px;
     top: 12px;
     padding-left: -15px;
@@ -44,83 +110,17 @@ sub.paperclip {
     color: gray;
 }
 
-.msg-row .athor-name {
-    font-size: 17px;
-    max-width: 250px;
-    min-width: 250px;
-    width: 250px;
-    line-height: 40px;
-    overflow: hidden;
-    padding: 0 10px 0 0;
-}
-
-.msg-row .recip-name {
-    width: 180px;
-    max-width: 180px;
-    float: left;
-}
-
-.msg-row .recip-name-add {
-    width: 70px;
-    max-width: 70px;
-    min-width: 70px;
-    color: #008cba;
-    text-decoration: none;
-}
-
-.msg-row .subject {
-    font-size: 15px;
-    color: #515151;
-    padding-left: 10px;
-    max-width: 140px;
-    overflow: hidden;
-    -moz-text-overflow: ellipsis;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.msg-row .preview-text {
-    font-size: 15px;
-    color: #515151;
-    overflow: hidden;
-    -moz-text-overflow: ellipsis;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 180px;
-    padding-left: 10px;
-}
-
-.msg-row .date {
-    text-align: right;
-    font-size: 16px;
-    max-width: 85px;
-    width: 85px;
-    padding-left: 10px;
-}
-
-.msg-row .delete-button {
-    width: 45px;
-    text-align: right;
-}
-
-#buttonActionSection {
+#messages .buttonActionSection {
     margin: 20px 0;
     padding-left: 10px;
 }
 
-.tab-content-wrapper {
-    /*margin-left: 172px;
-    border-left: #ddd 1px solid;
-    padding-left: 35px;*/
+#messages .tab-content-wrapper {
     min-height: 150px;
     padding: 20px;
 }
 
-.ng-table-pager {
-    padding-top: 20px;
-}
-
-.row {
+#messages .row {
     padding: 0 10px;
 }
 
@@ -135,6 +135,10 @@ sub.paperclip {
     .form-msg .search-field > input {
         width: 180px !important;
     }
+
+   .form-msg  .validation-summary-errors {
+       margin-top: 20px;
+   }
 
 .display-msg {
 }
@@ -156,9 +160,10 @@ sub.paperclip {
         padding: 5px 0 25px 0;
         cursor: pointer;
     }
-    .display-msg .author-name a:hover {
-        text-decoration: none !important;
-    }
+
+        .display-msg .author-name a:hover {
+            text-decoration: none !important;
+        }
 
     .display-msg label {
         color: gray;

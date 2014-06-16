@@ -2,7 +2,12 @@
 @model LMPlatform.UI.ViewModels.MessageViewModels.MessageViewModel
 
 <div id="msgForm">
-    @using (Html.BeginForm("WriteMessage", "Message", FormMethod.Post))
+    @using (Ajax.BeginForm("WriteMessage", "Message", new AjaxOptions
+                                                                    {
+                                                                        Url = Url.Action("WriteMessageAjax"),
+                                                                        OnSuccess = "successAjaxForm",
+                                                                        HttpMethod = "POST"
+                                                                    }))
     {
         <div>
             @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-error" })
@@ -18,20 +23,21 @@
                 @if (Model.ToAdmin)
                 {
                     /*@Html.LabelFor(m => m.ToAdmin, new {style="font-size: 16px; display: block; text-align: center;"})*/
-                    @Html.ListBoxFor(m => m.Recipients, new List<SelectListItem>() { new SelectListItem() { Selected = true, Text = "Администратор", Value = "1" } },
-                                     new Dictionary<string, object> {
-                                         { "data-placeholder", "Введите имя получателя..." },
-                                         { "class", "form-control chosen-select" } })
-                    
+                    @Html.ListBoxFor(m => m.Recipients, new List<SelectListItem>() { new SelectListItem() { Selected = true, Text = "Администратор", Value = "0" } },
+                        new Dictionary<string, object> {
+                                                           { "data-placeholder", "Введите имя получателя..." },
+                                                           { "class", "form-control chosen-select" },
+                                                           {"disabled","disabled"}})
+
                     @Html.HiddenFor(m => m.ToAdmin)
                     @Html.HiddenFor(m => m.Recipients)
                 }
                 else
                 {
                     @Html.ListBoxFor(m => m.Recipients, Enumerable.Empty<SelectListItem>(),
-                                     new Dictionary<string, object> {
-                                         { "data-placeholder", "Введите имя получателя..." },
-                                         { "class", "form-control chosen-select" } })
+                        new Dictionary<string, object> {
+                                                           { "data-placeholder", "Введите имя получателя..." },
+                                                           { "class", "form-control chosen-select" } })
 
                     @Html.ValidationMessageFor(m => m.Recipients, " ")
                 }
@@ -47,12 +53,18 @@
                 <p></p>
                 <p></p>
             </div>
-            <div style="width: 60%">
-                @Html.Partial("Common/_FilesUploader", Model.Attachment)
-            </div>
+
             <input type="submit" style="display: none" />
         </div>
+
     }
+    <div style="width: 60%">
+        @Html.Partial("Common/_FilesUploader", Model.Attachment)
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn btn-sm bootbox-close-button" value="Отмена" style="width: auto" />
+        <input type="button" class="btn btn-primary btn-sm submit" onclick="submitMessageForm()" value="Отправить" style="width: auto" />
+    </div>
 </div>
 <link rel="stylesheet" href="/Content/chosen/chosen.css">
 <script type="text/javascript">

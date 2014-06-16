@@ -104,6 +104,11 @@ namespace LMPlatform.UI.Services.Messages
                 var recipientsList = JsonConvert.DeserializeObject<List<int>>(recipients).ToList();
                 var fromId = WebSecurity.CurrentUserId;
 
+                if (!string.IsNullOrEmpty(subject) && subject.Length > 50)
+                {
+                    subject = subject.Substring(0, 50);
+                }
+
                 var msg = new Message(body, subject);
 
                 if (attachmentsList.Any())
@@ -124,10 +129,10 @@ namespace LMPlatform.UI.Services.Messages
                 ////else
                 ////{
                 foreach (var recipientId in recipientsList)
-                    {
-                        var userMsg = new UserMessages(recipientId, fromId, msg.Id);
-                        MessageManagementService.SaveUserMessages(userMsg);
-                    }
+                {
+                    var userMsg = new UserMessages(recipientId, fromId, msg.Id);
+                    MessageManagementService.SaveUserMessages(userMsg);
+                }
                 ////}
 
                 return new ResultViewData

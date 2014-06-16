@@ -1,43 +1,50 @@
 ﻿@using System.Web.UI.WebControls
 
 <div class="modal-header">
-    <button type="button" ng-click="cancel()" class="close">×</button>
+    <button type="button" ng-click="cancelModal()" class="close">×</button>
     <h4 class="modal-title">
-        <i class="fa fa-envelope"></i>
+        @*<i class="fa fa-envelope"></i>*@
         Отправка сообщения
     </h4>
 </div>
 <div class="form-msg" id="msgForm">
-    @using (Html.BeginForm("WriteMessage", "Message", FormMethod.Post))
-    {
+    <form name="msgForm" ng-submit="send()" ng-controller="FormMsgCtrl" novalidate>
+        <div class="alert alert-error validation-summary-errors" ng-show="submitted && msgForm.$invalid">
+            <span>Ошибка!</span>
+            <ul>
+                <li ng-show="submitted && msgForm.msgFormRecipients.$error.required">Выберите получателя</li>
+                <li ng-show="submitted && msgForm.msgFormSubject.$error.required">Введите тему сообщения</li>
+                <li ng-show="submitted && msgForm.msgFormBody.$error.required">Введите текст сообщения</li>
+            </ul>
+        </div>
         <div>
             <hgroup style="text-align: center; margin-bottom: 20px"></hgroup>
             <div>
                 <label>Кому</label>
-                <select data-placeholder="Введите имя получателя..." multiple class="span4" ajax-chosen="recipientsList"
-                        ng-options="recipient.text for recipient in recipientsList"></select>
+                <select data-placeholder="Введите имя получателя..." multiple class="span4" ajax-chosen="recipientsList" name="msgFormRecipients" ng-model="formData.recipients"
+                        ng-options="recipient.text for recipient in recipientsList" required></select>
                 <p></p>
             </div>
             <div>
                 <label>Тема</label>
-                <input type="text" class="form-control" ng-model="formMsg.subject" />
+                <input type="text" class="form-control" name="msgFormSubject" ng-model="formData.subject" required />
             </div>
             <div>
                 <label>Сообщение</label>
-                <textarea class="form-control" ng-model="formMsg.body"></textarea>
+                <textarea class="form-control" name="msgFormBody" ng-model="formData.body" required></textarea>
                 <p></p>
                 <p></p>
             </div>
             <div style="width: 60%">
                 @Html.Partial("Common/_FilesUploader", new List<LMPlatform.Models.Attachment>())
             </div>
-            <input type="submit" style="display: none" />
         </div>
-    }
 
-    <div class="modal-footer">
-        <button class="btn btn-primary btn-sm" ng-click="ok()">Отправить</button>
-    </div>
+        <div class="modal-footer">
+            <input ng-click="cancelModal()" type="button" class="btn btn-sm bootbox-close-button" value="Отмена" style="width: auto" />
+            <input type="submit" class="btn btn-primary btn-sm" value="Отправить" style="width: auto" />
+        </div>
+    </form>
 </div>
 
 
