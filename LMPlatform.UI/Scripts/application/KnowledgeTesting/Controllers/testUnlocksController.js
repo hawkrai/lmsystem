@@ -1,5 +1,5 @@
 ﻿'use strict';
-knowledgeTestingApp.controller('testUnlocksCtrl', function ($scope, $http, $modalInstance) {
+knowledgeTestingApp.controller('testUnlocksCtrl', function ($scope, $http, id, $modalInstance) {
     //$scope.SelectedGroup = 'A';
     var subjectId = getUrlValue('subjectId');
 
@@ -18,7 +18,7 @@ knowledgeTestingApp.controller('testUnlocksCtrl', function ($scope, $http, $moda
 
     $scope.loadStudents = function () {
         if ($scope.group) {
-            $http({ method: "GET", url: kt.actions.groups.getSubgroups, dataType: 'json', params: { groupId: $scope.group.Id, subjectId: subjectId } })
+            $http({ method: "GET", url: kt.actions.groups.getSubgroups, dataType: 'json', params: { groupId: $scope.group.Id, subjectId: subjectId, testId: id } })
                 .success(function(data) {
                     $scope.subGroups = data;
                 })

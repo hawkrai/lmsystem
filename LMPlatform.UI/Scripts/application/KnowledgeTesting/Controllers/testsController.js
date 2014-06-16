@@ -10,7 +10,7 @@ knowledgeTestingApp.controller('testsCtrl', function ($scope, $http, $modal) {
     };
     
 
-    $scope.onUnlockButtonClicked = function (testId, testName) {
+    $scope.onUnlockButtonClicked = function (testId) {
         var modalInstance = $modal.open({
             templateUrl: '/Content/KnowledgeTesting/testUnlocks.html',
             controller: 'testUnlocksCtrl',

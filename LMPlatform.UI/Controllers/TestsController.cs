@@ -70,9 +70,21 @@ namespace LMPlatform.UI.Controllers
             return Json(groups, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetSubGroups(int groupId, int subjectId)
+        public JsonResult GetSubGroups(int groupId, int subjectId, int testId)
         {
-            var subgroups = SubjectsManagementService.GetSubGroups(subjectId, groupId).ToArray();
+            IEnumerable<TestUnlockInfo> testUnlocks = TestsManagementService.GetTestUnlocksForTest(groupId, testId);
+
+            var subgroups = SubjectsManagementService.GetSubGroups(subjectId, groupId).Select(subGroup => new
+            {
+                Name = subGroup.Name,
+                Students = subGroup.SubjectStudents.Select(student => new
+                {
+                    Id = student.StudentId,
+                    Name = student.Student.FullName,
+                    Unlocked = testUnlocks.Single(unlock => unlock.StudentId == student.StudentId).Unlocked
+                }).OrderBy(student => student.Name).ToArray()
+            }).ToArray();
+            
             return Json(subgroups, JsonRequestBehavior.AllowGet);
         }
 
