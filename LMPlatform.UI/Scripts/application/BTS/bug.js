@@ -1,9 +1,11 @@
 ﻿var bugManagement = {
     init: function () {
         var that = this;
-        //$(".addBugButton").tooltip({ title: "Задокументировать ошибку", placement: 'right' });
+        that._initializeTooltips();
         that.initButtonAction();
         that._setColumnsSize();
+
+        $('.deleteButton').on('click', 'span', $.proxy(this._onDeleteClicked, this));
     },
 
     _actionsColumnWidth: 60,
@@ -19,6 +21,41 @@
         $('[name="bugGridActionsCol"]')
             .parent()
             .width(this._actionsColumnWidth);
+    },
+
+    _initializeTooltips: function () {
+        $(".deleteButton").tooltip({ title: "Удалить ошибку", placement: 'top' });
+        $(".editBug").tooltip({ title: "Редактировать ошибку", placement: 'top' });
+    },
+
+    _onDeleteClicked: function (eventArgs) {
+
+        var itemId = eventArgs.target.dataset.modelId;
+        var context = {
+            itemId: eventArgs.target.dataset.modelId
+        };
+
+        bootbox.confirm({
+            title: 'Удаление ошибки',
+            message: 'Вы дествительно хотите удалить ошибку?',
+            buttons: {
+                'cancel': {
+                    label: 'Отмена',
+                    className: 'btn btn-primary btn-sm'
+                },
+                'confirm': {
+                    label: 'Удалить',
+                    className: 'btn btn-primary btn-sm',
+                }
+            },
+            callback: $.proxy(this._onDeleteConfirmed, context)
+        });
+    },
+
+    _onDeleteConfirmed: function (result) {
+        if (result) {
+            _bugDetails._deleteBug(this.itemId);
+        }
     },
 
     initButtonAction: function () {
@@ -53,11 +90,29 @@
             });
             return false;
         });
-        //$(".bugDetailsButton").tooltip({ title: "Информация об ошибке", placement: 'left' });
-        $(".editBug").tooltip({ title: "Редактировать ошибку", placement: 'top' });
-        $(".deleteBug").tooltip({ title: "Удалить ошибку", placement: 'right' });
     }
 };
+
+var _bugDetails = {
+
+    _webServiceUrl: '/BTS/',
+    _deleteMethodName: 'DeleteBug',
+
+    _onBugDeleted: function (result) {
+        datatable.fnDraw();
+        alertify.success("Ошибка удалена");
+    },
+
+    _deleteBug: function (id) {
+        $.ajax({
+            url: this._webServiceUrl + this._deleteMethodName,
+            type: "DELETE",
+            data: { id: id },
+            dataType: "json",
+            success: $.proxy(this._onBugDeleted, this)
+        });
+    },
+}
 
 $(document).ready(function () {
     bugManagement.init();

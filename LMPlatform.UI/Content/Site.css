@@ -826,6 +826,13 @@ body {
     color: #fff;
 }
 
+#easyTooltip3 {
+    padding: 5px 10px;
+    border: 1px solid #195fa4;
+    background:  #fff;
+    color: black;
+}
+
 #easyTooltip2 {
     padding: 5px 10px;
     border: 1px solid #5e5e5e;

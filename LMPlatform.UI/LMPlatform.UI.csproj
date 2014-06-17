@@ -280,6 +280,7 @@
     <Compile Include="ViewModels\BTSViewModels\AddOrEditProjectViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\AssignUserViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\BTSViewModels\BugStatusHelperViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugsViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectParticipationViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
@@ -542,6 +543,7 @@
     <Content Include="Images\ajax-loader-mini.gif" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\browser-icons.png" />
+    <Content Include="Images\bugStatusHelper.png" />
     <Content Include="Images\collection.png" />
     <Content Include="Images\data_privacy.png" />
     <Content Include="Images\glyphicons-halflings.png" />
@@ -1133,6 +1135,7 @@
     <Content Include="Views\BTS\_EditBugForm.cshtml" />
     <Content Include="Views\BTS\_AddBugOrCurrentProjectForm.cshtml" />
     <Content Include="Views\BTS\_EditBugFormWithAssignment.cshtml" />
+    <Content Include="Views\BTS\_BugStatusHelper.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

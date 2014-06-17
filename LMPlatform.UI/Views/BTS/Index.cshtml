@@ -23,7 +23,7 @@
 }
 
 <h3>Проекты</h3>
-<hr/>
+<hr />
 @if (User.IsInRole("lector"))
 {
     <div>
@@ -36,18 +36,24 @@
             <div>
                 @Html.Partial("_DataTable", new DataTableViewModel
                 {
-                        DataTable = Html.DataTable("ProjectsList", (BTSController controller) => controller.GetProjects(null)),
-                        DataTableOptions = new DataTableOptions
-                        {
-                            Filterable = true,
-                            Info = false,
-                            OnComplete = "projectManagement.projectEditItemActionHandler",
-                            Pagination = false,
-                            Searchable = true,
-                            Sortable = false                       
-                        }
+                    DataTable = Html.DataTable("ProjectsList", (BTSController controller) => controller.GetProjects(null)),
+                    DataTableOptions = new DataTableOptions
+                    {
+                        Filterable = true,
+                        Info = false,
+                        OnComplete = "projectManagement.projectEditItemActionHandler",
+                        Pagination = false,
+                        Searchable = true,
+                        Sortable = false
+                    }
                 })
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    var link = window.location.pathname;
+    $('.nav li a[href="' + link + '"]').parent().addClass('active');
+</script>

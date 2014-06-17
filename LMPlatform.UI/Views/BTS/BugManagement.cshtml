@@ -48,18 +48,23 @@
         
         <div>
             @Html.Partial("_DataTable", new DataTableViewModel
-                    {
-                        DataTable = Html.DataTable("BugList", (BTSController controller) => controller.GetAllBugs(null)),
-                        DataTableOptions = new DataTableOptions
-                        {
-                            Filterable = true,
-                            Info = false,
-                            OnComplete = "bugManagement.bugEditItemActionHandler",
-                            Pagination = false,
-                            Searchable = true,
-                            Sortable = false,
-                        }
-                    })
+            {
+                DataTable = Html.DataTable("BugList", (BTSController controller) => controller.GetAllBugs(null)),
+                DataTableOptions = new DataTableOptions
+                {
+                    Filterable = true,
+                    Info = false,
+                    OnComplete = "bugManagement.bugEditItemActionHandler",
+                    Pagination = false,
+                    Searchable = true,
+                    Sortable = false,
+                }
+            })
         </div>
     </div>
 </div>
+
+<script>
+    var link = window.location.pathname;
+    $('.nav li a[href="' + link + '"]').parent().addClass('active');
+</script>

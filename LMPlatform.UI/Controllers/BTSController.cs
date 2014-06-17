@@ -66,11 +66,11 @@ namespace LMPlatform.UI.Controllers
             return PartialView("_AssignLecturerOnProjectForm", projectUserViewModel);
         }
 
-        public ActionResult DeleteProjectUser(int id)
+        [HttpDelete]
+        public JsonResult DeleteProjectUser(int id)
         {
             ProjectManagementService.DeleteProjectUser(id);
-
-            return null;
+            return Json(id);
         }
 
         [HttpPost]
@@ -93,10 +93,11 @@ namespace LMPlatform.UI.Controllers
             return PartialView("_AddOrEditProjectForm", projectViewModel);
         }
 
-        public ActionResult DeleteProject(int id)
+        [HttpDelete]
+        public JsonResult DeleteProject(int id)
         {
             ProjectManagementService.DeleteProject(id);
-            return null;
+            return Json(id);
         }
 
         public ActionResult ClearProject()
@@ -172,10 +173,16 @@ namespace LMPlatform.UI.Controllers
             return PartialView("_EditBugFormWithAssignment", bugViewModel);
         }
 
-        public ActionResult DeleteBug(int id)
+        //public ActionResult DeleteBug(int id)
+        //{
+        //    BugManagementService.DeleteBug(id);
+        //    return null;
+        //}
+        [HttpDelete]
+        public JsonResult DeleteBug(int id)
         {
             BugManagementService.DeleteBug(id);
-            return null;
+            return Json(id);
         }
 
         [HttpPost]
@@ -304,6 +311,13 @@ namespace LMPlatform.UI.Controllers
         {
             var model = new UserInfoViewModel(id);
             return PartialView("_UserInfo", model);
+        }
+
+        [HttpPost]
+        public ActionResult GetBugStatusHelper()
+        {
+            var model = new BugStatusHelperViewModel(_currentBugId, WebSecurity.CurrentUserId);
+            return PartialView("_BugStatusHelper", model);
         }
 
         [HttpGet]

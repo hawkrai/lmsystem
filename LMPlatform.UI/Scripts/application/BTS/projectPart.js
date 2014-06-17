@@ -1,8 +1,11 @@
 ﻿var projectUserManagement = {
     init: function () {
         var that = this;
+        that._initializeTooltips();
         that.initButtonAction();
         that._setColumnsSize();
+
+        $('.deleteUserButton').on('click', 'span', $.proxy(this.onDeleteClicked, this));
 
         $("#groups").change(function () {
             $("#students").empty();
@@ -19,6 +22,10 @@
     _actionsColumnWidth: 60,
     _numberingColumnWidth: 20,
 
+    _initializeTooltips: function () {
+        $(".deleteUserButton").tooltip({ title: "Удалить участника проекта", placement: 'right' });
+    },
+
     _setColumnsSize: function () {
         // Set "№" column size
         $('.odd')
@@ -29,6 +36,36 @@
         $('[name="projectUserGridActionsCol"]')
             .parent()
             .width(this._actionsColumnWidth);
+    },
+
+    onDeleteClicked: function (eventArgs) {
+
+        var itemId = eventArgs.target.dataset.modelId;
+        var context = {
+            itemId: eventArgs.target.dataset.modelId
+        };
+
+        bootbox.confirm({
+            title: 'Удаление участника проекта',
+            message: 'Вы дествительно хотите удалить участника проекта?',
+            buttons: {
+                'cancel': {
+                    label: 'Отмена',
+                    className: 'btn btn-primary btn-sm'
+                },
+                'confirm': {
+                    label: 'Удалить',
+                    className: 'btn btn-primary btn-sm',
+                }
+            },
+            callback: $.proxy(this.onDeleteConfirmed, context)
+        });
+    },
+
+    onDeleteConfirmed: function (result) {
+        if (result) {
+            projectUserDetails.deleteProjectUser(this.itemId);
+        }
     },
 
     initButtonAction: function () {
@@ -83,22 +120,33 @@
             });
             return false;
         });
-        $(".editProjectUser").tooltip({ title: "Редактировать участника проекта", placement: 'top' });
-        $(".deleteProjectUser").tooltip({ title: "Удалить участника проекта", placement: 'right' });
     }
 };
+
+var projectUserDetails = {
+
+    _webServiceUrl: '/BTS/',
+    _deleteMethodName: 'DeleteProjectUser',
+
+    onProjectUserDeleted: function (result) {
+        datatable.fnDraw();
+        alertify.success("Участник проекта удален");
+    },
+
+    deleteProjectUser: function (id) {
+        $.ajax({
+            url: this._webServiceUrl + this._deleteMethodName,
+            type: "DELETE",
+            data: { id: id },
+            dataType: "json",
+            success: $.proxy(this.onProjectUserDeleted, this)
+        });
+    },
+}
 
 $(document).ready(function () {
     projectUserManagement.init();
     $("#groups").change();
-
-    //$('#ProjectUserList').dataTable({ "bRetrieve": true });
-
-    //$('#ProjectUserList').dataTable({
-    //    "oLanguage": {
-    //        "sZeroRecords": "Ничего не найдено"
-    //    }
-    //});
 
     document.onmouseover = document.onmouseout = handler;
 
@@ -108,7 +156,7 @@ $(document).ready(function () {
             var toElem = e.srcElement || e.target;
             if (str(toElem) == "TD") {
                 var name = toElem.parentNode.childNodes[1];
-                var id = toElem.parentNode.childNodes[3].children[0].children[0].children[0].textContent;
+                var id = toElem.parentNode.childNodes[3].childNodes[0].children[0].children[0].attributes[1].value;
                 $.post("/BTS/GetUserInformation", { id: id }, function (data) {
                     $(name).easyTooltip({
                         tooltipId: "easyTooltip",

@@ -8,6 +8,16 @@
                 $("#editBug").removeClass("hidden");
             }
         });
+
+        $('.bugStatusHelper').mouseover(function (e) {
+            $.post("/BTS/GetBugStatusHelper", null, function (data) {
+                $('.bugStatusHelper').easyTooltip({
+                    yOffset: 150,
+                    tooltipId: "easyTooltip3",
+                    content: data
+                });
+            });
+        });
     },
 
     initButtonAction: function () {

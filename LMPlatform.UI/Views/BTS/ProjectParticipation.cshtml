@@ -57,12 +57,12 @@
                                                 @if (i == 0)
                                                 {
                                                 @*<td style="width: 20px">@lecturer.Number</td>*@
-                                                <td>@lecturer.Name</td>
+                                                    <td>@lecturer.Name</td>
                                                 }
                                                 else
                                                 {
                                                 @*<td></td>*@
-                                                <td></td>
+                                                    <td></td>
                                                 }
                                                 <td>@lecturer.ProjectName[i]</td>
                                                 <td>@lecturer.ProjectRole[i]</td>
@@ -94,10 +94,10 @@
                             <br />
                             foreach (var group in Model.GetGroups())
                             {
-                            <button class="btn btn-primary btn-sm groupButton">
-                                @group.Text
-                                <input type="hidden" value="@group.Value"/>
-                            </button>
+                                <button class="btn btn-primary btn-sm groupButton">
+                                    @group.Text
+                                    <input type="hidden" value="@group.Value"/>
+                                </button>
                             }
                         }
                     </div>
@@ -113,14 +113,9 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
 </div>
+
+<script>
+    var link = window.location.pathname;
+    $('.nav li a[href="' + link + '"]').parent().addClass('active');
+</script>

@@ -141,6 +141,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         public List<BugLog> GetBugLogs()
         {
             var bugLogList = new BugManagementService().GetBugLogs(BugId).ToList();
+            bugLogList.Reverse(0, bugLogList.Count);
 
             return bugLogList;
         }
