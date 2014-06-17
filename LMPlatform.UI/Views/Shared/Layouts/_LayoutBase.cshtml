@@ -46,9 +46,9 @@
                 <ul class="nav navbar-nav side-nav">
                     @RenderSection("navleft", false)
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" style="margin-top: 5px">
                     <li>
-                        <a href="@Url.Action("Index", "Message")"><i class="fa fa-envelope"></i>Сообщения <span class="badge">@Html.Action("MessagesCount", "Message")</span></a>
+                        <a href="@Url.Action("Index", "Message")"><i class="fa fa-envelope"></i>  Сообщения <span class="badge">@Html.Action("MessagesCount", "Message")</span></a>
                     </li>
                     @Html.Partial("_LoginPartial")
                 </ul>
@@ -71,7 +71,7 @@
                             <h2>Система управления учебным процессом v2.0</h2>
                         </div>
                         <div style="text-align: left ;margin-top: 70px; font-size: 11px; margin-bottom: -40px;">
-                            <p>Разработчики: <b>Яцынович С.В. Колосовский К.А. Завистовская Е.С. Борковская О.Н. Петров П.П.</b></p>
+                            <p>Разработчики: <b>Яцынович С.В., Колосовский К.А., Завистовская Е.С., Барковская О.А. Тарасюк П.П.</b></p>
                             <p>Руководитель: <b>Попова Ю.Б.</b></p>
                             <p>БНТУ, ФИТР, ПОВТ и АС </p>
                             <p>© 2013 - @DateTime.Now.Date.Year.ToString()</p>

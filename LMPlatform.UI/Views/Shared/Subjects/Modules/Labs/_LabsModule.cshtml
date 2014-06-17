@@ -7,7 +7,7 @@
 
         .table-hoverT > tbody > tr:hover > td,
         .table-hoverT > tbody > tr:hover > th {
-            background-color: #008b8b;
+            background-color: #e7e7e7;
         }
     </style>
 
@@ -85,7 +85,7 @@
                     </thead>
                     <tr ng-repeat="data in groupWorkingData.selectedSubGroup.Labs">
                         <td style="width: 20px">{{data.Order}}</td>
-                        <td style="max-width: 200px">{{data.ShortName}}</td>
+                        <td style="max-width: 200px">{{data.Theme}}</td>
                         <td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
                             {{recomend.Mark}}
                         </td>
