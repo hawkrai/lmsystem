@@ -8,8 +8,9 @@ knowledgeTestingApp.controller('passingCtrl', function($scope, $http) {
 
 var testPassing = {
     init: function () {
-        $('#nextButton').on('click', $.proxy(this._onNextButtonClicked, this));
+        //$('#nextButton').on('click', $.proxy(this._onNextButtonClicked, this));
         this._nextQuestionNumber = 1;
+        this._onNextButtonClicked();
     },
 
     _webServiceUrl: '/TestPassing/',

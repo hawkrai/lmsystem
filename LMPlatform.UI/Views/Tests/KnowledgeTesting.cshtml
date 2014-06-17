@@ -83,7 +83,7 @@
         <li class="linkNavbar" data-ng-class="{'active':isActive('/tests')}"><a href="#/tests"><i class="fa fa-pencil-square-o fa-1x"></i>&nbsp; Тесты</a></li>
         <li class="linkNavbar" data-ng-class="{'active':isActive('/control')}"><a href="#/control"><i class="fa fa-eye fa-1x"></i>&nbsp; Контроль прохождения тестов</a></li>
         <li class="linkNavbar" data-ng-class="{'active':isActive('/results')}"><a href="#/results"><i class="fa fa-tasks fa-1x"></i>&nbsp; Результаты</a></li>
-         <li class="linkNavbar"><a href="@Url.Action("Index", "Tests", new {subjectId = Model.Id})"><i class="fa fa-1x fa-reply fa-tab"></i>&nbsp;К старой системе</a></li>
+         @*<li class="linkNavbar"><a href="@Url.Action("Index", "Tests", new {subjectId = Model.Id})"><i class="fa fa-1x fa-reply fa-tab"></i>&nbsp;К старой системе</a></li>*@
         <li class="linkNavbar"><a href="@Url.Action("Index", "Lms")"><i class="fa fa-1x fa-reply fa-tab"></i>&nbsp;В главное меню</a></li>
     </div>
 }

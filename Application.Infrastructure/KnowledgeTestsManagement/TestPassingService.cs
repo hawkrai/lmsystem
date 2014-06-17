@@ -80,6 +80,17 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return tests;
         }
 
+        public IEnumerable<Test> GetTests()
+        {
+            IEnumerable<Test> tests;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                tests = repositoriesContainer.TestsRepository.GetAll().ToList();
+            }
+
+            return tests;
+        }
+
         public TestPassResult GetTestPassingTime(int testId, int studentId)
         {
             TestPassResult passingResult = GetTestPassResult(testId, studentId);
@@ -138,16 +149,17 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return studentResults;
         }
 
-        private List<TestPassResult> GetTestPassResultsForStudent(int[] testIds, Student rawStudent, int subjectId = 1)
+        private List<TestPassResult> GetTestPassResultsForStudent(int[] testIds, Student rawStudent)
         {
-            var tests = GetTestsForSubject(subjectId);
+            var tests = GetTests();
             var testPassResults = new List<TestPassResult>();
             foreach (int testId in testIds)
             {
+                var t = tests.SingleOrDefault(test => test.Id == testId);
                 testPassResults.Add(new TestPassResult
                 {
                     TestId = testId,
-                    TestName = tests.Single(test => test.Id == testId).Title, 
+                    TestName = t != null ? t.Title : "Тест", 
                     Points = GetPoints(rawStudent, testId)
                 });
             }
