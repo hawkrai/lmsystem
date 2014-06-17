@@ -6,11 +6,14 @@
 <div class="form-group">
     @foreach (KeyValuePair<int, PassedQuestionResult> passResult in Model)
     {
+        
         string color = passResult.Value == PassedQuestionResult.Success
-            ? "rgb(109, 211, 109)"
-            : "red";
-        <div class="row" style="height: 30px; background-color: @color; margin: 5px">
-            Вопрос № @passResult.Key
+            ? "rgb(143, 207, 118)"
+            : "rgb(250, 112, 112)";
+        
+        <div class="row">
+            <div class="col-lg-2">Вопрос № @passResult.Key</div>
+            <div class="col-lg-10" style="background-color: @color; height:20px"></div>
         </div>
     }
 </div>

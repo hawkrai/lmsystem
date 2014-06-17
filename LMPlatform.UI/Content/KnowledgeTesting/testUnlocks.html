@@ -4,26 +4,40 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-lg-6 input-group input-group-sm">
-            <span style='display: table-cell; text-align: right'>Группы&nbsp;</span>
-            <select class="form-control input-xs" data-ng-model="context.group" data-ng-options="group.Name for group in groups"></select>
+        <div class="col-lg-6 input-group input-group-sm" style="margin-left: 15px;">
+            <span style='display: table-cell; text-align: right; width: 20px'>Группы&nbsp;</span>
+            <select data-ng-change="loadStudents()" class="form-control input-xs" data-ng-model="context.group" data-ng-options="group.Name for group in groups"></select>
         </div>
-        <button data-ng-click="loadStudents()">Load students</button>
     </div>
-    <div></div>
+    <div style="height: 10px"></div>
     
+    <h5 ng-hide="subGroups.length > 0">В предмете не определено ни одной подгруппы</h5>
+
     <div data-ng-repeat="subGroup in subGroups">
-        <h5>{{subGroup.Name}}</h5>
-        
+        <div class="row">
+            <div class="col-lg-4">
+                <h5>Подгруппа&nbsp;{{$index + 1}}</h5>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-6">
+                <a id="unlockAllStudents" ng-click="lockAll(subGroup, true)" class="btn btn-primary btn-xs">Открыть для всех</a>
+                <a id="lockAllStudents" ng-click="lockAll(subGroup, false)" class="btn btn-primary btn-xs">Закрыть для всех</a>
+            </div>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-hover table-striped">
                 <tr data-ng-repeat="student in subGroup.Students | filter : query">
-                    <td width="10px" style="border:none">{{$index + 1}}</td>
-                    <td style="border:none" width="250px">{{student.Name}}</td>
-                    <td width="30px" style="border:none"><a><i class="fa fa-1x" data-ng-class="{'fa-unlock': student.Unlocked, 'fa-lock': !student.Unlocked}"></i></a></td>
+                    <td width="10px" style="border: none">{{$index + 1}}</td>
+                    <td style="border: none" width="250px">{{student.Name}}</td>
+                    <td ng-click="lockOne(student.Id, !student.Unlocked)" style="border: none; width: 20px"><a><i class="fa fa-1x" data-ng-class="{'fa-unlock': student.Unlocked, 'fa-lock': !student.Unlocked}"></i></a></td>
                 </tr>
             </table>
         </div>
     </div>
+</div>
+
+<div class="modal-footer" style="margin: 0">
+    <a data-ng-click="closeDialog()" class="btn btn-primary btn-sm">К тестам</a>
 </div>
 
