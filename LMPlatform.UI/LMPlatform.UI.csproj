@@ -280,7 +280,6 @@
     <Compile Include="ViewModels\BTSViewModels\AddOrEditProjectViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\AssignUserViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugStatisticsViewModel.cs" />
-    <Compile Include="ViewModels\BTSViewModels\BugStatusHelperViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugsViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectParticipationViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />

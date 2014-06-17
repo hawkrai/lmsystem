@@ -316,8 +316,7 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public ActionResult GetBugStatusHelper()
         {
-            var model = new BugStatusHelperViewModel(_currentBugId, WebSecurity.CurrentUserId);
-            return PartialView("_BugStatusHelper", model);
+            return PartialView("_BugStatusHelper");
         }
 
         [HttpGet]
