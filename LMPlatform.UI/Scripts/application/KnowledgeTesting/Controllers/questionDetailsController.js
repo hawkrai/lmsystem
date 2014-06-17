@@ -29,6 +29,8 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
                 if (data.ErrorMessage) {
                     alertify.error(data.ErrorMessage);
                 } else {
+                    $scope.loadQuestions();
+                    $scope.closeDialog();
                     alertify.success('Вопрос успешно сохранен');
                 }
             }

@@ -1,4 +1,5 @@
-﻿<h3>В данный момент тесты проходят:</h3>
+﻿<h3 data-ng-show="items.length > 0">В данный момент тесты проходят:</h3>
+<h3 data-ng-hide="items.length > 0">В данный момент ни один студент не проходит тест</h3>
 <hr />
 
 <div class="row">
@@ -13,8 +14,8 @@
     <h4>{{item.Test}}</h4>
     <div>
         <div class="table-responsive">
-            <table class="table table-hover table-striped">
-                <tr data-ng-repeat="student in item.Students | filter : query">
+            <table class="table table-hover" data-ng-repeat="student in item.Students | filter : query">
+                <tr >
                     <td style="border:none" width="250px">{{student.StudentName}}</td>
                     <td style="padding: 0; border:none" data-ng-repeat="res in student.PassResults track by $index">
                         <div style="text-align: center; margin-top: 10px;" tooltip="{{res == 0 ? 'Не пройден' : (res == 1 ? 'Правильный ответ' : 'Неправильный ответ')}}" data-ng-class="{'progress-notPassed': res == 0, 'progress-success': res == 1, 'progress-error': res == 2}">{{$index + 1}}</div>

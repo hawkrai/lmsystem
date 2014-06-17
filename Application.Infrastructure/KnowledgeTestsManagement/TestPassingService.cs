@@ -58,7 +58,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 results.Add(new RealTimePassingResult
                 {
                     StudentName = unockResult.Student.FullName,
-                    PassResults = unockResult.Student.User.UserAnswersOnTestQuestions.Select(GetQuestionStatus).ToList(),
+                    PassResults = GetControlItems(unockResult.TestId, unockResult.StudentId).ToList(),
                     TestName = unockResult.Test.Title
                 });
             }
@@ -212,6 +212,11 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             if (userAnswers.Count() != 1)
             {
                 throw new InvalidDataException("Пользователь должен указать 1 правильный ответ");
+            }
+
+            if (userAnswers.Single().Content == null)
+            {
+                throw new InvalidDataException("Пользователь должен указать ответ");
             }
 
             if (question.Answers.Select(answer => answer.Content.ToLower()).Contains(userAnswers.Single().Content.ToLower()))
@@ -369,7 +374,11 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         private int GetResultPoints(IEnumerable<AnswerOnTestQuestion> testAnswers)
         {
-            return testAnswers.Sum(testAnswer => testAnswer.Points);
+            Test test = GetTest(testAnswers.First().TestId);
+            var result = ((double)testAnswers.Sum(testAnswer => testAnswer.Points) 
+                / (double)test.Questions.Sum(question => question.ComlexityLevel)) * 10;
+
+            return (int)result;
         }
 
         private Tuple<Question, int> GetNextQuestionsFromNotPassedItems(List<AnswerOnTestQuestion> notPassedQuestions, int nextQuestionNumber)
@@ -438,6 +447,29 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
 
             return testAnswers;
+        }
+
+        /// <summary>
+        /// Return records for current test or create
+        /// </summary>
+        private IEnumerable<PassedQuestionResult> GetControlItems(int testId, int userId)
+        {
+            List<AnswerOnTestQuestion> testAnswers;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                IRepositoryBase<AnswerOnTestQuestion> repository = repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>();
+                testAnswers =
+                    repository.GetAll(
+                        new Query<AnswerOnTestQuestion>(
+                            testAnswer => testAnswer.TestId == testId && testAnswer.UserId == userId)).ToList();
+            }
+
+            if (!testAnswers.Any())
+            {
+                return new PassedQuestionResult[0];
+            }
+
+            return testAnswers.Select(GetQuestionStatus);
         }
 
         private void StartNewTest(int testId, int userId)

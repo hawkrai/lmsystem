@@ -5,6 +5,10 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
         $scope.loadQuestions();
     };
 
+    $scope.onNewButtonClicked = function() {
+        loadQuestion(0);
+    };
+
     $scope.onEditButtonClicked = function (questionId) {
         loadQuestion(questionId);
     };
@@ -43,13 +47,9 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
                 });
         }
     };
-    
-    $scope.onNewButtonClicked = function () {
-        //loadTest(0);
-    };
 
     $scope.loadQuestions = function() {
-        var testId = 1;
+        var testId = getHashValue('testId');
 
         $http({ method: "GET", url: kt.actions.questions.getQuestions, dataType: 'json', params: { testId: testId } })
             .success(function(data) {
