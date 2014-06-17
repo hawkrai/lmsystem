@@ -94,6 +94,8 @@ namespace LMPlatform.UI.Controllers
                 }
             }
 
+            msg.Attachment = new List<Attachment>();
+
             return PartialView("Common/_MessageForm", msg);
         }
 

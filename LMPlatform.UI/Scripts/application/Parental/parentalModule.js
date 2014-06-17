@@ -374,8 +374,9 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
             });
 
             result.pos = arr.length - result.neg;
-            if (result.pos > 0)
-                result.avg = result.sum / result.pos;
+            if (result.pos > 0) {
+                result.avg = Math.round(result.sum / result.pos * 100) / 100;
+            }
         }
 
         return result;

@@ -80,11 +80,11 @@
                     <td>{{student.LabHours}}</td>
                     <td>{{student.PractHours}}</td>
                     <td>{{student.TotalHours}}</td>
-                    <td ng-if="student.LabMark > 0">{{student.LabMark}} ({{student.LabsCount}})</td>
+                    <td ng-if="student.LabMark > 0">{{student.LabMark.toString().replace(".", ",")}} ({{student.LabsCount}})</td>
                     <td ng-if="student.LabMark <= 0">-</td>
-                    <td ng-if="student.PractMark > 0">{{student.PractMark}} ({{student.PractsCount}})</td>
+                    <td ng-if="student.PractMark > 0">{{student.PractMark.toString().replace(".", ",")}} ({{student.PractsCount}})</td>
                     <td ng-if="student.PractMark <= 0">-</td>
-                    <td ng-if="student.PractMark > 0 && student.LabMark > 0">{{(student.PractMark + student.LabMark)/2}}</td>
+                    <td ng-if="student.PractMark > 0 && student.LabMark > 0">{{((student.PractMark + student.LabMark)/2).toString().replace(".", ",")}}</td>
                     <td ng-if="(student.PractMark == 0 && student.LabMark > 0) || (student.PractMark > 0 && student.LabMark == 0)">
                         {{(student.PractMark + student.LabMark)}}
                     </td>

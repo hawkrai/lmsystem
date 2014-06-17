@@ -70,7 +70,6 @@ msgApp
             });
         };
 
-
         $scope.showForm = function (replayData) {
             var modalInstance = $modal.open({
                 templateUrl: 'Message/MessageForm',
@@ -110,8 +109,6 @@ msgApp
         };
 
         $scope.deleteMessage = function (msgId) {
-
-
             bootbox.confirm({
                 title: 'Подтверждение удаления',
                 message: 'Вы действительно хотите удалить выбранное сообщение?',
@@ -297,7 +294,6 @@ msgApp
                     scope.formData.recipients = $(element).val();
                 });
             }
-
         };
     });
 
