@@ -1065,14 +1065,12 @@
     <Content Include="Views\Subject\_SubGroupsEditTemplate.cshtml" />
     <Content Include="Views\Subject\_SubGroupEdit.cshtml" />
     <Content Include="Views\Questions\EditorTemplates\QuestionItemListViewModel.cshtml" />
-    <Content Include="Views\Shared\_MessageDataTable.cshtml" />
     <Content Include="Views\Administration\_EditGroupView.cshtml" />
     <Content Include="Views\Account\_PersonalData.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Lectures\_LecturesModule.cshtml" />
     <Content Include="Views\Tests\_TestUnlocksSelector.cshtml" />
     <Content Include="Views\Tests\_TestUnlocksSelectorResult.cshtml" />
     <Content Include="Views\Tests\EditorTemplates\TestUnlockInfo.cshtml" />
-    <Content Include="Views\Shared\_MessageDisplayRow.cshtml" />
     <Content Include="Views\Shared\Messages\_DisplayMessage.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsModule.cshtml" />
     <Content Include="Views\BTS\_AddBugForm.cshtml" />
@@ -1104,8 +1102,6 @@
     <Content Include="Views\BTS\ProjectParticipation.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsPartial.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_ScheduleProtectionLabsPartial.cshtml" />
-    <Content Include="Views\Shared\_StatDataTable.cshtml" />
-    <Content Include="Views\Shared\_StatDisplayRow.cshtml" />
     <Content Include="Views\TestPassing\TestResultsTable.cshtml" />
     <Content Include="Views\TestPassing\TestResults.cshtml" />
     <Content Include="Views\TestPassing\_TestsResultsGridColumn.cshtml" />
