@@ -63,6 +63,8 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public string CurrentProjectName { get; set; }
 
+        public bool IsAssigned { get; set; }
+
         public BugListViewModel()
         {
         }

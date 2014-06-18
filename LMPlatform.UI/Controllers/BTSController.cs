@@ -438,7 +438,7 @@ namespace LMPlatform.UI.Controllers
                     return DataTableExtensions.GetResults(bugs.Items.Select(model => FromBug(model, PartialViewToString("_BugsGridActions", FromBug(model)))).Where(e => e.ProjectId == _currentProjectId), dataTableParam, bugs.TotalCount);
                 }
 
-                return DataTableExtensions.GetResults(bugs.Items.Select(model => FromBug(model, PartialViewToString("_BugsGridActions", FromBug(model)))), dataTableParam, bugs.TotalCount);
+                return DataTableExtensions.GetResults(bugs.Items.Select(model => FromBug(model, PartialViewToString("_BugsGridActions", FromBug(model)))).Where(e => e.IsAssigned), dataTableParam, bugs.TotalCount);
             }
 
             if (_currentProjectId != 0)
@@ -446,7 +446,7 @@ namespace LMPlatform.UI.Controllers
                 return DataTableExtensions.GetResults(bugs.Items.Select(FromBug).Where(e => e.ProjectId == _currentProjectId), dataTableParam, bugs.TotalCount);
             }
 
-            return DataTableExtensions.GetResults(bugs.Items.Select(FromBug), dataTableParam, bugs.TotalCount);
+            return DataTableExtensions.GetResults(bugs.Items.Select(FromBug).Where(e => e.IsAssigned), dataTableParam, bugs.TotalCount);
         }
 
         public BugListViewModel FromBug(Bug bug, string htmlLinks)
@@ -460,6 +460,13 @@ namespace LMPlatform.UI.Controllers
         public BugListViewModel FromBug(Bug bug)
         {
             var context = new ProjectManagementService();
+
+            var isAssigned = false;
+            var user = context.GetProjectsOfUser(WebSecurity.CurrentUserId).Count(e => e.ProjectId == bug.ProjectId && e.UserId == WebSecurity.CurrentUserId);
+            if (user != 0)
+            {
+                isAssigned = true;
+            }
 
             return new BugListViewModel
             {
@@ -475,7 +482,8 @@ namespace LMPlatform.UI.Controllers
                 StatusId = bug.StatusId,
                 Project = GetProjectTitle(bug.ProjectId),
                 ModifyingDate = bug.ModifyingDate.ToShortDateString(),
-                AssignedDeveloperName = (bug.AssignedDeveloperId == 0) ? "отсутствует" : context.GetCreatorName(bug.AssignedDeveloperId)
+                AssignedDeveloperName = (bug.AssignedDeveloperId == 0) ? "отсутствует" : context.GetCreatorName(bug.AssignedDeveloperId),
+                IsAssigned = isAssigned
             };
         }
 
