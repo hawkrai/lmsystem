@@ -33,7 +33,26 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 result.Mark = nextQuestion.Item2;
             }
 
+            result.Seconds = GetRmainingTime(testId, userId);
+
             return result;
+        }
+
+        private double GetRmainingTime(int testId, int userId)
+        {
+            // If time is set for all test
+            var test = GetTest(testId);
+
+            TestPassResult testPassResult = GetTestPassResult(testId, userId);
+
+            return (test.TimeForCompleting * 60) - (DateTime.UtcNow - testPassResult.StartTime).Seconds;
+
+            //using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            //{
+            //    repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().Save(answersTemplate);
+            //    repositoriesContainer.RepositoryFor<TestPassResult>().Save(testPassResult);
+            //    repositoriesContainer.ApplyChanges();
+            //}
         }
 
         public IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int subjectId)
@@ -513,7 +532,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 StudentId = userId
             };
 
-            testPassResult.StartTime = DateTime.Now;
+            testPassResult.StartTime = DateTime.UtcNow;
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {

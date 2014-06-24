@@ -27,5 +27,11 @@ namespace LMPlatform.Models.KnowledgeTesting
             get;
             set;
         }
+
+        public double Seconds
+        {
+            get; 
+            set;
+        }
     }
 }

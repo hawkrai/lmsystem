@@ -5,9 +5,9 @@
 @Html.Hidden("currentQuestionNumber", Model.Number)
 @Html.Hidden("currentQuestionType", Model.Question.QuestionType)
 <div style="text-align: right">
-    <h3>Вопрос № @Model.Number</h3>
+    <span class="kkcountdown" data-seconds="@Model.Seconds" data-days-text="дни"></span>
 </div>
-<span class="kkcountdown" data-seconds="60"></span>
+<h3>Вопрос № @Model.Number</h3>
 <div class="">
     <h2>@Model.Question.Title</h2>
 </div>

@@ -102,5 +102,9 @@ var testPassing = {
         $('#buttonsPanel').height($('#answersPanel').height());
         this._nextQuestionNumber = new Number($('#currentQuestionNumber').val());
         this._currentQuestionType = $('#currentQuestionType').val();
+        $(".kkcountdown").kkcountdown({
+            displayZeroDays: false,
+            hoursText: 'ч.',
+        });
     },
 };
