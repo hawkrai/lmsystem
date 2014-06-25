@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Application.Core.Data;
@@ -40,19 +41,27 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         private double GetRmainingTime(int testId, int userId)
         {
-            // If time is set for all test
             var test = GetTest(testId);
-
             TestPassResult testPassResult = GetTestPassResult(testId, userId);
 
-            return (test.TimeForCompleting * 60) - (DateTime.UtcNow - testPassResult.StartTime).Seconds;
+            int seconds = 0;
 
-            //using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            //{
-            //    repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().Save(answersTemplate);
-            //    repositoriesContainer.RepositoryFor<TestPassResult>().Save(testPassResult);
-            //    repositoriesContainer.ApplyChanges();
-            //}
+            if (test.SetTimeForAllTest)
+            {
+                seconds = (test.TimeForCompleting * 60) - (DateTime.UtcNow - testPassResult.StartTime).Seconds;
+            }
+            else
+            {
+                seconds = test.TimeForCompleting;
+                testPassResult.StartTime = DateTime.UtcNow;
+                using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+                {
+                    repositoriesContainer.RepositoryFor<TestPassResult>().Save(testPassResult);
+                    repositoriesContainer.ApplyChanges();
+                }
+            }
+
+            return seconds;
         }
 
         public IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int subjectId)
