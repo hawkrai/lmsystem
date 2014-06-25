@@ -519,7 +519,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 ? test.Questions.Count
                 : test.CountOfQuestions;
 
-            var includedQuestions = test.Questions.Take(questionsCount);
+            var random = new Random(DateTime.Now.Millisecond);
+            IEnumerable<Question> includedQuestions = test.Questions.OrderBy(t => random.Next()).Take(questionsCount);
 
             var answersTemplate = new List<AnswerOnTestQuestion>();
 
