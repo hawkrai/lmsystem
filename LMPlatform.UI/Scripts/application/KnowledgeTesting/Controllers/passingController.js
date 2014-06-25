@@ -102,9 +102,20 @@ var testPassing = {
         $('#buttonsPanel').height($('#answersPanel').height());
         this._nextQuestionNumber = new Number($('#currentQuestionNumber').val());
         this._currentQuestionType = $('#currentQuestionType').val();
+        this._initializeTimer();
+    },
+    
+    _initializeTimer: function() {
         $(".kkcountdown").kkcountdown({
             displayZeroDays: false,
             hoursText: 'ч.',
+            textAfterCount: 'Время истекло.',
+            callback: $.proxy(this._timeEnded, this)
         });
     },
+    
+    _timeEnded: function() {
+        alertify.error('Время истекло!');
+        this._makeUserAnswer(null, getHashValue('testId'), this._nextQuestionNumber);
+    }
 };

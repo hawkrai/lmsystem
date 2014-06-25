@@ -39,16 +39,16 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return result;
         }
 
-        private double GetRmainingTime(int testId, int userId)
+        private int GetRmainingTime(int testId, int userId)
         {
             var test = GetTest(testId);
             TestPassResult testPassResult = GetTestPassResult(testId, userId);
 
-            int seconds = 0;
+            double seconds = 0;
 
             if (test.SetTimeForAllTest)
             {
-                seconds = (test.TimeForCompleting * 60) - (DateTime.UtcNow - testPassResult.StartTime).Seconds;
+                seconds = (test.TimeForCompleting * 60) - (DateTime.UtcNow - testPassResult.StartTime).TotalSeconds;
             }
             else
             {
@@ -61,7 +61,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 }
             }
 
-            return seconds;
+            return (int)seconds;
         }
 
         public IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int subjectId)
@@ -127,27 +127,58 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         public void MakeUserAnswer(IEnumerable<Answer> answers, int userId, int testId, int questionNumber)
         {
-            AnswerOnTestQuestion answerOnTestQuestion = GetAnswerOntestQuestion(userId, testId, questionNumber);
-            Question question = GetQuestionById(answerOnTestQuestion.QuestionId);
+            var test = GetTest(testId);
+            TestPassResult testPassResult = GetTestPassResult(testId, userId);
 
-            switch (question.QuestionType)
+            CheckForTimeEndeed(userId, testId, test, testPassResult);
+
+            AnswerOnTestQuestion answerOnTestQuestion = GetAnswerOntestQuestion(userId, testId, questionNumber);
+
+            if (answers == null)
             {
-                case QuestionType.HasOneCorrectAnswer:
-                    ProcessOneVariantAnswer(answers, question, answerOnTestQuestion);
-                    break;
-                case QuestionType.HasManyCorrectAnswers:
-                    ProcessManyVariantsAnswer(answers, question, answerOnTestQuestion);
-                    break;
-                case QuestionType.TextAnswer:
-                    ProcessTextAnswer(answers, question, answerOnTestQuestion);
-                    break;
-                case QuestionType.SequenceAnswer:
-                    ProcessSequenceAnswer(answers.ToList(), question, answerOnTestQuestion);
-                    break;
+                answerOnTestQuestion.Points = 0;
+            }
+            else
+            {
+                Question question = GetQuestionById(answerOnTestQuestion.QuestionId);
+
+                switch (question.QuestionType)
+                {
+                    case QuestionType.HasOneCorrectAnswer:
+                        ProcessOneVariantAnswer(answers, question, answerOnTestQuestion);
+                        break;
+                    case QuestionType.HasManyCorrectAnswers:
+                        ProcessManyVariantsAnswer(answers, question, answerOnTestQuestion);
+                        break;
+                    case QuestionType.TextAnswer:
+                        ProcessTextAnswer(answers, question, answerOnTestQuestion);
+                        break;
+                    case QuestionType.SequenceAnswer:
+                        ProcessSequenceAnswer(answers.ToList(), question, answerOnTestQuestion);
+                        break;
+                }
             }
 
             answerOnTestQuestion.Time = DateTime.UtcNow;
             SaveAnswerOnTestQuestion(answerOnTestQuestion);
+        }
+
+        private void CheckForTimeEndeed(int userId, int testId, Test test, TestPassResult testPassResult)
+        {
+            if (test.SetTimeForAllTest && (DateTime.UtcNow - testPassResult.StartTime).Seconds > (test.TimeForCompleting * 60))
+            {
+                List<AnswerOnTestQuestion> testAnswers = GetAnswersForTest(testId, userId);
+                foreach (AnswerOnTestQuestion answer in testAnswers)
+                {
+                    if (!answer.Time.HasValue)
+                    {
+                        answer.Time = DateTime.UtcNow;
+                        answer.Points = 0;
+                    }
+                }
+
+                CloseTest(testAnswers, userId);
+            }
         }
 
         public IEnumerable<Student> GetPassTestResults(int groupId, string searchString)
