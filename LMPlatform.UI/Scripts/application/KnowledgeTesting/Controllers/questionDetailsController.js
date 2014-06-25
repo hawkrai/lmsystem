@@ -5,6 +5,10 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
     $scope.types = [{ Id: 1, Name: 'С несколькими вариантами' }, { Id: 0, Name: 'С одним вариантом' }, { Id: 2, Name: 'Ввод с клавиатуры' }, { Id: 3, Name: 'Последовательность элементов' }];
 
     $scope.deleteAnswer = function (index) {
+        if ($scope.question.Answers.length == 1) {
+            alertify.error('Единственный вариант ответа не может быть удален.');
+            return;
+        }
         $scope.question.Answers.splice(index, 1);
     };
 
