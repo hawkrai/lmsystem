@@ -1,5 +1,7 @@
 ﻿@{
     ViewBag.Title = "Дипломное проектирование";
+    ViewBag.NgApp = "dpApp";
+    ViewBag.NgController = "homeCtrl";
     Layout = "~/Views/Shared/Layouts/_LayoutBase.cshtml";
 }
 
@@ -10,9 +12,8 @@
 
 @section navleft
 {
-    <li class="navLink"><a href="#/Projects" class="linkNavbar">Темы дипломных проектов</a></li>
-    <li style="display: none;" class="navLink"><a href="#/ProjectAssignment" class="linkNavbar">Назначение дипломных проектов</a></li>
-    <li class="navLink"><a href="#/TaskSheet" class="linkNavbar">Лист задания</a></li>
+    <li ng-class="{active:isActive('/Projects')}" class="navLink"><a href="#/Projects" class="linkNavbar">Темы дипломных проектов</a></li>
+    <li ng-class="{active:isActive('/TaskSheet')}" class="navLink"><a href="#/TaskSheet" class="linkNavbar">Лист задания</a></li>
     <li class="navLink"><a href="#/ScheduleProtection" class="linkNavbar">График процентовки</a></li>
     <li class="navLink"><a href="#/PercentagesResults" class="linkNavbar">Результаты процентовки</a></li>
     <li class="navLink"><a href="#/VisitStats" class="linkNavbar">Статистика посещения консультаций</a></li>
@@ -20,7 +21,7 @@
 
 @section body
 {
-    <div ng-app="dpApp" ng-controller="homeCtrl" style="padding-top: 40px">
+    <div style="padding-top: 40px">
         <h3>{{Title}}</h3>
         <section class="well">
             <div style="margin: 5px">

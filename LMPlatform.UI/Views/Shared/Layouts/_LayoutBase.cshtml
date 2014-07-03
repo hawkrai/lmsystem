@@ -29,7 +29,7 @@
 
     @RenderSection("headScripts", false)
 </head>
-<body @RenderSection("bodyAttributes", false)>
+<body ng-app="@ViewBag.NgApp" ng-controller="@ViewBag.NgController" @RenderSection("bodyAttributes", false)>
 
     <div style="padding-left: 300px;">
         <nav class="navbar navbar-inverse navbar-fixed-top">

@@ -10,6 +10,10 @@ angular
 
             $scope.navigationManager = navigationManagerFactory();
 
+            $scope.isActive = function(href) {
+                return href == $location.path();
+            };
+
             function navigationManagerFactory() {
                 var listPath = '/';
                 var urlParams = '';

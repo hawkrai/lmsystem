@@ -5,7 +5,7 @@ namespace Application.Infrastructure.DPManagement
 {
     public interface IDpManagementService
     {
-        List<DiplomProjectData> GetProjects(int page, int count, out int total);
+        List<DiplomProjectData> GetProjects(int page, int count, string sorting, out int total);
 
         DiplomProjectData GetProject(int id);
 

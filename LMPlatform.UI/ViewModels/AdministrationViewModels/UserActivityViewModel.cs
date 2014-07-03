@@ -53,13 +53,13 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
             TotalUsersCount = Users.Count();
 
             TotalStudentsCount =
-                Users.Count(u => u.Membership.Roles.Select(r => r.RoleName).Contains(Constants.Roles.Student));
+                Users.Count(u => u.Membership != null && u.Membership.Roles.Select(r => r.RoleName).Contains(Constants.Roles.Student));
 
             TotalLecturersCount =
-                Users.Count(u => u.Membership.Roles.Select(r => r.RoleName).Contains(Constants.Roles.Lector));
+                Users.Count(u => u.Membership != null && u.Membership.Roles.Select(r => r.RoleName).Contains(Constants.Roles.Lector));
 
             ServiceAccountsCount =
-                Users.Count(u => u.Membership.Roles.Select(r => r.RoleName).Contains(Constants.Roles.Admin));
+                Users.Count(u => u.Membership != null && u.Membership.Roles.Select(r => r.RoleName).Contains(Constants.Roles.Admin));
 
             var today = DateTime.Now;
 

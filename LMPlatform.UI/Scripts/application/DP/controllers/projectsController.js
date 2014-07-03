@@ -80,12 +80,15 @@
             $scope.tableParams = new ngTableParams(
                 angular.extend({
                     page: 1,
-                    count: 10
+                    count: 10,
+                    sorting: {
+                        Theme: 'asc'
+                    }
                 }, $location.search()), {
                     total: 0,
                     getData: function ($defer, params) {
                         $location.search(params.url());
-                        projectService.getProjects(params.url())
+                        projectService.getProjects(params.url())//todo
                             .success(function (data) {
                                 $defer.resolve(data.Data);
                                 params.total(data.Total);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using Application.Core;
 using Application.Core.Extensions;
 using Application.Infrastructure.DTO;
@@ -20,25 +21,25 @@ namespace Application.Infrastructure.DPManagement
             get { return context.Value; }
         }
 
-        public List<DiplomProjectData> GetProjects(int page, int count, out int total)
+        public List<DiplomProjectData> GetProjects(int page, int count, string sorting, out int total)
         {
             var query = Context.DiplomProjects.AsNoTracking()
                 .Include(x => x.Lecturer)
-                .Include(x => x.AssignedDiplomProjects.Select(asp => asp.Student.Group))
-                .OrderBy(x => x.Lecturer.LastName);
+                .Include(x => x.AssignedDiplomProjects.Select(asp => asp.Student.Group));
             total = query.Count();
 
-            var defaultAdp = new AssignedDiplomProject { Student = new Student { Group = new Group() } };
-            return query.Skip((page - 1) * count).Take(count).ToList()
-                .Select(dp => new DiplomProjectData
-                {
-                    Id = dp.DiplomProjectId,
-                    Theme = dp.Theme,
-                    Lecturer = dp.Lecturer.FullName,
-                    Student = dp.AssignedDiplomProjects.DefaultIfEmpty(defaultAdp).Single().Student.FullName,
-                    Group = dp.AssignedDiplomProjects.DefaultIfEmpty(defaultAdp).Single().Student.Group.Name,
-                    ApproveDate = dp.AssignedDiplomProjects.DefaultIfEmpty(defaultAdp).Single().ApproveDate
-                })
+            return (from dp in query
+                              let adp = dp.AssignedDiplomProjects.FirstOrDefault()
+                              select new DiplomProjectData
+                              {
+                                  Id = dp.DiplomProjectId,
+                                  Theme = dp.Theme,
+                                  Lecturer = dp.Lecturer != null ? dp.Lecturer.LastName + " " + dp.Lecturer.FirstName + " " + dp.Lecturer.MiddleName : null,
+                                  Student = adp != null && adp.Student != null ? adp.Student.LastName + " " + adp.Student.FirstName + " " + adp.Student.MiddleName : null,
+                                  Group = adp != null && adp.Student != null && adp.Student.Group != null ? adp.Student.Group.Name : null,
+                                  ApproveDate = adp != null ? adp.ApproveDate : null
+                              })
+                .OrderBy(sorting).Skip((page - 1) * count).Take(count).ToList()
                 .ToList();
         }
 

@@ -1,6 +1,4 @@
-﻿<script type="text/javascript" src="https://code.angularjs.org/1.2.16/angular-sanitize.js"></script>
-
-<div style="margin: 20px">
+﻿<div style="margin: 20px">
     <div id="buttonActionSection" style="margin-bottom: 20px;">
         <a ng-click="editProject()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить проект</a>
     </div>
@@ -8,22 +6,22 @@
         <div loading-container="tableParams.settings().$loading">
         <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <tr ng-repeat="project in $data">
-                <td width="55%" style="text-align: left;" data-title="'Тема'">{{project.Theme}}</td>
-                <td width="10%" data-title="'Руководитель'">{{project.Lecturer}}</td>
-                <td width="10%" data-title="'Студент'">{{project.Student}}</td>
-                <td width="10%" data-title="'Группа'">{{project.Group}}</td>
-                <td width="10%" data-title="'Дата'">{{project.ApproveDateString}}</td>
+                <td width="55%" style="text-align: left;" data-title="'Тема'" sortable="'Theme'">{{project.Theme}}</td>
+                <td width="10%" data-title="'Руководитель'" sortable="'Lecturer'">{{project.Lecturer}}</td>
+                <td width="10%" data-title="'Студент'" sortable="'Student'">{{project.Student}}</td>
+                <td width="10%" data-title="'Группа'" sortable="'Group'">{{project.Group}}</td>
+                <td width="10%" data-title="'Дата'" sortable="'ApproveDate'">{{project.ApproveDateString}}</td>
                 <td width="20%" data-title="'Действие'">
                     <a ng-click="editProject(project.Id)" style="margin-right: 10px">
                         <i tooltip-placement="left" tooltip="Редактировать" class="fa fa-edit fa-2x"></i>
                     </a>
-                    <a ng-show="project.Student.trim()==''" ng-click="assignProject(project.Id)" style="margin-right: 10px">
+                    <a ng-show="project.Student==null" ng-click="assignProject(project.Id)" style="margin-right: 10px">
                         <i tooltip-placement="left" tooltip="Назначить" class="fa fa-list-alt fa-2x"></i>
                     </a>
-                    <a ng-show="project.Student.trim()!=''" ng-click="deleteAssignment(project.Id)" style="margin-right: 10px">
+                    <a ng-show="project.Student!=null" ng-click="deleteAssignment(project.Id)" style="margin-right: 10px">
                         <i tooltip-placement="left" tooltip="Удалить назначение" class="fa fa-minus-square-o fa-2x"></i>
                     </a>
-                    <a ng-show="project.Student.trim()!=''" ng-click="downloadTaskSheet(project.Id)" style="margin-right: 10px">
+                    <a ng-show="project.Student !=null" ng-click="downloadTaskSheet(project.Id)" style="margin-right: 10px">
                         <i tooltip-placement="left" tooltip="Скачать лист задания" class="fa fa-download fa-2x"></i>
                     </a>
                     <a ng-click="deleteProject(project.Id)" style="margin-right: 10px">

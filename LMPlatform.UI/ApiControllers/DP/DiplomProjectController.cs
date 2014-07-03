@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
@@ -25,11 +26,18 @@ namespace LMPlatform.UI.ApiControllers.DP
             var nvc = HttpUtility.ParseQueryString(Request.RequestUri.Query);
             var count = int.Parse(nvc["count"]);
             var page = int.Parse(nvc["page"]);
+
+            var sorting = "Theme";
+            var sortingKey = nvc.AllKeys.FirstOrDefault(x => x.StartsWith("sorting["));
+            if (sortingKey != null)
+            {
+                sorting = sortingKey.Replace("sorting[", string.Empty).Replace("]", string.Empty) + " " + nvc[sortingKey];
+            }
             
             int total;
             return new
                 {
-                    Data = DpManagementService.GetProjects(page, count, out total),
+                    Data = DpManagementService.GetProjects(page, count, sorting, out total),
                     Total = total
                 };
         }
