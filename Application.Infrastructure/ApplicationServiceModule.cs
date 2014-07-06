@@ -34,6 +34,7 @@ namespace Application.Infrastructure
             containerWrapper.Register<IFilesManagementService, FilesManagementService>();
             containerWrapper.Register<IDpManagementService, DpManagementService>();
             containerWrapper.Register<ICorrelationService, CorrelationService>();
+            containerWrapper.Register<IPercentageGraphService, PercentageGraphService>();
 
 			return containerWrapper;
 		}

@@ -1,4 +1,6 @@
-﻿namespace Application.Core.Extensions
+﻿using System.Linq;
+
+namespace Application.Core.Extensions
 {
 	using System;
 
@@ -43,5 +45,10 @@
 			Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
 			return new string(chars);
 		}
+
+        public static string RemoveStringEntries(this string str, params string[] entries)
+        {
+            return entries.Aggregate(str, (current, entry) => current.Replace(entry, string.Empty));
+        }
 	}
 }

@@ -22,6 +22,8 @@ namespace LMPlatform.Data.Infrastructure
 
         DbSet<DiplomPercentagesGraph> DiplomPercentagesGraphs { get; set; }
 
+        DbSet<DiplomPercentagesGraphToGroup> DiplomPercentagesGraphToGroup { get; set; }
+
         DbSet<DiplomPercentagesResult> DiplomPercentagesResults { get; set; }
 
         DbSet<DiplomProjectConsultationDate> DiplomProjectConsultationDates { get; set; }

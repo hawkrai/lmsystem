@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Dynamic;
 using Application.Core;
+using Application.Core.Data;
 using Application.Core.Extensions;
 using Application.Infrastructure.DTO;
 using LMPlatform.Data.Infrastructure;
-using LMPlatform.Models;
 using LMPlatform.Models.DP;
 
 namespace Application.Infrastructure.DPManagement
@@ -21,26 +20,23 @@ namespace Application.Infrastructure.DPManagement
             get { return context.Value; }
         }
 
-        public List<DiplomProjectData> GetProjects(int page, int count, string sorting, out int total)
+        public PagedList<DiplomProjectData> GetProjects(GetPagedListParams parms)
         {
             var query = Context.DiplomProjects.AsNoTracking()
                 .Include(x => x.Lecturer)
                 .Include(x => x.AssignedDiplomProjects.Select(asp => asp.Student.Group));
-            total = query.Count();
 
             return (from dp in query
-                              let adp = dp.AssignedDiplomProjects.FirstOrDefault()
-                              select new DiplomProjectData
-                              {
-                                  Id = dp.DiplomProjectId,
-                                  Theme = dp.Theme,
-                                  Lecturer = dp.Lecturer != null ? dp.Lecturer.LastName + " " + dp.Lecturer.FirstName + " " + dp.Lecturer.MiddleName : null,
-                                  Student = adp != null && adp.Student != null ? adp.Student.LastName + " " + adp.Student.FirstName + " " + adp.Student.MiddleName : null,
-                                  Group = adp != null && adp.Student != null && adp.Student.Group != null ? adp.Student.Group.Name : null,
-                                  ApproveDate = adp != null ? adp.ApproveDate : null
-                              })
-                .OrderBy(sorting).Skip((page - 1) * count).Take(count).ToList()
-                .ToList();
+                    let adp = dp.AssignedDiplomProjects.FirstOrDefault()
+                    select new DiplomProjectData
+                    {
+                        Id = dp.DiplomProjectId,
+                        Theme = dp.Theme,
+                        Lecturer = dp.Lecturer != null ? dp.Lecturer.LastName + " " + dp.Lecturer.FirstName + " " + dp.Lecturer.MiddleName : null,
+                        Student = adp != null && adp.Student != null ? adp.Student.LastName + " " + adp.Student.FirstName + " " + adp.Student.MiddleName : null,
+                        Group = adp != null && adp.Student != null && adp.Student.Group != null ? adp.Student.Group.Name : null,
+                        ApproveDate = adp != null ? adp.ApproveDate : null
+                    }).ApplyPaging(parms);
         }
 
         public DiplomProjectData GetProject(int id)
@@ -143,24 +139,26 @@ namespace Application.Infrastructure.DPManagement
             Context.SaveChanges();
         }
 
-        public List<StudentData> GetStudentsByDiplomProjectId(int diplomProjectId, int page, int count, out int total)
+        public PagedList<StudentData> GetStudentsByDiplomProjectId(GetPagedListParams parms)
         {
-            var query = Context.Students
+            if (!parms.Filters.ContainsKey("diplomProjectId"))
+            {
+                throw new ApplicationException("diplomPorjectId can't be empty!");
+            }
+
+            var diplomProjectId = int.Parse(parms.Filters["diplomProjectId"]);
+
+            return Context.Students
                 .Include(x => x.Group.DiplomProjectGroups)
                 .Where(x => x.Group.DiplomProjectGroups.Any(dpg => dpg.DiplomProjectId == diplomProjectId))
                 .Where(x => !x.AssignedDiplomProjects.Any())
-                .OrderBy(x => x.Group.Name).ThenBy(x => x.LastName);
-
-            total = query.Count();
-
-            return query.Skip((page - 1) * count).Take(count).ToList()
+                .OrderBy(x => x.Group.Name).ThenBy(x => x.LastName)
                 .Select(s => new StudentData
                 {
                     Id = s.Id,
-                    Name = s.FullName,
+                    Name = s.LastName + " " + s.FirstName + " " + s.MiddleName, //todo
                     Group = s.Group.Name
-                })
-                .ToList();
+                }).ApplyPaging(parms);
         }
 
         private void ValidateLecturerAccess(int userId)

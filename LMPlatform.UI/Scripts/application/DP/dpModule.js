@@ -7,6 +7,7 @@
         'dpApp.ctrl.projects',
         'dpApp.ctrl.project',
         'dpApp.ctrl.taskSheet',
+        'dpApp.ctrl.percentages',
         'dpApp.ctrl.students',
         'dpApp.service.project'
     ])
@@ -21,6 +22,11 @@
         $routeProvider.when('/TaskSheet', {
             templateUrl: '/Dp/TaskSheet',
             controller: 'taskSheetCtrl'
+        });
+        
+        $routeProvider.when('/Percentages', {
+            templateUrl: '/Dp/Percentages',
+            controller: 'percentagesCtrl'
         });
         
         $routeProvider.otherwise({

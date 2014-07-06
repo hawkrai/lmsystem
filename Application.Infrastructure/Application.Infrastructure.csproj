@@ -76,8 +76,11 @@
     </Compile>
     <Compile Include="DPManagement\ICorrelationService.cs" />
     <Compile Include="DPManagement\IDpManagementService.cs" />
+    <Compile Include="DPManagement\IPercentageGraphService.cs" />
+    <Compile Include="DPManagement\PercentageGraphService.cs" />
     <Compile Include="DTO\Correlation.cs" />
     <Compile Include="DTO\DiplomProjectData.cs" />
+    <Compile Include="DTO\PercentageGraphData.cs" />
     <Compile Include="DTO\StudentData.cs" />
     <Compile Include="Export\Word.cs" />
     <Compile Include="FilesManagement\AttachedFile.cs" />

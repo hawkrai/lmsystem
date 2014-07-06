@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
+using System.Web.Http.ModelBinding;
+using System.Web.Http.ModelBinding.Binders;
+using Application.Core.Data;
 
 namespace LMPlatform.UI
 {
@@ -13,6 +13,10 @@ namespace LMPlatform.UI
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional });
+
+            var provider = new SimpleModelBinderProvider(
+            typeof(GetPagedListParams), new GetPagedListParamsModelBinder());
+            config.Services.Insert(typeof(ModelBinderProvider), 0, provider);
         }
     }
 }

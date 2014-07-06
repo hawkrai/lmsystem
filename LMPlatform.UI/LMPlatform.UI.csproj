@@ -165,6 +165,7 @@
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
+    <Compile Include="ApiControllers\DP\PercentageController.cs" />
     <Compile Include="ApiControllers\DP\StudentController.cs" />
     <Compile Include="ApiControllers\LabsController.cs" />
     <Compile Include="ApiControllers\NewsController.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="App_Start\BootstrapBundleConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\GetPagedListParamsModelBinder.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\GreaterThanAttribute.cs" />
@@ -198,6 +200,8 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
     <Compile Include="Services\Files\FilesService.svc.cs">
       <DependentUpon>FilesService.svc</DependentUpon>
     </Compile>
@@ -1132,6 +1136,7 @@
     <Content Include="Views\BTS\_AddBugOrCurrentProjectForm.cshtml" />
     <Content Include="Views\BTS\_EditBugFormWithAssignment.cshtml" />
     <Content Include="Views\BTS\_BugStatusHelper.cshtml" />
+    <Content Include="Views\DP\Percentages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

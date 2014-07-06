@@ -602,6 +602,8 @@ namespace LMPlatform.Data.Infrastructure
         public virtual DbSet<AssignedDiplomProject> AssignedDiplomProjects { get; set; }
         
         public virtual DbSet<DiplomPercentagesGraph> DiplomPercentagesGraphs { get; set; }
+
+        public virtual DbSet<DiplomPercentagesGraphToGroup> DiplomPercentagesGraphToGroup { get; set; }
         
         public virtual DbSet<DiplomPercentagesResult> DiplomPercentagesResults { get; set; }
         

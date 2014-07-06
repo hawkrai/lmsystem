@@ -50,6 +50,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Linq.Dynamic">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.0\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -64,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Data\DataExtensions.cs" />
+    <Compile Include="Data\GetPagedListParams.cs" />
     <Compile Include="Data\IHasIdentifyKey.cs" />
     <Compile Include="Data\IOrderableSequence.cs" />
     <Compile Include="Data\IPageableList.cs" />
@@ -77,6 +81,7 @@
     <Compile Include="Data\ModelBase.cs" />
     <Compile Include="Data\PageableList.cs" />
     <Compile Include="Data\PageableQuery.cs" />
+    <Compile Include="Data\PagedList.cs" />
     <Compile Include="Data\PageInfo.cs" />
     <Compile Include="Data\Query.cs" />
     <Compile Include="Data\RepositoryBase.cs" />

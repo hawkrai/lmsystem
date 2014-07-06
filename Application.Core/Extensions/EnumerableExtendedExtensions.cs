@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Reflection;
 using Application.Core.Data;
 
@@ -67,6 +67,21 @@ namespace Application.Core.Extensions
                    from temp in tempItems.DefaultIfEmpty()
                    where ReferenceEquals(null, temp) || temp.Equals(default(T))
                    select item;
+        }
+
+        public static PagedList<T> ApplyPaging<T>(this IQueryable<T> query, GetPagedListParams parms)
+        {
+            return
+                new PagedList<T>
+                {
+                    Total = query.Count(),
+                    Items =
+                        query
+                        .OrderBy(parms.SortExpression)
+                        .Skip((parms.Page - 1) * parms.PageSize)
+                        .Take(parms.PageSize)
+                        .ToList()
+                };
         }
     }
 }

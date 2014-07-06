@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 using Application.Core;
+using Application.Core.Data;
 using Application.Infrastructure.DPManagement;
 using Application.Infrastructure.DTO;
 using WebMatrix.WebData;
@@ -13,7 +13,7 @@ namespace LMPlatform.UI.ApiControllers.DP
 {
     public class DiplomProjectController : ApiController
     {
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")] 
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         private readonly LazyDependency<IDpManagementService> dpManagementService = new LazyDependency<IDpManagementService>();
 
         private IDpManagementService DpManagementService
@@ -21,27 +21,11 @@ namespace LMPlatform.UI.ApiControllers.DP
             get { return dpManagementService.Value; }
         }
 
-        public object Get()
+        public PagedList<DiplomProjectData> Get([ModelBinder]GetPagedListParams parms)
         {
-            var nvc = HttpUtility.ParseQueryString(Request.RequestUri.Query);
-            var count = int.Parse(nvc["count"]);
-            var page = int.Parse(nvc["page"]);
-
-            var sorting = "Theme";
-            var sortingKey = nvc.AllKeys.FirstOrDefault(x => x.StartsWith("sorting["));
-            if (sortingKey != null)
-            {
-                sorting = sortingKey.Replace("sorting[", string.Empty).Replace("]", string.Empty) + " " + nvc[sortingKey];
-            }
-            
-            int total;
-            return new
-                {
-                    Data = DpManagementService.GetProjects(page, count, sorting, out total),
-                    Total = total
-                };
+            return DpManagementService.GetProjects(parms);
         }
-        
+
         public DiplomProjectData Get(int id)
         {
             return DpManagementService.GetProject(id);

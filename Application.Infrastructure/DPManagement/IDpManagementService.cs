@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Application.Core.Data;
 using Application.Infrastructure.DTO;
 
 namespace Application.Infrastructure.DPManagement
 {
     public interface IDpManagementService
     {
-        List<DiplomProjectData> GetProjects(int page, int count, string sorting, out int total);
+        PagedList<DiplomProjectData> GetProjects(GetPagedListParams parms);
 
         DiplomProjectData GetProject(int id);
 
@@ -17,6 +18,6 @@ namespace Application.Infrastructure.DPManagement
 
         void DeleteAssignment(int userId, int id);
 
-        List<StudentData> GetStudentsByDiplomProjectId(int diplomProjectId, int page, int count, out int total);
+        PagedList<StudentData> GetStudentsByDiplomProjectId(GetPagedListParams parms);
     }
 }

@@ -25,7 +25,10 @@
             $scope.tableParams = new ngTableParams(
                 {
                     page: 1,
-                    count: 10
+                    count: 10,
+                    filter: {
+                        diplomProjectId: projectId
+                    }
                 }, {
                     total: 0,
                     counts: [],
@@ -33,7 +36,7 @@
                     getData: function ($defer, params) {
                         projectService.getStudents(projectId, params.url())
                             .success(function (data) {
-                                $defer.resolve(data.Data);
+                                $defer.resolve(data.Items);
                                 params.total(data.Total);
                             });
                     }

@@ -71,7 +71,7 @@ angular
                     return $http({
                         method: 'GET',
                         url: studentApiUrl,
-                        params: angular.extend({ diplomProjectId: projectId }, params)
+                        params: params
                     });
                 },
 

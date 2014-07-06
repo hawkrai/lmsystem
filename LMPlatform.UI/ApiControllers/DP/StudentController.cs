@@ -1,8 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 using Application.Core;
+using Application.Core.Data;
 using Application.Infrastructure.DPManagement;
+using Application.Infrastructure.DTO;
 
 namespace LMPlatform.UI.ApiControllers.DP
 {
@@ -16,19 +19,9 @@ namespace LMPlatform.UI.ApiControllers.DP
             get { return dpManagementService.Value; }
         }
 
-        public object Get()
+        public PagedList<StudentData> Get([ModelBinder]GetPagedListParams parms)
         {
-            var nvc = HttpUtility.ParseQueryString(Request.RequestUri.Query);
-            var count = int.Parse(nvc["count"]);
-            var page = int.Parse(nvc["page"]);
-            var diplomProjectId = int.Parse(nvc["diplomProjectId"]);
-
-            int total;
-            return new
-            {
-                Data = DpManagementService.GetStudentsByDiplomProjectId(diplomProjectId, page, count, out total),
-                Total = total
-            };
+            return DpManagementService.GetStudentsByDiplomProjectId(parms);
         }
     }
 }

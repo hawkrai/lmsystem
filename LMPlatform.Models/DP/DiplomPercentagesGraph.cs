@@ -28,5 +28,7 @@ namespace LMPlatform.Models.DP
         public DateTime Date { get; set; }
 
         public virtual ICollection<DiplomPercentagesResult> DiplomPercentagesResults { get; set; }
+
+        public virtual ICollection<DiplomPercentagesGraphToGroup> DiplomPercentagesGraphToGroups { get; set; }
     }
 }

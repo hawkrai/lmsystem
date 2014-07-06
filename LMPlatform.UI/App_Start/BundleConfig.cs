@@ -47,6 +47,7 @@ namespace LMPlatform.UI.App_Start
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                 "~/Scripts/angular.js",
                 "~/Scripts/angular-route.js",
+                "~/Scripts/angular-resource.js",
                 "~/Scripts/ng-table.js",
                 "~/Scripts/angular-bootstrap-duallistbox.js",
                 "~/Scripts/ui-bootstrap-tpls-0.10.0.js",
@@ -105,6 +106,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/DP/controllers/projectController.js",
                 "~/Scripts/application/DP/controllers/studentsController.js",
                 "~/Scripts/application/DP/controllers/taskSheetController.js",
+                "~/Scripts/application/DP/controllers/percentagesController.js",
                 "~/Scripts/application/DP/services/projectService.js"));
         }
     }

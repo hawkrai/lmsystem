@@ -75,6 +75,7 @@
     <Compile Include="BugLog.cs" />
     <Compile Include="DP\AssignedDiplomProject.cs" />
     <Compile Include="DP\DiplomPercentagesGraph.cs" />
+    <Compile Include="DP\DiplomPercentagesGraphToGroup.cs" />
     <Compile Include="DP\DiplomPercentagesResult.cs" />
     <Compile Include="DP\DiplomProject.cs" />
     <Compile Include="DP\DiplomProjectConsultationDate.cs" />

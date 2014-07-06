@@ -90,7 +90,7 @@
                         $location.search(params.url());
                         projectService.getProjects(params.url())//todo
                             .success(function (data) {
-                                $defer.resolve(data.Data);
+                                $defer.resolve(data.Items);
                                 params.total(data.Total);
                                 $scope.navigationManager.setListPage(params.url());
                             });
