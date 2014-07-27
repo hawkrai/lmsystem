@@ -70,7 +70,14 @@ namespace Application.Infrastructure.Export
 
                 if (tempfileName != null)
                 {
-                    File.Delete(tempfileName);
+                    try
+                    {
+                        File.Delete(tempfileName);
+                    }
+                    catch (Exception)
+                    {
+                        //todo: log
+                    }
                 }
             }
         }

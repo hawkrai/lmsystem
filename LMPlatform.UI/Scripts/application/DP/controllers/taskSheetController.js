@@ -7,6 +7,8 @@
         '$modal',
         function ($scope, projectService, $sce, $modal) {
 
+            $scope.setTitle("Лист задания");
+
             $scope.projects = [{ Name: "proj1", Id: 1 }, { Name: "proj3", Id: 24 }];
 
             $scope.taskSheetHtml = "";

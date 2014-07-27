@@ -1,13 +1,19 @@
 ﻿<div>
+    <div id="buttonActionSection" style="margin-bottom: 20px;">
+        <a ng-click="editPercentage()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить</a>
+    </div>
     <div loading-container="tableParams.settings().$loading">
         <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <tr ng-repeat="percentage in $data">
                 <td width="65%" style="text-align: left;" data-title="'Этап'">{{percentage.Name}}</td>
-                <td width="20%" data-title="'Процент выполнения'">{{percentage.Group}}</td>
-                <td width="20%" data-title="'Дата'">{{percentage.Date}}</td>
+                <td width="20%" data-title="'Процент выполнения'">{{percentage.Percentage}}</td>
+                <td width="20%" data-title="'Дата'">{{formatDate(parseDate(percentage.Date))}}</td>
                 <td width="15%" data-title="'Действие'">
-                    <a ng-click="assignProject(student.Id)" class="deleteSubjectButton" style="margin-right: 10px">
-                        <i tooltip-placement="left" tooltip="Назначить" class="deleteSubject fa fa-list-alt fa-2x"></i>
+                    <a ng-click="editPercentage(percentage.Id)" class="deleteSubjectButton" style="margin-right: 10px">
+                        <i tooltip-placement="left" tooltip="Редактировать" class="fa fa-edit fa-2x"></i>
+                    </a>
+                    <a ng-click="deletePercentage(percentage.Id)" style="margin-right: 10px">
+                        <i tooltip-placement="left" tooltip="Удалить" class="fa fa-trash-o fa-2x"></i>
                     </a>
                 </td>
             </tr>

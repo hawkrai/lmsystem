@@ -9,6 +9,8 @@
         'ngTableParams',
         function ($scope, $timeout, $location, $modal, projectService, ngTableParams) {
 
+            $scope.setTitle("Темы дипломных проектов");
+
             $scope.forms = {};
 
             $scope.editProject = function (projectId) {
@@ -48,28 +50,56 @@
             };
             
             $scope.deleteProject = function (id) {
-                bootbox.confirm("Вы действительно хотите удалить проект?", function (isConfirmed) {
-                    if (isConfirmed) {
-                        projectService.deleteproject(id).success(function () {
-                            $scope.tableParams.reload();
-                            alertify.success("Проект успешно удален.");
-                        }).error(function(error) {
-                            alertify.error(error);
-                        });
-                    }
+                bootbox.confirm({
+                    title: "Удаление проекта",
+                    message: "Вы действительно хотите удалить проект?",
+                    callback: function (isConfirmed) {
+                        if (isConfirmed) {
+                            projectService.deleteproject(id).success(function () {
+                                $scope.tableParams.reload();
+                                alertify.success("Проект успешно удален.");
+                            }).error(function (error) {
+                                alertify.error(error);
+                            });
+                        }
+                    },
+                    buttons: {
+                        'cancel': {
+                            label: 'Отмена',
+                            className: 'btn btn-primary btn-sm'
+                        },
+                        'confirm': {
+                            label: 'Удалить',
+                            className: 'btn btn-primary btn-sm',
+                        }
+                    },
                 });
             };
             
             $scope.deleteAssignment = function (id) {
-                bootbox.confirm("Вы действительно хотите удалить назначение дипломного проекта?", function (isConfirmed) {
-                    if (isConfirmed) {
-                        projectService.deleteAssignment(id).success(function () {
-                            $scope.tableParams.reload();
-                            alertify.success("Назначение успешно удалено.");
-                        }).error(function(error) {
-                            alertify.error(error);
-                        });
-                    }
+                bootbox.confirm({
+                    title: "Удаление",
+                    message: "Вы действительно хотите удалить назначение дипломного проекта?",
+                    callback: function (isConfirmed) {
+                        if (isConfirmed) {
+                            projectService.deleteAssignment(id).success(function () {
+                                $scope.tableParams.reload();
+                                alertify.success("Назначение успешно удалено.");
+                            }).error(function (error) {
+                                alertify.error(error);
+                            });
+                        }
+                    },
+                    buttons: {
+                        'cancel': {
+                            label: 'Отмена',
+                            className: 'btn btn-primary btn-sm'
+                        },
+                        'confirm': {
+                            label: 'Удалить',
+                            className: 'btn btn-primary btn-sm',
+                        }
+                    },
                 });
             };
 

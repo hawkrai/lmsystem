@@ -10,7 +10,7 @@
                 <td width="10%" data-title="'Руководитель'" sortable="'Lecturer'">{{project.Lecturer}}</td>
                 <td width="10%" data-title="'Студент'" sortable="'Student'">{{project.Student}}</td>
                 <td width="10%" data-title="'Группа'" sortable="'Group'">{{project.Group}}</td>
-                <td width="10%" data-title="'Дата'" sortable="'ApproveDate'">{{project.ApproveDateString}}</td>
+                <td width="10%" data-title="'Дата'" sortable="'ApproveDate'">{{formatDate(parseDate(project.ApproveDate))}}</td>
                 <td width="20%" data-title="'Действие'">
                     <a ng-click="editProject(project.Id)" style="margin-right: 10px">
                         <i tooltip-placement="left" tooltip="Редактировать" class="fa fa-edit fa-2x"></i>

@@ -8,6 +8,22 @@ angular
 
             $scope.Title = "Дипломное проектирование";
 
+            $scope.setTitle = function(title) {
+                $scope.Title = title;
+            };
+
+            $scope.dateFormat = "dd/MM/yyyy";
+
+            $scope.parseDate = function (str) {
+                if (str == null) return null;
+                return new Date(Date.parse(str));
+            };
+
+            $scope.formatDate = function (date) {
+                if (date == null) return null;
+                return $.datepicker.formatDate("dd/mm/yy", date);
+            };
+
             $scope.navigationManager = navigationManagerFactory();
 
             $scope.isActive = function(href) {

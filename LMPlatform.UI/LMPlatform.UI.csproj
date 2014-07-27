@@ -201,6 +201,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
     <Compile Include="Services\Files\FilesService.svc.cs">
       <DependentUpon>FilesService.svc</DependentUpon>
@@ -1137,6 +1138,7 @@
     <Content Include="Views\BTS\_EditBugFormWithAssignment.cshtml" />
     <Content Include="Views\BTS\_BugStatusHelper.cshtml" />
     <Content Include="Views\DP\Percentages.cshtml" />
+    <Content Include="Views\DP\Percentage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

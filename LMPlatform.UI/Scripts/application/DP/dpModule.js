@@ -8,6 +8,7 @@
         'dpApp.ctrl.project',
         'dpApp.ctrl.taskSheet',
         'dpApp.ctrl.percentages',
+        'dpApp.ctrl.percentage',
         'dpApp.ctrl.students',
         'dpApp.service.project'
     ])

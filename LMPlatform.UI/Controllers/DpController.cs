@@ -39,6 +39,11 @@ namespace LMPlatform.UI.Controllers
             return PartialView();
         }
 
+        public ActionResult Percentage()
+        {
+            return PartialView();
+        }
+
         public void GetTasksSheetDocument(int diplomProjectId)
         {
             //todo
