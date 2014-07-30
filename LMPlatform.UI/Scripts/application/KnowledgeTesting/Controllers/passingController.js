@@ -6,6 +6,13 @@ knowledgeTestingApp.controller('passingCtrl', function($scope, $http) {
     };
 });
 
+studentsTestingApp.controller('passingCtrl', function ($scope, $http) {
+
+    $scope.init = function() {
+        testPassing.init();
+    };
+});
+
 var testPassing = {
     init: function () {
         //$('#nextButton').on('click', $.proxy(this._onNextButtonClicked, this));

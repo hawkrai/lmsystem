@@ -1,0 +1,34 @@
+﻿<h3>Управление тестами</h3>
+<hr />
+
+<div class="row" data-ng-init="init()">    
+    <div class="input-group input-group-sm" style="padding-right: 15px; float: right">
+        <span style='display: table-cell; text-align: right'>Поиск&nbsp;</span>
+        <input data-ng-model="query" type="text" class="form-control" style="margin: 0" placeholder="Введите название теста">
+    </div>
+</div>
+
+<div style="height: 20px"></div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Тема</th>
+                <th>Описание</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tr data-ng-repeat="test in tests | filter:query">
+            <td width="30px">{{tests.indexOf(test) + 1}}</td>
+            <td>{{test.Title}}</td>
+            <td>{{test.Description}}</td>
+            <td style="width: 20px;">
+                <div>
+                    <a data-toggle="tooltip" data-tooltip="Пройти тест" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-2x"></i></a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

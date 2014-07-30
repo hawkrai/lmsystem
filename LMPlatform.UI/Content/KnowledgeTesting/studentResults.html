@@ -1,0 +1,25 @@
+﻿<h3>Результаты тестов</h3>
+<hr />
+
+<div class="input-group input-group-sm col-lg-3 col-lg-offset-9" style="padding-right: 15px">
+    <span style='display: table-cell; text-align: right'>Поиск&nbsp;</span>
+    <input data-ng-model="query" type="text" class="form-control" style="margin: 0" placeholder="Введите название теста">
+</div>
+<div style="height: 20px"></div>
+
+<div class="table-responsive" data-ng-show="results.length > 0">
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Тест</th>
+                <th>Оценка</th>
+            </tr>
+        </thead>
+        <tr data-ng-repeat="result in results | filter:query">
+            <td width="10px">{{results.indexOf(result) + 1}}</td>
+            <td width="300px">{{result.Title}}</td>
+            <td width="300px">{{result.Points}}</td>
+        </tr>
+    </table>
+</div>

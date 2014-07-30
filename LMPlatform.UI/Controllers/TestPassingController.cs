@@ -20,10 +20,24 @@ namespace LMPlatform.UI.Controllers
     public class TestPassingController : BasicController
     {
         [Authorize, HttpGet]
-        public ActionResult GetAvailableTests(int subjectId)
+        public JsonResult GetAvailableTests(int subjectId)
         {
-            var availableTests = TestPassingService.GetAvailableTestsForStudent(CurrentUserId, subjectId);
-            return View(availableTests);
+            var availableTests = TestPassingService.GetAvailableTestsForStudent(CurrentUserId, subjectId)
+                .Select(test => new
+                {
+                    Id = test.Id,
+                    Title = test.Title,
+                    Description = test.Description
+                });
+            
+            return Json(availableTests, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize, HttpGet]
+        public ActionResult StudentsTesting(int subjectId)
+        {
+            Subject subject = SubjectsManagementService.GetSubject(subjectId);
+            return View(subject);
         }
 
         [Authorize, HttpGet]
@@ -36,6 +50,18 @@ namespace LMPlatform.UI.Controllers
         public JsonResult GetResults(int groupId, int subjectId)
         {
             TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize, HttpGet]
+        public JsonResult GetStudentResults(int subjectId)
+        {
+            var results = TestPassingService.GetStidentResults(subjectId).GroupBy(g => g.TestName).Select(group => new
+            {
+                Title = group.Key,
+                Points = group.Average(g => g.Points)
+            });
+
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 

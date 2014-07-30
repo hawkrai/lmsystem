@@ -125,6 +125,26 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return passingResult;
         }
 
+        public IEnumerable<TestPassResult> GetStidentResults(int subjectId)
+        {
+            var tests = GetTestsForSubject(subjectId);
+            var testIds = tests.Select(test => test.Id);
+            List<TestPassResult> result;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                result =
+                    repositoriesContainer.RepositoryFor<TestPassResult>().GetAll(
+                        new Query<TestPassResult>(res => testIds.Contains(res.TestId))).ToList();
+            }
+
+            foreach (var testPassResult in result)
+            {
+                testPassResult.TestName = tests.Single(t => t.Id == testPassResult.TestId).Title;
+            }
+
+            return result;
+        }
+
         public void MakeUserAnswer(IEnumerable<Answer> answers, int userId, int testId, int questionNumber)
         {
             var test = GetTest(testId);

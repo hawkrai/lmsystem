@@ -20,5 +20,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         IEnumerable<Test> GetTestsForSubject(int subjectId);
 
         TestPassResult GetTestPassingTime(int testId, int studentId);
+
+        IEnumerable<TestPassResult> GetStidentResults(int subjectId);
     }
 }

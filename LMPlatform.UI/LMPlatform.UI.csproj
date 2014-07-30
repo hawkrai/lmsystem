@@ -443,6 +443,8 @@
     <Content Include="Content\images\star_white.png" />
     <Content Include="Content\images\trash_blue.png" />
     <Content Include="Content\KnowledgeTesting\control.html" />
+    <Content Include="Content\KnowledgeTesting\studentResults.html" />
+    <Content Include="Content\KnowledgeTesting\studentTests.html" />
     <Content Include="Content\KnowledgeTesting\questionDetails.html" />
     <Content Include="Content\KnowledgeTesting\passing.html" />
     <Content Include="Content\KnowledgeTesting\testUnlocks.html" />
@@ -581,6 +583,9 @@
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\controlController.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\studentResultsController.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\studentTestsController.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\testPassingNavigationController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\questionDetailsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\questionsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\resultsController.js" />
@@ -1137,6 +1142,7 @@
     <Content Include="Views\BTS\_AddBugOrCurrentProjectForm.cshtml" />
     <Content Include="Views\BTS\_EditBugFormWithAssignment.cshtml" />
     <Content Include="Views\BTS\_BugStatusHelper.cshtml" />
+    <Content Include="Views\TestPassing\StudentsTesting.cshtml" />
     <Content Include="Views\DP\Percentages.cshtml" />
     <Content Include="Views\DP\Percentage.cshtml" />
   </ItemGroup>
