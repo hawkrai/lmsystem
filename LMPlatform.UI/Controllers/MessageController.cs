@@ -113,7 +113,7 @@ namespace LMPlatform.UI.Controllers
                                             || r.UserName.ToLower().Contains(term.ToLower()))
                 .Select(r => new
                 {
-                    text = string.Format("{0} ({1})", r.FullName, r.UserName),
+                    text = r.FullName,
                     value = r.Id.ToString()
                 }).ToList();
 
