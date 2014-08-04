@@ -32,7 +32,7 @@
                 <tr>
                     <th rowspan="2">№</th>
                     <th rowspan="2">ФИО</th>
-                    <th colspan="2" ng-repeat="subject in allSubjectsStat[0].subjectsStat" tooltip="{{subject.SubjectFullName}}">{{subject.SubjectName}}</th>
+                    <th colspan="2" ng-repeat="subject in allSubjectsStat[0].subjectsStat"><span tooltip="{{subject.SubjectFullName}}">{{subject.SubjectName}}</span></th>
                 </tr>
                 <tr>
                     <th ng-repeat-start="subject in statData">Пропуски, ч</th>
