@@ -70,6 +70,7 @@
     <Compile Include="ApplicationServiceModule.cs" />
     <Compile Include="BugManagement\BugManagementService.cs" />
     <Compile Include="BugManagement\IBugManagementService.cs" />
+    <Compile Include="DPManagement\AuthorizationHelper.cs" />
     <Compile Include="DPManagement\CorrelationService.cs" />
     <Compile Include="DPManagement\DpManagementService.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
@@ -81,6 +82,7 @@
     <Compile Include="DTO\Correlation.cs" />
     <Compile Include="DTO\DiplomProjectData.cs" />
     <Compile Include="DTO\PercentageGraphData.cs" />
+    <Compile Include="DTO\PercentageResultData.cs" />
     <Compile Include="DTO\StudentData.cs" />
     <Compile Include="Export\Word.cs" />
     <Compile Include="FilesManagement\AttachedFile.cs" />

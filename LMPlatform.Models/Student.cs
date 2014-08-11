@@ -72,6 +72,12 @@ namespace LMPlatform.Models
         {
             get;
             set;
+        }
+
+        public virtual ICollection<DiplomPercentagesResult> PercentagesResults
+        {
+            get; 
+            set;
         } 
 
         public ICollection<LecturesVisitMark> LecturesVisitMarks { get; set; } 

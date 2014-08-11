@@ -108,6 +108,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/DP/controllers/taskSheetController.js",
                 "~/Scripts/application/DP/controllers/percentagesController.js",
                 "~/Scripts/application/DP/controllers/percentageController.js",
+                "~/Scripts/application/DP/controllers/percentageResultsController.js",
                 "~/Scripts/application/DP/services/projectService.js"));
         }
     }

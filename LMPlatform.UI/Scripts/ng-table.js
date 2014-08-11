@@ -646,7 +646,7 @@ app.directive('ngTable', ['$compile', '$q', '$parse',
                                     .attr({
                                         'ng-table-pagination': 'params',
                                         'template-url': 'templates.pagination',
-                                        'colspan': columns.length
+                                        'colspan': 100
                                     })),
                             paginationTemplate = angular.element(document.createElement('tfoot')).append(paginationRow);
 
@@ -699,7 +699,7 @@ app.directive('ngTablePagination', ['$compile',
                     if (angular.isUndefined(templateUrl)) {
                         return;
                     }
-                    var template = angular.element(document.createElement('div'))
+                    var template = angular.element(document.createElement('div'));
                     template.attr({
                         'ng-include': 'templateUrl'
                     });

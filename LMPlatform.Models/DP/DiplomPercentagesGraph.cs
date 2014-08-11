@@ -16,16 +16,29 @@ namespace LMPlatform.Models.DP
         public int Id { get; set; }
 
         public int LecturerId { get; set; }
-
-        public int GroupId { get; set; }
-
+        
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
 
         public double Percentage { get; set; }
 
-        public DateTime Date { get; set; }
+        private DateTime _date;
+
+        public DateTime Date
+        {
+            get
+            {
+                return _date.Kind == DateTimeKind.Unspecified
+                    ? DateTime.SpecifyKind(_date, DateTimeKind.Utc)
+                    : _date.ToUniversalTime();
+            }
+
+            set
+            {
+                _date = value;
+            }
+        }
 
         public virtual ICollection<DiplomPercentagesResult> DiplomPercentagesResults { get; set; }
 

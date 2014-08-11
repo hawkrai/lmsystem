@@ -1,4 +1,6 @@
-﻿namespace Application.Infrastructure.DTO
+﻿using System.Collections.Generic;
+
+namespace Application.Infrastructure.DTO
 {
     public class StudentData
     {
@@ -7,5 +9,11 @@
         public string Name { get; set; }
 
         public string Group { get; set; }
+
+        public int? Mark { get; set; }
+
+        public int? AssignedDiplomProjectId { get; set; }
+
+        public IEnumerable<PercentageResultData> PercentageResults { get; set; } 
     }
 }

@@ -3,12 +3,14 @@
         'ngRoute',
         'frapontillo.bootstrap-duallistbox',
         'ui.bootstrap',
+        'xeditable',
         'dpApp.ctrl.home',
         'dpApp.ctrl.projects',
         'dpApp.ctrl.project',
         'dpApp.ctrl.taskSheet',
         'dpApp.ctrl.percentages',
         'dpApp.ctrl.percentage',
+        'dpApp.ctrl.percentageResults',
         'dpApp.ctrl.students',
         'dpApp.service.project'
     ])
@@ -30,6 +32,11 @@
             controller: 'percentagesCtrl'
         });
         
+        $routeProvider.when('/PercentageResults', {
+            templateUrl: '/Dp/PercentageResults',
+            controller: 'percentageResultsCtrl'
+        });
+        
         $routeProvider.otherwise({
             redirectTo: '/Projects'
         });
@@ -46,4 +53,6 @@
                 });
             }
         };
-    });
+    }).run(function (editableOptions) {
+        editableOptions.theme = 'bs3'; 
+    });;

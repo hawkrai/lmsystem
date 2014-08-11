@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
@@ -21,12 +22,66 @@ namespace Application.Infrastructure.DPManagement
             get { return context.Value; }
         }
 
-        public PagedList<PercentageGraphData> GetPercentageGraphs(GetPagedListParams parms)
+        public PagedList<PercentageGraphData> GetPercentageGraphsForSecretary(int lecturerId, GetPagedListParams parms)
         {
+            AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
+
+            var isSecretary = Context.Lecturers.Single(x => x.Id == lecturerId).IsSecretary;
+            if (!isSecretary)
+            {
+                return GetPercentageGraphsForLecturer(lecturerId, parms);
+            }
+
             return Context.DiplomPercentagesGraphs
                 .AsNoTracking()
-                .Select(ToPercentageData)
+                .Select(ToPercentageDataPlain)
                 .ApplyPaging(parms);
+        }
+
+        public PagedList<PercentageGraphData> GetPercentageGraphsForLecturer(int lecturerId, GetPagedListParams parms)
+        {
+            AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
+
+            parms.SortExpression = "Date";
+            return GetPercentageGraphDataForLecturerQuery(lecturerId).ApplyPaging(parms);
+        }
+
+        public List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int lecturerId)
+        {
+            AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
+
+            var currentAcademicYearStartDate = DateTime.Now.Month < 9
+                ? new DateTime(DateTime.Now.Year - 1, 9, 1)
+                : new DateTime(DateTime.Now.Year, 9, 1);
+
+            var currentAcademicYearEndDate = DateTime.Now.Month < 9
+                ? new DateTime(DateTime.Now.Year, 9, 1)
+                : new DateTime(DateTime.Now.Year + 1, 9, 1);
+
+            return GetPercentageGraphDataForLecturerQuery(lecturerId)
+                .Where(x => x.Date >= currentAcademicYearStartDate && x.Date < currentAcademicYearEndDate)
+                .OrderBy(x => x.Date)
+                .ToList();
+        }
+
+        private IQueryable<PercentageGraphData> GetPercentageGraphDataForLecturerQuery(int lecturerId)
+        {
+            var query =
+                (from dpg in Context.DiplomPercentagesGraphs.AsNoTracking()
+                    join dpgg in Context.DiplomPercentagesGraphToGroup.AsNoTracking()
+                        on dpg.Id equals dpgg.DiplomPercentagesGraphId
+                    join grp in Context.Groups.AsNoTracking()
+                        on dpgg.GroupId equals grp.Id
+                    join dptg in Context.DiplomProjectGroups.AsNoTracking()
+                        on grp.Id equals dptg.GroupId
+                    join dp in Context.DiplomProjects.AsNoTracking()
+                        on dptg.DiplomProjectId equals dp.DiplomProjectId
+                    where dp.LecturerId == lecturerId
+                    group dpg by dpg
+                    into groupedDpg
+                    select groupedDpg.FirstOrDefault())
+                    .Select(ToPercentageDataPlain);
+            return query;
         }
 
         public PercentageGraphData GetPercentageGraph(int id)
@@ -78,10 +133,36 @@ namespace Application.Infrastructure.DPManagement
 
         public void DeletePercentage(int userId, int id)
         {
-            ValidateLecturerAccess(userId);
+            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
 
             var percentage = Context.DiplomPercentagesGraphs.Single(x => x.Id == id);
             Context.DiplomPercentagesGraphs.Remove(percentage);
+            Context.SaveChanges();
+        }
+
+        public void SavePercentageResult(int userId, PercentageResultData percentageResultData)
+        {
+            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
+
+            DiplomPercentagesResult diplomPercentagesResult;
+            if (percentageResultData.Id.HasValue)
+            {
+                diplomPercentagesResult = Context.DiplomPercentagesResults
+                    .Single(x => x.Id == percentageResultData.Id);
+            }
+            else
+            {
+                diplomPercentagesResult = new DiplomPercentagesResult
+                {
+                    StudentId = percentageResultData.StudentId,
+                    DiplomPercentagesGraphId = percentageResultData.PercentageGraphId
+                };
+                Context.DiplomPercentagesResults.Add(diplomPercentagesResult);
+            }
+
+            diplomPercentagesResult.Mark = percentageResultData.Mark;
+            diplomPercentagesResult.Comments = percentageResultData.Comment;
+
             Context.SaveChanges();
         }
 
@@ -95,17 +176,13 @@ namespace Application.Infrastructure.DPManagement
             SelectedGroupsIds = x.DiplomPercentagesGraphToGroups.Select(dpg => dpg.GroupId)
         };
 
-        private void ValidateLecturerAccess(int userId)
+        private static readonly Expression<Func<DiplomPercentagesGraph, PercentageGraphData>> ToPercentageDataPlain =
+            x => new PercentageGraphData
         {
-            if (!IsLecturer(userId))
-            {
-                throw new ApplicationException("Only lecturers able to remove percentages!");
-            }
-        }
-
-        private bool IsLecturer(int userId)
-        {
-            return Context.Users.Include(x => x.Student).Include(x => x.Lecturer).Single(x => x.Id == userId).Lecturer != null;
-        }
+            Id = x.Id,
+            Date = x.Date,
+            Name = x.Name,
+            Percentage = x.Percentage,
+        };
     }
 }

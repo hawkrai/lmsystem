@@ -21,7 +21,7 @@ namespace LMPlatform.UI.ApiControllers.DP
 
         public PagedList<PercentageGraphData> Get([ModelBinder]GetPagedListParams parms)
         {
-            return PercentageService.GetPercentageGraphs(parms);
+            return PercentageService.GetPercentageGraphsForSecretary(WebSecurity.CurrentUserId, parms);
         }
 
         public PercentageGraphData Get(int id)

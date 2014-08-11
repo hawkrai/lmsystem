@@ -60,5 +60,7 @@ namespace LMPlatform.Models
             get;
             set;
         }
+
+        public bool IsSecretary { get; set; }
     }
 }

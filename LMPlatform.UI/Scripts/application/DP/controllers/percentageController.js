@@ -12,11 +12,13 @@
 
             $scope.isNew = angular.isUndefined(percentageId);
 
+            var now = new Date();
             $scope.percentage = {
                 Theme: '',
                 Id: null,
-                SelectedGroupsIds: []
-            };
+                SelectedGroupsIds: [],
+                Date: new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()))
+        };
             $scope.groups = [];
 
             if (!$scope.isNew) {

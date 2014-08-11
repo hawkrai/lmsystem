@@ -16,8 +16,12 @@ namespace Application.Infrastructure.DPManagement
 
         void AssignProject(int userId, int projectId, int studentId);
 
+        void SetStudentDiplomMark(int lecturerId, int assignedProjectId, int mark);
+
         void DeleteAssignment(int userId, int id);
 
         PagedList<StudentData> GetStudentsByDiplomProjectId(GetPagedListParams parms);
+
+        PagedList<StudentData> GetGraduateStudentsForLecturer(int lecturerId, GetPagedListParams parms);
     }
 }

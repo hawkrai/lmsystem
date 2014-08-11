@@ -19,9 +19,23 @@ angular
                 return new Date(Date.parse(str));
             };
 
-            $scope.formatDate = function (date) {
+            $scope.formatDate = function (date, format) {
                 if (date == null) return null;
-                return $.datepicker.formatDate("dd/mm/yy", date);
+                return $.datepicker.formatDate(format || "dd/mm/yy", date);
+            };
+
+            $scope.handleError = function(respData) {
+                var data = respData.data;
+                var message = '';
+
+                for (var prop in data.ModelState) {
+                    if (data.ModelState.hasOwnProperty(prop)) {
+                        $.each(data.ModelState[prop], function() {
+                            message += this + '<br/>';
+                        });
+                    }
+                }
+                alertify.error(message);
             };
 
             $scope.navigationManager = navigationManagerFactory();

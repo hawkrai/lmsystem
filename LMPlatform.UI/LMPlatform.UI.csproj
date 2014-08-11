@@ -166,7 +166,12 @@
     <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
     <Compile Include="ApiControllers\DP\PercentageController.cs" />
+    <Compile Include="ApiControllers\DP\PercentageResultController.cs" />
     <Compile Include="ApiControllers\DP\StudentController.cs" />
+    <Compile Include="ApiControllers\DP\StudentMarkController.cs">
+      <SubType>
+      </SubType>
+    </Compile>
     <Compile Include="ApiControllers\LabsController.cs" />
     <Compile Include="ApiControllers\NewsController.cs" />
     <Compile Include="ApiControllers\UploadController.cs" />
@@ -202,6 +207,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
+    <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
     <Compile Include="Services\Files\FilesService.svc.cs">
       <DependentUpon>FilesService.svc</DependentUpon>
@@ -1145,6 +1151,7 @@
     <Content Include="Views\TestPassing\StudentsTesting.cshtml" />
     <Content Include="Views\DP\Percentages.cshtml" />
     <Content Include="Views\DP\Percentage.cshtml" />
+    <Content Include="Views\DP\PercentageResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

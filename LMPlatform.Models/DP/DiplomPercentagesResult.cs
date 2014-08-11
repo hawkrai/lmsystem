@@ -16,5 +16,7 @@ namespace LMPlatform.Models.DP
         public string Comments { get; set; }
 
         public virtual DiplomPercentagesGraph DiplomPercentagesGraph { get; set; }
+
+        public virtual Student Student { get; set; }
     }
 }

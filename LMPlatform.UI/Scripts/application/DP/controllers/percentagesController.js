@@ -20,7 +20,6 @@
                     templateUrl: '/Dp/Percentage',
                     controller: 'percentageCtrl',
                     keyboard: false,
-                    backdrop: "static",
                     scope: $scope,
                     resolve: {
                         percentageId: function () { return percentageId; },

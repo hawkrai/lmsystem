@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using Application.Core;
 using Application.Core.Data;
 using Application.Core.Extensions;
 using Application.Infrastructure.DTO;
 using LMPlatform.Data.Infrastructure;
+using LMPlatform.Models;
 using LMPlatform.Models.DP;
 
 namespace Application.Infrastructure.DPManagement
@@ -13,12 +16,13 @@ namespace Application.Infrastructure.DPManagement
     public class DpManagementService : IDpManagementService
     {
         private readonly LazyDependency<IDpContext> context = new LazyDependency<IDpContext>();
-
+        
         private IDpContext Context
         {
             get { return context.Value; }
         }
 
+        //todo: add lecturerId param and filter by it
         public PagedList<DiplomProjectData> GetProjects(GetPagedListParams parms)
         {
             var query = Context.DiplomProjects.AsNoTracking()
@@ -32,9 +36,9 @@ namespace Application.Infrastructure.DPManagement
                         Id = dp.DiplomProjectId,
                         Theme = dp.Theme,
                         Lecturer = dp.Lecturer != null ? dp.Lecturer.LastName + " " + dp.Lecturer.FirstName + " " + dp.Lecturer.MiddleName : null,
-                        Student = adp != null && adp.Student != null ? adp.Student.LastName + " " + adp.Student.FirstName + " " + adp.Student.MiddleName : null,
-                        Group = adp != null && adp.Student != null && adp.Student.Group != null ? adp.Student.Group.Name : null,
-                        ApproveDate = adp != null ? adp.ApproveDate : null
+                        Student = adp.Student != null ? adp.Student.LastName + " " + adp.Student.FirstName + " " + adp.Student.MiddleName : null,
+                        Group = adp.Student.Group.Name,
+                        ApproveDate = adp.ApproveDate
                     }).ApplyPaging(parms);
         }
 
@@ -95,7 +99,7 @@ namespace Application.Infrastructure.DPManagement
 
         public void DeleteProject(int userId, int id)
         {
-            ValidateLecturerAccess(userId);
+            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
 
             var project = Context.DiplomProjects.Single(x => x.DiplomProjectId == id);
             Context.DiplomProjects.Remove(project);
@@ -104,11 +108,7 @@ namespace Application.Infrastructure.DPManagement
 
         public void AssignProject(int userId, int projectId, int studentId)
         {
-            var isLecturer = IsLecturer(userId);
-            if (!isLecturer && userId != studentId)
-            {
-                throw new Exception("A student can only to assign a project to himself!");
-            }
+            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
 
             var assignment = Context.AssignedDiplomProjects.FirstOrDefault(x => x.DiplomProjectId == projectId);
 
@@ -127,7 +127,14 @@ namespace Application.Infrastructure.DPManagement
             }
 
             assignment.StudentId = studentId;
-            assignment.ApproveDate = isLecturer ? (DateTime?)DateTime.Now : null;
+            assignment.ApproveDate = AuthorizationHelper.IsLecturer(Context, userId) ? (DateTime?)DateTime.Now : null;
+            Context.SaveChanges();
+        }
+
+        public void SetStudentDiplomMark(int lecturerId, int assignedProjectId, int mark)
+        {
+            AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
+            Context.AssignedDiplomProjects.Single(x => x.Id == assignedProjectId).Mark = mark;
             Context.SaveChanges();
         }
 
@@ -145,13 +152,15 @@ namespace Application.Infrastructure.DPManagement
                 throw new ApplicationException("diplomPorjectId can't be empty!");
             }
 
-            var diplomProjectId = int.Parse(parms.Filters["diplomProjectId"]);
+            parms.SortExpression = "Name";
 
+            var diplomProjectId = int.Parse(parms.Filters["diplomProjectId"]);
+            
             return Context.Students
                 .Include(x => x.Group.DiplomProjectGroups)
                 .Where(x => x.Group.DiplomProjectGroups.Any(dpg => dpg.DiplomProjectId == diplomProjectId))
                 .Where(x => !x.AssignedDiplomProjects.Any())
-                .OrderBy(x => x.Group.Name).ThenBy(x => x.LastName)
+                .Where(IsGraduateStudent)
                 .Select(s => new StudentData
                 {
                     Id = s.Id,
@@ -160,17 +169,41 @@ namespace Application.Infrastructure.DPManagement
                 }).ApplyPaging(parms);
         }
 
-        private void ValidateLecturerAccess(int userId)
+        public PagedList<StudentData> GetGraduateStudentsForLecturer(int lecturerId, GetPagedListParams parms)
         {
-            if (!IsLecturer(userId))
-            {
-                throw new ApplicationException("Only lecturers able to remove assignments!");
-            }
+            AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
+            
+            parms.SortExpression = "Name";
+            return Context.Students
+                .Where(x => x.AssignedDiplomProjects.Any(asd => asd.DiplomProject.LecturerId == lecturerId))
+                .Where(IsGraduateStudent)
+                .Select(s => new StudentData
+                {
+                    Id = s.Id,
+                    Name = s.LastName + " " + s.FirstName + " " + s.MiddleName, //todo
+                    Mark = s.AssignedDiplomProjects.FirstOrDefault().Mark,
+                    AssignedDiplomProjectId = s.AssignedDiplomProjects.FirstOrDefault().Id,
+                    PercentageResults = s.PercentagesResults.Select(pr => new PercentageResultData
+                    {
+                        Id = pr.Id,
+                        PercentageGraphId = pr.DiplomPercentagesGraphId,
+                        StudentId = pr.StudentId,
+                        Mark = pr.Mark,
+                        Comment = pr.Comments
+                    })
+                }).ApplyPaging(parms);
         }
 
-        private bool IsLecturer(int userId)
+        private static Expression<Func<Student, bool>> IsGraduateStudent
         {
-            return Context.Users.Include(x => x.Student).Include(x => x.Lecturer).Single(x => x.Id == userId).Lecturer != null;
+            get
+            {
+                var currentYearStr = DateTime.Now.Year.ToString(CultureInfo.InvariantCulture);
+                var nextYearStr = DateTime.Now.AddYears(1).Year.ToString(CultureInfo.InvariantCulture);
+                return x =>
+                    (x.Group.GraduationYear == currentYearStr && DateTime.Now.Month <= 9) ||
+                    (x.Group.GraduationYear == nextYearStr && DateTime.Now.Month >= 9);
+            }
         }
     }
 }
