@@ -17,5 +17,7 @@ namespace LMPlatform.Models.DP
         public string Comments { get; set; }
 
         public virtual DiplomProjectConsultationDate DiplomProjectConsultationDate { get; set; }
+
+        public Student Student { get; set; }
     }
 }

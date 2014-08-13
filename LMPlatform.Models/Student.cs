@@ -80,6 +80,12 @@ namespace LMPlatform.Models
             set;
         } 
 
+        public virtual ICollection<DiplomProjectConsultationMark> DiplomProjectConsultationMarks
+        {
+            get; 
+            set;
+        } 
+
         public ICollection<LecturesVisitMark> LecturesVisitMarks { get; set; } 
 
         public ICollection<ScheduleProtectionLabMark> ScheduleProtectionLabMarks { get; set; } 

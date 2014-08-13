@@ -589,6 +589,12 @@ namespace LMPlatform.Data.Infrastructure
                 .HasForeignKey(e => e.StudentId)
                 .WillCascadeOnDelete(false); //TODO: get rid of multiple cascade paths
 
+            modelBuilder.Entity<Student>()
+                .HasMany(e => e.DiplomProjectConsultationMarks)
+                .WithRequired(e => e.Student)
+                .HasForeignKey(e => e.StudentId)
+                .WillCascadeOnDelete(false); //TODO: get rid of multiple cascade paths
+
             modelBuilder.Entity<DiplomProjectConsultationMark>()
                 .Property(e => e.Mark)
                 .IsFixedLength()

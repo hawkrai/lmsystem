@@ -80,7 +80,9 @@
     <Compile Include="DPManagement\IPercentageGraphService.cs" />
     <Compile Include="DPManagement\PercentageGraphService.cs" />
     <Compile Include="DTO\Correlation.cs" />
+    <Compile Include="DTO\DiplomProjectConsultationDateData.cs" />
     <Compile Include="DTO\DiplomProjectData.cs" />
+    <Compile Include="DTO\DipomProjectConsultationMarkData.cs" />
     <Compile Include="DTO\PercentageGraphData.cs" />
     <Compile Include="DTO\PercentageResultData.cs" />
     <Compile Include="DTO\StudentData.cs" />

@@ -3,9 +3,9 @@
         <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <thead>
                 <tr>
-                    <th >Студент</th>
+                    <th width="70%" >Студент</th>
                     <th width="5%" ng-repeat="percentage in percentages">{{formatDate(parseDate(percentage.Date), "dd/mm")}}</th>
-                    <th>Оценка</th>
+                    <th width="5%">Оценка</th>
                 </tr>
             </thead>
             <tbody>
@@ -14,11 +14,11 @@
                     <td ng-repeat="percentage in percentages" width="5%" style="text-align: center;">
                         <a editable-text="getPercentageResult(student, percentage.Id).Mark" href="#"
                            onbeforesave="savePercentageResult(getPercentageResult(student, percentage.Id), $data)">
-                            {{getPercentageResult(student, percentage.Id).Mark || '-'}}
+                            {{getPercentageResult(student, percentage.Id).Mark != null ? getPercentageResult(student, percentage.Id).Mark : '-'}}
                         </a>
                     </td>
                     <td width="5%" style="text-align: center;">
-                        <a editable-text="{{student.Mark || '-'}}" href="#"
+                        <a editable-text="student.Mark" href="#"
                            onbeforesave="saveStudentMark(student.AssignedDiplomProjectId, $data)">
                             {{student.Mark || '-'}}
                         </a>

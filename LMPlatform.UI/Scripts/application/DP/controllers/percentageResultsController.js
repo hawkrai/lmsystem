@@ -33,7 +33,7 @@
 
             $scope.savePercentageResult = function (percentageResult, newValue) {
 
-                if (newValue && (isNaN(newValue, 10) || newValue < 1 || newValue > 10)) return "Введите число от 1 до 10!";
+                if (newValue && (isNaN(newValue, 10) || newValue < 0 || newValue > 100)) return "Введите число от 0 до 100!";
 
                 percentageResult.Mark = newValue;
 

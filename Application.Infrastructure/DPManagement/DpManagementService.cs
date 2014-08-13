@@ -16,7 +16,7 @@ namespace Application.Infrastructure.DPManagement
     public class DpManagementService : IDpManagementService
     {
         private readonly LazyDependency<IDpContext> context = new LazyDependency<IDpContext>();
-        
+
         private IDpContext Context
         {
             get { return context.Value; }
@@ -155,7 +155,7 @@ namespace Application.Infrastructure.DPManagement
             parms.SortExpression = "Name";
 
             var diplomProjectId = int.Parse(parms.Filters["diplomProjectId"]);
-            
+
             return Context.Students
                 .Include(x => x.Group.DiplomProjectGroups)
                 .Where(x => x.Group.DiplomProjectGroups.Any(dpg => dpg.DiplomProjectId == diplomProjectId))
@@ -169,10 +169,11 @@ namespace Application.Infrastructure.DPManagement
                 }).ApplyPaging(parms);
         }
 
+        //Can we conditionally select only particular navigation collection?
         public PagedList<StudentData> GetGraduateStudentsForLecturer(int lecturerId, GetPagedListParams parms)
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
-            
+
             parms.SortExpression = "Name";
             return Context.Students
                 .Where(x => x.AssignedDiplomProjects.Any(asd => asd.DiplomProject.LecturerId == lecturerId))
@@ -190,6 +191,14 @@ namespace Application.Infrastructure.DPManagement
                         StudentId = pr.StudentId,
                         Mark = pr.Mark,
                         Comment = pr.Comments
+                    }),
+                    DipomProjectConsultationMarks = s.DiplomProjectConsultationMarks.Select(cm => new DipomProjectConsultationMarkData
+                    {
+                        Id = cm.Id,
+                        ConsultationDateId = cm.ConsultationDateId,
+                        StudentId = cm.StudentId,
+                        Mark = cm.Mark,
+                        Comments = cm.Comments
                     })
                 }).ApplyPaging(parms);
         }

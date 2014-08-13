@@ -165,6 +165,7 @@
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
+    <Compile Include="ApiControllers\DP\DipomProjectConsultationController.cs" />
     <Compile Include="ApiControllers\DP\PercentageController.cs" />
     <Compile Include="ApiControllers\DP\PercentageResultController.cs" />
     <Compile Include="ApiControllers\DP\StudentController.cs" />
