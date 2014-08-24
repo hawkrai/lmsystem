@@ -106,6 +106,12 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             set;
         }
 
+        [Display(Name = "Секретарь")]
+        public bool IsSecretary { get; set; }
+
+        [Display(Name = "Руководитель дипломных проектов")]
+        public bool IsLecturerHasGraduateStudents { get; set; }
+
         [Required(ErrorMessage = "Поле Логин обязательно для заполнения")]
         [Display(Name = "Логин")]
         public string UserName { get; set; }
@@ -174,7 +180,9 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 Id = user.Id,
                 FirstName = Name,
                 LastName = Surname,
-                MiddleName = Patronymic
+                MiddleName = Patronymic,
+                IsSecretary = IsSecretary,
+                IsLecturerHasGraduateStudents = IsLecturerHasGraduateStudents
             });
         }
     }

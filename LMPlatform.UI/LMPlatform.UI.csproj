@@ -164,6 +164,7 @@
   <ItemGroup>
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
+    <Compile Include="ApiControllers\DP\DiplomProjectConsultationDateController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
     <Compile Include="ApiControllers\DP\DipomProjectConsultationController.cs" />
     <Compile Include="ApiControllers\DP\PercentageController.cs" />
@@ -584,6 +585,7 @@
     <Content Include="Scripts\application\DP\controllers\projectController.js" />
     <Content Include="Scripts\application\DP\controllers\studentsController.js" />
     <Content Include="Scripts\application\DP\controllers\taskSheetController.js" />
+    <Content Include="Scripts\application\DP\controllers\visitStatsController.js" />
     <Content Include="Scripts\application\DP\dpModule.js" />
     <Content Include="Scripts\application\DP\controllers\projectsController.js" />
     <Content Include="Scripts\application\DP\services\projectService.js" />
@@ -1153,6 +1155,8 @@
     <Content Include="Views\DP\Percentages.cshtml" />
     <Content Include="Views\DP\Percentage.cshtml" />
     <Content Include="Views\DP\PercentageResults.cshtml" />
+    <Content Include="Views\DP\VisitStats.cshtml" />
+    <Content Include="Views\DP\ConsultationDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -184,6 +184,7 @@ namespace Application.Infrastructure.DPManagement
                     Name = s.LastName + " " + s.FirstName + " " + s.MiddleName, //todo
                     Mark = s.AssignedDiplomProjects.FirstOrDefault().Mark,
                     AssignedDiplomProjectId = s.AssignedDiplomProjects.FirstOrDefault().Id,
+                    Group = s.Group.Name,
                     PercentageResults = s.PercentagesResults.Select(pr => new PercentageResultData
                     {
                         Id = pr.Id,
@@ -201,6 +202,16 @@ namespace Application.Infrastructure.DPManagement
                         Comments = cm.Comments
                     })
                 }).ApplyPaging(parms);
+        }
+
+        public bool IsLecturerHasGraduateStudents(int lecturerId)
+        {
+            if (!AuthorizationHelper.IsLecturer(Context, lecturerId))
+            {
+                return false;
+            }
+
+            return Context.Lecturers.Single(x => x.Id == lecturerId).IsLecturerHasGraduateStudents;
         }
 
         private static Expression<Func<Student, bool>> IsGraduateStudent

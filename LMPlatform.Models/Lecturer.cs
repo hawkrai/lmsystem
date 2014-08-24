@@ -62,5 +62,7 @@ namespace LMPlatform.Models
         }
 
         public bool IsSecretary { get; set; }
+
+        public bool IsLecturerHasGraduateStudents { get; set; }
     }
 }

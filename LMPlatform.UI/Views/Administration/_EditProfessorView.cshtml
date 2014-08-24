@@ -48,6 +48,22 @@
                 <p></p>
             </div>
             <div>
+                @Html.LabelFor(m => m.IsSecretary, new { @class = "control-label" })
+                <div>
+                    @Html.CheckBoxFor(m => m.IsSecretary, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.IsSecretary, " ")
+                </div>
+                <p></p>
+            </div>
+            <div>
+                @Html.LabelFor(m => m.IsLecturerHasGraduateStudents, new { @class = "control-label" })
+                <div>
+                    @Html.CheckBoxFor(m => m.IsLecturerHasGraduateStudents, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(e => e.IsLecturerHasGraduateStudents, " ")
+                </div>
+                <p></p>
+            </div>
+            <div>
                 @Html.ActionLink("Сбросить пароль ", "ResetPassword", new { id = @Model.UserName })
 
                 <p></p>

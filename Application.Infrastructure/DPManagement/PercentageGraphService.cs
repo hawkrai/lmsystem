@@ -50,17 +50,23 @@ namespace Application.Infrastructure.DPManagement
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
 
-            var currentAcademicYearStartDate = DateTime.Now.Month < 9
-                ? new DateTime(DateTime.Now.Year - 1, 9, 1)
-                : new DateTime(DateTime.Now.Year, 9, 1);
-
-            var currentAcademicYearEndDate = DateTime.Now.Month < 9
-                ? new DateTime(DateTime.Now.Year, 9, 1)
-                : new DateTime(DateTime.Now.Year + 1, 9, 1);
-
             return GetPercentageGraphDataForLecturerQuery(lecturerId)
-                .Where(x => x.Date >= currentAcademicYearStartDate && x.Date < currentAcademicYearEndDate)
+                .Where(x => x.Date >= _currentAcademicYearStartDate && x.Date < _currentAcademicYearEndDate)
                 .OrderBy(x => x.Date)
+                .ToList();
+        }
+
+        public List<DiplomProjectConsultationDateData> GetConsultationDatesForLecturer(int lecturerId)
+        {
+            return Context.DiplomProjectConsultationDates
+                .Where(x => x.Day >= _currentAcademicYearStartDate && x.Day < _currentAcademicYearEndDate)
+                .OrderBy(x => x.Day)
+                .Select(x => new DiplomProjectConsultationDateData
+                {
+                    Day = x.Day,
+                    LecturerId = x.LecturerId,
+                    Id = x.Id
+                })
                 .ToList();
         }
 
@@ -68,18 +74,18 @@ namespace Application.Infrastructure.DPManagement
         {
             var query =
                 (from dpg in Context.DiplomPercentagesGraphs.AsNoTracking()
-                    join dpgg in Context.DiplomPercentagesGraphToGroup.AsNoTracking()
-                        on dpg.Id equals dpgg.DiplomPercentagesGraphId
-                    join grp in Context.Groups.AsNoTracking()
-                        on dpgg.GroupId equals grp.Id
-                    join dptg in Context.DiplomProjectGroups.AsNoTracking()
-                        on grp.Id equals dptg.GroupId
-                    join dp in Context.DiplomProjects.AsNoTracking()
-                        on dptg.DiplomProjectId equals dp.DiplomProjectId
-                    where dp.LecturerId == lecturerId
-                    group dpg by dpg
-                    into groupedDpg
-                    select groupedDpg.FirstOrDefault())
+                 join dpgg in Context.DiplomPercentagesGraphToGroup.AsNoTracking()
+                     on dpg.Id equals dpgg.DiplomPercentagesGraphId
+                 join grp in Context.Groups.AsNoTracking()
+                     on dpgg.GroupId equals grp.Id
+                 join dptg in Context.DiplomProjectGroups.AsNoTracking()
+                     on grp.Id equals dptg.GroupId
+                 join dp in Context.DiplomProjects.AsNoTracking()
+                     on dptg.DiplomProjectId equals dp.DiplomProjectId
+                 where dp.LecturerId == lecturerId
+                 group dpg by dpg
+                     into groupedDpg
+                     select groupedDpg.FirstOrDefault())
                     .Select(ToPercentageDataPlain);
             return query;
         }
@@ -166,6 +172,54 @@ namespace Application.Infrastructure.DPManagement
             Context.SaveChanges();
         }
 
+        public void SaveConsultationMark(int userId, DipomProjectConsultationMarkData consultationMarkData)
+        {
+            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
+
+            DiplomProjectConsultationMark consultationMark;
+            if (consultationMarkData.Id.HasValue)
+            {
+                consultationMark = Context.DiplomProjectConsultationMarks
+                    .Single(x => x.Id == consultationMarkData.Id);
+            }
+            else
+            {
+                consultationMark = new DiplomProjectConsultationMark
+                {
+                    StudentId = consultationMarkData.StudentId,
+                    ConsultationDateId = consultationMarkData.ConsultationDateId
+                };
+                Context.DiplomProjectConsultationMarks.Add(consultationMark);
+            }
+
+            consultationMark.Mark = string.IsNullOrWhiteSpace(consultationMarkData.Mark) ? null : consultationMarkData.Mark;
+
+            //            consultationMark.Comments = consultationMarkData.Comment;
+            Context.SaveChanges();
+        }
+
+        public void SaveConsultationDate(int userId, DateTime date)
+        {
+            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
+
+            Context.DiplomProjectConsultationDates.Add(new DiplomProjectConsultationDate
+            {
+                Day = date,
+                LecturerId = userId
+            });
+            
+            Context.SaveChanges();
+        }
+
+        public void DeleteConsultationDate(int userId, int id)
+        {
+            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
+
+            var consultation = Context.DiplomProjectConsultationDates.Single(x => x.Id == id);
+            Context.DiplomProjectConsultationDates.Remove(consultation);
+            Context.SaveChanges();
+        }
+
         private static readonly Expression<Func<DiplomPercentagesGraph, PercentageGraphData>> ToPercentageData =
             x => new PercentageGraphData
         {
@@ -184,5 +238,13 @@ namespace Application.Infrastructure.DPManagement
             Name = x.Name,
             Percentage = x.Percentage,
         };
+
+        private readonly DateTime _currentAcademicYearStartDate = DateTime.Now.Month < 9
+            ? new DateTime(DateTime.Now.Year - 1, 9, 1)
+            : new DateTime(DateTime.Now.Year, 9, 1);
+
+        private readonly DateTime _currentAcademicYearEndDate = DateTime.Now.Month < 9
+            ? new DateTime(DateTime.Now.Year, 9, 1)
+            : new DateTime(DateTime.Now.Year + 1, 9, 1);
     }
 }

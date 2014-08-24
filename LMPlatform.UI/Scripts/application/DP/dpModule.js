@@ -11,6 +11,7 @@
         'dpApp.ctrl.percentages',
         'dpApp.ctrl.percentage',
         'dpApp.ctrl.percentageResults',
+        'dpApp.ctrl.visitStats',
         'dpApp.ctrl.students',
         'dpApp.service.project'
     ])
@@ -35,6 +36,11 @@
         $routeProvider.when('/PercentageResults', {
             templateUrl: '/Dp/PercentageResults',
             controller: 'percentageResultsCtrl'
+        });
+        
+        $routeProvider.when('/VisitStats', {
+            templateUrl: '/Dp/VisitStats',
+            controller: 'visitStatsCtrl'
         });
         
         $routeProvider.otherwise({

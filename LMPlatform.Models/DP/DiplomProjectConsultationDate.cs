@@ -14,7 +14,22 @@ namespace LMPlatform.Models.DP
 
         public int LecturerId { get; set; }
 
-        public DateTime Day { get; set; }
+        private DateTime _day;
+
+        public DateTime Day
+        {
+            get
+            {
+                return _day.Kind == DateTimeKind.Unspecified
+                    ? DateTime.SpecifyKind(_day, DateTimeKind.Utc)
+                    : _day.ToUniversalTime();
+            }
+
+            set
+            {
+                _day = value;
+            }
+        }
 
         public virtual ICollection<DiplomProjectConsultationMark> DiplomProjectConsultationMarks { get; set; }
     }

@@ -23,5 +23,7 @@ namespace Application.Infrastructure.DPManagement
         PagedList<StudentData> GetStudentsByDiplomProjectId(GetPagedListParams parms);
 
         PagedList<StudentData> GetGraduateStudentsForLecturer(int lecturerId, GetPagedListParams parms);
+
+        bool IsLecturerHasGraduateStudents(int lecturerId);
     }
 }

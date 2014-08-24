@@ -10,7 +10,8 @@ namespace LMPlatform.Models.DP
 
         public int StudentId { get; set; }
 
-        [StringLength(1)]
+        //todo: make it as byte
+        [StringLength(2)]
         public string Mark { get; set; }
 
         [StringLength(50)]

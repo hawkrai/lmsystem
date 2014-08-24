@@ -40,7 +40,7 @@
                 percentageResults.save(percentageResult)
                     .$promise.then(function (data, status, headers, config) {
                         $scope.tableParams.reload();
-                        alertify.success('Оценка успешно сохранена.');
+                        alertify.success('Процент успешно сохранен.');
                     }, $scope.handleError);
                 return false;
             };

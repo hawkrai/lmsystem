@@ -1,0 +1,26 @@
+﻿<div class="modal-dialog panel panel-primary" style="margin: 0;width:700px;">
+    <div class="panel-heading">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
+        <h4 class="modal-title">Добавление консультации</h4>
+    </div>
+    <div class="modal-body">
+        <form novalidate name="forms.consultationDate">
+            <div ng-class="{'has-error': submitted && forms.consultationDate.date.$error.required}">
+                <label class="control-label" for="Date">Дата консультации</label>
+                <input type="text" class="form-control"
+                       name="date"
+                       datepicker-popup="{{dateFormat}}"
+                       ng-model="consultation.date"
+                       is-open="opened"
+                       required
+                       close-text="Close"
+                       style="width: 100%" />
+                <span class="help-block" ng-show="submitted && forms.consultationDate.date.$error.required">Введите Дату!</span>
+            </div>
+            <div style="text-align: right; padding: 20px 0;">
+                <button ng-click="closeDialog()" class="btn btn-primary btn-sm">Отмена</button>
+                <button ng-click="saveConsultationDate()" type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -49,6 +49,16 @@ namespace LMPlatform.UI.Controllers
             return PartialView();
         }
 
+        public ActionResult VisitStats()
+        {
+            return PartialView();
+        }
+
+        public ActionResult ConsultationDate()
+        {
+            return PartialView();
+        }
+
         public void GetTasksSheetDocument(int diplomProjectId)
         {
             //todo

@@ -46,6 +46,8 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 Surname = lecturer.LastName;
                 Patronymic = lecturer.MiddleName;
                 UserName = lecturer.User.UserName;
+                IsSecretary = lecturer.IsSecretary;
+                IsLecturerHasGraduateStudents = lecturer.IsLecturerHasGraduateStudents;
             }
         }
 
@@ -91,6 +93,12 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
             get { return string.Format("{0} {1} {2}", Surname, Name, Patronymic); }
         }
 
+        [Display(Name = "Секретарь")]
+        public bool IsSecretary { get; set; }
+
+        [Display(Name = "Руководитель дипломных проектов")]
+        public bool IsLecturerHasGraduateStudents { get; set; }
+
         public IList<SelectListItem> GetSubjects()
         {
             return null;
@@ -104,6 +112,8 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 FirstName = Name,
                 LastName = Surname,
                 MiddleName = Patronymic,
+                IsSecretary = IsSecretary,
+                IsLecturerHasGraduateStudents = IsLecturerHasGraduateStudents
             });
         }
     }
