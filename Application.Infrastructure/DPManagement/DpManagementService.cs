@@ -97,6 +97,33 @@ namespace Application.Infrastructure.DPManagement
             Context.SaveChanges();
         }
 
+        public TaskSheetData GetTaskSheet(int diplomProjectId)
+        {
+            var dp = Context.DiplomProjects.Single(x => x.DiplomProjectId == diplomProjectId);
+            return new TaskSheetData
+            {
+                InputData = dp.InputData,
+                Consultants = dp.Consultants,
+                DiplomProjectId = dp.DiplomProjectId,
+                DrawMaterials = dp.DrawMaterials,
+                RpzContent = dp.RpzContent
+            };
+        }
+
+        public void SaveTaskSheet(int userId, TaskSheetData taskSheet)
+        {
+            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
+
+            var dp = Context.DiplomProjects.Single(x => x.DiplomProjectId == taskSheet.DiplomProjectId);
+
+            dp.InputData = taskSheet.InputData;
+            dp.RpzContent = taskSheet.RpzContent;
+            dp.DrawMaterials = taskSheet.DrawMaterials;
+            dp.Consultants = taskSheet.Consultants;
+
+            Context.SaveChanges();
+        }
+
         public void DeleteProject(int userId, int id)
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, userId);

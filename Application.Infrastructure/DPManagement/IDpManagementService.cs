@@ -12,6 +12,10 @@ namespace Application.Infrastructure.DPManagement
 
         void SaveProject(DiplomProjectData projectData);
 
+        TaskSheetData GetTaskSheet(int diplomProjectId);
+
+        void SaveTaskSheet(int userId, TaskSheetData taskSheet);
+
         void DeleteProject(int userId, int id);
 
         void AssignProject(int userId, int projectId, int studentId);

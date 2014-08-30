@@ -5,7 +5,8 @@
         'projectService',
         '$sce',
         '$modal',
-        function ($scope, projectService, $sce, $modal) {
+        '$resource',
+        function ($scope, projectService, $sce, $modal, $resource) {
 
             $scope.setTitle("Лист задания");
 
@@ -34,6 +35,7 @@
                 $modal.open({
                     templateUrl: '/Dp/TaskSheetEdit',
                     controller: editTaskSheetController,
+                    scope: $scope,
                     resolve: {
                         projectId: function () {
                             return $scope.selectedProjectId;
@@ -46,9 +48,22 @@
 
             var editTaskSheetController = function ($scope, $modalInstance) {
 
+                var taskSheets = $resource('api/TaskSheet');
                 $scope.taskSheet = {};
 
+                taskSheets.get({ diplomProjectId: $scope.selectedProjectId }, function (data) {
+                    $scope.taskSheet = data;
+                });
+
+
                 $scope.saveTaskSheet = function () {
+
+                    taskSheets.save($scope.taskSheet)
+                        .$promise.then(function (data, status, headers, config) {
+                            $scope.selectProject();
+                            alertify.success('Данные успешно сохранены.');
+                        }, $scope.handleError);
+
                     $modalInstance.close();
                 };
 

@@ -86,6 +86,7 @@
     <Compile Include="DTO\PercentageGraphData.cs" />
     <Compile Include="DTO\PercentageResultData.cs" />
     <Compile Include="DTO\StudentData.cs" />
+    <Compile Include="DTO\TaskSheetData.cs" />
     <Compile Include="Export\Word.cs" />
     <Compile Include="FilesManagement\AttachedFile.cs" />
     <Compile Include="FilesManagement\FilesManagementService.cs" />
