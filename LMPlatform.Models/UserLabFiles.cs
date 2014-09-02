@@ -7,5 +7,9 @@ namespace LMPlatform.Models
          public string Comments { get; set; }
 
         public string Attachments { get; set; }
+
+		public int UserId { get; set; }
+
+		public int SubjectId { get; set; }
     }
 }

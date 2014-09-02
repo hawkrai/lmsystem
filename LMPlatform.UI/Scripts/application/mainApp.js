@@ -141,9 +141,12 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                     $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[1];
                 }
         };
-
-        $scope.init = function (subjectId) {
-            $scope.subjectId = subjectId;
+        $scope.userRole = 0;
+		$scope.userId = 0;
+        $scope.init = function (subjectId, userRole, userId) {
+        	$scope.subjectId = subjectId;
+        	$scope.userRole = userRole;
+	        $scope.userId = userId;
             $scope.loadGroups();
             bootbox.setDefaults({
                 locale: "ru"
@@ -733,7 +736,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
         
         $scope.editFileSend = {
-            Comments: "",
+        	Comments: "",
+        	PathFile: "",
             Id: 0
         };
 
@@ -742,16 +746,19 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         $scope.editMarksVisiting = [];
 
         $scope.init = function () {
-            $scope.labs = [];
-            $scope.loadLabs();
+        	$scope.labs = [];
+        	if ($scope.userRole == "1") {
+        		$scope.loadFilesLabUser();
+	        }
+            
         };
 
-        $scope.loadFilesLab = function () {
+        $scope.loadFilesLabUser = function () {
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLabs + "GetFilesLab",
                 data: {
-                    userId: $scope.subjectId,
+                	userId: $scope.userId,
                     subjectId: $scope.subjectId
                 },
                 headers: { 'Content-Type': 'application/json' }
@@ -759,12 +766,78 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 if (data.Code != '200') {
                     alertify.error(data.Message);
                 } else {
-                    $scope.$apply(function () {
-                        $scope.labFilesUser = data.Files;
-                    });
+                    //$scope.$apply(function () {
+                    	$scope.labFilesUser = data.UserLabFiles;
+                    //});
                     alertify.success(data.Message);
                 }
             });
+        };
+
+        $scope.addLabFiles = function () {
+        	$scope.editFileSend.Comments = "";
+        	$scope.editFileSend.PathFile = "";
+        	$scope.editFileSend.Id = 0;
+
+        	$("#labsFile").empty();
+
+        	$.ajax({
+        		type: 'GET',
+        		url: "/Subject/GetUserFilesLab?id=0",
+        		contentType: "application/json",
+
+        	}).success(function (data, status) {
+        		$scope.$apply(function () {
+        			$("#labsFile").append(data);
+        		});
+        	});
+
+        	$('#dialogAddFiles').modal();
+        };
+
+        $scope.editLabFiles = function (file) {
+        	$scope.editFileSend.Comments = file.Comments;
+        	$scope.editFileSend.PathFile = file.PathFile;
+        	$scope.editFileSend.Id = file.Id;
+
+        	$("#labsFile").empty();
+
+        	$.ajax({
+        		type: 'GET',
+        		url: "/Subject/GetUserFilesLab?id=" + file.Id,
+        		contentType: "application/json",
+
+        	}).success(function (data, status) {
+        		$scope.$apply(function () {
+        			$("#labsFile").append(data);
+        		});
+        	});
+        	$('#dialogAddFiles').modal();
+        };
+
+        $scope.saveLabFiles = function () {
+
+        	$http({
+        		method: 'POST',
+        		url: $scope.UrlServiceLabs + "SendFile",
+        		data: {
+        			subjectId: $scope.subjectId,
+        			userId: $scope.userId,
+        			id: $scope.editFileSend.Id,
+        			comments: $scope.editFileSend.Comments,
+        			pathFile: $scope.editFileSend.PathFile,
+        			attachments: $scope.getLecturesFileAttachments()
+        		},
+        		headers: { 'Content-Type': 'application/json' }
+        	}).success(function (data, status) {
+        		if (data.Code != '200') {
+        			alertify.error(data.Message);
+        		} else {
+        			$scope.loadFilesLabUser();
+        			alertify.success(data.Message);
+        		}
+        		$("#dialogAddFiles").modal('hide');
+        	});
         };
 
         $scope.loadLabs = function () {

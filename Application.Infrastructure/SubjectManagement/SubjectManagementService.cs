@@ -392,7 +392,45 @@ namespace Application.Infrastructure.SubjectManagement
             return labs;
         }
 
-        public Labs GetLabs(int id)
+	    public UserLabFiles SaveUserLabFiles(UserLabFiles userLabFiles, IList<Attachment> attachments)
+	    {
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				if (!string.IsNullOrEmpty(userLabFiles.Attachments))
+				{
+					var deleteFiles =
+						repositoriesContainer.AttachmentRepository.GetAll(
+							new Query<Attachment>(e => e.PathName == userLabFiles.Attachments)).ToList().Where(e => attachments.All(x => x.Id != e.Id)).ToList();
+
+					foreach (var attachment in deleteFiles)
+					{
+						FilesManagementService.DeleteFileAttachment(attachment);
+					}
+				}
+				else
+				{
+					userLabFiles.Attachments = GetGuidFileName();
+				}
+
+				FilesManagementService.SaveFiles(attachments.Where(e => e.Id == 0), userLabFiles.Attachments);
+
+				foreach (var attachment in attachments)
+				{
+					if (attachment.Id == 0)
+					{
+						attachment.PathName = userLabFiles.Attachments;
+						repositoriesContainer.AttachmentRepository.Save(attachment);
+					}
+				}
+
+				repositoriesContainer.RepositoryFor<UserLabFiles>().Save(userLabFiles);
+				repositoriesContainer.ApplyChanges();
+			}
+
+			return userLabFiles;
+	    }
+
+	    public Labs GetLabs(int id)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -600,7 +638,23 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
-        public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)
+	    public List<UserLabFiles> GetUserLabFiles(int userId, int subjectId)
+	    {
+		    using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+		    {
+				return repositoriesContainer.RepositoryFor<UserLabFiles>().GetAll(new Query<UserLabFiles>(e => e.UserId == userId && e.SubjectId == subjectId)).ToList();
+		    }
+	    }
+
+	    public UserLabFiles GetUserLabFile(int id)
+	    {
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.RepositoryFor<UserLabFiles>().GetBy(new Query<UserLabFiles>(e => e.Id == id));
+			}
+	    }
+
+	    public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {

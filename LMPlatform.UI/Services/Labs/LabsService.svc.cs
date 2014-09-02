@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using Application.Core;
+using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.Services.Modules;
@@ -29,6 +30,16 @@ namespace LMPlatform.UI.Services.Labs
                 return subjectManagementService.Value;
             }
         }
+
+		private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
+
+		public IFilesManagementService FilesManagementService
+		{
+			get
+			{
+				return filesManagementService.Value;
+			}
+		}
 
         public LabsResult GetLabs(string subjectId)
         {
@@ -202,8 +213,18 @@ namespace LMPlatform.UI.Services.Labs
         {
             try
             {
+	            var model = new List<UserlabFilesViewData>();
+	            var data = SubjectManagementService.GetUserLabFiles(int.Parse(userId), int.Parse(subjectId));
+	            model = data.Select(e => new UserlabFilesViewData()
+	            {
+		            Comments = e.Comments,
+					Id = e.Id,
+					PathFile = e.Attachments,
+		            Attachments = FilesManagementService.GetAttachments(e.Attachments).ToList()
+	            }).ToList();
                 return new UserLabFilesResult()
                 {
+					UserLabFiles = model,
                     Message = "Данные получены",
                     Code = "200"
                 };
@@ -217,5 +238,36 @@ namespace LMPlatform.UI.Services.Labs
                 };
             }
         }
+
+		public ResultViewData SendFile(string subjectId, string userId, string id, string comments, string pathFile, string attachments)
+		{
+			try
+			{
+				var attachmentsModel = JsonConvert.DeserializeObject<List<Attachment>>(attachments).ToList();
+
+				SubjectManagementService.SaveUserLabFiles(new Models.UserLabFiles()
+				{
+					SubjectId = int.Parse(subjectId),
+					UserId = int.Parse(userId),
+					Comments = comments,
+					Attachments = pathFile,
+					Id = int.Parse(id)
+				}, attachmentsModel);
+
+				return new ResultViewData()
+				{
+					Message = "Файл(ы) успешно отправлен(ы)",
+					Code = "200"
+				};
+			}
+			catch (Exception)
+			{
+				return new ResultViewData()
+				{
+					Message = "Произошла ошибка",
+					Code = "500"
+				};
+			}
+		}
     }
 }

@@ -189,6 +189,17 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Common/_FilesUploader", FilesManagementService.GetAttachments(model.Attachments).ToList());
         }
 
+		public ActionResult GetUserFilesLab(int id)
+		{
+			if (id == 0)
+			{
+				return PartialView("Common/_FilesUploader", new List<Attachment>());
+			}
+
+			var model = SubjectManagementService.GetUserLabFile(id);
+			return PartialView("Common/_FilesUploader", FilesManagementService.GetAttachments(model.Attachments).ToList());
+		}
+
         public ActionResult GetFilePracticals(int id)
         {
             if (id == 0)

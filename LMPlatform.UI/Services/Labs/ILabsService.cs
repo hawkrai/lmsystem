@@ -47,5 +47,9 @@ namespace LMPlatform.UI.Services.Labs
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetFilesLab")]
         UserLabFilesResult GetFilesLab(string userId, string subjectId);
+
+	    [OperationContract]
+	    [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SendFile")]
+	    ResultViewData SendFile(string subjectId, string userId, string id, string comments, string pathFile, string attachments);
     }
 }

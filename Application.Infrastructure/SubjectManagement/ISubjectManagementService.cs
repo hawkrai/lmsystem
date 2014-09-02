@@ -48,6 +48,8 @@ namespace Application.Infrastructure.SubjectManagement
 
         Labs SaveLabs(Labs labs, IList<Attachment> attachments);
 
+		UserLabFiles SaveUserLabFiles(UserLabFiles userLabFiles, IList<Attachment> attachments);
+
         Labs GetLabs(int id);
 
         Practical GetPractical(int id);
@@ -83,5 +85,9 @@ namespace Application.Infrastructure.SubjectManagement
         void DeleteSubject(int id);
 
         List<Subject> GetSubjects();
+
+	    List<UserLabFiles> GetUserLabFiles(int userId, int subjectId);
+
+		UserLabFiles GetUserLabFile(int id);
     }
 }
