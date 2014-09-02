@@ -126,6 +126,11 @@ namespace LMPlatform.UI.Controllers
                 var model = new SubjectWorkingViewModel(subjectId);
                 return View(model);    
             }
+            else if (User.IsInRole("student"))
+            {
+                var model = new SubjectWorkingViewModel(subjectId);
+                return View(model);       
+            }
 
             return RedirectToAction("Index", "Lms");
         }

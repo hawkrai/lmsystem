@@ -731,12 +731,40 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             ShortName: "",
             Id: 0
         };
+        
+        $scope.editFileSend = {
+            Comments: "",
+            Id: 0
+        };
+
+        $scope.labFilesUser = [];
 
         $scope.editMarksVisiting = [];
 
         $scope.init = function () {
             $scope.labs = [];
             $scope.loadLabs();
+        };
+
+        $scope.loadFilesLab = function () {
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLabs + "GetFilesLab",
+                data: {
+                    userId: $scope.subjectId,
+                    subjectId: $scope.subjectId
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.$apply(function () {
+                        $scope.labFilesUser = data.Files;
+                    });
+                    alertify.success(data.Message);
+                }
+            });
         };
 
         $scope.loadLabs = function () {

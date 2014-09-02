@@ -165,6 +165,8 @@ namespace LMPlatform.Data.Infrastructure
 
         public DbSet<StudentPracticalMark> StudentPracticalMarks { get; set; } 
 
+        public DbSet<UserLabFiles> UserLabFiles { get; set; } 
+
         #endregion DataContext Members
 
         #region Protected Members

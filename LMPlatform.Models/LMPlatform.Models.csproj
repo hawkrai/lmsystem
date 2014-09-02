@@ -126,6 +126,7 @@
     <Compile Include="SubjectNews.cs" />
     <Compile Include="SubjectStudent.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserLabFiles.cs" />
     <Compile Include="UserMessages.cs" />
   </ItemGroup>
   <ItemGroup>

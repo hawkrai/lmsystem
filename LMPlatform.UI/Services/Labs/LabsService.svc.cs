@@ -197,5 +197,25 @@ namespace LMPlatform.UI.Services.Labs
                 };
             }
         }
+
+        public UserLabFilesResult GetFilesLab(string userId, string subjectId)
+        {
+            try
+            {
+                return new UserLabFilesResult()
+                {
+                    Message = "Данные получены",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new UserLabFilesResult()
+                {
+                    Message = "Произошла ошибка при получении данных",
+                    Code = "500"
+                };
+            }
+        }
     }
 }

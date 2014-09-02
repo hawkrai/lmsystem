@@ -43,5 +43,9 @@ namespace LMPlatform.UI.Services.Labs
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/DeleteVisitingDate")]
         ResultViewData DeleteVisitingDate(string id);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetFilesLab")]
+        UserLabFilesResult GetFilesLab(string userId, string subjectId);
     }
 }
