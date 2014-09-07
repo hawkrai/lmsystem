@@ -194,6 +194,59 @@
                 </form>
             </div>
         </tab>
+        <tab heading="Прием лабораторных работ">
+			<div style="margin-bottom: 10px; margin-top: 10px">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                            </td>
+                            <td>
+                                <select ng-model="groupWorkingData.selectedSubGroup" ng-change="changeSubGroup(groupWorkingData.selectedSubGroup)" ng-options="subGroup.Name for subGroup in subGroups" class="form-control"></select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 10px;margin-bottom: 10px">
+			        
+                <accordion>
+                    <accordion-group ng-repeat="data in groupWorkingData.selectedSubGroup.Students">
+                        <accordion-heading>
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.FullName}}</a>
+                            </h4>
+                            <div class="clear-fix"></div>
+                        </accordion-heading>
+                        <div>
+                            <table class="table table-bordered table-hover table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Файлы</th>
+                                        <th>Комментарий</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="files in data.FileLabs">
+                                        <td>
+                                            <div ng-repeat="file in files.Attachments">
+                                                <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
+                                            </div>
+                                        </td>
+                                        <td>{{files.Comments}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>  
+                        </div>
+                    </accordion-group>
+                </accordion>
+                    
+
+			        
+            </div>
+            <input value="Скачать архив" type="button" class="btn-sm btn btn-primary" style="width: 130px"/>
+		</tab>
     </tabset>
 
     <div id="dialogAddLabs" class="modal">
@@ -205,31 +258,21 @@
             <form name="labsInput" ng-submit="saveLabs()" novalidate>
                 <div class="modal-body">
                     <div>
-                        <div class="control-group" ng-class="{'has-error':labsInput.Theme.$invalid}">
+                        <div class="control-group">
                             <label class="control-label">Название лабораторной работы</label>
-                            <textarea class="form-control" name="Theme" style="max-width: 545px; width: 545px;" ng-model="editLabsData.Theme" required></textarea>
-                            <span class="help-block error" ng-show="labsInput.Theme.$error.required">Поле обязательно для заполнения!
-                            </span>
-                        </div>
-                        <div class="control-group" ng-class="{'has-error':labsInput.ShortName.$invalid}">
+                            <textarea class="form-control" name="Theme" style="max-width: 545px; width: 545px;" ng-model="editLabsData.Theme"></textarea>
+                            </div>
+                        <div class="control-group">
                             <label class="control-label">Короткое название</label>
-                            <input type="text" name="ShortName" class="form-control" style="width: 545px" ng-model="editLabsData.ShortName" required/>
-                            <span class="help-block error" ng-show="labsInput.ShortName.$error.required">Поле обязательно для заполнения!
-                            </span>
+                            <input type="text" name="ShortName" class="form-control" style="width: 545px" ng-model="editLabsData.ShortName"/>
                         </div>
-                        <div class="control-group" ng-class="{'has-error':labsInput.Order.$invalid}">
+                        <div class="control-group">
                             <label class="control-label">Порядок (без валидации)</label>
-                            <input type="number" class="form-control" name="Order" style="width: 545px" ng-model="editLabsData.Order" required/>
-                            <span class="help-block error" ng-show="labsInput.Order.$error.required">Поле обязательно для заполнения
-                            </span>
+                            <input type="number" class="form-control" name="Order" style="width: 545px" ng-model="editLabsData.Order" />
                         </div>
-                        <div ng-class="{'has-error':labsInput.Duration.$error.required || (labsInput.Duration.$error.max || labsInput.Duration.$error.min)}">
+                        <div>
                             <label class="control-label">Количество часов (1-99)</label>
-                            <input type="number" class="form-control" name="Duration" min="1" max="99" style="width: 545px" ng-model="editLabsData.Duration" required />
-                            <span class="help-block error" ng-show="labsInput.Duration.$error.required">Поле обязательно для заполнения
-                            </span>
-                            <span class="help-block error" ng-show="labsInput.Duration.$error.max || labsInput.Duration.$error.min">Диапазон допустимых значений [1..99]
-                            </span>
+                            <input type="number" class="form-control" name="Duration" min="1" max="99" style="width: 545px" ng-model="editLabsData.Duration"/>
                         </div>
                     </div>
 
@@ -241,7 +284,7 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                    <button type="submit" class="btn btn-primary btn-sm" ng-disabled="labsInput.$invalid">Сохранить</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
                 </div>
             </form>
         </div>

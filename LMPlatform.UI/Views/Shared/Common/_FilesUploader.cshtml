@@ -20,7 +20,7 @@
             <span class="btn btn-success btn-sm fileinput-button">
                 <i class="icon-plus icon-white"></i>
                 <span>Добавить файл</span>
-                <input type="file" name="files[]" multiple="" class="upload" accept="audio/*,video/*,image/*,text/*,application/pdf">
+                <input type="file" name="files[]" multiple="" class="upload">
             </span>
         </div>
     </div>
@@ -45,24 +45,16 @@
         {% if (file.error) { %}
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
         {% } else if (o.files.valid && !i) { %}
-            <td>
-                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
-            </td>
+            
             <td>{% if (!o.options.autoUpload) { %}
-                <button class="btn btn-primary btn-sm start">
-                    <i class="icon-upload icon-white"></i>
-                    <span>Загрузить</span>
-                </button>
+                <a style="margin-right: 10px" class="start"><i class="fa fa-upload fa-2x"></i></a>
+{% if (!i) { %}
+         <a style="margin-right: 10px" class="cancel"><i class="fa fa-times fa-2x"></i></a>
+        {% } %}
             {% } %}</td>
         {% } else { %}
             <td colspan="2"></td>
         {% } %}
-        <td>{% if (!i) { %}
-            <button class="btn btn-warning  btn-sm cancel">
-                <i class="icon-ban-circle icon-white"></i>
-                <span>Отменить загрузку</span>
-            </button>
-        {% } %}</td>
     </tr>
 {% } %}
 </script>
@@ -94,10 +86,7 @@
             <td colspan="2"></td>
         {% } %}
         <td style="text-align:right;">
-            <button class="btn btn-danger  btn-sm delete" data-type="{%=file.DeleteType%}" data-url="{%=file.DeleteUrl%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                <i class="icon-trash icon-white"></i>
-                <span>Удалить</span>
-            </button>
+    <a style="margin-right: 10px" class="delete" data-type="{%=file.DeleteType%}" data-url="{%=file.DeleteUrl%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}><i class="fa fa-times fa-2x"></i></a>
         </td>
     </tr>
 {% } %}

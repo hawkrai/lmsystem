@@ -23,9 +23,15 @@
                         <td>{{data.Theme}}</td>
                         <td>{{data.Duration}}</td>
                         <td style="width: 90px;">
-                            <div>
-                                
-                            </div>
+                            <div class="btn-group pull-right">
+					            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+					                      Файлы
+					                      <span class="caret"></span>
+					                  </button>
+					            <ul class="dropdown-menu" role="menu" ng-repeat="file in data.Attachments">
+					                <li><a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a></li>
+					            </ul>
+					        </div>
                         </td>
                     </tr>
                 </table>

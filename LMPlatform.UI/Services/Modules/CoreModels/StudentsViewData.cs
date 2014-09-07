@@ -17,7 +17,7 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
         {
         }
 
-        public StudentsViewData(Student student, IEnumerable<ScheduleProtectionLabs> scheduleProtectionLabs = null, IEnumerable<ScheduleProtectionPractical> scheduleProtectionPracticals = null, IEnumerable<Labs> labs = null, IEnumerable<Practical> practicals = null)
+        public StudentsViewData(Student student, IEnumerable<ScheduleProtectionLabs> scheduleProtectionLabs = null, IEnumerable<ScheduleProtectionPractical> scheduleProtectionPracticals = null, IEnumerable<Labs> labs = null, IEnumerable<Practical> practicals = null, List<UserlabFilesViewData> userLabsFile = null)
         {
             StudentId = student.Id;
             FullName = student.FullName;
@@ -26,6 +26,8 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
             PracticalVisitingMark = new List<PracticalVisitingMarkViewData>();
             StudentLabMarks = new List<StudentLabMarkViewData>();
             StudentPracticalMarks = new List<StudentPracticalMarkViewData>();
+
+            FileLabs = userLabsFile;
 
             if (labs != null)
             {
@@ -181,5 +183,8 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
 
         [DataMember]
         public List<StudentPracticalMarkViewData> StudentPracticalMarks { get; set; }
+
+        [DataMember]
+        public List<UserlabFilesViewData> FileLabs { get; set; } 
     }
 }

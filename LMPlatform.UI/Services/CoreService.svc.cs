@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using Application.Infrastructure.FilesManagement;
 using LMPlatform.UI.Services.Modules;
 using LMPlatform.UI.Services.Modules.Lectures;
 
@@ -44,6 +45,16 @@ namespace LMPlatform.UI.Services
             }
         }
 
+        private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
+
+        public IFilesManagementService FilesManagementService
+        {
+            get
+            {
+                return filesManagementService.Value;
+            }
+        }
+
         public GroupsResult GetGroups(string subjectId)
         {
             try
@@ -67,6 +78,8 @@ namespace LMPlatform.UI.Services
                     IList<SubGroup> subGroups = this.SubjectManagementService.GetSubGroups(id, group.Id);
 
                     var subjectIntId = int.Parse(subjectId);
+
+                    var userLabsFile = SubjectManagementService.GetUserLabFiles(0, subjectIntId);
 
                     var lecturesVisitingData = SubjectManagementService.GetScheduleVisitings(new Query<LecturesScheduleVisiting>(e => e.SubjectId == subjectIntId)).OrderBy(e => e.Date);
 
@@ -204,7 +217,7 @@ namespace LMPlatform.UI.Services
                                                              Labs = labsFirstSubGroup,
                                                              ScheduleProtectionLabs = subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
                                                              SubGroupId = subGroups.FirstOrDefault().Id,
-                                                             Students = subGroups.FirstOrDefault().SubjectStudents.OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(e.Student, subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null)).ToList()
+                                                             Students = subGroups.FirstOrDefault().SubjectStudents.OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(e.Student, subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
                                                          }
                                                          : null,
                                       SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
@@ -214,7 +227,7 @@ namespace LMPlatform.UI.Services
                                                               Labs = labsSecondSubGroup,
                                                               ScheduleProtectionLabs = subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
                                                               SubGroupId = subGroups.LastOrDefault().Id,
-                                                              Students = subGroups.LastOrDefault().SubjectStudents.OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(e.Student, subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null)).ToList()
+                                                              Students = subGroups.LastOrDefault().SubjectStudents.OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(e.Student, subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
                                                           }
                                                           : null
                                   });

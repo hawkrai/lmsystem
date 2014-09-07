@@ -642,6 +642,11 @@ namespace Application.Infrastructure.SubjectManagement
 	    {
 		    using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 		    {
+		        if (userId == 0)
+		        {
+                    return repositoriesContainer.RepositoryFor<UserLabFiles>().GetAll(new Query<UserLabFiles>(e => e.SubjectId == subjectId)).ToList();
+		        }
+
 				return repositoriesContainer.RepositoryFor<UserLabFiles>().GetAll(new Query<UserLabFiles>(e => e.UserId == userId && e.SubjectId == subjectId)).ToList();
 		    }
 	    }

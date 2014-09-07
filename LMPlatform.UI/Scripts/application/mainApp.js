@@ -701,22 +701,22 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
 
-        $scope.setBarChart = function () {
-            $.jqplot('barchart', [$scope.barvalues], {
-                seriesDefaults: {
-                    renderer: $.jqplot.BarRenderer,
+        //$scope.setBarChart = function () {
+        //    $.jqplot('barchart', [$scope.barvalues], {
+        //        seriesDefaults: {
+        //            renderer: $.jqplot.BarRenderer,
 
-                    pointLabels: { show: true, location: 'e', edgeTolerance: -15 },
+        //            pointLabels: { show: true, location: 'e', edgeTolerance: -15 },
 
-                },
-                axes: {
-                    xaxis: {
-                        renderer: $.jqplot.CategoryAxisRenderer,
-                        ticks: $scope.ticks
-                    }
-                }
-            });
-        };
+        //        },
+        //        axes: {
+        //            xaxis: {
+        //                renderer: $.jqplot.CategoryAxisRenderer,
+        //                ticks: $scope.ticks
+        //            }
+        //        }
+        //    });
+        //};
 
     })
     .controller('LabsController', function ($scope, $http) {
@@ -746,7 +746,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         $scope.editMarksVisiting = [];
 
         $scope.init = function () {
-        	$scope.labs = [];
+            $scope.labs = [];
+            $scope.loadLabs();
         	if ($scope.userRole == "1") {
         		$scope.loadFilesLabUser();
 	        }

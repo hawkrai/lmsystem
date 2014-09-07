@@ -1,17 +1,17 @@
 ﻿<div ng-controller="LabsController" ng-init="init()">
 
-	<style type="text/css">
-		.nav, .pagination, .carousel, .panel-title a {
-			cursor: pointer;
-		}
+    <style type="text/css">
+        .nav, .pagination, .carousel, .panel-title a {
+            cursor: pointer;
+        }
 
-		.table-hoverT > tbody > tr:hover > td,
-		.table-hoverT > tbody > tr:hover > th {
-			background-color: #008b8b;
-		}
-	</style>
+        .table-hoverT > tbody > tr:hover > td,
+        .table-hoverT > tbody > tr:hover > th {
+            background-color: #008b8b;
+        }
+    </style>
 
-	<tabset>
+    <tabset>
 		<tab heading="Лабораторные работы">
 			<div class="table-responsive">
 				<table class="table table-bordered table-striped">
@@ -29,10 +29,17 @@
 						<td>{{data.Theme}}</td>
 						<td>{{data.ShortName}}</td>
 						<td>{{data.Duration}}</td>
-						<td style="width: 90px;">
-							<div>
-							</div>
-						</td>
+					    <td style="width: 90px;">
+					        <div class="btn-group pull-right">
+					            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+					                      Файлы
+					                      <span class="caret"></span>
+					                  </button>
+					            <ul class="dropdown-menu" role="menu" ng-repeat="file in data.Attachments">
+					                <li><a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a></li>
+					            </ul>
+					        </div>
+					    </td>
 					</tr>
 				</table>
 			</div>
@@ -175,33 +182,33 @@
 			</div>   
 		</tab>
 	</tabset>
-	<div id="dialogAddFiles" class="modal">
-	<div class="modal-dialog panel panel-primary" style="padding: 0px">
-		<div class="panel-heading">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="modal-title" id="myModalLabel">Сдача лабораторной работы</h4>
-		</div>
-		<div class="modal-body">
-			<div>
-				<div class="control-group">
-					<label class="control-label">Комментарий(Например: Лабораторная работа №1)</label>
-					<textarea class="form-control" style="max-width: 545px; width: 545px;" ng-model="editFileSend.Comments"></textarea>
-				</div>
+    <div id="dialogAddFiles" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Сдача лабораторной работы</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="control-group">
+                        <label class="control-label">Комментарий(Например: Лабораторная работа №1)</label>
+                        <textarea class="form-control" style="max-width: 545px; width: 545px;" ng-model="editFileSend.Comments"></textarea>
+                    </div>
 
-			</div>
+                </div>
 
-			<div>
-				<h6 class="page-header">Прикрепленный материал</h6>
-				<div id="labsFile">
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-			<button type="button" ng-click="saveLabFiles()" class="btn btn-primary btn-sm">Отправить работу</button>
-		</div>
-	</div>
-</div>
+                <div>
+                    <h6 class="page-header">Прикрепленный материал</h6>
+                    <div id="labsFile">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <button type="button" ng-click="saveLabFiles()" class="btn btn-primary btn-sm">Отправить работу</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 
