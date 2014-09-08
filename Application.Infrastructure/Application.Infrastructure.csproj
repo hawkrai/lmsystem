@@ -36,6 +36,9 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\lib\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -114,6 +117,7 @@
     <Compile Include="SubjectManagement\SubjectManagementService.cs" />
     <Compile Include="UserManagement\IUsersManagementService.cs" />
     <Compile Include="UserManagement\UsersManagementService.cs" />
+    <Compile Include="UtilZip.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1130,7 +1130,18 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 }
             });
         };
-    })
+
+		$scope.saveZip = function() {
+			var subGroupId = $scope.groupWorkingData.selectedSubGroup.SubGroupId;
+			document.location.href = "/Subject/GetZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId;
+			//$.ajax({
+			//	type: 'GET',
+			//	url: "/Subject/GetZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId,
+			//	contentType: "application/zip",
+			//}).success(function (data, status) {
+			//});
+		};
+	})
     .controller('PracticalsController', function ($scope, $http) {
 
         $scope.practicals = [];

@@ -546,7 +546,7 @@ namespace Application.Infrastructure.SubjectManagement
             {
                 return
                     repositoriesContainer.RepositoryFor<SubGroup>().GetBy(new Query<SubGroup>(e => e.Id == subGroupId)
-                    .Include(e => e.SubjectStudents.Select(x => x.Student.ScheduleProtectionLabMarks)));
+                    .Include(e => e.SubjectStudents.Select(x => x.Student.ScheduleProtectionLabMarks)).Include(e => e.SubjectGroup.Group));
             }
         }
 

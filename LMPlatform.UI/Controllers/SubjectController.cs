@@ -1,11 +1,16 @@
-﻿using System.Globalization;
+﻿using System.Configuration;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using System.Web.UI;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
+using Application.Infrastructure;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.SubjectManagement;
+using Ionic.Zip;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.BTSViewModels;
 using LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel;
@@ -210,6 +215,35 @@ namespace LMPlatform.UI.Controllers
             var model = SubjectManagementService.GetPractical(id);
             return PartialView("Common/_FilesUploader", FilesManagementService.GetAttachments(model.Attachments).ToList());
         }
+
+		public FileResult GetZipLabs(int id, int subjectId)
+	    {
+		    var zip = new ZipFile(Encoding.UTF8);
+
+		    var subGroups = SubjectManagementService.GetSubGroup(id);
+
+		    foreach (var subGroup in subGroups.SubjectStudents)
+		    {
+			    var model = SubjectManagementService.GetUserLabFiles(subGroup.StudentId, subjectId);
+
+			    var attachments = new List<Attachment>();
+
+			    foreach (var data in model)
+			    {
+					attachments.AddRange(FilesManagementService.GetAttachments(data.Attachments));    
+			    }
+
+				UtilZip.CreateZipFile(ConfigurationManager.AppSettings["FileUploadPath"], zip, attachments, subGroup.Student.FullName.Replace(" ", "_"));
+		    }
+
+			var memoryStream = new MemoryStream();
+
+			zip.Save(memoryStream);
+
+			memoryStream.Seek(0, SeekOrigin.Begin);
+
+			return new FileStreamResult(memoryStream, "application/zip") { FileDownloadName = subGroups.SubjectGroup.Group.Name + ".zip" };
+	    }
 
         public ActionResult Subjects()
         {
