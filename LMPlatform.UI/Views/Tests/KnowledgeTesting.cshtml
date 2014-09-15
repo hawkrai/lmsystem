@@ -18,6 +18,7 @@
         "~/Scripts/application/KnowledgeTesting/Controllers/controlController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/testUnlocksController.js",
         "~/Scripts/application/KnowledgeTesting/Controllers/questionDetailsController.js",
+        "~/Scripts/application/KnowledgeTesting/Controllers/addFromAnotherTestController.js",
         "~/Scripts/application/KnowledgeTesting/kkcountdown.js")
 
 
@@ -32,7 +33,10 @@
                     deleteTest: '@Url.Action("DeleteTest", "Tests")',
                     getNextQuestion: '@Url.Action("GetNextQuestion", "TestPassing")',
                     unlock: '@Url.Action("UnlockTests", "Tests")',
-                    unlockOne: '@Url.Action("ChangeLockForUserForStudent", "Tests")'
+                    unlockOne: '@Url.Action("ChangeLockForUserForStudent", "Tests")',
+                    getForLector: '@Url.Action("GetTestForLector", "Tests")',
+                    getQuestionsFromAnotherTests: '@Url.Action("GetQuestionsFromAnotherTests", "Tests")',
+                    
                 },
                 groups: {
                     getGroupsForSubject: '@Url.Action("GetGroups", "Tests")',
@@ -42,7 +46,8 @@
                     getQuestions: '@Url.Action("GetQuestions", "Questions")',
                     getQuestion: '@Url.Action("GetQuestion", "Questions")',
                     deleteQuestion: '@Url.Action("DeleteQuestion", "Questions")',
-                    saveQuestion: '@Url.Action("SaveQuestion", "Questions")'
+                    saveQuestion: '@Url.Action("SaveQuestion", "Questions")',
+                    addFromAnotherTest: '@Url.Action("AddQuestionsFromAnotherTest", "Questions")'
                 },
                 results: {
                     getResults: '@Url.Action("GetResults", "TestPassing")',

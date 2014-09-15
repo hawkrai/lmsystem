@@ -21,5 +21,9 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         void UnlockTest(int[] studentIds, int testId, bool unlock);
         
         void UnlockTestForStudent(int testId, int studentId, bool unlocked);
+
+        IEnumerable<Test> GetTestForLector(int currentUserId);
+
+        IEnumerable<Question> GetQuestionsFromAnotherTests(int testId, int currentUserId);
     }
 }

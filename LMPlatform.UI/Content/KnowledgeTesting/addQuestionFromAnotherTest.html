@@ -1,0 +1,35 @@
+﻿<div class="modal-header">
+    <a class="close" data-ng-click="closeDialog()">&times;</a>
+    <h4>Добавление вопросов из другого теста 4</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <span style='display: table-cell; text-align: right;'>Тесты&nbsp;</span>
+            <select data-ng-change="loadQuestionsFromBase()" class="form-control input-sm" data-ng-model="context.test" data-ng-options="test.Title for test in tests"></select>
+        </div>
+        <div class="col-md-6">
+            <span style='display: table-cell; text-align: right'>Поиск&nbsp;</span>
+            <input data-ng-model="query" type="text" class="form-control input-sm" style="margin: 0" placeholder="Введите название вопроса">
+        </div>
+    </div>
+    <div style="height: 10px"></div>
+    
+    <h5 ng-hide="questionsFromBase.length > 0">Не найдено ни одного вопроса</h5>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <tr data-ng-repeat="question in questionsFromBase | filter : query">
+                    <td width="10px" style="border: none"><input type="checkbox" ng-model="question.Checked"/></td>
+                    <td style="border: none" width="250px">{{question.Title}}</td>
+                </tr>
+            </table>
+        </div>
+
+</div>
+
+<div class="modal-footer" style="margin: 0">
+    <a data-ng-click="add()" class="btn btn-primary btn-sm">Добавить</a>
+    <a data-ng-click="closeDialog()" class="btn btn-primary btn-sm">Отмена</a>
+</div>
+

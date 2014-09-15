@@ -212,6 +212,7 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
@@ -599,6 +600,7 @@
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\controlController.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\addFromAnotherTestController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\studentResultsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\studentTestsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\testPassingNavigationController.js" />
@@ -608,6 +610,7 @@
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\passingController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\testDetailsController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\testsController.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\testUnlocksController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\kkcountdown.js" />
     <Content Include="Scripts\application\KnowledgeTesting\knowledgeTestingModule.js" />
     <Content Include="Scripts\application\KnowledgeTesting\TestPassingScript.js" />

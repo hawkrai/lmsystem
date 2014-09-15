@@ -174,6 +174,43 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
         }
 
+        public IEnumerable<Test> GetTestForLector(int currentUserId)
+        {
+            IEnumerable<Test> searchResults;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<Test>();
+                query.AddFilterClause(test => test.Subject.SubjectLecturers.Any(sl => sl.LecturerId == currentUserId));
+
+                searchResults = repositoriesContainer.TestsRepository.GetAll(query).ToList();
+            }
+
+            return searchResults;
+        }
+
+        public IEnumerable<Question> GetQuestionsFromAnotherTests(int testId, int currentUserId)
+        {
+            IEnumerable<Question> searchResults;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<Question>();
+                if (testId == 0)
+                {
+                    query.AddFilterClause(
+                        question => question.Test.Subject.SubjectLecturers.Any(sl => sl.LecturerId == currentUserId));
+                }
+                else
+                {
+                    query.AddFilterClause(
+                        question => question.TestId == testId);
+                }
+
+                searchResults = repositoriesContainer.QuestionsRepository.GetAll(query).ToList();
+            }
+
+            return searchResults;
+        }
+
         private static IEnumerable<TestUnlock> GetTestUnlocks(int[] studentIds, int testId,  LmPlatformRepositoriesContainer repositoriesContainer)
         {
             IEnumerable<TestUnlock> searchResults;

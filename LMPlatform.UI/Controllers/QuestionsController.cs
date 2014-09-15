@@ -6,7 +6,6 @@ using Application.Core.Data;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.KnowledgeTestsManagement;
-using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
 using Mvc.JQuery.Datatables;
@@ -84,13 +83,11 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddQuestionsFromAnotherTest(IEnumerable<QuestionItemListViewModel> questionItems, int testId)
+        public JsonResult AddQuestionsFromAnotherTest(int[] questionItems, int testId)
         {
-            QuestionsManagementService.CopyQuestionsToTest(testId,
-                questionItems.Where(questionItem => questionItem.Selected)
-                .Select(questionItem => questionItem.Id).ToArray());
+            QuestionsManagementService.CopyQuestionsToTest(testId, questionItems);
 
-            return new ContentResult();
+            return Json("Ok");
         }
 
         #region Dependencies

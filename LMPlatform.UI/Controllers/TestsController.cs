@@ -34,6 +34,29 @@ namespace LMPlatform.UI.Controllers
             return Json(test, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult GetTestForLector()
+        {
+            IEnumerable<Test> tests = TestsManagementService.GetTestForLector(CurrentUserId);
+            var testViewModels = tests.Select(TestViewModel.FromTest).ToList();
+            testViewModels.Add(new TestViewModel()
+            {
+                Id = 0,
+                Title = "все тесты"
+            });
+
+            return Json(testViewModels, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetQuestionsFromAnotherTests(int testId)
+        {
+            IEnumerable<Question> questions = TestsManagementService.GetQuestionsFromAnotherTests(testId, CurrentUserId);
+            var questionViewModels = questions.Select(QuestionViewModel.FromQuestion).ToList();
+
+            return Json(questionViewModels, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpDelete]
         public JsonResult DeleteTest(int id)
         {

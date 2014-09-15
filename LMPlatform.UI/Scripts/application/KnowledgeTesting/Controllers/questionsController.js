@@ -1,7 +1,8 @@
 ﻿'use strict';
 knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal) {
 
-    $scope.init = function() {
+    $scope.init = function () {
+        $scope.testId = getHashValue('testId');
         $scope.loadQuestions();
     };
 
@@ -47,6 +48,20 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
                 });
         }
     };
+    
+    $scope.addFromAnotherTestClicked = function () {
+        var testId = getHashValue('testId');
+        var modalInstance = $modal.open({
+            templateUrl: '/Content/KnowledgeTesting/addQuestionFromAnotherTest.html',
+            controller: 'addFromAnotherTestCtrl',
+            scope: $scope,
+            resolve: {
+                id: function () {
+                    return $scope.testId;
+                }
+            }
+        });
+    };
 
     $scope.loadQuestions = function() {
         var testId = getHashValue('testId');
@@ -72,5 +87,4 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
             }
         });
     }
-
 });
