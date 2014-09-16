@@ -81,18 +81,25 @@ var testPassing = {
     },
 
     _makeUserAnswer: function (answers, testId, currentQuestionNumber) {
-        $.ajax({
-            url: this._webServiceUrl + this._makeUserAnswerMethodName,
-            type: "POST",
-            data: JSON.stringify({
-                answers: answers,
-                testId: testId,
-                questionNumber: currentQuestionNumber
-            }),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: $.proxy(this._onUserMadeAnswer, this)
-        });
+        if (Enumerable.From(answers)
+            .Where(function(item) {
+                return item.IsCorrect != 0;
+            }).Count() == 0) {
+            alertify.error("Не выбран ни один вариант ответа");
+        } else {
+            $.ajax({
+                url: this._webServiceUrl + this._makeUserAnswerMethodName,
+                type: "POST",
+                data: JSON.stringify({
+                    answers: answers,
+                    testId: testId,
+                    questionNumber: currentQuestionNumber
+                }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: $.proxy(this._onUserMadeAnswer, this)
+            });
+        }
     },
 
     _onUserMadeAnswer: function () {
