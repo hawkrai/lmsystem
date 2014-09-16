@@ -1082,7 +1082,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Administration\_AddGroupView.cshtml" />
-    <Content Include="Views\Subject\SubjectsForTests.cshtml" />
     <Content Include="Views\Tests\_TestsGridActions.cshtml" />
     <Content Include="Views\Questions\_QuestionsGridActions.cshtml" />
     <Content Include="Views\Shared\Subjects\_ModuleTemplate.cshtml" />
