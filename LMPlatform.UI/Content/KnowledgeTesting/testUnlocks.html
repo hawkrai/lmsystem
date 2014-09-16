@@ -4,9 +4,13 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-lg-6 input-group input-group-sm" style="margin-left: 15px;">
+        <div class="col-md-6 ">
             <span style='display: table-cell; text-align: right; width: 20px'>Группы&nbsp;</span>
-            <select data-ng-change="loadStudents()" class="form-control input-xs" data-ng-model="context.group" data-ng-options="group.Name for group in groups"></select>
+            <select data-ng-change="loadStudents()" class="form-control input-sm" data-ng-model="context.group" data-ng-options="group.Name for group in groups"></select>
+        </div>
+        <div class="col-md-6">
+            <span style='display: table-cell; text-align: right'>Поиск&nbsp;</span>
+            <input data-ng-model="query" type="text" class="form-control input-sm" style="margin: 0" placeholder="Введите фамилию, имя">
         </div>
     </div>
     <div style="height: 10px"></div>
@@ -14,7 +18,7 @@
     <h5 ng-hide="subGroups.length > 0">В предмете не определено ни одной подгруппы</h5>
 
     <div data-ng-repeat="subGroup in subGroups">
-        <div class="row">
+        <div class="row" >
             <div class="col-lg-4">
                 <h5>Подгруппа&nbsp;{{$index + 1}}</h5>
             </div>
