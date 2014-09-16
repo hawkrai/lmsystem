@@ -2,6 +2,8 @@
 
 namespace LMPlatform.Models.KnowledgeTesting
 {
+    using System.Dynamic;
+
     public class NextQuestionResult
     {
         public Question Question
@@ -31,6 +33,12 @@ namespace LMPlatform.Models.KnowledgeTesting
         public double Seconds
         {
             get; 
+            set;
+        }
+
+        public bool SetTimeForAllTest
+        {
+            get;
             set;
         }
     }

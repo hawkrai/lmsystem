@@ -36,6 +36,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             result.Seconds = GetRmainingTime(testId, userId);
 
+            result.SetTimeForAllTest = GetTest(testId).SetTimeForAllTest;
+
             return result;
         }
 

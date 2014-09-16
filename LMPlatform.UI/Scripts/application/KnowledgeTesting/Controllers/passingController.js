@@ -104,12 +104,16 @@ var testPassing = {
         $('#questionContent').html(content);
         $('.progress-bar-notPassed').on('click', $.proxy(this._onProgressBarClicked, this));
         $('#answerButton').on('click', $.proxy(this._onAnswerButtonClicked, this));
-        $('#skipButton').on('click', $.proxy(this._onSkipButtonClicked, this));
         $('#sortable').sortable({ cursor: "move", containment: "parent" });
         $('#buttonsPanel').height($('#answersPanel').height());
         this._nextQuestionNumber = new Number($('#currentQuestionNumber').val());
         this._currentQuestionType = $('#currentQuestionType').val();
         this._initializeTimer();
+        if (disableSkipButton == "True") {
+            $('#skipButton').attr("disabled", "disabled");
+        } else {
+            $('#skipButton').on('click', $.proxy(this._onSkipButtonClicked, this));
+        }
     },
     
     _initializeTimer: function() {
