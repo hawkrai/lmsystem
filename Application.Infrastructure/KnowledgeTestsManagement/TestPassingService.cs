@@ -280,6 +280,24 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return availableTests;
         }
 
+        public bool CheckForSubjectAvailableForStudent(int studentId, int subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                if (
+                    !repositoriesContainer.SubjectRepository.GetAll(
+                        new Query<Subject>(
+                            subject =>
+                                subject.Id == subjectId &&
+                                subject.SubjectGroups.Any(sg => sg.Group.Students.Any(st => st.Id == studentId)))).Any())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void ProcessSequenceAnswer(List<Answer> answers, Question question, AnswerOnTestQuestion answerOntestQuestion)
         {
             bool isCorrect = true;

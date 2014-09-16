@@ -37,7 +37,16 @@ namespace LMPlatform.UI.Controllers
         public ActionResult StudentsTesting(int subjectId)
         {
             Subject subject = SubjectsManagementService.GetSubject(subjectId);
-            return View(subject);
+            bool available = TestPassingService.CheckForSubjectAvailableForStudent(CurrentUserId, subjectId);
+            if (available)
+            {
+                return View(subject);
+            }
+            else
+            {
+                ViewBag.Message = "Данный предмет не доступен для студента";
+                return View("Error");
+            }
         }
 
         [Authorize, HttpGet]
