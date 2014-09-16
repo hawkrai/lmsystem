@@ -47,7 +47,7 @@
             {
                 var url = User.IsInRole("lector")
                     ? Url.Action("KnowledgeTesting", "Tests", new { subjectId = subject.SubjectId })
-                    : Url.Action("GetAvailableTests", "TestPassing", new { subjectId = subject.SubjectId });
+                    : Url.Action("StudentsTesting", "TestPassing", new { subjectId = subject.SubjectId });
 
                 <li><a href="@url" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>
             }
