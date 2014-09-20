@@ -41,5 +41,11 @@ namespace LMPlatform.Models.KnowledgeTesting
             get;
             set;
         }
+
+        public bool ForSelfStudy
+        {
+            get;
+            set;
+        }
     }
 }

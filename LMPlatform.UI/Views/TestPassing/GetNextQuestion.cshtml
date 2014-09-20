@@ -77,12 +77,20 @@
     </div>
     <div class="progress" style="padding: 0; height: 60px; border: none; position: fixed;bottom: 0;right: 20px;left: 325px;">
         @foreach (KeyValuePair<int, PassedQuestionResult> passResult in Model.QuestionsStatuses)
-    {
-        string progressBarClass = "progress-bar " + (passResult.Value == PassedQuestionResult.NotPassed
-            ? "progress-bar-notPassed"
-            : passResult.Value == PassedQuestionResult.Success
-                ? "progress-bar-success"
-                : "progress-bar-danger");
+        {
+            string progressBarClass = "progress-bar " + (Model.ForSelfStudy
+                // Тест для самоконтроля 
+                ? ((passResult.Value == PassedQuestionResult.NotPassed
+                    ? "progress-bar-notPassed"
+                    : passResult.Value == PassedQuestionResult.Success
+                        ? "progress-bar-success"
+                        : "progress-bar-danger"))
+                // Контролный тест
+                : (passResult.Value == PassedQuestionResult.NotPassed
+                    ? "progress-bar-notPassed"
+                    : "progress-bar-passed"));
+                
+            
         int percents = 100 / Model.QuestionsStatuses.Count;
         if (passResult.Key == Model.Number)
         {

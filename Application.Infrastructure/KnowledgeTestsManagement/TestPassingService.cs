@@ -36,7 +36,10 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             result.Seconds = GetRmainingTime(testId, userId);
 
-            result.SetTimeForAllTest = GetTest(testId).SetTimeForAllTest;
+            var test = GetTest(testId);
+
+            result.SetTimeForAllTest = test.SetTimeForAllTest;
+            result.ForSelfStudy = test.ForSelfStudy;
 
             return result;
         }
@@ -459,7 +462,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                     .AddFilterClause(testUnlock => testUnlock.StudentId == userId && testUnlock.TestId == testId))
                     .SingleOrDefault();
 
-                if (savedTestUnlock != null)
+                if (!GetTest(testId).ForSelfStudy && savedTestUnlock != null)
                 {
                     repositoriesContainer.TestUnlocksRepository.Delete(savedTestUnlock);
                 }

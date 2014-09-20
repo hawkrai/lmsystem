@@ -679,6 +679,11 @@ legend.scheduler-border {
 }
 
 .progress-bar-notPassed {
+    background-color: gray;
+    cursor: pointer;
+}
+
+.progress-bar-passed {
     cursor: pointer;
 }
 
