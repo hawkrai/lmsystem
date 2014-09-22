@@ -6,7 +6,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 {
     public interface ITestsManagementService
     {
-        Test GetTest(int id);
+        Test GetTest(int id, bool includeQuestions = false);
         
         Test SaveTest(Test test);
 

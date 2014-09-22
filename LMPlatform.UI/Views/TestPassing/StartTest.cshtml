@@ -26,10 +26,18 @@
 </h3>
 <hr />
 
+    @if(Model.Questions.Count == 0)
+    {
+        <h3>Данный тест не содержит вопросов</h3>
+    }
+
 <div id="questionContent">
     <h1>@Model.Description</h1>
     <br />
-
-    <button type="button" id="nextButton" class="btn btn-primary btn-sm">Далее</button>
+    
+    @if (Model.Questions.Count > 0)
+    {
+        <button type="button" id="nextButton" class="btn btn-primary btn-sm">Далее</button>
+    }
 </div>
 

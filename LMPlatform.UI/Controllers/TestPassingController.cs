@@ -110,7 +110,14 @@ namespace LMPlatform.UI.Controllers
         [HttpGet]
         public PartialViewResult GetNextQuestion(int testId, int questionNumber)
         {
+            if (questionNumber == 1 && TestsManagementService.GetTest(testId, true).Questions.Count == 0)
+            {
+                ViewBag.Message = "Тест не содержит ни одного вопроса";
+                return PartialView("Error");
+            }
+
             NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
+            
             if (nextQuestion.Question == null)
             {
                 ViewBag.Mark = nextQuestion.Mark;

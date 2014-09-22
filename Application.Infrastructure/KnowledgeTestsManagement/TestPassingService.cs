@@ -589,11 +589,6 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         private void StartNewTest(int testId, int userId)
         {
             Test test = GetTest(testId);
-
-            if (test.Questions.Count == 0)
-            {
-                throw new InvalidDataException("В тесте не содержится ни одного вопроса");
-            }
             
             int questionsCount = test.CountOfQuestions > test.Questions.Count
                 ? test.Questions.Count

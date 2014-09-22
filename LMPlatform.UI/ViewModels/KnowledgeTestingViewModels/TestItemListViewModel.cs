@@ -33,6 +33,12 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public bool HasQuestions
+        {
+            get; 
+            set;
+        }
+
         public static TestItemListViewModel FromTest(Test test, string htmlLinks)
         {
             var model = FromTest(test);
@@ -47,7 +53,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             {
                 Id = test.Id,
                 Title = test.Title,
-                Unlocked = test.Unlocked
+                Unlocked = test.Unlocked,
+                HasQuestions = test.Questions.Count > 0
             };
         }
     }

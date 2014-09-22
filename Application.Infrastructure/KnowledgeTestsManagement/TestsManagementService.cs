@@ -10,11 +10,17 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 {
     public class TestsManagementService : ITestsManagementService
     {
-        public Test GetTest(int id)
+        public Test GetTest(int id, bool includeQuestions = false)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.TestsRepository.GetBy(new Query<Test>(test => test.Id == id));
+                var query = new Query<Test>(test => test.Id == id);
+                if (includeQuestions)
+                {
+                    query.Include(t => t.Questions);
+                }
+
+                return repositoriesContainer.TestsRepository.GetBy(query);
             }
         }
 
@@ -77,6 +83,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 if (subjectId.HasValue)
                 {
                     query.AddFilterClause(test => test.SubjectId == subjectId.Value);
+                    query.Include(t => t.Questions);
                 }
 
                 searchResults = repositoriesContainer.TestsRepository.GetAll(query).ToList();
