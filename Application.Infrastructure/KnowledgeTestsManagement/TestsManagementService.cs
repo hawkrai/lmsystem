@@ -12,6 +12,11 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
     {
         public void CheckForTestIsNotLocked(int testId)
         {
+            if (testId == 0)
+            {
+                return;
+            }
+
             var testsQuery = new Query<Test>(test => test.Id == testId)
                 .Include(t => t.TestUnlocks);
 
@@ -19,7 +24,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                if (repositoriesContainer.TestsRepository.GetBy(testsQuery).TestUnlocks.Count > 0 ||
+                var unlocks = repositoriesContainer.TestsRepository.GetBy(testsQuery).TestUnlocks;
+                if ((unlocks != null && unlocks.Count > 0) ||
                     repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetAll(answersQuery).Count() != 0)
                 {
                     throw new InvalidDataException("Тест не может быть изменён, т.к. доступен для прохождения");
@@ -58,6 +64,14 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             if (test.CountOfQuestions <= 0)
             {
                 throw new InvalidDataException("Количество вопросов должно быть больше нуля");
+            }
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                if (repositoriesContainer.TestsRepository.GetAll(new Query<Test>(t => t.Id != test.Id && t.Title == test.Title && t.SubjectId == test.SubjectId)).Any())
+                {
+                    throw new InvalidDataException("Тест с таким названием уже существует в рамках данного предмета");
+                }
             }
         }
 
