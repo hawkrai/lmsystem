@@ -6,7 +6,7 @@
 @Html.Hidden("currentQuestionType", Model.Question.QuestionType)
 
 <script type="text/javascript">
-    window.disableSkipButton = '@(!Model.SetTimeForAllTest)';
+    window.disableSkipButton = '@(!Model.SetTimeForAllTest || Model.QuestionsStatuses.Count(s => s.Value == PassedQuestionResult.NotPassed) == 1)';
 </script>
 
     <div style="text-align: right">
