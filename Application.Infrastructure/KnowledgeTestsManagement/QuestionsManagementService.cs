@@ -18,8 +18,27 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
         }
 
+        public void CheckForTestIsNotLocked(int testId)
+        {
+            var testsQuery = new Query<Test>(test => test.Id == testId)
+                .Include(t => t.TestUnlocks);
+
+            var answersQuery = new Query<AnswerOnTestQuestion>(a => a.TestId == testId);
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                if (repositoriesContainer.TestsRepository.GetBy(testsQuery).TestUnlocks.Count > 0 ||
+                    repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetAll(answersQuery).Count() != 0)
+                {
+                    throw new InvalidDataException("Тест не может быть изменён, т.к. доступен для прохождения");
+                }
+            }
+        }
+
         public Question SaveQuestion(Question question)
         {
+            CheckForTestIsNotLocked(question.TestId);
+
             ValidateQuestion(question);
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -131,6 +150,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 Question questionToDelete = repositoriesContainer.QuestionsRepository.GetBy(
                     new Query<Question>(question => question.Id == id));
 
+                CheckForTestIsNotLocked(questionToDelete.TestId);
+
                 repositoriesContainer.QuestionsRepository.Delete(questionToDelete);
                 repositoriesContainer.ApplyChanges();
             }
@@ -155,6 +176,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         public void CopyQuestionsToTest(int testId, int[] questionsIds)
         {
+            CheckForTestIsNotLocked(testId);
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var query = new Query<Question>(question => questionsIds.Contains(question.Id));

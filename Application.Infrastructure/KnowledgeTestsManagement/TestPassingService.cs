@@ -522,6 +522,9 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 resultQuestion.Answers = resultQuestion.Answers.Take(1).ToList();
             }
 
+            var random = new Random();
+            resultQuestion.Answers = resultQuestion.Answers.OrderBy(a => random.Next()).ToList();
+            
             return new Tuple<Question, int>(resultQuestion, nextQuestionNumber);
         }
 

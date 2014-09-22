@@ -48,7 +48,10 @@ knowledgeTestingApp.controller('testUnlocksCtrl', function ($scope, $http, id, $
             data: JSON.stringify(model),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            success: function () { $scope.loadStudents(); }
+            success: function() {
+                $scope.loadStudents();
+                $scope.loadTests();
+            }
         });
     };
 
@@ -65,7 +68,10 @@ knowledgeTestingApp.controller('testUnlocksCtrl', function ($scope, $http, id, $
             data: JSON.stringify(model),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            success: function () { $scope.loadStudents(); }
+            success: function() {
+                $scope.loadStudents();
+                $scope.loadTests();
+            }
         });
     };
     

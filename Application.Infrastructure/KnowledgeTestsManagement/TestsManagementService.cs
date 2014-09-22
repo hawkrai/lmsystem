@@ -10,6 +10,23 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 {
     public class TestsManagementService : ITestsManagementService
     {
+        public void CheckForTestIsNotLocked(int testId)
+        {
+            var testsQuery = new Query<Test>(test => test.Id == testId)
+                .Include(t => t.TestUnlocks);
+
+            var answersQuery = new Query<AnswerOnTestQuestion>(a => a.TestId == testId);
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                if (repositoriesContainer.TestsRepository.GetBy(testsQuery).TestUnlocks.Count > 0 ||
+                    repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetAll(answersQuery).Count() != 0)
+                {
+                    throw new InvalidDataException("Тест не может быть изменён, т.к. доступен для прохождения");
+                }
+            }
+        }
+
         public Test GetTest(int id, bool includeQuestions = false)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -26,6 +43,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         public Test SaveTest(Test test)
         {
+            CheckForTestIsNotLocked(test.Id);
             ValidateTest(test);
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -45,6 +63,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         public void DeleteTest(int id)
         {
+            CheckForTestIsNotLocked(id);
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 Test testToDelete = repositoriesContainer.TestsRepository.GetBy(

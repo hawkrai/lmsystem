@@ -67,8 +67,15 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public JsonResult SaveTest(TestViewModel testViewModel)
         {
-            var savedTest = TestsManagementService.SaveTest(testViewModel.ToTest());
-            return Json(savedTest);
+            try
+            {
+                var savedTest = TestsManagementService.SaveTest(testViewModel.ToTest());
+                return Json(savedTest);
+            }
+            catch (Exception e)
+            {
+                return Json(new { ErrorMessage = e.Message });
+            }
         }
 
         public JsonResult GetTests(int? subjectId)

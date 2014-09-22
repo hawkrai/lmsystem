@@ -81,10 +81,10 @@ var testPassing = {
     },
 
     _makeUserAnswer: function (answers, testId, currentQuestionNumber) {
-        if (Enumerable.From(answers)
+        if ((answers.length == 1 && !answers[0].Content) || (answers.length > 1 && Enumerable.From(answers)
             .Where(function(item) {
                 return item.IsCorrect != 0;
-            }).Count() == 0) {
+            }).Count() == 0)) {
             alertify.error("Не выбран ни один вариант ответа");
         } else {
             $.ajax({

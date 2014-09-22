@@ -45,9 +45,13 @@ knowledgeTestingApp.controller('addFromAnotherTestCtrl', function ($scope, $http
             data: JSON.stringify(model),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            success: function() {
-                $scope.closeDialog();
-                $scope.loadQuestions();
+            success: function (data) {
+                if (data.ErrorMessage) {
+                    alertify.error(data.ErrorMessage);
+                } else {
+                    $scope.closeDialog();
+                    $scope.loadQuestions();
+                }
             }
         });
     };

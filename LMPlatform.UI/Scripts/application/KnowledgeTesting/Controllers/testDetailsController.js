@@ -12,10 +12,14 @@ knowledgeTestingApp.controller('testDetailsCtrl', function ($scope, $http, id, $
     $scope.saveTest = function () {
         $scope.test.SubjectId = getUrlValue('subjectId');
         $http({ method: "POST", url: kt.actions.tests.saveTest, dataType: 'json', params: $scope.test })
-        .success(function () {
-            $scope.loadTests();
-            $scope.closeDialog();
-            alertify.success('Тест успешно сохранен');
+        .success(function (data) {
+            if (data.ErrorMessage) {
+                alertify.error(data.ErrorMessage);
+            } else {
+                $scope.loadTests();
+                $scope.closeDialog();
+                alertify.success('Тест успешно сохранен');
+            }
         })
         .error(function (data, status, headers, config) {
             alertify.error('Во время сохранения произошла ошибка');

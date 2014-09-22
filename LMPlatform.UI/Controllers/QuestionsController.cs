@@ -85,9 +85,16 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public JsonResult AddQuestionsFromAnotherTest(int[] questionItems, int testId)
         {
-            QuestionsManagementService.CopyQuestionsToTest(testId, questionItems);
+            try
+            {
+                QuestionsManagementService.CopyQuestionsToTest(testId, questionItems);
 
-            return Json("Ok");
+                return Json("Ok");
+            }
+            catch (Exception e)
+            {
+                return Json(new { ErrorMessage = e.Message });
+            }
         }
 
         #region Dependencies
