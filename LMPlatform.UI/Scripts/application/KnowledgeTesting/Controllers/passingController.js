@@ -126,7 +126,7 @@ var testPassing = {
     _initializeTimer: function() {
         $(".kkcountdown").kkcountdown({
             displayZeroDays: false,
-            hoursText: 'ч.',
+            hoursText: ':',
             textAfterCount: 'Время истекло.',
             callback: $.proxy(this._timeEnded, this)
         });
