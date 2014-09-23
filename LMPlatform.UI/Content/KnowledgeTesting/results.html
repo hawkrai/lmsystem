@@ -34,10 +34,13 @@
             <td data-ng-repeat="mark in result.TestPassResults">
                 <div >
                     <div tooltip="Тест {{mark.TestName}} пройден на {{mark.Points}}" tooltip-placement="right">{{mark.Points}}</div>
-                <a data-ng-show="!mark.Points" tooltip="Тест {{mark.TestName}} не пройден" tooltip-placement="right"><span class="fa fa-warning fa-1x"></span></a>
+                    <a data-ng-show="mark.Points == null" tooltip="Тест {{mark.TestName}} не пройден" tooltip-placement="right"><span class="fa fa-warning fa-1x"></span></a>
                 </div>
             </td>
-            <td>{{calcOverage(result.TestPassResults)}}</td>
+            <td>{{calcOverage(result)}}</td>
         </tr>
     </table>
+</div>
+<div class="row col-md-12">
+     <div id="chartBarAverage" class="jqplot-target"></div>
 </div>

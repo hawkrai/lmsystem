@@ -21,7 +21,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         TestPassResult GetTestPassingTime(int testId, int studentId);
 
-        IEnumerable<TestPassResult> GetStidentResults(int subjectId);
+        IEnumerable<TestPassResult> GetStidentResults(int subjectId, int currentUserId);
 
         bool CheckForSubjectAvailableForStudent(int studentId, int subjectId);
     }

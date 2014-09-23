@@ -18,21 +18,50 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
         $http({ method: "GET", url: kt.actions.results.getResults, dataType: 'json', params: { subjectId: $scope.subjectId, groupId: groupId} })
            .success(function (data) {
                $scope.results = data;
+               $scope.drawChartBar();
            })
            .error(function (data, status, headers, config) {
                alertify.error("Во время получения результатов произошла ошибка");
            });
     };
 
-    $scope.calcOverage = function (results) {
-        var empty = 'Студент не прошел ни одного теста';
+    $scope.drawChartBar = function() {
+        var lines = Enumerable.From($scope.results)
+            .Where(function (item) { return $scope.calcOverage(item, true) != null; })
+            .OrderByDescending(function(item) { return $scope.calcOverage(item); })
+            .Select(function(item) {return  [item.StudentName, $scope.calcOverage(item)];})
+            .ToArray();
+
+        $('#chartBarAverage').html("");
+        var plotBar = $('#chartBarAverage').jqplot([lines], {
+            animate: !$.jqplot.use_excanvas,
+            title: 'Рейтинг студентов',
+            seriesColors: ['#007196', '#008cba'],
+            seriesDefaults: {
+                renderer: jQuery.jqplot.BarRenderer,
+                rendererOptions: {
+                    varyBarColor: true,
+                    showDataLabels: true,
+                }
+            },
+            axes: {
+                xaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer
+                }
+            }
+        });
+    };
+
+    $scope.calcOverage = function (result, dontUseTestResult) {
+        var results = result.TestPassResults;
+        var empty = dontUseTestResult ? null : 'Студент не прошел ни одного теста';
 
         if (results.length == 0) {
             return empty;
         }
 
         var passed = Enumerable.From(results).Where(function (item) {
-             return item.Points > 0;
+             return item.Points != null;
         });
 
         if (passed.Count() > 0) {

@@ -130,7 +130,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return passingResult;
         }
 
-        public IEnumerable<TestPassResult> GetStidentResults(int subjectId)
+        public IEnumerable<TestPassResult> GetStidentResults(int subjectId, int studentId)
         {
             var tests = GetTestsForSubject(subjectId);
             var testIds = tests.Select(test => test.Id);
@@ -139,9 +139,9 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             {
                 result =
                     repositoriesContainer.RepositoryFor<TestPassResult>().GetAll(
-                        new Query<TestPassResult>(res => testIds.Contains(res.TestId))).ToList();
+                        new Query<TestPassResult>(res => testIds.Contains(res.TestId) && res.StudentId == studentId)).ToList();
             }
-
+            
             foreach (var testPassResult in result)
             {
                 testPassResult.TestName = tests.Single(t => t.Id == testPassResult.TestId).Title;

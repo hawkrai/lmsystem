@@ -65,10 +65,10 @@ namespace LMPlatform.UI.Controllers
         [Authorize, HttpGet]
         public JsonResult GetStudentResults(int subjectId)
         {
-            var results = TestPassingService.GetStidentResults(subjectId).GroupBy(g => g.TestName).Select(group => new
+            var results = TestPassingService.GetStidentResults(subjectId, CurrentUserId).GroupBy(g => g.TestName).Select(group => new
             {
                 Title = group.Key,
-                Points = group.Average(g => g.Points)
+                Points = group.Last().Points
             });
 
             return Json(results, JsonRequestBehavior.AllowGet);
