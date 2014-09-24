@@ -11,7 +11,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         void MakeUserAnswer(IEnumerable<Answer> answers, int userId, int testId, int questionNumber);
 
-        IEnumerable<Student> GetPassTestResults(int groupId, string searchString = null);
+        IEnumerable<Student> GetPassTestResults(int groupId, int subjectId);
 
         IEnumerable<Test> GetAvailableTestsForStudent(int studentId, int subjectId);
 

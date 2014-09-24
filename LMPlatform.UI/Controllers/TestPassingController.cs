@@ -58,7 +58,7 @@ namespace LMPlatform.UI.Controllers
         [Authorize, HttpGet]
         public JsonResult GetResults(int groupId, int subjectId)
         {
-            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
+            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
@@ -86,14 +86,6 @@ namespace LMPlatform.UI.Controllers
                 Students = result.ToArray()
             }).ToArray();
             return Json(results, JsonRequestBehavior.AllowGet);
-        }
-
-        public DataTablesResult<TestResultItemListViewModel> GetTestsTesults(DataTablesParam dataTableParam, int groupId)
-        {
-            var searchString = dataTableParam.GetSearchString();
-            var students = TestPassingService.GetPassTestResults(groupId, searchString);
-
-            return DataTableExtensions.GetResults(students.Select(student => TestResultItemListViewModel.FromStudent(student, new HtmlString(PartialViewToString("_TestsResultsGridColumn", student)))), dataTableParam, students.Count());
         }
 
         [Authorize, HttpGet]

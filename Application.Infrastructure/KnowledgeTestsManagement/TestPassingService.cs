@@ -206,19 +206,26 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
         }
 
-        public IEnumerable<Student> GetPassTestResults(int groupId, string searchString)
+        public IEnumerable<Student> GetPassTestResults(int groupId, int subjectId)
         {
             IEnumerable<Student> students;
+            List<int> subjectTestIds;
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 students = repositoriesContainer.StudentsRepository.GetAll(new Query<Student>(student => student.GroupId == groupId)
                     .Include(student => student.User.TestPassResults))
                     .ToList();
+
+                subjectTestIds =
+                    repositoriesContainer.SubjectRepository.GetBy(
+                        new Query<Subject>(s => s.Id == subjectId).Include(s => s.SubjectTests))
+                        .SubjectTests.Select(st => st.Id)
+                        .ToList();
             }
 
-            var testIds =
-                students.SelectMany(student => student.User.TestPassResults.Select(testResult => testResult.TestId))
+            int[] testIds =
+                students.SelectMany(student => student.User.TestPassResults.Where(pr => subjectTestIds.Contains(pr.TestId)).Select(testResult => testResult.TestId))
                     .Distinct()
                     .ToArray();
 
