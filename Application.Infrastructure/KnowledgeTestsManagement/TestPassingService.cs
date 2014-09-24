@@ -206,6 +206,34 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
         }
 
+        public Dictionary<int, double> GetAverageMarkForTests(int groupId, int subjectId)
+        {
+            IEnumerable<Student> students;
+            List<int> subjectTestIds;
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                students = repositoriesContainer.StudentsRepository.GetAll(new Query<Student>(student => student.GroupId == groupId)
+                    .Include(student => student.User.TestPassResults))
+                    .ToList();
+
+                subjectTestIds =
+                    repositoriesContainer.SubjectRepository.GetBy(
+                        new Query<Subject>(s => s.Id == subjectId).Include(s => s.SubjectTests))
+                        .SubjectTests.Select(st => st.Id)
+                        .ToList();
+            }
+ 
+            Dictionary<int, double> results = students.ToDictionary(student => student.Id, student => GetAverage(student.User.TestPassResults.Where(pr => subjectTestIds.Contains(pr.TestId)).ToList()));
+
+            return results;
+        }
+
+        private double GetAverage(List<TestPassResult> list)
+        {
+            return list.Sum(item => (double)item.Points) / list.Count();
+        }
+
         public IEnumerable<Student> GetPassTestResults(int groupId, int subjectId)
         {
             IEnumerable<Student> students;

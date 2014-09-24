@@ -24,5 +24,10 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         IEnumerable<TestPassResult> GetStidentResults(int subjectId, int currentUserId);
 
         bool CheckForSubjectAvailableForStudent(int studentId, int subjectId);
+
+        /// <summary>
+        /// Returns set of students and average marks for subject
+        /// </summary>
+        Dictionary<int, double> GetAverageMarkForTests(int groupId, int subjectId);
     }
 }
