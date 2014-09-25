@@ -26,15 +26,22 @@
 		@section navleft
 		{
 			@foreach (var module in Model.Modules.Where(e => e.Type != ModuleType.Results && e.Type != ModuleType.StatisticsVisits && e.Type != ModuleType.ScheduleProtection).ToList())
-   {
-	   if (module.Type == ModuleType.SmartTest)
-	   {
-<li class="navLink">
-						<a class="moduleLinks linkNavbar" href="@Url.Action("Index", "Tests", new { subjectId = Model.SubjectId })">@module.Name</a>
-					</li>
-	   }
-	   else
-	   {
+{
+    if (module.Type == ModuleType.SmartTest)
+    {
+        <li class="navLink">
+            @if (userRole == 1)
+            {
+                <a class="moduleLinks linkNavbar" href="@Url.Action("StudentsTesting", "TestPassing", new { subjectId = Model.SubjectId })">@module.Name</a>
+            }
+            else
+            {
+                <a class="moduleLinks linkNavbar" href="@Url.Action("KnowledgeTesting", "Tests", new { subjectId = Model.SubjectId })">@module.Name</a>
+            }
+        </li>
+    }
+    else
+    {
 <li class="navLink">
 						<a class="moduleLinks linkNavbar" href="#@module.Type">@module.Name</a>
 					</li>
