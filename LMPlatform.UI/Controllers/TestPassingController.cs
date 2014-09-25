@@ -81,6 +81,9 @@ namespace LMPlatform.UI.Controllers
         public JsonResult GetResults(int groupId, int subjectId)
         {
             TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
+
+            var test = TestPassingService.GetAverageMarkForTests(groupId, subjectId);
+            
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 

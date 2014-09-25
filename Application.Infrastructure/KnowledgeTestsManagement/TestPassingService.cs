@@ -231,12 +231,13 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         private double? GetAverage(List<TestPassResult> list)
         {
+            var resultsWithMarks = list.Where(item => item.Points.HasValue);
             if (!list.Any())
             {
                 return null;
             }
 
-            return list.Sum(item => (double)item.Points) / list.Count();
+            return resultsWithMarks.Sum(item => (double)item.Points) / resultsWithMarks.Count();
         }
 
         public IEnumerable<Student> GetPassTestResults(int groupId, int subjectId)
