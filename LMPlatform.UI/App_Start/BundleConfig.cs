@@ -111,6 +111,38 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/DP/controllers/percentageResultsController.js",
                 "~/Scripts/application/DP/controllers/visitStatsController.js",
                 "~/Scripts/application/DP/services/projectService.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/knowledgeTesting").Include(
+                "~/Scripts/linq.js",
+                "~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/testsNavigationController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/testsController.js", 
+                "~/Scripts/application/KnowledgeTesting/Controllers/questionsController.js",
+                "~/Scripts/jqplot/jquery.jqplot.min.js",
+                "~/Scripts/jqplot/jqplot.barRenderer.min.js",
+                "~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js",
+                "~/Scripts/jqplot/jqplot.pointLabels.min.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/resultsController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/controlController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/testUnlocksController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/questionDetailsController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/addFromAnotherTestController.js",
+                "~/Scripts/application/KnowledgeTesting/kkcountdown.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/studentsTesting").Include(
+                "~/Scripts/linq.js",
+                "~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/testPassingNavigationController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/studentTestsController.js",
+                "~/Scripts/jqplot/jquery.jqplot.min.js",
+                "~/Scripts/jqplot/jqplot.barRenderer.min.js",
+                "~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js",
+                "~/Scripts/jqplot/jqplot.pointLabels.min.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/studentResultsController.js",
+                "~/Scripts/application/KnowledgeTesting/kkcountdown.js"));
         }
     }
 }

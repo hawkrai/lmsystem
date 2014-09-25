@@ -7,24 +7,8 @@
 
 @section scripts
 {
-    @Scripts.Render("~/Scripts/linq.js", "~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js")
-    @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsNavigationController.js")
-    @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testsController.js", "~/Scripts/application/KnowledgeTesting/Controllers/questionsController.js",
-    "~/Scripts/jqplot/jquery.jqplot.min.js",
-    "~/Scripts/jqplot/jqplot.barRenderer.min.js",
-    "~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js",
-    "~/Scripts/jqplot/jqplot.pointLabels.min.js",
-   
-        "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/resultsController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/controlController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/testUnlocksController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/questionDetailsController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/addFromAnotherTestController.js",
-        "~/Scripts/application/KnowledgeTesting/kkcountdown.js")
-
+    @Scripts.Render("~/bundles/knowledgeTesting")
+    @Styles.Render("~/Content/testingModule.css")
 
     @* Move to another file *@
     <script type="text/javascript">
@@ -47,11 +31,11 @@
                     getSubgroups: '@Url.Action("GetSubGroups", "Tests")'
                 },
                 questions: {
-                    getQuestions: '@Url.Action("GetQuestions", "Questions")',
-                    getQuestion: '@Url.Action("GetQuestion", "Questions")',
-                    deleteQuestion: '@Url.Action("DeleteQuestion", "Questions")',
-                    saveQuestion: '@Url.Action("SaveQuestion", "Questions")',
-                    addFromAnotherTest: '@Url.Action("AddQuestionsFromAnotherTest", "Questions")'
+                    getQuestions: '@Url.Action("GetQuestions", "Tests")',
+                    getQuestion: '@Url.Action("GetQuestion", "Tests")',
+                    deleteQuestion: '@Url.Action("DeleteQuestion", "Tests")',
+                    saveQuestion: '@Url.Action("SaveQuestion", "Tests")',
+                    addFromAnotherTest: '@Url.Action("AddQuestionsFromAnotherTest", "Tests")'
                 },
                 results: {
                     getResults: '@Url.Action("GetResults", "TestPassing")',
@@ -60,31 +44,6 @@
             }
         };
     </script>
-
-    <style>
-        a:hover {
-            cursor: pointer;
-        }
-
-        .progress-notPassed {
-            background-color: #007196;
-}
-
-        .progress-success {
-            background-color: rgb(143, 207, 118)
-        }
-        .progress-error {
-            background-color: rgb(250, 112, 112)
-        }
-
-        textarea {
-            max-width: 1000px;
-        }
-
-        input {
-            width: auto;
-        }
-    </style>
 }
 
 @section navleft

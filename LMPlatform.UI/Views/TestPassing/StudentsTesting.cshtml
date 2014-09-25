@@ -7,80 +7,23 @@
 
 @section scripts
 {
-    @Scripts.Render("~/Scripts/linq.js", "~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js")
-    @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/testPassingNavigationController.js")
-    @Scripts.Render("~/Scripts/application/KnowledgeTesting/Controllers/studentTestsController.js", "~/Scripts/application/KnowledgeTesting/Controllers/questionsController.js",
-    
-     "~/Scripts/jqplot/jquery.jqplot.min.js",
-    "~/Scripts/jqplot/jqplot.barRenderer.min.js",
-    "~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js",
-    "~/Scripts/jqplot/jqplot.pointLabels.min.js",
+    @Scripts.Render("~/bundles/studentsTesting")
+    @Styles.Render("~/Content/testingModule.css")
    
-        "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/studentResultsController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/controlController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/testUnlocksController.js",
-        "~/Scripts/application/KnowledgeTesting/Controllers/questionDetailsController.js",
-        "~/Scripts/application/KnowledgeTesting/kkcountdown.js")
-
-
     @* Move to another file *@
     <script type="text/javascript">
         window.kt = {
             actions: {
                 tests: {
                     getTests: '@Url.Action("GetAvailableTests", "TestPassing")',
-                    getTest: '@Url.Action("GetTest", "Tests")',
-                    saveTest: '@Url.Action("SaveTest", "Tests")',
-                    deleteTest: '@Url.Action("DeleteTest", "Tests")',
                     getNextQuestion: '@Url.Action("GetNextQuestion", "TestPassing")',
-                    unlock: '@Url.Action("UnlockTests", "Tests")',
-                    unlockOne: '@Url.Action("ChangeLockForUserForStudent", "Tests")'
-                },
-                groups: {
-                    getGroupsForSubject: '@Url.Action("GetGroups", "Tests")',
-                    getSubgroups: '@Url.Action("GetSubGroups", "Tests")'
-                },
-                questions: {
-                    getQuestions: '@Url.Action("GetQuestions", "Questions")',
-                    getQuestion: '@Url.Action("GetQuestion", "Questions")',
-                    deleteQuestion: '@Url.Action("DeleteQuestion", "Questions")',
-                    saveQuestion: '@Url.Action("SaveQuestion", "Questions")'
                 },
                 results: {
                     getResults: '@Url.Action("GetStudentResults", "TestPassing")',
-                    getControl: '@Url.Action("GetControlItems", "TestPassing")'
                 }
             }
         };
     </script>
-
-    <style>
-        a:hover {
-            cursor: pointer;
-        }
-
-        .progress-notPassed {
-            background-color: #007196;
-}
-
-        .progress-success {
-            background-color: rgb(143, 207, 118)
-        }
-        .progress-error {
-            background-color: rgb(250, 112, 112)
-        }
-
-        textarea {
-            max-width: 1000px;
-        }
-
-        input {
-            width: auto;
-        }
-    </style>
 }
 
 @section navleft

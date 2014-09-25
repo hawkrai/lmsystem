@@ -199,10 +199,9 @@
     <Compile Include="Controllers\ParentalController.cs" />
     <Compile Include="ApiControllers\DP\TaskSheetController.cs" />
     <Compile Include="Controllers\TestPassingController.cs" />
-    <Compile Include="Controllers\QuestionsController.cs" />
-    <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
+    <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -212,6 +211,7 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\testingModule.css" />
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
@@ -613,13 +613,7 @@
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\testUnlocksController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\kkcountdown.js" />
     <Content Include="Scripts\application\KnowledgeTesting\knowledgeTestingModule.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\TestPassingScript.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\testsNavigationController.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\TestsResultsListScript.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\TestUnlocksScript.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\QuestionsListScript.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\QuestionDetailsScript.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\TestDetailsScript.js" />
     <Content Include="Scripts\application\labsApp.js" />
     <Content Include="Scripts\application\mainApp.js" />
     <Content Include="Scripts\application\masterPageManagement.js" />
@@ -627,7 +621,6 @@
     <Content Include="Scripts\application\Messages\msgModule.js" />
     <Content Include="Scripts\application\Parental\parentalModule.js" />
     <Content Include="Scripts\application\shared.js" />
-    <Content Include="Scripts\application\KnowledgeTesting\TestsListScript.js" />
     <Content Include="Scripts\application\spinFunction.js" />
     <Content Include="Scripts\application\subjectManagement.js" />
     <Content Include="Scripts\application\subjectWorking.js" />
@@ -1052,7 +1045,6 @@
     <Content Include="Views\BTS\Index.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\BugManagement.cshtml" />
-    <Content Include="Views\Tests\Index.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Shared\Layouts\_AdministrationLayout.cshtml" />
@@ -1060,14 +1052,9 @@
     <Content Include="Views\Administration\Students.cshtml" />
     <Content Include="Views\Administration\Professors.cshtml" />
     <Content Include="Views\Administration\Files.cshtml" />
-    <Content Include="Views\Tests\TestDetails.cshtml" />
     <Content Include="Views\Administration\Groups.cshtml" />
-    <Content Include="Views\Questions\Index.cshtml" />
-    <Content Include="Views\Questions\_QuestionTypes.cshtml" />
     <Content Include="Views\Shared\_BootBoxTemplate.cshtml" />
-    <Content Include="Views\Questions\_QuestionDetails.cshtml" />
     <Content Include="Views\BTS\_BTSSubnavbar.cshtml" />
-    <Content Include="Views\Questions\_AnswerTemplates.cshtml" />
     <Content Include="Views\Subject\Management.cshtml" />
     <Content Include="Views\Shared\Lms\_LmsNaBar.cshtml" />
     <Content Include="Views\Shared\_EditGlyphLinks.cshtml" />
@@ -1082,24 +1069,16 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Administration\_AddGroupView.cshtml" />
-    <Content Include="Views\Tests\_TestsGridActions.cshtml" />
-    <Content Include="Views\Questions\_QuestionsGridActions.cshtml" />
     <Content Include="Views\Shared\Subjects\_ModuleTemplate.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\News\_NewsModule.cshtml" />
     <Content Include="Views\Shared\Common\_FilesUploader.cshtml" />
     <Content Include="Views\Shared\Common\_MessageForm.cshtml" />
-    <Content Include="Views\Questions\_QuestionsSelector.cshtml" />
-    <Content Include="Views\Questions\_QuestionsSelectorResult.cshtml" />
     <Content Include="Views\Message\Messages.cshtml" />
     <Content Include="Views\Subject\_SubGroupsEditTemplate.cshtml" />
     <Content Include="Views\Subject\_SubGroupEdit.cshtml" />
-    <Content Include="Views\Questions\EditorTemplates\QuestionItemListViewModel.cshtml" />
     <Content Include="Views\Administration\_EditGroupView.cshtml" />
     <Content Include="Views\Account\_PersonalData.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Lectures\_LecturesModule.cshtml" />
-    <Content Include="Views\Tests\_TestUnlocksSelector.cshtml" />
-    <Content Include="Views\Tests\_TestUnlocksSelectorResult.cshtml" />
-    <Content Include="Views\Tests\EditorTemplates\TestUnlockInfo.cshtml" />
     <Content Include="Views\Shared\Messages\_DisplayMessage.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsModule.cshtml" />
     <Content Include="Views\BTS\_AddBugForm.cshtml" />
@@ -1108,16 +1087,11 @@
     <Content Include="Views\BTS\_ProjectsGridActions.cshtml" />
     <Content Include="Views\BTS\_ProjectUsersGridActions.cshtml" />
     <Content Include="Views\BTS\_AssignStudentOnProjectForm.cshtml" />
-    <Content Include="Views\Tests\_TestsLeftPanel.cshtml" />
-    <Content Include="Views\TestPassing\GetAvailableTests.cshtml" />
-    <Content Include="Views\TestPassing\StartTest.cshtml" />
     <Content Include="Views\TestPassing\GetNextQuestion.cshtml" />
     <Content Include="Views\TestPassing\_ManyAnswersTemplate.cshtml" />
     <Content Include="Views\TestPassing\_OneAnswerTemplate.cshtml" />
     <Content Include="Views\TestPassing\_SequenceAnswerTemplate.cshtml" />
     <Content Include="Views\TestPassing\_TextAnswerTemplate.cshtml" />
-    <Content Include="Views\TestPassing\TestsForPassing.cshtml" />
-    <Content Include="Views\TestPassing\RealTimePassingForTest.cshtml" />
     <Content Include="Views\TestPassing\EndTest.cshtml" />
     <Content Include="Views\BTS\_BugsGridActions.cshtml" />
     <Content Include="Views\BTS\BugDetails.cshtml" />
@@ -1131,8 +1105,6 @@
     <Content Include="Views\BTS\ProjectParticipation.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsPartial.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_ScheduleProtectionLabsPartial.cshtml" />
-    <Content Include="Views\TestPassing\TestResultsTable.cshtml" />
-    <Content Include="Views\TestPassing\TestResults.cshtml" />
     <Content Include="Views\TestPassing\_TestsResultsGridColumn.cshtml" />
     <Content Include="Views\BTS\_SubgroupList.cshtml" />
     <Content Include="Views\DP\Index.cshtml" />
@@ -1171,6 +1143,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFilesTemp\" />
     <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\Questions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

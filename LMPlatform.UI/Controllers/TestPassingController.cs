@@ -1,38 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Application.Core.Data;
 using Application.Core.UI.Controllers;
-using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 using LMPlatform.UI.ViewModels.KnowledgeTestingViewModels;
-using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
     public class TestPassingController : BasicController
     {
-        [Authorize, HttpGet]
-        public JsonResult GetAvailableTests(int subjectId)
-        {
-            var availableTests = TestPassingService.GetAvailableTestsForStudent(CurrentUserId, subjectId)
-                .Select(test => new
-                {
-                    Id = test.Id,
-                    Title = test.Title,
-                    Description = test.Description
-                });
-            
-            return Json(availableTests, JsonRequestBehavior.AllowGet);
-        }
-
         [Authorize, HttpGet]
         public ActionResult StudentsTesting(int subjectId)
         {
@@ -50,16 +32,37 @@ namespace LMPlatform.UI.Controllers
         }
 
         [Authorize, HttpGet]
-        public ActionResult GetTestResultsForGroup(int groupId)
-        {            
-            return PartialView("TestResultsTable", groupId);
+        public JsonResult GetAvailableTests(int subjectId)
+        {
+            var availableTests = TestPassingService.GetAvailableTestsForStudent(CurrentUserId, subjectId)
+                .Select(test => new
+                {
+                    Id = test.Id,
+                    Title = test.Title,
+                    Description = test.Description
+                });
+            
+            return Json(availableTests, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize, HttpGet]
-        public JsonResult GetResults(int groupId, int subjectId)
+        [HttpGet]
+        public PartialViewResult GetNextQuestion(int testId, int questionNumber)
         {
-            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
-            return Json(results, JsonRequestBehavior.AllowGet);
+            if (questionNumber == 1 && TestsManagementService.GetTest(testId, true).Questions.Count == 0)
+            {
+                ViewBag.Message = "Тест не содержит ни одного вопроса";
+                return PartialView("Error");
+            }
+
+            NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
+
+            if (nextQuestion.Question == null)
+            {
+                ViewBag.Mark = nextQuestion.Mark;
+                return PartialView("EndTest", nextQuestion.QuestionsStatuses);
+            }
+
+            return PartialView("GetNextQuestion", nextQuestion);
         }
 
         [Authorize, HttpGet]
@@ -71,6 +74,13 @@ namespace LMPlatform.UI.Controllers
                 Points = group.Last().Points
             });
 
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize, HttpGet]
+        public JsonResult GetResults(int groupId, int subjectId)
+        {
+            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
@@ -88,58 +98,12 @@ namespace LMPlatform.UI.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize, HttpGet]
-        public ActionResult TestResults(int subjectId)
-        {
-            Subject subject = SubjectsManagementService.GetSubject(subjectId);
-            int[] groupIds = subject.SubjectGroups.Select(subjectGroup => subjectGroup.GroupId).ToArray();
-            ViewBag.Groups = GroupManagementService.GetGroups(new Query<Group>(group => groupIds.Contains(group.Id))).ToList();
-
-            //var students = TestPassingService.GetPassTestResults(1);
-            return View(subjectId);
-        }
-
-        [HttpGet]
-        public PartialViewResult GetNextQuestion(int testId, int questionNumber)
-        {
-            if (questionNumber == 1 && TestsManagementService.GetTest(testId, true).Questions.Count == 0)
-            {
-                ViewBag.Message = "Тест не содержит ни одного вопроса";
-                return PartialView("Error");
-            }
-
-            NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
-            
-            if (nextQuestion.Question == null)
-            {
-                ViewBag.Mark = nextQuestion.Mark;
-                return PartialView("EndTest", nextQuestion.QuestionsStatuses);
-            }
-
-            return PartialView("GetNextQuestion", nextQuestion);
-        }
-
         [HttpPost]
         public JsonResult AnswerQuestionAndGetNext(IEnumerable<AnswerViewModel> answers, int testId, int questionNumber)
         {
             TestPassingService.MakeUserAnswer(answers != null && answers.Any() ? answers.Select(answerModel => answerModel.ToAnswer()) : null, CurrentUserId, testId, questionNumber);
-            
+
             return Json("Ok");
-        }
-
-        [HttpGet]
-        public ActionResult StartTest(int testId)
-        {
-            Test test = TestsManagementService.GetTest(testId);
-            return View(test);
-        }
-
-        [Authorize, HttpGet]
-        public ActionResult RealTimePassingForTest(int subjectId)
-        {
-            ViewBag.SubjectId = subjectId;
-            IEnumerable<RealTimePassingResult> passingResults = TestPassingService.GetRealTimePassingResults(subjectId);
-            return View(passingResults);
         }
 
         protected int CurrentUserId

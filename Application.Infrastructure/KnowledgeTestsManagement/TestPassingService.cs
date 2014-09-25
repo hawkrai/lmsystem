@@ -206,7 +206,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
         }
 
-        public Dictionary<int, double> GetAverageMarkForTests(int groupId, int subjectId)
+        public Dictionary<int, double?> GetAverageMarkForTests(int groupId, int subjectId)
         {
             IEnumerable<Student> students;
             List<int> subjectTestIds;
@@ -224,13 +224,18 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                         .ToList();
             }
  
-            Dictionary<int, double> results = students.ToDictionary(student => student.Id, student => GetAverage(student.User.TestPassResults.Where(pr => subjectTestIds.Contains(pr.TestId)).ToList()));
+            Dictionary<int, double?> results = students.ToDictionary(student => student.Id, student => GetAverage(student.User.TestPassResults.Where(pr => subjectTestIds.Contains(pr.TestId)).ToList()));
 
             return results;
         }
 
-        private double GetAverage(List<TestPassResult> list)
+        private double? GetAverage(List<TestPassResult> list)
         {
+            if (!list.Any())
+            {
+                return null;
+            }
+
             return list.Sum(item => (double)item.Points) / list.Count();
         }
 

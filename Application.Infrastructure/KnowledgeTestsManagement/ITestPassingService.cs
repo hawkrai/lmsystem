@@ -28,6 +28,6 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         /// <summary>
         /// Returns set of students and average marks for subject
         /// </summary>
-        Dictionary<int, double> GetAverageMarkForTests(int groupId, int subjectId);
+        Dictionary<int, double?> GetAverageMarkForTests(int groupId, int subjectId);
     }
 }
