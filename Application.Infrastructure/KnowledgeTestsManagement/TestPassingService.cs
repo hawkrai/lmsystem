@@ -530,7 +530,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         {
             Test test = GetTest(testAnswers.First().TestId);
             var result = ((double)testAnswers.Sum(testAnswer => testAnswer.Points) 
-                / (double)test.Questions.Sum(question => question.ComlexityLevel)) * 10;
+                / (double)test.Questions.Where(q => testAnswers.Select(a => a.QuestionId).Contains(q.Id))
+                .Sum(question => question.ComlexityLevel)) * 10;
 
             return (int)result;
         }
