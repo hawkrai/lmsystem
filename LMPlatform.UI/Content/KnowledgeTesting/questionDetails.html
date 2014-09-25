@@ -66,10 +66,11 @@
     <!-- sequnce answer template -->
     <div ng-show="question.QuestionType == 3" class="table-responsive">
         <table class="table">
-            <tr data-ng-repeat="answer in question.Answers">
+            <tr ng-drag="true" ng-drag-data="answer" data-ng-repeat="answer in question.Answers">
                 <td style="width: 20px; border: none; padding-top: 12px;">{{$index + 1}}</td>
                 <td style="border: none">
-                    <input placeholder="Введите элемент последовательности" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" /></td>
+                    <input placeholder="Введите элемент последовательности" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" />
+                </td>
                 <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
             </tr>
         </table>

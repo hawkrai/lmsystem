@@ -2,19 +2,27 @@
 knowledgeTestingApp.controller('passingCtrl', function($scope, $http) {
 
     $scope.init = function() {
+        testPassing.getTestDescription($scope.onDescriptionLoaded);
+    };
+
+    $scope.nextButtonClicked = function() {
         testPassing.init();
     };
 });
 
 studentsTestingApp.controller('passingCtrl', function ($scope, $http) {
+    
+    $scope.init = function () {
+        testPassing.getTestDescription($scope.onDescriptionLoaded);
+    };
 
-    $scope.init = function() {
+    $scope.nextButtonClicked = function () {
         testPassing.init();
     };
 });
 
 var testPassing = {
-    init: function () {
+    init: function() {
         //$('#nextButton').on('click', $.proxy(this._onNextButtonClicked, this));
         this._nextQuestionNumber = 1;
         this._onNextButtonClicked();
@@ -23,6 +31,26 @@ var testPassing = {
     _webServiceUrl: '/TestPassing/',
     _getNextQuestionMethodName: 'GetNextQuestion',
     _makeUserAnswerMethodName: 'AnswerQuestionAndGetNext',
+    _getDescriptionMethodName: 'GetTestDescription',
+
+    getTestDescription: function(callback) {
+        var testId = getHashValue('testId');
+
+        $.ajax({
+            url: this._webServiceUrl + this._getDescriptionMethodName,
+            type: "GET",
+            data: {
+                testId: testId,
+            },
+            dataType: "json",
+            success: $.proxy(this._onDescriptionLoaded, this)
+        });
+    },
+
+    _onDescriptionLoaded: function(data) {
+        $('#title').text(data.Title);
+        $('#description').text(data.Description);
+    },
 
     _onNextButtonClicked: function () {
         var testId = getHashValue('testId');

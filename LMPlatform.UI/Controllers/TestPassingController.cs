@@ -31,6 +31,19 @@ namespace LMPlatform.UI.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult GetTestDescription(int testId)
+        {
+            Test test = TestsManagementService.GetTest(testId);
+            var description = new
+            {
+                Title = test.Title,
+                Description = test.Description
+            };
+
+            return Json(description, JsonRequestBehavior.AllowGet);
+        }
+
         [Authorize, HttpGet]
         public JsonResult GetAvailableTests(int subjectId)
         {
@@ -81,8 +94,6 @@ namespace LMPlatform.UI.Controllers
         public JsonResult GetResults(int groupId, int subjectId)
         {
             TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
-
-            var test = TestPassingService.GetAverageMarkForTests(groupId, subjectId);
             
             return Json(results, JsonRequestBehavior.AllowGet);
         }

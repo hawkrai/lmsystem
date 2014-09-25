@@ -1,6 +1,10 @@
-﻿<div id="questionContent" data-ng-init="init()">
-<!--    <h1>Здесь будет описание теста</h1>
+﻿
+<div id="questionContent" data-ng-init="init()">
+    <div class="page-header" >
+        <h3 id ="title"></h3>
+    </div>
     <br />
+    <div id="description"></div>
 
-    <button type="button" id="nextButton" class="btn btn-primary btn-sm">Далее</button>-->
+    <button type="button" ng-click="nextButtonClicked()" style="float: right;" class="btn btn-primary btn-sm">Далее {{test.Title}}</button>
 </div>
