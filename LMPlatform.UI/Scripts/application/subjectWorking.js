@@ -81,7 +81,14 @@
         return dataAsString;
     },
 
-    subGroupsActionHandler: function() {
+    subGroupsActionHandler: function () {
+
+    	$("#GroupId").tooltip({ title: "Выберите группу из списка", placement: 'right' });
+    	$(".bright").tooltip({ title: "Добавить выделенных студентов в подгруппу", placement: 'left' });
+    	$(".double-right").tooltip({ title: "Добавить всех студентов в подгруппу", placement: 'left' });
+    	$(".bleft").tooltip({ title: "Переместить выделенных студентов из подгруппы", placement: 'right' });
+    	$(".double-left").tooltip({ title: "Переместить всех студентов из подгруппы", placement: 'right' });
+
         $("#subGroupFirst").find("a.bright").handle("click", function () {
             var selectStudents = $("#StudentList").find("option");
             selectStudents.each(function (index, element) {

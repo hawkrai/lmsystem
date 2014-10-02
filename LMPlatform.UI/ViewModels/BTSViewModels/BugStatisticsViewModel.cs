@@ -19,7 +19,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int QuentityOfClosedBugs { get; set; }
 
-        private List<Bug> _bugs;
+        private List<Bug> _bugs = new List<Bug>();
         private List<BugStatus> _statuses;
 
         public BugStatisticsViewModel(int id)

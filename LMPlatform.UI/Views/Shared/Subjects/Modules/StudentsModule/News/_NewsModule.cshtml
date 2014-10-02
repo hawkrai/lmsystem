@@ -18,9 +18,9 @@
                         </div>
                         <div class="clear-fix"></div>
                     </accordion-heading>
-                    <div>
-                        {{data.Body}}
-                    </div>
+					<div ng-bind-html="renderHtml(data.Body)">
+
+					</div>
                 </accordion-group>
             </accordion>
         </div>

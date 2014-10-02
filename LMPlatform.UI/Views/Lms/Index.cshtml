@@ -4,7 +4,7 @@
 @model LMPlatform.UI.ViewModels.LmsViewModels.LmsViewModel
 
 @{
-    ViewBag.Title = "Система управления учебны процессом";
+    ViewBag.Title = "Система управления учебным процессом";
 }
 
 @section css
@@ -61,61 +61,66 @@
     }
 }
 <style>
-    .jqplot-table-legend-swatch {
-        width: 20px;
-        height: 15px;
-        margin-right: 5px;
-    }
+	.jqplot-table-legend-swatch {
+		width: 20px;
+		height: 15px;
+		margin-right: 5px;
+	}
 </style>
 <div style="margin: 10px">
 
-    <div style="display: inline-block">
-        <div class="col-md-12">
-            <div class="col-md-6">
-                <h4>Активность пользователей</h4>
-                <span>Показывает процентное соотношение пользователей, осуществиших свой последний вход в систему в последние сутки, от суток до недели  и тд., от общего числа пользователей</span>
-            </div>
-            <div class="col-md-6" style="border-left: 1px #dddddd solid;">
-                <h5>Всего пользователей: @Model.UserActivity.TotalUsersCount</h5>
-                <h5>Зарегистрировано студентов: @Model.UserActivity.TotalStudentsCount</h5>
-                <h5>Зарегистрировано преподавателей: @Model.UserActivity.TotalLecturersCount</h5>
-                <h5>Сервисных аккаунтов: @Model.UserActivity.ServiceAccountsCount</h5>
-            </div>
-        </div>
-        <div class="col-md-12" style="margin-top: 40px;">
-            <div id="chart1" style="width: 600px; height: 350px; display: inline-block;"></div>
-        </div>
-    </div>
+	<div style="display: inline-block">
+		<div class="col-md-12">
+			<div class="col-md-6">
+				<h4>Активность пользователей</h4>
+				<span>Показывает процентное соотношение пользователей, осуществиших свой последний вход в систему в последние сутки, от суток до недели  и тд., от общего числа пользователей</span>
+			</div>
+			<div class="col-md-6" style="border-left: 1px #dddddd solid;">
+				<h5>Всего пользователей: @Model.UserActivity.TotalUsersCount</h5>
+				<h5>Зарегистрировано студентов: @Model.UserActivity.TotalStudentsCount</h5>
+				<h5>Зарегистрировано преподавателей: @Model.UserActivity.TotalLecturersCount</h5>
+				<h5>Сервисных аккаунтов: @Model.UserActivity.ServiceAccountsCount</h5>
+			</div>
+		</div>
+		<div class="col-md-12" style="margin-top: 40px;">
+			<div id="chart1" style="width: 600px; height: 350px; display: inline-block;"></div>
+		</div>
+	</div>
 
-    <div style="display: inline-block">
-        <div class="col-md-12">
-            <div class="col-md-6">
-                <h4>Информация по предметам системы</h4>
-                <span>Показывает полное количество предметов и количество предметов связанных с текущим пользователем</span>
-            </div>
-            @if (User.IsInRole("lector"))
-            {
-                <div class="col-md-6" style="border-left: 1px #dddddd solid;">
-                    <h4>Информация по студентам</h4>
-                    <span>Показывает полное количество студентов и количество студентов обучаемых текущим пользователем</span>
-                </div>
-            }
-        </div>
-        <div class="col-md-12" style="margin-top: 40px;">
-            <div class="col-md-6">
-                <div id="chartBar" class="jqplot-target" style="height: 500px; width: 400px; position: relative;">
-                </div>
-            </div>
-            @if (User.IsInRole("lector"))
-            {
-                <div class="col-md-6">
-                    <div id="chartBarStudents" class="jqplot-target" style="height: 500px; width: 400px; position: relative;">
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
+	<div style="display: inline-block">
+		<div class="col-md-12">
+			<div class="col-md-6">
+				<h4>Информация по предметам системы</h4>
+				<span>Показывает полное количество предметов и количество предметов связанных с текущим пользователем</span>
+			</div>
+			@if (User.IsInRole("lector"))
+			{
+				<div class="col-md-6" style="border-left: 1px #dddddd solid;">
+					<h4>Информация по студентам</h4>
+					<span>Показывает полное количество студентов и количество студентов обучаемых текущим пользователем</span>
+				</div>
+			}
+		</div>
+		<div class="col-md-12" style="margin-top: 40px;">
+			<div class="col-md-6">
+				<div id="chartBar" class="jqplot-target" style="height: 500px; max-width: 400px; position: relative;">
+				</div>
+			</div>
+			@if (User.IsInRole("lector"))
+			{
+				<div class="col-md-6">
+					<div id="chartBarStudents" class="jqplot-target" style="height: 500px; max-width: 400px; position: relative;">
+					</div>
+				</div>
+			}
+		</div>
+	</div>
 </div>
+<style>
+	.jqplot-yaxis {
+		margin-right: 10px;
+	}
+</style>
         <script type="text/javascript">
             $(document).ready(function () {
 
@@ -132,7 +137,7 @@
                           renderer: jQuery.jqplot.PieRenderer,
                           rendererOptions: {
                               showDataLabels: true,
-                              sliceMargin: 5
+                              sliceMargin: -5
                           }
                       },
                       grid: {
@@ -158,12 +163,15 @@
                         rendererOptions: {
                             varyBarColor: true,
                             showDataLabels: true,
-                            barWidth: 40
+                            barWidth: 40,
                         }
                     },
                     axes:{
                         xaxis:{
                             renderer: $.jqplot.CategoryAxisRenderer
+                        },
+                        yaxis: {
+                        	tickOptions: {formatString: '%d'}
                         }
                     }
                 });
@@ -183,7 +191,7 @@
                     },
                     axes:{
                         xaxis:{
-                            renderer: $.jqplot.CategoryAxisRenderer
+                        	renderer: $.jqplot.CategoryAxisRenderer
                         }
                     }
                 });

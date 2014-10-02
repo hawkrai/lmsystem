@@ -27,20 +27,37 @@
         
         $(".deleteSubjectButton").handle("click", function () {
             var that = this;
-            bootbox.confirm("Вы действительно хотите удалить предмет?", function (isConfirmed) {
-                if (isConfirmed) {
-                    $.ajax({
-                        type: 'GET',
-                        url: $(that).attr("href"),
-                        dataType: "json",
-                        contentType: "application/json",
 
-                    }).success(function (data, status) {
-                    });
-                    dataTables.deleteRow("subjectList", $(that).attr("href"));
-                    alertify.success("Предмет удален");
-                }
+            bootbox.dialog({
+            	message: "Вы действительно хотите удалить предмет?",
+            	title: "Удаление предмета",
+            	buttons: {
+            		danger: {
+            			label: "Отмена",
+            			className: "btn-default btn-sm",
+            			callback: function () {
+
+            			}
+            		},
+            		success: {
+            			label: "Удалить",
+            			className: "btn-primary btn-sm",
+            			callback: function () {
+            				$.ajax({
+            					type: 'GET',
+            					url: $(that).attr("href"),
+            					dataType: "json",
+            					contentType: "application/json",
+
+            				}).success(function (data, status) {
+            				});
+            				dataTables.deleteRow("subjectList", $(that).attr("href"));
+            				alertify.success("Предмет удален");
+            			}
+            		}
+            	}
             });
+
             return false;
         });
         $(".editSubject").tooltip({ title: "Редактировать предмет", placement: 'left' });
