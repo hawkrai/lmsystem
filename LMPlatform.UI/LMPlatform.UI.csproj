@@ -1017,6 +1017,7 @@
     <Content Include="Services\Practicals\PracticalService.svc" />
     <Content Include="Unity.Mvc4.README.txt" />
     <Content Include="Content\KnowledgeTesting\tests.html" />
+    <Content Include="Content\testingModule.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>

@@ -1,0 +1,23 @@
+a:hover {
+    cursor: pointer;
+}
+
+.progress-notPassed {
+    background-color: gray;
+}
+
+.progress-success {
+    background-color: rgb(143, 207, 118);
+}
+
+.progress-error {
+    background-color: rgb(250, 112, 112);
+}
+
+textarea {
+    max-width: 1000px;
+}
+
+input {
+    width: auto;
+}
