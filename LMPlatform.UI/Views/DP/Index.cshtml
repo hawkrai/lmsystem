@@ -19,16 +19,13 @@
     <li ng-class="{active:isActive('/VisitStats')}" class="navLink"><a href="#/VisitStats" class="linkNavbar">Статистика посещения консультаций</a></li>
 }
 
+@section headerTitle
+{
+	<h1>{{Title}}</h1>
+}
+
+
 @section body
 {
-    <div style="padding-top: 40px">
-        <h3>{{Title}}</h3>
-        <section class="well">
-            <div style="margin: 5px">
-                <div>
-                    <div ng-view></div>
-                </div>
-            </div>
-        </section>
-    </div>
+	<div ng-view></div>
 }

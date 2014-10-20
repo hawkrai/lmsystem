@@ -49,19 +49,24 @@
    }
 			@if (User.IsInRole("lector"))
    {
-<li style="position: absolute; top: 70%"><a id="subGroups" class="linkNavbar" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-1x fa-tab"></i>Управление подгруппами</a></li>
+<li><a id="subGroups" class="linkNavbar" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-tab"></i>Управление подгруппами</a></li>
    }
-			<li style="position: absolute; top: 75%"><a class="linkNavbar" href="@Url.Action("Subjects", "Subject")"><i class="fa fa-reply fa-1x fa-tab"></i>Сменить предмет</a></li>
-			<li style="position: absolute; top: 80%"><a class="linkNavbar" href="@Url.Action("Index", "Lms")"><i class="fa fa-arrow-left fa-1x fa-tab"></i>Назад</a></li>
+			<li><a class="linkNavbar" href="@Url.Action("Subjects", "Subject")"><i class="fa fa-reply fa-tab"></i>Сменить предмет</a></li>
+			<li><a class="linkNavbar" href="@Url.Action("Index", "Lms")"><i class="fa fa-arrow-left fa-tab"></i>Назад</a></li>
 
+		}
+		
+		@section headerTitle
+		{
+			<h1>
+				@Model.SubjectName
+				<small id="nameMin"></small>
+			</h1>
 		}
 
 		<input type="hidden" ng-click="loadGroups()" id="loadGroups" />
 		<div class="conteinerModule" data-subjectid="@Model.SubjectId"></div>
-		<div class="page-header" style="margin-top: 10px; padding: 0">
-			<h3>@Model.SubjectName</h3>
-		</div>
-
+		
 		<div ng-view></div>
 	</div>
 }

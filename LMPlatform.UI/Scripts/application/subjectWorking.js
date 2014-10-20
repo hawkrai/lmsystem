@@ -15,14 +15,14 @@
         //    });
         //});
 
-        var links = $('ul.nav.navbar-nav.side-nav').find('li');
+    	var links = $('ul.sidebar-menu').find('li');
 
         $(links).first().find('a')[0].click();
         $(links).first().addClass("active");
 
         $('.navLink').handle("click", function () {
             var that = this;
-            var links = $('ul.nav.navbar-nav.side-nav').find('li');
+            var links = $('ul.sidebar-menu').find('li');
             links.each(function () {
                 $(this).removeClass("active");
             });

@@ -1,7 +1,4 @@
-﻿<h3>Результаты тестов</h3>
-<hr />
-
-<h3 data-ng-show="!groups || groups.length == 0">К предмету не подсоединено ни одной группы</h3>
+﻿<h3 data-ng-show="!groups || groups.length == 0">К предмету не подсоединено ни одной группы</h3>
 <div data-ng-repeat="group in groups" style="display: inline-table; margin-right: 10px">
     <button data-ng-click="loadResults(group.Id)" data-ng-class="{'active': group.Id == gropId }" class="btn btn-primary btn-sm" style="width: 150px;">
         {{group.Name}}
@@ -10,11 +7,10 @@
 
 
 
-<div class="input-group input-group-sm col-lg-3 col-lg-offset-9" style="padding-right: 15px">
-    <span style='display: table-cell; text-align: right'>Поиск&nbsp;</span>
-    <input data-ng-model="query" type="text" class="form-control" style="margin: 0" placeholder="Введите имя студента">
+<div class="input-group input-group-sm col-lg-3 col-lg-offset-9" style="padding-right: 15px;margin-bottom: 10px">
+    <span style='display: table-cell; text-align: right;vertical-align: middle'>Поиск&nbsp;</span>
+    <input data-ng-model="query" type="text" class="form-control" style="margin: 0;width: 180px" placeholder="Введите имя студента">
 </div>
-<div style="height: 20px"></div>
 
 <div class="table-responsive" data-ng-show="results.length > 0">
     <table class="table table-hover table-bordered table-striped">
@@ -42,5 +38,9 @@
     </table>
 </div>
 <div class="row col-md-12">
-     <div id="chartBarAverage" class="jqplot-target"></div>
+	<div id="chartBarAverage" class="jqplot-target"></div>
 </div>
+
+<script>
+	$("#headerMainPage").find("small").text("Результаты тестов");
+</script>

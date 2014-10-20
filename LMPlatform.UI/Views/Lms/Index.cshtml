@@ -4,61 +4,77 @@
 @model LMPlatform.UI.ViewModels.LmsViewModels.LmsViewModel
 
 @{
-    ViewBag.Title = "Система управления учебным процессом";
+	ViewBag.Title = "Система управления учебным процессом";
 }
 
 @section css
 {
-    @Styles.Render("~/Content/bootstrapcontrols")
+	@Styles.Render("~/Content/bootstrapcontrols")
 }
 @section scripts
 {
-    @Scripts.Render("~/bundles/bootstrapcontrols")
-    <script src="/Scripts/locales/bootstrap-datepicker.ru.js"></script>
-    <script src="~/Scripts/jqplot/jquery.jqplot.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/jqplot/jqplot.pieRenderer.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="~/Scripts/jqplot/jqplot.barRenderer.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/jqplot/jqplot.pointLabels.min.js"></script>
+	@Scripts.Render("~/bundles/bootstrapcontrols")
+	<script src="/Scripts/locales/bootstrap-datepicker.ru.js"></script>
+	<script src="~/Scripts/jqplot/jquery.jqplot.min.js" type="text/javascript"></script>
+	<script src="~/Scripts/jqplot/jqplot.pieRenderer.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.barRenderer.min.js"></script>
+	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
+	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.pointLabels.min.js"></script>
 }
 
-
+@section headerTitle{
+	<h1>
+	Система управления учебным процессом
+	<small>Главная страница</small>
+</h1>
+}
 
 @section navleft
 {
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x fa-tab"></i>Предметы <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            @foreach (var subject in Model.Subjects)
-            {
-                <li><a title="@subject.DisplayName" href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" class="linkNavbarLevelBelow">@subject.DisplayName.Truncate(30)</a></li>
-            }
-            <li class="divider"></li>
-            @if (User.IsInRole("lector"))
-            {
-                <li><a href="@Url.Action("Management", "Subject")" class="linkNavbarLevelBelow">Управление предметами</a></li>
-            }
-        </ul>
-    </li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle linkNavbar" data-toggle="dropdown"><i class="fa fa-folder-open-o fa-1x fa-tab"></i>Тестирование знаний<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            @foreach (var subject in Model.Subjects)
-            {
-                var url = User.IsInRole("lector")
-                    ? Url.Action("KnowledgeTesting", "Tests", new { subjectId = subject.SubjectId })
-                    : Url.Action("StudentsTesting", "TestPassing", new { subjectId = subject.SubjectId });
 
-                <li><a href="@url" class="linkNavbarLevelBelow">@subject.DisplayName</a></li>
-            }
-        </ul>
-    </li>
-    <li><a href="@Url.Action("Index", "BTS")" class="linkNavbar"><i class="fa fa-desktop fa-1x fa-tab"></i>Управление проектами</a></li>
-    <li><a href="#" class="linkNavbar"><i class="fa fa-book fa-1x fa-tab"></i>Методические материалы</a></li>
-    @if (ViewBag.IsLecturerHasGraduateStudents)
-    {
-        <li><a href="@Url.Action("Index", "DP")" class="linkNavbar"><i class="fa fa-briefcase fa-1x fa-tab"></i>Дипломное проектирование</a></li>
-    }
+	<li class="treeview">
+		<a href="#">
+			<i class="fa fa-folder-open-o fa-tab"></i>
+			<span>Предметы</span>
+			<i class="fa fa-angle-left pull-right"></i>
+		</a>
+		<ul class="treeview-menu">
+			@foreach (var subject in Model.Subjects)
+			{
+				<li><a title="@subject.DisplayName" href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName.Truncate(30)</a></li>
+			}
+			<li class="divider"></li>
+			@if (User.IsInRole("lector"))
+			{
+				<li><a href="@Url.Action("Management", "Subject")" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> Управление предметами</a></li>
+			}
+		</ul>
+	</li>
+
+	<li class="treeview">
+		<a href="#">
+			<i class="fa fa-folder-open-o fa-tab"></i>
+			<span>Тестирование знаний</span>
+			<i class="fa fa-angle-left pull-right"></i>
+		</a>
+		<ul class="treeview-menu">
+			@foreach (var subject in Model.Subjects)
+			{
+				var url = User.IsInRole("lector")
+					? Url.Action("KnowledgeTesting", "Tests", new { subjectId = subject.SubjectId })
+					: Url.Action("StudentsTesting", "TestPassing", new { subjectId = subject.SubjectId });
+
+				<li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
+			}
+		</ul>
+	</li>
+
+	<li><a href="@Url.Action("Index", "BTS")" class="linkNavbar"><i class="fa fa-desktop fa-tab"></i>Управление проектами</a></li>
+	<li><a href="#" class="linkNavbar"><i class="fa fa-book fa-tab"></i>Методические материалы</a></li>
+	@if (ViewBag.IsLecturerHasGraduateStudents)
+	{
+		<li><a href="@Url.Action("Index", "DP")" class="linkNavbar"><i class="fa fa-briefcase fa-tab"></i>Дипломное проектирование</a></li>
+	}
 }
 <style>
 	.jqplot-table-legend-swatch {
@@ -67,7 +83,7 @@
 		margin-right: 5px;
 	}
 </style>
-<div style="margin: 10px">
+@*<div style="margin: 10px">
 
 	<div style="display: inline-block">
 		<div class="col-md-12">
@@ -121,81 +137,81 @@
 		margin-right: 10px;
 	}
 </style>
-        <script type="text/javascript">
-            $(document).ready(function () {
+<script type="text/javascript">
+	$(document).ready(function () {
 
-                var data = @Html.Raw(Model.UserActivity.UserActivityJson);
+		var data = @Html.Raw(Model.UserActivity.UserActivityJson);
 
-                var line = [];
-                for (var propName in data) {
-                    line.push([propName, data[propName]]);
-                }
+		var line = [];
+		for (var propName in data) {
+			line.push([propName, data[propName]]);
+		}
 
-                var plot1 = jQuery.jqplot('chart1', [line],
-                  {
-                      seriesDefaults: {
-                          renderer: jQuery.jqplot.PieRenderer,
-                          rendererOptions: {
-                              showDataLabels: true,
-                              sliceMargin: -5
-                          }
-                      },
-                      grid: {
-                          drawGridLines: true,        // wether to draw lines across the grid or not.
-                          gridLineColor: '#cccccc',    // *Color of the grid lines.
-                          background: '#fafafa',      // CSS color spec for background color of grid.
-                          borderWidth: 0,           // pixel width of border around grid.
-                          shadow: false,               // draw a shadow for grid.
-                          renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
-                          rendererOptions: {}         // options to pass to the renderer.  Note, the default
-                      },
-                      legend: { show: true, location: 'e' }
-                  }
-                );
+		var plot1 = jQuery.jqplot('chart1', [line],
+		  {
+		  	seriesDefaults: {
+		  		renderer: jQuery.jqplot.PieRenderer,
+		  		rendererOptions: {
+		  			showDataLabels: true,
+		  			sliceMargin: -5
+		  		}
+		  	},
+		  	grid: {
+		  		drawGridLines: true,        // wether to draw lines across the grid or not.
+		  		gridLineColor: '#cccccc',    // *Color of the grid lines.
+		  		background: '#fafafa',      // CSS color spec for background color of grid.
+		  		borderWidth: 0,           // pixel width of border around grid.
+		  		shadow: false,               // draw a shadow for grid.
+		  		renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
+		  		rendererOptions: {}         // options to pass to the renderer.  Note, the default
+		  	},
+		  	legend: { show: true, location: 'e' }
+		  }
+		);
 
-                var lineSubject = [['Всего предметов', @Model.TotalSubject],['Мои предметы', @Model.CurrentSubjects]];
+		var lineSubject = [['Всего предметов', @Model.TotalSubject],['Мои предметы', @Model.CurrentSubjects]];
 
-                var plotBar = $('#chartBar').jqplot([lineSubject], {
-                    title:'Предметы',
-                    seriesColors:['#007196', '#008cba'],
-                    seriesDefaults:{
-                        renderer:jQuery.jqplot.BarRenderer,
-                        rendererOptions: {
-                            varyBarColor: true,
-                            showDataLabels: true,
-                            barWidth: 40,
-                        }
-                    },
-                    axes:{
-                        xaxis:{
-                            renderer: $.jqplot.CategoryAxisRenderer
-                        },
-                        yaxis: {
-                        	tickOptions: {formatString: '%d'}
-                        }
-                    }
-                });
+		var plotBar = $('#chartBar').jqplot([lineSubject], {
+			title:'Предметы',
+			seriesColors:['#007196', '#008cba'],
+			seriesDefaults:{
+				renderer:jQuery.jqplot.BarRenderer,
+				rendererOptions: {
+					varyBarColor: true,
+					showDataLabels: true,
+					barWidth: 40,
+				}
+			},
+			axes:{
+				xaxis:{
+					renderer: $.jqplot.CategoryAxisRenderer
+				},
+				yaxis: {
+					tickOptions: {formatString: '%d'}
+				}
+			}
+		});
 
-                var lineStudents = [['Всего студентов', @Model.TotalStudents],['Мои студенты', @Model.CurrentStudents]];
+		var lineStudents = [['Всего студентов', @Model.TotalStudents],['Мои студенты', @Model.CurrentStudents]];
 
-                var plotBarStudents = $('#chartBarStudents').jqplot([lineStudents], {
-                    title:'Студенты',
-                    seriesColors:['#007196', '#008cba'],
-                    seriesDefaults:{
-                        renderer:jQuery.jqplot.BarRenderer,
-                        rendererOptions: {
-                            varyBarColor: true,
-                            showDataLabels: true,
-                            barWidth: 40
-                        }
-                    },
-                    axes:{
-                        xaxis:{
-                        	renderer: $.jqplot.CategoryAxisRenderer
-                        }
-                    }
-                });
-            });
-        </script>
+		var plotBarStudents = $('#chartBarStudents').jqplot([lineStudents], {
+			title:'Студенты',
+			seriesColors:['#007196', '#008cba'],
+			seriesDefaults:{
+				renderer:jQuery.jqplot.BarRenderer,
+				rendererOptions: {
+					varyBarColor: true,
+					showDataLabels: true,
+					barWidth: 40
+				}
+			},
+			axes:{
+				xaxis:{
+					renderer: $.jqplot.CategoryAxisRenderer
+				}
+			}
+		});
+	});
+</script>*@
 
-    
+

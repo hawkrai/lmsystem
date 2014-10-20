@@ -22,8 +22,11 @@
     @Html.Partial("_BTSSubnavbar")
 }
 
-<h3>Проекты</h3>
-<hr />
+@section headerTitle
+{
+	<h1>Проекты</h1>
+}
+
 @if (User.IsInRole("lector"))
 {
     <div>

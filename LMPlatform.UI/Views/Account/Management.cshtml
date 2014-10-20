@@ -1,6 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Личный кабинет";
-    Layout = "~/Views/Shared/Layouts/_PreMainLayout.cshtml";
+	ViewBag.Title = "Личный кабинет";
+	Layout = "~/Views/Shared/Layouts/_MainUsingNavLayout.cshtml";
 }
 
 @section scripts
@@ -8,10 +8,15 @@
     @Scripts.Render("~/bundle/accountManagement")
 }
 
+@section headerTitle
+{
+	<h1>Личный кабинет пользователя</h1>
+}
+
 @section navleft
 {
-    <li id="personalData"><a href="#" style="font-size: 16px"><i class="fa fa-male fa-1x"></i> Персональные данные</a></li>
-    <li><a href="@Url.Action("Index", "Lms")" style="font-size: 16px"><i class="fa fa-reply fa-1x"></i> Главное меню</a></li>
+    <li id="personalData"><a href="#" style="font-size: 16px"><i class="fa fa-male"></i> Персональные данные</a></li>
+    <li><a href="@Url.Action("Index", "Lms")" style="font-size: 16px"><i class="fa fa-reply"></i> Главное меню</a></li>
 }
 
 <div id="privateData">

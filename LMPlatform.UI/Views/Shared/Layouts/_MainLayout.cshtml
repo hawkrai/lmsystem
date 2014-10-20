@@ -11,18 +11,18 @@
     @RenderSection("scripts", false)
 }
 
+@section headerTitle{
+	@RenderSection("headerTitle", false)
+}
+
 @section navleft{
     @RenderSection("navleft", false)
 }
 
 @section body
 {
-    <div style="padding-top: 40px">
-        <section class="well" style="margin-top: 30px"> 
-            <div style="margin: 5px">
-                @RenderBody()
-            </div>
-        </section>
+    <div>
+        @RenderBody()
     </div>
 }
 

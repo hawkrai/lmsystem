@@ -48,26 +48,26 @@
 
 @section navleft
 {
-    <div class="nav navbar-nav side-nav" data-ng-controller="testsNavigationCtrl">
-        <li class="linkNavbar" data-ng-class="{'active':isActive('/tests')}"><a href="#/tests"><i class="fa fa-pencil-square-o fa-1x"></i>&nbsp; Тесты</a></li>
-        <li class="linkNavbar" data-ng-class="{'active':isActive('/control')}"><a href="#/control"><i class="fa fa-eye fa-1x"></i>&nbsp; Контроль прохождения тестов</a></li>
-        <li class="linkNavbar" data-ng-class="{'active':isActive('/results')}"><a href="#/results"><i class="fa fa-tasks fa-1x"></i>&nbsp; Результаты</a></li>
-         @*<li class="linkNavbar"><a href="@Url.Action("Index", "Tests", new {subjectId = Model.Id})"><i class="fa fa-1x fa-reply fa-tab"></i>&nbsp;К старой системе</a></li>*@
-        <li class="linkNavbar"><a href="@Url.Action("Index", "Lms")"><i class="fa fa-1x fa-reply fa-tab"></i>&nbsp;В главное меню</a></li>
-    </div>
+	
+		<li data-ng-controller="testsNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/tests')}"><a href="#/tests"><i class="fa fa-pencil-square-o"></i>&nbsp; Тесты</a></li>
+		<li data-ng-controller="testsNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/control')}"><a href="#/control"><i class="fa fa-eye"></i>&nbsp; Контроль прохождения тестов</a></li>
+		<li data-ng-controller="testsNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/results')}"><a href="#/results"><i class="fa fa-tasks"></i>&nbsp; Результаты</a></li>
+	@*<li class="linkNavbar"><a href="@Url.Action("Index", "Tests", new {subjectId = Model.Id})"><i class="fa fa-1x fa-reply fa-tab"></i>&nbsp;К старой системе</a></li>*@
+		<li data-ng-controller="testsNavigationCtrl" class="linkNavbar"><a href="@Url.Action("Index", "Lms")"><i class="fa fa-reply fa-tab"></i>&nbsp;В главное меню</a></li>
 }
 
 @section bodyAttributes{ ng-app="knowledgeTestingApp" }
 
+@section headerTitle
+{
+	<h1>@Model.Name
+		<small></small>
+	</h1>
+	
+}
+
 @section body
 {
-    <div style="padding-top: 70px">
-        <section id="body" class="well">
-            <div style="margin: 5px;">
-                <h4 align="right" style="color: #007196">@Model.Name</h4>
-                <div data-ng-view=""></div>
-            </div>
-        </section>
-    </div>
+	<div data-ng-view=""></div>
 }
 

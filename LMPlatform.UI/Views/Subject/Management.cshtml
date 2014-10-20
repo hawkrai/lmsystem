@@ -2,7 +2,7 @@
 @using LMPlatform.UI.Controllers
 @{
     ViewBag.Title = "Управление предметами";
-    Layout = "~/Views/Shared/Layouts/_MainUsingNavLectorLayout.cshtml";
+    Layout = "~/Views/Shared/Layouts/_MainUsingNavLayout.cshtml";
 }
 
 @section scripts{
@@ -10,9 +10,14 @@
     @Scripts.Render("~/bundle/subjectManagement")
 }
 
+@section headerTitle
+{
+	<h1>Управление предметами</h1>
+}
+
 @section navleft
 {
-    <li><a href="@Url.Action("Index","Lms")" class="linkNavbar"><i class="fa fa-arrow-left fa-1x"></i> Назад</a></li>
+    <li><a href="@Url.Action("Index","Lms")" class="linkNavbar"><i class="fa fa-arrow-left"></i> Назад</a></li>
 }
 <style>
     #subjectList th:first-child {
@@ -34,29 +39,37 @@
         text-align: left;
     }
 </style>
-<div style="margin: 20px">
-    
-    <div class="page-header" style="margin-top: 10px; padding: 0"><h3>Управление предметами</h3></div>
-
-    <div id="buttonActionSection">
-        <a href="@Url.Action("Create", "Subject")" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить предмет</a>
-    </div>
-    <div>
-        @Html.Partial("_DataTable", new DataTableViewModel
-                                        {
-                                            DataTable = Html.DataTable("subjectList", (SubjectController controller) => controller.GetSubjects(null)),
-                                            DataTableOptions = new DataTableOptions
-                                                                   {
-                                                                       Filterable = true,
-                                                                       Info = true,
-                                                                       OnComplete = "subjectManagement.subjectEditItemActionHandler",
-                                                                       Pagination = true,
-                                                                       Searchable = true,
-                                                                       Sortable = false,
-                
-                                                                   }
-                                        })    
-    </div>
-    
+<div ng-app="SubjectApp" ng-controller="ManagementController" ng-init="init()">
+	
+	<div id="buttonActionSection" style="margin-bottom: 15px">
+		<a href="@Url.Action("Create", "Subject")" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить предмет</a>
+	</div>
+	
+	<table class="table table-bordered table-responsive">
+		<thead>
+			<tr>
+				<th>Название предмета</th>
+				<th>Аббревиатура</th>
+				<th>Действие</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeats="data in subjects">
+				<td>
+					<a href="@Url.Action("Index", "Subject")?subjectId={{data.subjectId}}">{{data.Name}}</a>"	
+				</td>
+				<td>
+					{{data.ShortName}}
+				</td>
+				<td>
+					<div style="text-align: center; width: 90px;">
+						<a class="editSubjectAction" style="margin-right: 10px" href="@Url.Action("EditSubject", "Subject")?id={{data.subjectId}}"><i class="editSubject fa fa-edit fa-2x"></i></a>
+						<a class="deleteSubjectButton" href="@Url.Action("DeleteSubject", "Subject")?id={{data.subjectId}}"><i class="deleteSubject fa fa-trash-o fa-2x"></i></a>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
+
 

@@ -1,99 +1,211 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>@ViewBag.Title LMP разработка</title>
-    <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="/Content/datatable-bootstrap.css">
-    @*<link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>*@
-    @*<link href='http://fonts.googleapis.com/css?family=Englebert' rel='stylesheet' type='text/css'>*@
-    <link href='http://fonts.googleapis.com/css?family=Lobster&subset=cyrillic-ext,latin' rel='stylesheet' type='text/css'>
-    @Styles.Render("~/Content/bootstrap")
-    @Styles.Render("~/Content/bootstrapcontrols")
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/angular")
-    @RenderSection("css", false)
+	<meta charset="utf-8" />
+	<title>@ViewBag.Title LMP разработка</title>
+	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+	<link rel="stylesheet" href="/Content/datatable-bootstrap.css">
+	@Styles.Render("~/Content/bootstrap")
+	@Styles.Render("~/Content/bootstrapcontrols")
+	@*@Styles.Render("~/Content/css")*@
+	@Styles.Render("~/Content/angular")
+	@RenderSection("css", false)
 
-    @Scripts.Render("~/bundles/modernizr")
+	@Scripts.Render("~/bundles/modernizr")
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/shared")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/bootstrapcontrols")
-    @Scripts.Render("~/bundles/angular")
-    @Scripts.Render("~/bundles/ajaxChosen")
-    
-    <script src="~/Scripts/application/Messages/message.js"></script>
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jqueryui")
+	@Scripts.Render("~/bundles/shared")
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/bootstrapcontrols")
+	@Scripts.Render("~/bundles/angular")
+	@Scripts.Render("~/bundles/ajaxChosen")
 
-    @RenderSection("headScripts", false)
+	<script src="~/Scripts/application/Messages/message.js"></script>
+
+	@*temp section*@
+	<link href="/Content/Site.css" rel="stylesheet" type="text/css"/>
+	<link href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+	<link href="/Content/font-awesome/font-awesome.css" rel="stylesheet" type="text/css" />
+	<!-- jvectormap -->
+	<link href="/Templates/css/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+	<!-- Date Picker -->
+	<link href="/Templates/css/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
+	<!-- Daterange picker -->
+	<link href="/Templates/css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+	<!-- bootstrap wysihtml5 - text editor -->
+	<link href="/Templates/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+	<link href="/Templates/AdminLTE.css" rel="stylesheet" type="text/css" />
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+	<!-- Sparkline -->
+	<script src="/Templates/js/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
+	<!-- jvectormap -->
+	<script src="/Templates/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
+	<script src="/Templates/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
+	<!-- jQuery Knob Chart -->
+	<script src="/Templates/js/plugins/jqueryKnob/jquery.knob.js" type="text/javascript"></script>
+	<!-- daterangepicker -->
+	<script src="/Templates/js/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+	<!-- datepicker -->
+	<script src="/Templates/js/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+	<!-- Bootstrap WYSIHTML5 -->
+	<script src="/Templates/js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+	<!-- iCheck -->
+	<script src="/Templates/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+	<!-- AdminLTE App -->
+	<script src="/Templates/js/AdminLTE/app.js" type="text/javascript"></script>
+	<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+	<script src="/Templates/js/AdminLTE/dashboard.js" type="text/javascript"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="/Templates/js/AdminLTE/demo.js" type="text/javascript"></script>
+	@*end section temp*@
+
+	@RenderSection("headScripts", false)
 </head>
-<body ng-app="@ViewBag.NgApp" ng-controller="@ViewBag.NgController" @RenderSection("bodyAttributes", false)>
+<body ng-app="@ViewBag.NgApp" ng-controller="@ViewBag.NgController" @RenderSection("bodyAttributes", false) class="skin-blue fixed">
 
-    <div style="padding-left: 300px;">
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="@Url.Action("Index", "Lms")" class="navbar-brand"><i class="fa fa-home"></i><b>(LMS).Platform</b></a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav side-nav">
-                    @RenderSection("navleft", false)
-                </ul>
-                <ul class="nav navbar-nav navbar-right" style="margin-top: 5px">
-                    <li>
-                        <a href="@Url.Action("Index", "Message")"><i class="fa fa-envelope"></i>  Сообщения <span class="badge">@Html.Action("MessagesCount", "Message")</span></a>
-                    </li>
-                    @Html.Partial("_LoginPartial")
-                </ul>
-            </div>
-        </nav>
 
-        @RenderSection("featured", required: false)
-        @RenderSection("specificScripts", required: false)
-        <div style="padding: 15px 30px">
-            @RenderSection("scripts", false)
-            @RenderSection("body", false)
-            <div id="infoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog panel panel-primary" style="padding: 0px">
-                    <div class="panel-heading">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title"><i class="fa fa-1x fa-info-circle"></i> О програме</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div style="text-align: center">
-                            <h2>Система управления учебным процессом v2.0</h2>
-                        </div>
-                        <div style="text-align: left ;margin-top: 70px; font-size: 11px; margin-bottom: -40px;">
-                            <p>Разработчики: <b>Яцынович С.В., Колосовский К.А., Завистовская Е.С., Барковская О.А., Тарасюк П.В.</b></p>
-                            <p>Руководитель: <b>Попова Ю.Б.</b></p>
-                            <p>БНТУ, ФИТР, ПОВТ и АС </p>
-                            <p>© 2013 - @DateTime.Now.Date.Year.ToString()</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">ОК</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer>
-        <div class="content-wrapper">
-            <div style="padding-left: 300px;">
-                <div class="page-header">
-                </div>
-                <p style="margin: 5px">&copy; @DateTime.Now.Year - LMP разработка</p>
-            </div>
-        </div>
-    </footer>
+	<header class="header">
+		<a href="@Url.Action("Index", "Lms")" class="logo">
+			(LMS).Platform
+		</a>
+		<nav class="navbar navbar-static-top" role="navigation">
+			<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<div class="navbar-right">
+				<ul class="nav navbar-nav">
+					<li class="dropdown messages-menu">
+						<a href="@Url.Action("Index", "Message" )">
+							<i class="fa fa-envelope"></i>
+							<span class="label label-success">@Html.Action("MessagesCount", "Message")</span>
+						</a>
+					</li>
+					<li class="dropdown notifications-menu">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-warning"></i>
+							<span class="label label-warning">10</span>
+						</a>
+					</li>
+					<li class="dropdown tasks-menu">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-tasks"></i>
+							<span class="label label-danger">9</span>
+						</a>
+					</li>
+					<li class="dropdown user user-menu">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="glyphicon glyphicon-user"></i>
+							<span>@User.Identity.Name <i class="caret"></i></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="user-header bg-light-blue">
+								<img src="/Templates/img/avatar3.png" class="img-circle" alt="User Image" />
+								<p>
+									@User.Identity.Name
+								</p>
+								@if (User.IsInRole("student"))
+								{
+									<p>Студент</p>
+								}
+								else
+								{
+									<p>Преподаватель</p>
+								}
+							</li>
 
-    @Scripts.Render("~/bundles/bootbox")
+							<!-- Menu Footer-->
+							<li class="user-footer">
+								<div class="pull-left">
+									<a href="/Account/Management" class="btn btn-default btn-flat">Профиль</a>
+								</div>
+								<div class="pull-right">
+									<a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default btn-flat">Выйти</a>
+								</div>
+								@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+								{
+									@Html.AntiForgeryToken()
+
+								}
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	@RenderSection("featured", required: false)
+	@RenderSection("specificScripts", required: false)
+	<div class="wrapper row-offcanvas row-offcanvas-left">
+		<aside class="left-side sidebar-offcanvas">
+			<!-- sidebar: style can be found in sidebar.less -->
+			<section class="sidebar">
+				<div class="user-panel">
+					<div class="pull-left image">
+						<img src="/Templates/img/avatar3.png" class="img-circle" alt="User Image" />
+					</div>
+					<div class="pull-left info">
+						<p>@User.Identity.Name</p>
+						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+					</div>
+				</div>
+				<form action="#" method="get" class="sidebar-form">
+					<div class="input-group">
+						<input type="text" name="q" class="form-control" placeholder="Поиск..." />
+						<span class="input-group-btn">
+							<button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+						</span>
+					</div>
+				</form>
+				<!-- /.search form -->
+				<!-- sidebar menu: : style can be found in sidebar.less -->
+				<ul class="sidebar-menu">
+					@RenderSection("navleft", false)
+				</ul>
+			</section>
+			<!-- /.sidebar -->
+		</aside>
+		<aside class="right-side">
+			<section class="content-header" id="headerMainPage">
+				@RenderSection("headerTitle", false)
+			</section>
+			<section class="content">
+				@RenderSection("scripts", false)
+				@RenderSection("body", false)
+			</section>
+		</aside>
+	</div>
+
+
+	<div id="infoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><i class="fa fa-1x fa-info-circle"></i> О програме</h4>
+			</div>
+			<div class="modal-body">
+				<div style="text-align: center">
+					<h2>Система управления учебным процессом v2.0</h2>
+				</div>
+				<div style="text-align: left ;margin-top: 70px; font-size: 11px; margin-bottom: -40px;">
+					<p>Разработчики: <b>Яцынович С.В., Колосовский К.А., Завистовская Е.С., Барковская О.А., Тарасюк П.В.</b></p>
+					<p>Руководитель: <b>Попова Ю.Б.</b></p>
+					<p>БНТУ, ФИТР, ПОВТ и АС </p>
+					<p>© 2013 - @DateTime.Now.Date.Year.ToString()</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">ОК</a>
+			</div>
+		</div>
+	</div>
+
+	@Scripts.Render("~/bundles/bootbox")
 </body>
+
 </html>

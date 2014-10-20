@@ -23,9 +23,10 @@
     @Html.Partial("_BTSSubnavbar")
 }
 
-<h3>Управление ошибками
-</h3>
-<hr />
+@section headerTitle
+{
+	<h1>Управление ошибками</h1>
+}
 <div>
     @if (Model.CurrentProjectId != 0)
     {

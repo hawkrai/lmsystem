@@ -1,4 +1,4 @@
-﻿html, body {
+﻿/*html, body {
     width: 100%;
     background-color: #f4f5f7;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF9FAFB', endColorstr='#FFEDEFF3', GradientType=0);
@@ -14,7 +14,7 @@ mark {
     background-color: #a6dbed;
     padding-left: 5px;
     padding-right: 5px;
-}
+}*/
 
 .float-left {
     float: left;
@@ -33,7 +33,7 @@ mark {
     visibility: hidden;
 }
 
-footer {
+/*footer {
     width: 100%;
     position: fixed;
     bottom: 0;
@@ -43,7 +43,7 @@ footer {
 
 h1 {
     font-size: 35px;
-}
+}*/
 
 .fa-tab {
     margin-right: 10px;
@@ -162,7 +162,7 @@ h1 {
 
 /* Side Nav */
 
-.side-nav {
+/*.side-nav {
     margin-left: -225px;
     left: 225px;
     position: fixed;
@@ -199,7 +199,7 @@ h1 {
     .side-nav > li.dropdown > ul.dropdown-menu > li > a {
         color: #e3e6e5;
         padding: 15px 15px 15px 25px;
-    }
+    }*/
 
 fileUpload {
     position: relative;
@@ -688,9 +688,9 @@ legend.scheduler-border {
 }
 
 
-body {
+/*body {
     padding: 10px !important;
-}
+}*/
 
 .loading-container {
     position: relative;

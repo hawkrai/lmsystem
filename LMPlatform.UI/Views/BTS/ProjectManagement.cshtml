@@ -36,10 +36,13 @@
     @Html.Partial("_BTSSubnavbar")
 }
 
-<h3>
-    @Model.Title
-</h3>
-<hr />
+@section headerTitle
+{
+	<h1>
+		@Model.Title	
+	</h1>
+}
+
 <div class="row">
     <div class="col-md-8" style="padding-right: 40px">
         <div class="row">
