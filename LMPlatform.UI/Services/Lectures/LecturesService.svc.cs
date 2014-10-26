@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using Application.Core.Data;
 using Application.Infrastructure.GroupManagement;
+using LMPlatform.UI.Services.Modules.CoreModels;
 
 namespace LMPlatform.UI.Services.Lectures
 {
@@ -220,17 +221,28 @@ namespace LMPlatform.UI.Services.Lectures
             }
         }
 
-        public ResultViewData SaveMarksCalendarData(string dateId, List<StudentMarkForDateViewData> marks)
+        public ResultViewData SaveMarksCalendarData(List<LecturesMarkVisitingViewData> lecturesMarks)
         {
             try
             {
-                SubjectManagementService.SaveMarksCalendarData(marks.Select(e => new LecturesVisitMark
+                foreach (var student in lecturesMarks)
+                {
+                    SubjectManagementService.SaveMarksCalendarData(student.Marks.Select(e => new LecturesVisitMark
                                                                                      {
                                                                                          Id = e.MarkId,
                                                                                          Mark = e.Mark,
-                                                                                         LecturesScheduleVisitingId = int.Parse(dateId),
-                                                                                         StudentId = e.StudentId
-                                                                                     }).ToList());
+                                                                                         LecturesScheduleVisitingId = e.LecuresVisitId,
+                                                                                         StudentId = student.StudentId
+                                                                                     }).ToList());   
+                }
+
+                //SubjectManagementService.SaveMarksCalendarData(students.Select(e => new LecturesVisitMark
+                //                                                                     {
+                //                                                                         Id = e.MarkId,
+                //                                                                         Mark = e.Mark,
+                //                                                                         LecturesScheduleVisitingId = int.Parse(dateId),
+                //                                                                         StudentId = e.StudentId
+                //                                                                     }).ToList());
                 return new ResultViewData()
                 {
                     Message = "Данные успешно добавлены",

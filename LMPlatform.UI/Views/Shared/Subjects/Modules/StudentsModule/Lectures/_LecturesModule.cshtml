@@ -4,6 +4,15 @@
         .nav, .pagination, .carousel, .panel-title a {
             cursor: pointer;
         }
+
+         .box_rotate {
+            
+     -moz-transform: rotate(90deg);  /* FF3.5+ */
+       -o-transform: rotate(90deg);  /* Opera 10.5 */
+  -webkit-transform: rotate(90deg);  /* Saf3.1+, Chrome */
+             filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
+         -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
+}
     </style>
 
     <tabset>
@@ -20,7 +29,7 @@
                     </thead>
                     <tr ng-repeat="data in lectures">
                         <td style="width: 20px">{{data.Order}}</td>
-                        <td>{{data.Theme}}</td>
+                        <td style="max-width: 400px;word-wrap: break-word;">{{data.Theme}}</td>
                         <td>{{data.Duration}}</td>
                         <td style="width: 90px;">
                             <div class="btn-group pull-right">
@@ -50,17 +59,17 @@
                 </table>
             </div>    
             <div>
-                <div style="max-width: 1200px; overflow-x: auto;">
-                    <table class="table table-bordered table-striped" style=" font-size: 10px">
+                <div style="overflow-x: auto;">
+                    <table class="table table-bordered table-striped">
                         <thead>
-                            <tr>
-                                <th>№</th>
-                                <th>Студент</th>
-                                <th ng-repeat="data in lecturesCalendar">
-                                    <div style="cursor: pointer" ng-click="editMarks(data)">{{data.Date}}</div>
-                                </th>
-                            </tr>
-                        </thead>
+                                 <tr>
+                                     <th style="text-align: center;vertical-align: middle">№</th>
+                                     <th style="text-align: center;vertical-align: middle">Студент</th>
+                                     <th ng-repeat="data in lecturesCalendar" style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;">
+                                         <div class="box_rotate">{{data.Date}}</div>
+                                     </th>
+                                 </tr>
+                             </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedGroup.LecturesMarkVisiting">
                             <td style="width: 42px">{{$index + 1}}</td>
                             <td style="max-width: 200px">{{student.StudentName}}</td>

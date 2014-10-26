@@ -47,9 +47,9 @@
         {% } else if (o.files.valid && !i) { %}
             
             <td>{% if (!o.options.autoUpload) { %}
-                <a style="margin-right: 10px" class="start"><i class="fa fa-upload fa-2x"></i></a>
+                <a style="margin-right: 10px" data-toggle="tooltip" data-placement="right" title="Загрузить файл" class="start"><i class="fa fa-upload fa-2x"></i></a>
 {% if (!i) { %}
-         <a style="margin-right: 10px" class="cancel"><i class="fa fa-times fa-2x"></i></a>
+         <a style="margin-right: 10px" class="cancel"><i class="fa fa-times fa-2x data-toggle="tooltip" data-placement="right" title="Удалить файл"></i></a>
         {% } %}
             {% } %}</td>
         {% } else { %}
@@ -86,7 +86,7 @@
             <td colspan="2"></td>
         {% } %}
         <td style="text-align:right;">
-    <a style="margin-right: 10px" class="delete" data-type="{%=file.DeleteType%}" data-url="{%=file.DeleteUrl%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}><i class="fa fa-times fa-2x"></i></a>
+    <a style="margin-right: 10px" class="delete" data-type="{%=file.DeleteType%}" data-url="{%=file.DeleteUrl%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}><i class="fa fa-times fa-2x" data-toggle="tooltip" data-placement="right" title="Удалить файл"></i></a>
         </td>
     </tr>
 {% } %}

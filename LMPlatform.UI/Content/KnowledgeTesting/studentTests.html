@@ -1,6 +1,4 @@
-﻿<h3>Доступные тесты</h3>
-<hr />
-
+﻿
 <div class="row" data-ng-init="init()">    
     <div class="input-group input-group-sm" style="padding-right: 15px; float: right">
         <span style='display: table-cell; text-align: right'>Поиск&nbsp;</span>
@@ -26,9 +24,14 @@
             <td>{{test.Description}}</td>
             <td style="width: 20px;">
                 <div>
-                    <a data-toggle="tooltip" data-tooltip="Пройти тест" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-2x"></i></a>
+                    <a data-toggle="tooltip" data-tooltip="Пройти тест" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
                 </div>
             </td>
         </tr>
     </table>
 </div>
+
+<script>
+    $("#headerMainPage").find("small").text("Доступные тесты");
+</script>
+

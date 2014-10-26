@@ -41,7 +41,7 @@
 		<ul class="treeview-menu">
 			@foreach (var subject in Model.Subjects)
 			{
-				<li><a title="@subject.DisplayName" href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName.Truncate(30)</a></li>
+				<li><a title="@subject.DisplayName" href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
 			}
 			<li class="divider"></li>
 			@if (User.IsInRole("lector"))

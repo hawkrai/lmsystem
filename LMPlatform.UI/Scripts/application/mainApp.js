@@ -618,15 +618,12 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
         };
 
-        $scope.saveMarks = function () {
+        $scope.saveVisitingMark = function () {
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLectures + "SaveMarksCalendarData",
                 data: {
-                    dateId: $scope.editMarks.DateId,
-                    subjectId: $scope.subjectId,
-                    groupId: $scope.groupWorkingData.selectedGroup.groupId,
-                    marks: $scope.editMarks.StudentMarkForDate
+                    lecturesMarks: $scope.groupWorkingData.selectedGroup.LecturesMarkVisiting
                 },
                 headers: { 'Content-Type': 'application/json' }
             }).success(function (data, status) {
@@ -635,10 +632,31 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 } else {
                     alertify.success(data.Message);
                     $scope.loadGroups();
-                    $('#dialogEditMarks').modal('hide');
                 }
             });
         };
+
+        //$scope.saveMarks = function () {
+        //    $http({
+        //        method: 'POST',
+        //        url: $scope.UrlServiceLectures + "SaveMarksCalendarData",
+        //        data: {
+        //            dateId: $scope.editMarks.DateId,
+        //            subjectId: $scope.subjectId,
+        //            groupId: $scope.groupWorkingData.selectedGroup.groupId,
+        //            marks: $scope.editMarks.StudentMarkForDate
+        //        },
+        //        headers: { 'Content-Type': 'application/json' }
+        //    }).success(function (data, status) {
+        //        if (data.Code != '200') {
+        //            alertify.error(data.Message);
+        //        } else {
+        //            alertify.success(data.Message);
+        //            $scope.loadGroups();
+        //            $('#dialogEditMarks').modal('hide');
+        //        }
+        //    });
+        //};
 
         $scope.editMarks = function (calendar) {
             var id = $scope.groupWorkingData.selectedGroup.GroupId;

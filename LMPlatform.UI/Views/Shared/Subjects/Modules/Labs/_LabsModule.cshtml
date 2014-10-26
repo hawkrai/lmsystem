@@ -39,7 +39,7 @@
                     </thead>
                     <tr ng-repeat="data in labs">
                         <td style="width: 20px">{{data.Order}}</td>
-                        <td>{{data.Theme}}</td>
+                        <td style="max-width: 400px;word-wrap: break-word;">{{data.Theme}}</td>
                         <td>{{data.ShortName}}</td>
                         <td>{{data.Duration}}</td>
                         <td style="width: 90px;">
@@ -194,7 +194,7 @@
                 </form>
             </div>
         </tab>
-        <tab heading="Прием лабораторных работ">
+        <tab heading="Защита работ">
 			<div style="margin-bottom: 15px; margin-top: 15px; ">
                 <table>
                     <tbody>
@@ -263,12 +263,12 @@
                             <textarea class="form-control" name="Theme" style="max-width: 545px; width: 545px;" ng-model="editLabsData.Theme"></textarea>
                             </div>
                         <div class="control-group">
-                            <label class="control-label">Короткое название</label>
+                            <label class="control-label">Сокращенное название лабораторной работы</label>
                             <input type="text" name="ShortName" class="form-control" style="width: 545px" ng-model="editLabsData.ShortName"/>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">Порядок (без валидации)</label>
-                            <input type="number" class="form-control" name="Order" style="width: 545px" ng-model="editLabsData.Order" />
+                            <label class="control-label">Порядковый номер лабораторной работы</label>
+                            <input type="number" min="1" class="form-control" name="Order" style="width: 545px" ng-model="editLabsData.Order" />
                         </div>
                         <div>
                             <label class="control-label">Количество часов (1-99)</label>
