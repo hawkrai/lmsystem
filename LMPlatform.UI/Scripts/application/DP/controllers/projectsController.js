@@ -59,7 +59,7 @@
                                 $scope.tableParams.reload();
                                 alertify.success("Проект успешно удален.");
                             }).error(function (error) {
-                                alertify.error(error);
+                                $scope.handleError(error);
                             });
                         }
                     },
@@ -86,7 +86,7 @@
                                 $scope.tableParams.reload();
                                 alertify.success("Назначение успешно удалено.");
                             }).error(function (error) {
-                                alertify.error(error);
+                                $scope.handleError(error);
                             });
                         }
                     },
@@ -110,15 +110,16 @@
             $scope.tableParams = new ngTableParams(
                 angular.extend({
                     page: 1,
-                    count: 10,
                     sorting: {
                         Theme: 'asc'
                     }
-                }, $location.search()), {
+                }, {}// $location.search()} uncomment in order to save params in the url
+                )
+                , {
                     total: 0,
                     getData: function ($defer, params) {
-                        $location.search(params.url());
-                        projectService.getProjects(params.url())//todo
+//                        $location.search(params.url());
+                        projectService.getProjects(params.url())
                             .success(function (data) {
                                 $defer.resolve(data.Items);
                                 params.total(data.Total);

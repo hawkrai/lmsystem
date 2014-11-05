@@ -43,7 +43,7 @@
                                 $scope.tableParams.reload();
                                 alertify.success("Запись успешно удалена.");
                             }, function (error) {
-                                alertify.error(error);
+                                $scope.handleError(error);
                             });
                         }
                     },

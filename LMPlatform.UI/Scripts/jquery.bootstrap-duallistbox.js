@@ -318,10 +318,6 @@
         '<div class="bootstrap-duallistbox-container">' +
         ' <div class="box1">' +
         '   <label></label>' +
-        '   <span class="info-container">' +
-        '     <span class="info"></span>' +
-        '     <button type="button" class="btn clear1 pull-right"></button>' +
-        '   </span>' +
         '   <input class="filter" type="text">' +
         '   <div class="btn-group buttons">' +
         '     <button type="button" class="btn moveall">' +
@@ -336,10 +332,6 @@
         ' </div>' +
         ' <div class="box2">' +
         '   <label></label>' +
-        '   <span class="info-container">' +
-        '     <span class="info"></span>' +
-        '     <button type="button" class="btn clear2 pull-right"></button>' +
-        '   </span>' +
         '   <input class="filter" type="text">' +
         '   <div class="btn-group buttons">' +
         '     <button type="button" class="btn remove">' +

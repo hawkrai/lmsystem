@@ -25,8 +25,13 @@ angular
             };
 
             $scope.handleError = function(respData) {
-                var data = respData.data;
+                var data = respData.data || respData;
                 var message = '';
+
+                if (data.ExceptionMessage) {
+                    alertify.error(data.ExceptionMessage);
+                    return;
+                }
 
                 for (var prop in data.ModelState) {
                     if (data.ModelState.hasOwnProperty(prop)) {

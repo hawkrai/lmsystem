@@ -16,7 +16,7 @@
                             alertify.success("Проект успешно назначен.");
                         }).error(function (data) { 
                             $modalInstance.close();
-                            alertify.error(data.ExceptionMessage);
+                            $scope.handleError(data.ExceptionMessage);
                         });
 //                    }
 //                });

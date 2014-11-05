@@ -15,13 +15,6 @@ namespace Application.Infrastructure.DPManagement
 {
     public class DpManagementService : IDpManagementService
     {
-        private readonly LazyDependency<IDpContext> context = new LazyDependency<IDpContext>();
-
-        private IDpContext Context
-        {
-            get { return context.Value; }
-        }
-
         //todo: add lecturerId param and filter by it
         public PagedList<DiplomProjectData> GetProjects(GetPagedListParams parms)
         {
@@ -62,6 +55,8 @@ namespace Application.Infrastructure.DPManagement
             {
                 throw new ApplicationException("LecturerId cant be empty!");
             }
+
+            AuthorizationHelper.ValidateLecturerAccess(Context, projectData.LecturerId.Value);
 
             DiplomProject project;
             if (projectData.Id.HasValue)
@@ -167,6 +162,8 @@ namespace Application.Infrastructure.DPManagement
 
         public void DeleteAssignment(int userId, int id)
         {
+            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
+
             var project = Context.AssignedDiplomProjects.Single(x => x.DiplomProjectId == id);
             Context.AssignedDiplomProjects.Remove(project);
             Context.SaveChanges();
@@ -251,6 +248,13 @@ namespace Application.Infrastructure.DPManagement
                     (x.Group.GraduationYear == currentYearStr && DateTime.Now.Month <= 9) ||
                     (x.Group.GraduationYear == nextYearStr && DateTime.Now.Month >= 9);
             }
+        }
+
+        private readonly LazyDependency<IDpContext> context = new LazyDependency<IDpContext>();
+
+        private IDpContext Context
+        {
+            get { return context.Value; }
         }
     }
 }

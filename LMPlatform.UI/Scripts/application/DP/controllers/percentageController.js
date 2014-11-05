@@ -45,18 +45,8 @@
                         alertify.success('График успешно сохранен.');
                     },
                     function (respData) {
-                        var data = respData.data;
-                        var message = '';
-
-                        for (var prop in data.ModelState) {
-                            if (data.ModelState.hasOwnProperty(prop)) {
-                                $.each(data.ModelState[prop], function () {
-                                    message += this + '<br/>';
-                                });
-                            }
-                        }
                         $modalInstance.close();
-                        alertify.error(message);
+                        $scope.handleError(respData);
                     });
             };
 

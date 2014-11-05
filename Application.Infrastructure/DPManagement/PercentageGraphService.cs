@@ -101,6 +101,8 @@ namespace Application.Infrastructure.DPManagement
 
         public void SavePercentage(int userId, PercentageGraphData percentageData)
         {
+            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
+
             DiplomPercentagesGraph percentage;
             if (percentageData.Id.HasValue)
             {

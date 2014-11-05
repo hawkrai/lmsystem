@@ -4,7 +4,7 @@
 <div class="modal-dialog panel panel-primary" style="margin: 0;">
     <div class="panel-heading">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
-        <h4 class="modal-title">Редактирование проекта</h4>
+        <h4 class="modal-title">Редактирование темы дипломного проекта</h4>
     </div>
     <div class="modal-body">
         <form novalidate ng-submit="saveProject()" name="forms.projectForm">
@@ -13,19 +13,19 @@
                 <input class="form-control" name="Theme" type="text" ng-model="project.Theme" style="width: 100%;" required />
                 <span class="help-block" ng-show="submitted && forms.projectForm.Theme.$error.required">Введите тему!</span>
             </div>
+            <label style="margin: 10px 0" class="control-label" for="groupsDualListBox">Для выбора группы нажмите левой кнопкой мыши по соответствующему элементу в левом списке:</label>
+                <select ng-options="group.Id as group.Name for group in groups"
+                        name="groupsDualListBox"
+                        multiple
+                        ng-model="project.SelectedGroupsIds"
+                        bs-duallistbox
+                        filter="false"
+                        select-min-height="300"></select>
 
-            <select
-                ng-options="group.Id as group.Name for group in groups"
-                multiple
-                ng-model="project.SelectedGroupsIds"
-                bs-duallistbox
-                select-min-height="300">
-            </select>
-
-            <div style="text-align: right; padding: 20px 0;">
-                <button type="button" class="btn btn-primary btn-sm" ng-click="closeDialog()">Отмена</button>
-                <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
-            </div>
-        </form>
+                <div style="text-align: right; padding: 20px 0;">
+                    <button type="button" class="btn btn-primary btn-sm" ng-click="closeDialog()">Отмена</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+                </div>
+</form>
     </div>
 </div>

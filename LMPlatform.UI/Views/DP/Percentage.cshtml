@@ -31,11 +31,13 @@
                        style="width: 100%" />
                 <span class="help-block" ng-show="submitted && forms.percentageForm.Date.$error.required">Введите Дату!</span>
             </div>
-
+            
+            <label style="margin: 10px 0" class="control-label" for="groupsDualListBox">Для выбора группы нажмите левой кнопкой мыши по соответствующему элементу в левом списке:</label>
             <select ng-options="group.Id as group.Name for group in groups"
                     multiple
                     ng-model="percentage.SelectedGroupsIds"
                     bs-duallistbox
+                    filter="false"
                     select-min-height="300"></select>
 
             <div style="text-align: right; padding: 20px 0;">

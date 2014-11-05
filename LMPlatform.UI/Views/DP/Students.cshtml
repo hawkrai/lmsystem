@@ -5,7 +5,7 @@
     </div>
     <div class="modal-body">
         <div loading-container="tableParams.settings().$loading">
-            <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
+            <table ng-table="tableParams" show-pager="true" class="table table-bordered table-striped table-hover dataTable">
                 <tr ng-repeat="student in $data">
                     <td width="65%" style="text-align: left;" data-title="'Студент'">{{student.Name}}</td>
                     <td width="20%" data-title="'Группа'">{{student.Group}}</td>

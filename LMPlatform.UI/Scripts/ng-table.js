@@ -422,7 +422,7 @@ app.factory('ngTableParams', ['$q', '$log', function ($q, $log) {
 
         var params = this.$params = {
             page: 1,
-            count: 1,
+            count: 1000000,
             filter: {},
             sorting: {},
             group: {},
@@ -653,11 +653,14 @@ app.directive('ngTable', ['$compile', '$q', '$parse',
                         element.find('thead').remove();
 
                         element.addClass('ng-table')
-                            .prepend(headerTemplate)
-                            .append(paginationTemplate);
+                            .prepend(headerTemplate);
 
                         $compile(headerTemplate)(scope);
-                        $compile(paginationTemplate)(scope);
+
+                        if (attrs.showPager) {
+                            element.append(paginationTemplate);
+                            $compile(paginationTemplate)(scope);
+                        }
                     }
                 };
             }

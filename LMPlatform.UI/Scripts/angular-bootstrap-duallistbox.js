@@ -64,7 +64,7 @@ angular.module('frapontillo.bootstrap-duallistbox').directive('bsDuallistbox', [
             'nonSelectedListLabel': 'setNonSelectedListLabel',
             'infoAll': {
               changeFn: 'setInfoText',
-              defaultValue: 'Показаны все {0}'
+              defaultValue: ''
             },
             'infoFiltered': {
               changeFn: 'setInfoTextFiltered',
@@ -72,7 +72,7 @@ angular.module('frapontillo.bootstrap-duallistbox').directive('bsDuallistbox', [
             },
             'infoEmpty': {
               changeFn: 'setInfoTextEmpty',
-              defaultValue: 'Пустой список'
+              defaultValue: ''
             }
           };
         // The duallistbox element

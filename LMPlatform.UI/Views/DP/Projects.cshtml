@@ -1,16 +1,17 @@
 ﻿<div style="margin: 20px">
     <div id="buttonActionSection" style="margin-bottom: 20px;">
-        <a ng-click="editProject()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить проект</a>
+        <a ng-click="editProject()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить тему</a>
     </div>
     <div>
         <div loading-container="tableParams.settings().$loading">
         <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <tr ng-repeat="project in $data">
-                <td width="55%" style="text-align: left;" data-title="'Тема'" sortable="'Theme'">{{project.Theme}}</td>
+                <td width="5%" style="text-align: left;" data-title="'N'">{{$index+1}}</td>
+                <td width="45%" style="text-align: left;" data-title="'Тема'" sortable="'Theme'">{{project.Theme}}</td>
                 <td width="10%" data-title="'Руководитель'" sortable="'Lecturer'">{{project.Lecturer}}</td>
                 <td width="10%" data-title="'Студент'" sortable="'Student'">{{project.Student}}</td>
-                <td width="10%" data-title="'Группа'" sortable="'Group'">{{project.Group}}</td>
-                <td width="10%" data-title="'Дата'" sortable="'ApproveDate'">{{formatDate(parseDate(project.ApproveDate))}}</td>
+                <td width="8%" data-title="'Группа'" sortable="'Group'">{{project.Group}}</td>
+                <td width="8%" data-title="'Дата'" sortable="'ApproveDate'">{{formatDate(parseDate(project.ApproveDate))}}</td>
                 <td width="20%" data-title="'Действие'">
                     <a ng-click="editProject(project.Id)" style="margin-right: 10px">
                         <i tooltip-placement="left" tooltip="Редактировать" class="fa fa-edit fa-2x"></i>

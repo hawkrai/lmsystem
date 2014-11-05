@@ -34,7 +34,7 @@
 
             $scope.saveProject = function () {
                 $scope.submitted = true;
-                if ($scope.forms.projectForm.Theme.$error.required) return; 
+                if ($scope.forms.projectForm.Theme.$error.required) return;
 
                 var saveFunc = $scope.isNew ? projectService.createProject : projectService.updateProject;
 
@@ -44,17 +44,8 @@
                         alertify.success('Проект успешно сохранен.');
                     })
                     .error(function (data) {
-                        var message = '';
-
-                        for (var prop in data.ModelState) {
-                            if (data.ModelState.hasOwnProperty(prop)) {
-                                $.each(data.ModelState[prop], function () {
-                                    message += this + '<br/>';
-                                });
-                            }
-                        }
+                        $scope.handleError(data);
                         $modalInstance.close();
-                        alertify.error(message);
                     });
             };
 
