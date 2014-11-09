@@ -22,35 +22,42 @@ namespace Application.Infrastructure.DPManagement
             get { return context.Value; }
         }
 
-        public PagedList<PercentageGraphData> GetPercentageGraphsForSecretary(int lecturerId, GetPagedListParams parms)
+        public PagedList<PercentageGraphData> GetPercentageGraphs(int lecturerId, GetPagedListParams parms)
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
+
+            var groupId = 0;
+            if (parms.Filters.ContainsKey("groupId"))
+            {
+                int.TryParse(parms.Filters["groupId"], out groupId);
+            }
 
             var isSecretary = Context.Lecturers.Single(x => x.Id == lecturerId).IsSecretary;
             if (!isSecretary)
             {
-                return GetPercentageGraphsForLecturer(lecturerId, parms);
+                return GetPercentageGraphsForLecturer(lecturerId, parms, groupId);
             }
 
             return Context.DiplomPercentagesGraphs
                 .AsNoTracking()
+                .Where(x => x.LecturerId == lecturerId)
                 .Select(ToPercentageDataPlain)
                 .ApplyPaging(parms);
         }
 
-        public PagedList<PercentageGraphData> GetPercentageGraphsForLecturer(int lecturerId, GetPagedListParams parms)
+        public PagedList<PercentageGraphData> GetPercentageGraphsForLecturer(int lecturerId, GetPagedListParams parms, int groupId)
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
 
             parms.SortExpression = "Date";
-            return GetPercentageGraphDataForLecturerQuery(lecturerId).ApplyPaging(parms);
+            return GetPercentageGraphDataForLecturerQuery(lecturerId, groupId).ApplyPaging(parms);
         }
 
         public List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int lecturerId)
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
 
-            return GetPercentageGraphDataForLecturerQuery(lecturerId)
+            return GetPercentageGraphDataForLecturerQuery(lecturerId, 0)
                 .Where(x => x.Date >= _currentAcademicYearStartDate && x.Date < _currentAcademicYearEndDate)
                 .OrderBy(x => x.Date)
                 .ToList();
@@ -70,24 +77,19 @@ namespace Application.Infrastructure.DPManagement
                 .ToList();
         }
 
-        private IQueryable<PercentageGraphData> GetPercentageGraphDataForLecturerQuery(int lecturerId)
+        /// <summary>
+        /// Lecturer.DiplomProjects=>Groups.Secretary.PercentageGraphs
+        /// </summary>
+        /// <param name="lecturerId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        private IQueryable<PercentageGraphData> GetPercentageGraphDataForLecturerQuery(int lecturerId, int groupId)
         {
-            var query =
-                (from dpg in Context.DiplomPercentagesGraphs.AsNoTracking()
-                 join dpgg in Context.DiplomPercentagesGraphToGroup.AsNoTracking()
-                     on dpg.Id equals dpgg.DiplomPercentagesGraphId
-                 join grp in Context.Groups.AsNoTracking()
-                     on dpgg.GroupId equals grp.Id
-                 join dptg in Context.DiplomProjectGroups.AsNoTracking()
-                     on grp.Id equals dptg.GroupId
-                 join dp in Context.DiplomProjects.AsNoTracking()
-                     on dptg.DiplomProjectId equals dp.DiplomProjectId
-                 where dp.LecturerId == lecturerId
-                 group dpg by dpg
-                     into groupedDpg
-                     select groupedDpg.FirstOrDefault())
-                    .Select(ToPercentageDataPlain);
-            return query;
+            return Context.Lecturers.Where(x => x.Id == lecturerId)
+                .SelectMany(x => x.DiplomProjects
+                    .SelectMany(dp => dp.DiplomProjectGroups.Where(dpg => groupId == 0 || dpg.GroupId == groupId)
+                        .SelectMany(dpg => dpg.Group.Secretary.DiplomPercentagesGraphs)))
+                .Distinct().Select(ToPercentageDataPlain);
         }
 
         public PercentageGraphData GetPercentageGraph(int id)
@@ -116,21 +118,21 @@ namespace Application.Infrastructure.DPManagement
                 Context.DiplomPercentagesGraphs.Add(percentage);
             }
 
-            percentage.DiplomPercentagesGraphToGroups = percentage.DiplomPercentagesGraphToGroups ??
-                                                        new Collection<DiplomPercentagesGraphToGroup>();
-            var currentGroups = percentage.DiplomPercentagesGraphToGroups.ToList();
-            var newGroups = percentageData.SelectedGroupsIds.Select(x => new DiplomPercentagesGraphToGroup
-            {
-                GroupId = x,
-                DiplomPercentagesGraphId = percentage.Id
-            }).ToList();
+//            percentage.DiplomPercentagesGraphToGroups = percentage.DiplomPercentagesGraphToGroups ??
+//                                                        new Collection<DiplomPercentagesGraphToGroup>();
 
-            var groupsToAdd = newGroups.Except(currentGroups, grp => grp.GroupId).ToList();
-            var groupsToDelete = currentGroups.Except(newGroups, grp => grp.GroupId).ToList();
-
-            groupsToAdd.ForEach(grp => percentage.DiplomPercentagesGraphToGroups.Add(grp));
-            groupsToDelete.ForEach(grp => Context.DiplomPercentagesGraphToGroup.Remove(grp));
-
+//            var currentGroups = percentage.DiplomPercentagesGraphToGroups.ToList();
+//            var newGroups = percentageData.SelectedGroupsIds.Select(x => new DiplomPercentagesGraphToGroup
+//            {
+//                GroupId = x,
+//                DiplomPercentagesGraphId = percentage.Id
+//            }).ToList();
+//
+//            var groupsToAdd = newGroups.Except(currentGroups, grp => grp.GroupId).ToList();
+//            var groupsToDelete = currentGroups.Except(newGroups, grp => grp.GroupId).ToList();
+//
+//            groupsToAdd.ForEach(grp => percentage.DiplomPercentagesGraphToGroups.Add(grp));
+//            groupsToDelete.ForEach(grp => Context.DiplomPercentagesGraphToGroup.Remove(grp));
             percentage.LecturerId = userId;
             percentage.Name = percentageData.Name;
             percentage.Percentage = percentageData.Percentage;

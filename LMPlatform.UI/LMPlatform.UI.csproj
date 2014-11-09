@@ -234,6 +234,8 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="ApiControllers\DP\TaskSheetTemplateController.cs" />
+    <Compile Include="ApiControllers\DP\UserController.cs" />
     <Compile Include="ApiControllers\LabsController.cs" />
     <Compile Include="ApiControllers\NewsController.cs" />
     <Compile Include="ApiControllers\UploadController.cs" />
@@ -268,6 +270,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
+    <Content Include="Content\select.css" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
@@ -1057,6 +1060,7 @@
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\prettify.js" />
     <Content Include="Scripts\printThis.js" />
+    <Content Include="Scripts\select.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\tableToExcel.js" />
     <Content Include="Scripts\textAngular\textAngular-sanitize.js" />

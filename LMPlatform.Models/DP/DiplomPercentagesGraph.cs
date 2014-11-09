@@ -43,5 +43,7 @@ namespace LMPlatform.Models.DP
         public virtual ICollection<DiplomPercentagesResult> DiplomPercentagesResults { get; set; }
 
         public virtual ICollection<DiplomPercentagesGraphToGroup> DiplomPercentagesGraphToGroups { get; set; }
+
+        public virtual Lecturer Lecturer { get; set; }
     }
 }

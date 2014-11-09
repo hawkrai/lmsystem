@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
+using Application.Infrastructure.DPManagement;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.StudentManagement;

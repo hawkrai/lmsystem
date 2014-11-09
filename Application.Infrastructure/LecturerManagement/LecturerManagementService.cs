@@ -15,7 +15,11 @@ namespace Application.Infrastructure.LecturerManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.LecturerRepository.GetBy(new Query<Lecturer>(e => e.Id == userId).Include(e => e.SubjectLecturers).Include(e => e.User));
+                return repositoriesContainer.LecturerRepository.GetBy(
+                    new Query<Lecturer>(e => e.Id == userId)
+                    .Include(e => e.SubjectLecturers)
+                    .Include(e => e.User)
+                    .Include(e => e.SecretaryGroups));
             }
         }
 

@@ -1,11 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
+using System.Web.Security;
 using Application.Core;
+using Application.Core.Constants;
+using Application.Core.Data;
+using Application.Infrastructure.DPManagement;
+using Application.Infrastructure.DTO;
+using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.Attributes;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 {
@@ -14,6 +22,8 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
     {
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
         private readonly LazyDependency<ILecturerManagementService> _lecturerManagementService = new LazyDependency<ILecturerManagementService>();
+        private readonly LazyDependency<IGroupManagementService> _groupManagementService = new LazyDependency<IGroupManagementService>();
+        private readonly LazyDependency<ICorrelationService> _correlationService = new LazyDependency<ICorrelationService>();
 
         public ILecturerManagementService LecturerManagementService
         {
@@ -31,10 +41,27 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
             }
         }
 
+        public IGroupManagementService GroupManagementService
+        {
+            get
+            {
+                return _groupManagementService.Value;
+            }
+        }
+
+        public ICorrelationService CorrelationService
+        {
+            get
+            {
+                return _correlationService.Value;
+            }
+        }
+
         public int LecturerId { get; set; }
 
         public ModifyLecturerViewModel()
         {
+            Groups = new MultiSelectList(new List<Correlation>(CorrelationService.GetCorrelation("Group", null)), "Id", "Name");
         }
 
         public ModifyLecturerViewModel(Lecturer lecturer)
@@ -48,9 +75,12 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 UserName = lecturer.User.UserName;
                 IsSecretary = lecturer.IsSecretary;
                 IsLecturerHasGraduateStudents = lecturer.IsLecturerHasGraduateStudents;
+
+                var groups = CorrelationService.GetCorrelation("Group", null);
+                Groups = new MultiSelectList(groups, "Id", "Name", lecturer.SecretaryGroups.Select(x => x.Id).ToList());
             }
         }
-
+        
         [StringLength(50, ErrorMessage = "Имя не может иметь размер больше 50 символов")]
         [DataType(DataType.Text)]
         [Display(Name = "Имя")]
@@ -96,6 +126,11 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         [Display(Name = "Секретарь")]
         public bool IsSecretary { get; set; }
 
+        [Display(Name = "Для выбора группы секретаря нажмите левой кнопкой мыши по соответствующему элементу в левом списке:")]
+        public List<int> SelectedGroupIds { get; set; }
+
+        public MultiSelectList Groups { get; set; }
+
         [Display(Name = "Руководитель дипломных проектов")]
         public bool IsLecturerHasGraduateStudents { get; set; }
 
@@ -106,6 +141,25 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
         public void ModifyLecturer()
         {
+            var selectedGroups = SelectedGroupIds != null && SelectedGroupIds.Count > 0 ?
+                GroupManagementService.GetGroups(new Query<Group>(x => SelectedGroupIds.Contains(x.Id))) :
+                new List<Group>();
+
+            foreach (var group in GroupManagementService.GetGroups(new Query<Group>(x => x.SecretaryId == LecturerId)))
+            {
+                group.SecretaryId = null;
+                GroupManagementService.UpdateGroup(group);
+            }
+
+            if (IsSecretary)
+            {
+                foreach (var group in selectedGroups)
+                {
+                    group.SecretaryId = LecturerId;
+                    GroupManagementService.UpdateGroup(group);
+                }
+            }
+
             LecturerManagementService.UpdateLecturer(new Lecturer
             {
                 Id = LecturerId,
@@ -113,7 +167,8 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 LastName = Surname,
                 MiddleName = Patronymic,
                 IsSecretary = IsSecretary,
-                IsLecturerHasGraduateStudents = IsLecturerHasGraduateStudents
+                IsLecturerHasGraduateStudents = IsLecturerHasGraduateStudents,
+                SecretaryGroups = selectedGroups
             });
         }
     }

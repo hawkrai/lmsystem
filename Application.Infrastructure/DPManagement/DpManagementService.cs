@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
@@ -10,6 +11,7 @@ using Application.Infrastructure.DTO;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Models;
 using LMPlatform.Models.DP;
+using WebMatrix.WebData;
 
 namespace Application.Infrastructure.DPManagement
 {
@@ -228,14 +230,35 @@ namespace Application.Infrastructure.DPManagement
                 }).ApplyPaging(parms);
         }
 
-        public bool IsLecturerHasGraduateStudents(int lecturerId)
+        public bool ShowDpSectionForUser(int userId)
         {
-            if (!AuthorizationHelper.IsLecturer(Context, lecturerId))
+            if (!AuthorizationHelper.IsStudent(Context, userId))
             {
-                return false;
+                return true;
             }
 
-            return Context.Lecturers.Single(x => x.Id == lecturerId).IsLecturerHasGraduateStudents;
+            var lecturer = Context.Lecturers.Single(x => x.Id == userId);
+            return lecturer.IsLecturerHasGraduateStudents || lecturer.IsSecretary;
+        }
+
+        public DiplomProjectTaskSheetTemplate GetTaskSheetTemplate(int id)
+        {
+            return Context.DiplomProjectTaskSheetTemplates.Single(x => x.Id == id);
+        }
+
+        public void SaveTaskSheetTemplate(DiplomProjectTaskSheetTemplate template)
+        {
+            if (template.Id != 0)
+            {
+                Context.DiplomProjectTaskSheetTemplates.Attach(template);
+                (Context as DbContext).Entry(template).State = EntityState.Modified;
+            }
+            else
+            {
+                Context.DiplomProjectTaskSheetTemplates.Add(template);
+            }
+
+            Context.SaveChanges();
         }
 
         private static Expression<Func<Student, bool>> IsGraduateStudent

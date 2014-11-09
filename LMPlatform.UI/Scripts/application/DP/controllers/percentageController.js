@@ -16,10 +16,8 @@
             $scope.percentage = {
                 Theme: '',
                 Id: null,
-                SelectedGroupsIds: [],
-                Date: new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()))
+                Date: new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).valueOf()
         };
-            $scope.groups = [];
 
             if (!$scope.isNew) {
                 percentages.get({ id: percentageId }, function (data) {

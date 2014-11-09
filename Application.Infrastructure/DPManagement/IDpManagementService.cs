@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Application.Core.Data;
 using Application.Infrastructure.DTO;
+using LMPlatform.Models.DP;
 
 namespace Application.Infrastructure.DPManagement
 {
@@ -28,6 +29,10 @@ namespace Application.Infrastructure.DPManagement
 
         PagedList<StudentData> GetGraduateStudentsForLecturer(int lecturerId, GetPagedListParams parms);
 
-        bool IsLecturerHasGraduateStudents(int lecturerId);
+        bool ShowDpSectionForUser(int userId);
+
+        DiplomProjectTaskSheetTemplate GetTaskSheetTemplate(int id);
+        
+        void SaveTaskSheetTemplate(DiplomProjectTaskSheetTemplate template);
     }
 }

@@ -1,14 +1,23 @@
-﻿<label for="project">Дипломный проект</label>
-<select name="project" ng-change="selectProject()" ng-model="selectedProjectId" ng-options="project.Id as project.Name for project in projects" style="width: 800px" >
-    <option value="">Не выбран</option>
-</select>
-<a ng-show="selectedProjectId" ng-click="downloadTaskSheet()" style="margin-left: 5px;">
-    <i tooltip-placement="left" tooltip="Скачать лист задания" class="fa fa-download fa-2x"></i>
-</a>
-<a ng-show="selectedProjectId" ng-click="editTaskSheet()" style="margin-left: 5px;">
-    <i tooltip-placement="left" tooltip="Редактировать" class="fa fa-edit fa-2x"></i>
-</a>
-<br/>
-<br/>
-<br/>
-<div style="width:640px;" ng-bind-html="taskSheetHtml"></div>
+﻿<div style="min-height:500px">
+    <div class="col-md-1">
+        <label for="project">Дипломный проект</label>
+    </div>
+    <div class="col-md-8">
+        <ui-select on-select="selectProject($item)" ng-model="project.Id" theme="bootstrap">
+            <ui-select-match placeholder="Выберите тему">{{$select.selected.Name}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in projects | filter: $select.search">
+                <div>{{item.Name}}</div>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <a ng-show="selectedProjectId" ng-click="downloadTaskSheet()" style="margin-left: 5px;">
+        <i tooltip-placement="left" tooltip="Скачать лист задания" class="fa fa-download fa-2x"></i>
+    </a>
+    <a ng-show="selectedProjectId" ng-click="editTaskSheet()" style="margin-left: 5px;">
+        <i tooltip-placement="left" tooltip="Редактировать" class="fa fa-edit fa-2x"></i>
+    </a>
+    <br />
+    <br />
+    <br />
+    <div style="width:640px;" ng-bind-html="taskSheetHtml"></div>
+</div>

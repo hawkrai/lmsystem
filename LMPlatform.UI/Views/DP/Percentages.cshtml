@@ -1,6 +1,14 @@
 ﻿<div>
-    <div id="buttonActionSection" style="margin-bottom: 20px;">
+    <div id="buttonActionSection" ng-show="user.IsSecretary" style="margin-bottom: 20px;">
         <a ng-click="editPercentage()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить</a>
+    </div>
+    <div ng-show="user.IsLecturer && !user.IsSecretary" style="margin-bottom: 20px;width:200px;">
+        <ui-select on-select="selectGroup($item)" ng-model="group.Id" theme="bootstrap">
+            <ui-select-match placeholder="Выберите группу">{{$select.selected.Name}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in groups | filter: $select.search">
+                <div>{{item.Name}}</div>
+            </ui-select-choices>
+        </ui-select>
     </div>
     <div loading-container="tableParams.settings().$loading">
         <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
@@ -8,7 +16,7 @@
                 <td width="65%" style="text-align: left;" data-title="'Этап'">{{percentage.Name}}</td>
                 <td width="20%" data-title="'Процент выполнения'">{{percentage.Percentage}}</td>
                 <td width="20%" data-title="'Дата'">{{formatDate(parseDate(percentage.Date))}}</td>
-                <td width="15%" data-title="'Действие'">
+                <td ng-show="user.IsSecretary" width="15%" data-title="'Действие'">
                     <a ng-click="editPercentage(percentage.Id)" class="deleteSubjectButton" style="margin-right: 10px">
                         <i tooltip-placement="left" tooltip="Редактировать" class="fa fa-edit fa-2x"></i>
                     </a>

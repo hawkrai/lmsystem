@@ -6,15 +6,27 @@
         'ngTableParams',
         '$resource',
         '$location',
-        function ($scope, $modal, ngTableParams, $resource, $location) {
+        'projectService',
+        function ($scope, $modal, ngTableParams, $resource, $location, projectService) {
 
             $scope.setTitle("График процентовки");
 
             var percentages = $resource('api/Percentage');
 
-
             $scope.forms = {};
 
+            $scope.groups = [];
+            $scope.group = { Id: null };
+            $scope.selectGroup = function (group) {
+                $scope.selectedGroupId = group.Id;
+                $scope.tableParams.reload();
+            }
+
+            projectService.getLecturerDiplomGroupCorrelation()
+                .success(function (data) {
+                    $scope.groups = data;
+                });
+            
             $scope.editPercentage = function (percentageId) {
                 var modalInstance = $modal.open({
                     templateUrl: '/Dp/Percentage',
@@ -62,14 +74,17 @@
 
 
             $scope.tableParams = new ngTableParams(
-                angular.extend({
+                {
                     page: 1,
                     count: 10
-                }, $location.search()), {
+                }, {
                     total: 0,
                     getData: function ($defer, params) {
-                        $location.search(params.url());
-                        percentages.get(params.url(),
+                        percentages.get(angular.extend(params.url(), {
+                            filter:
+                            {
+                                groupId: $scope.selectedGroupId
+                            }}),
                             function (data) {
                                 $defer.resolve(data.Items);
                                 params.total(data.Total);

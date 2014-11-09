@@ -61,6 +61,12 @@ namespace LMPlatform.Models
             set;
         }
 
+        public virtual ICollection<Group> SecretaryGroups
+        {
+            get;
+            set;
+        }
+
         public bool IsSecretary { get; set; }
 
         public bool IsLecturerHasGraduateStudents { get; set; }

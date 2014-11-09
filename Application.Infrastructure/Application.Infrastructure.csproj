@@ -81,7 +81,9 @@
     <Compile Include="DPManagement\ICorrelationService.cs" />
     <Compile Include="DPManagement\IDpManagementService.cs" />
     <Compile Include="DPManagement\IPercentageGraphService.cs" />
+    <Compile Include="DPManagement\IUserService.cs" />
     <Compile Include="DPManagement\PercentageGraphService.cs" />
+    <Compile Include="DPManagement\UserService.cs" />
     <Compile Include="DTO\Correlation.cs" />
     <Compile Include="DTO\DiplomProjectConsultationDateData.cs" />
     <Compile Include="DTO\DiplomProjectData.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="DTO\PercentageResultData.cs" />
     <Compile Include="DTO\StudentData.cs" />
     <Compile Include="DTO\TaskSheetData.cs" />
+    <Compile Include="DTO\UserData.cs" />
     <Compile Include="Export\Word.cs" />
     <Compile Include="FilesManagement\AttachedFile.cs" />
     <Compile Include="FilesManagement\FilesManagementService.cs" />

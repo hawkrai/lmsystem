@@ -71,7 +71,7 @@
 
 	<li><a href="@Url.Action("Index", "BTS")" class="linkNavbar"><i class="fa fa-desktop fa-tab"></i>Управление проектами</a></li>
 	<li><a href="#" class="linkNavbar"><i class="fa fa-book fa-tab"></i>Методические материалы</a></li>
-	@if (ViewBag.IsLecturerHasGraduateStudents)
+	@if (ViewBag.ShowDpSectionForUser)
 	{
 		<li><a href="@Url.Action("Index", "DP")" class="linkNavbar"><i class="fa fa-briefcase fa-tab"></i>Дипломное проектирование</a></li>
 	}

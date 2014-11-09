@@ -64,7 +64,7 @@ namespace LMPlatform.UI.Controllers
             //todo
             var diplomProject =
                 new LmPlatformModelsContext().DiplomProjects
-                .Include(x => x.AssignedDiplomProjects.Select(y => y.Student.Group))
+                .Include(x => x.AssignedDiplomProjects.Select(y => y.Student.Group.Secretary.DiplomPercentagesGraphs))
                 .Single(x => x.DiplomProjectId == diplomProjectId);
 
             string docName;
@@ -86,7 +86,7 @@ namespace LMPlatform.UI.Controllers
             //todo
             var diplomProject =
                 new LmPlatformModelsContext().DiplomProjects
-                .Include(x => x.AssignedDiplomProjects.Select(y => y.Student.Group))
+                .Include(x => x.AssignedDiplomProjects.Select(y => y.Student.Group.Secretary.DiplomPercentagesGraphs))
                 .Single(x => x.DiplomProjectId == diplomProjectId);
 
             return diplomProject.AssignedDiplomProjects.Count == 1 ? 

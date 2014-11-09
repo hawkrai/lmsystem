@@ -4,7 +4,8 @@ angular
     .controller('homeCtrl', [
         '$scope',
         '$location',
-        function ($scope, $location) {
+        '$resource',
+        function ($scope, $location, $resource) {
 
             $scope.Title = "Дипломное проектирование";
 
@@ -48,6 +49,12 @@ angular
             $scope.isActive = function(href) {
                 return href == $location.path();
             };
+
+            var users = $resource('api/User');
+            $scope.user = {};
+            users.get(function (data) {
+                $scope.user = data;
+            }, $scope.handleError);
 
             function navigationManagerFactory() {
                 var listPath = '/';

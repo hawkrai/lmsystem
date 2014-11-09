@@ -1,4 +1,5 @@
-﻿using LMPlatform.Models.DP;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using LMPlatform.Models.DP;
 
 namespace LMPlatform.Models
 {
@@ -32,7 +33,7 @@ namespace LMPlatform.Models
             get;
             set;
         }
-
+        
         public ICollection<Student> Students
         {
             get;
@@ -48,5 +49,10 @@ namespace LMPlatform.Models
         public ICollection<ScheduleProtectionPractical> ScheduleProtectionPracticals { get; set; }
 
         public virtual ICollection<DiplomProjectGroup> DiplomProjectGroups { get; set; }
+
+        [Column("Secretary_Id")]
+        public int? SecretaryId { get; set; }
+
+        public Lecturer Secretary { get; set; }
     }
 }

@@ -4,6 +4,21 @@
         <h4 class="modal-title">Редактирование листа задания</h4>
     </div>
     <div class="modal-body">
+        <div>
+            <div style="width: 200px;" class="col-md-4">
+                <ui-select on-select="selectTemplate($item)" ng-model="template.Id" theme="bootstrap">
+                    <ui-select-match placeholder="Шаблон">{{$select.selected.Name}}</ui-select-match>
+                    <ui-select-choices repeat="item.id as item in templates | filter: $select.search">
+                        <div>{{item.Name}}</div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div>
+                <input ng-show="!selectedTemplateId" type="text" style="width:200px" ng-model="template.Name" placeholder="Название шаблона" />
+                <button ng-click="saveTaskSheetTemplate()" ng-disabled="!selectedTemplateId && !template.Name" type="submit" class="btn btn-primary btn-sm">Сохранить шаблон</button>
+            </div>
+        </div>
+        <br/>
         <form>
             <tabset>
                 <tab heading="Входные данные">

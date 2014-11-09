@@ -13,7 +13,8 @@
         'dpApp.ctrl.percentageResults',
         'dpApp.ctrl.visitStats',
         'dpApp.ctrl.students',
-        'dpApp.service.project'
+        'dpApp.service.project',
+        'ui.select'
     ])
     .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
        

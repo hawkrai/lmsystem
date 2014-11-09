@@ -2,11 +2,11 @@
 
 <div id="adminModal">
     @using (Ajax.BeginForm("EditProfessor", "Administration", new AjaxOptions
-                                                                    {
-                                                                        Url = Url.Action("EditProfessorAjax"),
-                                                                        OnSuccess = "successAjaxForm",
-                                                                        HttpMethod = "POST"
-                                                                    }))
+    {
+        Url = Url.Action("EditProfessorAjax"),
+        OnSuccess = "successAjaxForm",
+        HttpMethod = "POST"
+    }))
     {
         <div class="error-limit-registr">
             @if (ViewBag.ResultSuccess != null && ViewBag.ResultSuccess)
@@ -55,6 +55,14 @@
                 </div>
                 <p></p>
             </div>
+            <div id="SelectedGroupIdsHolder">
+                @Html.LabelFor(m => m.SelectedGroupIds, new { @class = "control-label" })
+                <div>
+                    @Html.ListBoxFor(x => x.SelectedGroupIds, Model.Groups)
+                    @Html.ValidationMessageFor(e => e.SelectedGroupIds, " ")
+                </div>
+                <p></p>
+            </div>
             <div>
                 @Html.LabelFor(m => m.IsLecturerHasGraduateStudents, new { @class = "control-label" })
                 <div>
@@ -75,3 +83,9 @@
         </div>
     }
 </div>
+<script type="text/javascript">
+    $("#SelectedGroupIds").bootstrapDualListbox({ showFilterInputs: false });
+    var alignSelectedGroupsElement = function() { $("#SelectedGroupIdsHolder").toggle($("#IsSecretary").prop("checked")); };
+    $("#IsSecretary").off("click").on("click", alignSelectedGroupsElement);
+    alignSelectedGroupsElement();
+</script>

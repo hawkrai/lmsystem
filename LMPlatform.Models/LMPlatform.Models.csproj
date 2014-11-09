@@ -81,6 +81,7 @@
     <Compile Include="DP\DiplomProjectConsultationDate.cs" />
     <Compile Include="DP\DiplomProjectConsultationMark.cs" />
     <Compile Include="DP\DiplomProjectGroup.cs" />
+    <Compile Include="DP\DiplomProjectTaskSheetTemplate.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="KnowledgeTesting\Answer.cs" />
     <Compile Include="KnowledgeTesting\NextQuestionResult.cs" />

@@ -33,5 +33,7 @@ namespace LMPlatform.Data.Infrastructure
         DbSet<DiplomProjectGroup> DiplomProjectGroups { get; set; }
 
         DbSet<DiplomProject> DiplomProjects { get; set; }
+
+        DbSet<DiplomProjectTaskSheetTemplate> DiplomProjectTaskSheetTemplates { get; set; }
     }
 }

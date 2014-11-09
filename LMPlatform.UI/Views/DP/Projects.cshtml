@@ -1,5 +1,5 @@
 ﻿<div style="margin: 20px">
-    <div id="buttonActionSection" style="margin-bottom: 20px;">
+    <div ng-show="user.IsLecturer && !user.IsSecretary" id="buttonActionSection" style="margin-bottom: 20px;">
         <a ng-click="editProject()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить тему</a>
     </div>
     <div>
@@ -12,7 +12,7 @@
                 <td width="10%" data-title="'Студент'" sortable="'Student'">{{project.Student}}</td>
                 <td width="8%" data-title="'Группа'" sortable="'Group'">{{project.Group}}</td>
                 <td width="8%" data-title="'Дата'" sortable="'ApproveDate'">{{formatDate(parseDate(project.ApproveDate))}}</td>
-                <td width="20%" data-title="'Действие'">
+                <td ng-show="user.IsLecturer && !user.IsSecretary" width="20%" data-title="'Действие'">
                     <a ng-click="editProject(project.Id)" style="margin-right: 10px">
                         <i tooltip-placement="left" tooltip="Редактировать" class="fa fa-edit fa-2x"></i>
                     </a>

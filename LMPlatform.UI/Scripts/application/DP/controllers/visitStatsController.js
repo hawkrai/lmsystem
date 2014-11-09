@@ -35,7 +35,7 @@
 
             $scope.saveConsultationMark = function (consultationMark, newValue) {
 
-                if (newValue && (isNaN(newValue, 10) || newValue < 1 || newValue > 10)) return "Введите число от 1 до 10!";
+                if (newValue && newValue.trim() != '+' && newValue.trim() != '-') return "Введите + или -";
 
                 consultationMark.Mark = newValue;
 
@@ -91,14 +91,14 @@
                 $scope.submitted = false;
                 var now = new Date();
                 $scope.consultation = {
-                    date: new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()))
+                    date: new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).valueOf()
                 };
 
                 $scope.saveConsultationDate = function () {
                     $scope.submitted = true;
                     if ($scope.forms.consultationDate.date.$error.required) return;
 
-                    dpConsultationDates.save($scope.consultation.date)
+                    dpConsultationDates.save(new Date($scope.consultation.date))
                     .$promise.then(function () {
                         $scope.tableParams.reload();
                         alertify.success('Консультация успешно добавлена.');

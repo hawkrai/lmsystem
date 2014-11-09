@@ -19,7 +19,7 @@ namespace LMPlatform.UI.Controllers
                 var model = new LmsViewModel(WebSecurity.CurrentUserId, User.IsInRole("lector"));
                 model.UserActivity = new UserActivityViewModel();
 
-                ViewBag.IsLecturerHasGraduateStudents = DpManagementService.IsLecturerHasGraduateStudents(WebSecurity.CurrentUserId);
+                ViewBag.ShowDpSectionForUser = DpManagementService.ShowDpSectionForUser(WebSecurity.CurrentUserId);
                 return View(model);    
             }
 

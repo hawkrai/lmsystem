@@ -14,7 +14,9 @@ namespace Application.Infrastructure.DPManagement
             _correlationMethodsMapping = new Dictionary<string, Func<int?, List<Correlation>>>
             {
                 { "Group", GetGroupsCorrelation },
-                { "DiplomProject", GetDiplomProjectCorrelation }
+                { "DiplomProject", GetDiplomProjectCorrelation },
+                { "LecturerDiplomGroup", GetLecturerDiplomGroupsCorrelation },
+                { "DiplomProjectTaskSheetTemplate", GetDiplomProjectTaskSheetTemplateCorrelation },
             };
         }
 
@@ -44,6 +46,29 @@ namespace Application.Infrastructure.DPManagement
                     Id = x.Id,
                     Name = x.Name
                 }).ToList();
+        }
+
+        private List<Correlation> GetLecturerDiplomGroupsCorrelation(int? id)
+        {
+            return Context.Lecturers.Where(x => x.Id == id)
+                .SelectMany(x => x.DiplomProjects
+                    .SelectMany(dp => dp.DiplomProjectGroups.Select(dpg => dpg.Group)))
+                    .Distinct()
+                    .Select(x => new Correlation
+                    {
+                        Id = x.Id,
+                        Name = x.Name
+                    }).ToList();
+        }
+
+        private List<Correlation> GetDiplomProjectTaskSheetTemplateCorrelation(int? id)
+        {
+            return Context.DiplomProjectTaskSheetTemplates
+                    .Select(x => new Correlation
+                    {
+                        Id = x.Id,
+                        Name = x.Name
+                    }).ToList();
         }
 
         private List<Correlation> GetDiplomProjectCorrelation(int? lecturerId)

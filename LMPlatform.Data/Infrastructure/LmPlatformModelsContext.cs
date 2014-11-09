@@ -629,6 +629,8 @@ namespace LMPlatform.Data.Infrastructure
         
         public virtual DbSet<DiplomProject> DiplomProjects { get; set; }
 
+        public virtual DbSet<DiplomProjectTaskSheetTemplate> DiplomProjectTaskSheetTemplates { get; set; }
+
         #endregion
     }
 }

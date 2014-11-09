@@ -50,12 +50,15 @@ namespace Application.Infrastructure.Export
 
                     app = new Microsoft.Office.Interop.Word.Application();
                     var doc = app.Documents.Open(ref tempdot, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing, ref missing);
-                    if (doc != null)
+
+                    if (doc == null)
                     {
-                        FillDoc(doc, work);
-                        doc.Save();
-                        doc.Close(ref save, ref original, ref falseValue);
+                        throw new ApplicationException("Unable to open the word template! Try to add Launch and Activation permissions for Word DCOM component for current IIS user (IIS_IUSRS for example). Or set Identity to Interactive User.");
                     }
+
+                    FillDoc(doc, work);
+                    doc.Save();
+                    doc.Close(ref save, ref original, ref falseValue);
 
                     SaveToResponse(tempfileName, response);
                 }
@@ -133,7 +136,7 @@ namespace Application.Infrastructure.Export
                 {
                     writer.Write(bt, 0, count);
                 }
-                
+
                 writer.Flush();
                 writer.Close();
             }
@@ -219,7 +222,7 @@ namespace Application.Infrastructure.Export
             var children = new List<XmlElement>();
 
             children.AddRange(CreateStringNodes(doc, "Theme", work.Theme, 523, 638, 5));
-            
+
             var univer = doc.CreateElement("item");
             univer.SetAttribute("name", "Univer");
             univer.InnerText = "Белорусский Национальный Технический университет";
@@ -282,7 +285,7 @@ namespace Application.Infrastructure.Export
 
             var specialtyShifr = doc.CreateElement("item");
             specialtyShifr.SetAttribute("name", "SpecialtyShifr");
-            
+
             //            specialtyShifr.InnerText = awork.Student.Group.Speciality.SpecialtyShifr;
             children.Add(specialtyShifr);
 
@@ -322,9 +325,18 @@ namespace Application.Infrastructure.Export
             children.Add(pd);
 
             //SubjectGroup sg = work.Subject.Groups.GetByGroupId(work.Student.GroupId);
-            var result = new StringBuilder();
-            
-            children.AddRange(CreateStringNodes(doc, "Workflow", result.ToString(), 638, 638, 14));
+            var percentageGraph = new StringBuilder();
+
+            var pgs = awork.Student.Group.Secretary != null ?
+                awork.Student.Group.Secretary.DiplomPercentagesGraphs : new List<DiplomPercentagesGraph>();
+
+            var i = 1;
+            foreach (var pg in pgs)
+            {
+                percentageGraph.AppendFormat(CultureInfo.CreateSpecificCulture("ru-RU"), "{3}. {0} \t{1}% \t{2:d MMMM yyyy} г.\n", pg.Name, pg.Percentage, pg.Date, i++);
+            }
+
+            children.AddRange(CreateStringNodes(doc, "Workflow", percentageGraph.ToString(), 638, 638, 14));
 
             foreach (var item in children)
             {

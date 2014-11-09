@@ -85,11 +85,29 @@ angular
                 },
 
 
+                getLecturerDiplomGroupCorrelation: function () {
+                    return $http({
+                        method: 'GET',
+                        url: correlationApiUrl,
+                        params: { entity: 'LecturerDiplomGroup' }
+                    });
+                },
+
+
                 getDiplomProjectCorrelation: function () {
                     return $http({
                         method: 'GET',
                         url: correlationApiUrl,
                         params: { entity: 'DiplomProject' }
+                    });
+                },
+
+
+                getDiplomProjectTaskSheetTemplateCorrelation: function () {
+                    return $http({
+                        method: 'GET',
+                        url: correlationApiUrl,
+                        params: { entity: 'DiplomProjectTaskSheetTemplate' }
                     });
                 },
 

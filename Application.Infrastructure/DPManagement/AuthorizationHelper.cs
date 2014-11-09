@@ -20,5 +20,10 @@ namespace Application.Infrastructure.DPManagement
         {
             return context.Users.Include(x => x.Lecturer).Single(x => x.Id == userId).Lecturer != null;
         }
+
+        public static bool IsStudent(IDpContext context, int userId)
+        {
+            return context.Users.Include(x => x.Student).Single(x => x.Id == userId).Student != null;
+        }
     }
 }

@@ -7,9 +7,9 @@ namespace Application.Infrastructure.DPManagement
 {
     public interface IPercentageGraphService
     {
-        PagedList<PercentageGraphData> GetPercentageGraphsForSecretary(int lecturerId, GetPagedListParams parms);
+        PagedList<PercentageGraphData> GetPercentageGraphs(int lecturerId, GetPagedListParams parms);
 
-        PagedList<PercentageGraphData> GetPercentageGraphsForLecturer(int lecturerId, GetPagedListParams parms);
+        PagedList<PercentageGraphData> GetPercentageGraphsForLecturer(int lecturerId, GetPagedListParams parms, int groupId);
 
         List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int lecturerId);
 
