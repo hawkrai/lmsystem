@@ -6,7 +6,7 @@
         <div loading-container="tableParams.settings().$loading">
         <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <tr ng-repeat="project in $data">
-                <td width="5%" style="text-align: left;" data-title="'N'">{{$index+1}}</td>
+                <td style="width:1%;text-align: left;" data-title="'N'">{{$index+1}}</td>
                 <td width="45%" style="text-align: left;" data-title="'Тема'" sortable="'Theme'">{{project.Theme}}</td>
                 <td width="10%" data-title="'Руководитель'" sortable="'Lecturer'">{{project.Lecturer}}</td>
                 <td width="10%" data-title="'Студент'" sortable="'Student'">{{project.Student}}</td>

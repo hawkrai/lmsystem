@@ -1066,7 +1066,7 @@
     <Content Include="Scripts\textAngular\textAngular-sanitize.js" />
     <Content Include="Scripts\textAngular\textAngular.js" />
     <Content Include="Scripts\textAngular\textAngularSetup.js" />
-    <Content Include="Scripts\ui-bootstrap-tpls-0.10.0.js" />
+    <Content Include="Scripts\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\xeditable.js" />
     <Content Include="Scripts\_references.js" />

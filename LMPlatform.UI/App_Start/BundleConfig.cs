@@ -51,7 +51,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/ng-table.js",
                 "~/Scripts/angular-bootstrap-duallistbox.js",
                 "~/Scripts/select.js",
-                "~/Scripts/ui-bootstrap-tpls-0.10.0.js",
+                "~/Scripts/ui-bootstrap-tpls.js",
                 "~/Scripts/xeditable.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/textAngular").Include(
