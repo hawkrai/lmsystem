@@ -69,6 +69,18 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<Materials> Materials
+        {
+            get;
+            set;
+        }
+
+        public DbSet<Folders> Folders
+        {
+            get;
+            set;
+        }
+
         public DbSet<SubjectGroup> SubjectGroups
         {
             get;
@@ -155,17 +167,17 @@ namespace LMPlatform.Data.Infrastructure
 
         public DbSet<LecturesVisitMark> LecturesVisitMarks { get; set; }
 
-        public DbSet<ScheduleProtectionLabMark> ScheduleProtectionLabMarks { get; set; } 
+        public DbSet<ScheduleProtectionLabMark> ScheduleProtectionLabMarks { get; set; }
 
         public DbSet<StudentLabMark> StudentLabMarks { get; set; }
 
         public DbSet<ScheduleProtectionPractical> ScheduleProtectionPracticals { get; set; }
 
-        public DbSet<ScheduleProtectionPracticalMark> ScheduleProtectionPracticalMarks { get; set; } 
+        public DbSet<ScheduleProtectionPracticalMark> ScheduleProtectionPracticalMarks { get; set; }
 
-        public DbSet<StudentPracticalMark> StudentPracticalMarks { get; set; } 
+        public DbSet<StudentPracticalMark> StudentPracticalMarks { get; set; }
 
-        public DbSet<UserLabFiles> UserLabFiles { get; set; } 
+        public DbSet<UserLabFiles> UserLabFiles { get; set; }
 
         #endregion DataContext Members
 
@@ -602,31 +614,31 @@ namespace LMPlatform.Data.Infrastructure
                 .IsFixedLength()
                 .IsUnicode(false);
 
-//            modelBuilder.Entity<DiplomProject>()
-//                .HasMany(x => x.Groups)
-//                .WithMany(x => x.DiplomProjects)
-//                .Map(x =>
-//            {
-//                x.ToTable("DiplomProjectGroups");
-//                x.MapLeftKey("DiplomProjectId");
-//                x.MapRightKey("GroupId");
-//            });
+            //            modelBuilder.Entity<DiplomProject>()
+            //                .HasMany(x => x.Groups)
+            //                .WithMany(x => x.DiplomProjects)
+            //                .Map(x =>
+            //            {
+            //                x.ToTable("DiplomProjectGroups");
+            //                x.MapLeftKey("DiplomProjectId");
+            //                x.MapRightKey("GroupId");
+            //            });
         }
 
         public virtual DbSet<AssignedDiplomProject> AssignedDiplomProjects { get; set; }
-        
+
         public virtual DbSet<DiplomPercentagesGraph> DiplomPercentagesGraphs { get; set; }
 
         public virtual DbSet<DiplomPercentagesGraphToGroup> DiplomPercentagesGraphToGroup { get; set; }
-        
+
         public virtual DbSet<DiplomPercentagesResult> DiplomPercentagesResults { get; set; }
-        
+
         public virtual DbSet<DiplomProjectConsultationDate> DiplomProjectConsultationDates { get; set; }
-        
+
         public virtual DbSet<DiplomProjectConsultationMark> DiplomProjectConsultationMarks { get; set; }
-        
+
         public virtual DbSet<DiplomProjectGroup> DiplomProjectGroups { get; set; }
-        
+
         public virtual DbSet<DiplomProject> DiplomProjects { get; set; }
 
         public virtual DbSet<DiplomProjectTaskSheetTemplate> DiplomProjectTaskSheetTemplates { get; set; }

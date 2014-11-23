@@ -3,9 +3,11 @@ using Application.Infrastructure.AccountManagement;
 using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.DPManagement;
 using Application.Infrastructure.FilesManagement;
+using Application.Infrastructure.FoldersManagement;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.LecturerManagement;
+using Application.Infrastructure.MaterialsManagement;
 using Application.Infrastructure.MessageManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
@@ -14,12 +16,12 @@ using Application.Infrastructure.UserManagement;
 
 namespace Application.Infrastructure
 {
-	public class ApplicationServiceModule
-	{
-		public static IUnityContainerWrapper Initialize(IUnityContainerWrapper containerWrapper)
-		{
-			containerWrapper.Register<IAccountManagementService, AccountManagementService>();
-			containerWrapper.Register<IUsersManagementService, UsersManagementService>();
+    public class ApplicationServiceModule
+    {
+        public static IUnityContainerWrapper Initialize(IUnityContainerWrapper containerWrapper)
+        {
+            containerWrapper.Register<IAccountManagementService, AccountManagementService>();
+            containerWrapper.Register<IUsersManagementService, UsersManagementService>();
             containerWrapper.Register<IBugManagementService, BugManagementService>();
             containerWrapper.Register<IGroupManagementService, GroupManagementService>();
             containerWrapper.Register<ITestsManagementService, TestsManagementService>();
@@ -29,15 +31,16 @@ namespace Application.Infrastructure
             containerWrapper.Register<IStudentManagementService, StudentManagementService>();
             containerWrapper.Register<ISubjectManagementService, SubjectManagementService>();
             containerWrapper.Register<IModulesManagementService, ModulesManagementService>();
-			containerWrapper.Register<ILecturerManagementService, LecturerManagementService>();
+            containerWrapper.Register<ILecturerManagementService, LecturerManagementService>();
             containerWrapper.Register<IMessageManagementService, MessageManagementService>();
             containerWrapper.Register<IFilesManagementService, FilesManagementService>();
             containerWrapper.Register<IDpManagementService, DpManagementService>();
             containerWrapper.Register<ICorrelationService, CorrelationService>();
             containerWrapper.Register<IPercentageGraphService, PercentageGraphService>();
             containerWrapper.Register<IUserService, UserService>();
-
-			return containerWrapper;
-		}
-	}
+            containerWrapper.Register<IFoldersManagementService, FoldersManagementService>();
+            containerWrapper.Register<IMaterialsManagementService, MaterialsManagementService>();
+            return containerWrapper;
+        }
+    }
 }

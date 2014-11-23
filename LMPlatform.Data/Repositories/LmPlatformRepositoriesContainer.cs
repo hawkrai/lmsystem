@@ -40,12 +40,16 @@ namespace LMPlatform.Data.Repositories
         public IQuestionsRepository QuestionsRepository { get; set; }
 
         public IModulesRepository ModulesRepository { get; set; }
-		
-		public ILecturerRepository LecturerRepository { get; set; }
+
+        public ILecturerRepository LecturerRepository { get; set; }
 
         public IMessageRepository MessageRepository { get; set; }
 
-		public ISubGroupRepository SubGroupRepository { get; set; }
+        public IFoldersRepository FoldersRepository { get; set; }
+
+        public IMaterialsRepository MaterialsRepository { get; set; }
+
+        public ISubGroupRepository SubGroupRepository { get; set; }
 
         public IAttachmentRepository AttachmentRepository { get; set; }
 
@@ -81,9 +85,11 @@ namespace LMPlatform.Data.Repositories
             QuestionsRepository = new QuestionsRepository(_dataContext);
             UsersRepository = new UsersRepository(_dataContext);
             ModulesRepository = new ModulesRepository(_dataContext);
-			LecturerRepository = new LecturerRepository(_dataContext);
+            LecturerRepository = new LecturerRepository(_dataContext);
             MessageRepository = new MessageRepository(_dataContext);
-			SubGroupRepository = new SubGroupRepository(_dataContext);
+            MaterialsRepository = new MaterialsRepository(_dataContext);
+            FoldersRepository = new FoldersRepository(_dataContext);
+            SubGroupRepository = new SubGroupRepository(_dataContext);
             AttachmentRepository = new AttachmentRepository(_dataContext);
             LecturesRepository = new LecturesRepository(_dataContext);
             LabsRepository = new LabsRepository(_dataContext);

@@ -232,7 +232,7 @@ namespace Application.Infrastructure.DPManagement
 
         public bool ShowDpSectionForUser(int userId)
         {
-            if (!AuthorizationHelper.IsStudent(Context, userId))
+            if (AuthorizationHelper.IsStudent(Context, userId))
             {
                 return true;
             }

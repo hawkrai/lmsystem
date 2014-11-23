@@ -5,24 +5,25 @@ using LMPlatform.Models.BTS;
 
 namespace LMPlatform.Data.Infrastructure
 {
-	public class DataBaseInitializer
-	{
-		private static void FillInitData(LmPlatformModelsContext context)
-		{
-			FillRoles(context);
+    public class DataBaseInitializer
+    {
+        private static void FillInitData(LmPlatformModelsContext context)
+        {
+            FillRoles(context);
 
             CreateGroups(context);
             CreateBugSeverities(context);
             CreateBugSymptoms(context);
-		    CreateBugStatuses(context);
-		    CreateProjectRoles(context);
-		    CreateModules(context);
-			context.SaveChanges();
-		}
+            CreateBugStatuses(context);
+            CreateProjectRoles(context);
+            CreateModules(context);
+            CreateFolders(context);
+            context.SaveChanges();
+        }
 
-	    private static void CreateModules(LmPlatformModelsContext context)
-	    {
-	        context.Modules.Add(new Module { DisplayName = "Новости", Name = "News", ModuleType = ModuleType.News, Order = 1, Visible = true });
+        private static void CreateModules(LmPlatformModelsContext context)
+        {
+            context.Modules.Add(new Module { DisplayName = "Новости", Name = "News", ModuleType = ModuleType.News, Order = 1, Visible = true });
             context.Modules.Add(new Module { DisplayName = "Лекции", Name = "Lectures", ModuleType = ModuleType.Lectures, Order = 2, Visible = true });
             context.Modules.Add(new Module { DisplayName = "Лабораторные работы", Name = "Labs", ModuleType = ModuleType.Labs, Order = 3, Visible = true });
             context.Modules.Add(new Module { DisplayName = "Курсовые проекты/работы", Name = "YEManagment", ModuleType = ModuleType.YeManagment, Order = 7, Visible = true });
@@ -35,9 +36,9 @@ namespace LMPlatform.Data.Infrastructure
             context.Modules.Add(new Module { DisplayName = "Результаты", Name = "Results", ModuleType = ModuleType.Results, Visible = false });
             context.Modules.Add(new Module { DisplayName = "Статистика посещения", Name = "StatisticsVisits", ModuleType = ModuleType.StatisticsVisits, Visible = false });
             context.Modules.Add(new Module { DisplayName = "Практические занятия", Name = "Practical", ModuleType = ModuleType.Practical, Order = 4, Visible = true });
-	    }
+        }
 
-	    private static void CreateBugSymptoms(LmPlatformModelsContext context)
+        private static void CreateBugSymptoms(LmPlatformModelsContext context)
         {
             context.BugSymptoms.Add(new BugSymptom { Name = "Запрос на улучшение" });
             context.BugSymptoms.Add(new BugSymptom { Name = "Инсталяционная ошибка" });
@@ -61,7 +62,7 @@ namespace LMPlatform.Data.Infrastructure
             context.BugSeverities.Add(new BugSeverity { Name = "Средняя" });
             context.BugSeverities.Add(new BugSeverity { Name = "Высокая" });
             context.BugSeverities.Add(new BugSeverity { Name = "Критическая" });
-            }
+        }
 
         private static void CreateBugStatuses(LmPlatformModelsContext context)
         {
@@ -75,15 +76,15 @@ namespace LMPlatform.Data.Infrastructure
             context.BugStatuses.Add(new BugStatus { Name = "Открыта заново" });
         }
 
-	    private static void CreateProjectRoles(LmPlatformModelsContext context)
-	    {
+        private static void CreateProjectRoles(LmPlatformModelsContext context)
+        {
             context.ProjectRoles.Add(new ProjectRole { Name = "Разработчик" });
             context.ProjectRoles.Add(new ProjectRole { Name = "Тестировщик" });
             context.ProjectRoles.Add(new ProjectRole { Name = "Руководитель проекта" });
-	    }
+        }
 
-	    private static void CreateGroups(LmPlatformModelsContext context)
-	    {
+        private static void CreateGroups(LmPlatformModelsContext context)
+        {
             context.Groups.Add(new Group
             {
                 Name = "107219",
@@ -97,40 +98,46 @@ namespace LMPlatform.Data.Infrastructure
                 StartYear = string.Format("2009"),
                 GraduationYear = string.Format("2014"),
             });
-	    }
+        }
 
-	    private static void FillRoles(LmPlatformModelsContext context)
-		{
-			context.Roles.Add(new Role
-			{
-				RoleName = "admin",
-				RoleDisplayName = "Администратор"
-			});
-			context.Roles.Add(new Role
-			{
-				RoleName = "student",
-				RoleDisplayName = "Студент"
-			});
-			context.Roles.Add(new Role
-			{
-				RoleName = "lector",
-				RoleDisplayName = "Лектор"
-			});
-	    }
+        private static void FillRoles(LmPlatformModelsContext context)
+        {
+            context.Roles.Add(new Role
+            {
+                RoleName = "admin",
+                RoleDisplayName = "Администратор"
+            });
+            context.Roles.Add(new Role
+            {
+                RoleName = "student",
+                RoleDisplayName = "Студент"
+            });
+            context.Roles.Add(new Role
+            {
+                RoleName = "lector",
+                RoleDisplayName = "Лектор"
+            });
+        }
+
+        private static void CreateFolders(LmPlatformModelsContext context)
+        {
+            context.Folders.Add(new Folders { Name = "Тестирование", Pid = 0 });
+            context.Folders.Add(new Folders { Name = "Программирование", Pid = 0 });
+        }
 
         public static bool InitializeDatabase(LmPlatformModelsContext context)
-		{
-			if (!context.Database.Exists())
-			{
-				//((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+        {
+            if (!context.Database.Exists())
+            {
+                //((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
                 FillInitData(context);
 
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }
