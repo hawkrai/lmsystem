@@ -82,6 +82,7 @@
     <Compile Include="DP\DiplomProjectConsultationMark.cs" />
     <Compile Include="DP\DiplomProjectGroup.cs" />
     <Compile Include="DP\DiplomProjectTaskSheetTemplate.cs" />
+    <Compile Include="Folders.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="KnowledgeTesting\Answer.cs" />
     <Compile Include="KnowledgeTesting\NextQuestionResult.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Lectures.cs" />
     <Compile Include="LecturesScheduleVisiting.cs" />
     <Compile Include="LecturesVisitMark.cs" />
+    <Compile Include="Materials.cs" />
     <Compile Include="Membership.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Module.cs" />

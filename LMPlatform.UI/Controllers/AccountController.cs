@@ -98,6 +98,8 @@ namespace LMPlatform.UI.Controllers
         public ActionResult Management()
         {
             ViewBag.ReturnUrl = Url.Action("Management");
+			var model = new PersonalDataViewModel();
+	        ViewBag.Avatar = model.Avatar;
             return View();
         }
 
@@ -109,7 +111,7 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdatePerconalData(PersonalDataViewModel model)
+		public JsonResult UpdatePerconalData(PersonalDataViewModel model, string avatar)
         {
             if (Roles.IsUserInRole("lector"))
             {
@@ -121,6 +123,7 @@ namespace LMPlatform.UI.Controllers
                     User = new User
                     {
                         UserName = model.UserName,
+						Avatar = avatar,
                         Id = WebSecurity.CurrentUserId
                     },
                     Id = WebSecurity.CurrentUserId
@@ -138,6 +141,7 @@ namespace LMPlatform.UI.Controllers
                     User = new User
                     {
                         UserName = model.UserName,
+						Avatar = avatar,
                         Id = WebSecurity.CurrentUserId
                     },
                     Id = WebSecurity.CurrentUserId
@@ -148,6 +152,12 @@ namespace LMPlatform.UI.Controllers
 
             return Json(true);
         }
+
+		public string GetAvatar()
+		{
+			var model = new PersonalDataViewModel();
+			return model.Avatar;
+		}
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {

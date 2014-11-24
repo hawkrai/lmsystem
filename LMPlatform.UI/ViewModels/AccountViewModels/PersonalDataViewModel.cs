@@ -59,6 +59,8 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
         [Display(Name = "Логин")]
         public string UserName { get; set; }
 
+		public string Avatar { get; set; }
+
         public PersonalDataViewModel()
         {
             if (LecturerManagementService.GetLecturer(WebSecurity.CurrentUserId) != null)
@@ -68,6 +70,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 Surname = user.MiddleName;
                 Patronymic = user.LastName;
                 UserName = user.User.UserName;
+	            Avatar = user.User.Avatar;
             }
             else
             {
@@ -75,7 +78,8 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 Name = user.FirstName;
                 Surname = user.MiddleName;
                 Patronymic = user.LastName;
-                UserName = user.User.UserName;    
+                UserName = user.User.UserName;
+				Avatar = user.User.Avatar;
             }
         }
     }

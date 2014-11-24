@@ -97,6 +97,8 @@
     <Compile Include="FilesManagement\AttachedFile.cs" />
     <Compile Include="FilesManagement\FilesManagementService.cs" />
     <Compile Include="FilesManagement\IFilesManagementService.cs" />
+    <Compile Include="FoldersManagement\FoldersManagementService.cs" />
+    <Compile Include="FoldersManagement\IFoldersManagementService.cs" />
     <Compile Include="GroupManagement\GroupManagementService.cs" />
     <Compile Include="GroupManagement\IGroupManagementService.cs" />
     <Compile Include="KnowledgeTestsManagement\IQuestionsManagementService.cs" />
@@ -107,6 +109,8 @@
     <Compile Include="KnowledgeTestsManagement\TestsManagementService.cs" />
     <Compile Include="LecturerManagement\ILecturerManagementService.cs" />
     <Compile Include="LecturerManagement\LecturerManagementService.cs" />
+    <Compile Include="MaterialsManagement\IMaterialsManagementService.cs" />
+    <Compile Include="MaterialsManagement\MaterialsManagementService.cs" />
     <Compile Include="MessageManagement\IMessageManagementService.cs" />
     <Compile Include="MessageManagement\MessageManagementService.cs" />
     <Compile Include="ProjectManagement\IProjectManagementService.cs" />

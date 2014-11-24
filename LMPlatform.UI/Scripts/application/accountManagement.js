@@ -3,6 +3,10 @@
     init: function () {
         var that = this;
         that.activeLinkHandle();
+
+        if ($("#avatar").val() != '' && $("#avatar").val() != null) {
+        	$("#avatarContainer").attr("src", $("#avatar").val());
+        }
     },
     
     activeLinkHandle: function () {
@@ -31,6 +35,12 @@
             });
             return false;
         });
+
+	    $(".tempAvatar").on("click", function() {
+	    	var that = this;
+	    	$("#avatarContainer").attr("src", $(that).attr("src"));
+		    $("#avatar").val($("#avatarContainer").attr("src"));
+	    });
 
     },
 };

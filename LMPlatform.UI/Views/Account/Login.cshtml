@@ -4,7 +4,11 @@
     ViewBag.Title = "Вход в систему";
     Layout = "~/Views/Shared/Layouts/_LimitLayout.cshtml";
 }
-
+<style>
+	body {
+		background-color: #222222 !important;
+	}
+</style>
 @using (Html.BeginForm(new { ViewBag.ReturnUrl }))
 {
     <div class="error-limit-login">
@@ -13,7 +17,46 @@
     
     @Html.AntiForgeryToken()
 
-    <div id="login" class="hero-unit center" style="margin-top: 60px">
+	<div class="bg-black">
+		<div class="form-box" id="login-box">
+			<div class="header">LMPlatform</div>
+			<div class="body bg-gray">
+				<div>
+					@Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+					<div>
+						@Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+						@Html.ValidationMessageFor(e => e.UserName, " ")
+					</div>
+					<p></p>
+				</div>
+				<div>
+					@Html.LabelFor(m => m.Password, new { @class = "control-label" })
+					<div>
+						@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+						@Html.ValidationMessageFor(e => e.Password, " ")
+					</div>
+					<p></p>
+				</div>
+			</div>
+			<div class="footer">
+					<input type="submit" class="btn bg-blue btn-block" value="Войти" />
+				<div>
+					<p>
+						<a href=@Url.Action("Register")>
+							<strong>Зарегистрироваться?</strong>
+						</a>
+					</p>
+					<p>
+						<a href="#" id="Parental" data-url="@Url.Action("Index", "Parental")">
+							<strong>Контроль успеваемости</strong>
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    @*<div id="login" class="hero-unit center" style="margin-top: 60px">
         <div style="text-align: center; margin-bottom: 20px">
             <h1>LMPlatform</h1>
         </div>
@@ -65,12 +108,12 @@
 			<span class="safari" title="Safari"></span>
 			<span class="iexplorer" title="Internet Explorer 9+"></span>
 		</div>    
-    </div>
+    </div>*@
 
-    </div>
+	//</div>
     
     
-    <div style="text-align: center; padding-top: 10px">
+    <div style="text-align: center; padding-top: 10px; color: white">
         <span id="copyright">Copyright © 2013 - @DateTime.Now.Year.ToString() BNTU. Все права защищены.</span>
     </div>
 }

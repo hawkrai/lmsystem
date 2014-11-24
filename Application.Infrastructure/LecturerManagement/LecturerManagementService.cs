@@ -69,6 +69,9 @@ namespace Application.Infrastructure.LecturerManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.LecturerRepository.Save(lecturer);
+	            var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>(e => e.Id == lecturer.User.Id));
+	            user.Avatar = lecturer.User.Avatar;
+				repositoriesContainer.UsersRepository.Save(user);
                 repositoriesContainer.ApplyChanges();
             }
 

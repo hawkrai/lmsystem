@@ -57,8 +57,11 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 Patronymic = student.MiddleName;
                 Email = student.Email;
                 UserName = student.User.UserName;
+	            Avatar = student.User.Avatar;
             }
         }
+
+		public string Avatar { get; set; }
 
         [StringLength(50, ErrorMessage = "Имя не может иметь размер больше 50 символов")]
         [DataType(DataType.Text)]
@@ -127,6 +130,12 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                   MiddleName = Patronymic,
                   Email = Email,
                   GroupId = int.Parse(Group),
+				  User = new User()
+				  {
+					  Avatar = Avatar,
+					  UserName = UserName,
+					  Id = Id
+				  }
               });
         }
 

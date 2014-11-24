@@ -1,7 +1,6 @@
 ﻿@model LMPlatform.UI.ViewModels.AccountViewModels.PersonalDataViewModel
 
-@using (Html.BeginForm("UpdatePerconalData", "Account", FormMethod.Post, new { @name="personalData"}))
-{
+
     <div class="error-limit-registr">
         @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
     </div>
@@ -39,7 +38,7 @@
 			@Html.ValidationMessageFor(e => e.UserName, " ")
 		</div>
 		<div style="text-align: center;margin-top: 10px">
-			<input id="updatePersonalData" type="button" style="width: 100px" class="btn btn-primary btn-sm" value="Изменить" />
+			<input id="updatePersonalData" type="button" style="width: 200px" class="btn btn-primary btn-sm" value="Сохранить изменения" />
 		</div>
 	</div>
-}
+

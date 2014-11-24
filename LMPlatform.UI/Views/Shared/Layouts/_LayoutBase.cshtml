@@ -105,7 +105,7 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li class="user-header bg-light-blue">
-								<img src="/Templates/img/avatar3.png" class="img-circle" alt="User Image" />
+								<img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image" />
 								<p>
 									@User.Identity.Name
 								</p>
@@ -147,7 +147,7 @@
 			<section class="sidebar">
 				<div class="user-panel">
 					<div class="pull-left image">
-						<img src="/Templates/img/avatar3.png" class="img-circle" alt="User Image" />
+						<img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image" />
 					</div>
 					<div class="pull-left info">
 						<p>@User.Identity.Name</p>

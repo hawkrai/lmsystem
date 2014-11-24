@@ -74,6 +74,10 @@ namespace Application.Infrastructure.StudentManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.StudentsRepository.Save(student);
+	            var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>(e => e.Id == student.User.Id));
+	            user.UserName = student.User.UserName;
+	            user.Avatar = student.User.Avatar;
+				repositoriesContainer.UsersRepository.Save(user);
                 repositoriesContainer.ApplyChanges();
             }
         }

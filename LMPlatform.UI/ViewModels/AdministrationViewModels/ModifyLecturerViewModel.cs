@@ -64,6 +64,8 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
             Groups = new MultiSelectList(new List<Correlation>(CorrelationService.GetCorrelation("Group", null)), "Id", "Name");
         }
 
+		public string Avatar { get; set; }
+
         public ModifyLecturerViewModel(Lecturer lecturer)
         {
             if (lecturer != null)
@@ -73,11 +75,15 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 Surname = lecturer.LastName;
                 Patronymic = lecturer.MiddleName;
                 UserName = lecturer.User.UserName;
+	            Avatar = lecturer.User.Avatar;
                 IsSecretary = lecturer.IsSecretary;
                 IsLecturerHasGraduateStudents = lecturer.IsLecturerHasGraduateStudents;
 
                 var groups = CorrelationService.GetCorrelation("Group", null);
-                Groups = new MultiSelectList(groups, "Id", "Name", lecturer.SecretaryGroups.Select(x => x.Id).ToList());
+	            if (lecturer.SecretaryGroups != null)
+	            {
+					Groups = new MultiSelectList(groups, "Id", "Name", lecturer.SecretaryGroups.Select(x => x.Id).ToList());   
+	            }
             }
         }
         
@@ -168,7 +174,13 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 MiddleName = Patronymic,
                 IsSecretary = IsSecretary,
                 IsLecturerHasGraduateStudents = IsLecturerHasGraduateStudents,
-                SecretaryGroups = selectedGroups
+                SecretaryGroups = selectedGroups,
+				User = new User()
+				{
+					Id = LecturerId,
+					Avatar = Avatar,
+					UserName = UserName,
+				}
             });
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.UI.WebControls;
 using Application.Core.Data;
 using LMPlatform.Models.KnowledgeTesting;
 
@@ -94,12 +95,14 @@ namespace LMPlatform.Models
             set;
         }
 
+		public string Avatar { get; set; }
+
         [NotMapped]
         public List<DateTime> AttendanceList
         {
             get
             {
-                if (!string.IsNullOrEmpty(Attendance))
+				if (!string.IsNullOrEmpty(Attendance))
                 {
                     return (List<DateTime>)JsonConvert.DeserializeObject(Attendance, (new List<DateTime>()).GetType());
                 }
