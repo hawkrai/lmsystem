@@ -1,4 +1,4 @@
-﻿<div class="modal-dialog panel panel-primary" style="margin: 0;width:700px;">
+﻿<div class="modal-dialog panel panel-primary" style="margin: 0;width:600px;">
     <div class="panel-heading">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
         <h4 class="modal-title">Добавление консультации</h4>
@@ -7,14 +7,19 @@
         <form novalidate name="forms.consultationDate">
             <div ng-class="{'has-error': submitted && forms.consultationDate.date.$error.required}">
                 <label class="control-label" for="Date">Дата консультации</label>
-                <input type="text" class="form-control"
-                       name="date"
-                       datepicker-popup="{{dateFormat}}"
-                       ng-model="consultation.date"
-                       is-open="opened"
-                       required
-                       close-text="Close"
-                       style="width: 100%" />
+                <p class="input-group">
+                    <input type="text" class="form-control" style="margin: 0"
+                           name="date"
+                           datepicker-popup="{{dateFormat}}"
+                           ng-model="consultation.date"
+                           is-open="form.datePickerOpened"
+                           required
+                           datepicker-options="dateOptions"
+                           show-button-bar="false" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="datePickerOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
                 <span class="help-block" ng-show="submitted && forms.consultationDate.date.$error.required">Введите Дату!</span>
             </div>
             <div style="text-align: right; padding: 20px 0;">

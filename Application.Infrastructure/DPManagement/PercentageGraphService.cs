@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -53,11 +52,20 @@ namespace Application.Infrastructure.DPManagement
             return GetPercentageGraphDataForLecturerQuery(lecturerId, groupId).ApplyPaging(parms);
         }
 
-        public List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int lecturerId)
+        public List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int lecturerId, GetPagedListParams parms)
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
 
-            return GetPercentageGraphDataForLecturerQuery(lecturerId, 0)
+            var secretaryId = 0;
+            if (parms.Filters.ContainsKey("secretaryId"))
+            {
+                int.TryParse(parms.Filters["secretaryId"], out secretaryId);
+            }
+
+            var isLecturerSecretary = Context.Lecturers.Single(x => x.Id == lecturerId).IsSecretary;
+            secretaryId = isLecturerSecretary ? lecturerId : secretaryId;
+
+            return GetPercentageGraphDataForLecturerQuery(isLecturerSecretary ? 0 : lecturerId, secretaryId)
                 .Where(x => x.Date >= _currentAcademicYearStartDate && x.Date < _currentAcademicYearEndDate)
                 .OrderBy(x => x.Date)
                 .ToList();
@@ -67,6 +75,7 @@ namespace Application.Infrastructure.DPManagement
         {
             return Context.DiplomProjectConsultationDates
                 .Where(x => x.Day >= _currentAcademicYearStartDate && x.Day < _currentAcademicYearEndDate)
+                .Where(x => x.LecturerId == lecturerId)
                 .OrderBy(x => x.Day)
                 .Select(x => new DiplomProjectConsultationDateData
                 {
@@ -81,13 +90,13 @@ namespace Application.Infrastructure.DPManagement
         /// Lecturer.DiplomProjects=>Groups.Secretary.PercentageGraphs
         /// </summary>
         /// <param name="lecturerId"></param>
-        /// <param name="groupId"></param>
+        /// <param name="secretaryId"></param>
         /// <returns></returns>
-        private IQueryable<PercentageGraphData> GetPercentageGraphDataForLecturerQuery(int lecturerId, int groupId)
+        private IQueryable<PercentageGraphData> GetPercentageGraphDataForLecturerQuery(int lecturerId, int secretaryId)
         {
-            return Context.Lecturers.Where(x => x.Id == lecturerId)
+            return Context.Lecturers.Where(x => lecturerId == 0 || x.Id == lecturerId)
                 .SelectMany(x => x.DiplomProjects
-                    .SelectMany(dp => dp.DiplomProjectGroups.Where(dpg => groupId == 0 || dpg.GroupId == groupId)
+                    .SelectMany(dp => dp.DiplomProjectGroups.Where(dpg => secretaryId == 0 || dpg.Group.SecretaryId == secretaryId)
                         .SelectMany(dpg => dpg.Group.Secretary.DiplomPercentagesGraphs)))
                 .Distinct().Select(ToPercentageDataPlain);
         }
@@ -118,21 +127,21 @@ namespace Application.Infrastructure.DPManagement
                 Context.DiplomPercentagesGraphs.Add(percentage);
             }
 
-//            percentage.DiplomPercentagesGraphToGroups = percentage.DiplomPercentagesGraphToGroups ??
-//                                                        new Collection<DiplomPercentagesGraphToGroup>();
+            //            percentage.DiplomPercentagesGraphToGroups = percentage.DiplomPercentagesGraphToGroups ??
+            //                                                        new Collection<DiplomPercentagesGraphToGroup>();
 
-//            var currentGroups = percentage.DiplomPercentagesGraphToGroups.ToList();
-//            var newGroups = percentageData.SelectedGroupsIds.Select(x => new DiplomPercentagesGraphToGroup
-//            {
-//                GroupId = x,
-//                DiplomPercentagesGraphId = percentage.Id
-//            }).ToList();
-//
-//            var groupsToAdd = newGroups.Except(currentGroups, grp => grp.GroupId).ToList();
-//            var groupsToDelete = currentGroups.Except(newGroups, grp => grp.GroupId).ToList();
-//
-//            groupsToAdd.ForEach(grp => percentage.DiplomPercentagesGraphToGroups.Add(grp));
-//            groupsToDelete.ForEach(grp => Context.DiplomPercentagesGraphToGroup.Remove(grp));
+            //            var currentGroups = percentage.DiplomPercentagesGraphToGroups.ToList();
+            //            var newGroups = percentageData.SelectedGroupsIds.Select(x => new DiplomPercentagesGraphToGroup
+            //            {
+            //                GroupId = x,
+            //                DiplomPercentagesGraphId = percentage.Id
+            //            }).ToList();
+            //
+            //            var groupsToAdd = newGroups.Except(currentGroups, grp => grp.GroupId).ToList();
+            //            var groupsToDelete = currentGroups.Except(newGroups, grp => grp.GroupId).ToList();
+            //
+            //            groupsToAdd.ForEach(grp => percentage.DiplomPercentagesGraphToGroups.Add(grp));
+            //            groupsToDelete.ForEach(grp => Context.DiplomPercentagesGraphToGroup.Remove(grp));
             percentage.LecturerId = userId;
             percentage.Name = percentageData.Name;
             percentage.Percentage = percentageData.Percentage;
@@ -211,7 +220,7 @@ namespace Application.Infrastructure.DPManagement
                 Day = date,
                 LecturerId = userId
             });
-            
+
             Context.SaveChanges();
         }
 

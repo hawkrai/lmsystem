@@ -1,4 +1,13 @@
-﻿<div class="modal-dialog panel panel-primary" style="margin: 0;width:700px;">
+﻿<style type="text/css">
+    .taskSheetEdit textarea {
+        max-width: 650px;
+        max-height: 700px;
+        width: 600px;
+        height: 400px;
+    }
+</style>
+
+<div class="modal-dialog panel panel-primary" style="margin: 0;width:700px;">
     <div class="panel-heading">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
         <h4 class="modal-title">Редактирование листа задания</h4>
@@ -13,13 +22,13 @@
                     </ui-select-choices>
                 </ui-select>
             </div>
-            <div>
-                <input ng-show="!selectedTemplateId" type="text" style="width:200px" ng-model="template.Name" placeholder="Название шаблона" />
-                <button ng-click="saveTaskSheetTemplate()" ng-disabled="!selectedTemplateId && !template.Name" type="submit" class="btn btn-primary btn-sm">Сохранить шаблон</button>
+            <div class="col-md-8" style="margin: -5px 0 15px 5px">
+                <input  type="text" style="width:200px;margin-right:5px;" ng-model="template.Name" placeholder="Название шаблона" />
+                <button ng-click="saveTaskSheetTemplate()" style="margin: 0 0 5px 5px" ng-disabled="!selectedTemplateId && !template.Name" type="submit" class="btn btn-primary btn-sm">Сохранить шаблон</button>
             </div>
         </div>
-        <br/>
-        <form>
+        <br />
+        <form class="taskSheetEdit">
             <tabset>
                 <tab heading="Входные данные">
                     <textarea ng-model="taskSheet.InputData"></textarea>

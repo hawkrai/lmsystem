@@ -6,6 +6,7 @@
         <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <thead>
                 <tr>
+                    <th width="1%">N</th>
                     <th width="80%">Студент</th>
                     <th width="10%">Группа</th>
                     <th width="5%" ng-repeat="consultation in consultations">
@@ -15,6 +16,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="student in $data">
+                    <td style="width:1%;text-align: left;">{{$index+1}}</td>
                     <td width="80%" style="text-align: left;">{{student.Name}}</td>
                     <td width="10%" style="text-align: center;">{{student.Group}}</td>
                     <td ng-repeat="consultation in consultations" width="5%" style="text-align: center;">

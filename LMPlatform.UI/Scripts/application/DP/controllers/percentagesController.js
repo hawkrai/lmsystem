@@ -17,10 +17,10 @@
 
             $scope.groups = [];
             $scope.group = { Id: null };
-            $scope.selectGroup = function (group) {
+            $scope.selectGroup = function(group) {
                 $scope.selectedGroupId = group.Id;
                 $scope.tableParams.reload();
-            }
+            };
 
             projectService.getLecturerDiplomGroupCorrelation()
                 .success(function (data) {
@@ -71,8 +71,7 @@
                     },
                 });
             };
-
-
+            
             $scope.tableParams = new ngTableParams(
                 {
                     page: 1,

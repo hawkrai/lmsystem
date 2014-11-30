@@ -25,6 +25,25 @@ angular
                 return $.datepicker.formatDate(format || "dd/mm/yy", date);
             };
 
+            $scope.todayIso = function() {
+                return $scope.getUtcDate(new Date()).toISOString();
+            };
+
+            $scope.getUtcDate = function (date) {
+                if (!date) return null;
+
+                if (typeof date == 'string') {
+                    date = new Date(Date.parse(date));
+                }
+                
+                return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+            };
+
+            $scope.dateOptions = {
+                startingDay: 1,
+                showWeeks: false,
+            };
+
             $scope.handleError = function(respData) {
                 var data = respData.data || respData;
                 var message = '';

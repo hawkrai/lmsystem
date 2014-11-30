@@ -13,10 +13,10 @@
 @section navleft
 {
     <li ng-class="{active:isActive('/Projects')}" class="navLink"><a href="#/Projects" class="linkNavbar">Темы дипломных проектов</a></li>
-    <li ng-class="{active:isActive('/TaskSheet')}" class="navLink"><a href="#/TaskSheet" class="linkNavbar">Лист задания</a></li>
+    <li ng-class="{active:isActive('/TaskSheet')}" ng-show="!user.IsSecretary" class="navLink"><a href="#/TaskSheet" class="linkNavbar">Лист задания</a></li>
     <li ng-class="{active:isActive('/Percentages')}" class="navLink"><a href="#/Percentages" class="linkNavbar">График процентовки</a></li>
     <li ng-class="{active:isActive('/PercentageResults')}" class="navLink"><a href="#/PercentageResults" class="linkNavbar">Результаты процентовки</a></li>
-    <li ng-class="{active:isActive('/VisitStats')}" class="navLink"><a href="#/VisitStats" class="linkNavbar">Статистика посещения консультаций</a></li>
+    <li ng-class="{active:isActive('/VisitStats')}" ng-show="!user.IsSecretary" class="navLink"><a href="#/VisitStats" class="linkNavbar">Статистика посещения консультаций</a></li>
 }
 
 @section headerTitle

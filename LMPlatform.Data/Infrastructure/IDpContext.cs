@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 using LMPlatform.Models;
 using LMPlatform.Models.DP;
 
@@ -35,5 +36,9 @@ namespace LMPlatform.Data.Infrastructure
         DbSet<DiplomProject> DiplomProjects { get; set; }
 
         DbSet<DiplomProjectTaskSheetTemplate> DiplomProjectTaskSheetTemplates { get; set; }
+
+        IQueryable<Student> GetGraduateStudents();
+
+        IQueryable<Group> GetGraduateGroups();
     }
 }

@@ -12,12 +12,12 @@
 
             $scope.isNew = angular.isUndefined(percentageId);
 
-            var now = new Date();
             $scope.percentage = {
                 Theme: '',
                 Id: null,
-                Date: new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).valueOf()
-        };
+                Date: $scope.todayIso()
+            };
+
 
             if (!$scope.isNew) {
                 percentages.get({ id: percentageId }, function (data) {
@@ -27,7 +27,7 @@
 
             projectService
                 .getGroupCorrelation()
-                .success(function (data, status, headers, config) {
+                .success(function (data) {
                     $scope.groups = data;
                 });
 
@@ -36,9 +36,9 @@
                 if ($scope.forms.percentageForm.Name.$invalid
                     || $scope.forms.percentageForm.Percentage.$invalid
                     || $scope.forms.percentageForm.Date.$invalid) return false;
-                
+
                 percentages.save($scope.percentage)
-                    .$promise.then(function (data, status, headers, config) {
+                    .$promise.then(function () {
                         $modalInstance.close();
                         alertify.success('График успешно сохранен.');
                     },
@@ -51,6 +51,13 @@
 
             $scope.closeDialog = function () {
                 $modalInstance.close();
+            };
+
+            $scope.datePickerOpen = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+
+                $scope.datePickerOpened = true;
             };
 
         }]);

@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Globalization;
+using System.Linq;
 using LMPlatform.Models.BTS;
 using LMPlatform.Models.DP;
 using LMPlatform.Models.KnowledgeTesting;
@@ -49,6 +52,26 @@ namespace LMPlatform.Data.Infrastructure
         {
             get;
             set;
+        }
+
+        public IQueryable<Student> GetGraduateStudents()
+        {
+            var currentYearStr = DateTime.Now.Year.ToString(CultureInfo.InvariantCulture);
+            var nextYearStr = DateTime.Now.AddYears(1).Year.ToString(CultureInfo.InvariantCulture);
+
+            return Students.Where(x =>
+                (x.Group.GraduationYear == currentYearStr && DateTime.Now.Month <= 9) ||
+                (x.Group.GraduationYear == nextYearStr && DateTime.Now.Month >= 9));
+        }
+
+        public IQueryable<Group> GetGraduateGroups()
+        {
+            var currentYearStr = DateTime.Now.Year.ToString(CultureInfo.InvariantCulture);
+            var nextYearStr = DateTime.Now.AddYears(1).Year.ToString(CultureInfo.InvariantCulture);
+
+            return Groups.Where(x =>
+                (x.GraduationYear == currentYearStr && DateTime.Now.Month <= 9) ||
+                (x.GraduationYear == nextYearStr && DateTime.Now.Month >= 9));
         }
 
         public DbSet<Group> Groups

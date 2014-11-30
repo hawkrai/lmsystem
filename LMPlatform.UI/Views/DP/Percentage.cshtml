@@ -18,17 +18,22 @@
             </div>
             <div ng-class="{'has-error': submitted && forms.percentageForm.Date.$invalid}">
                 <label class="control-label" for="Percentage">Дата</label>
-                <input type="text" class="form-control"
-                       name="Date"
-                       datepicker-popup="{{dateFormat}}"
-                       ng-model="percentage.Date"
-                       is-open="opened"
-                       required
-                       close-text="Close"
-                       style="width: 100%" />
+                <p class="input-group">
+                    <input type="text" class="form-control" style="margin: 0"
+                           name="Date"
+                           datepicker-popup="{{dateFormat}}"
+                           ng-model="percentage.Date"
+                           is-open="datePickerOpened"
+                           required
+                           datepicker-options="dateOptions"
+                           show-button-bar="false" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="datePickerOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
                 <span class="help-block" ng-show="submitted && forms.percentageForm.Date.$error.required">Введите Дату!</span>
             </div>
-            
+
             <div style="text-align: right; padding: 20px 0;">
                 <button type="button" class="btn btn-primary btn-sm" ng-click="closeDialog()">Отмена</button>
                 <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>

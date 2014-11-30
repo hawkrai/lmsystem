@@ -86,12 +86,12 @@
                 });
             };
 
+
             var editConsultationDateController = function ($modalInstance) {
 
                 $scope.submitted = false;
-                var now = new Date();
                 $scope.consultation = {
-                    date: new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).valueOf()
+                    date: $scope.todayIso()
                 };
 
                 $scope.saveConsultationDate = function () {
@@ -105,6 +105,14 @@
                     }, $scope.handleError);
 
                     $modalInstance.close();
+                };
+
+                $scope.form = {};
+                $scope.datePickerOpen = function ($event) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
+
+                    $scope.form.datePickerOpened = true;
                 };
 
                 $scope.closeDialog = function () {

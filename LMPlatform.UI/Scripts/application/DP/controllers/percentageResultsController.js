@@ -6,7 +6,8 @@
         'ngTableParams',
         '$resource',
         '$location',
-        function ($scope, $modal, ngTableParams, $resource, $location) {
+        'projectService',
+        function ($scope, $modal, ngTableParams, $resource, $location, projectService) {
 
             $scope.setTitle("Результаты процентовки");
 
@@ -14,6 +15,19 @@
             var studentMarks = $resource('api/StudentMark');
 
             $scope.percentages = [];
+
+            $scope.groups = [];
+            $scope.group = { Id: null };
+            $scope.selectGroup = function (group) {
+                $scope.selectedGroupId = group.Id;
+                $scope.tableParams.reload();
+            };
+
+            projectService.getLecturerDiplomGroupCorrelation()
+                .success(function (data) {
+                    $scope.groups = data;
+                });
+
 
             $scope.getPercentageResult = function (student, percentageGraphId) {
 
@@ -68,7 +82,11 @@
                     total: 0,
                     getData: function ($defer, params) {
                         $location.search(params.url());
-                        percentageResults.get(params.url(),
+                        percentageResults.get(angular.extend(params.url(), {
+                            filter:
+                            {
+                                secretaryId: $scope.selectedGroupId
+                            }}),
                             function (data) {
                                 $defer.resolve(data.Students.Items);
                                 params.total(data.Students.Total);

@@ -59,10 +59,14 @@
                 $scope.templates = [];
                 $scope.template = { Id: null };
 
-                projectService.getDiplomProjectTaskSheetTemplateCorrelation()
-                .success(function (data) {
-                    $scope.templates = data;
-                });
+                function updateTemplates() {
+                    projectService.getDiplomProjectTaskSheetTemplateCorrelation()
+                        .success(function(data) {
+                            $scope.templates = data;
+                        });
+                };
+
+                updateTemplates();
 
                 $scope.selectTemplate = function (template) {
                     $scope.selectedTemplateId = template.Id;
@@ -95,6 +99,7 @@
                     taskSheetTemplates.save(template)
                         .$promise.then(function () {
                             alertify.success('Данные успешно сохранены.');
+                            updateTemplates();
                         }, $scope.handleError);
                 };
 

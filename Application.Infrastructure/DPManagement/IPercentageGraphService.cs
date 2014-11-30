@@ -11,7 +11,7 @@ namespace Application.Infrastructure.DPManagement
 
         PagedList<PercentageGraphData> GetPercentageGraphsForLecturer(int lecturerId, GetPagedListParams parms, int groupId);
 
-        List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int lecturerId);
+        List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int lecturerId, GetPagedListParams parms);
 
         List<DiplomProjectConsultationDateData> GetConsultationDatesForLecturer(int lecturerId);
 

@@ -182,11 +182,10 @@ namespace Application.Infrastructure.DPManagement
 
             var diplomProjectId = int.Parse(parms.Filters["diplomProjectId"]);
 
-            return Context.Students
+            return Context.GetGraduateStudents()
                 .Include(x => x.Group.DiplomProjectGroups)
                 .Where(x => x.Group.DiplomProjectGroups.Any(dpg => dpg.DiplomProjectId == diplomProjectId))
                 .Where(x => !x.AssignedDiplomProjects.Any())
-                .Where(IsGraduateStudent)
                 .Select(s => new StudentData
                 {
                     Id = s.Id,
@@ -200,10 +199,19 @@ namespace Application.Infrastructure.DPManagement
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
 
+            var secretaryId = 0;
+            if (parms.Filters.ContainsKey("secretaryId"))
+            {
+                int.TryParse(parms.Filters["secretaryId"], out secretaryId);
+            }
+
+            var isLecturerSecretary = Context.Lecturers.Single(x => x.Id == lecturerId).IsSecretary;
+            secretaryId = isLecturerSecretary ? lecturerId : secretaryId;
+
             parms.SortExpression = "Name";
-            return Context.Students
-                .Where(x => x.AssignedDiplomProjects.Any(asd => asd.DiplomProject.LecturerId == lecturerId))
-                .Where(IsGraduateStudent)
+            return Context.GetGraduateStudents()
+                .Where(x => x.AssignedDiplomProjects.Any(asd => isLecturerSecretary || asd.DiplomProject.LecturerId == lecturerId))
+                .Where(x => secretaryId == 0 || x.Group.SecretaryId == secretaryId)
                 .Select(s => new StudentData
                 {
                     Id = s.Id,
@@ -259,18 +267,6 @@ namespace Application.Infrastructure.DPManagement
             }
 
             Context.SaveChanges();
-        }
-
-        private static Expression<Func<Student, bool>> IsGraduateStudent
-        {
-            get
-            {
-                var currentYearStr = DateTime.Now.Year.ToString(CultureInfo.InvariantCulture);
-                var nextYearStr = DateTime.Now.AddYears(1).Year.ToString(CultureInfo.InvariantCulture);
-                return x =>
-                    (x.Group.GraduationYear == currentYearStr && DateTime.Now.Month <= 9) ||
-                    (x.Group.GraduationYear == nextYearStr && DateTime.Now.Month >= 9);
-            }
         }
 
         private readonly LazyDependency<IDpContext> context = new LazyDependency<IDpContext>();

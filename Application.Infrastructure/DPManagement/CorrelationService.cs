@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Application.Core;
 using Application.Infrastructure.DTO;
@@ -41,24 +42,31 @@ namespace Application.Infrastructure.DPManagement
 
         private List<Correlation> GetGroupsCorrelation(int? id)
         {
-            return Context.Groups.Select(x => new Correlation
+            return Context.GetGraduateGroups().Select(x => new Correlation
                 {
                     Id = x.Id,
                     Name = x.Name
                 }).ToList();
         }
 
+        /// <summary>
+        /// Lecturer.AssignedProjects.Students.Groups.Secretary
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private List<Correlation> GetLecturerDiplomGroupsCorrelation(int? id)
         {
-            return Context.Lecturers.Where(x => x.Id == id)
-                .SelectMany(x => x.DiplomProjects
-                    .SelectMany(dp => dp.DiplomProjectGroups.Select(dpg => dpg.Group)))
-                    .Distinct()
-                    .Select(x => new Correlation
-                    {
-                        Id = x.Id,
-                        Name = x.Name
-                    }).ToList();
+            return Context.Lecturers
+                .Include(x => x.DiplomProjects.Select(dp => dp.AssignedDiplomProjects.Select(adp => adp.Student.Group.Secretary)))
+                .Single(x => x.Id == id)
+                .DiplomProjects.Where(dp => dp.AssignedDiplomProjects.Any())
+                .SelectMany(dp => dp.AssignedDiplomProjects.Select(ap => ap.Student.Group))
+                .GroupBy(x => x.Secretary, (secretary, groups) => new { secretary, groups })
+                .ToList().Select(x => new Correlation
+                {
+                    Id = x.secretary.Id,
+                    Name = string.Format("{0} ({1})", x.secretary.FullName, string.Join(", ", x.groups.Select(g => g.Name).Distinct()))
+                }).ToList();
         }
 
         private List<Correlation> GetDiplomProjectTaskSheetTemplateCorrelation(int? id)
