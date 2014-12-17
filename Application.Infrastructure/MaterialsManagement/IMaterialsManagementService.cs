@@ -8,5 +8,8 @@ namespace Application.Infrastructure.MaterialsManagement
 
     public interface IMaterialsManagementService
     {
+        List<Folders> GetFolders(int pid);
+
+        Folders CreateFolder(int pid);
     }
 }

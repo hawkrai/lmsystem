@@ -1,36 +1,24 @@
 ﻿angular
-    .module('dpApp', [
+    .module('materialsApp', [
         'ngRoute',
-        'frapontillo.bootstrap-duallistbox',
-        'ui.bootstrap',
-        'xeditable',
-        'dpApp.ctrl.home',
-        'ui.select'
+        'materialsApp.ctrl.home',
+        'materialsApp.ctrl.catalog',
+        'materialsApp.ctrl.new',
+        'materialsApp.service.material'
     ])
     .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
-        $routeProvider.when('/Projects', {
-            templateUrl: '/Dp/Projects',
-            controller: 'projectsCtrl',
+        $routeProvider.when('/Catalog', {
+            templateUrl: '/Materials/Catalog',
+            controller: 'catalogCtrl',
             reloadOnSearch: false
         });
-
-        $routeProvider.otherwise({
-            redirectTo: '/Projects'
+        $routeProvider.when('/New', {
+            templateUrl: '/Materials/New',
+            controller: 'newCtrl',
+            reloadOnSearch: false
         });
-    }]).directive('loadingContainer', function () {
-        return {
-            restrict: 'A',
-            scope: false,
-            link: function (scope, element, attrs) {
-                var loadingLayer = angular.element('<div class="loading"></div>');
-                element.append(loadingLayer);
-                element.addClass('loading-container');
-                scope.$watch(attrs.loadingContainer, function (value) {
-                    loadingLayer.toggleClass('ng-hide', !value);
-                });
-            }
-        };
-    }).run(function (editableOptions) {
-        editableOptions.theme = 'bs3';
-    });;
+        $routeProvider.otherwise({
+            redirectTo: '/Catalog'
+        });
+    }]);

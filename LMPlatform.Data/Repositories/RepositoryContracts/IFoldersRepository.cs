@@ -6,5 +6,8 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     public interface IFoldersRepository : IRepositoryBase<Folders>
     {
+        List<Folders> GetFoldersByPID(int id);
+
+        Folders CreateFolderByPID(int id);
     }
 }

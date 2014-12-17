@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Создание новых материалов";
+}
+
+  
+@section css
+{
+    <link rel="stylesheet" href="/Content/docs.min.css">
+    <link rel="stylesheet" href="/Content/materials.css">
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/materialsApp")
+}
+
+@section navleft
+{
+           <li><a href="/Materials/New" class="linkNavbar"><i class="fa fa-floppy-o"></i>Сохранить</a></li>
+}
+
+
+<script type="text/javascript">
+tinymce.init({
+    selector: "textarea",
+    autoresize_min_height: "450px",
+    autoresize_max_height: "500px",
+    plugins: [
+        "advlist autolink lists link image charmap print preview anchor",
+        "searchreplace visualblocks code fullscreen",
+        "insertdatetime media table contextmenu paste autoresize"
+    ],
+    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+});
+</script>
+
+
+<form method="post" action="somepage">
+    <textarea style="padding:0px;"></textarea>
+</form>
+

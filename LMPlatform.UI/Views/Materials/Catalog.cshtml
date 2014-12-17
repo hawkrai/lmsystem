@@ -1,0 +1,13 @@
+﻿    <div class="bs-docs-section catalog" delete-context-menu data-pid="@ViewBag.Pid">
+        <div class="bs-glyphicons">
+            <ul class="bs-glyphicons-list">
+                <li ng-repeat="folder in folders" class="folder" context-menu-folder ng-dblclick="openFolder()" data-pidfolder="{{folder.Id}}">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    <span class="glyphicon-class">{{folder.Name}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+        

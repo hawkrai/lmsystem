@@ -17,8 +17,19 @@ namespace LMPlatform.UI.Controllers
             ViewBag.folders = folders;
 
             ViewBag.NgApp = "materialsApp";
-            ViewBag.NgController = "homeCtr";
+            ViewBag.NgController = "homeCtrl";
 
+            return View();
+        }
+
+        public ActionResult Catalog()
+        {
+            ViewBag.Pid = 0;
+            return PartialView();
+        }
+
+        public ActionResult New()
+        {
             return View();
         }
 

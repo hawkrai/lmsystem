@@ -15,55 +15,11 @@
 
 @section scripts
 {
-    <script src="/Scripts/application/Messages/msgModule.js" type="text/javascript"></script>
+    @Scripts.Render("~/bundles/materialsApp")
 }
-<div class="bs-docs-section">
-<div class="bs-glyphicons">
-    <ul class="bs-glyphicons-list">
-        <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfh</span>
-        </li>
-        <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfh</span>
-        </li>
-        <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfdasdah</span>
-        </li>
-        <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfdasdah</span>
-        </li>
-        <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfdasdah</span>
-        </li>
-        <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfdasdah</span>
-        </li>
-        <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfdasdah</span>
-        </li>
-        <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfdasdah</span>
-        </li>
-          <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfdasdah</span>
-        </li>
-          <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfdasdah</span>
-        </li>
-          <li>
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <span class="glyphicon-class">NJdfdasdah</span>
-        </li>
-    </ul>
-</div>
-    </div>
+
+@section navleft
+{
+           <li><a href="/Materials/New" class="linkNavbar"><i class="fa fa-plus"></i>Создать новый материал</a></li>
+}
+<div ng-view></div>

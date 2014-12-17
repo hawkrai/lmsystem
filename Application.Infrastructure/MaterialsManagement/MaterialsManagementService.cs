@@ -15,5 +15,24 @@ namespace Application.Infrastructure.MaterialsManagement
 
     public class MaterialsManagementService : IMaterialsManagementService
     {
+        public List<Folders> GetFolders(int PID)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                List<Folders> folders = repositoriesContainer.FoldersRepository.GetFoldersByPID(PID);
+
+                return folders;
+            }
+        }
+
+        public Folders CreateFolder(int PID)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                Folders folder = repositoriesContainer.FoldersRepository.CreateFolderByPID(PID);
+
+                return folder;
+            }
+        }
     }
 }

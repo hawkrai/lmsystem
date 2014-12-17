@@ -15,11 +15,9 @@ namespace LMPlatform.UI.Services.Materials
 
     using LMPlatform.Models;
     using LMPlatform.UI.Services.Modules;
-    using LMPlatform.UI.Services.Modules.News;
+    using LMPlatform.UI.Services.Modules.Materials;
     using LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel;
 
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "MaterialsService" in code, svc and config file together.
-    // NOTE: In order to launch WCF Test Client for testing this service, please select MaterialsService.svc or MaterialsService.svc.cs at the Solution Explorer and start debugging.
     public class MaterialsService : IMaterialsService
     {
         private readonly LazyDependency<IMaterialsManagementService> _materialsManagementService = new LazyDependency<IMaterialsManagementService>();
@@ -32,8 +30,40 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
-        public void DoWork()
+        public FoldersResult GetFolders(string Pid)
         {
+            int pid = int.Parse(Pid);
+            List<Folders> fl = MaterialsManagementService.GetFolders(pid);
+            return new FoldersResult
+            {
+                Folders = fl.Select(e => new FoldersViewData(e)).ToList(),
+                Message = "Сообщение отправлено",
+                Code = "200"
+            };
+        }
+
+        public FoldersResult CreateFolder(string Pid)
+        {
+            try
+            {
+                int pid = int.Parse(Pid);
+                Folders fls = MaterialsManagementService.CreateFolder(pid);
+                List<Folders> fl = MaterialsManagementService.GetFolders(pid);
+                return new FoldersResult
+                {
+                    Folders = fl.Select(e => new FoldersViewData(e)).ToList(),
+                    Message = "Папка создана",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new FoldersResult
+                {
+                    Message = "Ошибка создания папки",
+                    Code = "500"
+                };
+            }
         }
     }
 }
