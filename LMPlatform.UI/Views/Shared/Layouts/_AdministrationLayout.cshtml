@@ -31,7 +31,7 @@
     <script src="~/Scripts/application/Administration/administrationManagement.js" type="text/javascript"></script>
 </head>
 <body>
-    <div id="admin" style="padding-left: 300px;">
+    <div id="admin">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -90,7 +90,7 @@
         @RenderSection("specificScripts", required: false)
         <div class="section-wrapper">
             @RenderSection("scripts", false)
-            <section class="well">
+            <section >
                 <div style="padding: 0 10px">
                     @if (IsSectionDefined("title"))
                     {
@@ -104,16 +104,6 @@
                 </div>
             </section>
         </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>
-                        &copy; @DateTime.Now.Year - Администрирование LMP разработка
-                    </p>
-                </div>
-            </div>
-        </footer>
-
         @Scripts.Render("~/bundles/bootbox")
     </div>
 </body>
