@@ -46,7 +46,8 @@
 			<li class="divider"></li>
 			@if (User.IsInRole("lector"))
 			{
-				<li><a href="@Url.Action("Management", "Subject")" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> Управление предметами</a></li>
+				<hr style="margin: 0">
+				<li><a href="@Url.Action("Management", "Subject")" style="margin-left: 5px;padding: 15px;" class="linkNavbarLevelBelow">Управление предметами</a></li>
 			}
 		</ul>
 	</li>
