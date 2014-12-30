@@ -29,8 +29,8 @@
                         </h4>
                         <div style="text-align: right">
                             <p class="text-muted" style="float: right; margin-left: 20px">{{data.DateCreate}}</p>
-                            <a class="editNewsButton" style="margin-right: 10px" href="#" ng-click="editNews(data)"><i class="editNewsButton fa fa-edit fa-1x"></i></a>
-                            <a class="deleteNewsButton" href="#" ng-click="deleteNews(data)"><i class="deleteNewsButton fa fa-trash-o fa-1x"></i></a>
+							<a class="editNewsButton" style="margin-right: 10px" href="#" ng-click="editNews(data)" tooltip="Редактировать новость" tooltip-trigger="mouseenter" tooltip-placement="left"><i class="editNewsButton fa fa-edit fa-1x"></i></a>
+							<a class="deleteNewsButton" href="#" ng-click="deleteNews(data)" tooltip="Удалить новость" tooltip-trigger="mouseenter" tooltip-placement="left"><i class="deleteNewsButton fa fa-trash-o fa-1x"></i></a>
                         </div>
                         <div class="clear-fix"></div>
                     </accordion-heading>
@@ -41,35 +41,34 @@
             </accordion>
         </div>
     </div>
-    <div id="dialogAddNews" class="modal">
-        <div class="modal-dialog panel panel-primary" style="padding: 0px">
-            <div class="panel-heading">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Добавление новости</h4>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <div>
-                        <label class="control-label">Название новости</label>
-                        <input type="text" class="form-control" style="width: 545px" ng-model="editNewsData.Title" />
-                    </div>
-                    <div>
-                        <label class="control-label">Текст новости</label>
-                        <div class="lighter" style="width: 545px">
-                            <div text-angular ng-model="editNewsData.Body" name="editor" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
-                        </div>
-                        @*<textarea id="newsHtml" class="form-control" style="width: 545px; height: 300px" ng-model="editNewsData.Body"></textarea>*@
-                    </div>
-                    <div>
-                        <input type="checkbox" id="newsIsOLd" ng-model="editNewsData.IsOldDate" /><span> Оставить старую дату новости</span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                <a href="#" class="btn btn-primary btn-sm" ng-click="saveNews()" id="saveNewsButton" data-dismiss="modal">Сохранить</a>
-            </div>
-        </div>
-    </div>
-
+	<div id="dialogAddNews" class="modal">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Добавление новости</h4>
+			</div>
+			<div class="modal-body">
+				<div>
+					<div>
+						<label class="control-label">Название новости</label>
+						<input type="text" class="form-control" style="width: 545px" ng-model="editNewsData.Title" />
+					</div>
+					<div>
+						<label class="control-label">Текст новости</label>
+						<div class="lighter" style="width: 545px">
+							<div text-angular ng-model="editNewsData.Body" name="editor" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
+						</div>
+						@*<textarea id="newsHtml" class="form-control" style="width: 545px; height: 300px" ng-model="editNewsData.Body"></textarea>*@
+					</div>
+					<div>
+						<input type="checkbox" id="newsIsOLd" ng-model="editNewsData.IsOldDate" /><span> Оставить старую дату новости</span>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+				<a href="#" class="btn btn-primary btn-sm" ng-click="saveNews()" id="saveNewsButton" data-dismiss="modal">Сохранить</a>
+			</div>
+		</div>
+	</div>
 </div>

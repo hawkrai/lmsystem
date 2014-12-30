@@ -227,7 +227,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         $scope.init = function () {
             $scope.news = [];
             $scope.loadNews();
-            //$('#newsHtml').wysihtml5();
+	        //$('#newsHtml').wysihtml5();
         };
 
         $scope.loadNews = function () {
@@ -358,7 +358,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $scope.ticks = ['1', '2', '3'];
             $scope.barvalues = [2, 4, 6];
 
-            $scope.setBarChart();
+            //$scope.setBarChart();
         };
 
         $scope.changeGroups = function (selectedGroup) {
@@ -884,7 +884,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $scope.editLabsData.PathFile = "";
             $scope.editLabsData.ShortName = "";
             $scope.editLabsData.Id = "0";
-            $scope.editLabsData.Order = "0";
+            $scope.editLabsData.Order = 0;
 
             $("#labsFile").empty();
 

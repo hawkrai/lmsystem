@@ -116,7 +116,7 @@ namespace LMPlatform.UI.Services.Practicals
                 });
                 return new ResultViewData()
                 {
-                    Message = "Дата успешно добавлена",
+                    Message = "Дата успешно добавлены",
                     Code = "200"
                 };
             }

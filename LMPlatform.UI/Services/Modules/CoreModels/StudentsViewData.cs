@@ -142,9 +142,9 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
             }
 
             var summ = this.StudentLabMarks.Where(studentLabMarkViewData => !string.IsNullOrEmpty(studentLabMarkViewData.Mark)).Sum(studentLabMarkViewData => double.Parse(studentLabMarkViewData.Mark));
-            if (StudentLabMarks.Count() != 0)
+            if (StudentLabMarks.Count(e => !string.IsNullOrEmpty(e.Mark)) != 0)
             {
-                LabsMarkTotal = (summ / StudentLabMarks.Count()).ToString(CultureInfo.InvariantCulture);    
+				LabsMarkTotal = (summ / StudentLabMarks.Count(e => !string.IsNullOrEmpty(e.Mark))).ToString(CultureInfo.InvariantCulture);    
             }
 
             summ = this.StudentPracticalMarks.Where(studentPracticalMarkViewData => !string.IsNullOrEmpty(studentPracticalMarkViewData.Mark)).Sum(studentPracticalMarkViewData => double.Parse(studentPracticalMarkViewData.Mark));
