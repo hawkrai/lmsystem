@@ -56,17 +56,34 @@ namespace Application.Infrastructure.DPManagement
         /// <returns></returns>
         private List<Correlation> GetLecturerDiplomGroupsCorrelation(int? id)
         {
-            return Context.Lecturers
-                .Include(x => x.DiplomProjects.Select(dp => dp.AssignedDiplomProjects.Select(adp => adp.Student.Group.Secretary)))
-                .Single(x => x.Id == id)
-                .DiplomProjects.Where(dp => dp.AssignedDiplomProjects.Any())
-                .SelectMany(dp => dp.AssignedDiplomProjects.Select(ap => ap.Student.Group))
-                .GroupBy(x => x.Secretary, (secretary, groups) => new { secretary, groups })
-                .ToList().Select(x => new Correlation
-                {
-                    Id = x.secretary.Id,
-                    Name = string.Format("{0} ({1})", x.secretary.FullName, string.Join(", ", x.groups.Select(g => g.Name).Distinct()))
-                }).ToList();
+            if (!id.HasValue)
+            {
+                throw new ApplicationException("userId cant be null!");
+            }
+
+            return AuthorizationHelper.IsLecturer(Context, id.Value)
+                ? Context.Lecturers
+                    .Include(
+                        x =>
+                            x.DiplomProjects.Select(
+                                dp => dp.AssignedDiplomProjects.Select(adp => adp.Student.Group.Secretary)))
+                    .Single(x => x.Id == id)
+                    .DiplomProjects.Where(dp => dp.AssignedDiplomProjects.Any())
+                    .SelectMany(dp => dp.AssignedDiplomProjects.Select(ap => ap.Student.Group))
+                    .Where(x => x.Secretary != null)
+                    .GroupBy(x => x.Secretary, (secretary, groups) => new { secretary, groups })
+                    .ToList().Select(x => new Correlation
+                    {
+                        Id = x.secretary.Id,
+                        Name = string.Format("{0} ({1})", x.secretary.FullName, string.Join(", ", x.groups.Select(g => g.Name).Distinct()))
+                    }).ToList()
+                : AuthorizationHelper.IsStudent(Context, id.Value)
+                    ? Context.Students.Where(x => x.Id == id).Select(x => x.Group.Secretary).Where(x => x != null).ToList()
+                    .Select(x => new Correlation
+                    {
+                        Id = x.Id,
+                        Name = x.FullName
+                    }).ToList() : new List<Correlation>();
         }
 
         private List<Correlation> GetDiplomProjectTaskSheetTemplateCorrelation(int? id)
@@ -86,7 +103,7 @@ namespace Application.Infrastructure.DPManagement
                 {
                     Id = x.DiplomProjectId,
                     Name = x.Theme
-                }).ToList();
+                }).OrderBy(x => x.Name).ToList();
         }
     }
 }

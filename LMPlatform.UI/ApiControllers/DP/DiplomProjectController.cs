@@ -23,7 +23,7 @@ namespace LMPlatform.UI.ApiControllers.DP
 
         public PagedList<DiplomProjectData> Get([ModelBinder]GetPagedListParams parms)
         {
-            return DpManagementService.GetProjects(parms);
+            return DpManagementService.GetProjects(WebSecurity.CurrentUserId, parms);
         }
 
         public DiplomProjectData Get(int id)

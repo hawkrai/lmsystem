@@ -21,61 +21,82 @@ namespace Application.Infrastructure.DPManagement
             get { return context.Value; }
         }
 
-        public PagedList<PercentageGraphData> GetPercentageGraphs(int lecturerId, GetPagedListParams parms)
+        public PagedList<PercentageGraphData> GetPercentageGraphs(int userId, GetPagedListParams parms)
         {
-            AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
-
             var groupId = 0;
             if (parms.Filters.ContainsKey("groupId"))
             {
                 int.TryParse(parms.Filters["groupId"], out groupId);
             }
 
-            var isSecretary = Context.Lecturers.Single(x => x.Id == lecturerId).IsSecretary;
-            if (!isSecretary)
+            var user = Context.Users.Include(x => x.Student.Group).Include(x => x.Lecturer).Single(x => x.Id == userId);
+
+            var isLecturer = user.Lecturer != null;
+            var isStudent = user.Student != null;
+            var isSecretary = isLecturer && user.Lecturer.IsSecretary;
+            if (isLecturer && !isSecretary)
             {
-                return GetPercentageGraphsForLecturer(lecturerId, parms, groupId);
+                return GetPercentageGraphsForLecturer(userId, parms, groupId);
             }
 
+            var secretaryId = isStudent ? user.Student.Group.SecretaryId : userId;
             return Context.DiplomPercentagesGraphs
                 .AsNoTracking()
-                .Where(x => x.LecturerId == lecturerId)
+                .Where(x => x.LecturerId == secretaryId)
                 .Select(ToPercentageDataPlain)
                 .ApplyPaging(parms);
         }
 
-        public PagedList<PercentageGraphData> GetPercentageGraphsForLecturer(int lecturerId, GetPagedListParams parms, int groupId)
+        public PagedList<PercentageGraphData> GetPercentageGraphsForLecturer(int lecturerId, GetPagedListParams parms, int secretaryId)
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
 
             parms.SortExpression = "Date";
-            return GetPercentageGraphDataForLecturerQuery(lecturerId, groupId).ApplyPaging(parms);
+            return GetPercentageGraphDataForLecturerQuery(lecturerId, secretaryId).ApplyPaging(parms);
         }
 
-        public List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int lecturerId, GetPagedListParams parms)
+        public List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int userId, GetPagedListParams parms)
         {
-            AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
-
             var secretaryId = 0;
             if (parms.Filters.ContainsKey("secretaryId"))
             {
                 int.TryParse(parms.Filters["secretaryId"], out secretaryId);
             }
 
-            var isLecturerSecretary = Context.Lecturers.Single(x => x.Id == lecturerId).IsSecretary;
-            secretaryId = isLecturerSecretary ? lecturerId : secretaryId;
+            var isStudent = AuthorizationHelper.IsStudent(Context, userId);
+            var isLecturer = AuthorizationHelper.IsLecturer(Context, userId);
+            var isLecturerSecretary = isLecturer && Context.Lecturers.Single(x => x.Id == userId).IsSecretary;
+            secretaryId = isLecturerSecretary ? userId : secretaryId;
 
-            return GetPercentageGraphDataForLecturerQuery(isLecturerSecretary ? 0 : lecturerId, secretaryId)
+            if (isStudent)
+            {
+                secretaryId = Context.Users.Where(x => x.Id == userId).Select(x => x.Student.Group.SecretaryId).Single() ?? 0;
+            }
+
+            return GetPercentageGraphDataForLecturerQuery(isLecturerSecretary || isStudent ? 0 : userId, secretaryId)
                 .Where(x => x.Date >= _currentAcademicYearStartDate && x.Date < _currentAcademicYearEndDate)
                 .OrderBy(x => x.Date)
                 .ToList();
         }
 
-        public List<DiplomProjectConsultationDateData> GetConsultationDatesForLecturer(int lecturerId)
+        public List<DiplomProjectConsultationDateData> GetConsultationDatesForUser(int userId)
         {
+            if (AuthorizationHelper.IsStudent(Context, userId))
+            {
+                var student = Context.Students
+                    .Include(x => x.AssignedDiplomProjects.Select(adp => adp.DiplomProject))
+                    .Single(x => x.User.Id == userId);
+                if (student.AssignedDiplomProjects.Count == 0)
+                {
+                    return new List<DiplomProjectConsultationDateData>();
+                }
+
+                userId = student.AssignedDiplomProjects.First().DiplomProject.LecturerId ?? 0;
+            }
+
             return Context.DiplomProjectConsultationDates
                 .Where(x => x.Day >= _currentAcademicYearStartDate && x.Day < _currentAcademicYearEndDate)
-                .Where(x => x.LecturerId == lecturerId)
+                .Where(x => x.LecturerId == userId)
                 .OrderBy(x => x.Day)
                 .Select(x => new DiplomProjectConsultationDateData
                 {

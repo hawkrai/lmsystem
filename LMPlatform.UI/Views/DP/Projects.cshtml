@@ -6,7 +6,7 @@
         <div loading-container="tableParams.settings().$loading">
         <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <tr ng-repeat="project in $data">
-                <td style="width:1%;text-align: left;" data-title="'N'">{{$index+1}}</td>
+                <td style="width:1%;text-align: left;" data-title="'№'">{{$index+1}}</td>
                 <td width="45%" style="text-align: left;" data-title="'Тема'" sortable="'Theme'">{{project.Theme}}</td>
                 <td width="10%" data-title="'Руководитель'" sortable="'Lecturer'">{{project.Lecturer}}</td>
                 <td width="10%" data-title="'Студент'" sortable="'Student'">{{project.Student}}</td>
@@ -27,6 +27,17 @@
                     </a>
                     <a ng-click="deleteProject(project.Id)" style="margin-right: 10px">
                         <i tooltip-placement="left" tooltip="Удалить" class="fa fa-trash-o fa-2x"></i>
+                    </a>
+                    <a ng-show="project.Student!=null && project.ApproveDate == null" ng-click="confirmProject(project.Id)">
+                        <i tooltip-placement="left" tooltip="Подтвердить выбранную тему" class="fa fa-check fa-2x"></i>
+                    </a>
+                </td>
+                <td ng-show="user.IsStudent && !user.HasAssignedDiplomProject" width="10%" data-title="'Действие'">
+                    <a ng-show="project.Student==null" ng-click="chooseProject(project.Id)" >
+                        <i tooltip-placement="left" tooltip="Выбрать тему" class="fa fa-check fa-2x"></i>
+                    </a>
+                    <a ng-show="project.StudentId == user.UserId" ng-click="downloadTaskSheet(project.Id)" >
+                        <i tooltip-placement="left" tooltip="Скачать лист задания" class="fa fa-download fa-2x"></i>
                     </a>
                 </td>
             </tr>

@@ -7,13 +7,13 @@ namespace Application.Infrastructure.DPManagement
 {
     public interface IPercentageGraphService
     {
-        PagedList<PercentageGraphData> GetPercentageGraphs(int lecturerId, GetPagedListParams parms);
+        PagedList<PercentageGraphData> GetPercentageGraphs(int userId, GetPagedListParams parms);
 
-        PagedList<PercentageGraphData> GetPercentageGraphsForLecturer(int lecturerId, GetPagedListParams parms, int groupId);
+        PagedList<PercentageGraphData> GetPercentageGraphsForLecturer(int lecturerId, GetPagedListParams parms, int secretaryId);
 
-        List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int lecturerId, GetPagedListParams parms);
+        List<PercentageGraphData> GetPercentageGraphsForLecturerAll(int userId, GetPagedListParams parms);
 
-        List<DiplomProjectConsultationDateData> GetConsultationDatesForLecturer(int lecturerId);
+        List<DiplomProjectConsultationDateData> GetConsultationDatesForUser(int userId);
 
         void SavePercentage(int userId, PercentageGraphData percentageData);
 

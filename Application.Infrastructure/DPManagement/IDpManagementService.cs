@@ -7,7 +7,7 @@ namespace Application.Infrastructure.DPManagement
 {
     public interface IDpManagementService
     {
-        PagedList<DiplomProjectData> GetProjects(GetPagedListParams parms);
+        PagedList<DiplomProjectData> GetProjects(int userId, GetPagedListParams parms);
 
         DiplomProjectData GetProject(int id);
 
@@ -27,7 +27,7 @@ namespace Application.Infrastructure.DPManagement
 
         PagedList<StudentData> GetStudentsByDiplomProjectId(GetPagedListParams parms);
 
-        PagedList<StudentData> GetGraduateStudentsForLecturer(int lecturerId, GetPagedListParams parms);
+        PagedList<StudentData> GetGraduateStudentsForUser(int userId, GetPagedListParams parms, bool getBySecretaryForStudent = true);
 
         bool ShowDpSectionForUser(int userId);
 

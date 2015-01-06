@@ -1,40 +1,49 @@
 ﻿using System;
-using System.Data;
 using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
 using Application.Core;
 using Application.Core.Data;
 using Application.Core.Extensions;
 using Application.Infrastructure.DTO;
 using LMPlatform.Data.Infrastructure;
-using LMPlatform.Models;
 using LMPlatform.Models.DP;
-using WebMatrix.WebData;
 
 namespace Application.Infrastructure.DPManagement
 {
     public class DpManagementService : IDpManagementService
     {
-        //todo: add lecturerId param and filter by it
-        public PagedList<DiplomProjectData> GetProjects(GetPagedListParams parms)
+        public PagedList<DiplomProjectData> GetProjects(int userId, GetPagedListParams parms)
         {
             var query = Context.DiplomProjects.AsNoTracking()
                 .Include(x => x.Lecturer)
                 .Include(x => x.AssignedDiplomProjects.Select(asp => asp.Student.Group));
 
-            return (from dp in query
-                    let adp = dp.AssignedDiplomProjects.FirstOrDefault()
-                    select new DiplomProjectData
-                    {
-                        Id = dp.DiplomProjectId,
-                        Theme = dp.Theme,
-                        Lecturer = dp.Lecturer != null ? dp.Lecturer.LastName + " " + dp.Lecturer.FirstName + " " + dp.Lecturer.MiddleName : null,
-                        Student = adp.Student != null ? adp.Student.LastName + " " + adp.Student.FirstName + " " + adp.Student.MiddleName : null,
-                        Group = adp.Student.Group.Name,
-                        ApproveDate = adp.ApproveDate
-                    }).ApplyPaging(parms);
+            var user = Context.Users.Include(x => x.Student).Include(x => x.Lecturer).SingleOrDefault(x => x.Id == userId);
+
+            if (user != null && user.Lecturer != null && !user.Lecturer.IsSecretary)
+            {
+                query = query.Where(x => x.LecturerId == userId);
+            }
+
+            if (user != null && user.Student != null)
+            {
+                query = query.Where(x => x.DiplomProjectGroups.Any(dpg => dpg.GroupId == user.Student.GroupId));
+            }
+
+            var diplomProjects = from dp in query
+                                 let adp = dp.AssignedDiplomProjects.FirstOrDefault()
+                                 select new DiplomProjectData
+                                 {
+                                     Id = dp.DiplomProjectId,
+                                     Theme = dp.Theme,
+                                     Lecturer = dp.Lecturer != null ? dp.Lecturer.LastName + " " + dp.Lecturer.FirstName + " " + dp.Lecturer.MiddleName : null,
+                                     Student = adp.Student != null ? adp.Student.LastName + " " + adp.Student.FirstName + " " + adp.Student.MiddleName : null,
+                                     StudentId = adp.StudentId,
+                                     Group = adp.Student.Group.Name,
+                                     ApproveDate = adp.ApproveDate
+                                 };
+
+            return diplomProjects.ApplyPaging(parms);
         }
 
         public DiplomProjectData GetProject(int id)
@@ -132,13 +141,28 @@ namespace Application.Infrastructure.DPManagement
 
         public void AssignProject(int userId, int projectId, int studentId)
         {
-            AuthorizationHelper.ValidateLecturerAccess(Context, userId);
+            var isLecturer = AuthorizationHelper.IsLecturer(Context, userId);
+            var isStudent = AuthorizationHelper.IsStudent(Context, userId);
+            studentId = isStudent ? userId : studentId;
 
             var assignment = Context.AssignedDiplomProjects.FirstOrDefault(x => x.DiplomProjectId == projectId);
 
-            if (assignment != null && assignment.ApproveDate.HasValue)
+            if ((isLecturer && assignment != null && assignment.ApproveDate.HasValue)
+                || (isStudent && assignment != null))
             {
                 throw new ApplicationException("The selected Diplom Project has already been assigned!");
+            }
+
+            var studentAssignments = Context.AssignedDiplomProjects.Where(x => x.StudentId == studentId);
+
+            if (isStudent && studentAssignments.Any(x => x.ApproveDate.HasValue))
+            {
+                throw new ApplicationException("You already have an assigned project!");
+            }
+
+            foreach (var studentAssignment in studentAssignments)
+            {
+                Context.AssignedDiplomProjects.Remove(studentAssignment);
             }
 
             if (assignment == null)
@@ -150,8 +174,8 @@ namespace Application.Infrastructure.DPManagement
                 Context.AssignedDiplomProjects.Add(assignment);
             }
 
-            assignment.StudentId = studentId;
-            assignment.ApproveDate = AuthorizationHelper.IsLecturer(Context, userId) ? (DateTime?)DateTime.Now : null;
+            assignment.StudentId = studentId == 0 ? assignment.StudentId : studentId;
+            assignment.ApproveDate = isLecturer ? (DateTime?)DateTime.Now : null;
             Context.SaveChanges();
         }
 
@@ -178,7 +202,7 @@ namespace Application.Infrastructure.DPManagement
                 throw new ApplicationException("diplomPorjectId can't be empty!");
             }
 
-            parms.SortExpression = "Name";
+            parms.SortExpression = "Group, Name";
 
             var diplomProjectId = int.Parse(parms.Filters["diplomProjectId"]);
 
@@ -195,22 +219,35 @@ namespace Application.Infrastructure.DPManagement
         }
 
         //Can we conditionally select only particular navigation collection?
-        public PagedList<StudentData> GetGraduateStudentsForLecturer(int lecturerId, GetPagedListParams parms)
+        public PagedList<StudentData> GetGraduateStudentsForUser(int userId, GetPagedListParams parms, bool getBySecretaryForStudent = true)
         {
-            AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);
-
             var secretaryId = 0;
             if (parms.Filters.ContainsKey("secretaryId"))
             {
                 int.TryParse(parms.Filters["secretaryId"], out secretaryId);
             }
 
-            var isLecturerSecretary = Context.Lecturers.Single(x => x.Id == lecturerId).IsSecretary;
-            secretaryId = isLecturerSecretary ? lecturerId : secretaryId;
+            var isStudent = AuthorizationHelper.IsStudent(Context, userId);
+            var isLecturer = AuthorizationHelper.IsLecturer(Context, userId);
+            var isLecturerSecretary = isLecturer && Context.Lecturers.Single(x => x.Id == userId).IsSecretary;
+            secretaryId = isLecturerSecretary ? userId : secretaryId;
+            if (isStudent)
+            {
+                if (getBySecretaryForStudent)
+                {
+                    secretaryId = Context.Users.Where(x => x.Id == userId).Select(x => x.Student.Group.SecretaryId).Single() ?? 0;
+                }
+                else
+                {
+                    userId = Context.Users.Where(x => x.Id == userId)
+                            .Select(x => x.Student.AssignedDiplomProjects.FirstOrDefault().DiplomProject.LecturerId)
+                            .Single() ?? 0;
+                }
+            }
 
             parms.SortExpression = "Name";
             return Context.GetGraduateStudents()
-                .Where(x => x.AssignedDiplomProjects.Any(asd => isLecturerSecretary || asd.DiplomProject.LecturerId == lecturerId))
+                .Where(x => isLecturerSecretary || (isStudent && getBySecretaryForStudent) || x.AssignedDiplomProjects.Any(asd => asd.DiplomProject.LecturerId == userId))
                 .Where(x => secretaryId == 0 || x.Group.SecretaryId == secretaryId)
                 .Select(s => new StudentData
                 {
@@ -256,10 +293,16 @@ namespace Application.Infrastructure.DPManagement
 
         public void SaveTaskSheetTemplate(DiplomProjectTaskSheetTemplate template)
         {
-            if (template.Id != 0)
+            var existingTemplate = Context.DiplomProjectTaskSheetTemplates.FirstOrDefault(x => x.Name.Trim() == template.Name.Trim())
+                ?? Context.DiplomProjectTaskSheetTemplates.SingleOrDefault(x => x.Id == template.Id);
+            if (existingTemplate != null)
             {
-                Context.DiplomProjectTaskSheetTemplates.Attach(template);
-                (Context as DbContext).Entry(template).State = EntityState.Modified;
+                existingTemplate.Name = template.Name;
+                existingTemplate.InputData = template.InputData;
+                existingTemplate.Consultants = template.Consultants;
+                existingTemplate.DrawMaterials = template.DrawMaterials;
+                existingTemplate.RpzContent = template.RpzContent;
+                existingTemplate.LecturerId = template.LecturerId;
             }
             else
             {

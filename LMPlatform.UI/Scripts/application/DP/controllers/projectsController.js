@@ -70,9 +70,9 @@
                         },
                         'confirm': {
                             label: 'Удалить',
-                            className: 'btn btn-primary btn-sm',
+                            className: 'btn btn-primary btn-sm'
                         }
-                    },
+                    }
                 });
             };
             
@@ -97,9 +97,65 @@
                         },
                         'confirm': {
                             label: 'Удалить',
-                            className: 'btn btn-primary btn-sm',
+                            className: 'btn btn-primary btn-sm'
+                        }
+                    }
+                });
+            };
+
+            $scope.chooseProject = function (id) {
+                bootbox.confirm({
+                    title: "Удаление",
+                    message: "Вы действительно хотите выбрать данную тему дипломного проекта?",
+                    callback: function (isConfirmed) {
+                        if (isConfirmed) {
+                            projectService.assignProject(id).success(function () {
+                                $scope.tableParams.reload();
+                                alertify.success("Тема успешно назначена.");
+                            }).error(function (error) {
+                                $scope.handleError(error);
+                            });
                         }
                     },
+                    buttons: {
+                        'cancel': {
+                            label: 'Отмена',
+                            className: 'btn btn-primary btn-sm'
+                        },
+                        'confirm': {
+                            label: 'Выбрать',
+                            className: 'btn btn-primary btn-sm'
+                        }
+                    }
+                });
+            };
+
+
+
+            $scope.confirmProject = function (id) {
+                bootbox.confirm({
+                    title: "Удаление",
+                    message: "Вы действительно хотите подтвердить данную тему дипломного проекта?",
+                    callback: function (isConfirmed) {
+                        if (isConfirmed) {
+                            projectService.assignProject(id).success(function () {
+                                $scope.tableParams.reload();
+                                alertify.success("Тема успешно подтверждена.");
+                            }).error(function (error) {
+                                $scope.handleError(error);
+                            });
+                        }
+                    },
+                    buttons: {
+                        'cancel': {
+                            label: 'Отмена',
+                            className: 'btn btn-primary btn-sm'
+                        },
+                        'confirm': {
+                            label: 'Подтвердить',
+                            className: 'btn btn-primary btn-sm'
+                        }
+                    }
                 });
             };
 

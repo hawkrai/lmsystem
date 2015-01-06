@@ -14,9 +14,12 @@ namespace Application.Infrastructure.DPManagement
 
             return new UserData
             {
+                UserId = user.Id,
                 IsLecturer = user.Lecturer != null,
                 IsStudent = user.Student != null,
-                IsSecretary = user.Lecturer != null && user.Lecturer.IsSecretary
+                IsSecretary = user.Lecturer != null && user.Lecturer.IsSecretary,
+                HasAssignedDiplomProject = user.Student != null 
+                    && Context.AssignedDiplomProjects.Any(x => x.StudentId == user.Student.Id && x.ApproveDate.HasValue)
             };
         }
 

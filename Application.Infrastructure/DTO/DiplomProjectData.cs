@@ -15,6 +15,8 @@ namespace Application.Infrastructure.DTO
 
         public string Student { get; set; }
 
+        public int? StudentId { get; set; }
+
         public string Group { get; set; }
 
         public DateTime? ApproveDate { get; set; }

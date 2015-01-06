@@ -3,10 +3,11 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
         <h4 class="modal-title">Выбор студента</h4>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="height: 600px; overflow: scroll; overflow-x: hidden; margin: 20px 0">
         <div loading-container="tableParams.settings().$loading">
-            <table ng-table="tableParams" show-pager="true" class="table table-bordered table-striped table-hover dataTable">
+            <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable" style="width: 540px;">
                 <tr ng-repeat="student in $data">
+                    <td style="width:1%;text-align: left;" data-title="'№'">{{$index+1}}</td>
                     <td width="65%" style="text-align: left;" data-title="'Студент'">{{student.Name}}</td>
                     <td width="20%" data-title="'Группа'">{{student.Group}}</td>
                     <td width="15%" data-title="'Действие'">

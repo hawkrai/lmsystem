@@ -1,16 +1,21 @@
 ﻿<div>
-    <div id="buttonActionSection" style="margin-bottom: 20px;">
+    <div ng-show="user.IsLecturer" id="buttonActionSection" style="margin-bottom: 20px;">
         <a ng-click="addConsultationDate()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить дату</a>
     </div>
     <div loading-container="tableParams.settings().$loading">
         <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <thead>
                 <tr>
-                    <th width="1%">N</th>
+                    <th width="1%">№</th>
                     <th width="80%">Студент</th>
                     <th width="10%">Группа</th>
                     <th width="5%" ng-repeat="consultation in consultations">
-                        <a ng-click="deleteConsultationDate(consultation.Id)" onclick="return false;" href="#">{{formatDate(parseDate(consultation.Day), "dd/mm")}}</a>
+                        <a ng-show="user.IsLecturer" ng-click="deleteConsultationDate(consultation.Id)" onclick=" return false; " href="#">
+                            {{formatDate(parseDate(consultation.Day), "dd/mm")}}
+                        </a>
+                        <span ng-show="user.IsStudent">
+                            {{formatDate(parseDate(consultation.Day), "dd/mm")}}
+                        </span>
                     </th>
                 </tr>
             </thead>
@@ -20,10 +25,13 @@
                     <td width="80%" style="text-align: left;">{{student.Name}}</td>
                     <td width="10%" style="text-align: center;">{{student.Group}}</td>
                     <td ng-repeat="consultation in consultations" width="5%" style="text-align: center;">
-                        <a editable-text="getConsultationMark(student, consultation.Id).Mark" href="#"
+                        <a ng-show="user.IsLecturer" editable-text="getConsultationMark(student, consultation.Id).Mark" href="#"
                            onbeforesave="saveConsultationMark(getConsultationMark(student, consultation.Id), $data)">
-                            {{getConsultationMark(student, consultation.Id).Mark  ? getConsultationMark(student, consultation.Id).Mark : '-'}}
+                            {{getConsultationMark(student, consultation.Id).Mark ? getConsultationMark(student, consultation.Id).Mark : '-'}}
                         </a>
+                        <span ng-show="user.IsStudent">
+                            {{getConsultationMark(student, consultation.Id).Mark}}
+                        </span>
                     </td>
                 </tr>
             </tbody>

@@ -15,7 +15,7 @@ namespace LMPlatform.UI.ApiControllers.DP
         {
             return new
             {
-                Students = DpManagementService.GetGraduateStudentsForLecturer(WebSecurity.CurrentUserId, parms),
+                Students = DpManagementService.GetGraduateStudentsForUser(WebSecurity.CurrentUserId, parms),
                 PercentageGraphs = PercentageService.GetPercentageGraphsForLecturerAll(WebSecurity.CurrentUserId, parms)
             };
         }

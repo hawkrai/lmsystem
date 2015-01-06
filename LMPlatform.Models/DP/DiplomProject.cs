@@ -17,7 +17,7 @@ namespace LMPlatform.Models.DP
         [StringLength(2048)]
         public string Theme { get; set; }
 
-        public int LecturerId { get; set; }
+        public int? LecturerId { get; set; }
 
         public string InputData { get; set; }
 

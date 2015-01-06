@@ -25,7 +25,6 @@
             $scope.tableParams = new ngTableParams(
                 {
                     page: 1,
-                    count: 10,
                     filter: {
                         diplomProjectId: projectId
                     }

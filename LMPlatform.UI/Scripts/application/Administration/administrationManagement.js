@@ -119,14 +119,15 @@ function initDeleteDialog(btnSelector, btnTooltipTitle) {
 };
 
 function showForm(formUrl, formTitle) {
-    $.get(formUrl,
-            {},
-          function (data) {
-              bootbox.dialog({
-                  message: data,
-                  title: formTitle
-              });
-          });
+    $.ajax({
+        url: formUrl,
+        cache: false
+    }).done(function (data) {
+        bootbox.dialog({
+            message: data,
+            title: formTitle
+        });
+    });
 }
 
 function successAjaxForm(result) {
