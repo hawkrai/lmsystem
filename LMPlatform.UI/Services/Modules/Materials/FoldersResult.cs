@@ -7,6 +7,9 @@
     public class FoldersResult : ResultViewData
     {
         [DataMember]
+        public int Pid { get; set; }
+
+        [DataMember]
         public List<FoldersViewData> Folders { get; set; } 
     }
 }

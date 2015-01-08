@@ -30,7 +30,9 @@ namespace LMPlatform.UI.Controllers
 
         public ActionResult New()
         {
-            return View();
+            //ViewBag.NgApp = "materialsApp";
+            //ViewBag.NgController = "newCtrl";
+            return PartialView();
         }
 
         #region Dependencies

@@ -25,6 +25,21 @@ namespace Application.Infrastructure.MaterialsManagement
             }
         }
 
+        public int GetPidById(int PID)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                int id = 0;
+
+                if (PID != 0)
+                {
+                   id = repositoriesContainer.FoldersRepository.GetPidById(PID);
+                }
+               
+                return id;
+            }
+        }
+
         public Folders CreateFolder(int PID)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -32,6 +47,30 @@ namespace Application.Infrastructure.MaterialsManagement
                 Folders folder = repositoriesContainer.FoldersRepository.CreateFolderByPID(PID);
 
                 return folder;
+            }
+        }
+
+        public void DeleteFolder(int ID)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.FoldersRepository.DeleteFolderByID(ID);
+            }
+        }
+
+        public void RenameFolder(int id, string name)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.FoldersRepository.RenameFolderByID(id, name);
+            }
+        }
+     
+        public void SaveTextMaterials(int idfolder, string name, string text)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.MaterialsRepository.SaveTextMaterials(idfolder, name, text);
             }
         }
     }
