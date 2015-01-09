@@ -25,26 +25,29 @@
             @Html.ValidationMessageFor(e => e.ShortName, " ")
         </div>
         <div>
-            <div class="page-header">
-                <h3>Модули</h3>
-            </div>
-            @{
-                var index = 0;
-                foreach (var module in Model.Modules)
-                {
-                    @Html.Hidden("Modules[" + index + "].ModuleId", module.ModuleId)
-                    @Html.Hidden("Modules[" + index + "].Name", module.Name)
-                    @Html.Hidden("Modules[" + index + "].Type", module.Type)
-                    <div style="float: left; margin-left: 5px; width: 40%">
-                        <label class="checkbox">@Html.CheckBox("Modules[" + index + "].Checked", module.Checked) @module.Name</label>
-                    </div>
-                    index++;
-                }
-            }
+	        <div>
+		        <h3>Модули</h3>
+	        </div>
+			<div style="margin-left: 20px">
+				@{
+		var index = 0;
+		foreach (var module in Model.Modules)
+		{
+			@Html.Hidden("Modules[" + index + "].ModuleId", module.ModuleId)
+					@Html.Hidden("Modules[" + index + "].Name", module.Name)
+					@Html.Hidden("Modules[" + index + "].Type", module.Type)
+					<div style="float: left; margin-left: 5px; width: 40%">
+						<label class="checkbox">@Html.CheckBox("Modules[" + index + "].Checked", module.Checked) @module.Name</label>
+					</div>
+			index++;
+		}
+				}
+			</div>
+
             <div class="clear-fix"></div>
         </div>
         <div>
-            <div class="page-header">
+            <div>
                 <h3>Группы</h3>
             </div>
             <div>
