@@ -61,6 +61,10 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 
 		public string Avatar { get; set; }
 
+		public bool IsSecretary { get; set; }
+
+		public bool IsLecturerHasGraduateStudents { get; set; }
+
         public PersonalDataViewModel()
         {
             if (LecturerManagementService.GetLecturer(WebSecurity.CurrentUserId) != null)
@@ -71,6 +75,8 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 Patronymic = user.LastName;
                 UserName = user.User.UserName;
 	            Avatar = user.User.Avatar;
+	            IsSecretary = user.IsSecretary;
+	            IsLecturerHasGraduateStudents = user.IsLecturerHasGraduateStudents;
             }
             else
             {

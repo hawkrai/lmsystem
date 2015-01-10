@@ -120,6 +120,8 @@ namespace LMPlatform.UI.Controllers
                     FirstName = model.Name,
                     LastName = model.Patronymic,
                     MiddleName = model.Surname,
+					IsLecturerHasGraduateStudents = model.IsLecturerHasGraduateStudents,
+					IsSecretary = model.IsSecretary,
                     User = new User
                     {
                         UserName = model.UserName,
