@@ -1188,7 +1188,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     };
 })
 
-.directive('daypicker', ['dateFilter', function (dateFilter) {
+.directive('daypicker', ['dateFilter', '$locale', function (dateFilter, $locale) {
     return {
         restrict: 'EA',
         replace: true,
@@ -1244,7 +1244,9 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
                     };
                 }
 
-                scope.title = dateFilter(ctrl.activeDate, ctrl.formatDayTitle);
+                scope.title = $locale.DATETIME_FORMATS.MONTHNAMES ?
+                    $locale.DATETIME_FORMATS.MONTHNAMES[month] :
+                    dateFilter(ctrl.activeDate, ctrl.formatDayTitle);
                 scope.rows = ctrl.split(days, 7);
 
                 if (scope.showWeeks) {

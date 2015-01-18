@@ -46,6 +46,7 @@ namespace LMPlatform.UI.App_Start
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                 "~/Scripts/angular.js",
+                "~/Scripts/angular-locale_ru-ru.js",
                 "~/Scripts/angular-route.js",
                 "~/Scripts/angular-resource.js",
                 "~/Scripts/ng-table.js",
