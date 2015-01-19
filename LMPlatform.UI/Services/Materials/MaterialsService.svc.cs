@@ -130,14 +130,39 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
-        public FoldersResult SaveTextMaterials(string idf, string name, string text)
+        public FoldersResult SaveTextMaterials(string idd, string idf, string name, string text)
         {
+            int iddocument = int.Parse(idd);
             int idfolder = int.Parse(idf);
-            MaterialsManagementService.SaveTextMaterials(idfolder, name, text);
+            MaterialsManagementService.SaveTextMaterials(iddocument, idfolder, name, text);
             return new FoldersResult
             {
                 Message = "Ошибка переименования папки",
                 Code = "500"
+            };
+        }
+
+        public DocumentsResult GetDocuments(string Pid)
+        {
+            int id = int.Parse(Pid);
+            List<Materials> dc = MaterialsManagementService.GetDocumentsByIdFolders(id);
+            return new DocumentsResult
+            {
+                Documents = dc.Select(e => new DocumentsViewData(e)).ToList(),
+                Message = "Сообщение отправлено",
+                Code = "200"
+            };
+        }
+
+        public DocumentsResult GetText(string IdDocument)
+        {
+            int id = int.Parse(IdDocument);
+            Materials document = MaterialsManagementService.GetTextById(id);
+            return new DocumentsResult
+            {
+                Document = new DocumentsViewData(document),
+                Message = "Сообщение отправлено",
+                Code = "200"
             };
         }
     }

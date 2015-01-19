@@ -38,6 +38,14 @@ namespace LMPlatform.UI.Services.Materials
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/saveTextMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        FoldersResult SaveTextMaterials(string idf, string name, string text);
+        FoldersResult SaveTextMaterials(string idd, string idf, string name, string text);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/getDocumentsMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
+        DocumentsResult GetDocuments(string Pid);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/getTextMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
+        DocumentsResult GetText(string id);
     }
 }

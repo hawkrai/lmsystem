@@ -8,6 +8,8 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
     {
         List<Folders> GetFoldersByPID(int id);
 
+        Folders GetFolderByPID(int id);
+
         int GetPidById(int id);
 
         Folders CreateFolderByPID(int id);

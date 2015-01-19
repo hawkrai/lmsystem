@@ -6,6 +6,14 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
     public interface IMaterialsRepository : IRepositoryBase<Materials>
     {
+        List<Materials> GetMaterials(int id);
+
         void SaveTextMaterials(int idfolder, string name, string text);
+
+        void SaveTextMaterials(int iddocument, int idfolder, string name, string text);
+
+        List<Materials> GetDocumentsByFolders(Folders folder);
+
+        Materials GetDocumentById(int id);
     }
 }

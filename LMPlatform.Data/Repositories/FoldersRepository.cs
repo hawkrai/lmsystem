@@ -24,6 +24,15 @@ namespace LMPlatform.Data.Repositories
             }
         }
 
+        public Folders GetFolderByPID(int id)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                Folders folder = context.Set<Folders>().FirstOrDefault(e => e.Id == id);
+                return folder;
+            }
+        }
+
         public int GetPidById(int id)
         {
             using (var context = new LmPlatformModelsContext())

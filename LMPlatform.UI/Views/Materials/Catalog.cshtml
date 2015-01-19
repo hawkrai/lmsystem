@@ -1,10 +1,14 @@
 ﻿<div class="fa fa-arrow-left backspace" ng-click="backspaceFolder()"></div>   
-<div class="bs-docs-section catalog" delete-context-menu data-pid="@ViewBag.Pid">
+<div class="bs-docs-section catalog" delete-context-menu data-pid="@ViewBag.Pid" style="height: 500px;">
         <div class="bs-glyphicons">
             <ul class="bs-glyphicons-list">
                 <li ng-repeat="folder in folders" class="folder" context-menu-folder ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}">
                     <span class="glyphicon glyphicon-folder-open"></span>
                     <span class="glyphicon-class nameFolder">{{folder.Name}}</span>
+                </li>
+                <li ng-repeat="document in documents" class="document" context-menu-folder ng-dblclick="openDocument($event)" data-idDocument="{{document.Id}}">
+                    <span class="glyphicon glyphicon glyphicon-file"></span>
+                    <span class="glyphicon-class nameFolder">{{document.Name}}</span>
                 </li>
             </ul>
         </div>

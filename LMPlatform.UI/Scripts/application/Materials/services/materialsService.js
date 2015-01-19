@@ -63,6 +63,27 @@ angular
                         url: url + 'saveTextMaterials',
                         data: data
                     });
+                },
+                getDocuments: function (data) {
+                    if (data == undefined) {
+                        data = {
+                            Pid: 0
+                        };
+                    } else if (data != undefined && data.Pid == undefined) {
+                        data.Pid = 0;
+                    }
+                    return $http({
+                        method: 'POST',
+                        url: url + 'getDocumentsMaterials',
+                        data: data
+                    });
+                },
+                getText: function (data) {
+                    return $http({
+                        method: 'POST',
+                        url: url + 'getTextMaterials',
+                        data: data
+                    });
                 }
             };
         }]);

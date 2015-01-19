@@ -16,17 +16,45 @@
 
 @section navleft
 {
-           <li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
+           
 }
 
 
-<div ng-controller="newCtrl">
+<div>
     <style>
         .content {
             padding: 0px;
         }
         .right-side > .content-header {
             padding: 0px;
+        }
+        .sidebar-menu > li{
+            overflow: auto;
+            list-style: circle;
+            cursor:pointer;
+        }
+        .sidebar-menu h1, .sidebar-menu h2, .sidebar-menu h3, .sidebar-menu h4, .sidebar-menu h5, .sidebar-menu h6{
+            font-size: 14px;
+            font-weight: normal;
+            margin: 5px;
+        }
+        .sidebar-menu h1 {
+            padding-left:5px;
+        }
+        .sidebar-menu h2 {
+            padding-left:15px;
+        }
+        .sidebar-menu h3 {
+            padding-left:25px;
+        }
+        .sidebar-menu h4 {
+            padding-left:35px;
+        }
+        .sidebar-menu h5 {
+            padding-left:45px;
+        }
+        .sidebar-menu h6 {
+            padding-left:55px;
         }
     </style>
 

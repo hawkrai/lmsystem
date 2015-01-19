@@ -18,6 +18,10 @@ namespace Application.Infrastructure.MaterialsManagement
 
         void RenameFolder(int id, string name);
 
-        void SaveTextMaterials(int idfolder, string name, string text);
+        void SaveTextMaterials(int iddocument, int idfolder, string name, string text);
+
+        List<Materials> GetDocumentsByIdFolders(int id);
+
+        Materials GetTextById(int id);
     }
 }

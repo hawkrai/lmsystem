@@ -120,7 +120,8 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/Materials/controllers/newController.js",
                 "~/Scripts/application/Materials/materialsApp.js",
                 "~/Scripts/application/Materials/services/materialsService.js",
-                "~/Scripts/tinymce/tinymce.min.js"));
+                "~/Scripts/tinymce/tinymce.min.js",
+                "~/Scripts/tinymce/scrollTo.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/knowledgeTesting").Include(
                 "~/Scripts/linq.js",

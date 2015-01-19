@@ -1,5 +1,4 @@
-﻿
-angular
+﻿angular
     .module('materialsApp.ctrl.new', ['ngResource'])
     .controller('newCtrl', [
         '$scope',
@@ -8,21 +7,82 @@ angular
         "materialsService",
         function ($scope, $location, $resource, materialsService) {
 
-
             function saveText(obj) {
                 var text = obj.getContent();
+                alert($scope.$parent.document);
                 data = {
-                    idf: "1049",
-                    name: "slaq",
+                    idd: $scope.$parent.document || 0,
+                    idf: $scope.$parent.idFolder,
+                    name: "Новый документ",
                     text: text
                 }
-                materialsService.saveText(datah).success(function (data) {
+                materialsService.saveText(data).success(function (data) {
                     //$scope.folders = data.Folders;
                 });
             }
-
             tinymce.init({
                 save_enablewhendirty: true,
+                setup: function (ed) {
+
+                    var setup = {
+                        updateBookContent: function () {
+
+                            var mar = $(ed.getBody()).find('h1,h2,h3,h4,h5,h6');
+                            var marker = mar.clone();
+                            $(".sidebar-menu").empty();
+                            marker.each(function (item) {
+                                $(".sidebar-menu").append("<li>" + $(this)[0].outerHTML + "</li>");
+                            })
+
+                            $(".sidebar-menu > li").on("click", function () {
+                                console.log($(this).index());
+                                ed.selection.select(mar.get($(this).index())).scrollIntoView();
+                            })
+                        },
+                        data: null
+                    }
+
+                    ed.on('init', function () {
+                        materialsService.getText({ id: $scope.$parent.document }).success(function (data) {
+                            setup.data = data;
+                            ed.setContent(data.Document.Text);
+                            setup.updateBookContent();
+                        });
+                    });
+
+                    ed.on("keyup", function (e) {
+                        if (e.keyCode == 13 || e.keyCode == 8 || e.keyCode == 46) {
+                            setup.updateBookContent();
+                        }
+                    });
+
+                    ed.on("click", function (e) {
+                            setup.updateBookContent();
+                    });
+
+                    ed.addMenuItem('save_exit', {
+                        text: 'Сохранить и выйти',
+                        context: 'file',
+                        onclick: function () {
+                            $location.url("/Catalog");
+                            $scope.$apply();
+                        }
+                    });
+                    
+                    ed.addMenuItem('exit', {
+                        text: 'Выход',
+                        context: 'file',
+                        onclick: function () {
+                            $(".sidebar-menu").empty();
+                            $location.url("/Catalog");
+                            $scope.$apply();
+                        }
+                    });
+
+
+
+
+                },
                 save_onsavecallback: function (dr) {
                     saveText(dr);
                 },
@@ -41,5 +101,7 @@ angular
             });
 
         }]);
+
+
     
     

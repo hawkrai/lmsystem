@@ -10,8 +10,12 @@ angular
         function ($scope, $location, $resource, materialsService) {
 
 
-            materialsService.getFolders().success(function (data) {
+            materialsService.getFolders({ Pid: $scope.$parent.folder }).success(function (data) {
                 $scope.folders = data.Folders;
+            });
+
+            materialsService.getDocuments({ Pid: $scope.$parent.folder }).success(function (data) {
+                $scope.documents = data.Documents;
             });
 
 
@@ -29,17 +33,32 @@ angular
                 //angular.element(".catalog").attr("data-pid", idFolder);
                 materialsService.backspaceFolder({ Pid: pid }).success(function (data) {
                     $scope.folders = data.Folders;
+                    pid = data.Pid;
                     angular.element(".catalog").attr("data-pid", data.Pid);
+                    materialsService.getDocuments({ Pid: pid }).success(function (data) {
+                        $scope.documents = data.Documents;
+                    });
                 });
             };
 
             $scope.openFolder = function ($event) {
                 var idFolder = angular.element($event.target).data("idfolder");
+                $scope.$parent.folder = idFolder;
                 angular.element(".catalog").attr("data-pid", idFolder);
                 materialsService.getFolders({ Pid: idFolder }).success(function (data) {
                     $scope.folders = data.Folders;
                 });
+                materialsService.getDocuments({ Pid: idFolder }).success(function (data) {
+                    $scope.documents = data.Documents;
+                });
             };
+
+            $scope.openDocument = function ($event) {
+                var idDocument = angular.element($event.target).data("iddocument");
+                $scope.$parent.document = idDocument;
+                $location.url("/New");
+                
+            }
 
             $scope.deleteFolder = function ($event) {
                 var idFolder = $scope.actionFolder.data("idfolder");
@@ -121,6 +140,11 @@ angular
                 });
             }
 
+            $scope.createMaterial = function ($event) {
+                $scope.$parent.idFolder = angular.element(".catalog").attr("data-pid");
+                angular.element('#context_menu').detach();
+            }
+
 
 
         }])
@@ -134,6 +158,7 @@ angular
                     angular.element('#context_menu').detach();
                     angular.element('body').append($compile("<ul ng-model='items_menu' class='dropdown-menu' id='context_menu'>"
                         + "<li><a class='iteammenue' ng-click='createFolder()'>Создать папку</a></li>"
+                        + "<li><a class='iteammenue' href='#New' ng-click='createMaterial()' >Создать новый материал</a></li>"
                         + "<li><a class='iteammenue' ng-click='renameFolder()'>Переименовать</a></li>"
                         + "<li><a class='iteammenue' ng-click='deleteFolder()'>Удалить папку</a></li>"
                         + "<li><a class='iteammenue' ng-click='property_setting()'>Свойства и настройки</a></li>"
@@ -165,6 +190,7 @@ angular
                     angular.element('#context_menu').detach();
                     angular.element('body').append($compile("<ul ng-model='items_menu' class='dropdown-menu' id='context_menu'>"
                          + "<li><a class='iteammenue' ng-click='createFolder()'>Создать папку</a></li>"
+                         + "<li><a class='iteammenue' href='#New' ng-click='createMaterial()' >Создать новый материал</a></li>"
                          + "<li><a class='iteammenue' ng-click='property_setting()'>Свойства и настройки</a></li>"
                          + "</ul>")(scope));
 

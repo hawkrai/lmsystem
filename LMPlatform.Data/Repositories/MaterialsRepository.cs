@@ -15,6 +15,16 @@ namespace LMPlatform.Data.Repositories
         {
         }
 
+        public List<Materials> GetMaterials(int id)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var folder = context.Set<Folders>().FirstOrDefault(e => e.Id == id);
+                var students = context.Set<Materials>().Where(e => e.Folders == folder).ToList();
+                return students;
+            }
+        }
+
         public void SaveTextMaterials(int idfolder, string name, string text)
         {
             using (var context = new LmPlatformModelsContext())
@@ -30,6 +40,44 @@ namespace LMPlatform.Data.Repositories
 
                 context.Set<Materials>().Add(material);
                 context.SaveChanges();
+            }
+        }
+
+        public void SaveTextMaterials(int iddocument, int idfolder, string name, string text)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var materials = context.Set<Materials>().FirstOrDefault(e => e.Id == iddocument);
+
+                materials.Text = text;
+
+                context.SaveChanges();
+            }
+        }
+
+        public List<Materials> GetDocumentsByFolders(Folders folder)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                if (folder == null)
+                {
+                     folder = new Folders
+                    {
+                        Id = 0
+                    };
+                }
+
+                List<Materials> documents = context.Set<Materials>().Include(x => x.Folders).Where(e => e.Folders.Id == folder.Id).ToList();
+                return documents;
+            }
+        }
+
+        public Materials GetDocumentById(int id)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                Materials document = context.Set<Materials>().FirstOrDefault(e => e.Id == id);
+                return document;
             }
         }
     }
