@@ -79,7 +79,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 IsSecretary = lecturer.IsSecretary;
                 IsLecturerHasGraduateStudents = lecturer.IsLecturerHasGraduateStudents;
 
-                var groups = CorrelationService.GetCorrelation("Group", null);
+                var groups = CorrelationService.GetCorrelation("Group", lecturer.Id);
 	            if (lecturer.SecretaryGroups != null)
 	            {
 					Groups = new MultiSelectList(groups, "Id", "Name", lecturer.SecretaryGroups.Select(x => x.Id).ToList());   

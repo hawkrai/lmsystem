@@ -6,7 +6,8 @@
         'ngTableParams',
         '$resource',
         '$location',
-        function ($scope, $modal, ngTableParams, $resource, $location) {
+        'projectService',
+        function ($scope, $modal, ngTableParams, $resource, $location, projectService) {
 
             $scope.setTitle("Статистика посещения консультаций");
 
@@ -121,6 +122,23 @@
             };
 
 
+            $scope.lecturers = [];
+            $scope.lecturer = { Id: null };
+            $scope.selectLecturer = function (lecturerId) {
+                $scope.selectedLecturerId = lecturerId;
+                $scope.tableParams.reload();
+            };
+
+            projectService.getDiplomLecturerCorrelation()
+                .success(function (data) {
+                    $scope.lecturers = data;
+                    if (data.length == 1) {
+                        $scope.selectLecturer(data[0].Id);
+                        $scope.lecturer = $scope.lecturers[0];
+                    }
+                });
+
+
             $scope.tableParams = new ngTableParams(
                 angular.extend({
                     page: 1,
@@ -129,7 +147,11 @@
                     total: 0,
                     getData: function ($defer, params) {
                         $location.search(params.url());
-                        dpConsultations.get(params.url(),
+                        dpConsultations.get(angular.extend(params.url(), {
+                            filter:
+                            {
+                                lecturerId: $scope.selectedLecturerId
+                            }}),
                             function (data) {
                                 $defer.resolve(data.Students.Items);
                                 params.total(data.Students.Total);

@@ -13,10 +13,16 @@ namespace LMPlatform.UI.ApiControllers.DP
     {
         public object Get([System.Web.Http.ModelBinding.ModelBinder]GetPagedListParams parms)
         {
+            var lecturerId = WebSecurity.CurrentUserId;
+            if (parms.Filters.ContainsKey("lecturerId"))
+            {
+                lecturerId = int.Parse(parms.Filters["lecturerId"]);
+            }
+
             return new
             {
-                Students = DpManagementService.GetGraduateStudentsForUser(WebSecurity.CurrentUserId, parms, false),
-                DipomProjectConsultationDates = PercentageService.GetConsultationDatesForUser(WebSecurity.CurrentUserId)
+                Students = DpManagementService.GetGraduateStudentsForUser(lecturerId, parms, false),
+                DipomProjectConsultationDates = PercentageService.GetConsultationDatesForUser(lecturerId)
             };
         }
 

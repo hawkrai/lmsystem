@@ -328,6 +328,8 @@
     <Compile Include="Services\Modules\Lectures\StudentMarkForDate.cs" />
     <Compile Include="Services\Modules\Lectures\StudentMarkForDateResult.cs" />
     <Compile Include="Services\Modules\MarkViewData.cs" />
+    <Compile Include="Services\Modules\Materials\DocumentsResult.cs" />
+    <Compile Include="Services\Modules\Materials\DocumentsViewData.cs" />
     <Compile Include="Services\Modules\Materials\FoldersResult.cs" />
     <Compile Include="Services\Modules\Materials\FoldersViewData.cs" />
     <Compile Include="Services\Modules\Messages\DisplayMessagesResult.cs" />

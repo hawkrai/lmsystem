@@ -103,6 +103,15 @@ angular
                 },
 
 
+                getDiplomLecturerCorrelation: function () {
+                    return $http({
+                        method: 'GET',
+                        url: correlationApiUrl,
+                        params: { entity: 'DiplomLecturer' }
+                    });
+                },
+
+
                 getDiplomProjectTaskSheetTemplateCorrelation: function () {
                     return $http({
                         method: 'GET',

@@ -1,19 +1,27 @@
 ﻿<div>
-    <div ng-show="user.IsLecturer" id="buttonActionSection" style="margin-bottom: 20px;">
+    <div ng-show="user.IsLecturer && !user.IsSecretary" id="buttonActionSection" style="margin-bottom: 20px;">
         <a ng-click="addConsultationDate()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить дату</a>
     </div>
+    <div ng-show="user.IsSecretary" style="margin-bottom: 20px;width:700px;height:100%">
+        <ui-select ng-disabled="lecturers.length==1" on-select="selectLecturer($item.Id)" ng-model="lecturer" theme="bootstrap">
+            <ui-select-match placeholder="Выберите преподавателя">{{$select.selected.Name}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in lecturers | filter: $select.search">
+                <div>{{item.Name}}</div>
+            </ui-select-choices>
+        </ui-select>
+    </div>
     <div loading-container="tableParams.settings().$loading">
-        <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
+        <table ng-show="!(user.IsSecretary && !selectedLecturerId)" ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <thead>
                 <tr>
                     <th width="1%">№</th>
                     <th width="80%">Студент</th>
                     <th width="10%">Группа</th>
                     <th width="5%" ng-repeat="consultation in consultations">
-                        <a ng-show="user.IsLecturer" ng-click="deleteConsultationDate(consultation.Id)" onclick=" return false; " href="#">
+                        <a ng-show="user.IsLecturer && !user.IsSecretary" ng-click="deleteConsultationDate(consultation.Id)" onclick=" return false; " href="#">
                             {{formatDate(parseDate(consultation.Day), "dd/mm")}}
                         </a>
-                        <span ng-show="user.IsStudent">
+                        <span ng-show="user.IsStudent || user.IsSecretary">
                             {{formatDate(parseDate(consultation.Day), "dd/mm")}}
                         </span>
                     </th>
@@ -25,11 +33,11 @@
                     <td width="80%" style="text-align: left;">{{student.Name}}</td>
                     <td width="10%" style="text-align: center;">{{student.Group}}</td>
                     <td ng-repeat="consultation in consultations" width="5%" style="text-align: center;">
-                        <a ng-show="user.IsLecturer" editable-text="getConsultationMark(student, consultation.Id).Mark" href="#"
+                        <a ng-show="user.IsLecturer && !user.IsSecretary" editable-text="getConsultationMark(student, consultation.Id).Mark" href="#"
                            onbeforesave="saveConsultationMark(getConsultationMark(student, consultation.Id), $data)">
                             {{getConsultationMark(student, consultation.Id).Mark ? getConsultationMark(student, consultation.Id).Mark : '-'}}
                         </a>
-                        <span ng-show="user.IsStudent">
+                        <span ng-show="user.IsStudent || user.IsSecretary">
                             {{getConsultationMark(student, consultation.Id).Mark}}
                         </span>
                     </td>

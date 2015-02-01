@@ -1,6 +1,6 @@
 ﻿<div>
     <div id="buttonActionSection" ng-show="user.IsSecretary" style="margin-bottom: 20px;">
-        <a ng-click="editPercentage()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить</a>
+        <a ng-click="editPercentage()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить этап</a>
     </div>
     <div ng-show="user.IsLecturer && !user.IsSecretary" style="margin-bottom: 20px;width:700px;height:100%">
         <ui-select ng-show="groups.length>1" on-select="selectGroup($item)" ng-model="group.Id" theme="bootstrap">

@@ -16,6 +16,7 @@ namespace Application.Infrastructure.DPManagement
             {
                 { "Group", GetGroupsCorrelation },
                 { "DiplomProject", GetDiplomProjectCorrelation },
+                { "DiplomLecturer", GetDiplomLecturerCorrelation },
                 { "LecturerDiplomGroup", GetLecturerDiplomGroupsCorrelation },
                 { "DiplomProjectTaskSheetTemplate", GetDiplomProjectTaskSheetTemplateCorrelation },
             };
@@ -40,9 +41,16 @@ namespace Application.Infrastructure.DPManagement
             return _correlationMethodsMapping[entity](id);
         }
 
-        private List<Correlation> GetGroupsCorrelation(int? id)
+        private List<Correlation> GetGroupsCorrelation(int? secretaryId)
         {
-            return Context.GetGraduateGroups().Select(x => new Correlation
+            var groups = Context.GetGraduateGroups();
+
+            if (secretaryId.HasValue)
+            {
+                groups = groups.Where(x => !x.SecretaryId.HasValue || x.SecretaryId == secretaryId);
+            }
+
+            return groups.Select(x => new Correlation
                 {
                     Id = x.Id,
                     Name = x.Name
@@ -103,6 +111,18 @@ namespace Application.Infrastructure.DPManagement
                 {
                     Id = x.DiplomProjectId,
                     Name = x.Theme
+                }).OrderBy(x => x.Name).ToList();
+        }
+
+        private List<Correlation> GetDiplomLecturerCorrelation(int? id)
+        {
+            return Context.Lecturers
+                .Where(x => x.IsLecturerHasGraduateStudents && x.DiplomProjects.Any(dp => dp.AssignedDiplomProjects.Any()))
+                .ToList()
+                .Select(x => new Correlation
+                {
+                    Id = x.Id,
+                    Name = x.FullName
                 }).OrderBy(x => x.Name).ToList();
         }
     }
