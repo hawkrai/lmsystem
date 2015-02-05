@@ -26,7 +26,7 @@
 
 	@*temp section*@
 	<link href="/Content/Site.css" rel="stylesheet" type="text/css"/>
-	<link href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+@*	<link href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />*@
 	<link href="/Content/font-awesome/font-awesome.css" rel="stylesheet" type="text/css" />
 	<!-- jvectormap -->
 	<link href="/Templates/css/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
@@ -38,7 +38,7 @@
 	<link href="/Templates/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
 	<link href="/Templates/AdminLTE.css" rel="stylesheet" type="text/css" />
 
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+@*	<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>*@
 	<!-- Sparkline -->
 	<script src="/Templates/js/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
 	<!-- jvectormap -->
@@ -99,11 +99,14 @@
 						</a>
 					</li>
 					<li class="dropdown user user-menu">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						@*<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="glyphicon glyphicon-user"></i>
 							<span>@User.Identity.Name <i class="caret"></i></span>
-						</a>
-						<ul class="dropdown-menu">
+						</a>*@
+						<a class="dropdown-toggle" type="button" id="dropdownMenu1" style="cursor: pointer" data-toggle="dropdown" aria-expanded="true">
+<span>@User.Identity.Name <i class="caret"></i></span>
+  </a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 							<li class="user-header bg-light-blue">
 								<img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image" />
 								<p>
@@ -143,7 +146,6 @@
 	@RenderSection("specificScripts", required: false)
 	<div class="wrapper row-offcanvas row-offcanvas-left">
 		<aside class="left-side sidebar-offcanvas">
-			<!-- sidebar: style can be found in sidebar.less -->
 			<section class="sidebar">
 				<div class="user-panel">
 					<div class="pull-left image">
@@ -162,13 +164,10 @@
 						</span>
 					</div>
 				</form>
-				<!-- /.search form -->
-				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
 					@RenderSection("navleft", false)
 				</ul>
 			</section>
-			<!-- /.sidebar -->
 		</aside>
 		<aside class="right-side">
 			<section class="content-header" id="headerMainPage">
