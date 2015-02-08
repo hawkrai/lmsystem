@@ -32,11 +32,11 @@
                         <i tooltip-placement="left" tooltip="Подтвердить выбранную тему" class="fa fa-check fa-2x"></i>
                     </a>
                 </td>
-                <td ng-show="user.IsStudent && !user.HasAssignedDiplomProject" width="10%" data-title="'Действие'">
-                    <a ng-show="project.Student==null" ng-click="chooseProject(project.Id)" >
+                <td ng-show="user.IsStudent && !userHasChosenDiplomProject()" width="10%" data-title="'Действие'">
+                    <a ng-show="project.Student==null && !user.HasAssignedDiplomProject" ng-click="chooseProject(project.Id)">
                         <i tooltip-placement="left" tooltip="Выбрать тему" class="fa fa-check fa-2x"></i>
                     </a>
-                    <a ng-show="project.StudentId == user.UserId" ng-click="downloadTaskSheet(project.Id)" >
+                    <a ng-show="project.StudentId == user.UserId && user.HasAssignedDiplomProject" ng-click="downloadTaskSheet(project.Id)">
                         <i tooltip-placement="left" tooltip="Скачать лист задания" class="fa fa-download fa-2x"></i>
                     </a>
                 </td>

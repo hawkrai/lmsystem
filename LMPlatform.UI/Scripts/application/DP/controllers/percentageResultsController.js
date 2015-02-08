@@ -17,15 +17,24 @@
             $scope.percentages = [];
 
             $scope.groups = [];
-            $scope.group = { Id: null };
             $scope.selectGroup = function (group) {
                 $scope.selectedGroupId = group.Id;
+                $scope.setLecturerSelectedSecretaryId(group.Id);
                 $scope.tableParams.reload();
             };
 
             projectService.getLecturerDiplomGroupCorrelation()
                 .success(function (data) {
                     $scope.groups = data;
+                    var selectedSecretaries = data.filter(function (elt) {
+                        return $scope.getLecturerSelectedSecretaryId() == elt.Id ? elt : null;
+                    });
+                    if (selectedSecretaries.length == 1) {
+                        $scope.group = selectedSecretaries[0];
+                        $scope.selectGroup($scope.group);
+                    } else {
+                        $scope.group = { Id: null, Name: "Выберите секретаря" };
+                    }
                 });
 
 
@@ -77,7 +86,7 @@
             $scope.tableParams = new ngTableParams(
                 angular.extend({
                     page: 1,
-                    count: 10
+                    count: 1000
                 }, $location.search()), {
                     total: 0,
                     getData: function ($defer, params) {

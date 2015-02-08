@@ -41,13 +41,18 @@ namespace Application.Infrastructure.DPManagement
             return _correlationMethodsMapping[entity](id);
         }
 
-        private List<Correlation> GetGroupsCorrelation(int? secretaryId)
+        private List<Correlation> GetGroupsCorrelation(int? userId)
         {
             var groups = Context.GetGraduateGroups();
 
-            if (secretaryId.HasValue)
+            if (userId.HasValue)
             {
-                groups = groups.Where(x => !x.SecretaryId.HasValue || x.SecretaryId == secretaryId);
+                var user = Context.Users.Include(x => x.Lecturer).Single(x => x.Id == userId);
+                var isSecretary = user.Lecturer != null && user.Lecturer.IsSecretary;
+                if (isSecretary)
+                {
+                    groups = groups.Where(x => !x.SecretaryId.HasValue || x.SecretaryId == userId);
+                }
             }
 
             return groups.Select(x => new Correlation

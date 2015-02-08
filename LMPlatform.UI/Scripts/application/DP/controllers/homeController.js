@@ -75,6 +75,14 @@ angular
                 $scope.user = data;
             }, $scope.handleError);
 
+            var lecturerSelectedSecretaryId = null;
+            $scope.setLecturerSelectedSecretaryId = function(id) {
+                lecturerSelectedSecretaryId = id;
+            };
+            $scope.getLecturerSelectedSecretaryId = function(id) {
+                return lecturerSelectedSecretaryId;
+            };
+
             function navigationManagerFactory() {
                 var listPath = '/';
                 var urlParams = '';

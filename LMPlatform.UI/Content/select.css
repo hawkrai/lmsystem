@@ -100,7 +100,7 @@
 .ui-select-bootstrap > .ui-select-choices {
   width: 100%;
   height: auto;
-  max-height: 200px;
+  max-height: 1000px;
   overflow-x: hidden;
 }
 

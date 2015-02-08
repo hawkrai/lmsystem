@@ -64,7 +64,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-primary btn-sm'
+                            className: 'btn btn-sm'
                         },
                         'confirm': {
                             label: 'Удалить',
@@ -142,7 +142,7 @@
             $scope.tableParams = new ngTableParams(
                 angular.extend({
                     page: 1,
-                    count: 10
+                    count: 1000
                 }, $location.search()), {
                     total: 0,
                     getData: function ($defer, params) {

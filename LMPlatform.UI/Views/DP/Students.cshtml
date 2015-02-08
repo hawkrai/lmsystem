@@ -1,9 +1,9 @@
 ﻿<div class="modal-dialog panel panel-primary" style="margin: 0;">
     <div class="panel-heading">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
-        <h4 class="modal-title">Выбор студента</h4>
+        <h4 class="modal-title">Назначение темы дипломного проекта</h4>
     </div>
-    <div class="modal-body" style="height: 600px; overflow: scroll; overflow-x: hidden; margin: 20px 0">
+    <div class="modal-body" style="height: 600px; overflow: auto; overflow-x: hidden; margin: 20px 0">
         <div loading-container="tableParams.settings().$loading">
             <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable" style="width: 540px;">
                 <tr ng-repeat="student in $data">
@@ -19,7 +19,7 @@
             </table>
         </div>
         <div style="text-align: right; padding: 20px 0;">
-            <button class="btn btn-primary btn-sm" ng-click="closeDialog()">Отмена</button>
+            <button class="btn btn-sm" ng-click="closeDialog()">Отмена</button>
         </div>
     </div>
 </div>

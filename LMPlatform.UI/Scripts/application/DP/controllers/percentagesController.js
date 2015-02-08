@@ -16,17 +16,26 @@
             $scope.forms = {};
 
             $scope.groups = [];
-            $scope.group = { Id: null };
-            $scope.selectGroup = function(group) {
+            $scope.selectGroup = function (group) {
                 $scope.selectedGroupId = group.Id;
+                $scope.setLecturerSelectedSecretaryId(group.Id);
                 $scope.tableParams.reload();
             };
 
             projectService.getLecturerDiplomGroupCorrelation()
                 .success(function (data) {
                     $scope.groups = data;
+                    var selectedSecretaries = data.filter(function (elt) {
+                        return $scope.getLecturerSelectedSecretaryId() == elt.Id ? elt : null;
+                    });
+                    if (selectedSecretaries.length == 1) {
+                        $scope.group = selectedSecretaries[0];
+                        $scope.selectGroup($scope.group);
+                    } else {
+                        $scope.group = { Id: null, Name: "Выберите секретаря" };
+                    }
                 });
-            
+
             $scope.editPercentage = function (percentageId) {
                 var modalInstance = $modal.open({
                     templateUrl: '/Dp/Percentage',
@@ -62,7 +71,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-primary btn-sm'
+                            className: 'btn btn-sm'
                         },
                         'confirm': {
                             label: 'Удалить',
@@ -71,11 +80,11 @@
                     },
                 });
             };
-            
+
             $scope.tableParams = new ngTableParams(
                 {
                     page: 1,
-                    count: 10
+                    count: 1000
                 }, {
                     total: 0,
                     getData: function ($defer, params) {
@@ -83,7 +92,8 @@
                             filter:
                             {
                                 groupId: $scope.selectedGroupId
-                            }}),
+                            }
+                        }),
                             function (data) {
                                 $defer.resolve(data.Items);
                                 params.total(data.Total);

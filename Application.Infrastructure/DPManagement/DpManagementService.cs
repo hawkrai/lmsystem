@@ -218,7 +218,6 @@ namespace Application.Infrastructure.DPManagement
                 }).ApplyPaging(parms);
         }
 
-        //Can we conditionally select only particular navigation collection?
         public PagedList<StudentData> GetGraduateStudentsForUser(int userId, GetPagedListParams parms, bool getBySecretaryForStudent = true)
         {
             var secretaryId = 0;

@@ -1,12 +1,13 @@
 ﻿<div>
-    <div ng-show="user.IsLecturer && !user.IsSecretary" style="margin-bottom: 20px;width:700px;height: 100%">
-        <ui-select ng-show="groups.length>1" on-select="selectGroup($item)" ng-model="group.Id" theme="bootstrap">
+    <div ng-show="user.IsLecturer && !user.IsSecretary" style="width:700px;height: 100%">
+        <ui-select ng-show="groups.length>1" on-select="selectGroup($item)" ng-model="group" theme="bootstrap">
             <ui-select-match placeholder="Выберите секретаря ГЭК">{{$select.selected.Name}}</ui-select-match>
             <ui-select-choices repeat="item.id as item in groups | filter: $select.search">
                 <div>{{item.Name}}</div>
             </ui-select-choices>
         </ui-select>
     </div>
+    <br/>
     <div loading-container="tableParams.settings().$loading">
         <table ng-show="groups.length==1 ||selectedGroupId||user.IsSecretary" ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <thead>

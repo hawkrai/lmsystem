@@ -66,7 +66,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-primary btn-sm'
+                            className: 'btn btn-sm'
                         },
                         'confirm': {
                             label: 'Удалить',
@@ -93,7 +93,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-primary btn-sm'
+                            className: 'btn btn-sm'
                         },
                         'confirm': {
                             label: 'Удалить',
@@ -103,6 +103,11 @@
                 });
             };
 
+            var hasChosenDp = false;
+            $scope.userHasChosenDiplomProject = function() {
+                return $scope.user.HasChosenDiplomProject || hasChosenDp;
+            };
+
             $scope.chooseProject = function (id) {
                 bootbox.confirm({
                     title: "Удаление",
@@ -110,8 +115,9 @@
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             projectService.assignProject(id).success(function () {
+                                hasChosenDp = true;
                                 $scope.tableParams.reload();
-                                alertify.success("Тема успешно назначена.");
+                                alertify.success("Тема успешно выбрана.");
                             }).error(function (error) {
                                 $scope.handleError(error);
                             });
@@ -120,7 +126,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-primary btn-sm'
+                            className: 'btn btn-sm'
                         },
                         'confirm': {
                             label: 'Выбрать',
@@ -149,7 +155,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-primary btn-sm'
+                            className: 'btn btn-sm'
                         },
                         'confirm': {
                             label: 'Подтвердить',

@@ -10,6 +10,8 @@
         
         public bool IsSecretary { get; set; }
 
+        public bool HasChosenDiplomProject { get; set; }
+
         public bool HasAssignedDiplomProject { get; set; }
     }
 }

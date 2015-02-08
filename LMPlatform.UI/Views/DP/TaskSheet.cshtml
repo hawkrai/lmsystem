@@ -2,7 +2,7 @@
     <div class="col-md-1">
         <label for="project">Дипломный проект</label>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8" style="height:auto;">
         <ui-select on-select="selectProject($item)" ng-model="project.Id" theme="bootstrap">
             <ui-select-match placeholder="Выберите тему">{{$select.selected.Name}}</ui-select-match>
             <ui-select-choices repeat="item.id as item in projects | filter: $select.search">
