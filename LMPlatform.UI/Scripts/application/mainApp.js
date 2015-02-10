@@ -319,7 +319,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
     })
-    .controller('LecturesController', function ($scope, charting, $http) {
+    .controller('LecturesController', function ($scope, charting, $http, $filter) {
 
         $scope.lectures = [];
         $scope.UrlServiceLectures = '/Services/Lectures/LecturesService.svc/';
@@ -536,19 +536,9 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.addDate = function () {
-            var dd = $scope.dt.getDate();
-            var mm = $scope.dt.getMonth() + 1; //January is 0!
-            var yyyy = $scope.dt.getFullYear();
 
-            //if (dd < 10) {
-            //    dd = '0' + dd;
-            //}
+	        date = $filter('date')($scope.dt, "dd/MM/yyyy");
 
-            //if (mm < 10) {
-            //    mm = '0' + mm;
-            //}
-
-            date = dd + '/' + mm + '/' + yyyy;
             var isDate = false;
             $.each($scope.lecturesCalendar, function (key, value) {
                 if (value.Date == date) {

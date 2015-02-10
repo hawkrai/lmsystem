@@ -211,7 +211,7 @@
                             <table class="table table-bordered table-striped">
                                 <tr ng-repeat="data in lecturesCalendar">
                                     <td>
-                                        <p>{{data.Date}}</p>
+                                        <p>{{data.Date | date:'dd/MM/yyyy'}}</p>
                                     </td>
                                     <td style="width: 20px"><a ng-click="deleteVisitData(data.Id)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a></td>
                                 </tr>

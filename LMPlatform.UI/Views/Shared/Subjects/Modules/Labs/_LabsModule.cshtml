@@ -307,9 +307,22 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <div>
-                        <label class="control-label">Дата</label>
-                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="width: 100%" />
+@*	                <div>
+		                <label class="control-label">Дата</label>
+		                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="width: 100%" />
+	                </div>*@
+					<div>
+	                    <label class="control-label">Дата</label>
+						<p class="input-group" >
+							<input style="margin: 0" type="text" class="form-control"
+							       datepicker-popup="{{format}}" 
+							       ng-model="dt" 
+							       is-open="opened" 
+									ng-click = "opened = true"
+							       show-button-bar="false"
+								 close-text="Закрыть"
+								datepicker-options="dateOptions" close-text="Close" />
+						 </p>
                     </div>
                     <div>
                         <input ng-click="addDate()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width: 100%" />
