@@ -10,7 +10,7 @@
         public CalendarViewData(LecturesScheduleVisiting visiting)
         {
             SubjectId = visiting.SubjectId;
-            Date = visiting.Date.ToShortDateString();
+            Date = visiting.Date.ToString("d/M/yyy");
             Id = visiting.Id;
         }
 

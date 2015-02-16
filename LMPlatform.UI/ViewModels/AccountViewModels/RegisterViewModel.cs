@@ -117,7 +117,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Поле Пароль обязательно для заполнения")]
-        [StringLength(100, ErrorMessage = "T{0} должно быть не менее {2} символов.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} должно быть не менее {2} символов.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }

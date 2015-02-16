@@ -11,7 +11,7 @@
         {
             ScheduleProtectionLabId = scheduleProtectionLabs.Id;
             SubGroupId = scheduleProtectionLabs.SuGroupId;
-            Date = scheduleProtectionLabs.Date.ToShortDateString();
+            Date = scheduleProtectionLabs.Date.ToString("d/M/yyyy");
         }
 
         [DataMember]
