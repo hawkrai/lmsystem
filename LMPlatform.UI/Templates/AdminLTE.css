@@ -183,6 +183,10 @@ img {
 .bg-black {
   background-color: #222222 !important;
 }
+.bg-cadetblue {
+	background-color:cadetblue !important;
+}
+
 .bg-red {
   background-color: #f56954 !important;
 }

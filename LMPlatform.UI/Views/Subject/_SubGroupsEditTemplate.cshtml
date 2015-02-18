@@ -26,11 +26,11 @@
             <td>
                 <div>
                     <h5 class="text-muted">Первая подгруппа</h5>
-                    @Html.ListBox("StudentFirstList", Model.SubGroupsFirstList, new {@class = "form-control", @style="width: 245px; height:  202px"})
+                    @Html.ListBox("StudentFirstList", Model.SubGroupsFirstList.OrderBy(e => e.Text), new {@class = "form-control", @style="width: 245px; height:  202px"})
                 </div>
                 <div>
                     <h5 class="text-muted">Вторая подгруппа</h5>
-                    @Html.ListBox("StudentSecondList", Model.SubGroupsTwoList, new {@class = "form-control", @style="width: 245px; height: 202px"})
+                    @Html.ListBox("StudentSecondList", Model.SubGroupsTwoList.OrderBy(e => e.Text), new {@class = "form-control", @style="width: 245px; height: 202px"})
                 </div>
             </td>
         </tr>

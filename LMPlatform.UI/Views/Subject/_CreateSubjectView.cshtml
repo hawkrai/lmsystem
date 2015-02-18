@@ -51,7 +51,7 @@
                 <h3>Группы</h3>
             </div>
             <div>
-                @Html.ListBoxFor(e => e.SelectedGroups, Model.Groups, new { Multiple="multiple", @class = "multiselect"})
+                @Html.ListBoxFor(e => e.SelectedGroups, Model.Groups.OrderBy(e=> e.Text), new { Multiple="multiple", @class = "multiselect"})
                 @*@Html.ListBoxFor(m => m.SelectedGroups, new MultiSelectList(Model.Groups, "Value", "Text"), new {@style ="width: 100%; height:50px", @class = "multiselect"})*@ 
             </div>
         </div>
