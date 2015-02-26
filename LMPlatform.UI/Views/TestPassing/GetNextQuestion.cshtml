@@ -89,6 +89,11 @@
                 : (passResult.Value == PassedQuestionResult.NotPassed
                     ? "progress-bar-notPassed"
                     : "progress-bar-passed"));
+
+            if (Model.SetTimeForAllTest)
+            {
+                progressBarClass += " progress-bar-clickable";
+            }
                 
             
         int percents = 100 / Model.QuestionsStatuses.Count;

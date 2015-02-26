@@ -109,7 +109,7 @@ var testPassing = {
     },
 
     _makeUserAnswer: function (answers, testId, currentQuestionNumber) {
-        if ((answers.length == 1 && !answers[0].Content) || (answers.length > 1 && Enumerable.From(answers)
+        if (answers && ((answers.length == 1 && !answers[0].Content) || (answers.length > 1 && Enumerable.From(answers))
             .Where(function(item) {
                 return item.IsCorrect != 0;
             }).Count() == 0)) {
@@ -137,7 +137,7 @@ var testPassing = {
 
     _onTestLoaded: function (content) {
         $('#questionContent').html(content);
-        $('.progress-bar-notPassed').on('click', $.proxy(this._onProgressBarClicked, this));
+        $('.progress-bar-clickable').on('click', $.proxy(this._onProgressBarClicked, this));
         $('#answerButton').on('click', $.proxy(this._onAnswerButtonClicked, this));
         $('#sortable').sortable({ cursor: "move", containment: "parent" });
         $('#buttonsPanel').height($('#answersPanel').height());
