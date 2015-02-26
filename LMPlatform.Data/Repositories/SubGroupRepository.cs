@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Infrastructure;
@@ -37,8 +38,7 @@ namespace LMPlatform.Data.Repositories
                     {
                         if (!firstInts.Any(e => e == subjectStudent.StudentId))
                         {
-                            context.Set<SubjectStudent>().Attach(subjectStudent);
-                            context.Set<SubjectStudent>().Remove(subjectStudent);
+                            context.Set<SubjectStudent>().Remove(context.Set<SubjectStudent>().FirstOrDefault(e => e.Id == subjectStudent.Id));
                         }
                     }
 
@@ -46,8 +46,7 @@ namespace LMPlatform.Data.Repositories
                     {
                         if (!secoInts.Any(e => e == subjectStudent.StudentId))
                         {
-                            context.Set<SubjectStudent>().Attach(subjectStudent);
-                            context.Set<SubjectStudent>().Remove(subjectStudent);
+                            context.Set<SubjectStudent>().Remove(context.Set<SubjectStudent>().FirstOrDefault(e => e.Id == subjectStudent.Id));
                         }
                     }
 
