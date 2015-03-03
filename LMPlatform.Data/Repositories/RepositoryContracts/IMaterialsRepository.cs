@@ -15,5 +15,9 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
         List<Materials> GetDocumentsByFolders(Folders folder);
 
         Materials GetDocumentById(int id);
+
+        void RenameDocumentByID(int id, string name);
+
+        void DeleteDocumentByID(int id);
     }
 }

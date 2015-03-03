@@ -50,12 +50,26 @@ angular
                         data: data
                     });
                 },
+                deleteDocument: function (data) {
+                    return $http({
+                        method: 'POST',
+                        url: url + 'deleteDocumentMaterials',
+                        data: data
+                    });
+                },
                 renameFolder: function (data) {
                     return $http({
                         method: 'POST',
                         url: url + 'renameFolderMaterials',
                         data: data
                     });
+                },
+                renameDocument: function (data) {
+                    return $http({
+                        method: 'POST',
+                        url: url + 'renameDocumentMaterials',
+                        data: data
+                    })
                 },
                 saveText: function (data) {
                     return $http({

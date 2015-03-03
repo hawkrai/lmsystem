@@ -7,19 +7,6 @@
         "materialsService",
         function ($scope, $location, $resource, materialsService) {
 
-            function saveText(obj) {
-                var text = obj.getContent();
-                alert($scope.$parent.document);
-                data = {
-                    idd: $scope.$parent.document || 0,
-                    idf: $scope.$parent.idFolder,
-                    name: "Новый документ",
-                    text: text
-                }
-                materialsService.saveText(data).success(function (data) {
-                    //$scope.folders = data.Folders;
-                });
-            }
             tinymce.init({
                 save_enablewhendirty: true,
                 setup: function (ed) {
@@ -63,7 +50,8 @@
                     ed.addMenuItem('save_exit', {
                         text: 'Сохранить и выйти',
                         context: 'file',
-                        onclick: function () {
+                        onclick: function (editor) {
+                            editor.save();
                             $location.url("/Catalog");
                             $scope.$apply();
                         }
@@ -78,8 +66,6 @@
                             $scope.$apply();
                         }
                     });
-
-
 
 
                 },
@@ -99,6 +85,21 @@
                 pagebreak_separator: "<!-- my page break -->",
                 toolbar: "save | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
             });
+
+
+
+            function saveText(obj) {
+                var text = obj.getContent();
+                data = {
+                    idd: $scope.$parent.document || 0,
+                    idf: $scope.$parent.folder,
+                    name: $scope.$parent.nameDocument || "Новый документ",
+                    text: text
+                }
+                materialsService.saveText(data).success(function (data) {
+                    //$scope.folders = data.Folders;
+                });
+            }
 
         }]);
 

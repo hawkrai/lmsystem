@@ -104,6 +104,32 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
+        public DocumentsResult DeleteDocument(string IdDocument, string pid)
+        {
+            try
+            {
+                int iddocument = int.Parse(IdDocument);
+                int parentIdFolder = int.Parse(pid);
+                MaterialsManagementService.DeleteDocument(iddocument);
+                List<Materials> fl = MaterialsManagementService.GetDocumentsByIdFolders(parentIdFolder);
+
+                return new DocumentsResult
+                {
+                    Documents = fl.Select(e => new DocumentsViewData(e)).ToList(),
+                    Message = "Документ удален",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new DocumentsResult
+                {
+                    Message = "Ошибка удаления документа",
+                    Code = "500"
+                };
+            }
+        }
+
         public FoldersResult RenameFolder(string id, string pid, string newName)
         {
             try
@@ -130,11 +156,37 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
+        public DocumentsResult RenameDocument(string id, string pid, string newName)
+        {
+            try
+            {
+                int iddocument = int.Parse(id);
+                int parentIdFolder = int.Parse(pid);
+                string name = newName;
+                MaterialsManagementService.RenameDocument(iddocument, name);
+                List<Materials> fl = MaterialsManagementService.GetDocumentsByIdFolders(parentIdFolder);
+                return new DocumentsResult
+                {
+                    Documents = fl.Select(e => new DocumentsViewData(e)).ToList(),
+                    Message = "Папка переименована",
+                    Code = "200"
+                };
+            }
+            catch (Exception)
+            {
+                return new DocumentsResult
+                {
+                    Message = "Ошибка переименования папки",
+                    Code = "500"
+                };
+            }
+        }
+
         public FoldersResult SaveTextMaterials(string idd, string idf, string name, string text)
         {
-            int iddocument = int.Parse(idd);
-            int idfolder = int.Parse(idf);
-            MaterialsManagementService.SaveTextMaterials(iddocument, idfolder, name, text);
+            int id_document = int.Parse(idd);
+            int id_folder = int.Parse(idf);
+            MaterialsManagementService.SaveTextMaterials(id_document, id_folder, name, text);
             return new FoldersResult
             {
                 Message = "Ошибка переименования папки",

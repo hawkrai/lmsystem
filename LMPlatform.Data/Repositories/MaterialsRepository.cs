@@ -80,5 +80,27 @@ namespace LMPlatform.Data.Repositories
                 return document;
             }
         }
+
+        public void RenameDocumentByID(int id, string name)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var model = context.Set<Materials>().FirstOrDefault(e => e.Id == id);
+                model.Name = name;
+
+                context.SaveChanges();
+            }
+        }
+
+        public void DeleteDocumentByID(int id)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var model = context.Set<Materials>().FirstOrDefault(e => e.Id == id);
+                context.Delete(model);
+
+                context.SaveChanges();
+            }
+        }
     }
 }

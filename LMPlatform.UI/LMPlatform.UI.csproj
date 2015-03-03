@@ -1145,6 +1145,7 @@
     <Content Include="Scripts\tinymce\plugins\visualblocks\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\visualchars\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\wordcount\plugin.min.js" />
+    <Content Include="Scripts\tinymce\scrollTo.js" />
     <Content Include="Scripts\tinymce\skins\lightgray\content.inline.min.css" />
     <Content Include="Scripts\tinymce\skins\lightgray\content.min.css" />
     <Content Include="Scripts\tinymce\skins\lightgray\img\anchor.gif" />
@@ -1611,6 +1612,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\tinymce\plugins\App_LocalResources\" />
     <Folder Include="UploadedFilesTemp\" />
     <Folder Include="UploadedFiles\" />
     <Folder Include="Views\Questions\" />

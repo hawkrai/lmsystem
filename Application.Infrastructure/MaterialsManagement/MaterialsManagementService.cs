@@ -80,6 +80,14 @@ namespace Application.Infrastructure.MaterialsManagement
             }
         }
 
+        public void DeleteDocument(int ID)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.MaterialsRepository.DeleteDocumentByID(ID);
+            }
+        }
+
         public void RenameFolder(int id, string name)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -87,18 +95,26 @@ namespace Application.Infrastructure.MaterialsManagement
                 repositoriesContainer.FoldersRepository.RenameFolderByID(id, name);
             }
         }
-     
-        public void SaveTextMaterials(int iddocument, int idfolder, string name, string text)
+
+        public void RenameDocument(int id, string name)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                if (iddocument == 0)
+                repositoriesContainer.MaterialsRepository.RenameDocumentByID(id, name);
+            }
+        }
+     
+        public void SaveTextMaterials(int id_document, int id_folder, string name, string text)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                if (id_document == 0)
                 {
-                    repositoriesContainer.MaterialsRepository.SaveTextMaterials(idfolder, name, text);
+                    repositoriesContainer.MaterialsRepository.SaveTextMaterials(id_folder, name, text);
                 }
                 else
                 {
-                    repositoriesContainer.MaterialsRepository.SaveTextMaterials(iddocument, idfolder, name, text);
+                    repositoriesContainer.MaterialsRepository.SaveTextMaterials(id_document, id_folder, name, text);
                 }
             }
         }

@@ -33,8 +33,16 @@ namespace LMPlatform.UI.Services.Materials
         FoldersResult DeleteFolder(string IdFolder);
 
         [OperationContract]
+        [WebInvoke(UriTemplate = "/deleteDocumentMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
+        DocumentsResult DeleteDocument(string IdDocument, string pid);
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "/renameFolderMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
         FoldersResult RenameFolder(string id, string pid, string newName);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/renameDocumentMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
+        DocumentsResult RenameDocument(string id, string pid, string newName);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/saveTextMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]

@@ -54,7 +54,8 @@ angular
             };
 
             $scope.openDocument = function ($event) {
-                var idDocument = angular.element($event.target).data("iddocument");
+                var idDocument = angular.element($event.target).data("iddocument"),
+                    nameDocument = angular.element($event.target).data("namedocument");
                 $scope.$parent.document = idDocument;
                 $location.url("/New");
                 
@@ -89,7 +90,39 @@ angular
                 });
 
             };
+            // для документа
+            $scope.deleteDocument = function ($event) {
+                var idDocument = $scope.actionDocument.data("iddocument");
+                var nameDocument = $scope.actionDocument.find('.nameDocument').text();
+                var pid = angular.element(".catalog").attr("data-pid");
+                angular.element('#context_menu').detach();
+                bootbox.confirm({
+                    title: 'Удаление',
+                    message: 'Вы дествительно хотите удалить документ "' + nameDocument + '" ?',
+                    buttons: {
+                        'cancel': {
+                            label: 'Отмена',
+                            className: 'btn btn-primary btn-sm'
+                        },
+                        'confirm': {
+                            label: 'Удалить',
+                            className: 'btn btn-primary btn-sm',
+                        }
+                    },
+                    callback: function (isConfirmed) {
+                        if (isConfirmed) {
+                            materialsService.deleteDocument({ IdDocument: idDocument, pid: pid }).success(function (data) {
+                                $scope.actionDocument.remove();
+                            });
+                        } else {
 
+                        }
+                    },
+                });
+
+            };
+
+            // для папаки
             $scope.renameFolder = function ($event) {
                 var idFolder = $scope.actionFolder.data("idfolder");
                 var pid = angular.element(".catalog").data("pid");
@@ -140,6 +173,60 @@ angular
                 });
             }
 
+            // для документа
+            $scope.renameDocument = function ($event) {
+                var idDocument = $scope.actionDocument.data("iddocument"),
+                    pid = angular.element(".catalog").data("pid");
+                //    nameDocument = $scope.actionDocument.find('.nameDocument').data("namedocument");
+                //    alert(nameDocument);
+                    $scope.actionDocument.find('.nameDocument').attr('contenteditable', 'true').focus(),
+                    oldName = $scope.actionDocument.data("namedocument");
+
+                function placeCaretAtEnd(el) {
+                    el.focus();
+                    if (typeof window.getSelection != "undefined"
+                            && typeof document.createRange != "undefined") {
+                        var range = document.createRange();
+                        range.selectNodeContents(el);
+                        range.collapse(false);
+                        var sel = window.getSelection();
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    } else if (typeof document.body.createTextRange != "undefined") {
+                        var textRange = document.body.createTextRange();
+                        textRange.moveToElementText(el);
+                        textRange.collapse(false);
+                        textRange.select();
+                    }
+                }
+
+
+                placeCaretAtEnd($scope.actionDocument.find('.nameDocument')[0]);
+                angular.element('#context_menu').detach();
+
+                $scope.actionDocument.find('.nameDocument').bind('blur', function () {
+                    $scope.actionDocument.find('.nameDocument').attr('contenteditable', 'false');
+                });
+
+                $scope.actionDocument.find('.nameDocument').bind('keypress', function (e) {
+                    if (e.keyCode == 13) {
+                        $scope.actionDocument.find('.nameDocument').attr('contenteditable', 'false');
+                        var newName = $scope.actionDocument.find(".nameDocument").text();
+                        materialsService.renameDocument({ id: idDocument, pid: pid, newName: newName }).success(function (data) {
+                            if(data.Code == 500)
+                                alert("Ошибка");
+                            console.log(data);
+                            $scope.documents = data.Documents;
+                            angular.element('#context_menu').detach();
+                        });
+
+                    } else if (e.keyCode == 27) {
+                        $scope.actionDocument.find('.nameDocument').text(oldName);
+                        $scope.actionDocument.find('.nameDocument').attr('contenteditable', 'false');
+                    }
+                });
+            }
+
             $scope.createMaterial = function ($event) {
                 $scope.$parent.idFolder = angular.element(".catalog").attr("data-pid");
                 angular.element('#context_menu').detach();
@@ -177,6 +264,37 @@ angular
                 })
             },
            
+        }
+    })
+    .directive('contextMenuDocument', function ($compile) {
+        return {
+            priority: 3,
+            controller: function ($scope, $element, $attrs) {
+                $element.bind('contextmenu', function (el) {
+                    $scope.$parent.actionDocument = $element;
+                    //$scope.$parent.$apply();
+                    angular.element('#context_menu').detach();
+                    angular.element('body').append($compile("<ul ng-model='items_menu' class='dropdown-menu' id='context_menu'>"
+                        + "<li><a class='iteammenue' ng-click='createFolder()'>Создать папку</a></li>"
+                        + "<li><a class='iteammenue' href='#New' ng-click='createMaterial()' >Создать новый материал</a></li>"
+                        + "<li><a class='iteammenue' ng-click='renameDocument()'>Переименовать</a></li>"
+                        + "<li><a class='iteammenue' ng-click='deleteDocument()'>Удалить документ</a></li>"
+                        + "<li><a class='iteammenue' ng-click='property_setting()'>Свойства и настройки</a></li>"
+                        + "</ul>")($scope));
+
+                    angular.element('#context_menu').css({ "display": "block", "position": "absolute", "top": el.pageY, "left": el.pageX });
+                    if (el.stopPropagation) el.stopPropagation();
+                    el.cancelBubble = true;
+                    el.returnValue = false;
+                    el.preventDefault();
+                })
+            },
+            link: function (scope, element, attrs) {
+                element.bind('click', function (el) {
+                    angular.element('#context_menu').detach();
+                })
+            },
+
         }
     })
     .directive('deleteContextMenu', function ($compile) {
