@@ -33,8 +33,8 @@ namespace LMPlatform.UI.Services.Messages
                 var model = MessageManagementService.GetUserMessages(userId).DistinctBy(m => m.MessageId).ToList();
                 var result = new MessagesResult
                     {
-                        InboxMessages = model.Where(m => m.AuthorId != userId).Select(e => new MessagesViewData(e)).ToList(),
-                        OutboxMessages = model.Where(m => m.AuthorId == userId).Select(e => new MessagesViewData(e)).ToList(),
+						InboxMessages = model.Where(m => m.AuthorId != userId).OrderByDescending(e => e.Date).Select(e => new MessagesViewData(e)).ToList(),
+						OutboxMessages = model.Where(m => m.AuthorId == userId).OrderByDescending(e => e.Date).Select(e => new MessagesViewData(e)).ToList(),
                         Message = "Сообщения успешно загружены",
                         Code = "200"
                     };

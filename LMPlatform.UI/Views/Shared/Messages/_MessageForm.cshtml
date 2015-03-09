@@ -13,8 +13,6 @@
             <span>Ошибка!</span>
             <ul>
                 <li ng-show="submitted && msgForm.msgFormRecipients.$error.required">Выберите получателя</li>
-                <li ng-show="submitted && msgForm.msgFormSubject.$error.required">Введите тему сообщения</li>
-                <li ng-show="submitted && msgForm.msgFormBody.$error.required">Введите текст сообщения</li>
             </ul>
         </div>
         <div>
@@ -27,11 +25,11 @@
             </div>
             <div>
                 <label>Тема</label>
-                <input type="text" class="form-control" name="msgFormSubject" ng-model="formData.subject" required />
+                <input type="text" class="form-control" name="msgFormSubject" ng-model="formData.subject" />
             </div>
             <div>
                 <label>Сообщение</label>
-                <textarea class="form-control" name="msgFormBody" ng-model="formData.body" required></textarea>
+                <textarea class="form-control" name="msgFormBody" ng-model="formData.body"></textarea>
                 <p></p>
                 <p></p>
             </div>

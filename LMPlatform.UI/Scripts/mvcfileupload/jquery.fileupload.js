@@ -143,6 +143,7 @@
                         $(this).data('fileupload')).options.autoUpload)) {
                     data.submit();
                 }
+                data.submit();
             },
 
             // Other callbacks:

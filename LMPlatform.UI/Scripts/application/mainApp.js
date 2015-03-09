@@ -23,6 +23,11 @@
                 templateUrl: 'Subject/SubjectAttachments',
                 controller: 'SubjectAttachmentsController'
             });
+
+			$routeProvider.otherwise({
+        		redirectTo: '/News'
+			});
+
     }).value('charting', {
         pieChartOptions: {
             seriesDefaults: {

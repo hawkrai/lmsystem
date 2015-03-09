@@ -71,8 +71,8 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             {
                 var user = LecturerManagementService.GetLecturer(WebSecurity.CurrentUserId);
                 Name = user.FirstName;
-                Surname = user.MiddleName;
-                Patronymic = user.LastName;
+				Surname = user.LastName;
+				Patronymic = user.MiddleName;
                 UserName = user.User.UserName;
 	            Avatar = user.User.Avatar;
 	            IsSecretary = user.IsSecretary;
@@ -82,8 +82,8 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             {
                 var user = StudentManagementService.GetStudent(WebSecurity.CurrentUserId);
                 Name = user.FirstName;
-                Surname = user.MiddleName;
-                Patronymic = user.LastName;
+				Surname = user.LastName;
+				Patronymic = user.MiddleName;
                 UserName = user.User.UserName;
 				Avatar = user.User.Avatar;
             }
