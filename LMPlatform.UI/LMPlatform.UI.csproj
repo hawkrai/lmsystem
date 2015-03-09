@@ -1083,6 +1083,7 @@
     <Content Include="Scripts\textAngular\textAngular-sanitize.js" />
     <Content Include="Scripts\textAngular\textAngular.js" />
     <Content Include="Scripts\textAngular\textAngularSetup.js" />
+    <Content Include="Scripts\tinymce\langs\ru.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\anchor\plugin.min.js" />
