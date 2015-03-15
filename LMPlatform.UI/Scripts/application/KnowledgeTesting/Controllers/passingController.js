@@ -151,17 +151,20 @@ var testPassing = {
         }
     },
     
-    _initializeTimer: function() {
+    _initializeTimer: function () {
+        this.timerId = (new Date).getTime();
         $(".kkcountdown").kkcountdown({
             displayZeroDays: false,
             hoursText: ':',
             textAfterCount: 'Время истекло.',
-            callback: $.proxy(this._timeEnded, this)
+            callback: $.proxy(this._timeEnded, this, this.timerId)
         });
     },
     
-    _timeEnded: function() {
-        alertify.error('Время истекло!');
-        this._makeUserAnswer(null, getHashValue('testId'), this._nextQuestionNumber);
+    _timeEnded: function (timerId) {
+        if (this.timerId == timerId) {
+            alertify.error('Время истекло!');
+            this._makeUserAnswer(null, getHashValue('testId'), this._nextQuestionNumber);
+        }
     }
 };
