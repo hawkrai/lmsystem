@@ -25,8 +25,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var unlocks = repositoriesContainer.TestsRepository.GetBy(testsQuery).TestUnlocks;
-                if ((unlocks != null && unlocks.Count > 0) ||
-                    repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetAll(answersQuery).Count() != 0)
+                if (unlocks != null && unlocks.Count > 0)
                 {
                     throw new InvalidDataException("Тест не может быть изменён, т.к. доступен для прохождения");
                 }
