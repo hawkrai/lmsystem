@@ -296,6 +296,12 @@ namespace LMPlatform.Data.Infrastructure
                 .HasForeignKey(e => e.SubjectId)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<SubjectModule>()
+                 .HasMany<Folders>(e => e.Folders)
+                 .WithRequired(e => e.SubjectModule)
+                 .HasForeignKey(e => e.SubjectModuleId)
+                 .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Module>()
                .HasMany<SubjectModule>(e => e.SubjectModules)
                .WithRequired(e => e.Module)

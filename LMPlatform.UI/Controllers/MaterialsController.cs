@@ -5,17 +5,24 @@ using System.Web;
 using System.Web.Mvc;
 using Application.Core.UI.Controllers;
 using Application.Infrastructure.FoldersManagement;
+using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 
 namespace LMPlatform.UI.Controllers
 {
     public class MaterialsController : BasicController
     {
-        public ActionResult Index()
+        public ActionResult Index(int subjectId)
         {
             List<Folders> folders = FoldersManagementService.GetAllFolders();
             ViewBag.folders = folders;
+            Subject subject = SubjectManagementService.GetSubject(subjectId);
 
+            int SubjectModulesId = subject.SubjectModules.First().Id;
+
+            Folders rootFolder = FoldersManagementService.FolderRootBySubjectModuleId(SubjectModulesId);
+
+            ViewBag.Folder = rootFolder;
             ViewBag.NgApp = "materialsApp";
             ViewBag.NgController = "homeCtrl";
 
@@ -35,8 +42,6 @@ namespace LMPlatform.UI.Controllers
             return PartialView();
         }
 
-        #region Dependencies
-
         public IFoldersManagementService FoldersManagementService
         {
             get
@@ -44,6 +49,13 @@ namespace LMPlatform.UI.Controllers
                 return ApplicationService<IFoldersManagementService>();
             }
         }
-        #endregion
+
+        public ISubjectManagementService SubjectManagementService
+        {
+            get
+            {
+                return ApplicationService<ISubjectManagementService>();
+            }
+        }
     }
 }

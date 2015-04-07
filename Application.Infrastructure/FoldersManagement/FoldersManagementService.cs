@@ -23,5 +23,14 @@ namespace Application.Infrastructure.FoldersManagement
                 return currentUser;
             }
         }
+
+        public Folders FolderRootBySubjectModuleId(int submodid)
+        {
+             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var currentUser = repositoriesContainer.FoldersRepository.FolderRootBySubjectModuleId(submodid);
+                return currentUser;
+            }
+        }
     }
 }

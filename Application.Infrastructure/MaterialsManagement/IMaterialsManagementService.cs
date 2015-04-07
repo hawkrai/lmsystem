@@ -8,11 +8,13 @@ namespace Application.Infrastructure.MaterialsManagement
 
     public interface IMaterialsManagementService
     {
-        List<Folders> GetFolders(int pid);
+        List<Folders> GetFolders(int pid, int subjectId);
 
         int GetPidById(int pid);
 
-        Folders CreateFolder(int pid);
+        Folders CreateFolder(int pid, int subjectid);
+
+        void CreateRootFolder(int id_subject_module, string name);
 
         void DeleteFolder(int id);
 
@@ -20,9 +22,9 @@ namespace Application.Infrastructure.MaterialsManagement
 
         void RenameDocument(int id, string name);
 
-        void SaveTextMaterials(int id_document, int id_folder, string name, string text);
+        void SaveTextMaterials(int id_document, int id_folder, string name, string text, int subjectid);
 
-        List<Materials> GetDocumentsByIdFolders(int id);
+        List<Materials> GetDocumentsByIdFolders(int id, int subjectId);
 
         Materials GetTextById(int id);
 

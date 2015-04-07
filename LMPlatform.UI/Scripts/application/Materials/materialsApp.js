@@ -21,4 +21,5 @@
         $routeProvider.otherwise({
             redirectTo: '/Catalog'
         });
+
     }]);

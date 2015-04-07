@@ -9,5 +9,7 @@ namespace Application.Infrastructure.FoldersManagement
     public interface IFoldersManagementService
     {
         List<Folders> GetAllFolders();
+
+        Folders FolderRootBySubjectModuleId(int SubjectModulesId);
     }
 }

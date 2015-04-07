@@ -40,12 +40,22 @@
             }
         </li>
     }
-    else
+    else if (module.Type == ModuleType.Dsm)
     {
 <li>
-						<a class="moduleLinks linkNavbar" href="#@module.Type">@module.Name</a>
-					</li>
-	   }
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Materials", new { subjectId = Model.SubjectId })">
+			        <i class="fa fa-book fa-tab"></i>
+			        <span>Метод. материалы</span>
+		        </a>
+			</li>	   }
+       else
+       {
+            <li class="navLink">
+				<a class="moduleLinks linkNavbar" href="#@module.Type">@module.Name</a>
+			</li>
+       }
    }
 			@if (User.IsInRole("lector"))
    {

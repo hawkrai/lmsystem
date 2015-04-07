@@ -64,6 +64,7 @@
                             $(".sidebar-menu").empty();
                             $location.url("/Catalog");
                             $scope.$apply();
+                            angular.element("#headerMainPage").show();
                         }
                     });
 
@@ -87,14 +88,26 @@
             });
 
 
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+            var subjectId = getParameterByName("subjectId");
+
+            angular.element("#headerMainPage").hide();
+
 
             function saveText(obj) {
                 var text = obj.getContent();
                 data = {
                     idd: $scope.$parent.document || 0,
-                    idf: $scope.$parent.folder,
+                    idf: $scope.$parent.folder || 0,
                     name: $scope.$parent.nameDocument || "Новый документ",
-                    text: text
+                    text: text,
+                    subjectId: subjectId
                 }
                 materialsService.saveText(data).success(function (data) {
                     //$scope.folders = data.Folders;

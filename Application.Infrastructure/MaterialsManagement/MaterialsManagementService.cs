@@ -15,25 +15,48 @@ namespace Application.Infrastructure.MaterialsManagement
 
     public class MaterialsManagementService : IMaterialsManagementService
     {
-        public List<Folders> GetFolders(int PID)
+        public List<Folders> GetFolders(int PID, int subjectId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                List<Folders> folders = repositoriesContainer.FoldersRepository.GetFoldersByPID(PID);
+                Subject subject = repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == subjectId).Include(e => e.SubjectModules.Select(x => x.Module)));
+
+                SubjectModule submod = subject.SubjectModules.FirstOrDefault(e => e.ModuleId == 9);
+
+                if (PID == 0)
+                {
+                    List<Folders> fol = repositoriesContainer.FoldersRepository.GetFoldersByPIDandSubId(PID, submod.Id);
+                    PID = fol[0].Id;
+                }
+
+                List<Folders> folders = repositoriesContainer.FoldersRepository.GetFoldersByPIDandSubId(PID, submod.Id);
 
                 return folders;
             }
         }
 
-        public List<Materials> GetDocumentsByIdFolders(int ID)
+        public List<Materials> GetDocumentsByIdFolders(int ID, int subjectId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                Folders folder = repositoriesContainer.FoldersRepository.GetFolderByPID(ID);
+                Subject subject = repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == subjectId).Include(e => e.SubjectModules.Select(x => x.Module)));
 
-                List<Materials> materials = repositoriesContainer.MaterialsRepository.GetDocumentsByFolders(folder);
+                SubjectModule submod = subject.SubjectModules.FirstOrDefault(e => e.ModuleId == 9);
 
-                return materials;
+                if (ID == 0)
+                {
+                    List<Folders> fol = repositoriesContainer.FoldersRepository.GetFoldersByPIDandSubId(ID, submod.Id);
+                    List<Materials> materials = repositoriesContainer.MaterialsRepository.GetDocumentsByFolders(fol[0]);
+
+                    return materials;
+                }
+                else
+                {
+                    Folders folder = repositoriesContainer.FoldersRepository.GetFolderByPID(ID);
+                    List<Materials> materials = repositoriesContainer.MaterialsRepository.GetDocumentsByFolders(folder);
+
+                    return materials;
+                }
             }
         }
 
@@ -62,13 +85,31 @@ namespace Application.Infrastructure.MaterialsManagement
             }
         }
 
-        public Folders CreateFolder(int PID)
+        public Folders CreateFolder(int PID, int subjectid)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                Folders folder = repositoriesContainer.FoldersRepository.CreateFolderByPID(PID);
+                Subject subject = repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == subjectid).Include(e => e.SubjectModules.Select(x => x.Module)));
+
+                SubjectModule submod = subject.SubjectModules.FirstOrDefault(e => e.ModuleId == 9);
+
+                if (PID == 0)
+                {
+                    List<Folders> fol = repositoriesContainer.FoldersRepository.GetFoldersByPIDandSubId(PID, submod.Id);
+                    PID = fol[0].Id;
+                }
+
+                Folders folder = repositoriesContainer.FoldersRepository.CreateFolderByPID(PID, submod.Id);
 
                 return folder;
+            }
+        }
+
+        public void CreateRootFolder(int id_subject_module, string name)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.FoldersRepository.CreateRootFolder(id_subject_module, name);
             }
         }
 
@@ -104,11 +145,22 @@ namespace Application.Infrastructure.MaterialsManagement
             }
         }
      
-        public void SaveTextMaterials(int id_document, int id_folder, string name, string text)
+        public void SaveTextMaterials(int id_document, int id_folder, string name, string text, int subjectid)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                if (id_document == 0)
+                if (id_document == 0 && id_folder == 0)
+                {
+                    int PID = 0;
+                    Subject subject = repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == subjectid).Include(e => e.SubjectModules.Select(x => x.Module)));
+                    SubjectModule submod = subject.SubjectModules.FirstOrDefault(e => e.ModuleId == 9);
+
+                        List<Folders> fol = repositoriesContainer.FoldersRepository.GetFoldersByPIDandSubId(PID, submod.Id);
+                        id_folder = fol[0].Id;
+
+                        repositoriesContainer.MaterialsRepository.SaveTextMaterials(id_folder, name, text);
+                }
+                else if (id_document == 0)
                 {
                     repositoriesContainer.MaterialsRepository.SaveTextMaterials(id_folder, name, text);
                 }

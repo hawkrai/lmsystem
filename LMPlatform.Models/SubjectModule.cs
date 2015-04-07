@@ -1,4 +1,5 @@
-﻿using Application.Core.Data;
+﻿using System.Collections.Generic;
+using Application.Core.Data;
 
 namespace LMPlatform.Models
 {
@@ -33,5 +34,7 @@ namespace LMPlatform.Models
             get;
             set;
         }
+
+        public virtual ICollection<Folders> Folders { get; set; }
     }
 }

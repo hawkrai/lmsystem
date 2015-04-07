@@ -18,8 +18,14 @@
     @Scripts.Render("~/bundles/materialsApp")
 }
 
+@section headerTitle
+{
+	<h1>@ViewBag.Folder.Name</h1>
+}
+
 @section navleft
 {
           @* <li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>*@
+
 }
 <div ng-view></div>

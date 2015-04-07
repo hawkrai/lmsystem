@@ -30,10 +30,11 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
-        public FoldersResult GetFolders(string Pid)
+        public FoldersResult GetFolders(string Pid, string subjectId)
         {
             int pid = int.Parse(Pid);
-            List<Folders> fl = MaterialsManagementService.GetFolders(pid);
+            int subjectid = int.Parse(subjectId);
+            List<Folders> fl = MaterialsManagementService.GetFolders(pid, subjectid);
             return new FoldersResult
             {
                 Folders = fl.Select(e => new FoldersViewData(e)).ToList(),
@@ -41,12 +42,13 @@ namespace LMPlatform.UI.Services.Materials
                 Code = "200"
             };
         }
-        
-        public FoldersResult BackspaceFolder(string Id)
+
+        public FoldersResult BackspaceFolder(string Id, string subjectId)
         {
             int id = int.Parse(Id);
+            int subjectid = int.Parse(subjectId);
             int pid = MaterialsManagementService.GetPidById(id);
-            List<Folders> fl = MaterialsManagementService.GetFolders(pid);
+            List<Folders> fl = MaterialsManagementService.GetFolders(pid, subjectid);
             return new FoldersResult
             {
                 Pid = pid,
@@ -56,13 +58,14 @@ namespace LMPlatform.UI.Services.Materials
             };
         }
 
-        public FoldersResult CreateFolder(string Pid)
+        public FoldersResult CreateFolder(string Pid, string subjectId)
         {
             try
             {
                 int pid = int.Parse(Pid);
-                Folders fls = MaterialsManagementService.CreateFolder(pid);
-                List<Folders> fl = MaterialsManagementService.GetFolders(pid);
+                int subjectid = int.Parse(subjectId);
+                Folders fls = MaterialsManagementService.CreateFolder(pid, subjectid);
+                List<Folders> fl = MaterialsManagementService.GetFolders(pid, subjectid);
                 return new FoldersResult
                 {
                     Folders = fl.Select(e => new FoldersViewData(e)).ToList(),
@@ -80,13 +83,14 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
-        public FoldersResult DeleteFolder(string IdFolder)
+        public FoldersResult DeleteFolder(string IdFolder, string subjectId)
         {
             try
             {
                 int idfolder = int.Parse(IdFolder);
+                int subjectid = int.Parse(subjectId);
                 MaterialsManagementService.DeleteFolder(idfolder);
-                List<Folders> fl = MaterialsManagementService.GetFolders(idfolder);
+                List<Folders> fl = MaterialsManagementService.GetFolders(idfolder, subjectid);
                 return new FoldersResult
                 {
                     Folders = fl.Select(e => new FoldersViewData(e)).ToList(),
@@ -104,14 +108,15 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
-        public DocumentsResult DeleteDocument(string IdDocument, string pid)
+        public DocumentsResult DeleteDocument(string IdDocument, string pid, string subjectId)
         {
             try
             {
                 int iddocument = int.Parse(IdDocument);
                 int parentIdFolder = int.Parse(pid);
+                int subjectid = int.Parse(subjectId);
                 MaterialsManagementService.DeleteDocument(iddocument);
-                List<Materials> fl = MaterialsManagementService.GetDocumentsByIdFolders(parentIdFolder);
+                List<Materials> fl = MaterialsManagementService.GetDocumentsByIdFolders(parentIdFolder, subjectid);
 
                 return new DocumentsResult
                 {
@@ -130,15 +135,16 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
-        public FoldersResult RenameFolder(string id, string pid, string newName)
+        public FoldersResult RenameFolder(string id, string pid, string newName, string subjectId)
         {
             try
             {
                 int idfolder = int.Parse(id);
                 int parentIdFolder = int.Parse(pid);
+                int subjectid = int.Parse(subjectId);
                 string name = newName;
                 MaterialsManagementService.RenameFolder(idfolder, name);
-                List<Folders> fl = MaterialsManagementService.GetFolders(parentIdFolder);
+                List<Folders> fl = MaterialsManagementService.GetFolders(parentIdFolder, subjectid);
                 return new FoldersResult
                 {
                     Folders = fl.Select(e => new FoldersViewData(e)).ToList(),
@@ -156,15 +162,16 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
-        public DocumentsResult RenameDocument(string id, string pid, string newName)
+        public DocumentsResult RenameDocument(string id, string pid, string newName, string subjectId)
         {
             try
             {
                 int iddocument = int.Parse(id);
                 int parentIdFolder = int.Parse(pid);
+                int subjectid = int.Parse(subjectId);
                 string name = newName;
                 MaterialsManagementService.RenameDocument(iddocument, name);
-                List<Materials> fl = MaterialsManagementService.GetDocumentsByIdFolders(parentIdFolder);
+                List<Materials> fl = MaterialsManagementService.GetDocumentsByIdFolders(parentIdFolder, subjectid);
                 return new DocumentsResult
                 {
                     Documents = fl.Select(e => new DocumentsViewData(e)).ToList(),
@@ -182,11 +189,12 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
-        public FoldersResult SaveTextMaterials(string idd, string idf, string name, string text)
+        public FoldersResult SaveTextMaterials(string idd, string idf, string name, string text, string subjectId)
         {
             int id_document = int.Parse(idd);
             int id_folder = int.Parse(idf);
-            MaterialsManagementService.SaveTextMaterials(id_document, id_folder, name, text);
+            int subjectid = int.Parse(subjectId);
+            MaterialsManagementService.SaveTextMaterials(id_document, id_folder, name, text, subjectid);
             return new FoldersResult
             {
                 Message = "Ошибка переименования папки",
@@ -194,10 +202,11 @@ namespace LMPlatform.UI.Services.Materials
             };
         }
 
-        public DocumentsResult GetDocuments(string Pid)
+        public DocumentsResult GetDocuments(string Pid, string subjectId)
         {
             int id = int.Parse(Pid);
-            List<Materials> dc = MaterialsManagementService.GetDocumentsByIdFolders(id);
+            int subjectid = int.Parse(subjectId);
+            List<Materials> dc = MaterialsManagementService.GetDocumentsByIdFolders(id, subjectid);
             return new DocumentsResult
             {
                 Documents = dc.Select(e => new DocumentsViewData(e)).ToList(),

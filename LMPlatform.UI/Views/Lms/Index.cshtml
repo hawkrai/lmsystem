@@ -70,8 +70,23 @@
 		</ul>
 	</li>
 
+    <li class="treeview">
+		<a href="#">
+			<i class="fa fa-book fa-tab"></i>
+			<span>Метод. материалы</span>
+			<i class="fa fa-angle-left pull-right"></i>
+		</a>
+		<ul class="treeview-menu">
+			@foreach (var subject in Model.Subjects)
+			{
+				var url = Url.Action("Index", "Materials", new { subjectId = subject.SubjectId });
+
+				<li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
+			}
+		</ul>
+	</li>
+
 	<li><a href="@Url.Action("Index", "BTS")"><i class="fa fa-desktop fa-tab"></i>Управление проектами</a></li>
-	<li><a href="@Url.Action("Index", "Materials")"><i class="fa fa-book fa-tab"></i>Методические материалы</a></li>
 	@if (ViewBag.ShowDpSectionForUser)
 	{
 		<li><a href="@Url.Action("Index", "DP")"><i class="fa fa-briefcase fa-tab"></i>Дипломное проектирование</a></li>

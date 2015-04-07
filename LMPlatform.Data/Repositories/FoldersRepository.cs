@@ -15,12 +15,31 @@ namespace LMPlatform.Data.Repositories
         {  
         }
 
+        public List<Folders> GetFoldersByPIDandSubId(int pid, int idsubjectmodule)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                SubjectModule subjectmodule = context.Set<SubjectModule>().FirstOrDefault(e => e.Id == idsubjectmodule);
+                var folders = context.Set<Folders>().Where(e => e.Pid == pid && e.SubjectModule.Id == subjectmodule.Id).ToList();
+                return folders;
+            }
+        }
+
         public List<Folders> GetFoldersByPID(int pid)
         {
             using (var context = new LmPlatformModelsContext())
             {
-                var students = context.Set<Folders>().Where(e => e.Pid == pid).ToList();
-                return students;
+                var folders = context.Set<Folders>().Where(e => e.Pid == pid && e.SubjectModule.Subject.IsArchive == false).ToList();
+                return folders;
+            }
+        }
+
+        public Folders FolderRootBySubjectModuleId(int id)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var folder = context.Set<Folders>().FirstOrDefault(e => e.SubjectModuleId == id);
+                return folder;
             }
         }
 
@@ -42,20 +61,41 @@ namespace LMPlatform.Data.Repositories
             }
         }
 
-        public Folders CreateFolderByPID(int pid)
+        public Folders CreateFolderByPID(int pid, int idsubjectmodule)
         {
             using (var context = new LmPlatformModelsContext())
-            {   
+            {
+                SubjectModule subjectmodule = context.Set<SubjectModule>().FirstOrDefault(e => e.Id == idsubjectmodule);
+
                 Folders folder = new Folders
                 {
                     Name = "Новая папка",
-                    Pid = pid
+                    Pid = pid,
+                    SubjectModule = subjectmodule
                 };
                
                 context.Set<Folders>().Add(folder);
                 context.SaveChanges();
 
                 return folder;
+            }
+        }
+
+        public void CreateRootFolder(int idsubjectmodule, string name)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                SubjectModule subjectmodule = context.Set<SubjectModule>().FirstOrDefault(e => e.Id == idsubjectmodule);
+
+                Folders folder = new Folders
+                {
+                    Name = name,
+                    Pid = 0,
+                    SubjectModule = subjectmodule
+                };
+
+                context.Set<Folders>().Add(folder);
+                context.SaveChanges();
             }
         }
 

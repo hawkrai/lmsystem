@@ -6,7 +6,9 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using Application.Core;
+using Application.Infrastructure.FoldersManagement;
 using Application.Infrastructure.GroupManagement;
+using Application.Infrastructure.MaterialsManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
@@ -18,6 +20,8 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         private readonly LazyDependency<IModulesManagementService> _modulesManagementService = new LazyDependency<IModulesManagementService>();
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
 		private readonly LazyDependency<IGroupManagementService> _groupManagementService = new LazyDependency<IGroupManagementService>();
+        private readonly LazyDependency<IFoldersManagementService> _foldersManagementService = new LazyDependency<IFoldersManagementService>();
+        private readonly LazyDependency<IMaterialsManagementService> _materialsManagementService = new LazyDependency<IMaterialsManagementService>();
 
 		public IGroupManagementService GroupManagementService
 		{
@@ -40,6 +44,22 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             get
             {
                 return _modulesManagementService.Value;
+            }
+        }
+
+        public IFoldersManagementService FoldersManagementService
+        {
+            get
+            {
+                return _foldersManagementService.Value;
+            }
+        }
+
+        public IMaterialsManagementService MaterialsManagementService
+        {
+            get
+            {
+                return _materialsManagementService.Value;
             }
         }
 
@@ -198,7 +218,15 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 				subject.SubjectGroups = new Collection<SubjectGroup>();    
 	        }
 
-            SubjectManagementService.SaveSubject(subject);
+            Subject sub = SubjectManagementService.SaveSubject(subject);
+
+            foreach (var module in sub.SubjectModules)
+            {
+                if (module.ModuleId == 9)
+                {
+                    MaterialsManagementService.CreateRootFolder(module.Id, sub.Name);
+                }
+            } 
         }
     }
 }

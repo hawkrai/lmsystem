@@ -18,39 +18,39 @@ namespace LMPlatform.UI.Services.Materials
     {
         [OperationContract]
         [WebInvoke(UriTemplate = "/getFoldersMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        FoldersResult GetFolders(string Pid);
+        FoldersResult GetFolders(string Pid, string subjectId);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/backspaceFolderMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        FoldersResult BackspaceFolder(string Pid);
+        FoldersResult BackspaceFolder(string Pid, string subjectId);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/createFolderMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        FoldersResult CreateFolder(string Pid);
+        FoldersResult CreateFolder(string Pid, string subjectId);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/deleteFolderMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        FoldersResult DeleteFolder(string IdFolder);
+        FoldersResult DeleteFolder(string IdFolder, string subjectId);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/deleteDocumentMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        DocumentsResult DeleteDocument(string IdDocument, string pid);
+        DocumentsResult DeleteDocument(string IdDocument, string pid, string subjectId);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/renameFolderMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        FoldersResult RenameFolder(string id, string pid, string newName);
+        FoldersResult RenameFolder(string id, string pid, string newName, string subjectId);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/renameDocumentMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        DocumentsResult RenameDocument(string id, string pid, string newName);
+        DocumentsResult RenameDocument(string id, string pid, string newName, string subjectId);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/saveTextMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        FoldersResult SaveTextMaterials(string idd, string idf, string name, string text);
+        FoldersResult SaveTextMaterials(string idd, string idf, string name, string text, string subjectId);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/getDocumentsMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        DocumentsResult GetDocuments(string Pid);
+        DocumentsResult GetDocuments(string Pid, string subjectId);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/getTextMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]

@@ -9,19 +9,29 @@ angular
         "$log",
         function ($scope, $location, $resource, materialsService) {
 
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
 
-            materialsService.getFolders({ Pid: $scope.$parent.folder }).success(function (data) {
+            var subjectId = getParameterByName("subjectId");
+
+            $scope.$parent.subjectId = subjectId;
+
+            materialsService.getFolders({ Pid: $scope.$parent.folder, subjectId: subjectId }).success(function (data) {
                 $scope.folders = data.Folders;
             });
 
-            materialsService.getDocuments({ Pid: $scope.$parent.folder }).success(function (data) {
+            materialsService.getDocuments({ Pid: $scope.$parent.folder, subjectId: subjectId }).success(function (data) {
                 $scope.documents = data.Documents;
             });
 
 
             $scope.createFolder = function () {
                 var pid = angular.element(".catalog").attr("data-pid");
-                materialsService.createFolder({ Pid: pid }).success(function (data) {
+                materialsService.createFolder({ Pid: pid, subjectId: subjectId }).success(function (data) {
                     $scope.folders = data.Folders;
                     angular.element('#context_menu').detach();
                 });
@@ -31,7 +41,7 @@ angular
                 var pid = angular.element(".catalog").attr("data-pid");
                 //alert(angular.element(".catalog").attr("data-pid"));
                 //angular.element(".catalog").attr("data-pid", idFolder);
-                materialsService.backspaceFolder({ Pid: pid }).success(function (data) {
+                materialsService.backspaceFolder({ Pid: pid, subjectId: subjectId }).success(function (data) {
                     $scope.folders = data.Folders;
                     pid = data.Pid;
                     angular.element(".catalog").attr("data-pid", data.Pid);
@@ -45,7 +55,7 @@ angular
                 var idFolder = angular.element($event.target).data("idfolder");
                 $scope.$parent.folder = idFolder;
                 angular.element(".catalog").attr("data-pid", idFolder);
-                materialsService.getFolders({ Pid: idFolder }).success(function (data) {
+                materialsService.getFolders({ Pid: idFolder, subjectId: subjectId }).success(function (data) {
                     $scope.folders = data.Folders;
                 });
                 materialsService.getDocuments({ Pid: idFolder }).success(function (data) {
@@ -80,7 +90,7 @@ angular
                     },
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
-                            materialsService.deleteFolder({ IdFolder: idFolder }).success(function (data) {
+                            materialsService.deleteFolder({ IdFolder: idFolder, subjectId: subjectId }).success(function (data) {
                                 $scope.actionFolder.remove();
                             });
                         } else {
@@ -161,7 +171,7 @@ angular
                     if (e.keyCode == 13) {
                         $scope.actionFolder.find('.nameFolder').attr('contenteditable', 'false');
                         var newName = $scope.actionFolder.find('.nameFolder').text();
-                        materialsService.renameFolder({ id: idFolder, pid: pid,  newName: newName }).success(function (data) {
+                        materialsService.renameFolder({ id: idFolder, pid: pid, newName: newName, subjectId: subjectId }).success(function (data) {
                             $scope.folders = data.Folders;
                             angular.element('#context_menu').detach();
                         });

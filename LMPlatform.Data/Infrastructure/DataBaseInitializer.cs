@@ -17,7 +17,6 @@ namespace LMPlatform.Data.Infrastructure
             CreateBugStatuses(context);
             CreateProjectRoles(context);
             CreateModules(context);
-            CreateFolders(context);
             context.SaveChanges();
         }
 
@@ -117,12 +116,6 @@ namespace LMPlatform.Data.Infrastructure
                 RoleName = "lector",
                 RoleDisplayName = "Лектор"
             });
-        }
-
-        private static void CreateFolders(LmPlatformModelsContext context)
-        {
-            context.Folders.Add(new Folders { Name = "Тестирование", Pid = 0 });
-            context.Folders.Add(new Folders { Name = "Программирование", Pid = 0 });
         }
 
         public static bool InitializeDatabase(LmPlatformModelsContext context)

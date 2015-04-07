@@ -20,6 +20,14 @@ namespace LMPlatform.Models
             set;
         }
 
+        public int SubjectModuleId 
+        { 
+            get;
+            set;
+        }
+
+        public virtual SubjectModule SubjectModule { get; set; }
+
         public virtual ICollection<Materials> Materials { get; set; }
     }
 }
