@@ -42,10 +42,12 @@ angular
                 //alert(angular.element(".catalog").attr("data-pid"));
                 //angular.element(".catalog").attr("data-pid", idFolder);
                 materialsService.backspaceFolder({ Pid: pid, subjectId: subjectId }).success(function (data) {
+                    console.log(data);
+
                     $scope.folders = data.Folders;
                     pid = data.Pid;
                     angular.element(".catalog").attr("data-pid", data.Pid);
-                    materialsService.getDocuments({ Pid: pid }).success(function (data) {
+                    materialsService.getDocuments({ Pid: pid, subjectId: subjectId }).success(function (data) {
                         $scope.documents = data.Documents;
                     });
                 });
@@ -58,7 +60,7 @@ angular
                 materialsService.getFolders({ Pid: idFolder, subjectId: subjectId }).success(function (data) {
                     $scope.folders = data.Folders;
                 });
-                materialsService.getDocuments({ Pid: idFolder }).success(function (data) {
+                materialsService.getDocuments({ Pid: idFolder, subjectId: subjectId }).success(function (data) {
                     $scope.documents = data.Documents;
                 });
             };
@@ -222,7 +224,7 @@ angular
                     if (e.keyCode == 13) {
                         $scope.actionDocument.find('.nameDocument').attr('contenteditable', 'false');
                         var newName = $scope.actionDocument.find(".nameDocument").text();
-                        materialsService.renameDocument({ id: idDocument, pid: pid, newName: newName }).success(function (data) {
+                        materialsService.renameDocument({ id: idDocument, pid: pid, newName: newName, subjectId: subjectId }).success(function (data) {
                             if(data.Code == 500)
                                 alert("Ошибка");
                             console.log(data);
