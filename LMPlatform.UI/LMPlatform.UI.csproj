@@ -1155,6 +1155,14 @@
     <Content Include="Scripts\tinymce\skins\lightgray\img\trans.gif" />
     <Content Include="Scripts\tinymce\skins\lightgray\skin.ie7.min.css" />
     <Content Include="Scripts\tinymce\skins\lightgray\skin.min.css" />
+    <Content Include="Scripts\tinymce\skins\light\content.inline.min.css" />
+    <Content Include="Scripts\tinymce\skins\light\content.min.css" />
+    <Content Include="Scripts\tinymce\skins\light\img\anchor.gif" />
+    <Content Include="Scripts\tinymce\skins\light\img\loader.gif" />
+    <Content Include="Scripts\tinymce\skins\light\img\object.gif" />
+    <Content Include="Scripts\tinymce\skins\light\img\trans.gif" />
+    <Content Include="Scripts\tinymce\skins\light\skin.ie7.min.css" />
+    <Content Include="Scripts\tinymce\skins\light\skin.min.css" />
     <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
     <Content Include="Scripts\ui-bootstrap-tpls.js" />
@@ -1610,6 +1618,16 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.svg" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="Scripts\tinymce\skins\light\fonts\tinymce-small.eot" />
+    <Content Include="Scripts\tinymce\skins\light\fonts\tinymce-small.json" />
+    <Content Include="Scripts\tinymce\skins\light\fonts\tinymce-small.svg" />
+    <Content Include="Scripts\tinymce\skins\light\fonts\tinymce-small.ttf" />
+    <Content Include="Scripts\tinymce\skins\light\fonts\tinymce-small.woff" />
+    <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.eot" />
+    <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.json" />
+    <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.svg" />
+    <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.ttf" />
+    <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.woff" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
