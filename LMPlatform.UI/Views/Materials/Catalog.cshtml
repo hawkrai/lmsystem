@@ -3,12 +3,12 @@
         <div class="bs-glyphicons">
             <ul class="bs-glyphicons-list">
                 <li ng-repeat="folder in folders" class="folder" context-menu-folder ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}">
-                    <span class="glyphicon glyphicon-folder-open"></span>
-                    <span class="glyphicon-class nameFolder">{{folder.Name}}</span>
+                    <span class="glyphicon glyphicon-folder-open" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}"></span>
+                    <span class="glyphicon-class nameFolder" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}">{{folder.Name}}</span>
                 </li>
                 <li  ng-repeat="document in documents" class="document" context-menu-document ng-dblclick="openDocument($event)" data-idDocument="{{document.Id}}" data-nameDocument="{{document.Name}}">
-                    <span class="glyphicon glyphicon glyphicon-file"></span>
-                    <span class="glyphicon-class nameDocument">{{document.Name}}</span>
+                    <span class="glyphicon glyphicon glyphicon-file" ng-dblclick="openDocument($event)" data-idDocument="{{document.Id}}"></span>
+                    <span class="glyphicon-class nameDocument" ng-dblclick="openDocument($event)" data-idDocument="{{document.Id}}">{{document.Name}}</span>
                 </li>
             </ul>
         </div>

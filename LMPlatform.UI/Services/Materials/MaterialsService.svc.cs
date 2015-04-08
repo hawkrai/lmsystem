@@ -83,17 +83,14 @@ namespace LMPlatform.UI.Services.Materials
             }
         }
 
-        public FoldersResult DeleteFolder(string IdFolder, string subjectId)
+        public FoldersResult DeleteFolder(string IdFolder)
         {
             try
             {
                 int idfolder = int.Parse(IdFolder);
-                int subjectid = int.Parse(subjectId);
                 MaterialsManagementService.DeleteFolder(idfolder);
-                List<Folders> fl = MaterialsManagementService.GetFolders(idfolder, subjectid);
                 return new FoldersResult
                 {
-                    Folders = fl.Select(e => new FoldersViewData(e)).ToList(),
                     Message = "Папка удалена",
                     Code = "200"
                 };

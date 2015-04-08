@@ -30,7 +30,7 @@ namespace LMPlatform.UI.Services.Materials
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/deleteFolderMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-        FoldersResult DeleteFolder(string IdFolder, string subjectId);
+        FoldersResult DeleteFolder(string IdFolder);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/deleteDocumentMaterials", RequestFormat = WebMessageFormat.Json, Method = "POST")]

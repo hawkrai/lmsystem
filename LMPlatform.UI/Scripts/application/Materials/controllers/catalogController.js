@@ -42,10 +42,9 @@ angular
                 //alert(angular.element(".catalog").attr("data-pid"));
                 //angular.element(".catalog").attr("data-pid", idFolder);
                 materialsService.backspaceFolder({ Pid: pid, subjectId: subjectId }).success(function (data) {
-                    console.log(data);
-
                     $scope.folders = data.Folders;
                     pid = data.Pid;
+                    $scope.$parent.folder = pid;
                     angular.element(".catalog").attr("data-pid", data.Pid);
                     materialsService.getDocuments({ Pid: pid, subjectId: subjectId }).success(function (data) {
                         $scope.documents = data.Documents;
@@ -123,7 +122,7 @@ angular
                     },
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
-                            materialsService.deleteDocument({ IdDocument: idDocument, pid: pid }).success(function (data) {
+                            materialsService.deleteDocument({ IdDocument: idDocument, pid: pid, subjectId: subjectId }).success(function (data) {
                                 $scope.actionDocument.remove();
                             });
                         } else {
