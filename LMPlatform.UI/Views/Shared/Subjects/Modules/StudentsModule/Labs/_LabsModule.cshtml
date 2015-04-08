@@ -150,7 +150,7 @@
 						</tr>
 					</thead>
 					<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
-						<td style="width: 40px">{{student.StudentId}}</td>
+						<td style="width: 40px">{{$index + 1}}</td>
 						<td style="max-width: 200px">{{student.FullName}}</td>
 						<td style="width: 50px;text-align: center" ng-repeat="mark in student.StudentLabMarks">{{ mark.Mark || '' }}</td>
 						<td style="width: 50px;text-align: center;color: red"><b>{{student.LabsMarkTotal}}</b></td>
@@ -180,7 +180,7 @@
 								<td style="width: 90px;">
 									<div>
 										<a style="margin-right: 10px" ng-click="editLabFiles(files)"><i class="fa fa-edit fa-1x"></i></a>
-										<a ng-click="deleteLabs(files)"><i class="fa fa-trash-o fa-1x"></i></a>
+										<a ng-click="deleteUserFile(files)"><i class="fa fa-trash-o fa-1x"></i></a>
 									</div>
 								</td>
 							</tr>

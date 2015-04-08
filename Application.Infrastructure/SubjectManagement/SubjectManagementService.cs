@@ -659,6 +659,17 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 	    }
 
+	    public void DeleteUserLabFile(int id)
+	    {
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var model = repositoriesContainer.RepositoryFor<UserLabFiles>().GetBy(new Query<UserLabFiles>(e => e.Id == id));
+
+				repositoriesContainer.RepositoryFor<UserLabFiles>().Delete(model);
+				repositoriesContainer.ApplyChanges();
+			}
+	    }
+
 	    public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

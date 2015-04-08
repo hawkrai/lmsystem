@@ -89,5 +89,7 @@ namespace Application.Infrastructure.SubjectManagement
 	    List<UserLabFiles> GetUserLabFiles(int userId, int subjectId);
 
 		UserLabFiles GetUserLabFile(int id);
+
+		void DeleteUserLabFile(int id);
     }
 }

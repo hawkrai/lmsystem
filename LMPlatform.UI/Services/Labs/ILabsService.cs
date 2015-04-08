@@ -51,5 +51,9 @@ namespace LMPlatform.UI.Services.Labs
 	    [OperationContract]
 	    [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SendFile")]
 	    ResultViewData SendFile(string subjectId, string userId, string id, string comments, string pathFile, string attachments);
+
+	    [OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/DeleteUserFile")]
+	    ResultViewData DeleteUserFile(string id);
     }
 }

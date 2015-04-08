@@ -828,6 +828,10 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.saveLabFiles = function () {
+        	if ($scope.editFileSend.Comments == null || $scope.editFileSend.Comments.length == 0 || JSON.parse($scope.getLecturesFileAttachments()).length == 0) {
+        		bootbox.alert("Необходимо заполнить поля и прикрепить файлы.");
+		        return false;
+	        }
 
         	$http({
         		method: 'POST',
@@ -980,6 +984,41 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                     }
                 }
             });
+        };
+
+        $scope.deleteUserFile = function (file) {
+        	bootbox.dialog({
+        		message: "Вы действительно хотите удалить работу?",
+        		title: "Удаление работы",
+        		buttons: {
+        			danger: {
+        				label: "Отмена",
+        				className: "btn-default btn-sm",
+        				callback: function () {
+
+        				}
+        			},
+        			success: {
+        				label: "Удалить",
+        				className: "btn-primary btn-sm",
+        				callback: function () {
+        					$http({
+        						method: 'POST',
+        						url: $scope.UrlServiceLabs + "DeleteUserFile",
+        						data: { id: file.Id },
+        						headers: { 'Content-Type': 'application/json' }
+        					}).success(function (data, status) {
+        						if (data.Code != '200') {
+        							alertify.error(data.Message);
+        						} else {
+        							alertify.success(data.Message);
+        							$scope.labFilesUser.splice($scope.labFilesUser.indexOf(file), 1);
+        						}
+        					});
+        				}
+        			}
+        		}
+        	});
         };
 
         $scope.changeGroups = function (selectedGroup) {

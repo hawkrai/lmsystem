@@ -142,7 +142,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             {
                 Text = v.Name,
                 Value = v.Id.ToString(CultureInfo.InvariantCulture)
-            }).ToList();
+            }).OrderBy(e => e.Text).ToList();
         }
 
         public void RegistrationUser(IList<string> roles)

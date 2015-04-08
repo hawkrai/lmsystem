@@ -269,5 +269,26 @@ namespace LMPlatform.UI.Services.Labs
 				};
 			}
 		}
+
+		public ResultViewData DeleteUserFile(string id)
+		{
+			try
+			{
+				SubjectManagementService.DeleteUserLabFile(int.Parse(id));
+				return new ResultViewData()
+				{
+					Message = "Работа удалена",
+					Code = "200"
+				};
+			}
+			catch (Exception e)
+			{
+				return new ResultViewData()
+				{
+					Message = "Произошла ошибка при удалении работы - " + e.Message,
+					Code = "500"
+				};
+			}
+		}
     }
 }
