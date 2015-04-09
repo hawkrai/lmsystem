@@ -18,7 +18,7 @@ namespace LMPlatform.UI.Controllers
             ViewBag.folders = folders;
             Subject subject = SubjectManagementService.GetSubject(subjectId);
 
-            int SubjectModulesId = subject.SubjectModules.First().Id;
+            int SubjectModulesId = subject.SubjectModules.First(e => e.ModuleId == 9).Id;
 
             Folders rootFolder = FoldersManagementService.FolderRootBySubjectModuleId(SubjectModulesId);
 
