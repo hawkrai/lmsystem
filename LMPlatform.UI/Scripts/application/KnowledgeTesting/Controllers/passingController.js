@@ -109,10 +109,10 @@ var testPassing = {
     },
 
     _makeUserAnswer: function (answers, testId, currentQuestionNumber) {
-        if (answers && ((answers.length == 1 && !answers[0].Content) || (answers.length > 1 && Enumerable.From(answers))
+        if (answers && ((answers.length == 1 && !answers[0].Content) || (answers.length > 1 && Enumerable.From(answers)
             .Where(function(item) {
                 return item.IsCorrect != 0;
-            }).Count() == 0)) {
+            }).Count() == 0))) {
             alertify.error("Не выбран ни один вариант ответа");
         } else {
             $.ajax({
@@ -152,6 +152,8 @@ var testPassing = {
     },
     
     _initializeTimer: function () {
+        // Dirty hack with timer id resolves issue
+        // with previous timer callback execution
         this.timerId = (new Date).getTime();
         $(".kkcountdown").kkcountdown({
             displayZeroDays: false,
