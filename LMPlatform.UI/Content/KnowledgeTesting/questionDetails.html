@@ -26,7 +26,7 @@
         
     <div style="height: 15px"></div>
 
-    <!-- One variant template -->
+    <!-- Many variants template -->
     <div ng-show="question.QuestionType == 1" class="table-responsive">
         <table class="table">
             <tr data-ng-repeat="answer in question.Answers">
@@ -39,12 +39,12 @@
         </table>
     </div>
 
-    <!-- Many variants template -->
+    <!-- One variant template -->
     <div ng-show="question.QuestionType == 0" class="table-responsive">
         <table class="table">
             <tr data-ng-repeat="answer in question.Answers">
                 <td style="width: 20px; border: none; padding-top: 12px">
-                    <input style="width: 15px; height: 15px;" type="radio" name="answer" ng-model="answer.IsCorrect" ng-value="1" /></td>
+                    <input style="width: 15px; height: 15px;" type="radio" name="answer" ng-model="answer.IsCorrect" ng-value="1" ng-change="radioGroupChanged(answer)" /></td>
                 <td style="border: none">
                     <input placeholder="Введите вариант ответа" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" /></td>
                 <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>

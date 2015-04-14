@@ -162,7 +162,7 @@ namespace LMPlatform.UI.Controllers
         public JsonResult GetQuestion(int id)
         {
             var test = id == 0
-                ? new QuestionViewModel { Answers = new[] { new AnswerViewModel { IsCorrect = "0" } }, ComplexityLevel = 1 }
+                ? new QuestionViewModel { Answers = new[] { new AnswerViewModel { IsCorrect = 0 } }, ComplexityLevel = 1 }
                 : QuestionViewModel.FromQuestion(QuestionsManagementService.GetQuestion(id));
 
             return Json(test, JsonRequestBehavior.AllowGet);

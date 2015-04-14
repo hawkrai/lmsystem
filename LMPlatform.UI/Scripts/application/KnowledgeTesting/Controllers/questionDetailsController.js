@@ -20,6 +20,14 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
         alertify.error('Во время получения данных произошла ошибка');
     });
 
+    $scope.radioGroupChanged = function (answer) {
+        $scope.question.Answers.forEach(function (item) {
+            if (item !== answer) {
+                item.IsCorrect = 0;
+            }
+        });
+    };
+
     $scope.saveQuestion = function() {
         $scope.question.TestId = getHashValue('testId');
         
