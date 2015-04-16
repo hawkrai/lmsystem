@@ -1,8 +1,8 @@
 ﻿'use strict';
 knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, id, $modalInstance) {
 
-    $scope.QuestionType = 0;
-    $scope.types = [{ Id: 1, Name: 'С несколькими вариантами' }, { Id: 0, Name: 'С одним вариантом' }, { Id: 2, Name: 'Ввод с клавиатуры' }, { Id: 3, Name: 'Последовательность элементов' }];
+    $scope.question = {QuestionType: 0};
+    $scope.types = [{ Id: 0, Name: 'С одним вариантом' }, { Id: 1, Name: 'С несколькими вариантами' }, { Id: 2, Name: 'Ввод с клавиатуры' }, { Id: 3, Name: 'Последовательность элементов' }];
 
     $scope.deleteAnswer = function (index) {
         if ($scope.question.Answers.length == 1) {

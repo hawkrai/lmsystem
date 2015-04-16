@@ -35,6 +35,9 @@ studentsTestingApp.controller('studentResultsCtrl', function ($scope, $http) {
             axes: {
                 xaxis: {
                     renderer: $.jqplot.CategoryAxisRenderer
+                },
+                yaxis: {
+                    tickOptions: { formatString: '%d&nbsp&nbsp&nbsp' }
                 }
             }
         });

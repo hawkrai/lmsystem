@@ -51,6 +51,9 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
                     tickOptions: {
                         angle: lines.length > 3 ? -90 : 0,
                     }
+                },
+                yaxis: {
+                    tickOptions: { formatString: '%d&nbsp&nbsp&nbsp' }
                 }
             }
         });
