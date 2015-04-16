@@ -991,6 +991,7 @@
     <Content Include="Scripts\jqplot\chart.js" />
     <Content Include="Scripts\jqplot\jqplot.barRenderer.min.js" />
     <Content Include="Scripts\jqplot\jqplot.canvasAxisTickRenderer.min.js" />
+    <Content Include="Scripts\jqplot\jqplot.canvasTextRenderer.min.js" />
     <Content Include="Scripts\jqplot\jqplot.categoryAxisRenderer.min.js" />
     <Content Include="Scripts\jqplot\jqplot.cursor.min.js" />
     <Content Include="Scripts\jqplot\jqplot.dateAxisRenderer.min.js" />

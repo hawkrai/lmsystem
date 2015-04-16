@@ -46,7 +46,11 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
             },
             axes: {
                 xaxis: {
-                    renderer: $.jqplot.CategoryAxisRenderer
+                    renderer: $.jqplot.CategoryAxisRenderer,
+                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    tickOptions: {
+                        angle: lines.length > 3 ? -90 : 0,
+                    }
                 }
             }
         });
