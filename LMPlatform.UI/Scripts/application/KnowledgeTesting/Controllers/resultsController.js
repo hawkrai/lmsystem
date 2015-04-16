@@ -29,7 +29,7 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
         var lines = Enumerable.From($scope.results)
             .Where(function (item) { return $scope.calcOverage(item, true) != null; })
             .OrderByDescending(function(item) { return $scope.calcOverage(item); })
-            .Select(function(item) {return  [item.StudentName, $scope.calcOverage(item)];})
+            .Select(function(item) {return  [item.StudentShortName, $scope.calcOverage(item)];})
             .ToArray();
 
         $('#chartBarAverage').html("");
