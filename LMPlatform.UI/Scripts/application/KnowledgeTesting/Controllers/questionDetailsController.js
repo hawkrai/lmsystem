@@ -12,6 +12,14 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
         $scope.question.Answers.splice(index, 1);
     };
 
+    $scope.questionTypeChanged = function() {
+        if ($scope.question.QuestionType === 0) {
+            $scope.question.Answers.forEach(function(answer) {
+                answer.IsCorrect = 0;
+            });
+        }
+    },
+
     $http({ method: 'GET', url: kt.actions.questions.getQuestion, dataType: 'json', params: { id: id } })
     .success(function (data) {
         $scope.question = data;
