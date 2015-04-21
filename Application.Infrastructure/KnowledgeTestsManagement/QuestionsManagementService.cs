@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Application.Core.Data;
+using Application.Core.Extensions;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models.KnowledgeTesting;
 
@@ -44,14 +45,17 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.QuestionsRepository.Save(question);
+                Question existingQuestion = GetQuestion(question.Id);
+                var answersToDelete = existingQuestion.Answers.Where(a => question.Answers.All(answer => answer.Id != a.Id));
 
-                //TODO: Resolve problem (items are saved only first time)
+                // TODO: Resolve problem (items are saved only first time)
                 foreach (Answer answer in question.Answers)
                 {
                     answer.QuestionId = question.Id;
                 }
 
                 repositoriesContainer.RepositoryFor<Answer>().Save(question.Answers);
+                repositoriesContainer.RepositoryFor<Answer>().Delete(answersToDelete);
 
                 repositoriesContainer.ApplyChanges();
                 return question;
