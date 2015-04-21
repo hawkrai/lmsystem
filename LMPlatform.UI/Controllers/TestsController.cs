@@ -98,11 +98,11 @@ namespace LMPlatform.UI.Controllers
         public JsonResult GetTestForLector()
         {
             IEnumerable<Test> tests = TestsManagementService.GetTestForLector(CurrentUserId);
-            var testViewModels = tests.Select(TestViewModel.FromTest).ToList();
+            var testViewModels = tests.Select(TestViewModel.FromTest).OrderBy(t => t.Title).ToList();
             testViewModels.Add(new TestViewModel()
             {
                 Id = 0,
-                Title = "все тесты"
+                Title = "Все тесты"
             });
 
             return Json(testViewModels, JsonRequestBehavior.AllowGet);

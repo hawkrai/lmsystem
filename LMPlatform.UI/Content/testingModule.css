@@ -21,3 +21,7 @@ textarea {
 input {
     width: auto;
 }
+
+select option[disabled]:first-child {
+	display: none;
+}

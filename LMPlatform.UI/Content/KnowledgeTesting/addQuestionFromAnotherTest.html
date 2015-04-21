@@ -1,12 +1,14 @@
 ﻿<div class="modal-header">
     <a class="close" data-ng-click="closeDialog()">&times;</a>
-    <h4>Добавление вопросов из другого теста 4</h4>
+    <h4>Добавление вопросов из другого теста</h4>
 </div>
 <div class="modal-body">
     <div class="row">
         <div class="col-md-6">
             <span style='display: table-cell; text-align: right;'>Тесты&nbsp;</span>
-            <select data-ng-change="loadQuestionsFromBase()" class="form-control input-sm" data-ng-model="context.test" data-ng-options="test.Title for test in tests"></select>
+            <select data-ng-change="loadQuestionsFromBase()" class="form-control input-sm" data-ng-model="context.test" data-ng-options="test.Title for test in tests">
+                <option value='' disabled>Выберите тест</option>
+            </select>
         </div>
         <div class="col-md-6">
             <span style='display: table-cell; text-align: right'>Поиск&nbsp;</span>
@@ -29,7 +31,7 @@
 </div>
 
 <div class="modal-footer" style="margin: 0">
-    <a data-ng-click="add()" class="btn btn-primary btn-sm">Добавить</a>
     <a data-ng-click="closeDialog()" class="btn btn-primary btn-sm">Отмена</a>
+    <a data-ng-click="add()" class="btn btn-primary btn-sm">Добавить</a>
 </div>
 
