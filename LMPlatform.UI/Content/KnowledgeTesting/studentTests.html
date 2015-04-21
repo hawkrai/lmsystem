@@ -14,14 +14,12 @@
             <tr>
                 <th>№</th>
                 <th>Тема</th>
-                <th>Описание</th>
-                <th>Действие</th>
+                <th>Действие&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
             </tr>
         </thead>
         <tr data-ng-repeat="test in tests | filter:query">
             <td width="30px">{{tests.indexOf(test) + 1}}</td>
             <td>{{test.Title}}</td>
-            <td>{{test.Description}}</td>
             <td style="width: 20px;">
                 <div>
                     <a data-toggle="tooltip" data-tooltip="Пройти тест" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
