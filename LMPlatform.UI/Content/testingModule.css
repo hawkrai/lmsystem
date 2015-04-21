@@ -36,3 +36,7 @@ select option[disabled]:first-child {
     margin: 0; 
     width: 220px
 }
+
+.knowledge-testing a + .tooltip {
+    position: fixed;
+}
