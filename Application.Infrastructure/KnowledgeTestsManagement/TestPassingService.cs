@@ -33,7 +33,10 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 result.Mark = nextQuestion.Item2;
             }
 
-            result.Seconds = GetRmainingTime(testId, userId);
+            if (nextQuestion.Item1 != null)
+            {
+                result.Seconds = GetRemainingTime(testId, nextQuestion.Item1.Id, userId);
+            }
 
             var test = GetTest(testId);
 
@@ -43,7 +46,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return result;
         }
 
-        private int GetRmainingTime(int testId, int userId)
+        private int GetRemainingTime(int testId, int questionId, int userId)
         {
             var test = GetTest(testId);
             TestPassResult testPassResult = GetTestPassResult(testId, userId);
@@ -56,8 +59,17 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
             else
             {
-                seconds = test.TimeForCompleting;
-                testPassResult.StartTime = DateTime.UtcNow;
+                if (testPassResult.Comment == questionId.ToString())
+                {
+                    seconds = test.TimeForCompleting - ((DateTime.UtcNow.Ticks - testPassResult.StartTime.Ticks) / TimeSpan.TicksPerSecond);
+                }
+                else
+                {
+                    seconds = test.TimeForCompleting;
+                    testPassResult.StartTime = DateTime.UtcNow;
+                    testPassResult.Comment = questionId.ToString();
+                }
+
                 using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
                 {
                     repositoriesContainer.RepositoryFor<TestPassResult>().Save(testPassResult);
@@ -65,7 +77,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 }
             }
 
-            return (int)seconds;
+            return seconds > 0 ? (int)seconds : 0;
         }
 
         public IEnumerable<RealTimePassingResult> GetRealTimePassingResults(int subjectId)
