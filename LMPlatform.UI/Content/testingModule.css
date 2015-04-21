@@ -25,3 +25,14 @@ input {
 select option[disabled]:first-child {
 	display: none;
 }
+
+.knowledge-testing .search-box > span{
+    display: table-cell; 
+    vertical-align: middle;
+    text-align: right;
+}
+
+.knowledge-testing .search-box > input{
+    margin: 0; 
+    width: 220px
+}
