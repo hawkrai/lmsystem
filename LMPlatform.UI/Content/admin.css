@@ -12,7 +12,9 @@ td:first-child {
 #admin .section-wrapper {
     padding: 80px 30px;
 }
-
+#parental .section-wrapper {
+    padding: 80px 30px;
+}
 #admin .jqplot-table-legend-swatch {
     width: 20px;
     height: 15px;
@@ -48,10 +50,6 @@ td:first-child {
         font-size: 24px;
         margin-right: 5px;
     }
-
-#parental .section-wrapper {
-    padding: 80px 30px 80px 330px;
-}
 
 #parental ul.dropdown-menu .nav-item {
     padding-left: 22px;

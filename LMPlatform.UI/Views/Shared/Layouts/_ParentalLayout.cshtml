@@ -39,12 +39,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="@Url.Action("Index", "Parental", new { id = Model != null ? Model.Group.Name : string.Empty})" class="navbar-brand">
+                <a href="@Url.Action("Index", "Parental", new { id = Model != null ? Model.Group.Name : string.Empty })" class="navbar-brand">
                     <i class="admin-icon icon-steam"></i><b>(LMS).Platform<sup>Контроль успеваемости</sup></b>
                 </a>
             </div>
             @if (Model != null && Model.Group != null)
-            {
+			{
                 <div class="collapse navbar-collapse">
 
                     @Html.Action("GetSideNav", "Parental", new { groupId = Model.Group.Id })
@@ -64,44 +64,30 @@
 
                     </ul>
                 </div>
-            }
+			}
         </nav>
         @if (Model != null)
-        {
-            <div class="section-wrapper">
-                @RenderSection("scripts", false)
-                <section class="well">
-                <div style="padding: 0 10px">
-                    @if (IsSectionDefined("title"))
-                    {
-
-                        <h3>@RenderSection("title", false)</h3>
-                        <hr>
-                    }
-                    <div style="margin: 5px">
-                        @RenderBody()
-                    </div>
+		{
+            @RenderSection("featured", required: false)
+        @RenderSection("specificScripts", required: false)
+        <div class="section-wrapper">
+            @RenderSection("scripts", false)
+            <section>
+                <div>
+                   @RenderBody()
                 </div>
             </section>
-            </div>
-        }
-        else
-        {
+        </div>
+        @Scripts.Render("~/bundles/bootbox")
+			
+			
+		}
+		else
+		{
             <div style="padding-top: 90px; text-align: center;">
                 @RenderBody()
             </div>
-        }
-
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>
-                        &copy; @DateTime.Now.Year - Администрирование LMP разработка
-                    </p>
-                </div>
-            </div>
-        </footer>
-
+		}
         @Scripts.Render("~/bundles/bootbox")
         <script>
             $(function () {
