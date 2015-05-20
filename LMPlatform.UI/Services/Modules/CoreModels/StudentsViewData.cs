@@ -33,7 +33,7 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
 
 			if (test != null && test.Any() && test.Any(e => e.Points != null))
 	        {
-				var sum = (int)test.Where(e => e.Points != null).Sum(e => e.Points);
+                var sum = (double)test.Where(e => e.Points != null).Sum(e => e.Points);
 				TestMark = Math.Round((double)(sum / test.Where(e => e.Points != null).Count()), 1).ToString(CultureInfo.InvariantCulture);
 	        }
 

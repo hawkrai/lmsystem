@@ -730,7 +730,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         //};
 
     })
-    .controller('LabsController', function ($scope, $http) {
+    .controller('LabsController', function ($scope, $http, $filter) {
 
         $scope.labs = [];
 
@@ -775,7 +775,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 				return student.LabsMarkTotal;
 			}
 
-			return (student.LabsMarkTotal * student.TestMark) / 2;
+			return ((parseFloat(student.LabsMarkTotal) + parseFloat(student.TestMark)) / 2).toFixed(1);
 		};
 
         $scope.loadFilesLabUser = function () {
@@ -1073,11 +1073,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.addDate = function () {
-            var dd = $scope.dt.getDate();
-            var mm = $scope.dt.getMonth() + 1; //January is 0!
-            var yyyy = $scope.dt.getFullYear();
-
-            date = dd + '/' + mm + '/' + yyyy;
+            date = $filter('date')($scope.dt, "dd/MM/yyyy");
             var isDate = false;
             $.each($scope.groupWorkingData.selectedSubGroup.ScheduleProtectionLabs, function (key, value) {
                 if (value.Date == date) {
