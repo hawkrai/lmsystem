@@ -141,7 +141,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return passingResult;
         }
 
-        public IEnumerable<TestPassResult> GetStidentResults(int subjectId, int studentId)
+        public List<TestPassResult> GetStidentResults(int subjectId, int studentId)
         {
             var tests = GetTestsForSubject(subjectId);
             var testIds = tests.Select(test => test.Id);

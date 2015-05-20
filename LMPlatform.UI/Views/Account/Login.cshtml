@@ -124,21 +124,33 @@
             showDialog();
         });
     });
-
+    openPartialPage = function () {
+    	if (event.keyCode == 13) {
+    		var groupName = $('#groupValidation').val();
+    		window.location.href = "/Parental/Index/" + groupName;
+    		document.location.href = "/Parental/Index/" + groupName;
+   		
+    		window.event.returnValue = false;
+		    window.event.preventDefault();
+	    }
+	    
+    };
     function showDialog() {
-
+    	
         var form =
             '<form>' +
                     '<div>' +
                          '<span>Введите номер группы:</span>' +
                     '</div>' +
                     '<div>' +
-                         '<input id="groupValidation" type="text" name="group"/>' +
+                         '<input id="groupValidation" onkeydown="openPartialPage();" type="text" name="group"/>' +
                     '</div>' +
             '</form>';
-
+	    
         bootbox.dialog({
-            message: form,
+        	message: form,
+        	backdrop: true,
+        	keyboard: true,
             title: "Контроль успеваемости",
             buttons: {
                 main: {

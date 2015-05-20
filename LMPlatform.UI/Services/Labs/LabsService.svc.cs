@@ -148,7 +148,7 @@ namespace LMPlatform.UI.Services.Labs
                 
                 return new ResultViewData()
                 {
-                    Message = "Данные успешно добавлена",
+                    Message = "Данные успешно добавлены",
                     Code = "200"
                 };
             }
@@ -173,7 +173,7 @@ namespace LMPlatform.UI.Services.Labs
 
                 return new ResultViewData()
                 {
-                    Message = "Данные успешно добавлена",
+                    Message = "Данные успешно добавлены",
                     Code = "200"
                 };
             }

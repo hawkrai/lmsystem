@@ -17,10 +17,10 @@
             <span>Печать</span>
         </a>
     </div>
-    <div ng-if="!allSubjectsStat.length" style="text-align: center">
+@*    <div ng-if="!allSubjectsStat.length" style="text-align: center">
         <span class="h4 icon-sad" style="margin-right: 5px"></span>
         <span>Нет данных</span>
-    </div>
+    </div>*@
     <div id="print-table">
         <table id="stat-table" class="table table-bordered table-hover" ng-if="subject.Id < 0 && allSubjectsStat.length">
             <caption>
@@ -67,7 +67,7 @@
                     <th>Лабораторные</th>
                     <th>Практические</th>
                     <th>Всего</th>
-                    <th>Лаборатоные</th>
+                    <th>Лабораторные</th>
                     <th>Практические</th>
                     <th>Рейтинг</th>
                 </tr>

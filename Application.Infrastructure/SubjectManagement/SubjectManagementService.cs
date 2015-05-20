@@ -56,7 +56,7 @@ namespace Application.Infrastructure.SubjectManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.SubjectRepository.GetSubjects(groupId: groupId);
+                return repositoriesContainer.SubjectRepository.GetSubjects(groupId: groupId).Where(e => !e.IsArchive).ToList();
             }
         }
 

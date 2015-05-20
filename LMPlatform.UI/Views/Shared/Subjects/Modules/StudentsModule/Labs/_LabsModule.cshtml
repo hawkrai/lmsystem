@@ -21,7 +21,7 @@
 
     <tabset>
 		<tab heading="Лабораторные работы">
-			<div class="table-responsive">
+			<div class="table-responsive" style="margin-top: 10px;margin-bottom: 10px">
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -73,8 +73,8 @@
 						<tr>
 							<th>№</th>
 							<th>Лабораторная работа</th>
-							<th ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
-								<div style="cursor: pointer">{{data.Date}}</div>
+							<th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
+								<div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
 							</th>
 						</tr>
 					</thead>
@@ -109,7 +109,7 @@
 						<tr>
 							<th style="text-align: center;vertical-align: middle">№</th>
 							<th style="text-align: center;vertical-align: middle">Студент</th>
-							<th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;" ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
+							<th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
 								<div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
 							</th>
 						</tr>
@@ -146,14 +146,18 @@
 							<th ng-repeat="lab in groupWorkingData.selectedSubGroup.Labs">
 								{{lab.ShortName}}
 							</th>
-							<th>Итог</th>
+							<th>Средний балл</th>
+	                            <th>Средний балл за тесты</th>
+								<th>Рейтинговая оценка</th>
 						</tr>
 					</thead>
 					<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
 						<td style="width: 40px">{{$index + 1}}</td>
 						<td style="max-width: 200px">{{student.FullName}}</td>
 						<td style="width: 50px;text-align: center" ng-repeat="mark in student.StudentLabMarks">{{ mark.Mark || '' }}</td>
-						<td style="width: 50px;text-align: center;color: red"><b>{{student.LabsMarkTotal}}</b></td>
+						 <td style="width: 50px;text-align: center;color: red"><b>{{student.LabsMarkTotal}}</b></td>
+	                        <td style="width: 50px;text-align: center;color: blue"><b>{{student.TestMark}}</b></td>
+							 <td style="width: 50px;text-align: center;color: green"><b>{{$parent.ratingMark(student)}}</b></td>
 					</tr>
 				</table>
 			</div>

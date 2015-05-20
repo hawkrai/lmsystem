@@ -82,8 +82,8 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             {
                 var user = StudentManagementService.GetStudent(WebSecurity.CurrentUserId);
                 Name = user.FirstName;
-				Surname = user.LastName;
 				Patronymic = user.MiddleName;
+				Surname = user.LastName;
                 UserName = user.User.UserName;
 				Avatar = user.User.Avatar;
             }

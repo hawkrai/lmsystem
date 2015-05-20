@@ -118,8 +118,8 @@ namespace LMPlatform.UI.Controllers
                 var modData = new ModifyLecturerViewModel(new Lecturer
                 {
                     FirstName = model.Name,
-                    LastName = model.Patronymic,
-                    MiddleName = model.Surname,
+					LastName = model.Surname,
+                    MiddleName = model.Patronymic,
 					IsLecturerHasGraduateStudents = model.IsLecturerHasGraduateStudents,
 					IsSecretary = model.IsSecretary,
                     User = new User
@@ -138,8 +138,8 @@ namespace LMPlatform.UI.Controllers
                 var modData = new ModifyStudentViewModel(new Student
                 {
                     FirstName = model.Name,
-                    LastName = model.Patronymic,
-                    MiddleName = model.Surname,
+					LastName = model.Surname,
+                    MiddleName = model.Patronymic,
                     User = new User
                     {
                         UserName = model.UserName,

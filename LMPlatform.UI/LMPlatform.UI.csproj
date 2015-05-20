@@ -43,6 +43,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ADL">
+      <HintPath>..\lib\ADL.dll</HintPath>
+    </Reference>
+    <Reference Include="ADL.SCORM">
+      <HintPath>..\lib\ADL.SCORM.dll</HintPath>
+    </Reference>
+    <Reference Include="ADL.SCORM.RTE">
+      <HintPath>..\lib\ADL.SCORM.RTE.dll</HintPath>
+    </Reference>
+    <Reference Include="ADL.SCORM.RTE.UI">
+      <HintPath>..\lib\ADL.SCORM.RTE.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="ADL.Xml">
+      <HintPath>..\lib\ADL.Xml.dll</HintPath>
+    </Reference>
     <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
@@ -257,6 +272,7 @@
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ParentalController.cs" />
     <Compile Include="ApiControllers\DP\TaskSheetController.cs" />
+    <Compile Include="Controllers\ScormModController.cs" />
     <Compile Include="Controllers\TestPassingController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
@@ -1619,6 +1635,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.svg" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="Views\ScormMod\Index.cshtml" />
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce-small.json" />
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce-small.svg" />
@@ -1632,6 +1649,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="SCORM\" />
     <Folder Include="Scripts\tinymce\plugins\App_LocalResources\" />
     <Folder Include="UploadedFilesTemp\" />
     <Folder Include="UploadedFiles\" />

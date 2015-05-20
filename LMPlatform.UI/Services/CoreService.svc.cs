@@ -5,57 +5,69 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using Application.Infrastructure.FilesManagement;
+using Application.Infrastructure.KnowledgeTestsManagement;
 using LMPlatform.UI.Services.Modules;
 using LMPlatform.UI.Services.Modules.Lectures;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Services
 {
-    using System.Data.Entity.ModelConfiguration.Conventions;
-    using System.Globalization;
+	using System.Data.Entity.ModelConfiguration.Conventions;
+	using System.Globalization;
 
-    using Application.Core;
-    using Application.Core.Data;
-    using Application.Infrastructure.GroupManagement;
-    using Application.Infrastructure.SubjectManagement;
+	using Application.Core;
+	using Application.Core.Data;
+	using Application.Infrastructure.GroupManagement;
+	using Application.Infrastructure.SubjectManagement;
 
-    using LMPlatform.Models;
-    using LMPlatform.UI.Services.Modules.CoreModels;
-    using LMPlatform.UI.Services.Modules.Labs;
-    using LMPlatform.UI.Services.Modules.Practicals;
+	using LMPlatform.Models;
+	using LMPlatform.UI.Services.Modules.CoreModels;
+	using LMPlatform.UI.Services.Modules.Labs;
+	using LMPlatform.UI.Services.Modules.Practicals;
 
-    public class CoreService : ICoreService
-    {
-        private readonly LazyDependency<IGroupManagementService> groupManagementService = new LazyDependency<IGroupManagementService>();
+	public class CoreService : ICoreService
+	{
+		private readonly LazyDependency<IGroupManagementService> groupManagementService = new LazyDependency<IGroupManagementService>();
 
-        public IGroupManagementService GroupManagementService
-        {
-            get
-            {
-                return groupManagementService.Value;
-            }
-        }
+		public IGroupManagementService GroupManagementService
+		{
+			get
+			{
+				return groupManagementService.Value;
+			}
+		}
 
-        private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
+		private readonly LazyDependency<ITestPassingService> testPassingService = new LazyDependency<ITestPassingService>();
 
-        public ISubjectManagementService SubjectManagementService
-        {
-            get
-            {
-                return subjectManagementService.Value;
-            }
-        }
+		public ITestPassingService TestPassingService
+		{
+			get
+			{
+				return testPassingService.Value;
+			}
+		}
 
-        private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
+		private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
 
-        public IFilesManagementService FilesManagementService
-        {
-            get
-            {
-                return filesManagementService.Value;
-            }
-        }
+		public ISubjectManagementService SubjectManagementService
+		{
+			get
+			{
+				return subjectManagementService.Value;
+			}
+		}
 
-        public GroupsResult GetGroups(string subjectId)
+		private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
+
+		public IFilesManagementService FilesManagementService
+		{
+			get
+			{
+				return filesManagementService.Value;
+			}
+		}
+
+		public GroupsResult GetGroups(string subjectId)
         {
             try
             {
@@ -70,8 +82,13 @@ namespace LMPlatform.UI.Services
                 var model = new List<GroupsViewData>();
 
                 var labsData = SubjectManagementService.GetSubject(int.Parse(subjectId)).Labs.OrderBy(e => e.Order).ToList();
-
-                var practicalsData = SubjectManagementService.GetSubject(int.Parse(subjectId)).Practicals.OrderBy(e => e.Order).ToList();
+				var practicalsData = new List<Practical>();
+	            var isPractModule =
+		            SubjectManagementService.GetSubject(int.Parse(subjectId)).SubjectModules.Any(e => e.ModuleId == 13);
+				if (isPractModule)
+	            {
+					practicalsData = SubjectManagementService.GetSubject(int.Parse(subjectId)).Practicals.OrderBy(e => e.Order).ToList();    
+	            }
 
                 foreach (Group group in groups)
                 {
@@ -209,7 +226,7 @@ namespace LMPlatform.UI.Services
                                           SubjectId = e.SubjectId,
                                           ScheduleProtectionPracticalId = e.Id
                                       }).ToList(),
-                                      Students = group.Students.OrderBy(e => e.LastName).Select(e => new StudentsViewData(e, null, scheduleProtectionPracticals, null, practicalsData)).ToList(),
+									  Students = group.Students.OrderBy(e => e.LastName).Select(e => new StudentsViewData(null, e, null, scheduleProtectionPracticals, null, practicalsData)).ToList(),
                                       SubGroupsOne = subGroups.Any() ? new SubGroupsViewData
                                                          {
                                                              GroupId = group.Id,
@@ -217,7 +234,7 @@ namespace LMPlatform.UI.Services
                                                              Labs = labsFirstSubGroup,
                                                              ScheduleProtectionLabs = subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
                                                              SubGroupId = subGroups.FirstOrDefault().Id,
-                                                             Students = subGroups.FirstOrDefault().SubjectStudents.OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(e.Student, subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
+															 Students = subGroups.FirstOrDefault().SubjectStudents.OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
                                                          }
                                                          : null,
                                       SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
@@ -227,11 +244,23 @@ namespace LMPlatform.UI.Services
                                                               Labs = labsSecondSubGroup,
                                                               ScheduleProtectionLabs = subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
                                                               SubGroupId = subGroups.LastOrDefault().Id,
-                                                              Students = subGroups.LastOrDefault().SubjectStudents.OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(e.Student, subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
+															  Students = subGroups.LastOrDefault().SubjectStudents.OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
                                                           }
                                                           : null
                                   });
                 }
+
+	            if (!isPractModule)
+	            {
+					foreach (var groupsViewData in model)
+					{
+						foreach (var student in groupsViewData.Students)
+						{
+							student.PracticalVisitingMark = new List<PracticalVisitingMarkViewData>();
+							student.PracticalMarkTotal = "-";
+						}
+					}    
+	            }
 
                 return new GroupsResult
                 {
@@ -249,5 +278,13 @@ namespace LMPlatform.UI.Services
                 };
             }
         }
-    }
+
+		protected int CurrentUserId
+		{
+			get
+			{
+				return int.Parse(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
+			}
+		}
+	}
 }

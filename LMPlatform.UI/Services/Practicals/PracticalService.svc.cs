@@ -32,7 +32,12 @@ namespace LMPlatform.UI.Services.Practicals
         {
             try
             {
-                var model = SubjectManagementService.GetSubject(int.Parse(subjectId)).Practicals.Select(e => new PracticalsViewData(e)).ToList();
+	            var sub = SubjectManagementService.GetSubject(int.Parse(subjectId));
+				var model = new List<PracticalsViewData>();
+				if (sub.SubjectModules.Any(e => e.ModuleId == 13))
+	            {
+					model = sub.Practicals.Select(e => new PracticalsViewData(e)).ToList();
+	            }
 
                 return new PracticalsResult
                 {

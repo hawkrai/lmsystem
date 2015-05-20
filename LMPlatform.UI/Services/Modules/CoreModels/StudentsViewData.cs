@@ -1,4 +1,8 @@
-﻿using LMPlatform.UI.Services.Modules.Practicals;
+﻿using System;
+using Application.Core;
+using Application.Infrastructure.KnowledgeTestsManagement;
+using LMPlatform.Models.KnowledgeTesting;
+using LMPlatform.UI.Services.Modules.Practicals;
 
 namespace LMPlatform.UI.Services.Modules.CoreModels
 {
@@ -17,7 +21,7 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
         {
         }
 
-        public StudentsViewData(Student student, IEnumerable<ScheduleProtectionLabs> scheduleProtectionLabs = null, IEnumerable<ScheduleProtectionPractical> scheduleProtectionPracticals = null, IEnumerable<Labs> labs = null, IEnumerable<Practical> practicals = null, List<UserlabFilesViewData> userLabsFile = null)
+        public StudentsViewData(List<TestPassResult> test, Student student, IEnumerable<ScheduleProtectionLabs> scheduleProtectionLabs = null, IEnumerable<ScheduleProtectionPractical> scheduleProtectionPracticals = null, IEnumerable<Labs> labs = null, IEnumerable<Practical> practicals = null, List<UserlabFilesViewData> userLabsFile = null)
         {
             StudentId = student.Id;
             FullName = student.FullName;
@@ -27,7 +31,13 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
             StudentLabMarks = new List<StudentLabMarkViewData>();
             StudentPracticalMarks = new List<StudentPracticalMarkViewData>();
 
-            FileLabs = userLabsFile;
+			if (test != null && test.Any() && test.Any(e => e.Points != null))
+	        {
+				var sum = (int)test.Where(e => e.Points != null).Sum(e => e.Points);
+				TestMark = Math.Round((double)(sum / test.Where(e => e.Points != null).Count()), 1).ToString(CultureInfo.InvariantCulture);
+	        }
+
+	        FileLabs = userLabsFile;
 
             if (labs != null)
             {
@@ -144,10 +154,10 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
             var summ = this.StudentLabMarks.Where(studentLabMarkViewData => !string.IsNullOrEmpty(studentLabMarkViewData.Mark)).Sum(studentLabMarkViewData => double.Parse(studentLabMarkViewData.Mark));
             if (StudentLabMarks.Count(e => !string.IsNullOrEmpty(e.Mark)) != 0)
             {
-				LabsMarkTotal = (summ / StudentLabMarks.Count(e => !string.IsNullOrEmpty(e.Mark))).ToString(CultureInfo.InvariantCulture);    
+				LabsMarkTotal = Math.Round(summ / StudentLabMarks.Count(e => !string.IsNullOrEmpty(e.Mark)), 1).ToString(CultureInfo.InvariantCulture);    
             }
 
-            summ = this.StudentPracticalMarks.Where(studentPracticalMarkViewData => !string.IsNullOrEmpty(studentPracticalMarkViewData.Mark)).Sum(studentPracticalMarkViewData => double.Parse(studentPracticalMarkViewData.Mark));
+			summ = this.StudentPracticalMarks.Where(studentPracticalMarkViewData => !string.IsNullOrEmpty(studentPracticalMarkViewData.Mark)).Sum(studentPracticalMarkViewData => double.Parse(studentPracticalMarkViewData.Mark));
 
             var countMark =
                 this.StudentPracticalMarks.Count(studentPracticalMarkViewData => !string.IsNullOrEmpty(studentPracticalMarkViewData.Mark));
@@ -178,6 +188,9 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
         [DataMember]
         public string LabsMarkTotal { get; set; }
 
+		[DataMember]
+		public string TestMark { get; set; }
+
         [DataMember]
         public string PracticalMarkTotal { get; set; }
 
@@ -185,6 +198,19 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
         public List<StudentPracticalMarkViewData> StudentPracticalMarks { get; set; }
 
         [DataMember]
-        public List<UserlabFilesViewData> FileLabs { get; set; } 
+        public List<UserlabFilesViewData> FileLabs { get; set; }
+
+		public ITestPassingService TestPassingService
+		{
+			get
+			{
+				return ApplicationService<ITestPassingService>();
+			}
+		}
+
+		public TService ApplicationService<TService>()
+		{
+			return UnityWrapper.Resolve<TService>();
+		}
     }
 }

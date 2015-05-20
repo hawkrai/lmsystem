@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{61B0B4CA-EBCD-4162-9879-097581F36570}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}"
@@ -29,6 +31,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C4BF32
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCORMCore", "SCORMCore\SCORMCore.csproj", "{D50AC38B-6178-4F50-96C6-97E0CB4BE766}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scorm", "Scorm", "{723B37D6-045D-4924-B712-D37E24B5A7C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +70,10 @@ Global
 		{34B7781C-4F90-4B10-9E10-B22A93FA953E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34B7781C-4F90-4B10-9E10-B22A93FA953E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34B7781C-4F90-4B10-9E10-B22A93FA953E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D50AC38B-6178-4F50-96C6-97E0CB4BE766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D50AC38B-6178-4F50-96C6-97E0CB4BE766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D50AC38B-6178-4F50-96C6-97E0CB4BE766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D50AC38B-6178-4F50-96C6-97E0CB4BE766}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +86,6 @@ Global
 		{79EE9ED9-A7E4-43DB-B01F-FF693309ADC9} = {20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}
 		{498FCA3E-909B-4830-9B55-0A8847E38B7A} = {20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}
 		{34B7781C-4F90-4B10-9E10-B22A93FA953E} = {20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}
+		{D50AC38B-6178-4F50-96C6-97E0CB4BE766} = {20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}
 	EndGlobalSection
 EndGlobal

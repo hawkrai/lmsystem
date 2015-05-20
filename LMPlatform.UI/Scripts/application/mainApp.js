@@ -764,6 +764,19 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 	        }
             
         };
+        //(student.LabsMarkTotal * student.TestMark) / 2
+		$scope.ratingMark = function(student) {
+			if ((student.LabsMarkTotal == null || student.LabsMarkTotal.length == 0) && (student.TestMark == null || student.TestMark.length == 0)) return "";
+
+			if ((student.LabsMarkTotal == null || student.LabsMarkTotal.length == 0) && (student.TestMark != null && student.TestMark.length != 0)) {
+				return student.TestMark;
+			}
+			else if ((student.LabsMarkTotal != null && student.LabsMarkTotal.length != 0) && (student.TestMark == null || student.TestMark.length == 0)) {
+				return student.LabsMarkTotal;
+			}
+
+			return (student.LabsMarkTotal * student.TestMark) / 2;
+		};
 
         $scope.loadFilesLabUser = function () {
             $http({

@@ -87,8 +87,8 @@
                         <tr>
                             <th>№</th>
                             <th>Лабораторная работа</th>
-                            <th ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
-                                <div style="cursor: pointer">{{data.Date}}</div>
+                            <th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
+                                <div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
                             </th>
                         </tr>
                     </thead>
@@ -124,8 +124,8 @@
                             <tr>
 								<th style="text-align: center;vertical-align: middle">№</th>
 								<th style="text-align: center;vertical-align: middle">Студент</th>
-								<th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;" ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
-									<div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
+								<th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
+									<div style="cursor: pointer; display: inline-block" class="box_rotate">{{data.Date}}</div>
 								</th>
                             </tr>
                         </thead>
@@ -176,7 +176,9 @@
                                 <th ng-repeat="lab in groupWorkingData.selectedSubGroup.Labs">
                                     {{lab.ShortName}}
                                 </th>
-                                <th>Итог</th>
+	                            <th>Средний балл</th>
+	                            <th>Средний балл за тесты</th>
+								<th>Рейтинговая оценка</th>
                             </tr>
                         </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
@@ -187,7 +189,9 @@
                                     {{ mark.Mark || '' }}
                                 </span>
                             </td>
-                            <td style="width: 50px;text-align: center;color: red"><b>{{student.LabsMarkTotal}}</b></td>
+	                        <td style="width: 50px;text-align: center;color: red"><b>{{student.LabsMarkTotal}}</b></td>
+	                        <td style="width: 50px;text-align: center;color: blue"><b>{{student.TestMark}}</b></td>
+							 <td style="width: 50px;text-align: center;color: green"><b>{{$parent.ratingMark(student)}}</b></td>
                         </tr>
                     </table>
                     
