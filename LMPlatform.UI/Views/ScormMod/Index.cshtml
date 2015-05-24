@@ -13,7 +13,8 @@
 }
 @section scripts
 {
-	
+    <script src="~/Scripts/application/scorm/app-scorm.js"></script>
+    <script src="~/Scripts/application/scorm/scorm-controller.js"></script>
 }
 
 @section headerTitle{
@@ -26,6 +27,33 @@
 @section navleft
 {
 }
+
+<div ng-app="scormApp">
+    <div ng-controller="ScormController" ng-init="init()">
+        <div style="margin-bottom: 20px">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Название курса</th>
+                    <th>Действие</th>
+                </tr>
+                <tr ng-repeat="object in sco">
+                    <td>{{object.name}}</td>
+                    <td style="width: 10px"><a ng-click="openSco(object.url)"><i class="fa fa-1x fa-eye"></i></a></td>
+                </tr>
+            </table>
+
+            <button class="btn btn-sm btn-default">Загрузить SCO объект</button>
+        </div>
+        <div ng-hide="!viewSco">
+            <div>
+                <button class="btn btn-sm btn-default" style="margin-bottom: 10px" ng-click="closeSco()">Закрыть</button>    
+            </div>
+            
+            <iframe width="100%" height="700px" ng-src="{{urlServiceCore}}"></iframe>
+        </div>
+    </div>
+   
+</div>
 
 
 
