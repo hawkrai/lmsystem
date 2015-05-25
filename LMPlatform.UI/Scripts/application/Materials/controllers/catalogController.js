@@ -166,6 +166,11 @@ angular
 
                 $scope.actionFolder.find('.nameFolder').bind('blur', function () {
                     $scope.actionFolder.find('.nameFolder').attr('contenteditable', 'false');
+                    var newName = $scope.actionFolder.find('.nameFolder').text();
+                    materialsService.renameFolder({ id: idFolder, pid: pid, newName: newName, subjectId: subjectId }).success(function (data) {
+                        $scope.folders = data.Folders;
+                        angular.element('#context_menu').detach();
+                    });
                 });
 
                 $scope.actionFolder.find('.nameFolder').bind('keypress', function (e) {
@@ -254,13 +259,17 @@ angular
                     $scope.$parent.actionFolder = $element;
                     //$scope.$parent.$apply();
                     angular.element('#context_menu').detach();
-                    angular.element('body').append($compile("<ul ng-model='items_menu' class='dropdown-menu' id='context_menu'>"
-                        + "<li><a class='iteammenue' ng-click='createFolder()'>Создать папку</a></li>"
-                        + "<li><a class='iteammenue' href='#New' ng-click='createMaterial()' >Создать новый материал</a></li>"
-                        + "<li><a class='iteammenue' ng-click='renameFolder()'>Переименовать</a></li>"
-                        + "<li><a class='iteammenue' ng-click='deleteFolder()'>Удалить папку</a></li>"
-                        + "<li><a class='iteammenue' ng-click='property_setting()'>Свойства и настройки</a></li>"
-                        + "</ul>")($scope));
+                    if ($scope.user == 'lector') {
+                        angular.element('body').append($compile("<ul ng-model='items_menu' class='dropdown-menu' id='context_menu'>"
+                            + "<li><a class='iteammenue' ng-click='createFolder()'>Создать папку</a></li>"
+                            + "<li><a class='iteammenue' href='#New' ng-click='createMaterial()' >Создать новый материал</a></li>"
+                            + "<li><a class='iteammenue' ng-click='renameFolder()'>Переименовать</a></li>"
+                            + "<li><a class='iteammenue' ng-click='deleteFolder()'>Удалить папку</a></li>"
+                            + "<li><a class='iteammenue' ng-click='property_setting()'>Свойства и настройки</a></li>"
+                            + "</ul>")($scope));
+                    } else if ($scope.user == 'student'){
+                        angular.element('body').append($compile("")($scope));
+                    }
 
                     angular.element('#context_menu').css({ "display": "block", "position": "absolute", "top": el.pageY, "left": el.pageX });
                     if (el.stopPropagation) el.stopPropagation();
@@ -285,14 +294,19 @@ angular
                     $scope.$parent.actionDocument = $element;
                     //$scope.$parent.$apply();
                     angular.element('#context_menu').detach();
-                    angular.element('body').append($compile("<ul ng-model='items_menu' class='dropdown-menu' id='context_menu'>"
-                        + "<li><a class='iteammenue' ng-click='createFolder()'>Создать папку</a></li>"
-                        + "<li><a class='iteammenue' href='#New' ng-click='createMaterial()' >Создать новый материал</a></li>"
-                        + "<li><a class='iteammenue' ng-click='renameDocument()'>Переименовать</a></li>"
-                        + "<li><a class='iteammenue' ng-click='deleteDocument()'>Удалить документ</a></li>"
-                        + "<li><a class='iteammenue' ng-click='property_setting()'>Свойства и настройки</a></li>"
-                        + "</ul>")($scope));
-
+                    if ($scope.user == 'lector') {
+                        angular.element('body').append($compile("<ul ng-model='items_menu' class='dropdown-menu' id='context_menu'>"
+                            + "<li><a class='iteammenue' ng-click='createFolder()'>Создать папку</a></li>"
+                            + "<li><a class='iteammenue' href='#New' ng-click='createMaterial()' >Создать новый материал</a></li>"
+                            + "<li><a class='iteammenue' ng-click='renameDocument()'>Переименовать</a></li>"
+                            + "<li><a class='iteammenue' ng-click='deleteDocument()'>Удалить документ</a></li>"
+                            + "<li><a class='iteammenue' ng-click='property_setting()'>Свойства и настройки</a></li>"
+                            + "</ul>")($scope));
+                    }
+                    else if ($scope.user == 'student')
+                    {
+                        angular.element('body').append($compile("")($scope));
+                    }
                     angular.element('#context_menu').css({ "display": "block", "position": "absolute", "top": el.pageY, "left": el.pageX });
                     if (el.stopPropagation) el.stopPropagation();
                     el.cancelBubble = true;
@@ -311,17 +325,23 @@ angular
     .directive('deleteContextMenu', function ($compile) {
         return {
             priority:1,
-            link: function (scope, element, attrs) {
+            link: function ($scope, element, attrs) {
                 element.bind('click', function (el) {
                     angular.element('#context_menu').detach();
                 })
                 element.bind('contextmenu', function (el) {
                     angular.element('#context_menu').detach();
-                    angular.element('body').append($compile("<ul ng-model='items_menu' class='dropdown-menu' id='context_menu'>"
-                         + "<li><a class='iteammenue' ng-click='createFolder()'>Создать папку</a></li>"
-                         + "<li><a class='iteammenue' href='#New' ng-click='createMaterial()' >Создать новый материал</a></li>"
-                         + "<li><a class='iteammenue' ng-click='property_setting()'>Свойства и настройки</a></li>"
-                         + "</ul>")(scope));
+                    if ($scope.user == 'lector') {
+                        angular.element('body').append($compile("<ul ng-model='items_menu' class='dropdown-menu' id='context_menu'>"
+                             + "<li><a class='iteammenue' ng-click='createFolder()'>Создать папку</a></li>"
+                             + "<li><a class='iteammenue' href='#New' ng-click='createMaterial()' >Создать новый материал</a></li>"
+                             + "<li><a class='iteammenue' ng-click='property_setting()'>Свойства и настройки</a></li>"
+                             + "</ul>")($scope));
+                    }
+                    else if ($scope.user == 'student')
+                    {
+                        angular.element('body').append($compile("")($scope));
+                    }
 
                     angular.element('#context_menu').css({ "display": "block", "position": "absolute", "top": el.pageY, "left": el.pageX });
                     el.preventDefault();

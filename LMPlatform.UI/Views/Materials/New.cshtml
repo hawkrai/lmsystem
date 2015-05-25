@@ -58,6 +58,14 @@
         }
     </style>
 
+    @if (User.IsInRole("lector"))
+    {
+        <div ng-init="user='lector'"></div>
+    }
+    else
+    {
+        <div ng-init="user='student'"></div>
+    }
 
     <form method="post" action="somepage">
         <textarea style="padding:0px;"></textarea>
