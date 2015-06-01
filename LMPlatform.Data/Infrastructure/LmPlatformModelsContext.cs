@@ -54,6 +54,12 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<ScoObjects> ScoObjects
+        {
+            get;
+            set;
+        }
+
         public IQueryable<Student> GetGraduateStudents()
         {
             var currentYearStr = DateTime.Now.Year.ToString(CultureInfo.InvariantCulture);
@@ -224,6 +230,7 @@ namespace LMPlatform.Data.Infrastructure
                 .HasColumnName("UserId")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<Group>().Map(m => m.ToTable("Groups"));
+            modelBuilder.Entity<ScoObjects>().Map(m => m.ToTable("ScoObjects"));
             modelBuilder.Entity<Subject>().Map(m => m.ToTable("Subjects"));
             modelBuilder.Entity<Module>().Map(m => m.ToTable("Modules"));
             modelBuilder.Entity<SubjectGroup>().Map(m => m.ToTable("SubjectGroups"));

@@ -11,7 +11,6 @@
     <AssemblyName>LMPlatform.Models</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -117,6 +116,7 @@
     <Compile Include="ScheduleProtectionLabs.cs" />
     <Compile Include="ScheduleProtectionPractical.cs" />
     <Compile Include="ScheduleProtectionPracticalMark.cs" />
+    <Compile Include="ScoObjects.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentGroupUser.cs" />
     <Compile Include="StudentLabMark.cs" />
@@ -150,6 +150,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

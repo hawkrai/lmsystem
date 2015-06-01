@@ -4,12 +4,12 @@
 @model LMPlatform.UI.ViewModels.LmsViewModels.LmsViewModel
 
 @{
-	ViewBag.Title = "SCORM";
+    ViewBag.Title = "SCORM";
 }
 
 @section css
 {
-	
+
 }
 @section scripts
 {
@@ -18,10 +18,9 @@
 }
 
 @section headerTitle{
-	<h1>
-		SCORM
+    <h1>SCORM
 		<small>Просмотр SCO объектов</small>
-	</h1>
+    </h1>
 }
 
 @section navleft
@@ -37,23 +36,57 @@
                     <th>Действие</th>
                 </tr>
                 <tr ng-repeat="object in sco">
-                    <td>{{object.name}}</td>
-                    <td style="width: 10px"><a ng-click="openSco(object.url)"><i class="fa fa-1x fa-eye"></i></a></td>
+                    <td>{{object.Name}}</td>
+                    <td style="width: 10px"><a ng-click="viewSco(object)"><i class="fa fa-1x fa-eye"></i></a></td>
                 </tr>
             </table>
+            <input type="button" ng-click="openSco()" style="width: 150px" class="btn btn-sm btn-default" value="Загрузить SCO объект" />
 
-            <button class="btn btn-sm btn-default">Загрузить SCO объект</button>
+            <input type="file" name="openSco" style="display: none;" onchange="angular.element(this).scope().loadSco()" />
+
         </div>
-        <div ng-hide="!viewSco">
+        <div ng-if="viewScoClient">
             <div>
-                <button class="btn btn-sm btn-default" style="margin-bottom: 10px" ng-click="closeSco()">Закрыть</button>    
+                <button class="btn btn-sm btn-default" style="margin-bottom: 10px" ng-click="closeSco()">Закрыть</button>
+            </div>
+            <div style="float: left;padding: 5px;width: 15%">
+                <ul>
+                    <li ng-repeat="tree in treeActivity">
+                        <a href="" style="cursor: pointer" ng-click="frameLoad(tree.Url)">{{tree.Name}}</a>
+                    </li>
+                </ul>
+            </div>
+            <div style="float: left;width: 75%">
+                <iframe width="100%" height="700px" ng-src="{{urlServiceCore}}"></iframe>    
             </div>
             
-            <iframe width="100%" height="700px" ng-src="{{urlServiceCore}}"></iframe>
+        </div>
+
+        <div id="dialogLoadSco" class="modal">
+            <div class="modal-dialog panel panel-primary" style="padding: 0px">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Имя SCO-объета</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="control-group">
+                            <label class="control-label">Имя объета</label>
+                            <input type="text" class="form-control" style="width: 545px" ng-model="nameLoadSco" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                    <button ng-click="loadScoEventClick()" class="btn btn-primary btn-sm">Загрузить</button>
+                </div>
+            </div>
         </div>
     </div>
-   
+
 </div>
+
+
 
 
 
