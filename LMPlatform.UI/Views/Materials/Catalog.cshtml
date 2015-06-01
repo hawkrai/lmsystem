@@ -1,4 +1,5 @@
-﻿@if (User.IsInRole("lector"))
+﻿
+@if (User.IsInRole("lector"))
 {
     <div ng-init="user='lector'"></div>
 }
@@ -7,7 +8,6 @@ else
     <div ng-init="user='student'"></div>
 }
 
-<div class="fa fa-arrow-left backspace" ng-click="backspaceFolder()"></div>   
 <div class="bs-docs-section catalog" delete-context-menu data-pid="@ViewBag.Pid" style="height: 500px;">
         <div class="bs-glyphicons">
             <ul class="bs-glyphicons-list">

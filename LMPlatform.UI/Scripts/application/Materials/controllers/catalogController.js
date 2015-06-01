@@ -3,11 +3,12 @@ angular
     .module('materialsApp.ctrl.catalog', ['ngResource'])
     .controller('catalogCtrl', [
         '$scope',
+        "$rootScope",
         '$location',
         '$resource',
         "materialsService",
         "$log",
-        function ($scope, $location, $resource, materialsService) {
+        function ($scope, $rootScope, $location, $resource, materialsService) {
 
             function getParameterByName(name) {
                 name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -37,7 +38,7 @@ angular
                 });
             };
 
-            $scope.backspaceFolder = function ($event) {
+            $rootScope.backspaceFolder = function ($event) {
                 var pid = angular.element(".catalog").attr("data-pid");
                 //alert(angular.element(".catalog").attr("data-pid"));
                 //angular.element(".catalog").attr("data-pid", idFolder);

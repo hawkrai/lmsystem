@@ -2,10 +2,12 @@
     .module('materialsApp.ctrl.new', ['ngResource'])
     .controller('newCtrl', [
         '$scope',
+        "$rootScope",
         '$location',
+        '$compile',
         '$resource',
         "materialsService",
-        function ($scope, $location, $resource, materialsService) {
+        function ($scope, $rootScope, $location, $compile, $resource, materialsService) {
 
        
             $scope.$watch('user', function () {
@@ -74,8 +76,9 @@
                             onclick: function () {
                                 $(".sidebar-menu").empty();
                                 $location.url("/Catalog");
-                                $scope.$apply();
                                 angular.element("#headerMainPage").show();
+                                $(".sidebar-menu").append($compile('<li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li><li style="cursor:pointer;" ng-click="backspaceFolder()" ><a class="linkNavbar"><i class="fa fa-reply fa-tab"></i>Назад</a></li>')($rootScope));
+                                $scope.$apply();
                             }
                         });
 
