@@ -20,6 +20,10 @@
                    var readonly = 1;
                 }
 
+                var height = angular.element('.wrapper').height() - angular.element('.header').height() - 55;
+                $(".sidebar-menu").empty();
+
+
                 tinymce.init({
                     save_enablewhendirty: true,
                     setup: function (ed) {
@@ -88,8 +92,7 @@
                         saveText(dr);
                     },
                     selector: "textarea",
-                    autoresize_min_height: "450px",
-                    autoresize_max_height: "500px",
+                    autoresize_min_height: height+"px",
                     language: 'ru',
                     skin: 'light',
                     plugins: [
