@@ -22,14 +22,15 @@
 		<small>Просмотр SCO объектов</small>
     </h1>
 }
-
-@section navleft
-{
-}
-
 <div ng-app="scormApp">
     <div ng-controller="ScormController" ng-init="init()">
-        <div style="margin-bottom: 20px">
+@section navleft
+{
+	
+}
+
+
+        <div ng-if="!viewScoClient" style="margin-bottom: 20px">
             <table class="table table-bordered">
                 <tr>
                     <th>Название курса</th>
@@ -40,23 +41,23 @@
                     <td style="width: 10px"><a ng-click="viewSco(object)"><i class="fa fa-1x fa-eye"></i></a></td>
                 </tr>
             </table>
-            <input type="button" ng-click="openSco()" style="width: 150px" class="btn btn-sm btn-default" value="Загрузить SCO объект" />
+            <input type="button" ng-click="openSco()" style="width: 150px" class="btn btn-sm btn-primary" value="Загрузить SCO объект" />
 
             <input type="file" name="openSco" style="display: none;" onchange="angular.element(this).scope().loadSco()" />
 
         </div>
         <div ng-if="viewScoClient">
             <div>
-                <button class="btn btn-sm btn-default" style="margin-bottom: 10px" ng-click="closeSco()">Закрыть</button>
+                <button class="btn btn-sm btn-primary" style="margin-bottom: 10px" ng-click="closeSco()">Закрыть</button>
             </div>
-            <div style="float: left;padding: 5px;width: 15%">
-                <ul>
-                    <li ng-repeat="tree in treeActivity">
+            <div style="float: left;padding: 5px;width: 250px;margin-left: -300px;position: absolute;">
+                <ul style=" list-style: none;">
+                    <li ng-repeat="tree in treeActivity" style="border-top: 1px solid #dbdbdb;border-bottom: 1px solid #dbdbdb; padding: 5px;  text-align: right;width: 240px;  margin: 5px 0 5px 0;">
                         <a href="" style="cursor: pointer" ng-click="frameLoad(tree.Url)">{{tree.Name}}</a>
                     </li>
                 </ul>
             </div>
-            <div style="float: left;width: 75%">
+            <div style="float: left;width: 100%; height: 100%">
                 <iframe width="100%" height="700px" ng-src="{{urlServiceCore}}"></iframe>    
             </div>
             
