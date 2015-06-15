@@ -122,7 +122,7 @@ namespace LMPlatform.Data.Infrastructure
         {
             if (!context.Database.Exists())
             {
-                //((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+                ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
                 FillInitData(context);
 
                 return true;

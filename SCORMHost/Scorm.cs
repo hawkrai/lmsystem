@@ -34,7 +34,7 @@ namespace SCORMHost
                     TreeActivity.Add(new TreeActivity()
                                                        {
                                                            Name = child.Title,
-                                                           Url = t.Href.ToString(),
+														   Url = t.Href.ToString() + child.Parameters,
                                                        });
                 }
             }

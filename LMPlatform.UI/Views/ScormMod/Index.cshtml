@@ -19,67 +19,114 @@
 
 @section headerTitle{
     <h1>SCORM
-		<small>Просмотр SCO объектов</small>
+		<small id="scoNameView">Просмотр SCO объектов</small>
     </h1>
 }
 <div ng-app="scormApp">
-    <div ng-controller="ScormController" ng-init="init()">
+    <div ng-cloak ng-controller="ScormController" ng-init="init()">
 @section navleft
 {
-	
+    <li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
 }
 
-
-        <div ng-if="!viewScoClient" style="margin-bottom: 20px">
-            <table class="table table-bordered">
-                <tr>
-                    <th>Название курса</th>
-                    <th>Действие</th>
-                </tr>
-                <tr ng-repeat="object in sco">
-                    <td>{{object.Name}}</td>
-                    <td style="width: 10px"><a ng-click="viewSco(object)"><i class="fa fa-1x fa-eye"></i></a></td>
-                </tr>
-            </table>
-            <input type="button" ng-click="openSco()" style="width: 150px" class="btn btn-sm btn-primary" value="Загрузить SCO объект" />
-
-            <input type="file" name="openSco" style="display: none;" onchange="angular.element(this).scope().loadSco()" />
-
-        </div>
-        <div ng-if="viewScoClient">
-            <div>
-                <button class="btn btn-sm btn-primary" style="margin-bottom: 10px" ng-click="closeSco()">Закрыть</button>
-            </div>
-            <div style="float: left;padding: 5px;width: 250px;margin-left: -300px;position: absolute;">
-                <ul style=" list-style: none;">
-                    <li ng-repeat="tree in treeActivity" style="border-top: 1px solid #dbdbdb;border-bottom: 1px solid #dbdbdb; padding: 5px;  text-align: right;width: 240px;  margin: 5px 0 5px 0;">
-                        <a href="" style="cursor: pointer" ng-click="frameLoad(tree.Url)">{{tree.Name}}</a>
-                    </li>
-                </ul>
-            </div>
-            <div style="float: left;width: 100%; height: 100%">
-                <iframe width="100%" height="700px" ng-src="{{urlServiceCore}}"></iframe>    
-            </div>
+		@if (User.IsInRole("lector"))
+		{
+			<div ng-if="!viewScoClient" style="margin-bottom: 20px">
+				<div style="margin-bottom: 15px">
+					<input type="button" ng-click="openSco()" style="width: 150px" class="btn btn-sm btn-primary" value="Загрузить SCO объект" />
+					<input type="file" name="openSco" style="display: none;" onchange=" angular.element(this).scope().loadSco() " />    
+				</div>
+		   
+				<table class="table table-bordered">
+					<tr>
+						<th>Название курса</th>
+						<th>Действие</th>
+					</tr>
+					<tr ng-repeat="object in scoObjects">
+						<td>{{object.Name}}</td>
+						<td style="width: 135px">
+							<a style="margin-right: 5px" ng-click="viewSco(object)"><i tooltip="Открыть курс" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-eye"></i></a>
+							<a style="margin-right: 5px" ng-if="!object.Enabled" ng-click="lock(object)"><i tooltip="Открыть доступ" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-lock"></i></a>
+							<a style="margin-right: 5px" ng-if="object.Enabled" ng-click="unlock(object)"><i tooltip="Закрыть доступ" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-unlock"></i></a>
+							<a style="margin-right: 5px" ng-click="editSco(object)"><i tooltip="Редактрировать" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-edit fa-1x"></i></a>
+							<a ng-click="deleteSco(object)"><i tooltip="Удалить" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-trash-o fa-1x"></i></a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		}
+		else
+		{
+			<div ng-if="!viewScoClient" style="margin-bottom: 20px">
+				<table class="table table-bordered">
+					<tr>
+						<th>Название курса</th>
+						<th>Действие</th>
+					</tr>
+					<tr ng-repeat="object in scoObjects | filter: { Enabled: true }">
+						<td>{{object.Name}}</td>
+						<td style="width: 5px;text-align: center">
+							<a ng-click="viewSco(object)"><i tooltip="Открыть курс" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-eye"></i></a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		}
+	   
+	    <div ng-if="viewScoClient">
+		   <div>
+			    <button class="btn btn-sm btn-primary" style="margin-bottom: 10px;  float: right;" ng-click="closeSco()">Закрыть</button>
+		    </div>
+		    <div style="float: left;padding: 5px;width: 250px;margin-left: -300px;position: absolute; margin-top:35px">
+			    <ul style=" list-style: none;">
+				    <li ng-repeat="tree in treeActivity" style="padding: 5px;  text-align: right;width: 240px;  margin: 5px 0 5px 0;">
+					    <a href="" style="cursor: pointer" ng-click="frameLoad(tree.Url)">{{tree.Name}}</a>
+				    </li>
+			    </ul>
+		    </div>
+		    <div style="float: left;width: 100%; height: 100%">
+			    <iframe width="100%" height="700px" ng-src="{{urlServiceCore}}"></iframe>    
+		    </div>
             
-        </div>
+	    </div>
 
-        <div id="dialogLoadSco" class="modal">
+	    <div id="dialogLoadSco" class="modal">
+		    <div class="modal-dialog panel panel-primary" style="padding: 0px">
+			    <div class="panel-heading">
+				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				    <h4 class="modal-title" id="myModalLabel">Название курса</h4>
+			    </div>
+			    <div class="modal-body">
+				    <div>
+					    <div class="control-group" ng-class="requiredName ? 'has-error' : ''">
+						    <label class="control-label">Название курса</label>
+						    <input type="text" class="form-control" style="width: 545px" ng-model="nameLoadSco" />
+					    </div>
+				    </div>
+			    </div>
+			    <div class="modal-footer">
+				    <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+				    <button ng-click="loadScoEventClick()" class="btn btn-primary btn-sm">Загрузить</button>
+			    </div>
+		    </div>
+	    </div>
+		 <div id="dialogChangeSco" class="modal">
             <div class="modal-dialog panel panel-primary" style="padding: 0px">
                 <div class="panel-heading">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Имя SCO-объета</h4>
+                    <h4 class="modal-title" id="myModalLabel">Название курса</h4>
                 </div>
                 <div class="modal-body">
                     <div>
-                        <div class="control-group">
-                            <label class="control-label">Имя объета</label>
+                        <div class="control-group" ng-class="requiredName ? 'has-error' : ''">
+                            <label class="control-label">Название курса</label>
                             <input type="text" class="form-control" style="width: 545px" ng-model="nameLoadSco" />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                    <button ng-click="loadScoEventClick()" class="btn btn-primary btn-sm">Загрузить</button>
+                    <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                    <button ng-click="changeScoName()" class="btn btn-primary btn-sm">Изменить</button>
                 </div>
             </div>
         </div>

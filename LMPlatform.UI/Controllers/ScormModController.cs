@@ -31,7 +31,7 @@ namespace LMPlatform.UI.Controllers
 	    {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return Json(repositoriesContainer.RepositoryFor<ScoObjects>().GetAll(new Query<ScoObjects>()).ToList(), JsonRequestBehavior.AllowGet);
+                return Json(repositoriesContainer.RepositoryFor<ScoObjects>().GetAll(new Query<ScoObjects>(e => !e.IsDeleted)).ToList(), JsonRequestBehavior.AllowGet);
 	        }
 	    }
 
@@ -53,12 +53,26 @@ namespace LMPlatform.UI.Controllers
                 repositoriesContainer.RepositoryFor<ScoObjects>().Save(new ScoObjects()
                 {
                     Name = name,
-                    Path = guid
+                    Path = guid,
+					Enabled = false,
+					IsDeleted = false
                 });
                 repositoriesContainer.ApplyChanges();
             }
 
-	        return Json(null);
+			return Json(name, JsonRequestBehavior.AllowGet);
+	    }
+
+	    public ActionResult DeleteSco(string path)
+	    {
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var data = repositoriesContainer.RepositoryFor<ScoObjects>().GetBy(new Query<ScoObjects>(e => e.Path == path));
+				data.IsDeleted = true;
+				repositoriesContainer.RepositoryFor<ScoObjects>().Save(data);
+				repositoriesContainer.ApplyChanges();
+			}
+			return Json(path, JsonRequestBehavior.AllowGet);
 	    }
 
 	    public ActionResult ViewSco(string path)
@@ -69,5 +83,29 @@ namespace LMPlatform.UI.Controllers
             scorm.OpenImsManifest(fileXml);
             return Json(scorm.TreeActivity, JsonRequestBehavior.AllowGet);
 	    }
+
+		public ActionResult EditObject(string name, string path)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var data = repositoriesContainer.RepositoryFor<ScoObjects>().GetBy(new Query<ScoObjects>(e => e.Path == path));
+				data.Name = name;
+				repositoriesContainer.RepositoryFor<ScoObjects>().Save(data);
+				repositoriesContainer.ApplyChanges();
+			}
+			return Json(name, JsonRequestBehavior.AllowGet);
+		}
+
+		public ActionResult UpdateObjects(bool enable, string path)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var data = repositoriesContainer.RepositoryFor<ScoObjects>().GetBy(new Query<ScoObjects>(e => e.Path == path));
+				data.Enabled = enable;
+				repositoriesContainer.RepositoryFor<ScoObjects>().Save(data);
+				repositoriesContainer.ApplyChanges();
+			}
+			return Json(enable, JsonRequestBehavior.AllowGet);
+		}
     }
 }

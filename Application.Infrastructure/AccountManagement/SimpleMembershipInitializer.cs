@@ -22,7 +22,7 @@ namespace Application.Infrastructure.AccountManagement
 
         public SimpleMembershipInitializer()
         {
-            Database.SetInitializer<LmPlatformModelsContext>(new ProjectInitializer());
+            Database.SetInitializer<LmPlatformModelsContext>(null);
 
             try
             {
@@ -33,7 +33,7 @@ namespace Application.Infrastructure.AccountManagement
                     firstLoad = DataBaseInitializer.InitializeDatabase(context);
                 }
 
-                WebSecurity.InitializeDatabaseConnection("DefaultConnection", "Users", "UserId", "UserName", autoCreateTables: true);
+                WebSecurity.InitializeDatabaseConnection("DefaultConnection", "Users", "UserId", "UserName", autoCreateTables: false);
 
                 if (firstLoad)
                 {

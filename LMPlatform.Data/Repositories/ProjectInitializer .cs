@@ -4,7 +4,7 @@ using LMPlatform.Data.Migrations;
 
 namespace LMPlatform.Data.Repositories
 {
-    public class ProjectInitializer : MigrateDatabaseToLatestVersion<LmPlatformModelsContext, Configuration>
-    {
-    }
+	//public class ProjectInitializer : MigrateDatabaseToLatestVersion<LmPlatformModelsContext, Configuration>
+	//{
+	//}
 }
