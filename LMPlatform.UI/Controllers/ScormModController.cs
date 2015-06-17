@@ -46,6 +46,14 @@ namespace LMPlatform.UI.Controllers
                 zip.ExtractAll(ScoFilePath + "\\" + guid, ExtractExistingFileAction.OverwriteSilently);
             }
 
+			if (!System.IO.File.Exists(ScoFilePath + "\\" + guid + "\\imsmanifest.xml"))
+	        {
+				return Json(new
+				{
+					error = "Загруженный файл не является объектом SCORM"
+				});
+	        }
+
             System.IO.File.Delete(ScoFilePath + "\\" + guid + ".zip");
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

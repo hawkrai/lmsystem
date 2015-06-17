@@ -34,7 +34,7 @@
 			<div ng-if="!viewScoClient" style="margin-bottom: 20px">
 				<div style="margin-bottom: 15px">
 					<input type="button" ng-click="openSco()" style="width: 150px" class="btn btn-sm btn-primary" value="Загрузить SCO объект" />
-					<input type="file" name="openSco" style="display: none;" onchange=" angular.element(this).scope().loadSco() " />    
+					<input type="file" name="openSco" accept=".zip,application/zip,application/x-zip,application/x-zip-compressed" style="display: none;" onchange=" angular.element(this).scope().loadSco() " />    
 				</div>
 		   
 				<table class="table table-bordered">
@@ -77,12 +77,14 @@
 		   <div>
 			    <button class="btn btn-sm btn-primary" style="margin-bottom: 10px;  float: right;" ng-click="closeSco()">Закрыть</button>
 		    </div>
-		    <div style="float: left;padding: 5px;width: 250px;margin-left: -300px;position: absolute; margin-top:35px">
-			    <ul style=" list-style: none;">
-				    <li ng-repeat="tree in treeActivity" style="padding: 5px;  text-align: right;width: 240px;  margin: 5px 0 5px 0;">
-					    <a href="" style="cursor: pointer" ng-click="frameLoad(tree.Url)">{{tree.Name}}</a>
-				    </li>
-			    </ul>
+		    <div class="skin-blue" style="float: left;padding: 5px;width: 250px;margin-left: -260px;position: absolute; margin-top:35px">
+			    <div class="sidebar">
+				    <ul class="sidebar-menu">
+					    <li ng-repeat="tree in treeActivity" style="text-align: right;">
+						    <a href="" style="cursor: pointer" ng-click="frameLoad(tree.Url)">{{tree.Name}}</a>
+					    </li>
+				    </ul>
+				</div>
 		    </div>
 		    <div style="float: left;width: 100%; height: 100%">
 			    <iframe width="100%" height="700px" ng-src="{{urlServiceCore}}"></iframe>    

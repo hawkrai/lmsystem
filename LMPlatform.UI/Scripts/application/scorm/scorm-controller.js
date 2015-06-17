@@ -82,9 +82,14 @@
     			processData: false,
     			contentType: false,
     			success: function (data) {
-    				$scope.$apply(function () {
-    					$scope.loadObjects();
-    				});
+    				if (data.error != undefined) {
+    					alertify.error(data.error);
+				    } else {
+    					$scope.$apply(function () {
+    						$scope.loadObjects();
+    					});
+				    }
+    				
     			},
     		});
     		$scope.nameLoadSco = "";
