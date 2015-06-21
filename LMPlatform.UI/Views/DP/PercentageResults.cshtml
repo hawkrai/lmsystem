@@ -13,7 +13,27 @@
             <thead>
                 <tr>
                     <th width="1%">№</th>
-                    <th width="70%">Студент</th>
+                    <th width="70%" ng-show="user.IsSecretary" class="sortable" ng-class="{
+                        'sort-asc': tableParams.isSortBy('Name', 'asc'),
+                        'sort-desc': tableParams.isSortBy('Name', 'desc')
+                        }"
+                        ng-click="tableParams.sorting({'Name' : tableParams.isSortBy('Name', 'asc') ? 'desc' : 'asc'})">
+                        <div>Студент</div>
+                    </th>
+                    <th width="5%" ng-show="user.IsSecretary" class="sortable" ng-class="{
+                        'sort-asc': tableParams.isSortBy('Group', 'asc'),
+                        'sort-desc': tableParams.isSortBy('Group', 'desc')
+                        }"
+                        ng-click="tableParams.sorting({'Group' : tableParams.isSortBy('Group', 'asc') ? 'desc' : 'asc'})">
+                        <div>Группа</div>
+                    </th>
+                    <th width="5%" ng-show="user.IsSecretary" class="sortable" ng-class="{
+                        'sort-asc': tableParams.isSortBy('Lecturer', 'asc'),
+                        'sort-desc': tableParams.isSortBy('Lecturer', 'desc')
+                        }"
+                        ng-click="tableParams.sorting({'Lecturer' : tableParams.isSortBy('Lecturer', 'asc') ? 'desc' : 'asc'})">
+                        <div>Руководитель</div>
+                    </th>
                     <th width="5%" ng-repeat="percentage in percentages">{{formatDate(parseDate(percentage.Date), "dd/mm")}}</th>
                     <th width="5%">Оценка</th>
                 </tr>
@@ -22,6 +42,8 @@
                 <tr ng-repeat="student in $data">
                     <td style="width:1%;text-align: left;">{{$index+1}}</td>
                     <td width="70%" style="text-align: left;">{{student.Name}}</td>
+                    <td ng-show="user.IsSecretary" width="5%" style="text-align: left;">{{student.Group}}</td>
+                    <td ng-show="user.IsSecretary" width="5%" style="text-align: left;">{{student.Lecturer}}</td>
                     <td ng-repeat="percentage in percentages" width="5%" style="text-align: center;">
                         <a ng-show="user.IsLecturer && !user.IsSecretary" editable-text="getPercentageResult(student, percentage.Id).Mark" href="#"
                            onbeforesave="savePercentageResult(getPercentageResult(student, percentage.Id), $data)">

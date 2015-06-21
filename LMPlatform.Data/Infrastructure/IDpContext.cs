@@ -1,5 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using LMPlatform.Models;
 using LMPlatform.Models.DP;
 
@@ -38,6 +40,7 @@ namespace LMPlatform.Data.Infrastructure
         DbSet<DiplomProject> DiplomProjects { get; set; }
 
         DbSet<DiplomProjectTaskSheetTemplate> DiplomProjectTaskSheetTemplates { get; set; }
+        Expression<Func<Student, bool>> StudentIsGraduate { get; }
 
         IQueryable<Student> GetGraduateStudents();
 

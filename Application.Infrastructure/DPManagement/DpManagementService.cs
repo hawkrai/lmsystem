@@ -6,7 +6,9 @@ using Application.Core.Data;
 using Application.Core.Extensions;
 using Application.Infrastructure.DTO;
 using LMPlatform.Data.Infrastructure;
+using LMPlatform.Models;
 using LMPlatform.Models.DP;
+using Microsoft.Office.Interop.Word;
 
 namespace Application.Infrastructure.DPManagement
 {
@@ -23,6 +25,11 @@ namespace Application.Infrastructure.DPManagement
             if (user != null && user.Lecturer != null && !user.Lecturer.IsSecretary)
             {
                 query = query.Where(x => x.LecturerId == userId);
+            }
+
+            if (user != null && user.Lecturer != null && user.Lecturer.IsSecretary)
+            {
+                query = query.Where(x => x.AssignedDiplomProjects.Any());
             }
 
             if (user != null && user.Student != null)
@@ -65,6 +72,11 @@ namespace Application.Infrastructure.DPManagement
             if (!projectData.LecturerId.HasValue)
             {
                 throw new ApplicationException("LecturerId cant be empty!");
+            }
+
+            if (Context.DiplomProjects.Any(x => x.Theme == projectData.Theme))
+            {
+                throw new ApplicationException("Тема с таким названием уже есть!");
             }
 
             AuthorizationHelper.ValidateLecturerAccess(Context, projectData.LecturerId.Value);
@@ -244,16 +256,22 @@ namespace Application.Infrastructure.DPManagement
                 }
             }
 
-            parms.SortExpression = "Name";
-            return Context.GetGraduateStudents()
+            if (string.IsNullOrWhiteSpace(parms.SortExpression) || parms.SortExpression == "Id")
+            {
+                parms.SortExpression = "Name";
+            }
+            var query = Context.GetGraduateStudents()
                 .Where(x => isLecturerSecretary || (isStudent && getBySecretaryForStudent) || x.AssignedDiplomProjects.Any(asd => asd.DiplomProject.LecturerId == userId))
-                .Where(x => secretaryId == 0 || x.Group.SecretaryId == secretaryId)
-                .Select(s => new StudentData
+                .Where(x => secretaryId == 0 || x.Group.SecretaryId == secretaryId);
+            return (from s in query
+                    let lecturer = s.AssignedDiplomProjects.FirstOrDefault().DiplomProject.Lecturer
+                    select new StudentData
                 {
                     Id = s.Id,
                     Name = s.LastName + " " + s.FirstName + " " + s.MiddleName, //todo
                     Mark = s.AssignedDiplomProjects.FirstOrDefault().Mark,
                     AssignedDiplomProjectId = s.AssignedDiplomProjects.FirstOrDefault().Id,
+                    Lecturer = lecturer.LastName + " " + lecturer.FirstName + " " + lecturer.MiddleName, //todo
                     Group = s.Group.Name,
                     PercentageResults = s.PercentagesResults.Select(pr => new PercentageResultData
                     {
@@ -278,7 +296,7 @@ namespace Application.Infrastructure.DPManagement
         {
             if (AuthorizationHelper.IsStudent(Context, userId))
             {
-                return true;
+                return AuthorizationHelper.IsGraduateStudent(Context, userId);
             }
 
             var lecturer = Context.Lecturers.Single(x => x.Id == userId);

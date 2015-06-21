@@ -13,8 +13,8 @@
         <h4 class="modal-title">Редактирование листа задания</h4>
     </div>
     <div class="modal-body">
-        <div>
-            <div style="width: 200px;" class="col-md-4">
+        <div class="col-md-12" style="float: left; clear: both; padding-left: 0;">
+            <div style="width: 615px;">
                 <ui-select on-select="selectTemplate($item)" ng-model="template.Id" theme="bootstrap">
                     <ui-select-match placeholder="Шаблон">{{$select.selected.Name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in templates | filter: $select.search">
@@ -22,8 +22,8 @@
                     </ui-select-choices>
                 </ui-select>
             </div>
-            <div class="col-md-8" style="margin: -5px 0 15px 5px">
-                <input  type="text" style="width:200px;margin-right:5px;" ng-model="template.Name" placeholder="Название шаблона" />
+            <div>
+                <input type="text" style="width:465px;" ng-model="template.Name" placeholder="Название шаблона" />
                 <button ng-click="saveTaskSheetTemplate()" style="margin: 0 0 5px 5px" ng-disabled="!selectedTemplateId && !template.Name" type="submit" class="btn btn-primary btn-sm">Сохранить шаблон</button>
             </div>
         </div>

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using LMPlatform.Models.BTS;
 using LMPlatform.Models.DP;
 using LMPlatform.Models.KnowledgeTesting;
@@ -24,50 +25,34 @@ namespace LMPlatform.Data.Infrastructure
 
         #region DataContext Members
 
-        public DbSet<Membership> Membership
-        {
-            get;
-            set;
-        }
+        public DbSet<Membership> Membership { get; set; }
 
-        public DbSet<OAuthMembership> OAuthMembership
-        {
-            get;
-            set;
-        }
+        public DbSet<OAuthMembership> OAuthMembership { get; set; }
 
-        public DbSet<Role> Roles
-        {
-            get;
-            set;
-        }
+        public DbSet<Role> Roles { get; set; }
 
-        public DbSet<User> Users
-        {
-            get;
-            set;
-        }
+        public DbSet<User> Users { get; set; }
 
-        public DbSet<Student> Students
-        {
-            get;
-            set;
-        }
+        public DbSet<Student> Students { get; set; }
 
-        public DbSet<ScoObjects> ScoObjects
-        {
-            get;
-            set;
-        }
+        public DbSet<ScoObjects> ScoObjects { get; set; }
 
         public IQueryable<Student> GetGraduateStudents()
         {
-            var currentYearStr = DateTime.Now.Year.ToString(CultureInfo.InvariantCulture);
-            var nextYearStr = DateTime.Now.AddYears(1).Year.ToString(CultureInfo.InvariantCulture);
+            return Students.Where(StudentIsGraduate);
+        }
 
-            return Students.Where(x =>
-                (x.Group.GraduationYear == currentYearStr && DateTime.Now.Month <= 9) ||
-                (x.Group.GraduationYear == nextYearStr && DateTime.Now.Month >= 9));
+        public Expression<Func<Student, bool>> StudentIsGraduate
+        {
+            get
+            {
+                var currentYearStr = DateTime.Now.Year.ToString(CultureInfo.InvariantCulture);
+                var nextYearStr = DateTime.Now.AddYears(1).Year.ToString(CultureInfo.InvariantCulture);
+
+                return x =>
+                    (x.Group.GraduationYear == currentYearStr && DateTime.Now.Month <= 9) ||
+                    (x.Group.GraduationYear == nextYearStr && DateTime.Now.Month >= 9);
+            }
         }
 
         public IQueryable<Group> GetGraduateGroups()

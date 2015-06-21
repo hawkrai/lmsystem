@@ -55,7 +55,7 @@ namespace Application.Infrastructure.DPManagement
                 }
             }
 
-            return groups.Select(x => new Correlation
+            return groups.OrderBy(x => x.Name).Select(x => new Correlation
                 {
                     Id = x.Id,
                     Name = x.Name
@@ -106,7 +106,9 @@ namespace Application.Infrastructure.DPManagement
                     {
                         Id = x.Id,
                         Name = x.Name
-                    }).ToList();
+                    })
+                    .OrderBy(x => x.Name)
+                    .ToList();
         }
 
         private List<Correlation> GetDiplomProjectCorrelation(int? lecturerId)

@@ -40,10 +40,10 @@
                 percentages.save($scope.percentage)
                     .$promise.then(function () {
                         $modalInstance.close();
-                        alertify.success('График успешно сохранен.');
+                        alertify.success('График успешно сохранен');
                     },
                     function (respData) {
-                        $modalInstance.close();
+//                        $modalInstance.close();
                         $scope.handleError(respData);
                     });
             };

@@ -135,6 +135,11 @@ namespace Application.Infrastructure.DPManagement
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, userId);
 
+            if (Context.DiplomPercentagesGraphs.Any(x => x.Name == percentageData.Name))
+            {
+                throw new ApplicationException("Этап с таким названием уже есть!");
+            }
+
             DiplomPercentagesGraph percentage;
             if (percentageData.Id.HasValue)
             {

@@ -98,7 +98,7 @@
 
                     taskSheetTemplates.save(template)
                         .$promise.then(function () {
-                            alertify.success('Данные успешно сохранены.');
+                            alertify.success('Данные успешно сохранены');
                             updateTemplates();
                         }, $scope.handleError);
                 };
@@ -109,7 +109,7 @@
                     taskSheets.save($scope.taskSheet)
                         .$promise.then(function (data, status, headers, config) {
                             $scope.selectProject();
-                            alertify.success('Данные успешно сохранены.');
+                            alertify.success('Данные успешно сохранены');
                         }, $scope.handleError);
 
                     $modalInstance.close();

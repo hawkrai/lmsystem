@@ -13,7 +13,7 @@
 //                    if (isConfirmed) {
                         projectService.assignProject(projectId, studentId).success(function () {
                             $modalInstance.close();
-                            alertify.success("Проект успешно назначен.");
+                            alertify.success("Тема успешно назначена");
                         }).error(function (data) { 
                             $modalInstance.close();
                             $scope.handleError(data.ExceptionMessage);

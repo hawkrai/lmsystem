@@ -43,7 +43,7 @@
                 dpConsultations.save(consultationMark)
                     .$promise.then(function (data, status, headers, config) {
                         $scope.tableParams.reload();
-                        alertify.success('Оценка успешно сохранена.');
+                        alertify.success('Оценка успешно сохранена');
                     }, $scope.handleError);
                 return false;
             };
@@ -51,13 +51,13 @@
 
             $scope.deleteConsultationDate = function (id) {
                 bootbox.confirm({
-                    title: "Удаление",
+                    title: "Удаление даты",
                     message: "Вы действительно хотите удалить дату?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             dpConsultationDates.delete({ id: id }).$promise.then(function () {
                                 $scope.tableParams.reload();
-                                alertify.success("Дата успешно удалена.");
+                                alertify.success("Дата успешно удалена");
                             }, $scope.handleError);
                         }
                     },
@@ -102,7 +102,7 @@
                     dpConsultationDates.save(new Date($scope.consultation.date))
                     .$promise.then(function () {
                         $scope.tableParams.reload();
-                        alertify.success('Консультация успешно добавлена.');
+                        alertify.success('Консультация успешно добавлена');
                     }, $scope.handleError);
 
                     $modalInstance.close();

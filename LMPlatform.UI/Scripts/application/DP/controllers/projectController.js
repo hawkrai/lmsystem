@@ -41,11 +41,11 @@
                 saveFunc($scope.project)
                     .success(function (data, status, headers, config) {
                         $modalInstance.close();
-                        alertify.success('Проект успешно сохранен.');
+                        alertify.success('Тема успешно сохранена');
                     })
                     .error(function (data) {
                         $scope.handleError(data);
-                        $modalInstance.close();
+                        //$modalInstance.close();
                     });
             };
 

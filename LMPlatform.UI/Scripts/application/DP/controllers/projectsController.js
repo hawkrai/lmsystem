@@ -51,13 +51,13 @@
             
             $scope.deleteProject = function (id) {
                 bootbox.confirm({
-                    title: "Удаление проекта",
-                    message: "Вы действительно хотите удалить проект?",
+                    title: "Удаление темы",
+                    message: "Вы действительно хотите удалить тему дипломного проекта?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             projectService.deleteproject(id).success(function () {
                                 $scope.tableParams.reload();
-                                alertify.success("Проект успешно удален.");
+                                alertify.success("Тема успешно удалена");
                             }).error(function (error) {
                                 $scope.handleError(error);
                             });
@@ -84,7 +84,7 @@
                         if (isConfirmed) {
                             projectService.deleteAssignment(id).success(function () {
                                 $scope.tableParams.reload();
-                                alertify.success("Назначение успешно удалено.");
+                                alertify.success("Назначение успешно удалено");
                             }).error(function (error) {
                                 $scope.handleError(error);
                             });
@@ -110,14 +110,14 @@
 
             $scope.chooseProject = function (id) {
                 bootbox.confirm({
-                    title: "Удаление",
+                    title: "Выбор темы",
                     message: "Вы действительно хотите выбрать данную тему дипломного проекта?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             projectService.assignProject(id).success(function () {
                                 hasChosenDp = true;
                                 $scope.tableParams.reload();
-                                alertify.success("Тема успешно выбрана.");
+                                alertify.success("Тема успешно выбрана");
                             }).error(function (error) {
                                 $scope.handleError(error);
                             });
@@ -140,13 +140,13 @@
 
             $scope.confirmProject = function (id) {
                 bootbox.confirm({
-                    title: "Удаление",
+                    title: "Подтверждение темы",
                     message: "Вы действительно хотите подтвердить данную тему дипломного проекта?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             projectService.assignProject(id).success(function () {
                                 $scope.tableParams.reload();
-                                alertify.success("Тема успешно подтверждена.");
+                                alertify.success("Тема успешно подтверждена");
                             }).error(function (error) {
                                 $scope.handleError(error);
                             });

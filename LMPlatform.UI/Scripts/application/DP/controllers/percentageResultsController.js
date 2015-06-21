@@ -63,7 +63,7 @@
                 percentageResults.save(percentageResult)
                     .$promise.then(function (data, status, headers, config) {
                         $scope.tableParams.reload();
-                        alertify.success('Процент успешно сохранен.');
+                        alertify.success('Процент успешно сохранен');
                     }, $scope.handleError);
                 return false;
             };
@@ -77,7 +77,7 @@
                 studentMarks.save([assignedDiplomProjectId, newValue])
                     .$promise.then(function (data, status, headers, config) {
                         $scope.tableParams.reload();
-                        alertify.success('Оценка успешно сохранена.');
+                        alertify.success('Оценка успешно сохранена');
                     }, $scope.handleError);
                 return false;
             };

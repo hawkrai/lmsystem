@@ -14,6 +14,8 @@ namespace Application.Infrastructure.DTO
 
         public int? AssignedDiplomProjectId { get; set; }
 
+        public string Lecturer { get; set; }
+
         public IEnumerable<PercentageResultData> PercentageResults { get; set; }
 
         public IEnumerable<DipomProjectConsultationMarkData> DipomProjectConsultationMarks { get; set; } 

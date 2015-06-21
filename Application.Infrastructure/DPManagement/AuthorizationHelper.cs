@@ -25,5 +25,10 @@ namespace Application.Infrastructure.DPManagement
         {
             return context.Users.Include(x => x.Student).Single(x => x.Id == userId).Student != null;
         }
+
+        public static bool IsGraduateStudent(IDpContext context, int userId)
+        {
+            return context.Users.Where(x => x.Id == userId).Select(x => x.Student).Any(context.StudentIsGraduate);
+        }
     }
 }

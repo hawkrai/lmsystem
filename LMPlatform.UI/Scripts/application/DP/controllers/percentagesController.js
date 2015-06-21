@@ -62,7 +62,7 @@
                         if (isConfirmed) {
                             percentages.delete({ id: id }).$promise.then(function () {
                                 $scope.tableParams.reload();
-                                alertify.success("Запись успешно удалена.");
+                                alertify.success("Запись успешно удалена");
                             }, function (error) {
                                 $scope.handleError(error);
                             });
