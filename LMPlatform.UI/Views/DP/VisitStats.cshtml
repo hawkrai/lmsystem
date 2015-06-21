@@ -3,7 +3,7 @@
         <a ng-click="addConsultationDate()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить дату</a>
     </div>
     <div ng-show="user.IsSecretary" style="margin-bottom: 20px;width:700px;height:100%">
-        <ui-select ng-disabled="lecturers.length==1" on-select="selectLecturer($item.Id)" ng-model="lecturer" theme="bootstrap">
+        <ui-select ng-disabled="lecturers.length==1" on-select="selectLecturer($item.Id)" ng-model="lecturer.Id" theme="bootstrap">
             <ui-select-match placeholder="Выберите преподавателя">{{$select.selected.Name}}</ui-select-match>
             <ui-select-choices repeat="item.id as item in lecturers | filter: $select.search">
                 <div>{{item.Name}}</div>

@@ -124,8 +124,9 @@
 
             $scope.lecturers = [];
             $scope.lecturer = { Id: null };
-            $scope.selectLecturer = function (lecturerId) {
-                $scope.selectedLecturerId = lecturerId;
+            $scope.selectLecturer = function (lecturer) {
+                if (!lecturer) return;
+                $scope.selectedLecturerId = lecturer.Id;
                 $scope.tableParams.reload();
             };
 
