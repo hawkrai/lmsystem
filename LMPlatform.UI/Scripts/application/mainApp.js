@@ -45,6 +45,21 @@ app.run(function (editableOptions, editableThemes) {
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 });
+
+app.directive('showonhoverparent',
+   function () {
+   	return {
+   		link: function (scope, element, attrs) {
+   			element.parent().bind('mouseenter', function () {
+   				element.show();
+   			});
+   			element.parent().bind('mouseleave', function () {
+   				element.hide();
+   			});
+   		}
+   	};
+   });
+
 angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular'])
     .controller('MainCtrl', function ($scope, $sce) {
         $scope.renderHtml = function (htmlCode) {

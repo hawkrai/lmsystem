@@ -6,7 +6,7 @@
         that.initButtonAction();
     },
     initButtonAction: function () {
-        $('.addSubject').handle("click", function () {
+        $(".addSubject").handle("click", function () {
             $.savingDialog("Создание предмета", "/subject/create", null, "primary", function (data) {
                 datatable.fnDraw();
                 alertify.success("Создан новый предмет");
@@ -67,5 +67,54 @@
 };
 
 $(document).ready(function () {
-    subjectManagement.init();
+	if ($.validator && $.validator.unobtrusive) {
+
+		jQuery.validator.unobtrusive.adapters.add("subjectname", {}, function (options) {
+			options.rules["subjectname"] = true;
+			options.messages["subjectname"] = options.message;
+		});
+
+		jQuery.validator.unobtrusive.adapters.add("subjectshortname", {}, function (options) {
+			options.rules["subjectshortname"] = true;
+			options.messages["subjectshortname"] = options.message;
+		});
+
+		$.validator.addMethod("subjectname", function (value, element) {
+			var name = $("#DisplayName").val();
+			var subjectId = $("#SubjectId").val();
+			var result = false;
+			$.ajax({
+				type: 'GET',
+				url: "/Subject/IsAvailableSubjectName?name=" + name + "&id=" + subjectId,
+				dataType: "json",
+				contentType: "application/json",
+				async: false
+
+			}).success(function (data, status) {
+				result =  data;
+			});
+			return result;
+		});
+
+		$.validator.addMethod("subjectshortname", function (value, element) {
+			var name = $("#ShortName").val();
+			var subjectId = $("#SubjectId").val();
+			var result = false;
+			$.ajax({
+				type: 'GET',
+				url: "/Subject/IsAvailableSubjectShortName?name=" + name + "&id=" + subjectId,
+				dataType: "json",
+				contentType: "application/json",
+				async: false
+
+			}).success(function (data, status) {
+				result = data;
+			});
+			return result;
+		});
+	}
+
+	subjectManagement.init();
+
+
 });

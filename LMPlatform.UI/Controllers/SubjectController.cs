@@ -306,5 +306,15 @@ namespace LMPlatform.UI.Controllers
                 Action = PartialViewToString("_SubjectActionList", new SubjectViewModel { SubjectId = subject.Id })
             };
         }
+
+	    public ActionResult IsAvailableSubjectName(string name, string id)
+	    {
+		    return Json(!SubjectManagementService.IsSubjectName(name, id),JsonRequestBehavior.AllowGet);
+	    }
+
+		public ActionResult IsAvailableSubjectShortName(string name, string id)
+		{
+			return Json(!SubjectManagementService.IsSubjectShortName(name, id), JsonRequestBehavior.AllowGet);
+		}
     }
 }

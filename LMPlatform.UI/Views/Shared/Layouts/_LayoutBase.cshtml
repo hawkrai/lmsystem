@@ -82,27 +82,26 @@
 				<ul class="nav navbar-nav">
 					<li class="dropdown messages-menu">
 						<a href="@Url.Action("Index", "Message" )">
-							<i class="fa fa-envelope"></i>
+							<i class="fa fa-envelope fa-1x"></i>
 							<span class="label label-success">@Html.Action("MessagesCount", "Message")</span>
 						</a>
 					</li>
 					<li class="dropdown notifications-menu">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-warning"></i>
-							<span class="label label-warning">10</span>
+							<i class="fa fa-info fa-1x"></i>
 						</a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+							<li class="user-header bg-light-blue">
+								<div style="padding: 20px">
+									<h5>Система управления учебным процессом для средних и высших учебнымх заведений</h5>
+									<h5>Версия: 2.1.0</h5>
+									<hr/>
+									<h5>Разработчики: БНТУ Corporation</h5>
+								</div>
+							</li>
+						</ul>
 					</li>
-					<li class="dropdown tasks-menu">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-tasks"></i>
-							<span class="label label-danger">9</span>
-						</a>
-					</li>
-					<li class="dropdown user user-menu">
-						@*<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="glyphicon glyphicon-user"></i>
-							<span>@User.Identity.Name <i class="caret"></i></span>
-						</a>*@
+					<li class="dropdown user user-menu" style="font-size: 24px">
 						<a class="dropdown-toggle" type="button" id="dropdownMenu1" style="cursor: pointer" data-toggle="dropdown" aria-expanded="true">
 <span>@User.Identity.Name <i class="caret"></i></span>
   </a>
@@ -153,7 +152,7 @@
 					</div>
 					<div class="pull-left info">
 						<p>@User.Identity.Name</p>
-						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+						@*<a href="#"><i class="fa fa-circle text-success"></i> Online</a>*@
 					</div>
 				</div>
 				@*<form action="#" method="get" class="sidebar-form">

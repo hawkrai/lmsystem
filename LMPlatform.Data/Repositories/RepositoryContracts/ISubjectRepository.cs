@@ -13,5 +13,9 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
         void DeleteNews(SubjectNews news);
 
         void DeleteLection(Lectures lectures);
+
+		bool IsSubjectName(string name, string id);
+
+		bool IsSubjectShortName(string name, string id);
     }
 }

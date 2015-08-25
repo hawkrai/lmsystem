@@ -91,5 +91,9 @@ namespace Application.Infrastructure.SubjectManagement
 		UserLabFiles GetUserLabFile(int id);
 
 		void DeleteUserLabFile(int id);
+
+	    bool IsSubjectName(string name, string id);
+
+	    bool IsSubjectShortName(string name, string id);
     }
 }

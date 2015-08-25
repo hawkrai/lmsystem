@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.IO;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.Security;
 using Application.Core.UI.Controllers;
 using Application.Infrastructure.UserManagement;
@@ -154,6 +157,19 @@ namespace LMPlatform.UI.Controllers
 
             return Json(true);
         }
+
+		[HttpPost]
+	    public string GenerateBase64(HttpPostedFileBase file)
+	    {
+			byte[] thePictureAsBytes;
+
+			using (var theReader = new BinaryReader(file.InputStream))
+			{
+				thePictureAsBytes = theReader.ReadBytes(file.ContentLength);
+			}
+
+			return "data:image/png;base64," + Convert.ToBase64String(thePictureAsBytes);
+	    }
 
 		public string GetAvatar()
 		{

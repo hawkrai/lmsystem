@@ -19,8 +19,20 @@
     </div>
     <div style="margin-top: 21px"></div>
 
-    <div>
-        <div class="panel-group">
+	<div>
+		<div class="bs-callout bs-callout-info bs-callout-fill" ng-repeat="data in news">
+			<h4 style="max-width: 500px; float: left; word-wrap: break-word; margin-right: 10px;">{{data.Title}}</h4>
+
+			<div style="display: none;" showonhoverparent>
+				<a class="editNewsButton" style="margin-right: 10px;cursor: pointer" ng-click="editNews(data)" tooltip="Редактировать новость" tooltip-trigger="mouseenter" tooltip-placement="top"><i class="editNewsButton fa fa-pencil fa-1x"></i></a>
+				<a class="deleteNewsButton" ng-click="deleteNews(data)" style="cursor: pointer" tooltip="Удалить новость" tooltip-trigger="mouseenter" tooltip-placement="top"><i class="deleteNewsButton fa fa-times-circle-o fa-1x"></i></a>
+			</div>
+			<div class="clear-fix"></div>
+			<div ng-bind-html="renderHtml(data.Body)">
+			</div>
+			<p class="text-muted" style="font-size: 11px; margin-top: 10px">{{data.DateCreate}}</p>
+		</div>
+		@*<div class="panel-group">
             <accordion>
                 <accordion-group ng-repeat="data in news">
                     <accordion-heading>
@@ -39,8 +51,8 @@
                     </div>
                 </accordion-group>
             </accordion>
-        </div>
-    </div>
+        </div>*@
+	</div>
 	<div id="dialogAddNews" class="modal">
 		<div class="modal-dialog panel panel-primary" style="padding: 0px">
 			<div class="panel-heading">

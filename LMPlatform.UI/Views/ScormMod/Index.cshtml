@@ -4,7 +4,8 @@
 @model LMPlatform.UI.ViewModels.LmsViewModels.LmsViewModel
 
 @{
-    ViewBag.Title = "SCORM";
+	ViewBag.Title = "SCORM";
+	Layout = "~/Views/Shared/Layouts/_MainUsingNavLayout.cshtml";
 }
 
 @section css
@@ -14,7 +15,8 @@
 @section scripts
 {
     <script src="~/Scripts/application/scorm/app-scorm.js"></script>
-    <script src="~/Scripts/application/scorm/scorm-controller.js"></script>
+	<script src="~/Scripts/application/scorm/scorm-controller.js"></script>
+
 }
 
 @section headerTitle{
@@ -26,30 +28,32 @@
     <div ng-cloak ng-controller="ScormController" ng-init="init()">
 @section navleft
 {
-    <li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
+    <li><a  href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
 }
-
 		@if (User.IsInRole("lector"))
 		{
+	  
 			<div ng-if="!viewScoClient" style="margin-bottom: 20px">
 				<div style="margin-bottom: 15px">
-					<input type="button" ng-click="openSco()" style="width: 150px" class="btn btn-sm btn-primary" value="Загрузить SCO объект" />
+					<input type="button" tooltip="Открыть курс" tooltip-trigger="mouseenter" tooltip-placement="left" ng-click="openSco()" style="width: 150px" class="btn btn-sm btn-primary" value="Загрузить SCO объект" />
 					<input type="file" name="openSco" accept=".zip,application/zip,application/x-zip,application/x-zip-compressed" style="display: none;" onchange=" angular.element(this).scope().loadSco() " />    
 				</div>
 		   
-				<table class="table table-bordered">
+				<table class="table table-bordered table-striped">
 					<tr>
+						<th>№</th>
 						<th>Название курса</th>
 						<th>Действие</th>
 					</tr>
 					<tr ng-repeat="object in scoObjects">
+						<td style="width: 40px">{{$index + 1}}</td>
 						<td>{{object.Name}}</td>
 						<td style="width: 135px">
-							<a style="margin-right: 5px" ng-click="viewSco(object)"><i tooltip="Открыть курс" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-eye"></i></a>
-							<a style="margin-right: 5px" ng-if="!object.Enabled" ng-click="lock(object)"><i tooltip="Открыть доступ" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-lock"></i></a>
-							<a style="margin-right: 5px" ng-if="object.Enabled" ng-click="unlock(object)"><i tooltip="Закрыть доступ" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-unlock"></i></a>
-							<a style="margin-right: 5px" ng-click="editSco(object)"><i tooltip="Редактрировать" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-edit fa-1x"></i></a>
-							<a ng-click="deleteSco(object)"><i tooltip="Удалить" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-trash-o fa-1x"></i></a>
+							<a tooltip="Открыть курс" tooltip-placement="left" style="margin-right: 5px; cursor: pointer" ng-click="viewSco(object)"><i class="fa fa-1x fa-eye"></i></a>
+							<a style="margin-right: 5px; cursor: pointer" ng-if="!object.Enabled" ng-click="lock(object)"><i tooltip="Открыть доступ" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-lock"></i></a>
+							<a style="margin-right: 5px; cursor: pointer" ng-if="object.Enabled" ng-click="unlock(object)"><i tooltip="Закрыть доступ" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-unlock"></i></a>
+							<a style="margin-right: 5px; cursor: pointer" ng-click="editSco(object)"><i tooltip="Редактрировать" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-edit fa-1x"></i></a>
+							<a ng-click="deleteSco(object)" style="cursor: pointer"><i tooltip="Удалить" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-trash-o fa-1x"></i></a>
 						</td>
 					</tr>
 				</table>

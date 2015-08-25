@@ -12,6 +12,8 @@ using Application.Infrastructure.MaterialsManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
+using LMPlatform.UI.Attributes;
+using Microsoft.Ajax.Utilities;
 
 namespace LMPlatform.UI.ViewModels.SubjectViewModels
 {
@@ -69,14 +71,16 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             set;
         }
 
+		[SubjectName]
         [Required(ErrorMessage = "Название предмета не может быть пустым")]
         [Display(Name = "Название предмета", Description = "Введите название предмета. Название будет использоваться при отображени предмета.")]
-        public string DisplayName
+		public string DisplayName
         {
             get;
             set;
         }
 
+		[SubjectShortName]
         [Required(ErrorMessage = "Аббревиатура не может быть пустой")]
         [Display(Name = "Аббревиатура", Description = "Аббревиатура представляет собой сокрощенное название предмета. Например: Базы данных - БД")]
         public string ShortName

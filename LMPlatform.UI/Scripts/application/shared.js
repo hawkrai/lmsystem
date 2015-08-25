@@ -31,6 +31,8 @@
 		this.bodyHeight = $("body").height();
 
 		this.initEventHandlers();
+
+
 	},
 
 	initEventHandlers: function () {

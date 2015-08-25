@@ -42,6 +42,30 @@
 		    $("#avatar").val($("#avatarContainer").attr("src"));
 	    });
 
+	    $("#avatar-load").off("click").on("click", function () {
+	    	//$("input[type=file][name=avatar-file-container]").val("");
+	    	$("input[type=file][name=avatar-file-container]").click();
+	    });
+
+	    $("input[type=file][name=avatar-file-container]").off("change").on("change", function () {
+
+	    	var formData = new FormData();
+
+	    	formData.append("file", $("input[type=file][name=avatar-file-container]")[0].files[0]);
+
+	    	$.ajax({
+	    		url: "/Account/GenerateBase64",
+	    		type: "POST",
+	    		data: formData,
+	    		processData: false,
+	    		contentType: false,
+	    		success: function (data) {
+	    			$("#avatarContainer").attr("src", data);
+	    			$("#avatar").val($("#avatarContainer").attr("src"));
+	    		},
+	    	});
+	    });
+
     },
 };
 

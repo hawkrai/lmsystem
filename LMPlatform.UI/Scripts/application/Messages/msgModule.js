@@ -88,7 +88,7 @@ msgApp
     	};
 
     	var saveMessage = function (formMsg) {
-    		if (formMsg.body.length == 0) {
+    		if (formMsg.body == undefined || formMsg.body.length == 0) {
 
 
 			    bootbox.dialog({

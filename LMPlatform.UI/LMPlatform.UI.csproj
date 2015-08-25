@@ -263,6 +263,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\GreaterThanAttribute.cs" />
     <Compile Include="Attributes\RequiredIfResetAttribute.cs" />
+    <Compile Include="Attributes\SubjectNameAttribute.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />

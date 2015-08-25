@@ -9,11 +9,7 @@ using LMPlatform.Models;
 
 namespace LMPlatform.Data.Repositories
 {
-    using System.IO;
-
-    using Newtonsoft.Json;
-
-    public class SubjectRepository : RepositoryBase<LmPlatformModelsContext, Subject>, ISubjectRepository
+	public class SubjectRepository : RepositoryBase<LmPlatformModelsContext, Subject>, ISubjectRepository
 	{
 		public SubjectRepository(LmPlatformModelsContext dataContext)
 			: base(dataContext)
@@ -27,17 +23,15 @@ namespace LMPlatform.Data.Repositories
 				if (groupId != 0)
 				{
 					var subjectGroup = context.Set<SubjectGroup>().Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
-                            .Where(e => e.GroupId == groupId).ToList();
+							.Where(e => e.GroupId == groupId).ToList();
 					return subjectGroup.Select(e => e.Subject).ToList();
 				}
-				else
-				{
-					var subjectLecturer =
-                        context.Set<SubjectLecturer>()
-                        .Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
-                        .Where(e => e.LecturerId == lecturerId).ToList();
-					return subjectLecturer.Select(e => e.Subject).ToList();
-				}
+
+				var subjectLecturer =
+					context.Set<SubjectLecturer>()
+					.Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
+					.Where(e => e.LecturerId == lecturerId).ToList();
+				return subjectLecturer.Select(e => e.Subject).ToList();
 			}
 		}
 
@@ -60,6 +54,34 @@ namespace LMPlatform.Data.Repositories
 			return news;
 		}
 
+		public bool IsSubjectName(string name, string id)
+		{
+			using (var context = new LmPlatformModelsContext())
+			{
+				var idN = int.Parse(id);
+				if (context.Set<Subject>().Any(e => e.Name == name && !e.IsArchive && e.Id != idN))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public bool IsSubjectShortName(string name, string id)
+		{
+			using (var context = new LmPlatformModelsContext())
+			{
+				var idN = int.Parse(id);
+				if (context.Set<Subject>().Any(e => e.ShortName == name && !e.IsArchive && e.Id != idN))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		public void DeleteNews(SubjectNews news)
 		{
 			using (var context = new LmPlatformModelsContext())
@@ -71,19 +93,19 @@ namespace LMPlatform.Data.Repositories
 			}
 		}
 
-	    public void DeleteLection(Lectures lectures)
-	    {
-            using (var context = new LmPlatformModelsContext())
-            {
-                var model = context.Set<Lectures>().FirstOrDefault(e => e.Id == lectures.Id);
-                
-                context.Delete(model);
+		public void DeleteLection(Lectures lectures)
+		{
+			using (var context = new LmPlatformModelsContext())
+			{
+				var model = context.Set<Lectures>().FirstOrDefault(e => e.Id == lectures.Id);
 
-                context.SaveChanges();
-            }
-	    }
+				context.Delete(model);
 
-	    protected override void PerformAdd(Subject model, LmPlatformModelsContext dataContext)
+				context.SaveChanges();
+			}
+		}
+
+		protected override void PerformAdd(Subject model, LmPlatformModelsContext dataContext)
 		{
 			base.PerformAdd(model, dataContext);
 
@@ -111,17 +133,20 @@ namespace LMPlatform.Data.Repositories
 
 			foreach (var subjectModule in subjectModules)
 			{
-				if (!newValue.SubjectModules.Any(e => e.ModuleId == subjectModule.ModuleId))
+				if (newValue.SubjectModules.All(e => e.ModuleId != subjectModule.ModuleId))
 				{
 					dataContext.Set<SubjectModule>().Remove(subjectModule);
 				}
 			}
 
-			foreach (var subjectModule in newValue.SubjectModules)
+			if (newValue.SubjectModules != null)
 			{
-				if (!subjectModules.Any(e => e.ModuleId == subjectModule.ModuleId))
+				foreach (var subjectModule in newValue.SubjectModules)
 				{
-					dataContext.Set<SubjectModule>().Add(subjectModule);
+					if (subjectModules.All(e => e.ModuleId != subjectModule.ModuleId))
+					{
+						dataContext.Set<SubjectModule>().Add(subjectModule);
+					}
 				}
 			}
 
@@ -129,17 +154,20 @@ namespace LMPlatform.Data.Repositories
 
 			foreach (var subjectGroup in subjectGroups)
 			{
-				if (!newValue.SubjectGroups.Any(e => e.GroupId == subjectGroup.GroupId))
+				if (newValue.SubjectGroups.All(e => e.GroupId != subjectGroup.GroupId))
 				{
 					dataContext.Set<SubjectGroup>().Remove(subjectGroup);
 				}
 			}
 
-			foreach (var subjectGroup in newValue.SubjectGroups)
+			if (newValue.SubjectGroups != null)
 			{
-				if (!subjectGroups.Any(e => e.GroupId == subjectGroup.GroupId))
+				foreach (var subjectGroup in newValue.SubjectGroups)
 				{
-					dataContext.Set<SubjectGroup>().Add(subjectGroup);
+					if (subjectGroups.All(e => e.GroupId != subjectGroup.GroupId))
+					{
+						dataContext.Set<SubjectGroup>().Add(subjectGroup);
+					}
 				}
 			}
 

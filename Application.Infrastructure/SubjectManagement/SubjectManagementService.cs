@@ -712,5 +712,21 @@ namespace Application.Infrastructure.SubjectManagement
         {
             return string.Format("P{0}", Guid.NewGuid().ToString("N").ToUpper());
         }
+
+		public bool IsSubjectName(string name, string id)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.SubjectRepository.IsSubjectName(name, id);
+			}
+		}
+
+		public bool IsSubjectShortName(string name, string id)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.SubjectRepository.IsSubjectShortName(name, id);
+			}
+		}
     }
 }
