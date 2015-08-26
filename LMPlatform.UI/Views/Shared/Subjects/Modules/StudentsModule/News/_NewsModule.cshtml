@@ -5,24 +5,13 @@
         }
     </style>
 
-    <div>
-        <div class="panel-group">
-            <accordion>
-                <accordion-group ng-repeat="data in news">
-                    <accordion-heading>
-                        <h4 style="max-width: 400px;word-wrap: break-word;" class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.Title}}</a>
-                        </h4>
-                        <div style="text-align: right">
-                            <p class="text-muted" style="float: right; margin-left: 20px">{{data.DateCreate}}</p>
-                        </div>
-                        <div class="clear-fix"></div>
-                    </accordion-heading>
-					<div ng-bind-html="renderHtml(data.Body)">
-
-					</div>
-                </accordion-group>
-            </accordion>
-        </div>
-    </div>
+	<div>
+		<div class="bs-callout bs-callout-info bs-callout-fill" ng-repeat="data in news">
+			<h4 style="max-width: 500px; word-wrap: break-word; margin-right: 10px;">{{data.Title}}</h4>
+			
+			<div ng-bind-html="renderHtml(data.Body)">
+			</div>
+			<p class="text-muted" style="font-size: 11px; margin-top: 10px">{{data.DateCreate}}</p>
+		</div>
+	</div>
 </div>

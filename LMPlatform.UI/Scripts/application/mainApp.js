@@ -287,20 +287,42 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.saveNews = function () {
-            $http({
-                method: 'POST',
-                url: $scope.UrlServiceNews + "Save",
-                data: { subjectId: $scope.subjectId, id: $scope.editNewsData.Id, title: $scope.editNewsData.Title, body: $scope.editNewsData.Body, isOldDate: $scope.editNewsData.IsOldDate },
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    $scope.loadNews();
-                    alertify.success(data.Message);
-                }
-                $("#dialogAddNews").modal('hide');
-            });
+        	if ($scope.editNewsData.Title == undefined || $scope.editNewsData.Title.length === 0) {
+        		bootbox.dialog({
+        			message: "Новость имеет пустой заголовок, сохранить?",
+        			title: "Сохранение новости",
+        			buttons: {
+        				danger: {
+        					label: "Отмена",
+        					className: "btn-default btn-sm",
+        					callback: function () {
+
+        					}
+        				},
+        				success: {
+        					label: "Сохранить",
+        					className: "btn-primary btn-sm",
+        					callback: function () {
+        						$http({
+        							method: 'POST',
+        							url: $scope.UrlServiceNews + "Save",
+        							data: { subjectId: $scope.subjectId, id: $scope.editNewsData.Id, title: $scope.editNewsData.Title, body: $scope.editNewsData.Body, isOldDate: $scope.editNewsData.IsOldDate },
+        							headers: { 'Content-Type': 'application/json' }
+        						}).success(function (data, status) {
+        							if (data.Code != '200') {
+        								alertify.error(data.Message);
+        							} else {
+        								$scope.loadNews();
+        								alertify.success(data.Message);
+        							}
+        							$("#dialogAddNews").modal('hide');
+        						});
+        					}
+        				}
+        			}
+        		});
+	        }
+            
         };
 
         $scope.deleteNews = function (news) {
