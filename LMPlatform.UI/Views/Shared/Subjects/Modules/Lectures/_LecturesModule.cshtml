@@ -1,256 +1,250 @@
 ﻿<div ng-controller="LecturesController" ng-init="init()">
 
-    <style type="text/css">
-        .nav, .pagination, .carousel, .panel-title a {
-            cursor: pointer;
-        }
+	<style type="text/css">
+		.nav, .pagination, .carousel, .panel-title a {
+			cursor: pointer;
+		}
 
-        chart {
-            display: block;
-            width: 400px;
-            height: 200px;
-        }
-        .box_rotate {
-            
-     -moz-transform: rotate(270deg);  /* FF3.5+ */
-       -o-transform: rotate(270deg);  /* Opera 10.5 */
-  -webkit-transform: rotate(270deg);  /* Saf3.1+, Chrome */
-             filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
-         -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
-}
-        /*div.vertical {
-            text-align: center;
-            vertical-align: middle;
-            width: 20px;
-            margin: 0px;
-            padding: 0px;
-            padding-left: 3px;
-            padding-right: 3px;
-            padding-top: 10px;
-            white-space: nowrap;
-            -webkit-transform: rotate(-90deg);
-            -moz-transform: rotate(-90deg);
-        }*/
-    </style>
+		chart {
+			display: block;
+			width: 400px;
+			height: 200px;
+		}
 
-    <tabset>
-        <tab heading="Лекции">
-            <div id="navPanel" style="margin-top: 15px; margin-bottom: 15px">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div id="buttonActionSection">
-                                    <a ng-click="addLectures()" style="margin-right: 10px" class="btn btn-primary btn-sm">Добавить лекцию</a>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+		.box_rotate {
+			-moz-transform: rotate(270deg); /* FF3.5+ */
+			-o-transform: rotate(270deg); /* Opera 10.5 */
+			-webkit-transform: rotate(270deg); /* Saf3.1+, Chrome */
+			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083); /* IE6,IE7 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
+		}
+	</style>
 
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped" style="width: 100%">
-                    <thead>
-                        <tr>
-                            <th>№</th>
-                            <th>Тема лекции</th>
-                            <th>Количество часов</th>
-                            <th>Действие</th>
-                        </tr>
-                    </thead>
-                    <tr ng-repeat="data in lectures">
-                        <td style="width: 20px">{{data.Order}}</td>
-                        <td style="max-width: 400px;word-wrap: break-word;">{{data.Theme}}</td>
-                        <td>{{data.Duration}}</td>
-                        <td style="width: 90px;">
-                            <div>
-								<a ng-click="editLectures(data)" href="" style="margin-right: 10px" ><i class="editLecturesButton fa fa-edit fa-1x" tooltip="Редактировать лекцию" tooltip-trigger="mouseenter" tooltip-placement="left"></i></a>
+	<tabset>
+		<tab heading="Лекции">
+			<div id="navPanel" style="margin-top: 15px; margin-bottom: 15px">
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<div id="buttonActionSection">
+									<a ng-click="addLectures()" style="margin-right: 10px" class="btn btn-primary btn-sm">Добавить лекцию</a>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped" style="width: 100%">
+					<thead>
+						<tr>
+							<th>№</th>
+							<th>Тема лекции</th>
+							<th>Количество часов</th>
+							<th>Действие</th>
+						</tr>
+					</thead>
+					<tr ng-repeat="data in lectures">
+						<td style="width: 20px">{{data.Order}}</td>
+						<td style="max-width: 400px;word-wrap: break-word;">{{data.Theme}}</td>
+						<td>{{data.Duration}}</td>
+						<td style="width: 90px;">
+							<div>
+								<a ng-click="editLectures(data)" href="" style="margin-right: 10px"><i class="editLecturesButton fa fa-edit fa-1x" tooltip="Редактировать лекцию" tooltip-trigger="mouseenter" tooltip-placement="left"></i></a>
 								<a ng-click="deleteLectures(data)" href=""><i class="deleteLecturesButton fa fa-trash-o fa-1x" tooltip="Удалить лекцию" tooltip-trigger="mouseenter" tooltip-placement="left"></i></a>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </tab>
-        <tab heading="Посещение лекций">
-            <div id="navPanel" style="margin-top: 15px; margin-bottom: 15px;">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div id="buttonActionSection">
-                                    <a ng-click="addSheduleVisitingGraph()" style="margin-right: 10px" class="btn btn-primary btn-sm">Управление расписанием</a>
-                                </div>
-                            </td>
-                            <td>
-                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <div style="overflow-x: auto;">
-                     <form editable-form name="tableformVisiting" onaftersave="saveVisitingMark()" oncancel="cancel()">
-                         <table class="table table-bordered table-striped">
-                             <thead>
-                                 <tr>
-                                     <th style="text-align: center;vertical-align: middle">№</th>
-                                     <th style="text-align: center;vertical-align: middle">Студент</th>
-                                     <th ng-repeat="data in lecturesCalendar" style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;">
-                                         <div class="box_rotate">{{data.Date}}</div>
-                                     </th>
-                                 </tr>
-                             </thead>
-                             <tr ng-repeat="student in groupWorkingData.selectedGroup.LecturesMarkVisiting">
-                                 <td style="width: 20px">{{$index + 1}}</td>
-                                 <td style="max-width: 200px">{{student.StudentName}}</td>
-                                 <td ng-repeat="data in student.Marks" style="text-align: center">
-                                      <span editable-text="data.Mark" e-name="Mark" e-form="tableformVisiting">
-                                        {{ data.Mark || '' }}
-                                     </span>
-                                 </td>
-                             </tr>
-                         </table>
-                         <div>
-                        <button type="button" class="btn btn-default btn-sm" ng-show="!tableformVisiting.$visible" ng-click="tableformVisiting.$show()">
-                            Изменить
-                        </button>
-                    </div>
-                    <div ng-show="tableformVisiting.$visible">
-                        <button type="submit" ng-disabled="tableformVisiting.$waiting" class="btn btn-primary btn-sm">Сохранить</button>
-                        <button type="button" ng-disabled="tableformVisiting.$waiting" ng-click="tableformVisiting.$cancel()" class="btn btn-default btn-sm">Отмена</button>
-                    </div>
-                         </form>
-                </div>
-</div>
-</tab>
-@*        <tab heading="График посещаемости">
-            <div id="navPanel" style="margin-top: 10px; margin-bottom: 10px">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <div id="barchart" style="width:600px; height:300px;"></div>
-            </div>
-        </tab>*@
-</tabset>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</tab>
+		<tab heading="Посещение лекций">
+			<div>
+				<div>
+					<form editable-form name="tableformVisiting" onaftersave="saveVisitingMark()" oncancel="cancel()">
+						<div id="navPanel" style="margin-top: 15px; margin-bottom: 15px;">
+							<table>
+								<tbody>
+									<tr>
+										<td>
+											<div id="buttonActionSection">
+												<a ng-click="addSheduleVisitingGraph()" style="margin-right: 10px" class="btn btn-primary btn-sm">Управление расписанием</a>
+											</div>
+										</td>
+										<td>
+											<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+										</td>
+										<td>
+											<button style="margin-left: 10px" type="button" class="btn btn-primary btn-sm" ng-show="!tableformVisiting.$visible" ng-click="tableformVisiting.$show()">
+												Отметить посещаемость
+											</button>
+											<div style="margin-left: 10px" ng-show="tableformVisiting.$visible">
+												<button type="submit" ng-disabled="tableformVisiting.$waiting" class="btn btn-primary btn-sm">Сохранить</button>
+												<button type="button" ng-disabled="tableformVisiting.$waiting" ng-click="tableformVisiting.$cancel()" class="btn btn-default btn-sm">Отмена</button>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<div style="overflow-x: auto;">
+							<table id="tableformVisiting" class="table table-bordered table-striped">
+								<thead>
+								<tr>
+									<th style="text-align: center; vertical-align: middle">№</th>
+									<th style="text-align: center; vertical-align: middle">Студент</th>
+									<th ng-repeat="data in lecturesCalendar" style="height: 80px; width: 20px; padding: 0px; margin: 0px; padding-bottom: 30px;">
+										<div class="box_rotate">{{data.Date}}</div>
+									</th>
+								</tr>
+								</thead>
+								<tr ng-repeat="student in groupWorkingData.selectedGroup.LecturesMarkVisiting">
+									<td style="width: 20px">{{$index + 1}}</td>
+									<td style="max-width: 300px; min-width: 300px">{{student.StudentName}}</td>
 
+									<td ng-repeat="data in student.Marks" style="text-align: center;">
+										<span editable-text="data.Mark" e-name="Mark" e-form="tableformVisiting">
+											{{ data.Mark || '' }}
+										</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div>
 
-    <div id="dialogAddLectures" class="modal">
-        <div class="modal-dialog panel panel-primary" style="padding: 0px">
-            <div class="panel-heading">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">{{editLecturesData.TitleForm}}</h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-error" style="display: none">
-                </div>
-                <div>
-                    <div>
-                        <label class="control-label">Тема лекции</label>
-                        <textarea class="form-control" style="width: 545px" ng-model="editLecturesData.Theme"></textarea>
-                    </div>
-                    <div>
-                        <label class="control-label">Количество часов (1-99)</label>
-                        <input type="text" style="width: 545px" class="form-control" ng-model="editLecturesData.Duration" />
-                    </div>
-                    <div>
-                        <label class="control-label">Порядок (без валидации)</label>
-                        <input type="text" class="form-control" style="width: 545px" ng-model="editLecturesData.Order" />
-                    </div>
-                </div>
-                <div>
-                    <h4 class="page-header">Прикрепленный материал</h4>
-                    <div id="lecturesFile">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                <a class="btn btn-primary btn-sm" ng-click="saveLectures()">Сохранить</a>
-            </div>
-        </div>
-    </div>
+						</div>
 
-    <div id="dialogAddVisitData" class="modal">
-        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
-            <div class="panel-heading">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">График посещения</h4>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <div>
-	                    <label class="control-label">Дата</label>
-						<p class="input-group" style="width: 100%;" >
+					</form>
+				</div>
+			</div>
+		</tab>
+		@*        <tab heading="График посещаемости">
+				<div id="navPanel" style="margin-top: 10px; margin-bottom: 10px">
+					<table>
+						<tbody>
+							<tr>
+								<td>
+									<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div>
+					<div id="barchart" style="width:600px; height:300px;"></div>
+				</div>
+			</tab>*@
+	</tabset>
+
+	<div id="dialogAddLectures" class="modal">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">{{editLecturesData.TitleForm}}</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-error" style="display: none">
+				</div>
+				<div>
+					<div>
+						<label class="control-label">Тема лекции</label>
+						<textarea class="form-control" style="width: 545px" ng-model="editLecturesData.Theme"></textarea>
+					</div>
+					<div>
+						<label class="control-label">Количество часов (1-99)</label>
+						<input type="text" style="width: 545px" class="form-control" ng-model="editLecturesData.Duration" />
+					</div>
+					<div>
+						<label class="control-label">Порядок (без валидации)</label>
+						<input type="text" class="form-control" style="width: 545px" ng-model="editLecturesData.Order" />
+					</div>
+				</div>
+				<div>
+					<h4 class="page-header">Прикрепленный материал</h4>
+					<div id="lecturesFile">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+				<a class="btn btn-primary btn-sm" ng-click="saveLectures()">Сохранить</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="dialogAddVisitData" class="modal">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">График посещения</h4>
+			</div>
+			<div class="modal-body">
+				<div>
+					<div>
+						<label class="control-label">Дата</label>
+						<p class="input-group" style="width: 100%;">
 							<input style="margin: 0" type="text" class="form-control"
-							       datepicker-popup="{{format}}" 
-							       ng-model="dt" 
-							       is-open="opened" 
-									ng-click = "opened = true"
-							       show-button-bar="false"
-								 close-text="Закрыть"
-								datepicker-options="dateOptions" close-text="Close" />
-						 </p>
-                    </div>
-                    <div>
-                        <input ng-click="addDate()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width: 100%" />
-                    </div>
-                    <div>
-                        <label class="control-label">График</label>
-                        <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
-                            <table class="table table-bordered table-striped">
-                                <tr ng-repeat="data in lecturesCalendar">
-                                    <td>
-                                        <p>{{data.Date | date:'dd/MM/yyyy'}}</p>
-                                    </td>
-                                    <td style="width: 20px"><a ng-click="deleteVisitData(data.Id)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
-            </div>
-        </div>
-    </div>
+								   datepicker-popup="{{format}}"
+								   ng-model="dt"
+								   is-open="opened"
+								   ng-click="opened = true"
+								   show-button-bar="false"
+								   close-text="Закрыть"
+								   datepicker-options="dateOptions" close-text="Close" />
+						</p>
+					</div>
+					<div>
+						<input ng-click="addDate()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width: 100%" />
+					</div>
+					<div>
+						<label class="control-label">График</label>
+						<div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
+							<table class="table table-bordered table-striped">
+								<tr ng-repeat="data in lecturesCalendar">
+									<td>
+										<p>{{data.Date | date:'dd/MM/yyyy'}}</p>
+									</td>
+									<td style="width: 20px"><a ng-click="deleteVisitData(data.Id)" style="margin-right: 10px; cursor: pointer"><i class="fa fa-trash-o fa-1x"></i></a></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
+			</div>
+		</div>
+	</div>
 
-    <div id="dialogEditMarks" class="modal">
-        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
-            <div class="panel-heading">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">{{editMarks.Date}}</h4>
-            </div>
-            <div class="modal-body">
-                <div style="max-height: 600px; overflow-y: auto">
-                    <table class="table table-bordered table-striped">
-                        <tr ng-repeat="data in editMarks.StudentMarkForDate">
-                            <td>
-                                <p>{{data.StudentName}}</p>
-                            </td>
-                            <td>
-                                <input ng-model="data.Mark" class="form-control" style="width: 50px; text-align: center" maxlength="1" />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
-                <a href="#" class="btn btn-primary btn-sm" id="saveButton" ng-click="saveMarks()" data-dismiss="modal">Сохранить</a>
-            </div>
-        </div>
-    </div>
+	<div id="dialogEditMarks" class="modal">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">{{editMarks.Date}}</h4>
+			</div>
+			<div class="modal-body">
+				<div style="max-height: 600px; overflow-y: auto">
+					<table class="table table-bordered table-striped">
+						<tr ng-repeat="data in editMarks.StudentMarkForDate">
+							<td>
+								<p>{{data.StudentName}}</p>
+							</td>
+							<td>
+								<input ng-model="data.Mark" class="form-control" style="width: 50px; text-align: center" maxlength="1" />
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
+				<a href="#" class="btn btn-primary btn-sm" id="saveButton" ng-click="saveMarks()" data-dismiss="modal">Сохранить</a>
+			</div>
+		</div>
+	</div>
 
 </div>

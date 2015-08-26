@@ -969,3 +969,9 @@ legend.scheduler-border {
 }
 
 /**----------------------------------------*/
+
+.fixed-column {
+    width: auto;
+    /*border-right: 1px solid #ddd;*/
+}
+

@@ -398,6 +398,15 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $scope.ticks = ['1', '2', '3'];
             $scope.barvalues = [2, 4, 6];
 
+            var $table = $("#tableformVisiting");
+            var $fixedColumn = $table.clone().insertBefore($table).addClass("fixed-column");
+
+            $fixedColumn.find("th:not(:first-child),td:not(:first-child)").remove();
+
+            $fixedColumn.find("tr").each(function (i, elem) {
+            	$(this).height($table.find("tr:eq(" + i + ")").height());
+            });
+
             //$scope.setBarChart();
         };
 
