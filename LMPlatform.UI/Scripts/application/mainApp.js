@@ -1089,10 +1089,11 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             } else {
                 $scope.selectedGroupChange(selectedGroup.GroupId, null);
             }
-
+			
         };
 
         $scope.changeSubGroup = function (selectedSubGroup) {
+        	$scope.groupWorkingData.selectedSubGroup = selectedSubGroup;
             $scope.selectedGroupChange(null, selectedSubGroup.SubGroupId);
         };
 

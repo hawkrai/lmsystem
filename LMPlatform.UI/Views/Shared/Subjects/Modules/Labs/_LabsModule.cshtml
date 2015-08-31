@@ -74,7 +74,11 @@
 								<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
 							</td>
 							<td>
-								<select ng-model="groupWorkingData.selectedSubGroup" ng-change="changeSubGroup(groupWorkingData.selectedSubGroup)" ng-options="subGroup.Name for subGroup in subGroups" class="form-control"></select>
+								<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
+									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
+										{{subGroup.Name}}
+									</button>
+								</div>
 							</td>
 						</tr>
 					</tbody>
@@ -110,7 +114,11 @@
 								<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
 							</td>
 							<td>
-								<select ng-model="groupWorkingData.selectedSubGroup" ng-change="changeSubGroup(groupWorkingData.selectedSubGroup)" ng-options="subGroup.Name for subGroup in subGroups" class="form-control"></select>
+								<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
+									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
+										{{subGroup.Name}}
+									</button>
+								</div>
 							</td>
 						</tr>
 					</tbody>
@@ -159,7 +167,11 @@
 								<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
 							</td>
 							<td>
-								<select ng-model="groupWorkingData.selectedSubGroup" ng-change="changeSubGroup(groupWorkingData.selectedSubGroup)" ng-options="subGroup.Name for subGroup in subGroups" class="form-control"></select>
+								<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
+									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
+										{{subGroup.Name}}
+									</button>
+								</div>
 							</td>
 						</tr>
 					</tbody>
@@ -215,7 +227,11 @@
 								<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
 							</td>
 							<td>
-								<select ng-model="groupWorkingData.selectedSubGroup" ng-change="changeSubGroup(groupWorkingData.selectedSubGroup)" ng-options="subGroup.Name for subGroup in subGroups" class="form-control"></select>
+								<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
+									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
+										{{subGroup.Name}}
+									</button>
+								</div>
 							</td>
 						</tr>
 					</tbody>
