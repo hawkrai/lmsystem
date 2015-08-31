@@ -120,7 +120,7 @@ namespace LMPlatform.UI.Services.Labs
         {
             try
             {
-				SubjectManagementService.SaveScheduleProtectionLabsDate(int.Parse(subGroupId), DateTime.ParseExact(date, "d/M/yyyy", CultureInfo.InvariantCulture));
+				SubjectManagementService.SaveScheduleProtectionLabsDate(int.Parse(subGroupId), DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture));
                 return new ResultViewData()
                 {
                     Message = "Дата успешно добавлена",
