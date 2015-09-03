@@ -227,7 +227,7 @@ namespace LMPlatform.Data.Infrastructure
             modelBuilder.Entity<UserMessages>()
                 .HasRequired(u => u.Author)
                 .WithMany()
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Membership>()
               .HasMany<Role>(r => r.Roles)
@@ -304,13 +304,13 @@ namespace LMPlatform.Data.Infrastructure
                .HasMany<SubjectStudent>(e => e.SubjectStudents)
                .WithRequired(e => e.SubGroup)
                .HasForeignKey(e => e.SubGroupId)
-               .WillCascadeOnDelete(false);
+               .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<SubjectGroup>()
                .HasMany<SubGroup>(e => e.SubGroups)
                .WithRequired(e => e.SubjectGroup)
                .HasForeignKey(e => e.SubjectGroupId)
-               .WillCascadeOnDelete(false);
+			   .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Student>()
                .HasMany<SubjectStudent>(e => e.SubjectStudents)
@@ -322,7 +322,7 @@ namespace LMPlatform.Data.Infrastructure
                .HasMany<SubjectStudent>(e => e.SubjectStudents)
                .WithRequired(e => e.SubjectGroup)
                .HasForeignKey(e => e.SubjectGroupId)
-               .WillCascadeOnDelete(false);
+			   .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Subject>()
                 .HasMany<Lectures>(e => e.Lectures)
@@ -346,7 +346,7 @@ namespace LMPlatform.Data.Infrastructure
                .HasMany<ScheduleProtectionLabs>(e => e.ScheduleProtectionLabs)
                .WithRequired(e => e.SubGroup)
                .HasForeignKey(e => e.SuGroupId)
-               .WillCascadeOnDelete(false);
+			   .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Subject>()
                 .HasMany<LecturesScheduleVisiting>(e => e.LecturesScheduleVisitings)
@@ -376,7 +376,7 @@ namespace LMPlatform.Data.Infrastructure
                 .HasMany<ScheduleProtectionLabMark>(e => e.ScheduleProtectionLabMarks)
                 .WithRequired(e => e.ScheduleProtectionLab)
                 .HasForeignKey(e => e.ScheduleProtectionLabId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Student>()
                 .HasMany<StudentLabMark>(e => e.StudentLabMarks)
