@@ -62,7 +62,8 @@
             $('.multiselect-container', this.$container).css({
                 'max-height' : this.options.maxHeight + 'px',
                 'overflow-y' : 'auto',
-                'overflow-x' : 'hidden'
+                'overflow-x': 'hidden',
+				'width' : "100%"
             });
         }
 

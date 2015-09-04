@@ -1,0 +1,23 @@
+﻿namespace LMPlatform.UI.ViewModels.LmsViewModels
+{
+	public class ProfileVewModel
+	{
+		public string Name { get; set; }
+
+		public string UserType { get; set; }
+
+		public string Skill { get; set; }
+
+		public string SkypeContact { get; set; }
+
+		public string Email { get; set; }
+
+		public string Phone { get; set; }
+
+		public string About { get; set; }
+
+		public string Avatar { get; set; }
+
+		public string LastLogitData { get; set; }
+	}
+}

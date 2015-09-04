@@ -1,44 +1,90 @@
 ﻿@model LMPlatform.UI.ViewModels.AccountViewModels.PersonalDataViewModel
 
 
-    <div class="error-limit-registr">
-        @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
-    </div>
-    
-    @Html.AntiForgeryToken()
+<div class="error-limit-registr">
+	@Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
+</div>
 
-	<div align="center" style="max-width: 400px; margin: auto">
-		<div>
-			@Html.LabelFor(m => m.Surname, new { @class = "control-label" })
-			<div>
-				@Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
-				@Html.ValidationMessageFor(e => e.Surname, " ")
+@Html.AntiForgeryToken()
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="panel-title">Пользователь</div>
 			</div>
-			<p></p>
-		</div>
-		<div>
-			@Html.LabelFor(m => m.Name, new { @class = "control-label" })
-			<div>
-				@Html.TextBoxFor(m => m.Name,new { @class = "form-control" })
-				@Html.ValidationMessageFor(e => e.Name, " ")
+			<div class="panel-body">
+				<div>
+					@Html.LabelFor(m => m.Surname, new {@class = "control-label"})
+					<div>
+						@Html.TextBoxFor(m => m.Surname, new {@class = "form-control"})
+						@Html.ValidationMessageFor(e => e.Surname, " ")
+					</div>
+					<p></p>
+				</div>
+				<div>
+					@Html.LabelFor(m => m.Name, new {@class = "control-label"})
+					<div>
+						@Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+						@Html.ValidationMessageFor(e => e.Name, " ")
+					</div>
+					<p></p>
+				</div>
+				<div>
+					@Html.LabelFor(m => m.Patronymic, new {@class = "control-label"})
+					<div>
+						@Html.TextBoxFor(m => m.Patronymic, new {@class = "form-control"})
+						@Html.ValidationMessageFor(e => e.Patronymic, " ")
+					</div>
+					<p></p>
+				</div>
+				<div>
+					@Html.LabelFor(m => m.UserName)
+					@Html.TextBoxFor(m => m.UserName, new {@class = "form-control"})
+					@Html.ValidationMessageFor(e => e.UserName, " ")
+				</div>
 			</div>
-			<p></p>
 		</div>
-		<div>
-			@Html.LabelFor(m => m.Patronymic, new { @class = "control-label" })
-			<div>
-				@Html.TextBoxFor(m => m.Patronymic,new { @class = "form-control" })
-				@Html.ValidationMessageFor(e => e.Patronymic, " ")
-			</div>
-			<p></p>
-		</div>
-		<div>
-			@Html.LabelFor(m => m.UserName)
-			@Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-			@Html.ValidationMessageFor(e => e.UserName, " ")
-		</div>
-		<div style="text-align: center;margin-top: 10px">
+		<div align="center">
 			<input id="updatePersonalData" type="button" style="width: 200px" class="btn btn-primary btn-sm" value="Сохранить изменения" />
 		</div>
 	</div>
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="panel-title">Контакты</div>
+			</div>
+			<div class="panel-body">
+				<div>
+					@Html.LabelFor(m => m.Email, new {@class = "control-label"})
+					<div>
+						@Html.TextBoxFor(m => m.Email, new {@class = "form-control"})
+					</div>
+					<p></p>
+				</div>
+				<div>
+					@Html.LabelFor(m => m.Phone, new {@class = "control-label"})
+					<div>
+						@Html.TextBoxFor(m => m.Phone, new {@class = "form-control"})
+					</div>
+					<p></p>
+				</div>
+				<div>
+					@Html.LabelFor(m => m.SkypeContact, new {@class = "control-label"})
+					<div>
+						@Html.TextBoxFor(m => m.SkypeContact, new {@class = "form-control"})
+					</div>
+					<p></p>
+				</div>
+				<div>
+					@Html.LabelFor(m => m.About, new {@class = "control-label"})
+					<div>
+						@Html.TextBoxFor(m => m.About, new {@class = "form-control"})
+					</div>
+					<p></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 

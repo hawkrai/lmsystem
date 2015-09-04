@@ -106,32 +106,46 @@
 			</div>
 		</tab>
 		<tab heading="Статистика посещения">
-			<div style="margin-bottom: 15px; margin-top: 15px; ">
-				<table>
-					<tbody>
-						<tr>
-							<td>
-								<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
-							</td>
-							<td>
-								<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
-									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
-										{{subGroup.Name}}
-									</button>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="table-responsive" style="overflow-x: auto;">
-				<form editable-form name="tableformVisiting" onaftersave="saveVisitingMark()" oncancel="cancel()">
+
+			<form editable-form name="tableformVisiting" onaftersave="saveVisitingMark()" oncancel="cancel()">
+				<div style="margin-bottom: 15px; margin-top: 15px;">
+					<table>
+						<tbody>
+							<tr>
+								<td>
+									<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+								</td>
+								<td>
+									<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
+										<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
+											{{subGroup.Name}}
+										</button>
+									</div>
+								</td>
+								<td>
+									<div style="margin-left: 10px">
+										<button type="button" class="btn btn-success btn-sm" ng-show="!tableformVisiting.$visible" ng-click="tableformVisiting.$show()">
+											Отметить посещаемость
+										</button>
+									</div>
+								</td>
+								<td>
+									<div ng-show="tableformVisiting.$visible">
+										<button type="submit" ng-disabled="tableformVisiting.$waiting" class="btn btn-success btn-sm">Сохранить</button>
+										<button type="button" ng-disabled="tableformVisiting.$waiting" ng-click="tableformVisiting.$cancel()" class="btn btn-default btn-sm">Отмена</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="table-responsive" style="overflow-x: auto;">
 					<table class="table table-bordered table-striped table-hoverT">
 						<thead>
 							<tr>
-								<th style="text-align: center;vertical-align: middle">№</th>
-								<th style="text-align: center;vertical-align: middle">Студент</th>
-								<th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
+								<th style="text-align: center; vertical-align: middle">№</th>
+								<th style="text-align: center; vertical-align: middle">Студент</th>
+								<th style="height: 80px; width: 10px; padding: 0px; margin: 0px; padding-bottom: 30px; text-align: center" ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
 									<div style="cursor: pointer; display: inline-block" class="box_rotate">{{data.Date}}</div>
 								</th>
 							</tr>
@@ -146,39 +160,44 @@
 							</td>
 						</tr>
 					</table>
-					<div>
-						<button type="button" class="btn btn-default btn-sm" ng-show="!tableformVisiting.$visible" ng-click="tableformVisiting.$show()">
-							Изменить
-						</button>
-					</div>
-					<div ng-show="tableformVisiting.$visible">
-						<button type="submit" ng-disabled="tableformVisiting.$waiting" class="btn btn-primary btn-sm">Сохранить</button>
-						<button type="button" ng-disabled="tableformVisiting.$waiting" ng-click="tableformVisiting.$cancel()" class="btn btn-default btn-sm">Отмена</button>
-					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</tab>
 		<tab heading="Результаты">
-			<div id="navPanel" style="margin-bottom: 15px; margin-top: 15px; ">
-				<table>
-					<tbody>
-						<tr>
-							<td>
-								<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
-							</td>
-							<td>
-								<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
-									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
-										{{subGroup.Name}}
-									</button>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div style="overflow-x: auto;">
-				<form editable-form name="tableformLabsMarks" onaftersave="saveLabsMarks()" oncancel="cancel()">
+			<form editable-form name="tableformLabsMarks" onaftersave="saveLabsMarks()" oncancel="cancel()">
+				<div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
+					<table>
+						<tbody>
+							<tr>
+								<td>
+									<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+								</td>
+								<td>
+									<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
+										<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
+											{{subGroup.Name}}
+										</button>
+									</div>
+								</td>
+								<td>
+									<div style="margin-left: 10px">
+										<button type="button" class="btn btn-success btn-sm" ng-show="!tableformLabsMarks.$visible" ng-click="tableformLabsMarks.$show()">
+											Выставить оценки
+										</button>
+									</div>
+									
+								</td>
+								<td>
+									<div ng-show="tableformLabsMarks.$visible">
+										<button type="submit" ng-disabled="tableformLabsMarks.$waiting" class="btn btn-success btn-sm">Сохранить</button>
+										<button type="button" ng-disabled="tableformLabsMarks.$waiting" ng-click="tableformLabsMarks.$cancel()" class="btn btn-default btn-sm">Отмена</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div style="overflow-x: auto;">
 					<table class="table table-bordered table-striped table-hoverT">
 						<thead>
 							<tr>
@@ -194,29 +213,19 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
 							<td style="width: 42px">{{$index + 1}}</td>
-							<td style="max-width: 200px">{{student.FullName}}</td>
-							<td style="width: 50px;text-align: center" ng-repeat="mark in student.StudentLabMarks">
+							<td style="max-width: 300px">{{student.FullName}}</td>
+							<td style="width: 60px; text-align: center" ng-repeat="mark in student.StudentLabMarks">
 								<span editable-text="mark.Mark" e-name="Mark" e-form="tableformLabsMarks">
 									{{ mark.Mark || '' }}
 								</span>
 							</td>
-							<td style="width: 50px;text-align: center;color: red"><b>{{student.LabsMarkTotal}}</b></td>
-							<td style="width: 50px;text-align: center;color: blue"><b>{{student.TestMark}}</b></td>
-							<td style="width: 50px;text-align: center;color: green"><b>{{$parent.ratingMark(student)}}</b></td>
+							<td style="width: 50px; text-align: center; color: red"><b>{{student.LabsMarkTotal}}</b></td>
+							<td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
+							<td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
 						</tr>
 					</table>
-
-					<div>
-						<button type="button" class="btn btn-default btn-sm" ng-show="!tableformLabsMarks.$visible" ng-click="tableformLabsMarks.$show()">
-							Изменить
-						</button>
-					</div>
-					<div ng-show="tableformLabsMarks.$visible">
-						<button type="submit" ng-disabled="tableformLabsMarks.$waiting" class="btn btn-primary btn-sm">Сохранить</button>
-						<button type="button" ng-disabled="tableformLabsMarks.$waiting" ng-click="tableformLabsMarks.$cancel()" class="btn btn-default btn-sm">Отмена</button>
-					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</tab>
 		<tab heading="Защита работ">
 			<div style="margin-bottom: 15px; margin-top: 15px; ">
@@ -233,6 +242,8 @@
 									</button>
 								</div>
 							</td>
+							<td>
+								<button class="btn-sm btn btn-success" ng-click="saveZip()" style="width: 130px;margin-left: 10px">Скачать архив</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -269,11 +280,7 @@
 						</div>
 					</accordion-group>
 				</accordion>
-
-
-
 			</div>
-			<input value="Скачать архив" type="button" class="btn-sm btn btn-primary" ng-click="saveZip()" style="width: 130px" />
 		</tab>
 	</tabset>
 

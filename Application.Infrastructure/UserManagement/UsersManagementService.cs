@@ -53,7 +53,7 @@ namespace Application.Infrastructure.UserManagement
             if (IsExistsUser(userName))
             {
                 return UsersRepository.GetAll(new Query<User>()
-                    .Include(u => u.Student).Include(u => u.Lecturer).Include(u => u.Membership.Roles))
+                    .Include(u => u.Student).Include(e => e.Student.Group).Include(u => u.Lecturer).Include(u => u.Membership.Roles))
                     .Single(e => e.UserName == userName);
             }
 

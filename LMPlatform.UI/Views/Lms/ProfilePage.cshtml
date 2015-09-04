@@ -1,0 +1,292 @@
+﻿
+<style>
+	.ibox {
+		clear: both;
+		margin-bottom: 25px;
+		margin-top: 0;
+		padding: 0;
+	}
+
+	.ibox-title {
+		-moz-border-bottom-colors: none;
+		-moz-border-left-colors: none;
+		-moz-border-right-colors: none;
+		-moz-border-top-colors: none;
+		background-color: #ffffff;
+		border-color: #e7eaec;
+		border-image: none;
+		border-style: solid solid none;
+		border-width: 3px 0 0;
+		color: inherit;
+		margin-bottom: 0;
+		padding: 14px 15px 7px;
+		min-height: 48px;
+		border-left: 1px solid #e7eaec;
+		border-right: 1px solid #e7eaec;
+		font-weight: bold;
+	}
+
+	.profile-content {
+		border-top: none !important;
+	}
+
+	.ibox-content {
+		clear: both;
+	}
+
+	.ibox-content {
+		background-color: #ffffff;
+		color: inherit;
+		padding: 15px 20px 20px 20px;
+		border-color: #e7eaec;
+		border-image: none;
+		border-style: solid solid none;
+		border-width: 1px 0px;
+	}
+
+	.border {
+		border: 1px solid #e7eaec;
+	}
+
+	.border-none-top {
+		border-top: none;
+	}
+
+	.user-name {
+		line-height: 1.2em;
+		color: #39c2d7;
+	}
+
+	.user-type {
+		margin-right: 20px;
+	}
+
+	.user-skill::before {
+		content: "•";
+		display: inline-block;
+		margin-left: -1em;
+		width: 1em;
+		text-align: center;
+	}
+
+	.user-status {
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: -ms-flexbox;
+		display: -ms-flex;
+		display: flex;
+		-webkit-flex-wrap: wrap;
+		-moz-flex-wrap: wrap;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+		overflow: hidden;
+		max-width: 100%;
+		font-weight: bold;
+	}
+
+	.contact-list {
+		margin: 10px 0 0;
+		padding: 0;
+		margin-left: 7px;
+		list-style: none;
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: -ms-flexbox;
+		display: -ms-flex;
+		display: flex;
+		-webkit-flex-wrap: wrap;
+		-moz-flex-wrap: wrap;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+	}
+
+		.contact-list li {
+			margin-right: 10px;
+		}
+
+			.contact-list li a {
+				color: black;
+			}
+
+	.loading {
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 50000;
+		background-color: white;
+		opacity: 0.5;
+		-moz-opacity: 0.5;
+		filter: alpha(opacity=50);
+	}
+</style>
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="panel-title">
+					Профиль
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="ibox-content profile-content">
+					<div class="row">
+						<div class="col-md-3">
+							<img src="{{loadProfileData.Avatar}}" class="img-circle border" alt="User Image" />
+						</div>
+						<div class="col-md-8">
+							<div>
+								<h1 class="user-name">{{loadProfileData.Name}}</h1>
+							</div>
+							<div class="user-status">
+								<div class="user-type">
+									<div ng-if="loadProfileData.UserType == '1'">Преподаватель</div>
+									<div ng-if="loadProfileData.UserType == '2'">Студент</div>
+								</div>
+								<div class="user-skill">
+									{{loadProfileData.Skill}}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<ul class="contact-list">
+								<li>
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										<i class="fa fa-skype fa-1x"></i>
+									</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li class="user-header">
+											<h6 style="margin-left: 10px">popova65374</h6>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										<i class="fa fa-envelope fa-1x"></i>
+									</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li class="user-header">
+											<h6 style="margin-left: 10px">popova65374@WebMail.ru</h6>
+										</li>
+									</ul>
+								</li>
+
+								<li>
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										<i class="fa fa-phone-square fa-1x"></i>
+									</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li class="user-header">
+											<h6 style="margin-left: 10px">+375446688945</h6>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="col-md-8">
+							<div ng-if="!isMyProfile" style="margin-top: 10px; font-size: 11px; margin-left: -45px" class="text-muted">Последний вход - {{loadProfileData.LastLogitData}}</div>
+						</div>
+					</div>
+					<div class="page-header">
+						<h4>Обо мне</h4>
+						<p>
+							{{loadProfileData.About}}
+						</p>
+					</div>
+					<div class="row" style="margin-top: 10px">
+						<div class="col-md-6">
+							<button class="btn btn-success btn-sm" style="width: 100%; margin-top: 5px">
+								<i style="word-wrap: break-word" class="fa fa-envelope-o"> Отправить сообщение</i>
+							</button>
+						</div>
+						<div class="col-md-6">
+							<button class="btn btn-default btn-sm" style="width: 100%; margin-top: 5px">
+								<i style="word-wrap: break-word" class="fa fa-heart-o"> Поставить лайк</i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="panel-title">
+							Предметы
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="ibox-content profile-content">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="panel-title">
+							Статистика по предметам
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="ibox-content profile-content">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="panel-title">
+							Статистика по предметам
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="ibox-content profile-content">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="panel-title">
+							Статистика по предметам
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="ibox-content profile-content">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+						Записи стены
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="ibox-content profile-content">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="loading">
+		<span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
+	</div>
+</div>

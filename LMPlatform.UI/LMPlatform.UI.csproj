@@ -274,6 +274,7 @@
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ParentalController.cs" />
     <Compile Include="ApiControllers\DP\TaskSheetController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ScormModController.cs" />
     <Compile Include="Controllers\TestPassingController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
@@ -406,6 +407,7 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\LmsViewModels\ProfileVewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\DataTableMessage.cs" />
     <Compile Include="ViewModels\MessageViewModels\DisplayMessageViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\MessageViewModel.cs" />
@@ -721,6 +723,7 @@
     <Content Include="Scripts\application\spinFunction.js" />
     <Content Include="Scripts\application\subjectManagement.js" />
     <Content Include="Scripts\application\subjectWorking.js" />
+    <Content Include="Scripts\application\userProfile\appUserProfile.js" />
     <Content Include="Scripts\bootstrap-multiselect.js" />
     <Content Include="Scripts\bootstrap-wysihtml5.js" />
     <Content Include="Scripts\bootstrap-wysihtml5.ru-RU.js" />
@@ -1100,6 +1103,8 @@
     <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\select.js" />
     <Content Include="Scripts\spin.js" />
+    <Content Include="Scripts\spin.min.js" />
+    <Content Include="Scripts\spinner-angular.js" />
     <Content Include="Scripts\tableToExcel.js" />
     <Content Include="Scripts\textAngular\textAngular-sanitize.js" />
     <Content Include="Scripts\textAngular\textAngular.js" />
@@ -1650,6 +1655,7 @@
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.svg" />
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.woff" />
+    <Content Include="Views\Lms\ProfilePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

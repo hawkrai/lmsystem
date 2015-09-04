@@ -18,10 +18,17 @@ namespace LMPlatform.UI
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("Views/{file}.html");
 
+			routes.MapRoute(
+				name: "Profile",
+				url: "Lms/{userLogin}",
+				defaults: new { controller = "Lms", action = "Index"});
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+
+			
         }
     }
 }

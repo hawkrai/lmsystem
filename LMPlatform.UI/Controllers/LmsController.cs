@@ -1,7 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Helpers;
+using System.Web.Mvc;
 using Application.Core;
 using Application.Core.UI.Controllers;
 using Application.Infrastructure.DPManagement;
+using Application.Infrastructure.UserManagement;
 using LMPlatform.UI.ViewModels.LmsViewModels;
 using WebMatrix.WebData;
 
@@ -12,7 +14,7 @@ namespace LMPlatform.UI.Controllers
     [Authorize(Roles = "student, lector")]
     public class LmsController : BasicController
     {
-        public ActionResult Index()
+		public ActionResult Index(string userLogin = "")
         {
             if (User.IsInRole("lector") || User.IsInRole("student"))
             {
@@ -20,6 +22,13 @@ namespace LMPlatform.UI.Controllers
                 model.UserActivity = new UserActivityViewModel();
 
                 ViewBag.ShowDpSectionForUser = DpManagementService.ShowDpSectionForUser(WebSecurity.CurrentUserId);
+
+				bool isMyProfile = string.IsNullOrEmpty(userLogin) || WebSecurity.CurrentUserName == userLogin;
+
+	            ViewData["isMyProfile"] = isMyProfile;
+				ViewData["userLogin"] = string.IsNullOrEmpty(userLogin) || WebSecurity.CurrentUserName == userLogin ? WebSecurity.CurrentUserName : userLogin;
+
+
                 return View(model);    
             }
 
@@ -32,5 +41,7 @@ namespace LMPlatform.UI.Controllers
         }
 
         private readonly LazyDependency<IDpManagementService> _diplomProjectManagementService = new LazyDependency<IDpManagementService>();
+
+		
     }
 }

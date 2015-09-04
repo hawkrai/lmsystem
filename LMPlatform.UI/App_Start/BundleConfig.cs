@@ -22,7 +22,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/shared.js",
                 "~/Scripts/application/jQueryExtensions.js",
                 "~/Scripts/application/masterPageManagement.js",
-                "~/Scripts/spin.js",
+                "~/Scripts/spin.min.js",
                 "~/Scripts/application/spinFunction.js"));
 
             bundles.Add(new ScriptBundle("~/bundle/subjectManagement").Include(
@@ -53,6 +53,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/angular-bootstrap-duallistbox.js",
                 "~/Scripts/select.js",
                 "~/Scripts/ui-bootstrap-tpls.js",
+				"~/Scripts/spinner-angular.js",
                 "~/Scripts/xeditable.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/textAngular").Include(

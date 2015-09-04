@@ -61,6 +61,18 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 
 		public string Avatar { get; set; }
 
+		[Display(Name = "Skype")]
+		public string SkypeContact { get; set; }
+
+		[Display(Name = "Почта")]
+		public string Email { get; set; }
+
+		[Display(Name = "Телефон")]
+		public string Phone { get; set; }
+
+		[Display(Name = "О себе")]
+		public string About { get; set; }
+
 		public bool IsSecretary { get; set; }
 
 		public bool IsLecturerHasGraduateStudents { get; set; }

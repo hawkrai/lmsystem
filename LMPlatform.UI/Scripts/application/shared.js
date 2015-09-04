@@ -99,7 +99,7 @@
 				buttonClass: 'btn',
 				buttonWidth: '100%',
 				buttonContainer: '<div class="btn-group" style="width:100%" />',
-				maxHeight: 150,
+				maxHeight: 200,
 				buttonText: function (options) {
 					if (options.length == 0) {
 						return "Ничего не выбрано <b class=\"caret\"></b>";
