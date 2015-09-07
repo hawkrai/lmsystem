@@ -125,10 +125,15 @@ namespace LMPlatform.UI.Controllers
                     MiddleName = model.Patronymic,
 					IsLecturerHasGraduateStudents = model.IsLecturerHasGraduateStudents,
 					IsSecretary = model.IsSecretary,
+					Skill = model.Skill,
                     User = new User
                     {
                         UserName = model.UserName,
 						Avatar = avatar,
+						About = model.About,
+						SkypeContact = model.SkypeContact,
+						Phone = model.Phone,
+						Email = model.Email,
                         Id = WebSecurity.CurrentUserId
                     },
                     Id = WebSecurity.CurrentUserId
@@ -147,6 +152,10 @@ namespace LMPlatform.UI.Controllers
                     {
                         UserName = model.UserName,
 						Avatar = avatar,
+						About = model.About,
+						SkypeContact = model.SkypeContact,
+						Phone = model.Phone,
+						Email = model.Email,
                         Id = WebSecurity.CurrentUserId
                     },
                     Id = WebSecurity.CurrentUserId

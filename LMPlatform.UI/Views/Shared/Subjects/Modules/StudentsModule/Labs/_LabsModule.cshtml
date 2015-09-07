@@ -116,7 +116,7 @@
 					</thead>
 					<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
 						<td style="width: 42px">{{$index + 1}}</td>
-						<td style="max-width: 200px">{{student.FullName}}</td>
+						<td style="max-width: 200px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
 						<td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark">{{ data.Mark || '' }}</td>
 					</tr>
 				</table>
@@ -153,7 +153,7 @@
 					</thead>
 					<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
 						<td style="width: 40px">{{$index + 1}}</td>
-						<td style="max-width: 200px">{{student.FullName}}</td>
+						<td style="max-width: 200px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
 						<td style="width: 50px;text-align: center" ng-repeat="mark in student.StudentLabMarks">{{ mark.Mark || '' }}</td>
 						 <td style="width: 50px;text-align: center;color: red"><b>{{student.LabsMarkTotal}}</b></td>
 	                        <td style="width: 50px;text-align: center;color: blue"><b>{{student.TestMark}}</b></td>

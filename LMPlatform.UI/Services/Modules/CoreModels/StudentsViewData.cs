@@ -25,6 +25,7 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
         {
             StudentId = student.Id;
             FullName = student.FullName;
+	        Login = student.User.UserName;
             GroupId = student.GroupId;
             LabVisitingMark = new List<LabVisitingMarkViewData>();
             PracticalVisitingMark = new List<PracticalVisitingMarkViewData>();
@@ -172,6 +173,9 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
 
         [DataMember]
         public string FullName { get; set; }
+
+		[DataMember]
+		public string Login { get; set; }
 
         [DataMember]
         public int GroupId { get; set; }

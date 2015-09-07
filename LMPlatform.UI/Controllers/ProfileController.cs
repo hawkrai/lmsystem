@@ -19,10 +19,16 @@ namespace LMPlatform.UI.Controllers
 
 			model.UserType = user.Lecturer != null ? "1" : "2";
 			model.Avatar = user.Avatar;
+			model.SkypeContact = user.SkypeContact;
+			model.Email = user.Email;
+			model.Phone = user.Phone;
+			model.About = user.About;
+
 			model.LastLogitData = user.AttendanceList.LastOrDefault().ToString("dd/MM/yyyy hh:mm:ss");
 			if (user.Lecturer != null)
 			{
 				model.Name = user.Lecturer.FirstName + " " + user.Lecturer.LastName;
+				model.Skill = user.Lecturer.Skill;
 			}
 			else
 			{

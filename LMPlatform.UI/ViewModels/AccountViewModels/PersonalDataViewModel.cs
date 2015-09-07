@@ -73,6 +73,9 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 		[Display(Name = "О себе")]
 		public string About { get; set; }
 
+		[Display(Name = "Должность")]
+		public string Skill { get; set; }
+
 		public bool IsSecretary { get; set; }
 
 		public bool IsLecturerHasGraduateStudents { get; set; }
@@ -83,11 +86,16 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             {
                 var user = LecturerManagementService.GetLecturer(WebSecurity.CurrentUserId);
                 Name = user.FirstName;
+	            Skill = user.Skill;
 				Surname = user.LastName;
 				Patronymic = user.MiddleName;
                 UserName = user.User.UserName;
 	            Avatar = user.User.Avatar;
 	            IsSecretary = user.IsSecretary;
+				About = user.User.About;
+				SkypeContact = user.User.SkypeContact;
+				Phone = user.User.Phone;
+				Email = user.User.Email;
 	            IsLecturerHasGraduateStudents = user.IsLecturerHasGraduateStudents;
             }
             else
@@ -98,6 +106,10 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 				Surname = user.LastName;
                 UserName = user.User.UserName;
 				Avatar = user.User.Avatar;
+				About = user.User.About;
+				SkypeContact = user.User.SkypeContact;
+				Phone = user.User.Phone;
+				Email = user.User.Email;
             }
         }
     }

@@ -323,6 +323,7 @@ namespace Application.Infrastructure.SubjectManagement
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.ScheduleProtectionLabMarks))))
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.ScheduleProtectionPracticalMarks))))
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.StudentLabMarks))))
+						.Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.User))))
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.StudentPracticalMarks))))
                         .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.ScheduleProtectionLabs))));
                 return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
@@ -503,7 +504,7 @@ namespace Application.Infrastructure.SubjectManagement
             {
                 return
                     repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>()
-                        .GetAll(query.Include(e => e.LecturesVisitMarks.Select(x => x.Student)))
+                        .GetAll(query.Include(e => e.LecturesVisitMarks.Select(x => x.Student.User)))
                         .ToList();
             }
         }

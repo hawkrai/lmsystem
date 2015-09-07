@@ -66,16 +66,31 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
 		public string Avatar { get; set; }
 
+		public string SkypeContact { get; set; }
+
+		public string Phone { get; set; }
+
+		public string Skill { get; set; }
+
+		public string About { get; set; }
+
         public ModifyLecturerViewModel(Lecturer lecturer)
         {
             if (lecturer != null)
             {
+
                 LecturerId = lecturer.Id;
-                Name = lecturer.FirstName;
+				Name = lecturer.FirstName;
+	            Skill = lecturer.Skill;
                 Surname = lecturer.LastName;
                 Patronymic = lecturer.MiddleName;
                 UserName = lecturer.User.UserName;
 	            Avatar = lecturer.User.Avatar;
+	            SkypeContact = lecturer.User.SkypeContact;
+				Phone = lecturer.User.Phone;
+				About = lecturer.User.About;
+				Email = lecturer.User.Email;
+
                 IsSecretary = lecturer.IsSecretary;
                 IsLecturerHasGraduateStudents = lecturer.IsLecturerHasGraduateStudents;
 
@@ -171,6 +186,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 Id = LecturerId,
                 FirstName = Name,
                 LastName = Surname,
+				Skill = Skill,
                 MiddleName = Patronymic,
                 IsSecretary = IsSecretary,
                 IsLecturerHasGraduateStudents = IsLecturerHasGraduateStudents,
@@ -180,6 +196,10 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 					Id = LecturerId,
 					Avatar = Avatar,
 					UserName = UserName,
+					About = About,
+					SkypeContact = SkypeContact,
+					Phone = Phone,
+					Email = Email,
 				}
             });
         }

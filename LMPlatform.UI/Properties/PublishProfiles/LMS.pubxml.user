@@ -39,10 +39,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 12:33:39</publishTime>
     </File>
     <File Include="bin/Application.Infrastructure.dll">
-      <publishTime>08/31/2015 12:31:07</publishTime>
+      <publishTime>09/07/2015 12:27:36</publishTime>
     </File>
     <File Include="bin/Application.Infrastructure.pdb">
-      <publishTime>08/31/2015 12:31:07</publishTime>
+      <publishTime>09/07/2015 12:27:36</publishTime>
     </File>
     <File Include="bin/Bootstrapper.dll">
       <publishTime>08/26/2015 12:31:22</publishTime>
@@ -81,22 +81,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 12:31:38</publishTime>
     </File>
     <File Include="bin/LMPlatform.Data.dll">
-      <publishTime>08/31/2015 12:31:07</publishTime>
+      <publishTime>09/07/2015 12:27:36</publishTime>
     </File>
     <File Include="bin/LMPlatform.Data.pdb">
-      <publishTime>08/31/2015 12:31:07</publishTime>
+      <publishTime>09/07/2015 12:27:36</publishTime>
     </File>
     <File Include="bin/LMPlatform.Models.dll">
-      <publishTime>08/31/2015 12:31:06</publishTime>
+      <publishTime>09/07/2015 12:27:35</publishTime>
     </File>
     <File Include="bin/LMPlatform.Models.pdb">
-      <publishTime>08/31/2015 12:31:06</publishTime>
+      <publishTime>09/07/2015 12:27:35</publishTime>
     </File>
     <File Include="bin/LMPlatform.UI.dll">
-      <publishTime>08/31/2015 12:31:08</publishTime>
+      <publishTime>09/07/2015 12:27:37</publishTime>
     </File>
     <File Include="bin/LMPlatform.UI.pdb">
-      <publishTime>08/31/2015 12:31:08</publishTime>
+      <publishTime>09/07/2015 12:27:37</publishTime>
     </File>
     <File Include="bin/Microsoft.CSharp.dll">
       <publishTime>09/26/2012 03:16:08</publishTime>
@@ -1152,7 +1152,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Scripts/application/mainApp.js">
-      <publishTime>08/31/2015 11:51:13</publishTime>
+      <publishTime>09/03/2015 12:17:43</publishTime>
     </File>
     <File Include="Scripts/application/masterPageManagement.js">
       <publishTime>08/26/2015 11:40:36</publishTime>
@@ -1188,7 +1188,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Scripts/application/shared.js">
-      <publishTime>08/26/2015 11:40:36</publishTime>
+      <publishTime>09/03/2015 13:27:49</publishTime>
     </File>
     <File Include="Scripts/application/spinFunction.js">
       <publishTime>08/26/2015 11:40:36</publishTime>
@@ -1198,6 +1198,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/application/subjectWorking.js">
       <publishTime>08/26/2015 11:40:36</publishTime>
+    </File>
+    <File Include="Scripts/application/userProfile/appUserProfile.js">
+      <publishTime>09/07/2015 12:09:40</publishTime>
     </File>
     <File Include="Scripts/bootbox.js">
       <publishTime>08/26/2015 11:40:36</publishTime>
@@ -1209,7 +1212,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Scripts/bootstrap-multiselect.js">
-      <publishTime>08/26/2015 11:40:36</publishTime>
+      <publishTime>09/03/2015 13:31:28</publishTime>
     </File>
     <File Include="Scripts/bootstrap-wysihtml5.js">
       <publishTime>08/26/2015 11:40:36</publishTime>
@@ -2275,6 +2278,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/spin.js">
       <publishTime>08/26/2015 11:40:36</publishTime>
+    </File>
+    <File Include="Scripts/spin.min.js">
+      <publishTime>02/11/2015 16:14:39</publishTime>
+    </File>
+    <File Include="Scripts/spinner-angular.js">
+      <publishTime>02/11/2015 16:14:39</publishTime>
     </File>
     <File Include="Scripts/tableToExcel.js">
       <publishTime>08/26/2015 11:40:36</publishTime>
@@ -3549,13 +3558,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Views/Account/Management.cshtml">
-      <publishTime>08/26/2015 11:40:36</publishTime>
+      <publishTime>09/07/2015 11:45:32</publishTime>
     </File>
     <File Include="Views/Account/Register.cshtml">
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Views/Account/_PersonalData.cshtml">
-      <publishTime>08/26/2015 11:40:36</publishTime>
+      <publishTime>09/07/2015 11:34:32</publishTime>
     </File>
     <File Include="Views/Administration/Files.cshtml">
       <publishTime>08/26/2015 11:40:36</publishTime>
@@ -3690,7 +3699,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Views/Lms/Index.cshtml">
-      <publishTime>08/26/2015 11:40:36</publishTime>
+      <publishTime>09/04/2015 15:36:19</publishTime>
+    </File>
+    <File Include="Views/Lms/ProfilePage.cshtml">
+      <publishTime>09/07/2015 11:56:27</publishTime>
     </File>
     <File Include="Views/Materials/Catalog.cshtml">
       <publishTime>08/26/2015 11:40:36</publishTime>
@@ -3729,7 +3741,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Views/Shared/Layouts/_LayoutBase.cshtml">
-      <publishTime>08/26/2015 11:40:36</publishTime>
+      <publishTime>09/04/2015 12:37:34</publishTime>
     </File>
     <File Include="Views/Shared/Layouts/_LimitLayout.cshtml">
       <publishTime>08/26/2015 11:40:36</publishTime>
@@ -3768,7 +3780,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/Labs/_LabsModule.cshtml">
-      <publishTime>08/31/2015 12:29:42</publishTime>
+      <publishTime>09/07/2015 12:17:21</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/Labs/_LabsPartial.cshtml">
       <publishTime>08/26/2015 11:40:36</publishTime>
@@ -3777,28 +3789,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/Lectures/_LecturesModule.cshtml">
-      <publishTime>08/31/2015 11:16:11</publishTime>
+      <publishTime>09/07/2015 12:02:59</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/News/_NewsModule.cshtml">
       <publishTime>08/26/2015 12:55:46</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/Practicals/_PracticalModule.cshtml">
-      <publishTime>08/31/2015 11:24:26</publishTime>
+      <publishTime>09/07/2015 12:19:39</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/ScheduleProtection/_ScheduleProtectionLabs.cshtml">
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/StudentsModule/Labs/_LabsModule.cshtml">
-      <publishTime>08/26/2015 11:40:36</publishTime>
+      <publishTime>09/07/2015 12:18:54</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/StudentsModule/Lectures/_LecturesModule.cshtml">
-      <publishTime>08/26/2015 11:40:36</publishTime>
+      <publishTime>09/07/2015 12:18:08</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/StudentsModule/News/_NewsModule.cshtml">
       <publishTime>08/26/2015 12:50:19</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/StudentsModule/Practicals/_PracticalModule.cshtml">
-      <publishTime>08/26/2015 11:40:36</publishTime>
+      <publishTime>09/07/2015 12:27:18</publishTime>
     </File>
     <File Include="Views/Shared/Subjects/Modules/SubjectAttachments/_SubjectAttachmentsModule.cshtml">
       <publishTime>08/26/2015 11:40:36</publishTime>
@@ -3837,7 +3849,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2015 11:40:36</publishTime>
     </File>
     <File Include="Views/Subject/_CreateSubjectView.cshtml">
-      <publishTime>08/26/2015 11:40:36</publishTime>
+      <publishTime>09/03/2015 13:27:17</publishTime>
     </File>
     <File Include="Views/Subject/_SubGroupEdit.cshtml">
       <publishTime>08/26/2015 11:40:36</publishTime>

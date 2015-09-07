@@ -122,7 +122,7 @@
 	}
 </style>
 
-<div class="row">
+<div class="row" ng-cloak>
 	<div class="col-md-4">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -134,7 +134,7 @@
 				<div class="ibox-content profile-content">
 					<div class="row">
 						<div class="col-md-3">
-							<img src="{{loadProfileData.Avatar}}" class="img-circle border" alt="User Image" />
+							<img src="{{loadProfileData.Avatar}}" class="img-circle border" alt="User Image"/>
 						</div>
 						<div class="col-md-8">
 							<div>
@@ -160,7 +160,7 @@
 									</a>
 									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 										<li class="user-header">
-											<h6 style="margin-left: 10px">popova65374</h6>
+											<h6 style="margin-left: 10px">{{loadProfileData.SkypeContact}}</h6>
 										</li>
 									</ul>
 								</li>
@@ -170,7 +170,7 @@
 									</a>
 									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 										<li class="user-header">
-											<h6 style="margin-left: 10px">popova65374@WebMail.ru</h6>
+											<h6 style="margin-left: 10px">{{loadProfileData.Email}}</h6>
 										</li>
 									</ul>
 								</li>
@@ -181,7 +181,7 @@
 									</a>
 									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 										<li class="user-header">
-											<h6 style="margin-left: 10px">+375446688945</h6>
+											<h6 style="margin-left: 10px">{{loadProfileData.Phone}}</h6>
 										</li>
 									</ul>
 								</li>
@@ -198,15 +198,12 @@
 						</p>
 					</div>
 					<div class="row" style="margin-top: 10px">
-						<div class="col-md-6">
-							<button class="btn btn-success btn-sm" style="width: 100%; margin-top: 5px">
-								<i style="word-wrap: break-word" class="fa fa-envelope-o"> Отправить сообщение</i>
-							</button>
-						</div>
-						<div class="col-md-6">
-							<button class="btn btn-default btn-sm" style="width: 100%; margin-top: 5px">
-								<i style="word-wrap: break-word" class="fa fa-heart-o"> Поставить лайк</i>
-							</button>
+						<div align="center">
+							<div ng-if="!isMyProfile">
+								<a href="~/Message" class="btn btn-success btn-sm" style="width: 100%; margin-top: 5px">
+									<i style="word-wrap: break-word" class="fa fa-envelope-o"> Отправить сообщение</i>
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -286,7 +283,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="loading">
-		<span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
-	</div>
+</div>
+<div class="loading">
+	<span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
 </div>

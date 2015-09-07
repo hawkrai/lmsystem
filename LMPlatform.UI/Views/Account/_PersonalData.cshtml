@@ -52,7 +52,7 @@
 	<div class="col-md-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<div class="panel-title">Контакты</div>
+				<div class="panel-title">Дополнительные данные</div>
 			</div>
 			<div class="panel-body">
 				<div>
@@ -83,6 +83,16 @@
 					</div>
 					<p></p>
 				</div>
+				@if (Roles.IsUserInRole("lector"))
+				{
+					<div>
+					@Html.LabelFor(m => m.Skill, new {@class = "control-label"})
+					<div>
+						@Html.TextBoxFor(m => m.Skill, new { @class = "form-control" })
+					</div>
+					<p></p>
+				</div>
+				}
 			</div>
 		</div>
 	</div>

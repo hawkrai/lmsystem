@@ -76,6 +76,7 @@ namespace LMPlatform.UI.Services
                     GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id))
                     .Include(e => e.Students.Select(x => x.LecturesVisitMarks))
                     .Include(e => e.Students.Select(x => x.StudentPracticalMarks))
+					.Include(e => e.Students.Select(x => x.User))
                     .Include(e => e.Students.Select(x => x.ScheduleProtectionPracticalMarks))
                     .Include(e => e.ScheduleProtectionPracticals)).ToList();
 
@@ -141,6 +142,7 @@ namespace LMPlatform.UI.Services
                         {
                             StudentId = student.Id,
                             StudentName = student.FullName,
+							Login = student.User.UserName,
                             Marks = data
                         });
                     }

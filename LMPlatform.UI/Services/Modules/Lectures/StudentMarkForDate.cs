@@ -16,5 +16,8 @@
 
         [DataMember]
         public int MarkId { get; set; }
+
+		[DataMember]
+		public string Login { get; set; }
     }
 }

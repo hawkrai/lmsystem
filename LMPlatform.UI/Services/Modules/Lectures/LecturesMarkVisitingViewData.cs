@@ -14,6 +14,9 @@ namespace LMPlatform.UI.Services.Modules.Lectures
         [DataMember]
         public string StudentName { get; set; }
 
+		[DataMember]
+		public string Login { get; set; }
+
         [DataMember]
         public List<MarkViewData> Marks { get; set; }
     }

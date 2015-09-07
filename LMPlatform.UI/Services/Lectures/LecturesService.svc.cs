@@ -186,6 +186,7 @@ namespace LMPlatform.UI.Services.Lectures
                                       {
                                           MarkId = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Id,
                                           StudentId = student.Id,
+										  Login = student.User.UserName,
                                           StudentName = student.FullName,
                                           Mark = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Mark
                                       });
@@ -197,6 +198,7 @@ namespace LMPlatform.UI.Services.Lectures
                             MarkId = 0,
                             StudentId = student.Id,
                             StudentName = student.FullName,
+							Login = student.User.UserName,
                             Mark = string.Empty
                         });
                     }

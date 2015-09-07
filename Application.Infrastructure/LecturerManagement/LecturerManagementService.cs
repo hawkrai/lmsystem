@@ -71,6 +71,10 @@ namespace Application.Infrastructure.LecturerManagement
                 repositoriesContainer.LecturerRepository.Save(lecturer);
 	            var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>(e => e.Id == lecturer.User.Id));
 	            user.Avatar = lecturer.User.Avatar;
+				user.SkypeContact = lecturer.User.SkypeContact;
+				user.Email = lecturer.User.Email;
+				user.About = lecturer.User.About;
+				user.Phone = lecturer.User.Phone;
 				repositoriesContainer.UsersRepository.Save(user);
                 repositoriesContainer.ApplyChanges();
             }
