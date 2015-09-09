@@ -16,6 +16,10 @@ namespace Application.Infrastructure.LecturerManagement
 
         Lecturer UpdateLecturer(Lecturer lecturer);
 
+	    List<string> GetLecturesScheduleVisitings(int subjectId);
+
+	    List<List<string>> GetLecturesScheduleMarks(int subjectId, int groupId);
+
         bool DeleteLecturer(int id);
     }
 }

@@ -439,6 +439,10 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             });
         };
 
+		$scope.visitingLExport = function() {
+			window.location.href = "/Statistic/GetVisitLecture?subjectId=" + $scope.subjectId + "&groupId=" + $scope.groupWorkingData.selectedGroup.GroupId;
+		};
+
         $scope.loadLectures = function () {
             $.ajax({
                 type: 'GET',
@@ -829,6 +833,10 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 			}
 
 			return ((parseFloat(student.LabsMarkTotal) + parseFloat(student.TestMark)) / 2).toFixed(1);
+		};
+
+		$scope.visitingLabsExport = function () {
+			window.location.href = "/Statistic/GetVisitLabs?subjectId=" + $scope.subjectId + "&groupId=" + $scope.groupWorkingData.selectedGroup.GroupId + "&subGroupId=" + $scope.groupWorkingData.selectedSubGroup.SubGroupId;
 		};
 
         $scope.loadFilesLabUser = function () {

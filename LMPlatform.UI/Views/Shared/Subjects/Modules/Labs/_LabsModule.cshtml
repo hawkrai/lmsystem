@@ -75,7 +75,7 @@
 							</td>
 							<td>
 								<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
-									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
+									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-success btn-sm" style="width: 150px;">
 										{{subGroup.Name}}
 									</button>
 								</div>
@@ -97,7 +97,7 @@
 					</thead>
 					<tr ng-repeat="data in groupWorkingData.selectedSubGroup.Labs">
 						<td style="width: 20px">{{data.Order}}</td>
-						<td style="max-width: 200px">{{data.Theme}}</td>
+						<td style="min-width: 300px">{{data.Theme}}</td>
 						<td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
 							{{recomend.Mark}}
 						</td>
@@ -117,14 +117,14 @@
 								</td>
 								<td>
 									<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
-										<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
+										<button type="button" data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-success btn-sm" style="width: 150px;">
 											{{subGroup.Name}}
 										</button>
 									</div>
 								</td>
 								<td>
 									<div style="margin-left: 10px">
-										<button type="button" class="btn btn-success btn-sm" ng-show="!tableformVisiting.$visible" ng-click="tableformVisiting.$show()">
+										<button type="button" class="btn btn-primary btn-sm" ng-show="!tableformVisiting.$visible" ng-click="tableformVisiting.$show()">
 											Отметить посещаемость
 										</button>
 									</div>
@@ -134,6 +134,9 @@
 										<button type="submit" ng-disabled="tableformVisiting.$waiting" class="btn btn-success btn-sm">Сохранить</button>
 										<button type="button" ng-disabled="tableformVisiting.$waiting" ng-click="tableformVisiting.$cancel()" class="btn btn-default btn-sm">Отмена</button>
 									</div>
+								</td>
+								<td>
+									<input type="button" style="margin-top: -1px; width: 150px;height: 36px" ng-click="visitingLabsExport()" class="btn btn-info btn-sm" value="Экспорт в Excel" />
 								</td>
 							</tr>
 						</tbody>
@@ -152,7 +155,7 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
 							<td style="width: 20px">{{$index + 1}}</td>
-							<td style="max-width: 200px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="min-width: 300px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark">
 								<span editable-text="data.Mark" e-name="Mark" e-form="tableformVisiting">
 									{{ data.Mark || '' }}
@@ -174,14 +177,14 @@
 								</td>
 								<td>
 									<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
-										<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
+										<button type="button" data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-success btn-sm" style="width: 150px;">
 											{{subGroup.Name}}
 										</button>
 									</div>
 								</td>
 								<td>
 									<div style="margin-left: 10px">
-										<button type="button" class="btn btn-success btn-sm" ng-show="!tableformLabsMarks.$visible" ng-click="tableformLabsMarks.$show()">
+										<button type="button" class="btn btn-primary btn-sm" ng-show="!tableformLabsMarks.$visible" ng-click="tableformLabsMarks.$show()">
 											Выставить оценки
 										</button>
 									</div>
@@ -213,7 +216,7 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
 							<td style="width: 42px">{{$index + 1}}</td>
-							<td style="max-width: 300px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="min-width: 300px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 60px; text-align: center" ng-repeat="mark in student.StudentLabMarks">
 								<span editable-text="mark.Mark" e-name="Mark" e-form="tableformLabsMarks">
 									{{ mark.Mark || '' }}
@@ -237,13 +240,13 @@
 							</td>
 							<td>
 								<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
-									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-primary btn-sm" style="width: 150px;">
+									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-success btn-sm" style="width: 150px;">
 										{{subGroup.Name}}
 									</button>
 								</div>
 							</td>
 							<td>
-								<button class="btn-sm btn btn-success" ng-click="saveZip()" style="width: 130px;margin-left: 10px">Скачать архив</button></td>
+								<button class="btn-sm btn btn-info" ng-click="saveZip()" style="width: 130px;margin-left: 10px">Скачать архив</button></td>
 						</tr>
 					</tbody>
 				</table>

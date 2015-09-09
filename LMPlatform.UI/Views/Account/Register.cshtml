@@ -1,80 +1,129 @@
 ﻿@model LMPlatform.UI.ViewModels.AccountViewModels.RegisterViewModel
 @{
-    ViewBag.Title = "Регистрация";
-    Layout = "~/Views/Shared/Layouts/_LimitLayout.cshtml";
+	ViewBag.Title = "Регистрация";
+	Layout = "~/Views/Shared/Layouts/_LimitLayout.cshtml";
 }
+<style>
+	.login-img3-body .login-form {
+		border: 1px solid #B0B6BE;
+		background: rgba(213,215,222,0.1);
+		color: black;
+	}
 
+	.login-form {
+		max-width: 500px;
+		margin: 100px auto 0;
+		background: #d5d7de;
+	}
 
+	.login-wrap {
+		padding: 20px;
+	}
+
+	.login-img3-body .login-form p, .login-img2-body .login-form p {
+		color: #34aadc;
+	}
+
+	.login-form .login-img {
+		font-size: 50px;
+		font-weight: 300;
+	}
+
+	.login-form p {
+		text-align: center;
+		color: #b6b6b6;
+		font-size: 16px;
+		font-weight: 300;
+	}
+
+	.login-form .input-group-addon {
+		padding: 6px 12px;
+		font-size: 16px;
+		color: #8b9199;
+		font-weight: normal;
+		line-height: 1;
+		text-align: center;
+		background-color: #ffffff;
+		border: none;
+		border-radius: 0;
+	}
+
+	.login-form .input-group {
+		padding-bottom: 15px;
+	}
+</style>
 
 @using (Html.BeginForm(new { ViewBag.ReturnUrl }))
 {
-    <div class="error-limit-registr">
-        @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
-    </div>
-    
-    @Html.AntiForgeryToken()
+	<div class="error-limit-registr">
+		@Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
+	</div>
 
-    <div id="registration" class="hero-unit center">
-        <hgroup style="text-align: center; margin-bottom: 20px">
-            <h1>@ViewBag.Title</h1>
-        </hgroup>
+	@Html.AntiForgeryToken()
 
-        <div>
-            @Html.LabelFor(m => m.UserName)
-            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(e => e.UserName, " ")
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Password)
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Password, " ")
-        </div>
-        <div>
-            @Html.LabelFor(m => m.ConfirmPassword)
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.ConfirmPassword, " ")
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
-            <div>
-                @Html.TextBoxFor(m => m.Surname,new { @class = "form-control" })
-                @Html.ValidationMessageFor(e => e.Surname, " ")
-            </div>
-            <p></p>
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-            <div>
-                @Html.TextBoxFor(m => m.Name,new { @class = "form-control" })
-                @Html.ValidationMessageFor(e => e.Name, " ")
-            </div>
-            <p></p>
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Patronymic, new { @class = "control-label" })
-            <div>
-                @Html.TextBoxFor(m => m.Patronymic,new { @class = "form-control" })
-                @Html.ValidationMessageFor(e => e.Patronymic, " ")
-            </div>
-            <p></p>
-        </div>
-       <div>
-            @Html.LabelFor(e => e.Group, new { @class = "control-label" })
-            <div>
-                @Html.DropDownListFor(e => e.Group, Model.GetGroups(), new { @class = "form-control" })   
-            </div>
-            <p></p>
-        </div>
-        <div style="float: left">
-            <input type="submit" class="btn btn-primary btn-sm" value="Регистрация" />
-        </div>
-        <div style="text-align: right">
-            <a href=@Url.Action("Login") class="btn btn-primary btn-sm" style="margin-top: 5px;">Вернуться на страницу входа в систему</a>
-        </div>
-    </div>
-    <div style="text-align: center; padding-top: 10px">
-        <span id="copyright">Copyright © 2013 - @DateTime.Now.Year.ToString() BNTU. Все права защищены.</span>
-    </div>
+	<div class="container">
+		<div class="login-form">
+			<div class="login-wrap">
+				<hgroup style="text-align: center; margin-bottom: 20px">
+					<h1>@ViewBag.Title</h1>
+				</hgroup>
+
+				<div>
+					@Html.LabelFor(m => m.UserName)
+					@Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+					@Html.ValidationMessageFor(e => e.UserName, " ")
+				</div>
+				<div>
+					@Html.LabelFor(m => m.Password)
+					@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.Password, " ")
+				</div>
+				<div>
+					@Html.LabelFor(m => m.ConfirmPassword)
+					@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.ConfirmPassword, " ")
+				</div>
+				<div>
+					@Html.LabelFor(m => m.Surname, new { @class = "control-label" })
+					<div>
+						@Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+						@Html.ValidationMessageFor(e => e.Surname, " ")
+					</div>
+					<p></p>
+				</div>
+				<div>
+					@Html.LabelFor(m => m.Name, new { @class = "control-label" })
+					<div>
+						@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+						@Html.ValidationMessageFor(e => e.Name, " ")
+					</div>
+					<p></p>
+				</div>
+				<div>
+					@Html.LabelFor(m => m.Patronymic, new { @class = "control-label" })
+					<div>
+						@Html.TextBoxFor(m => m.Patronymic, new { @class = "form-control" })
+						@Html.ValidationMessageFor(e => e.Patronymic, " ")
+					</div>
+					<p></p>
+				</div>
+				<div>
+					@Html.LabelFor(e => e.Group, new { @class = "control-label" })
+					<div>
+						@Html.DropDownListFor(e => e.Group, Model.GetGroups(), new { @class = "form-control" })
+					</div>
+					<p></p>
+				</div>
+				<div>
+					<input type="submit" class="btn bg-blue btn-block" value="Регистрация" />
+				</div>
+				<div>
+					<a href=@Url.Action("Login") class="btn bg-blue btn-block" style="margin-top: 5px;">Вернуться на страницу входа в систему</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
 }
 
 

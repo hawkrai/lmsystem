@@ -23,6 +23,40 @@ namespace Application.Infrastructure.LecturerManagement
             }
         }
 
+		public List<List<string>> GetLecturesScheduleMarks(int subjectId, int groupId)
+		{
+			var data = new List<List<string>>();
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var group = repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId).Include(e => e.Students.Select(x => x.LecturesVisitMarks.Select(t => t.LecturesScheduleVisiting))));
+
+				foreach (var student in group.Students)
+				{
+					var row = new List<string> {student.FullName};
+
+
+					row.AddRange(student.LecturesVisitMarks.OrderBy(e => e.LecturesScheduleVisiting.Date).Select(lecturesVisitMark => lecturesVisitMark.Mark));
+
+					data.Add(row);
+				}
+			}
+			return data;
+		}
+
+	    public List<string> GetLecturesScheduleVisitings(int subjectId)
+	    {
+		    var data = new List<string>();
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var subject =
+					repositoriesContainer.SubjectRepository.GetBy(
+						new Query<Subject>(e => e.Id == subjectId).Include(e => e.LecturesScheduleVisitings));
+
+				data.AddRange(subject.LecturesScheduleVisitings.OrderBy(e => e.Date).Select(lecturesScheduleVisiting => lecturesScheduleVisiting.Date.ToString("dd/MM/yyyy")));
+			}
+		    return data;
+	    }
+
         public List<Lecturer> GetLecturers()
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

@@ -69,6 +69,7 @@ namespace Application.Infrastructure.SubjectManagement
                     .Include(e => e.SubjectNewses)
                     .Include(e => e.Lectures)
                     .Include(e => e.Labs)
+					.Include(e => e.SubjectLecturers.Select(x => x.Lecturer.User))
                     .Include(e => e.Practicals)
                     .Include(e => e.LecturesScheduleVisitings)
                     .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(v => v.ScheduleProtectionLabs))));

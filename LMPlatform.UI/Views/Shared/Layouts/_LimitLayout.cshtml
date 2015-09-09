@@ -55,14 +55,34 @@
 	<!-- AdminLTE for demo purposes -->
 	<script src="/Templates/js/AdminLTE/demo.js" type="text/javascript"></script>
 	@*end section temp*@
-</head>
-    <body>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            @RenderBody()
-        </div>
-        @RenderSection("scripts", required: false)
 
-    </body>
+	<style>
+		body {
+			color: #797979;
+			background: #eeeeee;
+			font-family: 'Lato', sans-serif;
+			padding: 0px !important;
+			margin: 0px !important;
+			font-size: 14px !important;
+		}
+
+		.login-img3-body {
+			background: url('/Images/login_bk.jpg') no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+	</style>
+
+</head>
+<body class="login-img3-body">
+	<div id="body">
+		@RenderSection("featured", required: false)
+		@RenderBody()
+	</div>
+	@RenderSection("scripts", required: false)
+
+</body>
 @Scripts.Render("~/bundles/bootbox")
 </html>

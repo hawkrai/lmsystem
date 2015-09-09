@@ -1,143 +1,212 @@
 ﻿@model LMPlatform.UI.ViewModels.AccountViewModels.LoginViewModel
 
 @{
-    ViewBag.Title = "Вход в систему";
-    Layout = "~/Views/Shared/Layouts/_LimitLayout.cshtml";
+	ViewBag.Title = "Вход в систему";
+	Layout = "~/Views/Shared/Layouts/_LimitLayout.cshtml";
 }
 <style>
-	body {
-		background-color: cadetblue !important;
+	.login-img3-body .login-form {
+		border: 1px solid #B0B6BE;
+		background: rgba(213,215,222,0.1);
+	}
+
+	.login-form {
+		max-width: 350px;
+		margin: 200px auto 0;
+		background: #d5d7de;
+	}
+
+	.login-wrap {
+		padding: 20px;
+	}
+
+	.login-img3-body .login-form p, .login-img2-body .login-form p {
+		color: #34aadc;
+	}
+
+	.login-form .login-img {
+		font-size: 50px;
+		font-weight: 300;
+	}
+
+	.login-form p {
+		text-align: center;
+		color: #b6b6b6;
+		font-size: 16px;
+		font-weight: 300;
+	}
+
+	.login-form .input-group-addon {
+		padding: 6px 12px;
+		font-size: 16px;
+		color: #8b9199;
+		font-weight: normal;
+		line-height: 1;
+		text-align: center;
+		background-color: #ffffff;
+		border: none;
+		border-radius: 0;
+	}
+
+	.login-form .input-group {
+		padding-bottom: 15px;
 	}
 </style>
 @using (Html.BeginForm(new { ViewBag.ReturnUrl }))
 {
-    <div class="error-limit-login">
-        @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
-    </div>
-    
-    @Html.AntiForgeryToken()
+	<div class="error-limit-login">
+		@Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
+	</div>
 
-	<div class="bg-cadetblue">
-		<div class="form-box" id="login-box">
-			<div class="header">LMPlatform</div>
-			<div class="body bg-gray">
-				<div>
-					@Html.LabelFor(m => m.UserName, new { @class = "control-label" })
-					<div>
-						@Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-						@Html.ValidationMessageFor(e => e.UserName, " ")
-					</div>
-					<p></p>
+	@Html.AntiForgeryToken()
+
+	<div class="container">
+		<div class="login-form">
+			<div class="login-wrap">
+				<p class="login-img">
+					<i class="fa fa-lock"></i>
+				</p>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-user"></i></span>
+					@Html.TextBoxFor(m => m.UserName, new {@class = "form-control", @placeholder = "Пользователь", @autofocus = "", @style = "margin-top: 0px;border: 0;height: 45px"})
 				</div>
-				<div>
-					@Html.LabelFor(m => m.Password, new { @class = "control-label" })
-					<div>
-						@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-						@Html.ValidationMessageFor(e => e.Password, " ")
-					</div>
-					<p></p>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-user"></i></span>
+					@Html.PasswordFor(m => m.Password, new {@class = "form-control", @placeholder = "Пароль", @autofocus = "", @style = "margin-top: 0px;border: 0;height: 45px"})
 				</div>
-			</div>
-			<div class="footer">
-					<input type="submit" class="btn bg-blue btn-block" value="Войти" />
-				<div>
-					<p>
-						<a href=@Url.Action("Register")>
-							<strong>Зарегистрироваться?</strong>
-						</a>
-					</p>
-					<p>
-						<a href="#" id="Parental" data-url="@Url.Action("Index", "Parental")">
-							<strong>Контроль успеваемости</strong>
-						</a>
-					</p>
+				<div style="margin-bottom: 10px">
+					<input type="submit" class="btn bg-blue btn-block" value="Войти"/>
 				</div>
+				<div style="margin-bottom: 10px">
+					<a class="btn bg-blue btn-block" href=@Url.Action("Register")>
+						<strong>Регистрация</strong>
+					</a>
+				</div>
+				<p>
+					<a href="#" id="Parental" data-url="@Url.Action("Index", "Parental")">
+						<strong>Контроль успеваемости</strong>
+					</a>
+				</p>
 			</div>
 		</div>
 	</div>
 
-    @*<div id="login" class="hero-unit center" style="margin-top: 60px">
-        <div style="text-align: center; margin-bottom: 20px">
-            <h1>LMPlatform</h1>
-        </div>
-        <div>
-            @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
-            <div>
-                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(e => e.UserName, " ")
-            </div>
-            <p></p>
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
-            <div>
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                @Html.ValidationMessageFor(e => e.Password, " ")
-            </div>
-            <p></p>
-        </div>
+	@*<div class="bg-cadetblue">
+			<div class="form-box" id="login-box">
+				<div class="header">LMPlatform</div>
+				<div class="body bg-gray">
+					<div>
+						@Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+						<div>
+							@Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+							@Html.ValidationMessageFor(e => e.UserName, " ")
+						</div>
+						<p></p>
+					</div>
+					<div>
+						@Html.LabelFor(m => m.Password, new { @class = "control-label" })
+						<div>
+							@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+							@Html.ValidationMessageFor(e => e.Password, " ")
+						</div>
+						<p></p>
+					</div>
+				</div>
+				<div class="footer">
+						<input type="submit" class="btn bg-blue btn-block" value="Войти" />
+					<div>
+						<p>
+							<a href=@Url.Action("Register")>
+								<strong>Зарегистрироваться?</strong>
+							</a>
+						</p>
+						<p>
+							<a href="#" id="Parental" data-url="@Url.Action("Index", "Parental")">
+								<strong>Контроль успеваемости</strong>
+							</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>*@
 
-        <div class="row" style="margin-left: 0">
-            <div class="checkbox col-md-6">
-                <label>@Html.CheckBoxFor(m => m.RememberMe) Запомнить</label>
-            </div>
-            <div class="col-md-6">
-                <input type="submit" class="btn btn-primary btn-sm pull-right" value="Войти" />
-                <p></p>
-            </div>
+	@*<div id="login" class="hero-unit center" style="margin-top: 60px">
+			<div style="text-align: center; margin-bottom: 20px">
+				<h1>LMPlatform</h1>
+			</div>
+			<div>
+				@Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+				<div>
+					@Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+					@Html.ValidationMessageFor(e => e.UserName, " ")
+				</div>
+				<p></p>
+			</div>
+			<div>
+				@Html.LabelFor(m => m.Password, new { @class = "control-label" })
+				<div>
+					@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+					@Html.ValidationMessageFor(e => e.Password, " ")
+				</div>
+				<p></p>
+			</div>
 
-        </div>
+			<div class="row" style="margin-left: 0">
+				<div class="checkbox col-md-6">
+					<label>@Html.CheckBoxFor(m => m.RememberMe) Запомнить</label>
+				</div>
+				<div class="col-md-6">
+					<input type="submit" class="btn btn-primary btn-sm pull-right" value="Войти" />
+					<p></p>
+				</div>
 
-        <div class="registration">
-            <p>
-                <a href=@Url.Action("Register")>
-                    <strong>Зарегистрироваться?</strong>
-                </a>
-            </p>
-            <p>
-                <a href="#" id="Parental" data-url="@Url.Action("Index", "Parental")">
-                    <strong>Контроль успеваемости</strong>
-                </a>
-            </p>
-        </div>
-        
-        <div style="margin: 2px auto; width: 310px;">
-        <div class="browsers">
-			<span class="firefox" title="Firefox 17+"></span>
-			<span class="chrome" title="Chrome 30+"></span>
-			<span class="safari" title="Safari"></span>
-			<span class="iexplorer" title="Internet Explorer 9+"></span>
-		</div>    
-    </div>*@
+			</div>
+
+			<div class="registration">
+				<p>
+					<a href=@Url.Action("Register")>
+						<strong>Зарегистрироваться?</strong>
+					</a>
+				</p>
+				<p>
+					<a href="#" id="Parental" data-url="@Url.Action("Index", "Parental")">
+						<strong>Контроль успеваемости</strong>
+					</a>
+				</p>
+			</div>
+
+			<div style="margin: 2px auto; width: 310px;">
+			<div class="browsers">
+				<span class="firefox" title="Firefox 17+"></span>
+				<span class="chrome" title="Chrome 30+"></span>
+				<span class="safari" title="Safari"></span>
+				<span class="iexplorer" title="Internet Explorer 9+"></span>
+			</div>
+		</div>*@
 
 	//</div>
-    
-    
-    <div style="text-align: center; padding-top: 10px; color: white">
-        <span id="copyright">Copyright © 2013 - @DateTime.Now.Year.ToString() BNTU. Все права защищены.</span>
-    </div>
 }
 
 <script>
-    $(function () {
-        $("#Parental").on('click', function () {
-            showDialog();
-        });
-    });
-    openPartialPage = function () {
-    	if (event.keyCode == 13) {
-    		var groupName = $('#groupValidation').val();
-    		window.location.href = "/Parental/Index/" + groupName;
-    		document.location.href = "/Parental/Index/" + groupName;
-   		
-    		window.event.returnValue = false;
-		    window.event.preventDefault();
-	    }
-	    
-    };
-    function showDialog() {
-    	
-        var form =
+	$(function () {
+		$("#Parental").on('click', function () {
+			showDialog();
+		});
+	});
+	openPartialPage = function () {
+		if (event.keyCode == 13) {
+			var groupName = $('#groupValidation').val();
+			window.location.href = "/Parental/Index/" + groupName;
+			document.location.href = "/Parental/Index/" + groupName;
+
+			window.event.returnValue = false;
+			window.event.preventDefault();
+		}
+
+	};
+	function showDialog() {
+
+		var form =
             '<form>' +
                     '<div>' +
                          '<span>Введите номер группы:</span>' +
@@ -146,24 +215,24 @@
                          '<input id="groupValidation" onkeydown="openPartialPage();" type="text" name="group"/>' +
                     '</div>' +
             '</form>';
-	    
-        bootbox.dialog({
-        	message: form,
-        	backdrop: true,
-        	keyboard: true,
-            title: "Контроль успеваемости",
-            buttons: {
-                main: {
-                    label: "Войти",
-                    className: "btn-primary btn-submit btn-sm",
-                    callback: function () {
-                        var groupName = $('#groupValidation').val();
-                        window.location.href = "/Parental/Index/" + groupName;
-                    }
-                }
-            }
-        });
-    }
+
+		bootbox.dialog({
+			message: form,
+			backdrop: true,
+			keyboard: true,
+			title: "Контроль успеваемости",
+			buttons: {
+				main: {
+					label: "Войти",
+					className: "btn-primary btn-submit btn-sm",
+					callback: function () {
+						var groupName = $('#groupValidation').val();
+						window.location.href = "/Parental/Index/" + groupName;
+					}
+				}
+			}
+		});
+	}
 
 
 </script>
