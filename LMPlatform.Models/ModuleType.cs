@@ -14,6 +14,7 @@
         ScheduleProtection = 11,
         Results = 12,
         StatisticsVisits = 13,
-        Practical = 10
+        Practical = 10,
+        ComplexMaterial = 14
     }
 }

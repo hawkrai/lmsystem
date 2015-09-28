@@ -1,0 +1,167 @@
+﻿@model LMPlatform.UI.ViewModels.ComplexMaterialsViewModel.AddOrEditConceptViewModel
+<div id="memoForm" style="text-align:center;">
+    <a id="zoom-plus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomPlus()"><i style="margin-right: 10px;" class="fa fa-plus"></i>Увеличить</a>
+    <a id="zoom-minus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomMinus()"><i style="margin-right: 10px;" class="fa fa-minus"></i>Уменьшить</a>
+    <a id="move-prev" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="movePrev()"><i style="margin-right: 10px;" class=" glyphicon glyphicon-backward"></i>Предыдущий</a>
+    <a id="move-next" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="moveNext()">Следующий<i style="margin-left: 10px;" class="glyphicon glyphicon-forward"></i></a>
+    <div id="pdfContainer" style=" text-align: center; overflow: auto;"></div>
+    <a id="zoom-plus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomPlus()"><i style="margin-right: 10px;" class="fa fa-plus"></i>Увеличить</a>
+    <a id="zoom-minus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomMinus()"><i style="margin-right: 10px;" class="fa fa-minus"></i>Уменьшить</a>
+    <a id="move-prev" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="movePrev()"><i style="margin-right: 10px;" class=" glyphicon glyphicon-backward"></i>Предыдущий</a>
+    <a id="move-next" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="moveNext()">Следующий<i style="margin-left: 10px;" class="glyphicon glyphicon-forward"></i></a>
+</div>
+<style>
+    .pdf-page {
+        border: 1px solid black;
+        margin: 10px;
+    }
+</style>
+
+<script type="text/javascript">
+
+    PDFJS.workerSrc = '/Scripts/pdfjs/pdf.worker.js';
+
+    var scale = 3.5;
+    var scaleStep = 0.1;
+
+    function resizeDialog() {
+        $('.modal-dialog').width(($(document).width() * 0.75) + 'px');
+    }
+
+    resizeDialog();
+
+    $(window).resize(function () {
+
+        //resizeDialog();
+        //renderPdf();
+    })
+
+    function zoomPlus() {
+        clearPdfPage();
+        currPage = 1;
+        scale = scale + scaleStep;
+        thePDF.getPage(currPage).then(handlePages);
+    }
+
+    function zoomMinus() {
+        clearPdfPage();
+        currPage = 1;
+        scale = scale - scaleStep;
+        thePDF.getPage(currPage).then(handlePages);
+    }
+
+    function startSpin() {
+        $(".loading").toggleClass('ng-hide', false);
+    };
+
+    function stopSpin () {
+        $(".loading").toggleClass('ng-hide', true);
+    };
+
+    function showEmptyContainer(message) {
+        var height = $(document).height() / 3;
+        var pdfContainer = $('#pdfContainer');
+        pdfContainer.empty();
+        pdfContainer.html("<div style='height:" + height + "px;'><div style='top:50%; position: relative;'><h4>" + message + "</h4></div></div>");
+    }
+
+    function updateHeader(name) {
+        var prefix = "Просмотр концепта";
+        var title = prefix;
+        if (name && name.length > 0)
+            title = prefix + ' "' + name + '"';
+
+        $("#myModalLabel").html(title);
+    }
+
+    function loadConceptAttach(servicePath) {
+        $.get(servicePath)
+        .done(function (data) {
+            if (!data.HasData) {
+                showEmptyContainer("У концепта нет связного элемента в этом направлении");
+                return;
+            }
+
+            if (data.HasAttach) {
+                LoadPDF(data.FullPath);
+            }
+            else
+                showEmptyContainer("Пустой концепт");
+            updateHeader(data.Name);
+            currentId = data.Id
+        });
+    }
+
+    function moveNext() {
+        var url = "/Services/Concept/ConceptService.svc/GetNextConceptData?elementId=" + currentId;
+        loadConceptAttach(url);
+    }
+
+    function movePrev() {
+        var url = "/Services/Concept/ConceptService.svc/GetPrevConceptData?elementId=" + currentId;
+        loadConceptAttach(url);
+    }
+
+    function scalingViewport(page, scale, maxWidth) {
+        var viewPort = page.getViewport(scale);
+        if ((viewPort.width + viewPort.width * 0.1) < maxWidth)
+            return viewPort;
+        else
+            return scalingViewport(page, scale - scaleStep, maxWidth);
+    }
+
+    function handlePages(page) {
+
+        var canvas = document.createElement("canvas");
+        var viewport = scalingViewport(page, scale, $('.modal-dialog').width());
+        scale = viewport.scale;
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvas.className = "pdf-page";
+
+        var context = canvas.getContext('2d');
+        page.render({ canvasContext: context, viewport: viewport });
+
+        document.getElementById('pdfContainer').appendChild(canvas);
+
+        currPage++;
+        if (thePDF !== null && currPage <= numPages) {
+            thePDF.getPage(currPage).then(handlePages);
+        }
+        else
+            stopSpin();
+    }
+
+    function renderPdf() {
+        currPage = 1;
+        clearPdfPage();
+        thePDF.getPage(currPage).then(handlePages);
+    }
+
+    function clearPdfPage() {
+        $('#pdfContainer').empty();
+    }
+
+    function LoadPDF(filepath) {
+        if (filepath.length < 1) {
+            showEmptyContainer("Пустой концепт");
+            return;
+        }
+        clearPdfPage();
+        try {
+            startSpin();
+            PDFJS.getDocument(filepath).then(function (pdf) {
+                thePDF = pdf;
+                numPages = pdf.numPages;
+                renderPdf();
+            });
+        }
+        catch (e) {
+            alertify.error(e.message);
+        }
+
+    }
+
+    var currentId = @Model.Id
+    LoadPDF('@Model.GetRelativePathForActiveAttachment()');
+</script>

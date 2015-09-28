@@ -6,6 +6,8 @@ namespace LMPlatform.Models
 {
     public class Subject : ModelBase
     {
+        public virtual ICollection<Concept> Concept { get; set; }
+
         public string Name
         {
             get; 

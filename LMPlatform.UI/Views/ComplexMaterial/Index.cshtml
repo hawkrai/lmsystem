@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Электронный учебно-методический комплекс";
+}
+
+@section css
+{
+    <link rel="stylesheet" href="/Content/docs.min.css">
+    <link rel="stylesheet" href="/Content/materials.css">
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/complexMaterialsApp")
+}
+
+@section headerTitle
+{
+    <h1 id="material-header" style="text-align:center;">Модуль электронных учебно-методических комплексов</h1>
+}
+
+@section navleft
+{
+    <li style="cursor:pointer;" ng-click="backspaceFolder()"><a class="linkNavbar"><i class="fa fa-arrow-left"></i>Назад</a></li>
+    <li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
+}
+<div ng-view></div>

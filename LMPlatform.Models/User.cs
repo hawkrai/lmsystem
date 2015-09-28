@@ -11,6 +11,8 @@ namespace LMPlatform.Models
 
     public class User : ModelBase
     {
+        public virtual ICollection<Concept> Concept { get; set; }
+
         public string UserName
         {
             get;

@@ -21,6 +21,8 @@ namespace LMPlatform.UI.Services.Lectures
     using LMPlatform.UI.Services.Modules.News;
 
     using Newtonsoft.Json;
+    using Application.Infrastructure.ConceptManagement;
+    using WebMatrix.WebData;
 
     public class LecturesService : ILecturesService
     {
@@ -41,6 +43,15 @@ namespace LMPlatform.UI.Services.Lectures
             {
                 return subjectManagementService.Value;
             }
+        }
+
+        private readonly LazyDependency<IConceptManagementService> _conceptManagementService =
+            new LazyDependency<IConceptManagementService>();
+
+
+        public IConceptManagementService ConceptManagementService
+        {
+            get { return _conceptManagementService.Value; }
         }
 
         public LecturesResult GetLectures(string subjectId)
@@ -98,16 +109,19 @@ namespace LMPlatform.UI.Services.Lectures
             try
             {
                 var attachmentsModel = JsonConvert.DeserializeObject<List<Attachment>>(attachments).ToList();
-
+                var subject = int.Parse(subjectId);
                 SubjectManagementService.SaveLectures(new Lectures
                 {
-                    SubjectId = int.Parse(subjectId),
+                    SubjectId = subject,
                     Duration = int.Parse(duration),
                     Theme = theme,
                     Order = int.Parse(order),
                     Attachments = pathFile,
                     Id = int.Parse(id)
                 }, attachmentsModel);
+
+                ConceptManagementService.AttachFolderToLectSection(theme, WebSecurity.CurrentUserId, subject);
+
                 return new ResultViewData()
                 {
                     Message = "Лекция успешно сохранена",

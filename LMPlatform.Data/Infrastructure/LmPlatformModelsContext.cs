@@ -89,6 +89,12 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<Concept> Concept
+        {
+            get;
+            set;
+        }
+
         public DbSet<Folders> Folders
         {
             get;
@@ -286,6 +292,21 @@ namespace LMPlatform.Data.Infrastructure
                 .HasMany<SubjectModule>(e => e.SubjectModules)
                 .WithRequired(e => e.Subject)
                 .HasForeignKey(e => e.SubjectId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Concept>().Map(m => m.ToTable("Concept"));
+            modelBuilder.Entity<Concept>().HasMany<Concept>(d => d.Children);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany<Concept>(e => e.Concept)
+                .WithRequired(e => e.Subject)
+                .HasForeignKey(e => e.SubjectId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+                .HasMany<Concept>(e => e.Concept)
+                .WithRequired(e => e.Author)
+                .HasForeignKey(e => e.UserId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<SubjectModule>()

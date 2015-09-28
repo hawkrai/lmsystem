@@ -124,6 +124,20 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/tinymce/tinymce.min.js",
                 "~/Scripts/tinymce/scrollTo.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/complexMaterialsApp").Include(
+                "~/Scripts/application/ComplexMaterials/controllers/homeController.js",
+                "~/Scripts/application/ComplexMaterials/controllers/catalogController.js",
+                "~/Scripts/application/ComplexMaterials/controllers/mapController.js",
+                "~/Scripts/application/ComplexMaterials/complexMaterialsApp.js",
+                "~/Scripts/application/ComplexMaterials/services/complexMaterialsDataService.js",
+                "~/Scripts/tinymce/tinymce.min.js",
+                "~/Scripts/pdfjs/compatibility.js",
+                "~/Scripts/pdfjs/l10n.js",
+                "~/Scripts/pdfjs/pdf.js",
+                "~/Scripts/d3/d3.min.js",
+                "~/Scripts/pdfjs/pdf.worker.js",
+                "~/Scripts/tinymce/scrollTo.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/knowledgeTesting").Include(
                 "~/Scripts/linq.js",
                 "~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js",

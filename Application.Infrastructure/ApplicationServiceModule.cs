@@ -1,6 +1,7 @@
 ﻿using Application.Core;
 using Application.Infrastructure.AccountManagement;
 using Application.Infrastructure.BugManagement;
+using Application.Infrastructure.ConceptManagement;
 using Application.Infrastructure.DPManagement;
 using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.FoldersManagement;
@@ -40,6 +41,7 @@ namespace Application.Infrastructure
             containerWrapper.Register<IUserService, UserService>();
             containerWrapper.Register<IFoldersManagementService, FoldersManagementService>();
             containerWrapper.Register<IMaterialsManagementService, MaterialsManagementService>();
+            containerWrapper.Register<IConceptManagementService, ConceptManagementService>();
             return containerWrapper;
         }
     }

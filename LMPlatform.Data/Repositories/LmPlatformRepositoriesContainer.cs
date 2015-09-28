@@ -59,6 +59,8 @@ namespace LMPlatform.Data.Repositories
 
         public IPracticalRepository PracticalRepository { get; set; }
 
+        public IConceptRepository ConceptRepository { get; set; }
+
         public void ApplyChanges()
         {
             _dataContext.SaveChanges();
@@ -95,6 +97,7 @@ namespace LMPlatform.Data.Repositories
             LabsRepository = new LabsRepository(_dataContext);
             ProjectUsersRepository = new ProjectUsersRepository(_dataContext);
             PracticalRepository = new PracticalRepository(_dataContext);
+            ConceptRepository = new ConceptRepository(_dataContext);
         }
     }
 }

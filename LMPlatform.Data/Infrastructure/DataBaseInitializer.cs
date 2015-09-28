@@ -35,6 +35,7 @@ namespace LMPlatform.Data.Infrastructure
             context.Modules.Add(new Module { DisplayName = "Результаты", Name = "Results", ModuleType = ModuleType.Results, Visible = false });
             context.Modules.Add(new Module { DisplayName = "Статистика посещения", Name = "StatisticsVisits", ModuleType = ModuleType.StatisticsVisits, Visible = false });
             context.Modules.Add(new Module { DisplayName = "Практические занятия", Name = "Practical", ModuleType = ModuleType.Practical, Order = 4, Visible = true });
+            context.Modules.Add(new Module { DisplayName = "Учебно-методический комплекс", Name = "CM", ModuleType = ModuleType.ComplexMaterial, Visible = true });
         }
 
         private static void CreateBugSymptoms(LmPlatformModelsContext context)

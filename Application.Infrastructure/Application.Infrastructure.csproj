@@ -72,6 +72,8 @@
     <Compile Include="ApplicationServiceModule.cs" />
     <Compile Include="BugManagement\BugManagementService.cs" />
     <Compile Include="BugManagement\IBugManagementService.cs" />
+    <Compile Include="ConceptManagement\ConceptManagementService.cs" />
+    <Compile Include="ConceptManagement\IConceptManagementService.cs" />
     <Compile Include="DPManagement\AuthorizationHelper.cs" />
     <Compile Include="DPManagement\CorrelationService.cs" />
     <Compile Include="DPManagement\DpManagementService.cs">

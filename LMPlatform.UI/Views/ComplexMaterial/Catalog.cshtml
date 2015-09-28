@@ -1,0 +1,83 @@
+﻿@if (User.IsInRole("lector"))
+{
+    <div ng-init="user='lector'"></div>
+}
+else
+{
+    <div ng-init="user='student'"></div>
+}
+<style>
+    .published-folder {
+        color:#3c8dbc;
+    }
+
+    .not-published-folder {
+        color: #b5b5b5;
+    }
+
+    .selected-elem {
+        font-weight: bold;
+        border: 1px solid gray;
+        border-radius:5px;
+        background-color: gainsboro !important;
+    }
+
+    .link {
+        padding-right: 10px;
+        padding-left: 10px;
+        cursor: pointer;
+    }
+
+    .rect {
+        fill: none;
+        pointer-events: all;
+    }
+
+    .loading {
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50000;
+        background-color: white;
+        opacity: 0.5;
+        -moz-opacity: 0.5;
+        filter: alpha(opacity=50);
+    }
+</style>
+<section style=" text-align:center; margin-bottom:15px">
+    <h4>{{titleController.title()}}</h4>
+</section>
+<div id="buttonActionSection" style="min-height:36px; padding-bottom:10px;">
+    <a id="openSelectedItem" style="margin-right:30px;" ng-show="isShowOpenItemButton()" class="btn btn-success btn-sm" ng-click="openConcept()"><i style="margin-right:10px;" class="glyphicon glyphicon-play-circle"></i>Просмотреть</a>
+    <a id="addNewComplexMaterial" ng-show="isShowRootAddButton()" class="btn btn-success btn-sm" ng-click="addNewRootComplexMaterial()"><i style="margin-right:10px;" class="fa fa-plus"></i>Добавить новый ЭУМК</a>
+    <a id="addNewComplexFolderMaterial" ng-show="isShowAddFolderButton()" class="btn btn-primary btn-sm" ng-click="addNewFolderComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-folder-close"></i>Добавить папку</a>
+    <a id="addNewComplexFileMaterial" ng-show="isShowAddFileButton()" class="btn btn-info btn-sm" ng-click="addNewComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-list-alt"></i>Добавить концепт</a>
+    <a id="editSelectedItem" ng-show="isShowEditItemButton()" class="btn btn-warning btn-sm" ng-click="editRootComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-pencil"></i>Редактировать</a>
+    <a id="deleteSelectedItem" ng-show="isShowDeleteItemButton()" class="btn btn-danger btn-sm" ng-click="deleteConcept()"><i style="margin-right:10px;" class="glyphicon glyphicon-remove"></i>Удалить</a>
+    @*<a id="openMapItem" style="margin-left:30px;"  class="btn btn-info btn-sm" ng-click=""><i style="margin-right:10px;" class="glyphicon glyphicon-picture"></i>Открыть карту</a>*@
+
+    <br />
+
+</div>
+<a ng-click="openMemo()" class="link" style="float:right;">Положение об ЭУМК</a>
+<a ng-show="isShowMapButton()" class="link" ng-click="openMap()" style="float:right;">Карта ЭУМК</a>
+<hr>
+<div class="bs-docs-section catalog" delete-context-menu data-pid="@ViewBag.Pid" style="height: 500px; margin-top:50px;">
+    <div class="bs-glyphicons">
+        <ul class="bs-glyphicons-list">
+            <li title="{{folder.Name}}" style="width: 100px; height: 100px" ng-class="{'selected-elem': folder.selected}" ng-click="selectElement($event)" ng-repeat=" folder in folders" class="folder" context-menu-folder ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}">
+                <span class="glyphicon" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}"
+                      ng-class="{'published-folder':folder.Published==true, 'not-published-folder':folder.Published!=true, 'glyphicon-briefcase':folder.IsGroup&&folder.ParentId==0, 'glyphicon-folder-open':folder.IsGroup&&folder.ParentId!=0, 'glyphicon-file':!folder.IsGroup}"></span>
+                <span class="glyphicon-class nameFolder" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}" style="color: #000">{{folder.ShortName}}</span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="loading">
+    <span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
+</div>
+
+
+

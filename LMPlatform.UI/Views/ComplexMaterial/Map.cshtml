@@ -1,0 +1,58 @@
+﻿<style>
+    .node {
+        cursor: pointer;
+    }
+
+    .overlay {
+        background-color: #EEE;
+    }
+
+    .node circle {
+        fill: #fff;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+    }
+
+    .node text {
+        font-size: 10px;
+        font-family: sans-serif;
+    }
+
+    .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 1.5px;
+    }
+
+    .templink {
+        fill: none;
+        stroke: red;
+        stroke-width: 3px;
+    }
+
+    .ghostCircle.show {
+        display: block;
+    }
+
+    .ghostCircle, .activeDrag .ghostCircle {
+        display: none;
+    }
+
+    .loading {
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50000;
+        background-color: white;
+        opacity: 0.5;
+        -moz-opacity: 0.5;
+        filter: alpha(opacity=50);
+    }
+</style>
+
+<div id="tree-container"></div>
+<div class="loading">
+    <span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
+</div>

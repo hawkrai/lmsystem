@@ -1,0 +1,78 @@
+﻿@model LMPlatform.UI.ViewModels.ComplexMaterialsViewModel.AddOrEditConceptViewModel
+<div id="addOrEditConceptForm">
+
+    @using (Html.BeginForm("SaveConcept", "ComplexMaterial", FormMethod.Post))
+    {
+        <div>
+            @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
+        </div>
+
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(e => e.Id)
+        @Html.HiddenFor(e => e.Author)
+        @Html.HiddenFor(e => e.FileData)
+        @Html.HiddenFor(e => e.ParentId)
+        @Html.HiddenFor(e => e.IsGroup)
+        @Html.HiddenFor(e => e.ReadOnly)
+        @Html.HiddenFor(e => e.Container)
+        
+        
+        <div style="width: 500px">
+
+            @Html.LabelFor(e => e.Name, new { @class = "control-label" })
+            @if (Model.ReadOnly)
+            {
+                @Html.TextBoxFor(e => e.Name, new { @disabled = "True", @class = "form-control", @style = "width:500px;" })
+                @Html.HiddenFor(e => e.Name)
+            }
+            else
+            {
+                @Html.EditorFor(e => e.Name, new { @class = "form-control", @style = "width:500px;" })
+            }
+            @Html.ValidationMessageFor(e => e.Name, " ")
+        </div>
+
+        <div style="width: 560px">
+            @Html.LabelFor(e => e.SelectedSubjectId, new { @class = "control-label" })
+            @Html.DropDownListFor(e => e.SelectedSubjectId, Model.GetSubjects(Model.Author), new { @disabled = "True", @class = "form-control", @style = "width:500px;" })
+            @Html.HiddenFor(e => e.SelectedSubjectId)
+        </div>
+
+        if (!Model.IsNew())
+        {
+            <div style="width: 560px">
+                @Html.LabelFor(e => e.Published, new { @class = "control-label" })
+                @Html.CheckBoxFor(e => e.Published, new { @disabled = "True", @class = "form-control" })
+                @Html.HiddenFor(e => e.Published)
+            </div>
+        }
+        <br />
+        <div style="width: 500px;">
+            <div style="float: left; width: 50%; display: inline">
+                @Html.LabelFor(e => e.Prev, new { @class = "control-label" })
+                @Html.DropDownListFor(e => e.Prev, Model.GetBroElements(Model.Author, Model.ParentId), "Предыдущий концепт...", new { @class = "form-control" })
+            </div>
+            <div style="float: left; width: 50%; display: inline; ">
+                @Html.LabelFor(e => e.Next, new { @class = "control-label" })
+                @Html.DropDownListFor(e => e.Next, Model.GetBroElements(Model.Author, Model.ParentId), "Следуюший концепт...", new { @class = "form-control" })
+            </div>
+        </div>
+        <div style="padding-top:100px; width: 500px">
+            @Html.Partial("Common/_FilesUploader", Model.GetAttachments())
+        </div>
+    }
+
+    <div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.modal-dialog').width('560px');
+    $('#addOrEditConceptForm a').tooltip(
+    {
+        placement: "right",
+    });
+
+    shared.initPlugins();
+</script>
+

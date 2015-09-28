@@ -268,6 +268,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
+    <Compile Include="Controllers\ComplexMaterialController.cs" />
     <Compile Include="Controllers\DpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
@@ -296,9 +297,18 @@
     <Content Include="Content\select.css" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\application\ComplexMaterials\complexMaterialsApp.js" />
+    <Content Include="Scripts\application\ComplexMaterials\controllers\catalogController.js" />
+    <Content Include="Scripts\application\ComplexMaterials\controllers\homeController.js" />
+    <Content Include="Scripts\application\ComplexMaterials\controllers\mapController.js" />
+    <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
+    <Compile Include="Services\Concept\ConceptService.svc.cs">
+      <DependentUpon>ConceptService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Concept\IConceptService.cs" />
     <Compile Include="Services\Files\FilesService.svc.cs">
       <DependentUpon>FilesService.svc</DependentUpon>
     </Compile>
@@ -323,6 +333,8 @@
     <Compile Include="Services\Lectures\LecturesService.svc.cs">
       <DependentUpon>LecturesService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\Modules\Concept\ConceptResult.cs" />
+    <Compile Include="Services\Modules\Concept\ConceptViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentLabMarkViewData.cs" />
@@ -395,6 +407,7 @@
     <Compile Include="ViewModels\BTSViewModels\ProjectParticipationViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\UserInfoViewModel.cs" />
+    <Compile Include="ViewModels\ComplexMaterialsViewModel\AddOrEditRootConceptViewModel.cs" />
     <Compile Include="ViewModels\DPViewModels\DiplomProjectViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionItemListViewModel.cs" />
@@ -931,6 +944,8 @@
     <Content Include="Scripts\ckeditor\skins\moono\images\lock.png" />
     <Content Include="Scripts\ckeditor\skins\moono\images\refresh.png" />
     <Content Include="Scripts\ckeditor\styles.js" />
+    <Content Include="Scripts\d3\d3.js" />
+    <Content Include="Scripts\d3\d3.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.min.js.gz" />
     <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.min.js.gz" />
     <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.min.js.gz" />
@@ -952,6 +967,7 @@
     <Content Include="Content\fonts\admin-icons.eot" />
     <Content Include="Content\fonts\admin-icons.ttf" />
     <Content Include="Content\fonts\admin-icons.woff" />
+    <Content Include="Content\memo.pdf" />
     <None Include="Properties\PublishProfiles\LMS.pubxml" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
@@ -1100,6 +1116,10 @@
     <Content Include="Scripts\mvcfileupload\tmpl.js" />
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
     <Content Include="Scripts\ng-table.js" />
+    <Content Include="Scripts\pdfjs\compatibility.js" />
+    <Content Include="Scripts\pdfjs\l10n.js" />
+    <Content Include="Scripts\pdfjs\pdf.js" />
+    <Content Include="Scripts\pdfjs\pdf.worker.js" />
     <Content Include="Scripts\prettify.js" />
     <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\select.js" />
@@ -1196,6 +1216,7 @@
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\xeditable.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Services\Concept\ConceptService.svc" />
     <Content Include="Services\CoreService.svc" />
     <Content Include="Services\Files\FilesService.svc" />
     <Content Include="Services\Materials\MaterialsService.svc" />
@@ -1657,6 +1678,14 @@
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.woff" />
     <Content Include="Views\Lms\ProfilePage.cshtml" />
+    <Content Include="Views\ComplexMaterial\Catalog.cshtml" />
+    <Content Include="Views\ComplexMaterial\Index.cshtml" />
+    <Content Include="Views\ComplexMaterial\Map.cshtml" />
+    <Content Include="Views\ComplexMaterial\_AddConceptForm.cshtml" />
+    <Content Include="Views\ComplexMaterial\_AddFolderConceptForm.cshtml" />
+    <Content Include="Views\ComplexMaterial\_AddRootConceptForm.cshtml" />
+    <Content Include="Views\ComplexMaterial\_MemoForm.cshtml" />
+    <Content Include="Views\ComplexMaterial\_OpenConceptForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -69,6 +69,7 @@
     <Compile Include="Repositories\BugLogsRepository.cs" />
     <Compile Include="Repositories\BugsRepository.cs" />
     <Compile Include="Repositories\AttachmentRepository.cs" />
+    <Compile Include="Repositories\ConceptRepository.cs" />
     <Compile Include="Repositories\FoldersRepository.cs" />
     <Compile Include="Repositories\GroupsRepository.cs" />
     <Compile Include="Repositories\LabsRepository.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Repositories\RepositoryContracts\IAttachmentRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IBugLogsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IBugsRepository.cs" />
+    <Compile Include="Repositories\RepositoryContracts\IConceptRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IFoldersRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IGroupsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ILabsRepository.cs" />

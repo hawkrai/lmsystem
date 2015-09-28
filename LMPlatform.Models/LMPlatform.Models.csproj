@@ -72,6 +72,7 @@
     <Compile Include="BTS\BugSymptom.cs" />
     <Compile Include="Bug.cs" />
     <Compile Include="BugLog.cs" />
+    <Compile Include="Concept.cs" />
     <Compile Include="DP\AssignedDiplomProject.cs" />
     <Compile Include="DP\DiplomPercentagesGraph.cs" />
     <Compile Include="DP\DiplomPercentagesGraphToGroup.cs" />

@@ -1,0 +1,68 @@
+﻿@model LMPlatform.UI.ViewModels.ComplexMaterialsViewModel.AddOrEditRootConceptViewModel
+<style>
+    .with-block
+    {
+        display:block;
+    }
+</style>
+<div id="addOrEditRootConceptForm">
+
+    @using (Html.BeginForm("SaveRootConcept", "ComplexMaterial", FormMethod.Post))
+    {
+        <div>
+            @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
+        </div>
+
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(e => e.Id)
+        @Html.HiddenFor(e => e.Author)
+
+        <div style="width: 500px">
+            @Html.LabelFor(e => e.Name, new { @class = "control-label" })
+            @Html.EditorFor(e => e.Name, new { @class = "form-control with-block"})
+            @Html.ValidationMessageFor(e => e.Name, " ")
+        </div>
+
+        <div style="width: 560px">
+
+            @if (Model.IsNew())
+            {
+                @Html.LabelFor(e => e.SelectedSubjectId, new { @class = "control-label" });
+                @Html.DropDownListFor(e => e.SelectedSubjectId, Model.GetSubjects(Model.Author), new { @class = "form-control", @style = "width:500px;" });
+            }
+            else
+            {
+                @Html.LabelFor(e => e.SelectedSubjectId, new { @class = "control-label" });
+                @Html.DropDownListFor(e => e.SelectedSubjectId, Model.GetSubjects(Model.Author), new { @disabled = "True", @class = "form-control", @style = "width:500px;" });
+                @Html.HiddenFor(e => e.SelectedSubjectId)
+            }
+        </div>
+        if (!Model.IsNew())
+        {
+            <div style="width: 560px">
+                @Html.LabelFor(e => e.Published, new { @class = "control-label" })
+                @Html.CheckBoxFor(e => e.Published, new { @disabled = "True", @class = "form-control" })
+                @Html.HiddenFor(e => e.Published)
+            </div>
+        }
+        @*<div style="width: 560px">
+                @Html.LabelFor(e => e.Author, new { @class = "control-label" })
+                @Html.EditorFor(e => e.Author, new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.Author, " ")
+            </div>*@
+    }
+
+    <div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.modal-dialog').width('560px');
+    $('#addOrEditConceptForm a').tooltip(
+    {
+        placement: "right",
+    });
+
+    shared.initPlugins();
+</script>
+

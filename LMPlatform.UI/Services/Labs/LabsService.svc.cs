@@ -18,6 +18,8 @@ namespace LMPlatform.UI.Services.Labs
     using System.Globalization;
 
     using LMPlatform.UI.Services.Modules.CoreModels;
+    using Application.Infrastructure.ConceptManagement;
+    using WebMatrix.WebData;
 
     public class LabsService : ILabsService
     {
@@ -40,6 +42,15 @@ namespace LMPlatform.UI.Services.Labs
 				return filesManagementService.Value;
 			}
 		}
+
+        private readonly LazyDependency<IConceptManagementService> _conceptManagementService =
+           new LazyDependency<IConceptManagementService>();
+
+
+        public IConceptManagementService ConceptManagementService
+        {
+            get { return _conceptManagementService.Value; }
+        }
 
         public LabsResult GetLabs(string subjectId)
         {
@@ -68,10 +79,10 @@ namespace LMPlatform.UI.Services.Labs
             try
             {
                 var attachmentsModel = JsonConvert.DeserializeObject<List<Attachment>>(attachments).ToList();
-
+                var subject = int.Parse(subjectId);
                 SubjectManagementService.SaveLabs(new Models.Labs
                 {
-                    SubjectId = int.Parse(subjectId),
+                    SubjectId = subject,
                     Duration = int.Parse(duration),
                     Theme = theme,
                     Order = int.Parse(order),
@@ -79,6 +90,7 @@ namespace LMPlatform.UI.Services.Labs
                     Attachments = pathFile,
                     Id = int.Parse(id)
                 }, attachmentsModel);
+                ConceptManagementService.AttachFolderToLectSection(theme, WebSecurity.CurrentUserId, subject);
                 return new ResultViewData()
                 {
                     Message = "Лабораторная работа успешно сохранена",

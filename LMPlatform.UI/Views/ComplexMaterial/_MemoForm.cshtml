@@ -1,0 +1,62 @@
+﻿<div id="memoForm">
+    <div id="pdfContainer" style=" text-align:center; overflow-x: auto;"></div>
+    @*<div id="pdfContainer" style=" text-align:center; overflow-y: scroll; height:400px;"></div>*@
+</div>
+<style>
+    .pdf-page
+    {
+        border: 1px solid black;
+        margin:10px;
+    }
+</style>
+<script type="text/javascript">
+    $('.modal-dialog').width('750px');
+    PDFJS.workerSrc = '/Scripts/pdfjs/pdf.worker.js';
+
+
+    
+    function handlePages(page) {
+        var canvas = document.createElement("canvas");
+        var viewport = page.getViewport(1);
+        canvas.className = "pdf-page";
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        var context = canvas.getContext('2d');
+        page.render({ canvasContext: context, viewport: viewport });
+
+        document.getElementById('pdfContainer').appendChild(canvas);
+
+        currPage++;
+        if (thePDF !== null && currPage <= numPages) {
+            thePDF.getPage(currPage).then(handlePages);
+        }
+    }
+
+
+    function LoadPDF(filepath) {
+        $('#pdfContainer').empty();
+
+        try
+        {
+            PDFJS.getDocument(filepath).then(function (pdf) {
+                thePDF = pdf;
+                numPages = pdf.numPages;
+                currPage = 1;
+                size = 1;
+                pdf.getPage(currPage).then(handlePages);
+            });
+        }
+        catch(e)
+        {
+            alertify.error(e.message);
+        }
+
+    }
+
+    LoadPDF('/Content/memo.pdf');
+    //setTimeout(function () { LoadPDF('/Content/pr.pdf'); }, 5000);
+
+
+</script>
+
