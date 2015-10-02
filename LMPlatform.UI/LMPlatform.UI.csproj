@@ -294,6 +294,7 @@
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Content\materials.css" />
     <Content Include="Content\select.css" />
+    <Content Include="Images\login_bk.jpg" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />

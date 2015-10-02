@@ -16,11 +16,19 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 
 			$scope.loadProfileData();
 
+			
+
 			setTimeout(
 				function () {
 					$scope.stopSpin();
+					$scope.loadCircle();
 				}, 100);
 		}
+
+		$scope.loadCircle = function () {
+			$('#circle_lec').circliful();
+			$("#circle_lab").circliful();
+		};
 
 		$scope.loadProfileData = function () {
 			$.ajax({
