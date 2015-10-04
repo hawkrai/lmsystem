@@ -122,157 +122,74 @@
 </style>
 
 <div class="row" ng-cloak style="margin: 0px">
-	@*<div class="col-md-6">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<div class="panel-title">
-					Профиль
-				</div>
-			</div>
-			<div class="panel-body">
-				<div class="ibox-content profile-content">
-					<div class="row">
-						<div class="col-md-3">
-							<img src="{{loadProfileData.Avatar}}" class="img-circle border" alt="User Image"/>
-						</div>
-						<div class="col-md-8">
-							<div>
-								<h1 class="user-name">{{loadProfileData.Name}}</h1>
-							</div>
-							<div class="user-status">
-								<div class="user-type">
-									<div ng-if="loadProfileData.UserType == '1'">Преподаватель</div>
-									<div ng-if="loadProfileData.UserType == '2'">Студент</div>
-								</div>
-								<div class="user-skill">
-									{{loadProfileData.Skill}}
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4">
-							<ul class="contact-list">
-								<li>
-									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-										<i class="fa fa-skype fa-1x"></i>
-									</a>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-										<li class="user-header">
-											<h6 style="margin-left: 10px">{{loadProfileData.SkypeContact}}</h6>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-										<i class="fa fa-envelope fa-1x"></i>
-									</a>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-										<li class="user-header">
-											<h6 style="margin-left: 10px">{{loadProfileData.Email}}</h6>
-										</li>
-									</ul>
-								</li>
-
-								<li>
-									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-										<i class="fa fa-phone-square fa-1x"></i>
-									</a>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-										<li class="user-header">
-											<h6 style="margin-left: 10px">{{loadProfileData.Phone}}</h6>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-						<div class="col-md-8">
-							<div ng-if="!isMyProfile" style="margin-top: 10px; font-size: 11px; margin-left: -45px" class="text-muted">Последний вход - {{loadProfileData.LastLogitData}}</div>
-						</div>
-					</div>
-					<div class="page-header">
-						<h4>Обо мне</h4>
-						<p>
-							{{loadProfileData.About}}
-						</p>
-					</div>
-					<div class="row" style="margin-top: 10px">
-						<div align="center">
-							<div ng-if="!isMyProfile">
-								<a href="~/Message" class="btn btn-success btn-sm" style="width: 100%; margin-top: 5px">
-									<i style="word-wrap: break-word" class="fa fa-envelope-o"> Отправить сообщение</i>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>*@
-	<div class="col-md-6">
-		@*		<div class="panel panel-default">
-			<div class="panel-heading">
-				<div class="panel-title">
-					Предметы
-				</div>
-			</div>*@
-		<div class="panel-body" style="max-height: 400px; overflow-y: auto">
-			<div>
-				<span style="padding: 10px; font-size: 18px"><a href="#">Надежность ПО</a></span>
-				<div class="progress">
-					<div class="progress-bar progress-bar-primary" style="width: 45%">Завершенность курса 45%</div>
-				</div>
-			</div>
-			<div>
-				<span style="padding: 10px;font-size: 18px"><a href="#">Тестирование и отладка ПО</a></span>
-				<div class="progress">
-					<div class="progress-bar progress-bar-primary" style="width: 60%">Завершенность курса 60%</div>
-				</div>
-			</div>
-			<div>
-				<span style="padding: 10px;font-size: 18px"><a href="#">Модульное тестирование</a></span>
-				<div class="progress">
-					<div class="progress-bar progress-bar-primary" style="width: 30%">Завершенность курса 30%</div>
-				</div>
-			</div>
-			@*			</div>*@
-		</div>
-
-	</div>
-	<div class="col-md-6">
-		<div class="row">
-			<div class="col-md-6">
-			</div>
-			<div class="col-md-6">
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
-						<div id="circle_lec" class="circliful" data-dimension="250" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
-							<span class="circle-info" style="line-height: 312.5px;">Проведенных лекций</span>
-						</div>
-					</div>
-					<div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
-						<div id="circle_lec" class="circliful" data-dimension="250" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
-							<span class="circle-info" style="line-height: 312.5px;">Посещенных лекций</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
-						<div id="circle_lab" class="circliful" data-dimension="250" data-text="55%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="55" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
-							<span class="circle-info" style="line-height: 312.5px;">Проведенных ЛБ</span>
-						</div>
-					</div>
-					<div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
-						<div id="circle_lab" class="circliful" data-dimension="250" data-text="55%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="55" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
-							<span class="circle-info" style="line-height: 312.5px;">Проведенных ЛБ</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="col-md-6">
+        <div class="page-header">Предметы</div>
+        <div class="panel-body" style="max-height: 400px; overflow-y: auto">
+            <div>
+                <span style="padding: 10px; font-size: 18px"><a href="#">Надежность ПО</a></span>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-primary" style="width: 45%">Завершенность курса 45%</div>
+                </div>
+            </div>
+            <div>
+                <span style="padding: 10px;font-size: 18px"><a href="#">Тестирование и отладка ПО</a></span>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-primary" style="width: 60%">Завершенность курса 60%</div>
+                </div>
+            </div>
+            <div>
+                <span style="padding: 10px;font-size: 18px"><a href="#">Модульное тестирование</a></span>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-primary" style="width: 30%">Завершенность курса 30%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="page-header">Статистика</div>
+        <div class="row">
+            <div class="col-md-6" style="text-align: -webkit-center;">
+                <span style="text-transform: uppercase;font-size: 28px;">
+                    <span style="font-size: 28px; color: #888;display: inline-block;margin: 0 10px 0 15px;">Лекций:</span> 5/16
+                </span>
+            </div>
+            <div class="col-md-6" style="text-align: -webkit-center;">
+                <span style="text-transform: uppercase;font-size: 28px;">
+                    <span style="font-size: 28px; color: #888;display: inline-block;margin: 0 10px 0 15px;">Лаб. работ:</span> 6/10
+                </span>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-md-6">
+                    <div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
+                        <div id="circle_lec" class="circliful" data-dimension="250" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+                            <span class="circle-info" style="line-height: 312.5px;">Проведенных лекций</span>
+                        </div>
+                    </div>
+                    <div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
+                        <div id="circle_lec" class="circliful" data-dimension="250" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+                            <span class="circle-info" style="line-height: 312.5px;">Посещенных лекций</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
+                        <div id="circle_lab" class="circliful" data-dimension="250" data-text="60%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="60" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+                            <span class="circle-info" style="line-height: 312.5px;">Проведенных ЛБ</span>
+                        </div>
+                    </div>
+                    <div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
+                        <div id="circle_lab" class="circliful" data-dimension="250" data-text="60%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="60" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+                            <span class="circle-info" style="line-height: 312.5px;">Посещенных ЛБ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div>
+        <div class="page-header">Календарь занятий</div>
+        <div id='calendarEvents'></div>
+    </div>
 	<div class="loading">
 		<span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
 	</div>

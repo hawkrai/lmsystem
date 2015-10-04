@@ -10,7 +10,13 @@
 @section css
 {
 	@Styles.Render("~/Content/bootstrapcontrols")
-	<link rel="stylesheet" href="~/Content/jquery.circliful.css" type="text/css"/>
+    <link rel="stylesheet" href="~/Content/jquery.circliful.css" type="text/css"/>
+    @*    <link rel="stylesheet" href="~/Content/jquery-ui.min.css" type="text/css"/>
+    <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.css" type="text/css"/>
+    <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.print.css" type="text/css"/>*@
+    <link href="~/Scripts/bootstrap-combined.min.css" rel="stylesheet" />
+	<link href="~/Content/fullcalendar/fullcalendar.css" rel="stylesheet" />
+		<link href="~/Content/fullcalendar/fullcalendar.print.css" rel="stylesheet" />
 }
 @section scripts
 {
@@ -21,8 +27,14 @@
 	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.barRenderer.min.js"></script>
 	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
 	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.pointLabels.min.js"></script>
-	<script type="text/javascript" src="~/Scripts/jquery.circliful.js"></script>
-	<script type="text/javascript" src="~/Scripts/application/userProfile/appUserProfile.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.circliful.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/fullcalendar/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/fullcalendar/moment.min.js"></script>
+    
+    <script  src="~/Scripts/fullcalendar/fullcalendar.js"></script>
+    <script type="text/javascript" src="~/Scripts/fullcalendar/lang-all.js"></script>
+    <script type="text/javascript" src="~/Scripts/application/userProfile/appUserProfile.js"></script>
 }
 
 @section headerTitle{

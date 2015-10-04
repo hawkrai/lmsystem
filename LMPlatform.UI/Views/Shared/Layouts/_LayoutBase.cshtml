@@ -90,29 +90,24 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="fa fa-info fa-1x"></i>
 						</a>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 400px;">
 							<li class="user-header bg-light-blue">
 								<div style="padding: 20px">
 									<h5>Система управления учебным процессом для средних и высших учебнымх заведений</h5>
 									<h5>Версия: 2.1.0</h5>
 									<hr/>
-									<h5>Разработчики: БНТУ Corporation</h5>
+								    <h5>Разработчики: Яцынович С.В., Бураковский А.И., Барковская О.А., Тарасюк П.В., Колосовский К.А., Завистовская Е.С., Михно В.С.</h5>
+								    <hr/>
+								    <h5>Руководитель проекта: к.т.н., доцент Попова Ю.Б.</h5>
+								    <hr/>
+                                    <h5 style="text-align: center">БНТУ - 2015</h5>
 								</div>
 							</li>
 						</ul>
 					</li>
 					<li class="dropdown user user-menu" style="font-size: 24px">
-						<div class="user-panel" style="padding: 0px">
-							<div class="pull-left image">
-								<img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image" />
-							</div>
-
-						</div>	
-					</li>
-					<li class="dropdown user user-menu" style="font-size: 24px">
-						
 						<a class="dropdown-toggle" type="button" id="dropdownMenu1" style="cursor: pointer" data-toggle="dropdown" aria-expanded="true">
-							<span><i class="caret"></i></span>
+							<span><i class="fa fa-user fa-1x"></i>  <i class="caret"></i></span>
 						</a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 							<li class="user-header bg-light-blue">
@@ -154,11 +149,19 @@
 	@RenderSection("specificScripts", required: false)
 	<div class="wrapper row-offcanvas row-offcanvas-left">
 		<aside class="left-side sidebar-offcanvas">
-			<section class="sidebar">
-				<ul class="sidebar-menu">
-					@RenderSection("navleft", false)
-				</ul>
-			</section>
+		    <section class="sidebar">
+		        <div class="user-panel">
+					<div class="pull-left image">
+						<img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image" />
+					</div>
+					<div class="pull-left info">
+						<p>@User.Identity.Name</p>
+					</div>
+				</div>
+		        <ul class="sidebar-menu">
+		            @RenderSection("navleft", false)
+		        </ul>
+		    </section>
 		</aside>
 		<aside class="right-side">
 			<section class="content-header" id="headerMainPage">
