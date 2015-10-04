@@ -28,7 +28,7 @@
 		}
 		return context[func].apply(context, args);
 	},
-	savingDialog: function (header, url, data, color, saveCallback, beforeSave) {
+	savingDialog: function (header, url, data, color, saveCallback, beforeSave, setting) {
 	    var that = this;
 	    var dialogId = that.generateUniqID();
 	    if (color == null) {
@@ -36,7 +36,7 @@
 	    }
 	    $("body").append("<div id=\"" + dialogId + "\" class=\"modal\"></div>");
 	    var dialogContainer = $("#" + dialogId);
-	    
+
 	    var bootstrapDialogMarkup = "<div class=\"modal-dialog panel panel-" + color + "\" style=\"padding:0px\">" +
 	        "<div class=\"panel-heading\">" +
 	        "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>" +
@@ -45,10 +45,11 @@
 	        "<div class=\"modal-body\">" +
 	        "</div>" +
 	        " <div class=\"modal-footer\">" +
-	        "<a href=\"#\" class=\"btn btn-" + color + " btn-sm\" id=\"cancelButton\" data-dismiss=\"modal\">Отменить</a>" +
-	        "<a href=\"#\" class=\"btn btn-" + color + " btn-sm\" id=\"saveButton\" data-dismiss=\"modal\">Сохранить</a></div>" +
-	        "</div>" +
-	        "</dvi>";
+	        "<a href=\"#\" class=\"btn btn-" + color + " btn-sm\" id=\"cancelButton\" data-dismiss=\"modal\">Отменить</a>";
+	    if (!setting || (setting && (!setting.hideSaveButton)))
+	        bootstrapDialogMarkup += "<a href=\"#\" class=\"btn btn-" + color + " btn-sm\" id=\"saveButton\" data-dismiss=\"modal\">Сохранить</a></div>";
+	    bootstrapDialogMarkup += "</div>" +
+        "</dvi>";
 	    
 	    $(dialogContainer).html(bootstrapDialogMarkup);
 	    
