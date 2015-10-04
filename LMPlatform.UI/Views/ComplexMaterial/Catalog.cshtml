@@ -8,7 +8,7 @@ else
 }
 <style>
     .published-folder {
-        color:#3c8dbc;
+        color: #3c8dbc;
     }
 
     .not-published-folder {
@@ -18,7 +18,7 @@ else
     .selected-elem {
         font-weight: bold;
         border: 1px solid gray;
-        border-radius:5px;
+        border-radius: 5px;
         background-color: gainsboro !important;
     }
 
@@ -46,16 +46,19 @@ else
         filter: alpha(opacity=50);
     }
 </style>
-<section style=" text-align:center; margin-bottom:15px">
+<section style=" text-align:center; margin-bottom:25px">
     <h4>{{titleController.title()}}</h4>
 </section>
 <div id="buttonActionSection" style="min-height:36px; padding-bottom:10px;">
     <a id="openSelectedItem" style="margin-right:30px;" ng-show="isShowOpenItemButton()" class="btn btn-success btn-sm" ng-click="openConcept()"><i style="margin-right:10px;" class="glyphicon glyphicon-play-circle"></i>Просмотреть</a>
-    <a id="addNewComplexMaterial" ng-show="isShowRootAddButton()" class="btn btn-success btn-sm" ng-click="addNewRootComplexMaterial()"><i style="margin-right:10px;" class="fa fa-plus"></i>Добавить новый ЭУМК</a>
-    <a id="addNewComplexFolderMaterial" ng-show="isShowAddFolderButton()" class="btn btn-primary btn-sm" ng-click="addNewFolderComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-folder-close"></i>Добавить папку</a>
-    <a id="addNewComplexFileMaterial" ng-show="isShowAddFileButton()" class="btn btn-info btn-sm" ng-click="addNewComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-list-alt"></i>Добавить концепт</a>
-    <a id="editSelectedItem" ng-show="isShowEditItemButton()" class="btn btn-warning btn-sm" ng-click="editRootComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-pencil"></i>Редактировать</a>
-    <a id="deleteSelectedItem" ng-show="isShowDeleteItemButton()" class="btn btn-danger btn-sm" ng-click="deleteConcept()"><i style="margin-right:10px;" class="glyphicon glyphicon-remove"></i>Удалить</a>
+    @if (User.IsInRole("lector"))
+    {
+        <a id="addNewComplexMaterial" ng-show="isShowRootAddButton()" class="btn btn-success btn-sm" ng-click="addNewRootComplexMaterial()"><i style="margin-right:10px;" class="fa fa-plus"></i>Добавить новый ЭУМК</a>
+        <a id="addNewComplexFolderMaterial" ng-show="isShowAddFolderButton()" class="btn btn-primary btn-sm" ng-click="addNewFolderComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-folder-close"></i>Добавить папку</a>
+        <a id="addNewComplexFileMaterial" ng-show="isShowAddFileButton()" class="btn btn-info btn-sm" ng-click="addNewComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-list-alt"></i>Добавить концепт</a>
+        <a id="editSelectedItem" ng-show="isShowEditItemButton()" class="btn btn-warning btn-sm" ng-click="editRootComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-pencil"></i>Редактировать</a>
+        <a id="deleteSelectedItem" ng-show="isShowDeleteItemButton()" class="btn btn-danger btn-sm" ng-click="deleteConcept()"><i style="margin-right:10px;" class="glyphicon glyphicon-remove"></i>Удалить</a>
+    }
     @*<a id="openMapItem" style="margin-left:30px;"  class="btn btn-info btn-sm" ng-click=""><i style="margin-right:10px;" class="glyphicon glyphicon-picture"></i>Открыть карту</a>*@
 
     <br />

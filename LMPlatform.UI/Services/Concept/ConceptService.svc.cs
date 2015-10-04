@@ -1,6 +1,7 @@
 ﻿using Application.Core;
 using Application.Infrastructure.ConceptManagement;
 using Application.Infrastructure.FilesManagement;
+using Application.Infrastructure.UserManagement;
 using LMPlatform.UI.Services.Modules.Concept;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace LMPlatform.UI.Services.Concept
     public class ConceptService : IConceptService
     {
         private const String SuccessCode = "200";
-        private const String ServerErrorCode ="500";
+        private const String ServerErrorCode = "500";
 
         private const String SuccessMessage = "Операция выполнена успешно";
 
@@ -28,6 +29,18 @@ namespace LMPlatform.UI.Services.Concept
                 return _conceptManagementService.Value;
             }
         }
+
+        private readonly LazyDependency<IUsersManagementService> _usersManagementService = new LazyDependency<IUsersManagementService>();
+
+        public IUsersManagementService UsersManagementService
+        {
+            get
+            {
+                return _usersManagementService.Value;
+            }
+        }
+
+
 
         private readonly LazyDependency<IFilesManagementService> _filesManagementService =
            new LazyDependency<IFilesManagementService>();
@@ -65,15 +78,24 @@ namespace LMPlatform.UI.Services.Concept
         }
 
 
+        private Boolean CurrentUserIsLector()
+        {
+            return UsersManagementService.CurrentUser.Membership.Roles.Any(r => r.RoleName.Equals("lector"));
+        }
+
         public ConceptResult GetRootConcepts(String subjectId)
         {
             try
             {
+                var subject = 0;
+                var valid = Int32.TryParse(subjectId, out subject);
                 var authorId = WebSecurity.CurrentUserId;
 
-                var concepts = ConceptManagementService.GetRootElements(authorId);
-                var subject = 0;
-                if (Int32.TryParse(subjectId, out subject))
+                var concepts = CurrentUserIsLector()  ?
+                    ConceptManagementService.GetRootElements(authorId) : (valid ? 
+                    ConceptManagementService.GetRootElementsBySubject(subject).Where(c=>c.Published) : new List<LMPlatform.Models.Concept>());
+
+                if(valid)
                     concepts = concepts.Where(c => c.SubjectId == subject);
 
                 return new ConceptResult
@@ -85,7 +107,7 @@ namespace LMPlatform.UI.Services.Concept
             }
             catch (Exception ex)
             {
-                
+
                 return new ConceptResult
                 {
                     Message = ex.Message,
@@ -94,7 +116,6 @@ namespace LMPlatform.UI.Services.Concept
             }
         }
 
-
         public ConceptResult GetConcepts(String parentId)
         {
             try
@@ -102,7 +123,10 @@ namespace LMPlatform.UI.Services.Concept
                 var authorId = WebSecurity.CurrentUserId;
                 var parent = Int32.Parse(parentId);
 
-                var concepts = ConceptManagementService.GetElementsByParentId(authorId, parent);
+                var concepts = CurrentUserIsLector() ?
+                    ConceptManagementService.GetElementsByParentId(authorId, parent) :
+                    ConceptManagementService.GetElementsByParentId(parent).Where(c => c.Published);
+
                 var concept = ConceptManagementService.GetById(parent);
 
                 return new ConceptResult
@@ -131,7 +155,7 @@ namespace LMPlatform.UI.Services.Concept
                 var conceptId = Int32.Parse(id);
                 var source = ConceptManagementService.GetById(conceptId);
                 var canDelete = source != null && source.Author.Id == WebSecurity.CurrentUserId;
-                if(canDelete)
+                if (canDelete)
                 {
                     ConceptManagementService.Remove(conceptId, source.IsGroup);
                 }
@@ -143,7 +167,7 @@ namespace LMPlatform.UI.Services.Concept
                 };
             }
             catch (Exception ex)
-            {            
+            {
                 return new ConceptResult
                 {
                     Message = ex.Message,
@@ -152,16 +176,13 @@ namespace LMPlatform.UI.Services.Concept
             }
         }
 
-
         public ConceptViewData GetConceptTree(String elementId)
         {
             try
             {
-                var authorId = WebSecurity.CurrentUserId;
                 var parentId = Int32.Parse(elementId);
 
                 var tree = ConceptManagementService.GetTreeConceptByElementId(parentId);
-
 
                 return new ConceptViewData(tree, true);
 

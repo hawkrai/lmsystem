@@ -12,7 +12,9 @@ namespace Application.Infrastructure.ConceptManagement
         Concept GetById(Int32 id);
         Concept GetTreeConceptByElementId(Int32 elementId);
         IEnumerable<Concept> GetRootElements(Int32 authorId);
+        IEnumerable<Concept> GetRootElementsBySubject(Int32 subjectId);
         IEnumerable<Concept> GetElementsByParentId(Int32 authorId, Int32 parentId);
+        IEnumerable<Concept> GetElementsByParentId(Int32 parentId);
         Concept CreateRootConcept(String name, Int32 authorId, Int32 subjectId);
         Concept SaveConcept(Concept concept, IList<Attachment> attachments);
         Concept SaveConcept(Concept concept);

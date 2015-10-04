@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.Core.Data;
+using Application.Core.PdfConvertor;
 using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Data.Repositories;
@@ -8,12 +9,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Application.Infrastructure.ConceptManagement
 {
     public class ConceptManagementService : IConceptManagementService
     {
+        private readonly string _storageRootTemp = ConfigurationManager.AppSettings["FileUploadPathTemp"];
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
         private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
 
@@ -72,6 +76,22 @@ namespace Application.Infrastructure.ConceptManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return repositoriesContainer.ConceptRepository.GetRootElementsByAuthorId(authorId);
+            }
+        }
+
+        public IEnumerable<Concept> GetRootElementsBySubject(int subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ConceptRepository.GetRootElementsBySubjectId(subjectId);
+            }
+        }
+
+        public IEnumerable<Concept> GetElementsByParentId(int parentId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ConceptRepository.GetByParentId(parentId);
             }
         }
 
@@ -144,10 +164,39 @@ namespace Application.Infrastructure.ConceptManagement
             }
         }
 
+        private IList<Attachment> ProcessWordAttachmentsIfExist(IList<Attachment> attachments)
+        {
+            var res = new List<Attachment>();
+            var convertor = new WordToPdfConvertor();
+
+            foreach (var attach in attachments)
+            {
+                var extension = Path.GetExtension(attach.FileName);
+                if (String.Compare(extension, ".doc", true) == 0 || String.Compare(extension, ".docx", true) == 0 || String.Compare(extension, ".rtf", true) == 0)
+                {
+                    var friendlyFileName = Path.GetFileNameWithoutExtension(attach.Name);
+                    var sourceFilePath = String.Format("{0}{1}", _storageRootTemp,attach.FileName);
+                    res.Add(new Attachment() 
+                    {
+                        AttachmentType = AttachmentType.Document,
+                        Id = 0,
+                        Name = String.Format("{0}.pdf",friendlyFileName),
+                        FileName = convertor.Convert(sourceFilePath)
+                    });
+                }
+                else
+                    res.Add(attach);
+                
+            }
+
+            return res;
+        }
+
         public Concept SaveConcept(Concept concept, IList<Attachment> attachments)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
+                //attachments = ProcessWordAttachmentsIfExist(attachments);
                 if (!string.IsNullOrEmpty(concept.Container))
                 {
                     var deleteFiles =
@@ -182,8 +231,24 @@ namespace Application.Infrastructure.ConceptManagement
                 repositoriesContainer.ConceptRepository.Save(concept);
                 repositoriesContainer.ApplyChanges();
                 BindNeighborConcept(concept, source, repositoriesContainer);
+                TryPublishParent(concept.ParentId, repositoriesContainer);
                 return concept;
             }
+        }
+
+        private void TryPublishParent(Int32? parentId, LmPlatformRepositoriesContainer repoContainer)
+        {
+            if (parentId.HasValue)
+            {
+                var parent = GetById(parentId.Value);
+                var childs = GetElementsByParentId(parent.Id);
+                parent.Published = childs.Any() && childs.All(c => c.Published);
+                repoContainer.ConceptRepository.Save(parent);
+                repoContainer.ApplyChanges();
+                TryPublishParent(parent.ParentId, repoContainer);
+            }
+            else
+                return;
         }
 
         private void AttachFolderToSection(String folderName, Int32 userId, Int32 subjectId, String sectionName)
@@ -278,7 +343,6 @@ namespace Application.Infrastructure.ConceptManagement
             {
                 var concept = new Concept(item.Theme, parent.Author, parent.Subject, true, false);
                 concept.ParentId = parent.Id;
-                concept.ReadOnly = true;
                 repositoriesContainer.ConceptRepository.Save(concept);
             }
         }
@@ -290,7 +354,6 @@ namespace Application.Infrastructure.ConceptManagement
             {
                 var concept = new Concept(item.Theme, parent.Author, parent.Subject, true, false);
                 concept.ParentId = parent.Id;
-                concept.ReadOnly = true;
                 repositoriesContainer.ConceptRepository.Save(concept);
             }
         }
@@ -299,8 +362,10 @@ namespace Application.Infrastructure.ConceptManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
+                var parentId = GetById(id).ParentId;
                 repositoriesContainer.ConceptRepository.Remove(id, removeChildren);
                 repositoriesContainer.ApplyChanges();
+                TryPublishParent(parentId, repositoriesContainer);
             }
         }
     }

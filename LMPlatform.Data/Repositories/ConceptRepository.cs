@@ -104,5 +104,15 @@ namespace LMPlatform.Data.Repositories
             else
                 return;
         }
+
+
+        public IEnumerable<Concept> GetRootElementsBySubjectId(int subjectId)
+        {
+            using (var context = new LmPlatformModelsContext())
+            {
+                var concepts = context.Set<Concept>().Include(c => c.Children).Include(a => a.Subject).Where(e => e.Subject.Id == subjectId && !e.ParentId.HasValue && e.IsGroup);
+                return concepts.ToList();
+            }
+        }
     }
 }

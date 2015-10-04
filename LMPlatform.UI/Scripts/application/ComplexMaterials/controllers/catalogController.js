@@ -308,6 +308,7 @@
                             complexMaterialsDataService.deleteConcept(data).success(function (data) {
                                 $scope.selectedItem.ParentId > 0 ? updateCurrentCatalog($scope.selectedItem.ParentId) : updateRootConceptList();
                                 $scope.stopSpin();
+                                $scope.selectedItem = null;
                             });
                         } else {
 
