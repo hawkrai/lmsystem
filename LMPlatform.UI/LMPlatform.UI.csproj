@@ -292,6 +292,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\docs.min.css" />
+    <Content Include="Content\fullcalendar\fullcalendar.css" />
+    <Content Include="Content\fullcalendar\fullcalendar.print.css" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\jquery.circliful.css" />
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Content\materials.css" />
     <Content Include="Content\select.css" />
@@ -739,6 +743,7 @@
     <Content Include="Scripts\application\subjectManagement.js" />
     <Content Include="Scripts\application\subjectWorking.js" />
     <Content Include="Scripts\application\userProfile\appUserProfile.js" />
+    <Content Include="Scripts\bootstrap-combined.min.css" />
     <Content Include="Scripts\bootstrap-multiselect.js" />
     <Content Include="Scripts\bootstrap-wysihtml5.js" />
     <Content Include="Scripts\bootstrap-wysihtml5.ru-RU.js" />
@@ -1029,6 +1034,13 @@
     <Content Include="Scripts\DataTables-1.9.4\media\js\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables-1.9.4\media\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\media\js\jquery.js" />
+    <Content Include="Scripts\fullcalendar\fullcalendar.js" />
+    <Content Include="Scripts\fullcalendar\gcal.js" />
+    <Content Include="Scripts\fullcalendar\jquery-ui.custom.min.js" />
+    <Content Include="Scripts\fullcalendar\jquery-ui.min.js" />
+    <Content Include="Scripts\fullcalendar\jquery.min.js" />
+    <Content Include="Scripts\fullcalendar\lang-all.js" />
+    <Content Include="Scripts\fullcalendar\moment.min.js" />
     <Content Include="Scripts\jqplot\chart.js" />
     <Content Include="Scripts\jqplot\jqplot.barRenderer.min.js" />
     <Content Include="Scripts\jqplot\jqplot.canvasAxisTickRenderer.min.js" />
@@ -1048,6 +1060,7 @@
     <Content Include="Scripts\jquery.activity-indicator-1.0.0.js" />
     <Content Include="Scripts\jquery.activity-indicator-1.0.0.min.js" />
     <Content Include="Scripts\jquery.bootstrap-duallistbox.js" />
+    <Content Include="Scripts\jquery.circliful.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
