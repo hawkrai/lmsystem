@@ -1,5 +1,4 @@
-﻿
-<style>
+﻿<style>
 	.ibox {
 		clear: both;
 		margin-bottom: 25px;
@@ -122,8 +121,8 @@
 	}
 </style>
 
-<div class="row" ng-cloak>
-	<div class="col-md-6">
+<div class="row" ng-cloak style="margin: 0px">
+	@*<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="panel-title">
@@ -209,81 +208,72 @@
 				</div>
 			</div>
 		</div>
+	</div>*@
+	<div class="col-md-6">
+		@*		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="panel-title">
+					Предметы
+				</div>
+			</div>*@
+		<div class="panel-body" style="max-height: 400px; overflow-y: auto">
+			<div>
+				<span style="padding: 10px; font-size: 18px"><a href="#">Надежность ПО</a></span>
+				<div class="progress">
+					<div class="progress-bar progress-bar-primary" style="width: 45%">Завершенность курса 45%</div>
+				</div>
+			</div>
+			<div>
+				<span style="padding: 10px;font-size: 18px"><a href="#">Тестирование и отладка ПО</a></span>
+				<div class="progress">
+					<div class="progress-bar progress-bar-primary" style="width: 60%">Завершенность курса 60%</div>
+				</div>
+			</div>
+			<div>
+				<span style="padding: 10px;font-size: 18px"><a href="#">Модульное тестирование</a></span>
+				<div class="progress">
+					<div class="progress-bar progress-bar-primary" style="width: 30%">Завершенность курса 30%</div>
+				</div>
+			</div>
+			@*			</div>*@
+		</div>
+
 	</div>
 	<div class="col-md-6">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<div class="panel-title">
-							Предметы
+			</div>
+			<div class="col-md-6">
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
+						<div id="circle_lec" class="circliful" data-dimension="250" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+							<span class="circle-info" style="line-height: 312.5px;">Проведенных лекций</span>
 						</div>
 					</div>
-					<div class="panel-body">
-						<div class="ibox-content profile-content">
+					<div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
+						<div id="circle_lec" class="circliful" data-dimension="250" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+							<span class="circle-info" style="line-height: 312.5px;">Посещенных лекций</span>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<div class="panel-title">
-							Статистика по предметам
+				<div class="col-md-6">
+					<div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
+						<div id="circle_lab" class="circliful" data-dimension="250" data-text="55%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="55" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+							<span class="circle-info" style="line-height: 312.5px;">Проведенных ЛБ</span>
 						</div>
 					</div>
-					<div class="panel-body">
-						<div class="ibox-content profile-content">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<div class="panel-title">
-							Статистика по предметам
-						</div>
-					</div>
-					<div class="panel-body">
-						<div class="ibox-content profile-content">
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<div class="panel-title">
-							Статистика по предметам
-						</div>
-					</div>
-					<div class="panel-body">
-						<div class="ibox-content profile-content">
+					<div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
+						<div id="circle_lab" class="circliful" data-dimension="250" data-text="55%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="55" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+							<span class="circle-info" style="line-height: 312.5px;">Проведенных ЛБ</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div>
-		<div class="col-md-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<div class="panel-title">
-						Записи стены
-					</div>
-				</div>
-				<div class="panel-body">
-					<div class="ibox-content profile-content">
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="loading">
+		<span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
 	</div>
-</div>
-<div class="loading">
-	<span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
 </div>

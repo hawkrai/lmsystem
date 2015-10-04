@@ -19,6 +19,7 @@ namespace LMPlatform.Data.Infrastructure
         public LmPlatformModelsContext()
             : base("DefaultConnection")
         {
+	        
         }
 
         #endregion Constructors
