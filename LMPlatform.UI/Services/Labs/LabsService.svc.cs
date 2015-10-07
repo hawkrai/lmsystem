@@ -43,15 +43,6 @@ namespace LMPlatform.UI.Services.Labs
 			}
 		}
 
-        private readonly LazyDependency<IConceptManagementService> _conceptManagementService =
-           new LazyDependency<IConceptManagementService>();
-
-
-        public IConceptManagementService ConceptManagementService
-        {
-            get { return _conceptManagementService.Value; }
-        }
-
         public LabsResult GetLabs(string subjectId)
         {
             try
@@ -90,7 +81,7 @@ namespace LMPlatform.UI.Services.Labs
                     Attachments = pathFile,
                     Id = int.Parse(id)
                 }, attachmentsModel);
-                ConceptManagementService.AttachFolderToLectSection(theme, WebSecurity.CurrentUserId, subject);
+                
                 return new ResultViewData()
                 {
                     Message = "Лабораторная работа успешно сохранена",

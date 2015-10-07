@@ -13,6 +13,8 @@ using LMPlatform.UI.Services.Modules.CoreModels;
 using LMPlatform.UI.Services.Modules.Labs;
 using LMPlatform.UI.Services.Modules.Practicals;
 using Newtonsoft.Json;
+using WebMatrix.WebData;
+using Application.Infrastructure.ConceptManagement;
 
 namespace LMPlatform.UI.Services.Practicals
 {
@@ -28,16 +30,24 @@ namespace LMPlatform.UI.Services.Practicals
             }
         }
 
+        private readonly LazyDependency<IConceptManagementService> _conceptManagementService = new LazyDependency<IConceptManagementService>();
+
+
+        public IConceptManagementService ConceptManagementService
+        {
+            get { return _conceptManagementService.Value; }
+        }
+
         public PracticalsResult GetLabs(string subjectId)
         {
             try
             {
-	            var sub = SubjectManagementService.GetSubject(int.Parse(subjectId));
-				var model = new List<PracticalsViewData>();
-				if (sub.SubjectModules.Any(e => e.ModuleId == 13))
-	            {
-					model = sub.Practicals.Select(e => new PracticalsViewData(e)).ToList();
-	            }
+                var sub = SubjectManagementService.GetSubject(int.Parse(subjectId));
+                var model = new List<PracticalsViewData>();
+                if (sub.SubjectModules.Any(e => e.ModuleId == 13))
+                {
+                    model = sub.Practicals.Select(e => new PracticalsViewData(e)).ToList();
+                }
 
                 return new PracticalsResult
                 {
@@ -61,10 +71,10 @@ namespace LMPlatform.UI.Services.Practicals
             try
             {
                 var attachmentsModel = JsonConvert.DeserializeObject<List<Attachment>>(attachments).ToList();
-
+                var subject = int.Parse(subjectId);
                 SubjectManagementService.SavePractical(new Practical
                 {
-                    SubjectId = int.Parse(subjectId),
+                    SubjectId = subject,
                     Duration = int.Parse(duration),
                     Theme = theme,
                     Order = int.Parse(order),
@@ -72,6 +82,8 @@ namespace LMPlatform.UI.Services.Practicals
                     Attachments = pathFile,
                     Id = int.Parse(id)
                 }, attachmentsModel);
+
+                ConceptManagementService.AttachFolderToLabSection(theme, WebSecurity.CurrentUserId, subject);
                 return new ResultViewData()
                 {
                     Message = "Практическое занятие успешно сохранено",
@@ -153,7 +165,7 @@ namespace LMPlatform.UI.Services.Practicals
                         ScheduleProtectionPracticalId = e.ScheduleProtectionPracticalId,
                         Id = e.PracticalVisitingMarkId,
                         StudentId = e.StudentId
-                    }).ToList());   
+                    }).ToList());
                 }
 
                 return new ResultViewData()
