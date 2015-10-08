@@ -11,6 +11,7 @@
     using LMPlatform.Models;
 
     using Newtonsoft.Json;
+    using WebMatrix.WebData;
 
     public class PracticalsDataViewModel
     {
@@ -136,7 +137,7 @@
                 ShortName = ShortName,
                 Attachments = PathFile,
                 Id = PracticalId
-            }, attachments);
+            }, attachments, WebSecurity.CurrentUserId);
             return true;
         }
     }

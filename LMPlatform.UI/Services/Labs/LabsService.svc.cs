@@ -80,7 +80,7 @@ namespace LMPlatform.UI.Services.Labs
                     ShortName = shortName,
                     Attachments = pathFile,
                     Id = int.Parse(id)
-                }, attachmentsModel);
+                }, attachmentsModel, WebSecurity.CurrentUserId);
                 
                 return new ResultViewData()
                 {

@@ -47,7 +47,7 @@ namespace Application.Infrastructure.ConceptManagement
                     elementId = concept.Id;
                 else
                     FindRootId(concept, out elementId);
-               return repositoriesContainer.ConceptRepository.GetTreeConceptByElementId(elementId);
+                return repositoriesContainer.ConceptRepository.GetTreeConceptByElementId(elementId);
             }
         }
 
@@ -140,7 +140,7 @@ namespace Application.Infrastructure.ConceptManagement
                 repositoriesContainer.ConceptRepository.Save(leftConcept);
                 repositoriesContainer.ApplyChanges();
             }
-            if (!concept.PrevConcept.HasValue && sourceConcept!=null&& sourceConcept.PrevConcept.HasValue)
+            if (!concept.PrevConcept.HasValue && sourceConcept != null && sourceConcept.PrevConcept.HasValue)
             {
                 var leftConcept = repositoriesContainer.ConceptRepository.GetById(sourceConcept.PrevConcept.Value);
                 leftConcept.NextConcept = null;
@@ -175,18 +175,18 @@ namespace Application.Infrastructure.ConceptManagement
                 if (String.Compare(extension, ".doc", true) == 0 || String.Compare(extension, ".docx", true) == 0 || String.Compare(extension, ".rtf", true) == 0)
                 {
                     var friendlyFileName = Path.GetFileNameWithoutExtension(attach.Name);
-                    var sourceFilePath = String.Format("{0}{1}", _storageRootTemp,attach.FileName);
-                    res.Add(new Attachment() 
+                    var sourceFilePath = String.Format("{0}{1}", _storageRootTemp, attach.FileName);
+                    res.Add(new Attachment()
                     {
                         AttachmentType = AttachmentType.Document,
                         Id = 0,
-                        Name = String.Format("{0}.pdf",friendlyFileName),
+                        Name = String.Format("{0}.pdf", friendlyFileName),
                         FileName = convertor.Convert(sourceFilePath)
                     });
                 }
                 else
                     res.Add(attach);
-                
+
             }
 
             return res;
@@ -220,7 +220,7 @@ namespace Application.Infrastructure.ConceptManagement
                     if (attachment.Id == 0)
                     {
                         attachment.PathName = concept.Container;
-                       
+
                         repositoriesContainer.AttachmentRepository.Save(attachment);
                     }
                 }
@@ -260,12 +260,11 @@ namespace Application.Infrastructure.ConceptManagement
                     .AddFilterClause(f => f.SubjectId == subjectId)
                     .AddFilterClause(f => f.UserId == userId)
                     .AddFilterClause(f => String.Compare(f.Name.Trim(), sectionName.Trim(), true) == 0)
-                    .Include(c=>c.Author)
-                    .Include(c=>c.Subject));
+                    .Include(c => c.Author)
+                    .Include(c => c.Subject));
 
                 var concept = new Concept(folderName, parent.Author, parent.Subject, true, false);
                 concept.ParentId = parent.Id;
-                concept.ReadOnly = true;
                 repositoriesContainer.ConceptRepository.Save(concept);
             }
         }
@@ -339,7 +338,7 @@ namespace Application.Infrastructure.ConceptManagement
         private void InitLectChild(Concept parent, LmPlatformRepositoriesContainer repositoriesContainer)
         {
             var sub = SubjectManagementService.GetSubject(parent.SubjectId);
-            foreach (var item in sub.Lectures)
+            foreach (var item in sub.Lectures.OrderBy(s => s.Order))
             {
                 var concept = new Concept(item.Theme, parent.Author, parent.Subject, true, false);
                 concept.ParentId = parent.Id;
@@ -347,15 +346,24 @@ namespace Application.Infrastructure.ConceptManagement
             }
         }
 
+
         private void InitPractChild(Concept parent, LmPlatformRepositoriesContainer repositoriesContainer)
         {
             var sub = SubjectManagementService.GetSubject(parent.SubjectId);
-            foreach (var item in sub.Practicals)
-            {
-                var concept = new Concept(item.Theme, parent.Author, parent.Subject, true, false);
-                concept.ParentId = parent.Id;
-                repositoriesContainer.ConceptRepository.Save(concept);
-            }
+            if (sub.SubjectModules.Any(m => m.Module.ModuleType == ModuleType.Practical))
+                foreach (var item in sub.Practicals.OrderBy(s=>s.Order))
+                {
+                    var concept = new Concept(item.Theme, parent.Author, parent.Subject, true, false);
+                    concept.ParentId = parent.Id;
+                    repositoriesContainer.ConceptRepository.Save(concept);
+                }
+            else if (sub.SubjectModules.Any(m => m.Module.ModuleType == ModuleType.Labs))
+                foreach (var item in sub.Labs.OrderBy(s => s.Order))
+                {
+                    var concept = new Concept(item.Theme, parent.Author, parent.Subject, true, false);
+                    concept.ParentId = parent.Id;
+                    repositoriesContainer.ConceptRepository.Save(concept);
+                }
         }
 
         public void Remove(Int32 id, Boolean removeChildren)

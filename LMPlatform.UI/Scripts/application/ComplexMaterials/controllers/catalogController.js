@@ -187,7 +187,6 @@
             $scope.addNewRootComplexMaterial = function () {
                 $.savingDialog("Добавление нового ЭУМК", "/ComplexMaterial/AddRootConcept", null, "primary", function (data) {
                     updateRootConceptList();
-                    $scope.stopSpin();
                     alertify.success("Добавлен новый ЭУМК");
                 }, function () {
                     $scope.startSpin();

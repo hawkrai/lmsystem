@@ -44,9 +44,9 @@ namespace Application.Infrastructure.SubjectManagement
 
         Lectures GetLectures(int id);
 
-        Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments);
+        Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, Int32 userId);
 
-        Labs SaveLabs(Labs labs, IList<Attachment> attachments);
+        Labs SaveLabs(Labs labs, IList<Attachment> attachments, Int32 userId);
 
 		UserLabFiles SaveUserLabFiles(UserLabFiles userLabFiles, IList<Attachment> attachments);
 
@@ -54,7 +54,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         Practical GetPractical(int id);
 
-        Practical SavePractical(Practical practical, IList<Attachment> attachments);
+        Practical SavePractical(Practical practical, IList<Attachment> attachments, Int32 userId);
 
         void SaveDateLectures(int subjectId, DateTime date);
 

@@ -45,15 +45,6 @@ namespace LMPlatform.UI.Services.Lectures
             }
         }
 
-        private readonly LazyDependency<IConceptManagementService> _conceptManagementService =
-            new LazyDependency<IConceptManagementService>();
-
-
-        public IConceptManagementService ConceptManagementService
-        {
-            get { return _conceptManagementService.Value; }
-        }
-
         public LecturesResult GetLectures(string subjectId)
         {
             try
@@ -118,9 +109,7 @@ namespace LMPlatform.UI.Services.Lectures
                     Order = int.Parse(order),
                     Attachments = pathFile,
                     Id = int.Parse(id)
-                }, attachmentsModel);
-
-                ConceptManagementService.AttachFolderToLectSection(theme, WebSecurity.CurrentUserId, subject);
+                }, attachmentsModel, WebSecurity.CurrentUserId);
 
                 return new ResultViewData()
                 {

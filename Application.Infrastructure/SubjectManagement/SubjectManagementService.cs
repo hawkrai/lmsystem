@@ -11,6 +11,7 @@ using Application.Infrastructure.StudentManagement;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
+using Application.Infrastructure.ConceptManagement;
 
 namespace Application.Infrastructure.SubjectManagement
 {
@@ -32,6 +33,14 @@ namespace Application.Infrastructure.SubjectManagement
             {
                 return _studentManagementService.Value;
             }
+        }
+
+        private readonly LazyDependency<IConceptManagementService> _conceptManagementService = new LazyDependency<IConceptManagementService>();
+
+
+        public IConceptManagementService ConceptManagementService
+        {
+            get { return _conceptManagementService.Value; }
         }
 
         public List<Subject> GetUserSubjects(int userId)
@@ -356,7 +365,7 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
-        public Labs SaveLabs(Labs labs, IList<Attachment> attachments)
+        public Labs SaveLabs(Labs labs, IList<Attachment> attachments, Int32 userId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -389,6 +398,10 @@ namespace Application.Infrastructure.SubjectManagement
 
                 repositoriesContainer.LabsRepository.Save(labs);
                 repositoriesContainer.ApplyChanges();
+
+                if (labs.IsNew && !labs.Subject.SubjectModules.Any(m => m.Module.ModuleType == ModuleType.Practical) &&
+                    labs.Subject.SubjectModules.Any(m => m.Module.ModuleType == ModuleType.Labs))
+                    ConceptManagementService.AttachFolderToLabSection(labs.Theme, userId, labs.SubjectId);
             }
 
             return labs;
@@ -448,7 +461,7 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
-        public Practical SavePractical(Practical practical, IList<Attachment> attachments)
+        public Practical SavePractical(Practical practical, IList<Attachment> attachments, Int32 userId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -481,6 +494,9 @@ namespace Application.Infrastructure.SubjectManagement
 
                 repositoriesContainer.PracticalRepository.Save(practical);
                 repositoriesContainer.ApplyChanges();
+
+                if (practical.IsNew && practical.Subject.SubjectModules.Any(m => m.Module.ModuleType == ModuleType.Practical))
+                    ConceptManagementService.AttachFolderToLabSection(practical.Theme, userId, practical.SubjectId);
             }
 
             return practical;
@@ -672,7 +688,7 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 	    }
 
-	    public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments)
+	    public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, Int32 userId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -705,6 +721,9 @@ namespace Application.Infrastructure.SubjectManagement
 
                 repositoriesContainer.LecturesRepository.Save(lectures);
                 repositoriesContainer.ApplyChanges();
+
+                if (lectures.IsNew && lectures.Subject.SubjectModules.Any(s=>s.Module.ModuleType==ModuleType.Lectures))
+                    ConceptManagementService.AttachFolderToLectSection(lectures.Theme, userId, lectures.SubjectId);
             }
 
             return lectures;

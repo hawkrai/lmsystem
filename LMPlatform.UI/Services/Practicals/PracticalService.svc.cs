@@ -30,14 +30,6 @@ namespace LMPlatform.UI.Services.Practicals
             }
         }
 
-        private readonly LazyDependency<IConceptManagementService> _conceptManagementService = new LazyDependency<IConceptManagementService>();
-
-
-        public IConceptManagementService ConceptManagementService
-        {
-            get { return _conceptManagementService.Value; }
-        }
-
         public PracticalsResult GetLabs(string subjectId)
         {
             try
@@ -81,9 +73,7 @@ namespace LMPlatform.UI.Services.Practicals
                     ShortName = shortName,
                     Attachments = pathFile,
                     Id = int.Parse(id)
-                }, attachmentsModel);
-
-                ConceptManagementService.AttachFolderToLabSection(theme, WebSecurity.CurrentUserId, subject);
+                }, attachmentsModel, WebSecurity.CurrentUserId);
                 return new ResultViewData()
                 {
                     Message = "Практическое занятие успешно сохранено",

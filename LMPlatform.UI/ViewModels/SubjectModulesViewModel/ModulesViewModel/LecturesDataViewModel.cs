@@ -7,6 +7,7 @@ using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using Newtonsoft.Json;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel
 {
@@ -124,7 +125,7 @@ namespace LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel
                 Order = 0,
                 Attachments = PathFile,
                 Id = LecturesId
-            }, attachments);
+            }, attachments, WebSecurity.CurrentUserId);
             return true;
         }
     }
