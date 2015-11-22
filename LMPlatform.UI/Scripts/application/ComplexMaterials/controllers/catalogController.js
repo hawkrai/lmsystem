@@ -256,7 +256,7 @@
             };
 
             $scope.openMemo = function () {
-                $.savingDialog("Памятка о ЭУМК", "/ComplexMaterial/ShowMemo", null, "primary", function (data) {
+                $.savingDialog("Положение об УМК", "/ComplexMaterial/ShowMemo", null, "primary", function (data) {
                 }, null, { hideSaveButton: true });
             };
 

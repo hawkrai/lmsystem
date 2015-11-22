@@ -18,7 +18,7 @@
 
         <div style="width: 500px">
 
-            @Html.LabelFor(e => e.Name, new { @class = "control-label" })
+            @Html.Label("Name", String.Format("{0} ({1})", "Название", Model.Published ? "опубликован" : "неопубликован"), new { @class = "control-label" })
             @if (Model.ReadOnly)
             {
                 @Html.TextBoxFor(e => e.Name, new { disabled = "disabled", @readonly = "readonly", @class = "form-control", @style = "width:500px;" })

@@ -19,7 +19,8 @@
         @Html.HiddenFor(e => e.Author)
 
         <div style="width: 500px">
-            @Html.LabelFor(e => e.Name, new { @class = "control-label" })
+            @Html.Label("Name", String.Format("{0} ({1})", "Название", Model.Published ? "опубликован" : "неопубликован"), new { @class = "control-label" })
+            @*@Html.LabelFor(e => String.Format("{0} ({1})", e.Name, e.Published ? "опубликован" : "неопубликован"), new { @class = "control-label" })*@
             @Html.EditorFor(e => e.Name, new { @class = "form-control with-block"})
             @Html.ValidationMessageFor(e => e.Name, " ")
         </div>
@@ -38,14 +39,14 @@
                 @Html.HiddenFor(e => e.SelectedSubjectId)
             }
         </div>
-        if (!Model.IsNew())
+        @*if (!Model.IsNew())
         {
             <div style="width: 560px">
                 @Html.LabelFor(e => e.Published, new { @class = "control-label" })
                 @Html.CheckBoxFor(e => e.Published, new { @disabled = "True", @class = "form-control" })
                 @Html.HiddenFor(e => e.Published)
             </div>
-        }
+        }*@
         @*<div style="width: 560px">
                 @Html.LabelFor(e => e.Author, new { @class = "control-label" })
                 @Html.EditorFor(e => e.Author, new { @class = "form-control" })

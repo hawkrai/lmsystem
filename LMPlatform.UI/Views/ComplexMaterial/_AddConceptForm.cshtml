@@ -16,11 +16,10 @@
         @Html.HiddenFor(e => e.IsGroup)
         @Html.HiddenFor(e => e.ReadOnly)
         @Html.HiddenFor(e => e.Container)
-        
-        
-        <div style="width: 500px">
 
-            @Html.LabelFor(e => e.Name, new { @class = "control-label" })
+
+        <div style="width: 500px">
+            @Html.Label("Name", String.Format("{0} ({1})", "Название", Model.Published ? "опубликован" : "не опубликован"), new { @class = "control-label" })
             @if (Model.ReadOnly)
             {
                 @Html.TextBoxFor(e => e.Name, new { @disabled = "True", @class = "form-control", @style = "width:500px;" })
@@ -62,7 +61,6 @@
             @Html.Partial("Common/_FilesUploader", Model.GetAttachments())
         </div>
     }
-
     <div>
     </div>
 </div>
@@ -75,4 +73,3 @@
 
     shared.initPlugins();
 </script>
-

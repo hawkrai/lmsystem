@@ -156,6 +156,11 @@ namespace LMPlatform.UI.ViewModels.ComplexMaterialsViewModel
                 ReadOnly = SourceConcept.ReadOnly;
             }
         }
+
+        public static String GetFriendlyDisplayName(String name, Boolean published)
+        {
+            return String.Format("{0} ({1})", name, published? "опубликован": "неопубликован");
+        }
         
         public AddOrEditRootConceptViewModel()
         {
