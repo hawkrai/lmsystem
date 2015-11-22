@@ -66,7 +66,7 @@
     }
 
     function updateHeader(name) {
-        var prefix = "Просмотр концепта";
+        var prefix = "Просмотр файла";
         var title = prefix;
         if (name && name.length > 0)
             title = prefix + ' "' + name + '"';
@@ -78,7 +78,7 @@
         $.get(servicePath)
         .done(function (data) {
             if (!data.HasData) {
-                showEmptyContainer("У концепта нет связного элемента в этом направлении");
+                showEmptyContainer("У файла нет связного элемента в этом направлении");
                 return;
             }
 
@@ -86,7 +86,7 @@
                 LoadPDF(data.FullPath);
             }
             else
-                showEmptyContainer("Пустой концепт");
+                showEmptyContainer("Пустой файл");
             updateHeader(data.Name);
             currentId = data.Id
         });
@@ -144,7 +144,7 @@
 
     function LoadPDF(filepath) {
         if (filepath.length < 1) {
-            showEmptyContainer("Пустой концепт");
+            showEmptyContainer("Пустой файл");
             return;
         }
         clearPdfPage();
