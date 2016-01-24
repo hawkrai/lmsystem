@@ -1262,6 +1262,17 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 			//}).success(function (data, status) {
 			//});
 		};
+        
+		$scope.getZip = function (userId) {
+		    var subGroupId = $scope.groupWorkingData.selectedSubGroup.SubGroupId;
+		    document.location.href = "/Subject/GetStudentZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId + "&userId=" + userId;
+		    //$.ajax({
+		    //	type: 'GET',
+		    //	url: "/Subject/GetZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId,
+		    //	contentType: "application/zip",
+		    //}).success(function (data, status) {
+		    //});
+		};
 	})
     .controller('PracticalsController', function ($scope, $http) {
 

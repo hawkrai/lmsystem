@@ -245,6 +245,34 @@ namespace LMPlatform.UI.Controllers
 			return new FileStreamResult(memoryStream, "application/zip") { FileDownloadName = subGroups.SubjectGroup.Group.Name + ".zip" };
 	    }
 
+        public FileResult GetStudentZipLabs(int id, int subjectId, int userId)
+        {
+            var zip = new ZipFile(Encoding.UTF8);
+
+            var subGroups = SubjectManagementService.GetSubGroup(id);
+
+            var subGroup = subGroups.SubjectStudents.FirstOrDefault(e => e.StudentId == userId);
+            
+            var model = SubjectManagementService.GetUserLabFiles(subGroup.StudentId, subjectId);
+
+            var attachments = new List<Attachment>();
+
+            foreach (var data in model)
+            {
+                attachments.AddRange(FilesManagementService.GetAttachments(data.Attachments));
+            }
+
+            UtilZip.CreateZipFile(ConfigurationManager.AppSettings["FileUploadPath"], zip, attachments, subGroup.Student.FullName.Replace(" ", "_"));
+
+            var memoryStream = new MemoryStream();
+
+            zip.Save(memoryStream);
+
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            return new FileStreamResult(memoryStream, "application/zip") { FileDownloadName = subGroup.Student.FullName.Replace(" ", "_") + ".zip" };
+        }
+
         public ActionResult Subjects()
         {
             var model = new SubjectManagementViewModel(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
