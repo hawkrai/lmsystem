@@ -62,7 +62,7 @@
         var height = $(document).height() / 3;
         var pdfContainer = $('#pdfContainer');
         pdfContainer.empty();
-        pdfContainer.html("<div style='height:" + height + "px;'><div style='top:50%; position: relative;'><h4>" + message + "</h4></div></div>");
+        pdfContainer.html("<div style='height:" + height + "px;'><label style='top:40%; position: relative;'><h5><i>" + message + "</i></h5></label></div>");
     }
 
     function updateHeader(name) {
@@ -154,7 +154,18 @@
                 thePDF = pdf;
                 numPages = pdf.numPages;
                 renderPdf();
-            });
+            }).catch(function (error) {
+                stopSpin();
+                if (error.name === 'InvalidPDFException')
+                {
+                    showEmptyContainer("Не поддерживаемый формат документа. Наиболее вероятной причиной подобной ошибки является загруженный документ не в формате PDF. Убедитесь, что Вы загрузили документ в формате PDF и повторите попытку открытия документа");   
+                }
+                else
+                {
+                    showEmptyContainer("Произошла ошибка при загрузке документа. Обратитесь к Адмнистратору");
+                }
+                alertify.error("Произошла ошибка при открытии документа");
+            });;
         }
         catch (e) {
             alertify.error(e.message);
