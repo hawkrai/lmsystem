@@ -102,7 +102,7 @@ angular
 
                 function sortTree() {
                     tree.sort(function (a, b) {
-                        return b.Name.toLowerCase() < a.Name.toLowerCase() ? 1 : -1;
+                        return b.Id < a.Id ? 1 : -1;
                     });
                 }
                 // Sort the tree initially incase the JSON isn't in a sorted order.
@@ -152,7 +152,7 @@ angular
                     d3.select(domNode).attr('class', 'node activeDrag');
 
                     svgGroup.selectAll("g.node").sort(function (a, b) { // select the parent and sort the path's
-                        if (a.id != draggingNode.id) return 1; // a is not the hovered element, send "a" to the back
+                        if (a.Id != draggingNode.Id) return 1; // a is not the hovered element, send "a" to the back
                         else return -1; // a is the hovered element, bring "a" to the front
                     });
                     // if nodes has children, remove the links and nodes
@@ -243,7 +243,8 @@ angular
                         var node = d3.select(this);
                         node.attr("transform", "translate(" + d.y0 + "," + d.x0 + ")");
                         updateTempConnector();
-                    }).on("dragend", function (d) {
+                    })
+                    .on("dragend", function (d) {
                         if (d == root) {
                             return;
                         }
@@ -376,7 +377,7 @@ angular
                     if (d3.event.defaultPrevented) return; // click suppressed
                     d = toggleChildren(d);
                     update(d);
-                    centerNode(d);
+                    //centerNode(d);
                 }
 
                 function dblclick(d) {

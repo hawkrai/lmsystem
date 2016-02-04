@@ -196,12 +196,12 @@
             $scope.addNewComplexMaterial = function () {
                 var data = {};
                 data.parentId = $scope.parent.Id;
-                $.savingDialog("Добавление нового концепт", "/ComplexMaterial/AddConcept", data, "primary", function (data) {
+                $.savingDialog("Добавление нового файла", "/ComplexMaterial/AddConcept", data, "primary", function (data) {
                     updateCurrentCatalog($scope.parent.Id);
-                    alertify.success("Добавлен новый концепт");
+                    alertify.success("Добавлен новый файл");
                 }, function () {
                     $scope.startSpin();
-                    alertify.success("Добавляется новый концепт... Ожидайте");
+                    alertify.success("Добавляется новый файл... Ожидайте");
                     var data = $scope.getFileAttachments();
                     angular.element('#FileData').val(data);
                 });
@@ -241,9 +241,9 @@
                 var data = {};
                 data.id = $scope.selectedItem.Id;
                 data.parentId = $scope.selectedItem.ParentId;
-                var title = 'Редактирование концепта "' + $scope.selectedItem.Name+'"';
+                var title = 'Редактирование файла "' + $scope.selectedItem.Name+'"';
                 $.savingDialog(title, "/ComplexMaterial/EditConcept", data, "primary", function (data) {
-                    alertify.success("Концепт отредактирован");
+                    alertify.success("Файл отредактирован");
                     updateCurrentCatalog($scope.parent.Id);
                     $scope.stopSpin();
                 }, function ()
@@ -256,14 +256,14 @@
             };
 
             $scope.openMemo = function () {
-                $.savingDialog("Памятка о ЭУМК", "/ComplexMaterial/ShowMemo", null, "primary", function (data) {
+                $.savingDialog("Положение об УМК", "/ComplexMaterial/ShowMemo", null, "primary", function (data) {
                 }, null, { hideSaveButton: true });
             };
 
             $scope.openConcept = function (id) {
                 var data = {};
                 data.id = id || $scope.selectedItem.Id;
-                var title = 'Просмотр концепта "' + $scope.selectedItem.Name + '"';
+                var title = 'Просмотр файла "' + $scope.selectedItem.Name + '"';
                 $.savingDialog(title, "/ComplexMaterial/OpenConcept", data, "primary", function (data) {
                 }, null, { hideSaveButton: true });
             };

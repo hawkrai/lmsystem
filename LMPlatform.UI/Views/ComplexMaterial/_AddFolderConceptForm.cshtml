@@ -18,7 +18,7 @@
 
         <div style="width: 500px">
 
-            @Html.LabelFor(e => e.Name, new { @class = "control-label" })
+            @Html.Label("Name", String.Format("{0} ({1})", "Название", Model.Published ? "опубликован" : "неопубликован"), new { @class = "control-label" })
             @if (Model.ReadOnly)
             {
                 @Html.TextBoxFor(e => e.Name, new { disabled = "disabled", @readonly = "readonly", @class = "form-control", @style = "width:500px;" })
@@ -40,11 +40,11 @@
         <div style="padding-bottom: 70px; width: 500px">
             <div style="float: left; width: 50%; display: inline">
                 @Html.LabelFor(e => e.Prev, new { @class = "control-label" })
-                @Html.DropDownListFor(e => e.Prev, Model.GetBroElements(Model.Author, Model.ParentId), "Предыдущий концепт...", new { @class = "form-control" })
+                @Html.DropDownListFor(e => e.Prev, Model.GetBroElements(Model.Author, Model.ParentId), "Предыдущий файл...", new { @class = "form-control" })
             </div>
             <div style="float: left; width: 50%; display: inline; ">
                 @Html.LabelFor(e => e.Next, new { @class = "control-label" })
-                @Html.DropDownListFor(e => e.Next, Model.GetBroElements(Model.Author, Model.ParentId), "Следуюший концепт...", new { @class = "form-control" })
+                @Html.DropDownListFor(e => e.Next, Model.GetBroElements(Model.Author, Model.ParentId), "Следуюший файл...", new { @class = "form-control" })
             </div>
             
         </div>

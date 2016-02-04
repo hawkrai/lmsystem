@@ -109,8 +109,7 @@ namespace LMPlatform.UI.Controllers
         {
             var recip = MessageManagementService.GetRecipients(WebSecurity.CurrentUserId);
 
-            var result = recip.Where(r => r.FullName.ToLower().Contains(term.ToLower())
-                                            || r.UserName.ToLower().Contains(term.ToLower()))
+            var result = recip.Where(r => r.FullName.ToLower().Contains(term.ToLower()))
                 .Select(r => new
                 {
                     text = r.FullName,

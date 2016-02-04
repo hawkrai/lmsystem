@@ -17,6 +17,11 @@
 			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083); /* IE6,IE7 */
 			-ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
 		}
+
+        .btn.btn-success.active {
+            background-color: #008d4c;
+            border-color: #008d4c;
+        }
 	</style>
 
 	<tabset>
@@ -135,9 +140,9 @@
 										<button type="button" ng-disabled="tableformVisiting.$waiting" ng-click="tableformVisiting.$cancel()" class="btn btn-default btn-sm">Отмена</button>
 									</div>
 								</td>
-								<td>
-									<input type="button" style="margin-top: -1px; width: 150px;height: 36px" ng-click="visitingLabsExport()" class="btn btn-info btn-sm" value="Экспорт в Excel" />
-								</td>
+							    <td>
+							        <button type="button" class="btn btn-primary btn-sm" style="margin-top: -1px; width: 50px;height: 36px" ng-click="visitingLabsExport()"><img style="width: 20px" src="~/Images/Excel.png"/></button>
+							    </td>
 							</tr>
 						</tbody>
 					</table>
@@ -266,7 +271,9 @@
 								<thead>
 									<tr>
 										<th>Файлы</th>
-										<th>Комментарий</th>
+									    <th>Комментарий</th>
+									    <th>Дата</th>
+                                        <th>Действие</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -276,7 +283,8 @@
 												<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
 											</div>
 										</td>
-										<td>{{files.Comments}}</td>
+									    <td>{{files.Comments}}</td>
+									    <td>{{files.Date}}</td>
 									</tr>
 								</tbody>
 							</table>

@@ -298,6 +298,7 @@
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Content\materials.css" />
     <Content Include="Content\select.css" />
+    <Content Include="Images\Excel.png" />
     <Content Include="Images\login_bk.jpg" />
     <Content Include="Images\Лого2.png" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
@@ -973,6 +974,7 @@
     <Content Include="Content\fonts\admin-icons.eot" />
     <Content Include="Content\fonts\admin-icons.ttf" />
     <Content Include="Content\fonts\admin-icons.woff" />
+    <Content Include="Content\memo.pdf" />
     <None Include="Properties\PublishProfiles\LMS.pubxml" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
