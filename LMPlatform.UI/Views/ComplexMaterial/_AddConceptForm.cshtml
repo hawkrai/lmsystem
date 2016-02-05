@@ -19,7 +19,7 @@
 
 
         <div style="width: 500px">
-            @Html.Label("Name", String.Format("{0} ({1})", "Название", Model.Published ? "опубликован" : "не опубликован"), new { @class = "control-label" })
+            @Html.Label("Name", String.Format("{0}", "Название", Model.Published ? "опубликован" : "не опубликован"), new { @class = "control-label" })
             @if (Model.ReadOnly)
             {
                 @Html.TextBoxFor(e => e.Name, new { @disabled = "True", @class = "form-control", @style = "width:500px;" })
@@ -40,10 +40,18 @@
 
         if (!Model.IsNew())
         {
-            <div style="width: 560px">
-                @Html.LabelFor(e => e.Published, new { @class = "control-label" })
-                @Html.CheckBoxFor(e => e.Published, new { @disabled = "True", @class = "form-control" })
-                @Html.HiddenFor(e => e.Published)
+            <div style="padding-bottom: 10px; padding-top: 20px; width: 560px; display: inline-block; ">
+                <label style="" class="control-label">Материал опубликован?</label>
+                @if (Model.Published)
+                {
+                    <label><b><u>Да</u></b></label>
+                }
+                else
+                {
+                    <label><b><u>Нет</u></b></label>
+                }
+
+                <label style="font-size:xx-small"><i>(устанавливается автоматически)</i></label>
             </div>
         }
         <br />
