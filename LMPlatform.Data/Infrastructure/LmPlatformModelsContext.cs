@@ -200,6 +200,8 @@ namespace LMPlatform.Data.Infrastructure
 
         public DbSet<UserLabFiles> UserLabFiles { get; set; }
 
+		public DbSet<AccessCode> AccessCode { get; set; }
+
         #endregion DataContext Members
 
         #region Protected Members

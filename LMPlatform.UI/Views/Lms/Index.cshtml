@@ -10,13 +10,13 @@
 @section css
 {
 	@Styles.Render("~/Content/bootstrapcontrols")
-    <link rel="stylesheet" href="~/Content/jquery.circliful.css" type="text/css"/>
-    @*    <link rel="stylesheet" href="~/Content/jquery-ui.min.css" type="text/css"/>
-    <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.css" type="text/css"/>
-    <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.print.css" type="text/css"/>*@
-    @*<link href="~/Scripts/bootstrap-combined.min.css" rel="stylesheet" />*@
+	<link rel="stylesheet" href="~/Content/jquery.circliful.css" type="text/css" />
+	@*    <link rel="stylesheet" href="~/Content/jquery-ui.min.css" type="text/css"/>
+		<link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.css" type="text/css"/>
+		<link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.print.css" type="text/css"/>*@
+	@*<link href="~/Scripts/bootstrap-combined.min.css" rel="stylesheet" />*@
 	<link href="~/Content/fullcalendar/fullcalendar.css" rel="stylesheet" />
-		@*<link href="~/Content/fullcalendar/fullcalendar.print.css" rel="stylesheet" />*@
+	@*<link href="~/Content/fullcalendar/fullcalendar.print.css" rel="stylesheet" />*@
 }
 @section scripts
 {
@@ -27,20 +27,23 @@
 	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.barRenderer.min.js"></script>
 	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
 	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.pointLabels.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/jquery.circliful.js"></script>
+	<script type="text/javascript" src="~/Scripts/jquery.circliful.js"></script>
 
-    <script type="text/javascript" src="~/Scripts/fullcalendar/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/fullcalendar/moment.min.js"></script>
-    
-    <script  src="~/Scripts/fullcalendar/fullcalendar.js"></script>
-    <script type="text/javascript" src="~/Scripts/application/userProfile/appUserProfile.js"></script>
+	<script type="text/javascript" src="~/Scripts/fullcalendar/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="~/Scripts/fullcalendar/moment.min.js"></script>
+
+	<script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
+	<script type="text/javascript" src="~/Scripts/application/userProfile/appUserProfile.js"></script>
 }
 
 @section headerTitle{
-	<h1>
+	<h1 style="float: left;">
 		Система управления учебным процессом
 		<small>Главная страница</small>
 	</h1>
+	<div style="text-align: right;">
+		<input type="button" class="btn btn-sm btn-default" value="Код доступа" style="width: 110px;" data-toggle="modal" data-target="#myModal">
+	</div>
 }
 
 @section navleft
@@ -83,10 +86,10 @@
 			}
 		</ul>
 	</li>
-    @if (User.IsInRole("lector"))
-    {
-        <li><a href="@Url.Action("Index", "ComplexMaterial")"><i class="fa fa-bell fa-tab"></i>ЭУМК</a></li>
-    }
+	@if (User.IsInRole("lector"))
+	{
+		<li><a href="@Url.Action("Index", "ComplexMaterial")"><i class="fa fa-bell fa-tab"></i>ЭУМК</a></li>
+	}
 	<li class="treeview">
 		<a href="#">
 			<i class="fa fa-book fa-tab"></i>
@@ -116,6 +119,57 @@
 		Html.RenderPartial("../Lms/ProfilePage");
 	}
 </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Код доступа</h4>
+			</div>
+			<div class="modal-body">
+				<div style="text-align: center; margin-bottom: 15px">
+					<h1 class="a-code"></h1>
+				</div>
+				<div style="text-align: center">
+					<button type="button" id="generateCode" class="btn btn-primary">Генерация</button>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('#myModal').on('shown.bs.modal', function() {
+		
+		$.ajax({
+			type: 'GET',
+			url: "/Profile/GetAccessCode",
+			dataType: "json",
+			contentType: "application/json"
+
+		}).success(function (data, status) {
+			$(".a-code").text(data);
+		});
+
+	});
+
+	$("#generateCode").on("click", function() {
+		$.ajax({
+			type: 'GET',
+			url: "/Profile/GenerateCode",
+			dataType: "json",
+			contentType: "application/json"
+
+		}).success(function (data, status) {
+			$(".a-code").text(data);
+		});
+	});
+</script>
+
 
 
 <style>
