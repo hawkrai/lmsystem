@@ -37,13 +37,24 @@
 }
 
 @section headerTitle{
+@if (User.IsInRole("lector"))
+{
 	<h1 style="float: left;">
 		Система управления учебным процессом
 		<small>Главная страница</small>
 	</h1>
+
 	<div style="text-align: right;">
 		<input type="button" class="btn btn-sm btn-default" value="Код доступа" style="width: 110px;" data-toggle="modal" data-target="#myModal">
 	</div>
+}
+else
+{
+	<h1>
+		Система управления учебным процессом
+		<small>Главная страница</small>
+	</h1>
+}
 }
 
 @section navleft
