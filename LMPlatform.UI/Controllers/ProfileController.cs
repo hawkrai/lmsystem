@@ -55,7 +55,7 @@ namespace LMPlatform.UI.Controllers
 		{
 			var repository = new RepositoryBase<LmPlatformModelsContext, AccessCode>(new LmPlatformModelsContext());
 
-			var code = repository.GetAll().OrderBy(e => e.Id).FirstOrDefault();
+			var code = repository.GetAll().OrderBy(e => e.Id).ToList().LastOrDefault();
 
 			return Json(code != null ? code.Number : string.Empty, JsonRequestBehavior.AllowGet);
 		}
