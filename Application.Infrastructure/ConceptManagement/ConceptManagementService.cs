@@ -342,6 +342,7 @@ namespace Application.Infrastructure.ConceptManagement
             {
                 var concept = new Concept(item.Theme, parent.Author, parent.Subject, true, false);
                 concept.ParentId = parent.Id;
+                concept.LectureId = item.Id;
                 repositoriesContainer.ConceptRepository.Save(concept);
             }
         }
@@ -355,6 +356,7 @@ namespace Application.Infrastructure.ConceptManagement
                 {
                     var concept = new Concept(item.Theme, parent.Author, parent.Subject, true, false);
                     concept.ParentId = parent.Id;
+                    concept.PracticalId = item.Id;
                     repositoriesContainer.ConceptRepository.Save(concept);
                 }
             else if (sub.SubjectModules.Any(m => m.Module.ModuleType == ModuleType.Labs))
@@ -362,6 +364,7 @@ namespace Application.Infrastructure.ConceptManagement
                 {
                     var concept = new Concept(item.Theme, parent.Author, parent.Subject, true, false);
                     concept.ParentId = parent.Id;
+                    concept.LabId = item.Id;
                     repositoriesContainer.ConceptRepository.Save(concept);
                 }
         }
