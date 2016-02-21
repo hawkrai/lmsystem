@@ -20,9 +20,58 @@
                 return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
             }
 
+            var adjustment;
             var subjectId = getParameterByName("subjectId");
             var parentId = $location.search()["parent"];
-            
+
+            function attachDragableActionToConceptList()
+            {
+                $(".bs-glyphicons-list").sortable({
+                    group: 'bs-glyphicons-list',
+                    pullPlaceholder: false,
+                    update: function (ev, ui) {
+                        var rightId = 0;
+                        var leftId = 0;
+                        var currentId = ui.item[0].id;
+                        if (ui.item[0].nextElementSibling)
+                            rightId = ui.item[0].nextElementSibling.id;
+                        if (ui.item[0].previousElementSibling)
+                            leftId = ui.item[0].previousElementSibling.id;
+
+                        $scope.attachSiblings(currentId, rightId, leftId);
+                    },
+                    onDrop: function ($item, container, _super) {
+                        alert($item.nextElementSibling);
+                        var $clonedItem = $('<li/>').css({ height: 0 });
+                        $item.before($clonedItem);
+                        $clonedItem.animate({ 'height': $item.height() });
+
+                        $item.animate($clonedItem.position(), function () {
+                            $clonedItem.detach();
+                            _super($item, container);
+                        });
+                    },
+
+                    // set $item relative to cursor position
+                    onDragStart: function ($item, container, _super) {
+                        var offset = $item.offset(),
+                            pointer = container.rootGroup.pointer;
+
+                        adjustment = {
+                            left: pointer.left - offset.left,
+                            top: pointer.top - offset.top
+                        };
+
+                        _super($item, container);
+                    },
+                    onDrag: function ($item, position) {
+                        $item.css({
+                            left: position.left - adjustment.left,
+                            top: position.top - adjustment.top
+                        });
+                    }
+                });
+            }
 
             function updateRootConceptList() {
                 $scope.startSpin();
@@ -77,8 +126,21 @@
                 $(".loading").toggleClass('ng-hide', true);
             };
 
-            
             updateRootConceptList();
+
+            attachDragableActionToConceptList();
+
+            $scope.attachSiblings = function(sourceId, rightId, leftId)
+            {
+                if (rightId == 0 && leftId == 0 || sourceId == 0)
+                    return;
+                $scope.startSpin();
+                complexMaterialsDataService.attachSiblings({ source: sourceId, left: leftId, right:rightId }).success(function (data) {
+                    updateRootConceptList()
+                }).finally(function () {
+                    $scope.stopSpin();
+                });
+            }
 
             $scope.getHeaderValue = function () {
                 if($scope.parent)
@@ -135,6 +197,8 @@
             }
 
             $rootScope.backspaceFolder = function ($event) {
+                if (!$scope.parent)
+                    return;
                 var pid = $scope.parent.ParentId;
                 if (pid == 0) {
                     updateQueryParams(pid);
@@ -196,12 +260,12 @@
             $scope.addNewComplexMaterial = function () {
                 var data = {};
                 data.parentId = $scope.parent.Id;
-                $.savingDialog("Добавление нового файла", "/ComplexMaterial/AddConcept", data, "primary", function (data) {
+                $.savingDialog("Добавление нового модуля", "/ComplexMaterial/AddConcept", data, "primary", function (data) {
                     updateCurrentCatalog($scope.parent.Id);
-                    alertify.success("Добавлен новый файл");
+                    alertify.success("Добавлен новый модуль");
                 }, function () {
                     $scope.startSpin();
-                    alertify.success("Добавляется новый файл... Ожидайте");
+                    alertify.success("Добавляется новый модуль... Ожидайте");
                     var data = $scope.getFileAttachments();
                     angular.element('#FileData').val(data);
                 });
@@ -210,8 +274,8 @@
             $scope.addNewFolderComplexMaterial = function () {
                 var data = {};
                 data.parentId = $scope.parent.Id;
-                $.savingDialog("Добавление новой папки", "/ComplexMaterial/AddFolderConcept", data, "primary", function (data) {
-                    alertify.success("Добавлена новая папка");
+                $.savingDialog("Добавление нового составного модуля", "/ComplexMaterial/AddFolderConcept", data, "primary", function (data) {
+                    alertify.success("Добавлен новый составной модуль");
                     updateCurrentCatalog($scope.parent.Id);
                     $scope.stopSpin();
                 }, function () {
@@ -241,9 +305,9 @@
                 var data = {};
                 data.id = $scope.selectedItem.Id;
                 data.parentId = $scope.selectedItem.ParentId;
-                var title = 'Редактирование файла "' + $scope.selectedItem.Name+'"';
+                var title = 'Редактирование модуля "' + $scope.selectedItem.Name+'"';
                 $.savingDialog(title, "/ComplexMaterial/EditConcept", data, "primary", function (data) {
-                    alertify.success("Файл отредактирован");
+                    alertify.success("Модуль отредактирован");
                     updateCurrentCatalog($scope.parent.Id);
                     $scope.stopSpin();
                 }, function ()
@@ -260,15 +324,22 @@
                 }, null, { hideSaveButton: true });
             };
 
-            $scope.openConcept = function (id) {
+            $scope.openConceptInner = function (id, name) {
                 var data = {};
-                data.id = id || $scope.selectedItem.Id;
-                var title = 'Просмотр файла "' + $scope.selectedItem.Name + '"';
+                data.id = id;
+                var title = 'Просмотр файла "' + name + '"';
                 $.savingDialog(title, "/ComplexMaterial/OpenConcept", data, "primary", function (data) {
                 }, null, { hideSaveButton: true });
             };
 
+            $scope.openConcept = function (id) {
+                $scope.openConceptInner($scope.selectedItem.Id, $scope.selectedItem.Name);
+            };
+            var prevTime;
             $scope.openFolder = function ($event) {
+                if (prevTime && $event.timeStamp - prevTime < 2)
+                    return;
+                prevTime = $event.timeStamp;
                 var idFolder = angular.element($event.target).data("idfolder");
                 var currentFolder = $scope.getById($scope.folders, idFolder);
                 if (currentFolder.IsGroup) {
@@ -277,7 +348,9 @@
                     angular.element(".catalog").attr("data-pid", idFolder);
                     updateCurrentCatalog(idFolder);
                     updateQueryParams();
-                }  
+                }
+                else
+                    $scope.openConceptInner(idFolder, currentFolder.Name);
             };
 
             $scope.openMap = function () {

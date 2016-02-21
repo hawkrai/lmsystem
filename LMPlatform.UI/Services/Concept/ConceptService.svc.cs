@@ -50,7 +50,36 @@ namespace LMPlatform.UI.Services.Concept
             get { return _filesManagementService.Value; }
         }
 
+        public ConceptResult AttachSiblings(string source, string left, string right)
+        {
+            try
+            {
+                var sourceId = Int32.Parse(source);
+                var leftId = 0;
+                var rightId = 0;
+                Int32.TryParse(left, out leftId);
+                Int32.TryParse(right, out rightId);
 
+                var concept = ConceptManagementService.AttachSiblings(sourceId, rightId, leftId);
+
+                return new ConceptResult
+                {
+                    Concept = new ConceptViewData(concept),
+                    Message = SuccessMessage,
+                    Code = SuccessCode
+                };
+
+            }
+            catch (Exception ex)
+            {
+                
+                return new ConceptResult
+                {
+                    Message = ex.Message,
+                    Code = ServerErrorCode
+                };
+            }
+        }
 
         public ConceptResult SaveRootConcept(string subject, string name, string container)
         {
@@ -116,6 +145,8 @@ namespace LMPlatform.UI.Services.Concept
             }
         }
 
+        
+
         public ConceptResult GetConcepts(String parentId)
         {
             try
@@ -131,7 +162,7 @@ namespace LMPlatform.UI.Services.Concept
 
                 return new ConceptResult
                 {
-                    Concepts = concepts.Select(c => new ConceptViewData(c)).ToList(),
+                    Concepts = concepts.Select(c => new ConceptViewData(c)).ToList().SortDoubleLinkedList(),
                     Concept = new ConceptViewData(concept),
                     Message = SuccessMessage,
                     Code = SuccessCode
