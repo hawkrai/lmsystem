@@ -29,6 +29,12 @@
                 $(".bs-glyphicons-list").sortable({
                     group: 'bs-glyphicons-list',
                     pullPlaceholder: false,
+                    beforeStop: function (ev, ui) {
+                        if (!ui.item.data().$scope.isShowAddFolderButton()) {
+                            $(this).sortable('cancel');
+                            alertify.error("Изменение корневой структуры ЭУМК запрещено");
+                        }
+                    },
                     update: function (ev, ui) {
                         var rightId = 0;
                         var leftId = 0;
