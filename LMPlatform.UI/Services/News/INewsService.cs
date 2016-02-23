@@ -21,6 +21,14 @@ namespace LMPlatform.UI.Services.News
         [WebInvoke(UriTemplate = "/GetNews/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
         NewsResult GetNews(string subjectId);
 
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/DisableNews")]
+		ResultViewData DisableNews(string subjectId);
+
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/EnableNews")]
+		ResultViewData EnableNews(string subjectId);
+
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Save")]
         ResultViewData Save(string subjectId, string id, string title, string body, bool disabled, bool isOldDate);

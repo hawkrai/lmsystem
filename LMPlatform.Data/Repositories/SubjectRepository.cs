@@ -175,5 +175,22 @@ namespace LMPlatform.Data.Repositories
 
 			base.PerformUpdate(newValue, dataContext);
 		}
+
+		public void DisableNews(int subjectId, bool disable)
+		{
+			using (var context = new LmPlatformModelsContext())
+			{
+				var models = context.Set<SubjectNews>().Where(e => e.SubjectId == subjectId);
+
+				foreach (var subjectNewse in models)
+				{
+					subjectNewse.Disabled = disable;
+				}
+
+				context.Update<SubjectNews, LmPlatformModelsContext>(models);
+
+				context.SaveChanges();
+			}
+		}
 	}
 }
