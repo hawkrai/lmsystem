@@ -16,6 +16,8 @@
         @Html.HiddenFor(e => e.IsGroup)
         @Html.HiddenFor(e => e.ReadOnly)
         @Html.HiddenFor(e => e.Container)
+         @Html.HiddenFor(e => e.Next)
+        @Html.HiddenFor(e => e.Prev)
 
 
         <div style="width: 500px">
@@ -55,7 +57,7 @@
             </div>
         }
         <br />
-        <div style="width: 500px;">
+        @*<div style="width: 500px;">
             <div style="float: left; width: 50%; display: inline">
                 @Html.LabelFor(e => e.Prev, new { @class = "control-label" })
                 @Html.DropDownListFor(e => e.Prev, Model.GetBroElements(Model.Author, Model.ParentId), "Предыдущий файл...", new { @class = "form-control" })
@@ -64,8 +66,8 @@
                 @Html.LabelFor(e => e.Next, new { @class = "control-label" })
                 @Html.DropDownListFor(e => e.Next, Model.GetBroElements(Model.Author, Model.ParentId), "Следуюший файл...", new { @class = "form-control" })
             </div>
-        </div>
-        <div style="padding-top:100px; width: 500px">
+        </div>*@
+        <div style="padding-top:10px; width: 500px">
             @Html.Partial("Common/_FilesUploader", Model.GetAttachments())
         </div>
     }

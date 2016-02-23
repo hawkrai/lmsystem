@@ -24,6 +24,14 @@ angular
             var url = '/Services/Concept/ConceptService.svc/';
 
             return {
+                attachSiblings: function(data)
+                {
+                    return $http({
+                        method: 'POST',
+                        url: url + 'AttachSiblings',
+                        data: data
+                    });
+                },
                 getTree: function(data){
                     var id = data.id;
                     return $http({
