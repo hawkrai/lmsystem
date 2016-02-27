@@ -130,6 +130,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/ComplexMaterials/controllers/mapController.js",
                 "~/Scripts/application/ComplexMaterials/complexMaterialsApp.js",
                 "~/Scripts/application/ComplexMaterials/services/complexMaterialsDataService.js",
+                "~/Scripts/application/ComplexMaterials/services/navigationService.js",
                 "~/Scripts/tinymce/tinymce.min.js",
                 "~/Scripts/pdfjs/compatibility.js",
                 "~/Scripts/pdfjs/l10n.js",

@@ -311,6 +311,7 @@
     <Content Include="Scripts\application\ComplexMaterials\controllers\catalogController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\homeController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\mapController.js" />
+    <Content Include="Scripts\application\ComplexMaterials\services\navigationService.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />

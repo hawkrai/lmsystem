@@ -165,7 +165,8 @@ namespace Application.Infrastructure.ConceptManagement
                 if (concept.IsNew)
                 {
                     lastSibling = GetLastSibling(concept.ParentId.GetValueOrDefault());
-                    concept.PrevConcept = lastSibling.Id;
+                    if (lastSibling!=null)
+                        concept.PrevConcept = lastSibling.Id;
                 }
 
                 repositoriesContainer.ConceptRepository.Save(concept);
