@@ -7,12 +7,11 @@
         '$location',
         '$resource',
         "complexMaterialsDataService",
-        "titleController",
+        "navigationService",
         "$log",
-        function ($scope, $route, $rootScope, $location, $resource, complexMaterialsDataService, titleController) {
+        function ($scope, $route, $rootScope, $location, $resource, complexMaterialsDataService, navigationService) {
             
-            $scope.titleController = titleController;
-
+            $scope.navigationService = navigationService;
             function getParameterByName(name) {
                 name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
                 var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -23,7 +22,7 @@
             var adjustment;
             var subjectId = getParameterByName("subjectId");
             var parentId = $location.search()["parent"];
-
+            var tree;
             function attachDragableActionToConceptList()
             {
                 $(".bs-glyphicons-list").sortable({
@@ -79,14 +78,14 @@
                 });
             }
 
-            function updateRootConceptList() {
+            function updateRootConceptList(action) {
                 $scope.startSpin();
                 if (parentId && parentId>0) {
                     complexMaterialsDataService.getConcepts({ parentId: parentId }).success(function (data) {
                         $scope.folders = data.Concepts;
                         $scope.parent = data.Concept;
                         $scope.selectedItem = null;
-                        $scope.titleController.setTitle($scope.parent.Name);
+                        $scope.navigationService.setNavigation($scope.parent, action ? action : "inc");
                     }).finally(function () {
                         $scope.stopSpin();
                     });
@@ -95,12 +94,26 @@
                     complexMaterialsDataService.getRootConcepts({ subjectId: subjectId }).success(function (data) {
                         $scope.folders = data.Concepts;
                         $scope.parent = null;
-                        $scope.titleController.setDefValue();
-                        //$scope.$parent = null;
+                        $scope.navigationService.setHomeNavigation();
                     }).finally(function () {
                         $scope.stopSpin();
                     });
                 }
+            }
+
+            function loadNavigationTree() {
+                if (parentId < 1) {
+                    updateRootConceptList();
+                    return;
+                }
+                $scope.startSpin();
+                complexMaterialsDataService.getTree({ id: parentId }).success(function (data) {
+                    $scope.navigationService.setTree(data);
+                }).error(function (e) {
+                    alertify.error(e)
+                }).finally(function () {
+                    updateRootConceptList();
+                });
             }
 
             function updateCurrentCatalog(parentId)
@@ -108,7 +121,7 @@
                 $scope.startSpin();
                 complexMaterialsDataService.getConcepts({ parentId: parentId }).success(function (data) {
                     $scope.folders = data.Concepts;
-                    titleController.setTitle($scope.parent.Name);
+                    $scope.navigationService.setNavigation($scope.parent, "inc");
                     $scope.selectedItem = null;
                 }).finally(function () {
                     $scope.stopSpin();
@@ -132,7 +145,7 @@
                 $(".loading").toggleClass('ng-hide', true);
             };
 
-            updateRootConceptList();
+            loadNavigationTree();
 
             attachDragableActionToConceptList();
 
@@ -208,7 +221,7 @@
                 var pid = $scope.parent.ParentId;
                 if (pid == 0) {
                     updateQueryParams(pid);
-                    updateRootConceptList();
+                    updateRootConceptList("dec");
                 }
                 else {
                     $scope.startSpin()
@@ -217,15 +230,20 @@
                         $scope.parent = data.Concept;
                         $scope.selectedItem = null;
                         if ($scope.parent != null)
-                            $scope.titleController.setTitle($scope.parent.Name);
+                            $scope.navigationService.setNavigation($scope.parent, "dec");
                         else
-                            $scope.titleController.setDefValue();
+                            $scope.navigationService.setHomeNavigation();
                         updateQueryParams();
                     }).finally(function () {
                         $scope.stopSpin();
                     });
                 }  
             };
+
+            $rootScope.goToHome = function ($event) {
+                updateQueryParams(0)
+                updateRootConceptList();
+            }
 
             $scope.getById = function (input, id) {
                 var i = 0, len = input.length;
@@ -341,6 +359,7 @@
             $scope.openConcept = function (id) {
                 $scope.openConceptInner($scope.selectedItem.Id, $scope.selectedItem.Name);
             };
+
             var prevTime;
             $scope.openFolder = function ($event) {
                 if (prevTime && $event.timeStamp - prevTime < 2)
@@ -350,14 +369,25 @@
                 var currentFolder = $scope.getById($scope.folders, idFolder);
                 if (currentFolder.IsGroup) {
                     $scope.parent = currentFolder;
-                    //angular.element("#material-header").html(currentFolder.Name);
                     angular.element(".catalog").attr("data-pid", idFolder);
-                    updateCurrentCatalog(idFolder);
-                    updateQueryParams();
+                    $scope.openFolderInner(idFolder);
                 }
                 else
                     $scope.openConceptInner(idFolder, currentFolder.Name);
             };
+
+            $scope.openFolderInner = function (folderId) {
+                updateCurrentCatalog(folderId);
+                updateQueryParams();
+            }
+
+            $scope.goToBredCrumb = function ($event) {
+                var idFolder = angular.element($event.target).data("idfolder");
+                angular.element(".catalog").attr("data-pid", idFolder);
+                var item = $scope.navigationService.buildBreadCrumbs(idFolder);
+                updateQueryParams(item.Id);
+                updateRootConceptList();
+            }
 
             $scope.openMap = function () {
                 $scope.$parent.mapForItem = ($scope.selectedItem && $scope.selectedItem.ParentId == 0) ? $scope.selectedItem : $scope.parent;

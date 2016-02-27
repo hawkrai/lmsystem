@@ -1,22 +1,5 @@
-﻿
-
-angular
+﻿angular
     .module('complexMaterialsApp.service.material', [])
-    .factory('titleController', [function () {
-        var defValue = '***ЭУМК не выбран***';
-        var title = defValue;
-        return {
-            title: function () {
-                return title;
-            },
-            setTitle: function (newTitle) {
-                title = newTitle
-            },
-            setDefValue: function () {
-                title = defValue;
-            }
-        };
-    }])
     .factory('complexMaterialsDataService', [
         '$http',
         function ($http) {
