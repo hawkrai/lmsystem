@@ -749,5 +749,13 @@ namespace Application.Infrastructure.SubjectManagement
 				return repositoriesContainer.SubjectRepository.IsSubjectShortName(name, id);
 			}
 		}
+
+		public void DisableNews(int subjectId, bool disable)
+	    {
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				repositoriesContainer.SubjectRepository.DisableNews(subjectId, disable);
+			}    
+	    }
     }
 }

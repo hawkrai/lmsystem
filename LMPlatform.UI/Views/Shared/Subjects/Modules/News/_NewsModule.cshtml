@@ -10,7 +10,9 @@
                 <tr>
                     <td>
                         <div id="buttonActionSection">
-                            <a id="addNewsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="addNews()">Добавить новость</a>
+	                        <a id="addNewsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="addNews()">Добавить новость</a>
+							<a style="margin-right: 10px;" class="btn btn-default btn-sm" ng-click="disableNews()">Скрыть все новости</a>
+							<a style="margin-right: 10px;" class="btn btn-default btn-sm" ng-click="enableNews()">Показать все новости</a>
                         </div>
                     </td>
                 </tr>
@@ -56,7 +58,7 @@
 						<input type="checkbox" id="newsIsOLd" ng-model="editNewsData.IsOldDate"/><span> Оставить старую дату новости</span>
 					</div>
 					<div>
-						<input type="checkbox" id="isDisabled" ng-model="editNewsData.Disabled" /><span> Скрыть</span>
+						<input type="checkbox" id="isDisabled" ng-model="editNewsData.Disabled" /><span> Скрыть новость</span>
 					</div>
 				</div>
 			</div>

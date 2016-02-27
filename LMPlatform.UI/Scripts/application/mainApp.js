@@ -370,7 +370,39 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             });
         };
 
-    })
+		$scope.disableNews = function() {
+			$http({
+				method: 'POST',
+				url: $scope.UrlServiceNews + "DisableNews",
+				data: { subjectId: $scope.subjectId },
+				headers: { 'Content-Type': 'application/json' }
+			}).success(function (data, status) {
+				if (data.Code != '200') {
+					alertify.error(data.Message);
+				} else {
+					alertify.success(data.Message);
+					$scope.loadNews();
+				}
+			});
+		};
+
+		$scope.enableNews = function () {
+			$http({
+				method: 'POST',
+				url: $scope.UrlServiceNews + "EnableNews",
+				data: { subjectId: $scope.subjectId },
+				headers: { 'Content-Type': 'application/json' }
+			}).success(function (data, status) {
+				if (data.Code != '200') {
+					alertify.error(data.Message);
+				} else {
+					alertify.success(data.Message);
+					$scope.loadNews();
+				}
+			});
+		};
+
+	})
     .controller('LecturesController', function ($scope, charting, $http, $filter) {
 
         $scope.lectures = [];

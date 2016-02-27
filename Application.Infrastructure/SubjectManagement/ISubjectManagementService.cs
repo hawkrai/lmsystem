@@ -95,5 +95,7 @@ namespace Application.Infrastructure.SubjectManagement
 	    bool IsSubjectName(string name, string id);
 
 	    bool IsSubjectShortName(string name, string id);
+
+	    void DisableNews(int subjectId, bool disable);
     }
 }
