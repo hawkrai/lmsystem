@@ -211,13 +211,14 @@ msgApp
     							count: 10
     						},
                             {
+                                total: $scope.getData().length,
                             	getData: function ($defer, params) {
                             		var filteredData = $scope.getData();
                             		params.total(filteredData.length);
-                            		$defer.resolve(filteredData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                            		$defer.resolve(filteredData);//TODO rollback
                             	},
                             	counts: [],
-                            	hideDataTablesInfo: true,
+                            	fideDataTablesInfo: true,
                             	$scope: { $data: {} }
                             });
     					} else {

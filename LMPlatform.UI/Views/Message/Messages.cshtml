@@ -12,6 +12,7 @@
 
 @section scripts
 {
+    <script src="/Scripts/ng-table.js" type="text/javascript"></script>
     <script src="/Scripts/application/Messages/msgModule.js" type="text/javascript"></script>
 }
 
@@ -87,10 +88,10 @@
 			                    </tr>
 		                    </tbody>
 	                    </table>
-						<script type="text/ng-template" id="custom/pager">
+                        <script type="text/ng-template" id="custom/pager">
 								<div class="ng-cloak ng-table-pager" style="text-align: center;">
 									<ul class="pagination" style="margin: 0;">
-										<li ng-repeat="page in pages" ng-class="{'disabled': !page.active && (page.type=='prev' || page.type=='next'), 'active': !page.active && page.type !='prev' && page.type !='next', 'previous': page.type=='prev', 'next': page.type== 'next'}" ng-switch="page.type">
+										<li ng-repeat="page in pages" ng-class="{\'disabled\': !page.active && (page.type==\'prev\' || page.type==\'next\'), \'active\': !page.active && page.type !=\'prev\' && page.type !=\'next\', \'previous\': page.type==\'prev\', \'next\': page.type== \'next\'}" ng-switch="page.type">
 											<a ng-switch-when="prev" ng-click="params.page(page.number)" href="" title="Предыдущая ">
 												<span class="glyphicon glyphicon-chevron-left"></span>
 											</a>
@@ -102,10 +103,10 @@
 										</li>
 									</ul>
 									<div class="btn-group" style="float:right">
-										<button type="button" ng-class="{'active':params.count() == 10}" ng-click="params.count(10)" class="btn btn-default">10</button>
-										<button type="button" ng-class="{'active':params.count() == 25}" ng-click="params.count(25)" class="btn btn-default">25</button>
-										<button type="button" ng-class="{'active':params.count() == 50}" ng-click="params.count(50)" class="btn btn-default">50</button>
-										<button type="button" ng-class="{'active':params.count() == 100}" ng-click="params.count(100)" class="btn btn-default">100</button>
+										<button type="button" ng-class="{\'active\':params.count() == 10}" ng-click="params.count(10)" class="btn btn-default">10</button>
+										<button type="button" ng-class="{\'active\':params.count() == 25}" ng-click="params.count(25)" class="btn btn-default">25</button>
+										<button type="button" ng-class="{\'active\':params.count() == 50}" ng-click="params.count(50)" class="btn btn-default">50</button>
+										<button type="button" ng-class="{\'active\':params.count() == 100}" ng-click="params.count(100)" class="btn btn-default">100</button>
 									</div>
 								</div>
 							</script>
