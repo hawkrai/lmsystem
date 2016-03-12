@@ -34,12 +34,6 @@ namespace LMPlatform.UI.ViewModels.ComplexMaterialsViewModel
         [DisplayName("Родительский элемент")]
         public Int32 ParentId { get; set; }
 
-        [DisplayName("Следующий")]
-        public Int32? Next { get; set; }
-
-        [DisplayName("Предыдущий")]
-        public Int32? Prev { get; set; }
-
         protected IList<Attachment> Attachments { get; set; }
 
         public AddOrEditConceptViewModel(Int32 currentAuthorId, Int32 id)
@@ -127,6 +121,12 @@ namespace LMPlatform.UI.ViewModels.ComplexMaterialsViewModel
 
     public class AddOrEditRootConceptViewModel 
     {
+        [DisplayName("Следующий")]
+        public Int32? Next { get; set; }
+
+        [DisplayName("Предыдущий")]
+        public Int32? Prev { get; set; }
+
 
         private readonly LazyDependency<IConceptManagementService> _conceptManagementService =
             new LazyDependency<IConceptManagementService>();
