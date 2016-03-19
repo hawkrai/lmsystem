@@ -173,10 +173,6 @@
                 return $scope.parent == null;
             }
 
-            $scope.isShowAddFolderButton = function () {
-                return $scope.parent != null && $scope.parent.ParentId != 0;
-            }
-
             $scope.isShowAddFileButton = function () {
                 return $scope.parent != null && $scope.parent.IsGroup && $scope.parent.ParentId != 0;
             }
@@ -245,6 +241,14 @@
             $rootScope.goToHome = function ($event) {
                 updateQueryParams(0)
                 updateRootConceptList();
+            }
+
+            $rootScope.isBackspaceShow = function () {
+                return $scope.parent !=undefined;
+            }
+
+            $scope.isShowAddFolderButton = function () {
+                return $scope.parent != null && $scope.parent.ParentId != 0;
             }
 
             $scope.getById = function (input, id) {
