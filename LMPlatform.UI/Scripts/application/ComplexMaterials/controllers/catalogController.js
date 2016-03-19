@@ -21,7 +21,9 @@
 
             var adjustment;
             var subjectId = getParameterByName("subjectId");
-            var parentId = $location.search()["parent"];
+            var parentId = $location.search()["parent"]
+            if(parentId===undefined)
+                parentId = getParameterByName("parent");
             var tree;
             function attachDragableActionToConceptList()
             {

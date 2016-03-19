@@ -9,11 +9,14 @@ namespace LMPlatform.UI.ViewModels.LmsViewModels
     using Application.Infrastructure.StudentManagement;
 
     using LMPlatform.UI.ViewModels.AdministrationViewModels;
+    using Application.Infrastructure.ConceptManagement;
+    using LMPlatform.UI.ViewModels.ComplexMaterialsViewModel;
 
     public class LmsViewModel
     {
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
         private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
+        private readonly LazyDependency<IConceptManagementService> _conceptManagementService = new LazyDependency<IConceptManagementService>();
 
         public ISubjectManagementService SubjectManagementService
         {
@@ -31,11 +34,21 @@ namespace LMPlatform.UI.ViewModels.LmsViewModels
             }
         }
 
+        public IConceptManagementService ConceptManagementService
+        {
+            get
+            {
+                return _conceptManagementService.Value;
+            }
+        }
+
         public List<SubjectViewModel> Subjects
         {
             get;
             set;
         }
+
+        public List<AddOrEditRootConceptViewModel> ComplexMaterials { get; set; }
 
         public int TotalSubject { get; set; }
 
@@ -52,14 +65,16 @@ namespace LMPlatform.UI.ViewModels.LmsViewModels
             Subjects = SubjectManagementService.GetUserSubjects(userId).Where(e => !e.IsArchive).Select(e => new SubjectViewModel(e)).ToList();
             CurrentSubjects = Subjects.Count();
             TotalSubject = SubjectManagementService.GetSubjects().Count();
-
+            ComplexMaterials = new List<AddOrEditRootConceptViewModel>();
+            
             var modelStudents = new List<int>();
             CurrentStudents = 0;
             
             if (isLector)
             {
                 TotalStudents = StudentManagementService.GetStudents().Count();
-
+                var complexMaterials = ConceptManagementService.GetRootElements(userId).Select(e=>new AddOrEditRootConceptViewModel(userId, e.Id));
+                ComplexMaterials.AddRange(complexMaterials);
                 foreach (var subjects in SubjectManagementService.GetUserSubjects(userId))
                 {
                     if (subjects.SubjectGroups != null)
