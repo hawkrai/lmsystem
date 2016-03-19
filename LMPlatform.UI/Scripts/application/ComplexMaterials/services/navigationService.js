@@ -18,7 +18,7 @@
                 tree = data;
             },
             setNavigation: function (newNavObj, actionType) {
-                title = newNavObj.Name;
+                title = newNavObj.SubjectName;
                 this._updateTitleContainer();
                 if(actionType==="inc")
                     if(newNavObj.ParentId > 0 && this.getBreadcrumbs().length == 0)
@@ -28,8 +28,11 @@
                 else
                     this._popBreadCrumb()
             },
-            setHomeNavigation: function () {
-                title = defValue;
+            setHomeNavigation: function (obj) {
+                if (obj && obj.SubjectName)
+                    title = obj.SubjectName;
+                else
+                    title = defValue;
                 this._updateTitleContainer();
                 this._clearBreadCrums();
                 initedHeader = false;
@@ -59,7 +62,6 @@
                 }
                 if (breadCrumbsArray.length > 0)
                 {
-                    initedHeader = false;
                     title = breadCrumbsArray[0].Name;
                     this._updateTitleContainer();
                 }

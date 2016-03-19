@@ -96,7 +96,7 @@
                     complexMaterialsDataService.getRootConcepts({ subjectId: subjectId }).success(function (data) {
                         $scope.folders = data.Concepts;
                         $scope.parent = null;
-                        $scope.navigationService.setHomeNavigation();
+                        $scope.navigationService.setHomeNavigation(data);
                     }).finally(function () {
                         $scope.stopSpin();
                     });
@@ -165,7 +165,7 @@
 
             $scope.getHeaderValue = function () {
                 if($scope.parent)
-                    return $scope.parent.Name
+                    return $scope.parent.SubjectName
                 return "Модуль электронных учебно-методических комплексов";
             }
 
@@ -230,7 +230,7 @@
                         if ($scope.parent != null)
                             $scope.navigationService.setNavigation($scope.parent, "dec");
                         else
-                            $scope.navigationService.setHomeNavigation();
+                            $scope.navigationService.setHomeNavigation(data);
                         updateQueryParams();
                     }).finally(function () {
                         $scope.stopSpin();

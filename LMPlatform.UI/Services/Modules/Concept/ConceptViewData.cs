@@ -23,6 +23,7 @@ namespace LMPlatform.UI.Services.Modules.Concept
             HasData = !String.IsNullOrEmpty(Container);
             Prev = concept.PrevConcept;
             Next = concept.NextConcept;
+            SubjectName = concept.Subject.Name;
         }
 
         public ConceptViewData(LMPlatform.Models.Concept concept, Boolean buildTree)
@@ -59,6 +60,13 @@ namespace LMPlatform.UI.Services.Modules.Concept
 
         [DataMember]
         public string ShortName
+        {
+            get;
+            set;
+        }
+
+        [DataMember]
+        public string SubjectName
         {
             get;
             set;

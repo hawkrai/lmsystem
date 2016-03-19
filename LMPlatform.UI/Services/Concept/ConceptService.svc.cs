@@ -1,6 +1,7 @@
 ﻿using Application.Core;
 using Application.Infrastructure.ConceptManagement;
 using Application.Infrastructure.FilesManagement;
+using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.UI.Services.Modules.Concept;
 using System;
@@ -21,6 +22,7 @@ namespace LMPlatform.UI.Services.Concept
         private const String SuccessMessage = "Операция выполнена успешно";
 
         private readonly LazyDependency<IConceptManagementService> _conceptManagementService = new LazyDependency<IConceptManagementService>();
+        private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
 
         public IConceptManagementService ConceptManagementService
         {
@@ -50,6 +52,14 @@ namespace LMPlatform.UI.Services.Concept
             get { return _filesManagementService.Value; }
         }
 
+        public ISubjectManagementService SubjectManagementService
+        {
+            get
+            {
+                return _subjectManagementService.Value;
+            }
+        }
+
         public ConceptResult AttachSiblings(string source, string left, string right)
         {
             try
@@ -66,7 +76,8 @@ namespace LMPlatform.UI.Services.Concept
                 {
                     Concept = new ConceptViewData(concept),
                     Message = SuccessMessage,
-                    Code = SuccessCode
+                    Code = SuccessCode,
+                    SubjectName = concept.Subject.Name
                 };
 
             }
@@ -89,10 +100,12 @@ namespace LMPlatform.UI.Services.Concept
                 var authorId = WebSecurity.CurrentUserId;
 
                 var root = ConceptManagementService.CreateRootConcept(name, authorId, subjectId);
+                var subj = SubjectManagementService.GetSubject(subjectId);
                 return new ConceptResult
                 {
                     Concept = new ConceptViewData(root),
                     Message = SuccessMessage,
+                    SubjectName = subj.Name,
                     Code = SuccessCode
                 };
             }
@@ -126,11 +139,12 @@ namespace LMPlatform.UI.Services.Concept
 
                 if(valid)
                     concepts = concepts.Where(c => c.SubjectId == subject);
-
+                var subj = SubjectManagementService.GetSubject(subject);
                 return new ConceptResult
                 {
                     Concepts = concepts.Select(c => new ConceptViewData(c)).ToList(),
                     Message = SuccessMessage,
+                    SubjectName = subj.Name,
                     Code = SuccessCode
                 };
             }
@@ -164,6 +178,7 @@ namespace LMPlatform.UI.Services.Concept
                 {
                     Concepts = concepts.Select(c => new ConceptViewData(c)).ToList().SortDoubleLinkedList(),
                     Concept = new ConceptViewData(concept),
+                    SubjectName = concept.Subject.Name,
                     Message = SuccessMessage,
                     Code = SuccessCode
                 };
@@ -194,7 +209,8 @@ namespace LMPlatform.UI.Services.Concept
                 return new ConceptResult
                 {
                     Message = SuccessMessage,
-                    Code = SuccessCode
+                    Code = SuccessCode,
+                    SubjectName = source.Subject.Name
                 };
             }
             catch (Exception ex)
