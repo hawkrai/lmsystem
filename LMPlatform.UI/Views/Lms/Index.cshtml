@@ -107,11 +107,11 @@
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-                @foreach (var mat in Model.ComplexMaterials)
+                @foreach (var mat in Model.ComplexSubjects)
                 {
-                    var url = Url.Action("Index", "ComplexMaterial", new { parent = mat.Id, subjectId = mat.SelectedSubjectId });
+                    var url = Url.Action("Index", "ComplexMaterial", new { subjectId = mat.SubjectId });
 
-                    <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @mat.Name</a></li>
+                    <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @mat.DisplayName</a></li>
                 }
             </ul>
         </li>

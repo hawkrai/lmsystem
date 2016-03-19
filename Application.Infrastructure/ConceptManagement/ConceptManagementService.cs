@@ -20,6 +20,7 @@ namespace Application.Infrastructure.ConceptManagement
         private readonly string _storageRootTemp = ConfigurationManager.AppSettings["FileUploadPathTemp"];
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
         private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
+        private readonly LazyDependency<IModulesManagementService> _modulesManagementService = new LazyDependency<IModulesManagementService>();
 
         public IFilesManagementService FilesManagementService
         {
@@ -34,6 +35,14 @@ namespace Application.Infrastructure.ConceptManagement
             get
             {
                 return subjectManagementService.Value;
+            }
+        }
+
+        public IModulesManagementService ModulesManagementService
+        {
+            get
+            {
+                return _modulesManagementService.Value;
             }
         }
 
@@ -112,11 +121,15 @@ namespace Application.Infrastructure.ConceptManagement
             }
         }
 
-        public IEnumerable<Concept> GetRootElements(Int32 authorId)
+        public IEnumerable<Concept> GetRootElements(Int32 authorId, Boolean onlyVisible=false)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.ConceptRepository.GetRootElementsByAuthorId(authorId);
+                var rootElements = repositoriesContainer.ConceptRepository.GetRootElementsByAuthorId(authorId);
+                if(!onlyVisible)
+                    return rootElements;
+
+                return rootElements.Where(re=>ModulesManagementService.GetModules(re.SubjectId).Any(m=>m.ModuleType==ModuleType.ComplexMaterial));
             }
         }
 

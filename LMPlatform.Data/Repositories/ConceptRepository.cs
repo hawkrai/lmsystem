@@ -41,7 +41,11 @@ namespace LMPlatform.Data.Repositories
         {
             using (var context = new LmPlatformModelsContext())
             {
-                var concept = context.Set<Concept>().Include(c => c.Children).Include(c=>c.Author).Include(c=>c.Subject).FirstOrDefault(e => e.Id == id);
+                var concept = context.Set<Concept>()
+                    .Include(c => c.Children)
+                    .Include(c=>c.Author)
+                    .Include(c=>c.Subject)
+                    .FirstOrDefault(e => e.Id == id);
                 return concept;
             }
         }
@@ -50,7 +54,12 @@ namespace LMPlatform.Data.Repositories
         {
             using (var context = new LmPlatformModelsContext())
             {
-                var concepts = context.Set<Concept>().Include(c => c.Children).Include(a => a.Author).Where(e => e.Author.Id == authorId && !e.ParentId.HasValue && e.IsGroup);
+                var concepts = context.Set<Concept>()
+                    .Include(c => c.Children)
+                    .Include(a => a.Author)
+                    .Include(c => c.Subject)
+                    .Include(c => c.Subject.SubjectModules)
+                    .Where(e => e.Author.Id == authorId && !e.ParentId.HasValue && e.IsGroup);
                 return concepts.ToList();
             }
         }

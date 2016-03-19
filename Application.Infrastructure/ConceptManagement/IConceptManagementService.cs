@@ -11,7 +11,7 @@ namespace Application.Infrastructure.ConceptManagement
     {
         Concept GetById(Int32 id);
         Concept GetTreeConceptByElementId(Int32 elementId);
-        IEnumerable<Concept> GetRootElements(Int32 authorId);
+        IEnumerable<Concept> GetRootElements(Int32 authorId, Boolean onlyVisible=false);
         IEnumerable<Concept> GetRootElementsBySubject(Int32 subjectId);
         IEnumerable<Concept> GetElementsByParentId(Int32 authorId, Int32 parentId);
         IEnumerable<Concept> GetElementsByParentId(Int32 parentId);

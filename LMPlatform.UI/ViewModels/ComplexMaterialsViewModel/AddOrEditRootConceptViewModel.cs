@@ -127,6 +127,8 @@ namespace LMPlatform.UI.ViewModels.ComplexMaterialsViewModel
         [DisplayName("Предыдущий")]
         public Int32? Prev { get; set; }
 
+        public String SubjectName { get; set; }
+
 
         private readonly LazyDependency<IConceptManagementService> _conceptManagementService =
             new LazyDependency<IConceptManagementService>();
@@ -154,6 +156,7 @@ namespace LMPlatform.UI.ViewModels.ComplexMaterialsViewModel
                 Name = SourceConcept.Name;
                 Published = SourceConcept.Published;
                 ReadOnly = SourceConcept.ReadOnly;
+                SubjectName = SourceConcept.Subject.Name;
             }
         }
 
