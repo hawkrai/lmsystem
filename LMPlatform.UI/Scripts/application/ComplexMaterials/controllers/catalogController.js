@@ -359,6 +359,7 @@
                 data.id = id;
                 var title = 'Просмотр файла "' + name + '"';
                 $.savingDialog(title, "/ComplexMaterial/OpenConcept", data, "primary", function (data) {
+                    
                 }, null, { hideSaveButton: true });
             };
 

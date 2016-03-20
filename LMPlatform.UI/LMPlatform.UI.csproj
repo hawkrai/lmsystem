@@ -738,6 +738,7 @@
     <Content Include="Scripts\application\Materials\controllers\newController.js" />
     <Content Include="Scripts\application\Materials\controllers\homeController.js" />
     <Content Include="Scripts\application\Materials\materialsApp.js" />
+    <Content Include="Scripts\application\ComplexMaterials\PDFLoader.js" />
     <Content Include="Scripts\application\Materials\services\materialsService.js" />
     <Content Include="Scripts\application\Messages\message.js" />
     <Content Include="Scripts\application\Messages\msgModule.js" />

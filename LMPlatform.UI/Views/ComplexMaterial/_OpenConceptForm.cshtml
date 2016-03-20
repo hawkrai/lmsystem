@@ -4,7 +4,7 @@
     <a id="zoom-minus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomMinus()"><i style="margin-right: 10px;" class="fa fa-minus"></i>Уменьшить</a>
     <a id="move-prev" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="movePrev()"><i style="margin-right: 10px;" class=" glyphicon glyphicon-backward"></i>Предыдущий</a>
     <a id="move-next" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="moveNext()">Следующий<i style="margin-left: 10px;" class="glyphicon glyphicon-forward"></i></a>
-    <div id="pdfContainer" style=" text-align: center; overflow: auto;"></div>
+    <div id="dataContainer" style=" text-align: center; overflow: auto;"></div>
     <a id="zoom-plus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomPlus()"><i style="margin-right: 10px;" class="fa fa-plus"></i>Увеличить</a>
     <a id="zoom-minus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomMinus()"><i style="margin-right: 10px;" class="fa fa-minus"></i>Уменьшить</a>
     <a id="move-prev" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="movePrev()"><i style="margin-right: 10px;" class=" glyphicon glyphicon-backward"></i>Предыдущий</a>
@@ -16,13 +16,13 @@
         margin: 10px;
     }
 </style>
-
+<script src="~/Scripts/application/ComplexMaterials/PDFLoader.js"></script>
 <script type="text/javascript">
 
-    PDFJS.workerSrc = '/Scripts/pdfjs/pdf.worker.js';
-
-    var scale = 3.5;
-    var scaleStep = 0.1;
+    
+    debugger;
+    var pdfLoader = new PDFLoader($('#dataContainer'), $(".loading"));
+    var currentLoader = pdfLoader;
 
     function resizeDialog() {
         $('.modal-dialog').width(($(document).width() * 0.75) + 'px');
@@ -37,32 +37,20 @@
     })
 
     function zoomPlus() {
-        clearPdfPage();
-        currPage = 1;
-        scale = scale + scaleStep;
-        thePDF.getPage(currPage).then(handlePages);
+        currentLoader.zoomPlus();
     }
 
     function zoomMinus() {
-        clearPdfPage();
-        currPage = 1;
-        scale = scale - scaleStep;
-        thePDF.getPage(currPage).then(handlePages);
+        currentLoader.zoomMinus();
     }
 
-    function startSpin() {
-        $(".loading").toggleClass('ng-hide', false);
-    };
-
-    function stopSpin () {
-        $(".loading").toggleClass('ng-hide', true);
-    };
+    
 
     function showEmptyContainer(message) {
         var height = $(document).height() / 3;
-        var pdfContainer = $('#pdfContainer');
-        pdfContainer.empty();
-        pdfContainer.html("<div style='height:" + height + "px;'><label style='top:40%; position: relative;'><h5><i>" + message + "</i></h5></label></div>");
+        var dataContainer = $('#dataContainer');
+        dataContainer.empty();
+        dataContainer.html("<div style='height:" + height + "px;'><label style='top:40%; position: relative;'><h5><i>" + message + "</i></h5></label></div>");
     }
 
     function updateHeader(name) {
@@ -102,70 +90,14 @@
         loadConceptAttach(url);
     }
 
-    function scalingViewport(page, scale, maxWidth) {
-        var viewPort = page.getViewport(scale);
-        if ((viewPort.width + viewPort.width * 0.1) < maxWidth)
-            return viewPort;
-        else
-            return scalingViewport(page, scale - scaleStep, maxWidth);
-    }
-
-    function handlePages(page) {
-
-        var canvas = document.createElement("canvas");
-        var viewport = scalingViewport(page, scale, $('.modal-dialog').width());
-        scale = viewport.scale;
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-        canvas.className = "pdf-page";
-
-        var context = canvas.getContext('2d');
-        page.render({ canvasContext: context, viewport: viewport });
-
-        document.getElementById('pdfContainer').appendChild(canvas);
-
-        currPage++;
-        if (thePDF !== null && currPage <= numPages) {
-            thePDF.getPage(currPage).then(handlePages);
-        }
-        else
-            stopSpin();
-    }
-
-    function renderPdf() {
-        currPage = 1;
-        clearPdfPage();
-        thePDF.getPage(currPage).then(handlePages);
-    }
-
-    function clearPdfPage() {
-        $('#pdfContainer').empty();
-    }
-
     function LoadPDF(filepath) {
         if (filepath.length < 1) {
             showEmptyContainer("Пустой файл");
             return;
         }
-        clearPdfPage();
+        debugger;
         try {
-            startSpin();
-            PDFJS.getDocument(filepath).then(function (pdf) {
-                thePDF = pdf;
-                numPages = pdf.numPages;
-                renderPdf();
-            }).catch(function (error) {
-                stopSpin();
-                if (error.name === 'InvalidPDFException')
-                {
-                    showEmptyContainer("Не поддерживаемый формат документа. Наиболее вероятной причиной подобной ошибки является загруженный документ не в формате PDF. Убедитесь, что Вы загрузили документ в формате PDF и повторите попытку открытия документа");   
-                }
-                else
-                {
-                    showEmptyContainer("Произошла ошибка при загрузке документа. Обратитесь к Адмнистратору");
-                }
-                alertify.error("Произошла ошибка при открытии документа");
-            });;
+            currentLoader.loadData(filepath);
         }
         catch (e) {
             alertify.error(e.message);
