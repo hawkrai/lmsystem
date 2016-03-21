@@ -8,10 +8,10 @@ using Application.Infrastructure.FilesManagement;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
+using System.Web.Mvc;
 
 namespace Application.Infrastructure.FoldersManagement
 {
-    using System.Web.Mvc;
 
     public class FoldersManagementService : IFoldersManagementService
     {

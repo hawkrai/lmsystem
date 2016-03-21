@@ -17,7 +17,7 @@ namespace Application.Infrastructure.AccountManagement
 			{
 				result = WebSecurity.Login(login, password, remembeMe);
 			}
-			catch (ArgumentException exception)
+			catch (ArgumentException)
 			{
 				result = false;
 			}
@@ -53,7 +53,7 @@ namespace Application.Infrastructure.AccountManagement
             {
                 result = Membership.Provider.DeleteUser(login, true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

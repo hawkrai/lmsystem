@@ -14,6 +14,11 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
+        public ActionResult Chat()
+        {
+            return View();
+        }
+
         public ActionResult Projects()
         {
             return PartialView();

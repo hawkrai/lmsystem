@@ -72,7 +72,7 @@ else
         <ul class="bs-glyphicons-list">
             <li title="{{folder.Name}}" style="width: 100px; height: 100px" ng-class="{'selected-elem': folder.selected}" ng-click="selectElement($event)" ng-repeat=" folder in folders" class="folder" context-menu-folder ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}">
                 <span class="glyphicon" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}"
-                      ng-class="{'published-folder':folder.Published==true, 'not-published-folder':folder.Published!=true, 'glyphicon-book':folder.IsGroup&&folder.ParentId==0, 'glyphicon-folder-open':folder.IsGroup&&folder.ParentId!=0, 'glyphicon-file':!folder.IsGroup}"></span>
+                      ng-class="{'published-folder':folder.Published==true, 'not-published-folder':folder.Published!=true, 'glyphicon-briefcase':folder.IsGroup&&folder.ParentId==0, 'glyphicon-folder-open':folder.IsGroup&&folder.ParentId!=0, 'glyphicon-file':!folder.IsGroup}"></span>
                 <span class="glyphicon-class nameFolder" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}" style="color: #000">{{folder.ShortName}}</span>
             </li>
         </ul>

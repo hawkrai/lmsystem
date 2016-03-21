@@ -108,17 +108,9 @@
 					<p></p>
 				</div>
 				<div>
-					@Html.LabelFor(e => e.Group, new {@class = "control-label"})
+					@Html.LabelFor(e => e.Group, new { @class = "control-label" })
 					<div>
-						@Html.DropDownListFor(e => e.Group, Model.GetGroups(), new {@class = "form-control"})
-					</div>
-					<p></p>
-				</div>
-				<div>
-					@Html.LabelFor(e => e.Code, new { @class = "control-label" })
-					<div>
-						@Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
-						@Html.ValidationMessageFor(e => e.Code, " ")
+						@Html.DropDownListFor(e => e.Group, Model.GetGroups(), new { @class = "form-control" })
 					</div>
 					<p></p>
 				</div>

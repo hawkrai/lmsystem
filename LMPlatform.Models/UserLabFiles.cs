@@ -2,8 +2,6 @@
 
 namespace LMPlatform.Models
 {
-    using System;
-
     public class UserLabFiles : ModelBase
     {
          public string Comments { get; set; }
@@ -13,7 +11,5 @@ namespace LMPlatform.Models
 		public int UserId { get; set; }
 
 		public int SubjectId { get; set; }
-
-        public DateTime? Date { get; set; }
     }
 }

@@ -60,7 +60,7 @@ namespace SCORMHost
                     
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
             }

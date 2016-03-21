@@ -79,69 +79,77 @@
 				<span class="icon-bar"></span>
 			</a>
 			<div class="navbar-right">
-				<ul class="nav navbar-nav">
-					<li class="dropdown messages-menu">
-						<a href="@Url.Action("Index", "Message" )">
-							<i class="fa fa-envelope fa-1x"></i>
-							<span class="label label-success">@Html.Action("MessagesCount", "Message")</span>
-						</a>
-					</li>
-					<li class="dropdown notifications-menu">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-info fa-1x"></i>
-						</a>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 400px;">
-							<li class="user-header bg-light-blue">
-								<div style="padding: 20px">
-									<h5>Система управления учебным процессом для средних и высших учебнымх заведений</h5>
-									<h5>Версия: 2.1.0</h5>
-									<hr/>
-								    <h5>Разработчики: Яцынович С.В., Бураковский А.И., Барковская О.А., Тарасюк П.В., Колосовский К.А., Завистовская Е.С., Михно В.С.</h5>
-								    <hr/>
-								    <h5>Руководитель проекта: к.т.н., доцент Попова Ю.Б.</h5>
-								    <hr/>
-                                    <h5 style="text-align: center">БНТУ - 2015</h5>
-								</div>
-							</li>
-						</ul>
-					</li>
-					<li class="dropdown user user-menu" style="font-size: 24px">
-						<a class="dropdown-toggle" type="button" id="dropdownMenu1" style="cursor: pointer" data-toggle="dropdown" aria-expanded="true">
-							<span><i class="fa fa-user fa-1x"></i>  <i class="caret"></i></span>
-						</a>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							<li class="user-header bg-light-blue">
-								<img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image"/>
-								<p>
-									@User.Identity.Name
-								</p>
-								@if (User.IsInRole("student"))
-								{
-									<p>Студент</p>
-								}
-								else
-								{
-									<p>Преподаватель</p>
-								}
-							</li>
+			    <ul class="nav navbar-nav">
+			        <!--//СЮДА НУЖНА КНОПКА С ЧАТОМ И КАРТИНКА-->
+			        <li class="dropdown messages-menu">
+			            <a href="@Url.Action("Index", "Chat")">
+			                <i class="fa fa-envelope fa-1x"></i>
+			                <span class="label label-success">@Html.Action("MessagesCount", "Message")</span>
+			            </a>
+			        </li>
+                    @*//***************************@
+			        <li class="dropdown messages-menu">
+			            <a href="@Url.Action("Index", "Message")">
+			                <i class="fa fa-envelope fa-1x"></i>
+			                <span class="label label-success">@Html.Action("MessagesCount", "Message")</span>
+			            </a>
+			        </li>
+			        <li class="dropdown notifications-menu">
+			            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			                <i class="fa fa-info fa-1x"></i>
+			            </a>
+			            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width: 400px;">
+			                <li class="user-header bg-light-blue">
+			                    <div style="padding: 20px">
+			                        <h5>Система управления учебным процессом для средних и высших учебнымх заведений</h5>
+			                        <h5>Версия: 2.1.0</h5>
+			                        <hr/>
+			                        <h5>Разработчики: Яцынович С.В., Бураковский А.И., Барковская О.А., Тарасюк П.В., Колосовский К.А., Завистовская Е.С., Михно В.С.</h5>
+			                        <hr/>
+			                        <h5>Руководитель проекта: к.т.н., доцент Попова Ю.Б.</h5>
+			                        <hr/>
+			                        <h5 style="text-align: center">БНТУ - 2015</h5>
+			                    </div>
+			                </li>
+			            </ul>
+			        </li>
+			        <li class="dropdown user user-menu" style="font-size: 24px">
+			            <a class="dropdown-toggle" type="button" id="dropdownMenu1" style="cursor: pointer" data-toggle="dropdown" aria-expanded="true">
+			                <span><i class="fa fa-user fa-1x"></i>  <i class="caret"></i></span>
+			            </a>
+			            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+			                <li class="user-header bg-light-blue">
+			                    <img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image"/>
+			                    <p>
+			                        @User.Identity.Name
+			                    </p>
+			                    @if (User.IsInRole("student"))
+			                    {
+			                        <p>Студент</p>
+			                    }
+			                    else
+			                    {
+			                        <p>Преподаватель</p>
+			                    }
+			                </li>
 
-							<!-- Menu Footer-->
-							<li class="user-footer">
-								<div class="pull-left">
-									<a href="/Account/Management" class="btn btn-default btn-flat">Профиль</a>
-								</div>
-								<div class="pull-right">
-									<a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default btn-flat">Выйти</a>
-								</div>
-								@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
-								{
-									@Html.AntiForgeryToken()
+			                <!-- Menu Footer-->
+			                <li class="user-footer">
+			                    <div class="pull-left">
+			                        <a href="/Account/Management" class="btn btn-default btn-flat">Профиль</a>
+			                    </div>
+			                    <div class="pull-right">
+			                        <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default btn-flat">Выйти</a>
+			                    </div>
+			                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
+			                    {
+			                        @Html.AntiForgeryToken()
 
-								}
-							</li>
-						</ul>
-					</li>
-				</ul>
+			                    }
+			                </li>
+			            </ul>
+			        </li>
+			    </ul>
 			</div>
 		</nav>
 	</header>

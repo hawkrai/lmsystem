@@ -114,7 +114,7 @@ namespace Application.Core.SLExcel
 				var sheetData = workSheet.Elements<SheetData>().First();
 				rows = sheetData.Elements<Row>().ToList();
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				data.Status.Message = "Unable to open the file";
 				return data;

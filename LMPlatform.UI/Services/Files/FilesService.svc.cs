@@ -42,7 +42,7 @@ namespace LMPlatform.UI.Services.Files
 
                 return result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new AttachmentResult
                 {

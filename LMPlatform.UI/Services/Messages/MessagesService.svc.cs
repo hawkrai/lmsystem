@@ -41,7 +41,7 @@ namespace LMPlatform.UI.Services.Messages
 
                 return result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new MessagesResult
                     {
@@ -72,7 +72,7 @@ namespace LMPlatform.UI.Services.Messages
                     Code = "200"
                 };
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new DisplayMessageResult
                 {
@@ -141,7 +141,7 @@ namespace LMPlatform.UI.Services.Messages
                     Code = "200"
                 };
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new ResultViewData
                 {
@@ -164,7 +164,7 @@ namespace LMPlatform.UI.Services.Messages
                     Code = "200"
                 };
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new ResultViewData
                 {

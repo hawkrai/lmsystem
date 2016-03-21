@@ -81,7 +81,7 @@ namespace LMPlatform.Data.Repositories
                     context.SaveChanges();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return;
             }

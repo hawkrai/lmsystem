@@ -187,7 +187,7 @@ namespace LMPlatform.UI.Services.Concept
                 return new ConceptViewData(tree, true);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

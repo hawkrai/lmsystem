@@ -20,7 +20,7 @@
     <div style="margin-top: 21px"></div>
 
 	<div>
-		<div class="bs-callout bs-callout-fill" ng-class="data.Disabled ? 'bs-callout-default' : 'bs-callout-info'" ng-repeat="data in news">
+		<div class="bs-callout bs-callout-info bs-callout-fill" ng-repeat="data in news">
 			<h4 style="float: left; word-wrap: break-word; margin-right: 10px;">{{data.Title}}</h4>
 
 			<div style="display: none;" showonhoverparent>
@@ -53,10 +53,7 @@
 						@*<textarea id="newsHtml" class="form-control" style="width: 545px; height: 300px" ng-model="editNewsData.Body"></textarea>*@
 					</div>
 					<div>
-						<input type="checkbox" id="newsIsOLd" ng-model="editNewsData.IsOldDate"/><span> Оставить старую дату новости</span>
-					</div>
-					<div>
-						<input type="checkbox" id="isDisabled" ng-model="editNewsData.Disabled" /><span> Скрыть</span>
+						<input type="checkbox" id="newsIsOLd" ng-model="editNewsData.IsOldDate" /><span> Оставить старую дату новости</span>
 					</div>
 				</div>
 			</div>

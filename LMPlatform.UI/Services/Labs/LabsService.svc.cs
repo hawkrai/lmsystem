@@ -17,13 +17,9 @@ namespace LMPlatform.UI.Services.Labs
 {
     using System.Globalization;
 
-    using ADL.SCORM.LOM;
-
     using LMPlatform.UI.Services.Modules.CoreModels;
     using Application.Infrastructure.ConceptManagement;
     using WebMatrix.WebData;
-
-    using DateTime = System.DateTime;
 
     public class LabsService : ILabsService
     {
@@ -227,7 +223,6 @@ namespace LMPlatform.UI.Services.Labs
 		            Comments = e.Comments,
 					Id = e.Id,
 					PathFile = e.Attachments,
-                    Date = e.Date != null ? e.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty,
 		            Attachments = FilesManagementService.GetAttachments(e.Attachments).ToList()
 	            }).ToList();
                 return new UserLabFilesResult()
@@ -256,7 +251,6 @@ namespace LMPlatform.UI.Services.Labs
 				SubjectManagementService.SaveUserLabFiles(new Models.UserLabFiles()
 				{
 					SubjectId = int.Parse(subjectId),
-                    Date = DateTime.Now,
 					UserId = int.Parse(userId),
 					Comments = comments,
 					Attachments = pathFile,

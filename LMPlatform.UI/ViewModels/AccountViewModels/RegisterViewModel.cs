@@ -134,13 +134,6 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             set;
         }
 
-		[Display(Name = "Код доступа")]
-		public string Code
-		{
-			get;
-			set;
-		}
-
         public IList<SelectListItem> GetGroups()
         {
             var groups = GroupManagementService.GetGroups();

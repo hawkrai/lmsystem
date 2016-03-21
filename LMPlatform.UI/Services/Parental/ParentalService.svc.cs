@@ -55,7 +55,7 @@ namespace LMPlatform.UI.Services.Parental
 
                 return result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new SubjectListResult
                 {
