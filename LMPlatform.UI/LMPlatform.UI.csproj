@@ -23,6 +23,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -242,6 +243,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\CP\CourseProjectAssignmentController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectConsultationController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectConsultationDateController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectController.cs" />
+    <Compile Include="ApiControllers\CP\CourseStudentController.cs" />
+    <Compile Include="ApiControllers\CP\CourseStudentMarkController.cs" />
+    <Compile Include="ApiControllers\CP\CourseUserController.cs" />
+    <Compile Include="ApiControllers\CP\CpCorrelationController.cs" />
+    <Compile Include="ApiControllers\CP\CpPercentageController.cs" />
+    <Compile Include="ApiControllers\CP\CpPercentageResultController.cs" />
+    <Compile Include="ApiControllers\CP\CpTaskSheetController.cs" />
+    <Compile Include="ApiControllers\CP\CpTaskSheetTemplateController.cs" />
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectConsultationDateController.cs" />
@@ -273,6 +286,7 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\ComplexMaterialController.cs" />
+    <Compile Include="Controllers\CpController.cs" />
     <Compile Include="Controllers\DpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
@@ -312,6 +326,17 @@
     <Content Include="Scripts\application\ComplexMaterials\controllers\homeController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\mapController.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
+    <Content Include="Scripts\application\CP\controllers\homeController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentageController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentageResultsController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentagesController.js" />
+    <Content Include="Scripts\application\CP\controllers\projectController.js" />
+    <Content Include="Scripts\application\CP\controllers\projectsController.js" />
+    <Content Include="Scripts\application\CP\controllers\studentsController.js" />
+    <Content Include="Scripts\application\CP\controllers\taskSheetController.js" />
+    <Content Include="Scripts\application\CP\controllers\visitStatsController.js" />
+    <Content Include="Scripts\application\CP\cpModule.js" />
+    <Content Include="Scripts\application\CP\services\projectService.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
@@ -1707,6 +1732,17 @@
     <Content Include="Views\ComplexMaterial\_AddRootConceptForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_MemoForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenConceptForm.cshtml" />
+    <Content Include="Views\CP\ConsultationDate.cshtml" />
+    <Content Include="Views\CP\Index.cshtml" />
+    <Content Include="Views\CP\Percentage.cshtml" />
+    <Content Include="Views\CP\PercentageResults.cshtml" />
+    <Content Include="Views\CP\Percentages.cshtml" />
+    <Content Include="Views\CP\Project.cshtml" />
+    <Content Include="Views\CP\Projects.cshtml" />
+    <Content Include="Views\CP\Students.cshtml" />
+    <Content Include="Views\CP\TaskSheet.cshtml" />
+    <Content Include="Views\CP\TaskSheetEdit.cshtml" />
+    <Content Include="Views\CP\VisitStats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
