@@ -14,8 +14,8 @@ namespace LMPlatform.UI
     {
         #region Data Members
 
-        static List<UserDetail> ConnectedUsers = new List<UserDetail>();
-        static List<MessageDetail> CurrentMessage = new List<MessageDetail>();
+        static readonly List<UserDetail> ConnectedUsers = new List<UserDetail>();
+        static readonly List<MessageDetail> CurrentMessage = new List<MessageDetail>();
 
         #endregion
 
