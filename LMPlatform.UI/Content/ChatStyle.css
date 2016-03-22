@@ -71,7 +71,7 @@
         font-size: 16px;
         font-weight: bold;
         padding: 8px;
-        background-color: #d7e5e4;
+        background-color: #008cba;
     }
 
     .chatRoom .panel-body{
@@ -153,14 +153,14 @@
 .draggable
 {
     position: absolute;
-    width: 250px;
+    width: 290px;
 }
 
     .draggable .header
     {
         cursor: move;
-        background-color: #d7e5e4;
-        color: #1e4638;
+        background-color: #008cba;
+        color: #ffffff;
     }
 
     .draggable .selText
@@ -196,3 +196,10 @@
            margin-left:4px;
             width: 55px;
         }
+
+input, textarea {
+        font-size: 1.2em;
+    margin: 5px 0 6px 0;
+    padding: 5px;
+    width: 100px;
+}

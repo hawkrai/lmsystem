@@ -1781,7 +1781,9 @@
     <Content Include="Views\ComplexMaterial\_AddRootConceptForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_MemoForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenConceptForm.cshtml" />
-    <Content Include="Views\Chat\Chat.cshtml" />
+    <Content Include="Views\Chat\Chat.cshtml">
+      <BrowseToURL>~/Chat</BrowseToURL>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

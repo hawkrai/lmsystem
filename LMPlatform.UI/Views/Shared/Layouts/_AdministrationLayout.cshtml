@@ -84,6 +84,12 @@
                     </li>
                     @Html.Partial("_LoginPartial")
                 </ul>
+                @*--метка*@
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="@Url.Action("Index", "Chat")"><i class="fa fa-comments"></i> Чат </a>
+                    </li>
+                </ul>
             </div>
         </nav>
         @RenderSection("featured", required: false)
