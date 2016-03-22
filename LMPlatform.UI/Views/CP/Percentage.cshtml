@@ -1,0 +1,43 @@
+﻿<div class="modal-dialog panel panel-primary" style="margin: 0;">
+    <div class="panel-heading">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
+        <h4 class="modal-title">Редактирование графика процентовки</h4>
+    </div>
+    <div class="modal-body">
+        <form ng-submit="savePercentage()" novalidate name="forms.percentageForm">
+            <div ng-class="{'has-error': submitted && forms.percentageForm.Name.$invalid}">
+                <label class="control-label" for="Name">Название этапа</label>
+                <input class="form-control" name="Name" type="text" ng-model="percentage.Name" style="width: 100%;" required />
+                <span class="help-block" ng-show="submitted && forms.percentageForm.Name.$error.required">Введите Название!</span>
+            </div>
+            <div ng-class="{'has-error': submitted && forms.percentageForm.Percentage.$invalid}">
+                <label class="control-label" for="Percentage">Процент выполнения</label>
+                <input type="number" min="0" max="100" class="form-control" name="Percentage" type="text" ng-model="percentage.Percentage" style="width: 100%;" required />
+                <span class="help-block" ng-show="submitted && forms.percentageForm.Percentage.$error.required">Введите Процент выполнения!</span>
+                <span class="help-block" ng-show="submitted && (forms.percentageForm.Percentage.$error.min || forms.percentageForm.Percentage.$error.max)">Процент выполнения должен быть между 0 и 100!</span>
+            </div>
+            <div ng-class="{'has-error': submitted && forms.percentageForm.Date.$invalid}">
+                <label class="control-label" for="Percentage">Дата</label>
+                <p class="input-group">
+                    <input type="text" class="form-control" style="margin: 0"
+                           name="Date"
+                           datepicker-popup="{{dateFormat}}"
+                           ng-model="percentage.Date"
+                           is-open="datePickerOpened"
+                           required
+                           datepicker-options="dateOptions"
+                           show-button-bar="false" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="datePickerOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+                <span class="help-block" ng-show="submitted && forms.percentageForm.Date.$error.required">Введите Дату!</span>
+            </div>
+
+            <div style="text-align: right; padding: 20px 0;">
+                <button type="button" class="btn btn-sm" ng-click="closeDialog()">Отмена</button>
+                <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>

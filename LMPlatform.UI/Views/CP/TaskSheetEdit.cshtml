@@ -1,0 +1,52 @@
+﻿<style type="text/css">
+    .taskSheetEdit textarea {
+        max-width: 650px;
+        max-height: 700px;
+        width: 600px;
+        height: 400px;
+    }
+</style>
+
+<div class="modal-dialog panel panel-primary" style="margin: 0;width:700px;">
+    <div class="panel-heading">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
+        <h4 class="modal-title">Редактирование листа задания</h4>
+    </div>
+    <div class="modal-body">
+        <div class="col-md-12" style="float: left; clear: both; padding-left: 0;">
+            <div style="width: 615px;">
+                <ui-select on-select="selectTemplate($item)" ng-model="template.Id" theme="bootstrap">
+                    <ui-select-match placeholder="Шаблон">{{$select.selected.Name}}</ui-select-match>
+                    <ui-select-choices repeat="item.id as item in templates | filter: $select.search">
+                        <div>{{item.Name}}</div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div>
+                <input type="text" style="width:465px;" ng-model="template.Name" placeholder="Название шаблона" />
+                <button ng-click="saveTaskSheetTemplate()" style="margin: 0 0 5px 5px" ng-disabled="!selectedTemplateId && !template.Name" type="submit" class="btn btn-primary btn-sm">Сохранить шаблон</button>
+            </div>
+        </div>
+        <br />
+        <form class="taskSheetEdit">
+            <tabset>
+                <tab heading="Входные данные">
+                    <textarea ng-model="taskSheet.InputData"></textarea>
+                </tab>
+                <tab heading="Содержание">
+                    <textarea ng-model="taskSheet.RpzContent"></textarea>
+                </tab>
+                <tab heading="Графические материалы">
+                    <textarea ng-model="taskSheet.DrawMaterials"></textarea>
+                </tab>
+                <tab heading="Консультанты">
+                    <textarea ng-model="taskSheet.Consultants"></textarea>
+                </tab>
+            </tabset>
+            <div style="text-align: right; padding: 20px 0;">
+                <button ng-click="closeDialog()" class="btn btn-sm">Отмена</button>
+                <button ng-click="saveTaskSheet()" type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
