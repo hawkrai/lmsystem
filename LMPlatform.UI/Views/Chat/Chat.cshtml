@@ -42,8 +42,9 @@
                             {
                                 userName = WebSecurity.CurrentUserName;
                             }
-                            <input type="text" class="form-control" id="txtNickName"  value = userName readonly="readonly"/>
-                        }                                         
+
+                        }
+                        <input type="text" class="form-control" id="txtNickName" value=@userName readonly="readonly" />
                     </div>
                     <button id="btnStartChat" class="btn btn-primary">Вход</button>
                 </form>

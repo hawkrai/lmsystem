@@ -32,7 +32,9 @@ namespace LMPlatform.UI
 
             //if (User.IsInRole(Constants.Roles.Admin)) userName = "Admin";
             //else userName = WebSecurity.CurrentUserName;
-
+            if (userName == "Admin") ;
+            else userName = WebSecurity.CurrentUserName;
+            
             
             if (ConnectedUsers.Count(x => x.ConnectionId == id || x.UserName == userName) == 0)
             {
