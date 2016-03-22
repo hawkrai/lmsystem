@@ -73,6 +73,15 @@
     <Compile Include="Bug.cs" />
     <Compile Include="BugLog.cs" />
     <Compile Include="Concept.cs" />
+    <Compile Include="CP\AssignedCourseProject.cs" />
+    <Compile Include="CP\CoursePercentagesGraph.cs" />
+    <Compile Include="CP\CoursePercentagesGraphToGroup.cs" />
+    <Compile Include="CP\CoursePercentagesResult.cs" />
+    <Compile Include="CP\CourseProject.cs" />
+    <Compile Include="CP\CourseProjectConsultationDate.cs" />
+    <Compile Include="CP\CourseProjectConsultationMark.cs" />
+    <Compile Include="CP\CourseProjectGroup.cs" />
+    <Compile Include="CP\CourseProjectTaskSheetTemplate.cs" />
     <Compile Include="DP\AssignedDiplomProject.cs" />
     <Compile Include="DP\DiplomPercentagesGraph.cs" />
     <Compile Include="DP\DiplomPercentagesGraphToGroup.cs" />

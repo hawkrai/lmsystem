@@ -58,7 +58,17 @@
                             <i class="fa fa-book fa-tab"></i>
                             <span>Методические материалы</span>
                         </a>
-                    </li>	   }
+                    </li>
+                }
+                else if (module.Type == ModuleType.YeManagment)
+                {
+
+                    <li class="navLink">
+                        <a class="moduleLinks linkNavbar" href="@Url.Action("Index","CP", new { subjectId = Model.SubjectId })">
+                            Курсовой проект(работа)
+                        </a>
+                    </li>
+                }
                 else
                 {
                     <li class="navLink">

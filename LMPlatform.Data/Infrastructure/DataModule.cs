@@ -20,7 +20,7 @@ namespace LMPlatform.Data.Infrastructure
             containerWrapper.Register<IModulesRepository, ModulesRepository>();
             containerWrapper.Register<IMessageRepository, MessageRepository>();
             containerWrapper.Register<IDpContext, LmPlatformModelsContext>();
-
+            containerWrapper.Register<ICpContext, LmPlatformModelsContext>();
 			return containerWrapper;
 		}
 	}

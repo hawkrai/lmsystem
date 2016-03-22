@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Infrastructure\DataBaseInitializer.cs" />
     <Compile Include="Infrastructure\DataModule.cs" />
+    <Compile Include="Infrastructure\ICpContext.cs" />
     <Compile Include="Infrastructure\IDpContext.cs" />
     <Compile Include="Infrastructure\LmPlatformModelsContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />

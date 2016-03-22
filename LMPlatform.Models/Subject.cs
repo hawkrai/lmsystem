@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Application.Core.Data;
 using LMPlatform.Models.KnowledgeTesting;
+using LMPlatform.Models.CP;
 
 namespace LMPlatform.Models
 {
@@ -59,6 +60,18 @@ namespace LMPlatform.Models
         }
 
         public ICollection<Labs> Labs
+        {
+            get;
+            set;
+        }
+
+        public ICollection<CourseProject> CourseProjects
+        {
+            get;
+            set;
+        }
+
+        public ICollection<CourseProjectConsultationDate> CourseProjectsConsultationDates
         {
             get;
             set;
