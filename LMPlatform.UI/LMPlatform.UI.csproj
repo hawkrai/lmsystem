@@ -109,10 +109,6 @@
     <Reference Include="System.Drawing">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Linq.Dynamic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Linq.Dynamic.1.0.0\lib\net40\System.Linq.Dynamic.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization">
       <Private>True</Private>
     </Reference>
@@ -203,7 +199,8 @@
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
-    </Reference>    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
     </Reference>
@@ -298,13 +295,11 @@
     <Content Include="Content\fullcalendar\fullcalendar.css" />
     <Content Include="Content\fullcalendar\fullcalendar.print.css" />
     <Content Include="Content\jquery.circliful.css" />
-    <Content Include="Content\jquery.typeahead.css" />
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Content\materials.css" />
     <Content Include="Content\select.css" />
     <Content Include="Images\Excel.png" />
     <Content Include="Images\login_bk.jpg" />
-    <Content Include="Images\Лого2.png" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\application\ComplexMaterials\complexMaterialsApp.js" />
@@ -400,10 +395,6 @@
     <Compile Include="Services\Practicals\IPracticalService.cs" />
     <Compile Include="Services\Practicals\PracticalService.svc.cs">
       <DependentUpon>PracticalService.svc</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Search\ISearchService.cs" />
-    <Compile Include="Services\Search\SearchService.svc.cs">
-      <DependentUpon>SearchService.svc</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\PersonalDataViewModel.cs" />
@@ -997,8 +988,6 @@
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
     <None Include="Properties\PublishProfiles\lmsPlatform - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\lmsPlatform - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\lmsPlatform.pubxml" />
-    <None Include="Properties\PublishProfiles\LMS_git.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -1072,7 +1061,6 @@
     <Content Include="Scripts\jquery.activity-indicator-1.0.0.min.js" />
     <Content Include="Scripts\jquery.bootstrap-duallistbox.js" />
     <Content Include="Scripts\jquery.circliful.js" />
-    <Content Include="Scripts\jquery.typeahead.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -1252,7 +1240,6 @@
     <Content Include="Services\News\NewsService.svc" />
     <Content Include="Services\Parental\ParentalService.svc" />
     <Content Include="Services\Practicals\PracticalService.svc" />
-    <Content Include="Services\Search\SearchService.svc" />
     <Content Include="Templates\AdminLTE.css" />
     <Content Include="Templates\css\bootstrap-slider\slider.css" />
     <Content Include="Templates\css\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
@@ -1713,7 +1700,6 @@
     <Content Include="Views\ComplexMaterial\_AddRootConceptForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_MemoForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenConceptForm.cshtml" />
-    <Content Include="Views\Shared\_SearchPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1738,10 +1724,6 @@
     <ProjectReference Include="..\Application.Infrastructure\Application.Infrastructure.csproj">
       <Project>{A9E94869-28E1-4B55-ABE1-984E6AE62EAF}</Project>
       <Name>Application.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Application.SearchEngine\Application.SearchEngine.csproj">
-      <Project>{8371cb8f-cc57-426f-a9d5-0b2ab3bc64e7}</Project>
-      <Name>Application.SearchEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\LMPlatform.Data\LMPlatform.Data.csproj">
       <Project>{79EE9ED9-A7E4-43DB-B01F-FF693309ADC9}</Project>

@@ -64,7 +64,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessCode.cs" />
     <Compile Include="Attachment.cs" />
     <Compile Include="AttachmentType.cs" />
     <Compile Include="BTS\BugQuentity.cs" />

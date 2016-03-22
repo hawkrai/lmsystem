@@ -239,7 +239,6 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             Title: "",
             Body: "",
             IsOldDate: false,
-			Disabled: false,
             Id: 0
         };
 
@@ -273,7 +272,6 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $scope.editNewsData.Body = "";
             $scope.editNewsData.Id = "0";
             $scope.editNewsData.IsOldDate = false;
-            $scope.editNewsData.Disabled = false;
             $("#newsIsOLd").attr('disabled', 'disabled');
             $('#dialogAddNews').modal();
         };
@@ -283,7 +281,6 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $scope.editNewsData.Title = news.Title;
             $scope.editNewsData.Body = news.Body;
             $scope.editNewsData.Id = news.NewsId;
-            $scope.editNewsData.Disabled = news.Disabled;
             $scope.editNewsData.IsOldDate = false;
             $("#newsIsOLd").removeAttr('disabled');
             $('#dialogAddNews').modal();
@@ -321,7 +318,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 			$http({
 				method: 'POST',
 				url: $scope.UrlServiceNews + "Save",
-				data: { subjectId: $scope.subjectId, id: $scope.editNewsData.Id, title: $scope.editNewsData.Title, body: $scope.editNewsData.Body, disabled: $scope.editNewsData.Disabled, isOldDate: $scope.editNewsData.IsOldDate },
+				data: { subjectId: $scope.subjectId, id: $scope.editNewsData.Id, title: $scope.editNewsData.Title, body: $scope.editNewsData.Body, isOldDate: $scope.editNewsData.IsOldDate },
 				headers: { 'Content-Type': 'application/json' }
 			}).success(function(data, status) {
 				if (data.Code != '200') {

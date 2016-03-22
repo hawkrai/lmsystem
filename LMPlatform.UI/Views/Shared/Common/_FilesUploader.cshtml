@@ -39,7 +39,7 @@
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
         <td class="preview"><span class="fade"></span></td>
-        <td class="name"><span style="word-break: break-all;">{%=file.name%}</span></td>
+        <td class="name"><span>{%=file.name%}</span></td>
         <td class="type"><span>{%=file.type%}</span></td>
         <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>        
         {% if (file.error) { %}
@@ -68,11 +68,11 @@
             <td class="size"><span>{%=o.formatFileSize(file.Size)%}</span></td>            
             <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.Error%}</td>
         {% } else { %}
-            <td class="preview" style="width:50px">{% if (file.ThumbnailUrl) { %}
+            <td class="preview">{% if (file.ThumbnailUrl) { %}
                 <a href="{%=file.Url%}" title="{%=file.Name%}" data-gallery="gallery" download="{%=file.Name%}"><img src="{%=file.ThumbnailUrl%}"></a>
             {% } %}</td>
             <td class="name">
-                <a style="word-break: break-all;" href="{%=file.Url%}" title="{%=file.Name%}" data-gallery="{%=file.ThumbnailUrl&&'gallery'%}" download="{%=file.Name%}">{%=file.Name%}</a>
+                <a href="{%=file.Url%}" title="{%=file.Name%}" data-gallery="{%=file.ThumbnailUrl&&'gallery'%}" download="{%=file.Name%}">{%=file.Name%}</a>
             </td>
             <td class="guid" style="display:none"><span>{%=file.GuidFileName%}</span></td>
             <td class="type"><span>{%=file.Type%}</span></td>

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Application.Core.Data;
-using Application.SearchEngine.SearchMethods;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 
@@ -50,7 +49,7 @@ namespace Application.Infrastructure.GroupManagement
                 repositoriesContainer.GroupsRepository.Save(group);
                 repositoriesContainer.ApplyChanges();
             }
-            new GroupSearchMethod().AddToIndex(group);
+
             return group;
         }
 
@@ -61,7 +60,7 @@ namespace Application.Infrastructure.GroupManagement
                 repositoriesContainer.GroupsRepository.Save(group);
                 repositoriesContainer.ApplyChanges();
             }
-            new GroupSearchMethod().UpdateIndex(group);
+
             return group;
         }
 
@@ -73,7 +72,6 @@ namespace Application.Infrastructure.GroupManagement
                 repositoriesContainer.GroupsRepository.Delete(group);
                 repositoriesContainer.ApplyChanges();
             }
-            new GroupSearchMethod().DeleteIndex(id);
         }
 
 		public List<string> GetLabsScheduleVisitings(int subjectId, int groupId, int subGorupId)

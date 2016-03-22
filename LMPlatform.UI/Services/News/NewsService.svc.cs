@@ -53,24 +53,17 @@ namespace LMPlatform.UI.Services.News
             }
         }
 
-        public ResultViewData Save(string subjectId, string id, string title, string body, bool disabled, bool isOldDate)
+        public ResultViewData Save(string subjectId, string id, string title, string body, bool isOldDate)
         {
             try
             {
                 var newsIds = string.IsNullOrEmpty(id) ? 0 : int.Parse(id);
                 var date = DateTime.Now;
 
-	            if ((newsIds != 0 && isOldDate) || (newsIds != 0 && disabled))
-	            {
-		            date = SubjectManagementService.GetNews(newsIds, int.Parse(subjectId)).EditDate;
-	            }
-				else if ((newsIds != 0 && !disabled))
-	            {
-		            if (SubjectManagementService.GetNews(newsIds, int.Parse(subjectId)).Disabled)
-		            {
-			            date = DateTime.Now;
-		            }
-	            }
+                if (newsIds != 0 && isOldDate)
+                {
+                    date = SubjectManagementService.GetNews(newsIds, int.Parse(subjectId)).EditDate;
+                }
 
                 var model = new SubjectNews
                                 {
@@ -78,8 +71,7 @@ namespace LMPlatform.UI.Services.News
                                     SubjectId = int.Parse(subjectId),
                                     Body = body,
                                     EditDate = date,
-                                    Title = title,
-									Disabled = disabled
+                                    Title = title
                                 };
                 SubjectManagementService.SaveNews(model);
                 return new ResultViewData()

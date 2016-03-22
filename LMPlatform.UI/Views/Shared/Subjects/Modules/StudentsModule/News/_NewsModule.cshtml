@@ -6,7 +6,7 @@
     </style>
 
 	<div>
-		<div class="bs-callout bs-callout-info bs-callout-fill" ng-if="!data.Disabled" ng-repeat="data in news">
+		<div class="bs-callout bs-callout-info bs-callout-fill" ng-repeat="data in news">
 			<h4 style="max-width: 500px; word-wrap: break-word; margin-right: 10px;">{{data.Title}}</h4>
 			
 			<div ng-bind-html="renderHtml(data.Body)">
