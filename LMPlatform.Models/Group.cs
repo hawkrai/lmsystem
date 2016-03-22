@@ -8,7 +8,7 @@ namespace LMPlatform.Models
     using System.Collections.ObjectModel;
 
     using Application.Core.Data;
-
+    using CP;
     public class Group : ModelBase
     {
         public Group()
@@ -49,6 +49,8 @@ namespace LMPlatform.Models
         public ICollection<ScheduleProtectionPractical> ScheduleProtectionPracticals { get; set; }
 
         public virtual ICollection<DiplomProjectGroup> DiplomProjectGroups { get; set; }
+
+        public virtual ICollection<CourseProjectGroup> CourseProjectGroups { get; set; }
 
         [Column("Secretary_Id")]
         public int? SecretaryId { get; set; }
