@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Application.Core.Constants;
-using LMPlatform.Models;
 using Microsoft.AspNet.SignalR;
 using LMPlatform.UI;
 using Microsoft.AspNet.SignalR.Hubs;
 using WebMatrix.WebData;
-using Application.Core.UI;
 
 namespace LMPlatform.UI
 {
@@ -27,14 +24,8 @@ namespace LMPlatform.UI
         public void Connect(string userName)
         {
             var id = Context.ConnectionId;
-
-            //userName = @WebSecurity.CurrentUserName == null ? "Admin" : @WebSecurity.CurrentUserName;
-
-            //if (User.IsInRole(Constants.Roles.Admin)) userName = "Admin";
-            //else userName = WebSecurity.CurrentUserName;
-            if (userName == "Admin") ;
-            else userName = WebSecurity.CurrentUserName;
-            
+            userName = @WebSecurity.CurrentUserName;
+          
             
             if (ConnectedUsers.Count(x => x.ConnectionId == id || x.UserName == userName) == 0)
             {

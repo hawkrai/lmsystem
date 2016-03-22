@@ -80,15 +80,12 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
+                        <a href="@Url.Action("Index", "Chat")"><i class="fa fa-comments"></i> Чат </span></a>
+                    </li>
+                    <li>
                         <a href="@Url.Action("Index", "Message")"><i class="fa fa-envelope"></i> Сообщения <span class="badge">@Html.Action("MessagesCount", "Message")</span></a>
                     </li>
                     @Html.Partial("_LoginPartial")
-                </ul>
-                @*--метка*@
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="@Url.Action("Index", "Chat")"><i class="fa fa-comments"></i> Чат </a>
-                    </li>
                 </ul>
             </div>
         </nav>

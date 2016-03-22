@@ -71,7 +71,7 @@
         font-size: 16px;
         font-weight: bold;
         padding: 8px;
-        background-color: #008cba;
+        background-color: #008CBA;
     }
 
     .chatRoom .panel-body{
@@ -102,6 +102,8 @@
                 .chatRoom .content .chatWindow .message .userName
                 {
                     font-weight: bold;
+                    background-color: #008CBA;
+                    
                 }
 
         .chatRoom .content .users
@@ -153,13 +155,13 @@
 .draggable
 {
     position: absolute;
-    width: 290px;
+    width: 250px;
 }
 
     .draggable .header
     {
         cursor: move;
-        background-color: #008cba;
+        background-color: #008CBA;
         color: #ffffff;
     }
 
@@ -198,8 +200,14 @@
         }
 
 input, textarea {
-        font-size: 1.2em;
-    margin: 5px 0 6px 0;
+    font-size: 1.2em;
+    margin: 0 0 6px 0;
     padding: 5px;
     width: 100px;
+}
+.badge {
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #008CBA;
+
 }
