@@ -102,6 +102,19 @@ namespace LMPlatform.UI.App_Start
                 "~/Content/themes/base/jquery.ui.progressbar.css",
                 "~/Content/themes/base/jquery.ui.theme.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/cpModule").Include(
+    "~/Scripts/application/CP/cpModule.js",
+    "~/Scripts/application/CP/controllers/homeController.js",
+    "~/Scripts/application/CP/controllers/projectsController.js",
+    "~/Scripts/application/CP/controllers/studentsController.js",
+    "~/Scripts/application/CP/controllers/projectController.js",
+    "~/Scripts/application/CP/controllers/visitStatsController.js",
+                    "~/Scripts/application/CP/controllers/percentagesController.js",
+                "~/Scripts/application/CP/controllers/percentageController.js",
+                "~/Scripts/application/CP/controllers/percentageResultsController.js",
+                 "~/Scripts/application/CP/controllers/taskSheetController.js",
+    "~/Scripts/application/CP/services/projectService.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/dpModule").Include(
                 "~/Scripts/application/DP/dpModule.js",
                 "~/Scripts/application/DP/controllers/homeController.js",
