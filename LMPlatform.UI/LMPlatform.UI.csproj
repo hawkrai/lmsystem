@@ -457,6 +457,7 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\LmsViewModels\ProfileCalendarViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\ProfileVewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\DataTableMessage.cs" />
     <Compile Include="ViewModels\MessageViewModels\DisplayMessageViewModel.cs" />

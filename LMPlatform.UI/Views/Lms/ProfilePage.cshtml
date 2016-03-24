@@ -531,98 +531,100 @@
 
     /*state overview*/
 
-.state-overview .symbol, .state-overview .value {
-    display: inline-block;
-    text-align: center;
-}
+    .state-overview .symbol, .state-overview .value {
+        display: inline-block;
+        text-align: center;
+    }
 
-.state-overview .value  {
-    float: right;
+    .state-overview .value {
+        float: right;
+    }
 
-}
+        .state-overview .value h1 {
+            margin: 0;
+            padding: 0;
+            color: #007AFF;
+        }
 
-.state-overview .value h1{
-    margin: 0;
-    padding: 0;
-    color: #007AFF;
-}
-.state-overview .value p  {
-    margin: 0;
-    padding: 0;
-    color: #8E8E93;
-}
+        .state-overview .value p {
+            margin: 0;
+            padding: 0;
+            color: #8E8E93;
+        }
 
-.state-overview .value h1 {
-    font-weight: 300;
-}
+        .state-overview .value h1 {
+            font-weight: 300;
+        }
 
-.state-overview .symbol i {
-    color: #007AFF;
-    font-size: 30px;
-}
+    .state-overview .symbol i {
+        color: #007AFF;
+        font-size: 30px;
+    }
 
-.state-overview .symbol {
-    width: 30%;
-    padding: 25px 15px;    
-}
+    .state-overview .symbol {
+        width: 30%;
+        padding: 25px 15px;
+    }
 
-.state-overview .value {
-    width: 68%;
-    padding-top: 21px;
-}
+    .state-overview .value {
+        width: 68%;
+        padding-top: 21px;
+    }
 
-.state-overview .terques {
-    background: #34AADC;
-}
+    .state-overview .terques {
+        background: #34AADC;
+    }
 
-.state-overview .red {
-    background: #FF2D55;
-}
+    .state-overview .red {
+        background: #FF2D55;
+    }
 
-.state-overview .yellow {
-    background: #FCB322;
-}
+    .state-overview .yellow {
+        background: #FCB322;
+    }
 
-.state-overview .blue {
-    background: #007AFF;
-}
-ul.summary-list {
-    display: inline-block;
-    padding-left:0 ;
-    width: 100%;
-    margin-bottom: 0;
-}
+    .state-overview .blue {
+        background: #007AFF;
+    }
 
-ul.summary-list > li {
-    display: inline-block;
-    width: 19.5%;
-    text-align: center;
-}
+    ul.summary-list {
+        display: inline-block;
+        padding-left: 0;
+        width: 100%;
+        margin-bottom: 0;
+    }
 
-ul.summary-list > li > a > i {
-    display:block;
-    font-size: 18px;
-    padding-bottom: 5px;
-}
+        ul.summary-list > li {
+            display: inline-block;
+            width: 19.5%;
+            text-align: center;
+        }
 
-ul.summary-list > li > a {
-    padding: 10px 0;
-    display: inline-block;
-    color: #818181;
-}
+            ul.summary-list > li > a > i {
+                display: block;
+                font-size: 18px;
+                padding-bottom: 5px;
+            }
 
-ul.summary-list > li  {
-    border-right: 1px solid #eaeaea;
-}
+            ul.summary-list > li > a {
+                padding: 10px 0;
+                display: inline-block;
+                color: #818181;
+            }
 
-ul.summary-list > li:last-child  {
-    border-right: none;
-}
+        ul.summary-list > li {
+            border-right: 1px solid #eaeaea;
+        }
+
+            ul.summary-list > li:last-child {
+                border-right: none;
+            }
 </style>
 
-<div class="row state-overview" ng-cloak style="margin: 0px">
-    @*<div class="col-md-6">*@
-    @*<div class="panel panel-default">
+<div>
+    <div class="row state-overview" ng-cloak style="margin: 0px">
+        @*<div class="col-md-6">*@
+        @*<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="panel-title">
 					Профиль
@@ -707,8 +709,8 @@ ul.summary-list > li:last-child  {
 				</div>
 			</div>
 		</div>*@
-    @*</div>*@
-    <div class="col-lg-4">
+        @*</div>*@
+        @* <div class="col-lg-4">
         <section class="panel">
             <div class="profile-widget profile-widget-info">
                 <div class="panel-body">
@@ -823,31 +825,31 @@ ul.summary-list > li:last-child  {
                             <li>
                                 <a href="javascript:;">
                                     <div style="display:inline;width:80px;height:80px;"><input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayprevious="true" data-thickness=".1" value="75" data-fgcolor="#007AFF" data-bgcolor="#F7F7F7" readonly="readonly" style="width: 44px; height: 26px; position: absolute; vertical-align: middle; margin-top: 26px; margin-left: -62px; border: 0px; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 16px; line-height: normal; font-family: Arial; text-align: center; color: rgb(0, 122, 255); padding: 0px; -webkit-appearance: none; background: none;"></div>
-                                    @*<p><i class="icon_currency"></i> Sell</p>*@
+                                    
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:;">
                                     <div style="display:inline;width:80px;height:80px;"><input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayprevious="true" data-thickness=".1" value="25" data-fgcolor="#34AADC" data-bgcolor="#F7F7F7" readonly="readonly" style="width: 44px; height: 26px; position: absolute; vertical-align: middle; margin-top: 26px; margin-left: -62px; border: 0px; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 16px; line-height: normal; font-family: Arial; text-align: center; color: rgb(52, 170, 220); padding: 0px; -webkit-appearance: none; background: none;"></div>
-                                    @*<p><i class="icon_cart_alt"></i> Purchase</p>*@
+                                   
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:;">
                                     <div style="display:inline;width:80px;height:80px;"><input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayprevious="true" data-thickness=".1" value="85" data-fgcolor="#FF2D55" data-bgcolor="#F7F7F7" readonly="readonly" style="width: 44px; height: 26px; position: absolute; vertical-align: middle; margin-top: 26px; margin-left: -62px; border: 0px; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 16px; line-height: normal; font-family: Arial; text-align: center; color: rgb(255, 45, 85); padding: 0px; -webkit-appearance: none; background: none;"></div>
-                                    @*<p><i class="icon_easel"></i> Bounce Rate</p>*@
+                                   
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:;">
                                     <div style="display:inline;width:80px;height:80px;"><input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayprevious="true" data-thickness=".1" value="95" data-fgcolor="#34AADC" data-bgcolor="#F7F7F7" readonly="readonly" style="width: 44px; height: 26px; position: absolute; vertical-align: middle; margin-top: 26px; margin-left: -62px; border: 0px; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 16px; line-height: normal; font-family: Arial; text-align: center; color: rgb(52, 170, 220); padding: 0px; -webkit-appearance: none; background: none;"></div>
-                                    @*<p><i class="icon_datareport"></i> New Visits</p>*@
+                                   
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:;">
                                     <div style="display:inline;width:80px;height:80px;"><input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayprevious="true" data-thickness=".1" value="65" data-fgcolor="#007AFF" data-bgcolor="#F7F7F7" readonly="readonly" style="width: 44px; height: 26px; position: absolute; vertical-align: middle; margin-top: 26px; margin-left: -62px; border: 0px; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 16px; line-height: normal; font-family: Arial; text-align: center; color: rgb(0, 122, 255); padding: 0px; -webkit-appearance: none; background: none;"></div>
-                                   @* <p><i class="icon_search"></i> Search Traffic</p>*@
+                                   
                                 </a>
                             </li>
                         </ul>
@@ -855,9 +857,9 @@ ul.summary-list > li:last-child  {
                 </div>
             </div>                        
         </div>
-    </div>
+    </div>*@
 
-@*    <div class="col-md-6">
+        @*    <div class="col-md-6">
         <div class="panel-body" style="max-height: 400px; overflow-y: auto">
             <div>
                 <span style="padding: 10px; font-size: 18px"><a href="#">Надежность ПО</a></span>
@@ -878,8 +880,8 @@ ul.summary-list > li:last-child  {
                 </div>
             </div>
         </div>*@
-    @*</div>*@
-    @*<div class="col-md-6">
+        @*</div>*@
+        @*<div class="col-md-6">
         <div class="row">
             <div class="col-md-6">
             </div>
@@ -913,8 +915,82 @@ ul.summary-list > li:last-child  {
             </div>
         </div>
     </div>*@
+        <div class="col-md-8">
+            <div>
+                <div id='calendarEvents'></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <table class="table table-bordered" style="margin-top: 45px;">
+                <thead>
+                    <tr>
+                        <th>Предметы</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="data in subject">
+                        <td>
+                            <a href="/Subject?subjectId={{data.Id}}">{{data.Name}} ({{data.ShortName}})</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-    <div class="loading">
-        <span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <section>
+                        <div class="symbol">
+                            <i style="height: 50px;" class="fa fa-check"></i>
+                        </div>
+                        <div class="value">
+                            <h1>{{statistic.Labs}}</h1>
+                            <p>Лаб. работ</p>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-md-6">
+                    <section>
+                        <div class="symbol">
+                            <i style="height: 50px;" class="fa fa-check"></i>
+                        </div>
+                        <div class="value">
+                            <h1>{{statistic.Lects}}</h1>
+                            <p>Лекций</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 45px">
+                <div class="col-md-6">
+                    <div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
+                        <div id="circle_lec" class="circliful" data-dimension="150" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+                            <span class="circle-info" style="line-height: 195px;">Проведенных лекций</span>
+                        </div>
+                    </div>
+                    <div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
+                        <div id="circle_lec" class="circliful" data-dimension="150" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+                            <span class="circle-info" style="line-height: 195px;">Посещенных лекций</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
+                        <div id="circle_lab" class="circliful" data-dimension="150" data-text="55%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="55" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+                            <span class="circle-info" style="line-height: 195px;">Проведенных ЛБ</span>
+                        </div>
+                    </div>
+                    <div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
+                        <div id="circle_lab" class="circliful" data-dimension="150" data-text="55%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="55" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+                            <span class="circle-info" style="line-height: 195px;">Проведенных ЛБ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading">
+            <span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
+        </div>
     </div>
+
 </div>

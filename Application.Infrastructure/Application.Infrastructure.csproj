@@ -133,6 +133,7 @@
     <Compile Include="MaterialsManagement\MaterialsManagementService.cs" />
     <Compile Include="MessageManagement\IMessageManagementService.cs" />
     <Compile Include="MessageManagement\MessageManagementService.cs" />
+    <Compile Include="Models\ProfileCalendarModel.cs" />
     <Compile Include="ProjectManagement\IProjectManagementService.cs" />
     <Compile Include="ProjectManagement\ProjectManagementService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

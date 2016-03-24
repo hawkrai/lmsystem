@@ -6,6 +6,8 @@ namespace Application.Infrastructure.SubjectManagement
 {
     using System;
 
+    using Application.Infrastructure.Models;
+
     public interface ISubjectManagementService
     {
         List<Subject> GetUserSubjects(int userId);
@@ -97,5 +99,13 @@ namespace Application.Infrastructure.SubjectManagement
 	    bool IsSubjectShortName(string name, string id);
 
 	    void DisableNews(int subjectId, bool disable);
+
+        List<ProfileCalendarModel> GetLabEvents(int userId);
+
+        List<ProfileCalendarModel> GetLecturesEvents(int userId);
+
+        List<Subject> GetSubjectsByLector(int userId);
+
+        List<Subject> GetSubjectsByStudent(int userId);
     }
 }

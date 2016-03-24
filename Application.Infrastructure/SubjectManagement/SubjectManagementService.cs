@@ -15,6 +15,8 @@ using Application.Infrastructure.ConceptManagement;
 
 namespace Application.Infrastructure.SubjectManagement
 {
+    using Application.Infrastructure.Models;
+
     public class SubjectManagementService : ISubjectManagementService
     {
         private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
@@ -757,5 +759,118 @@ namespace Application.Infrastructure.SubjectManagement
 				repositoriesContainer.SubjectRepository.DisableNews(subjectId, disable);
 			}    
 	    }
+
+        public List<ProfileCalendarModel> GetLabEvents(int userId)
+        {
+            var model = new List<ProfileCalendarModel>();
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var subjects = repositoriesContainer.SubjectRepository.GetSubjects(lecturerId: userId);
+
+                foreach (var subject in subjects)
+                {
+                    var name = subject.ShortName;
+
+                    foreach (var group in subject.SubjectGroups)
+                    {
+                        foreach (var subGroup in group.SubGroups)
+                        {
+                            foreach (var scheduleProtectionLabse in subGroup.ScheduleProtectionLabs)
+                            {
+                                 model.Add(new ProfileCalendarModel()
+                                          {
+                                              Start = scheduleProtectionLabse.Date.ToString("yyyy-MM-dd"),
+                                              Title = string.Format("{0} -  Лаб.работа", name),
+                                              Color = "green"
+                                          });   
+                            }
+                        }
+                    }
+                }
+            }
+
+            return model;
+        }
+
+        public List<ProfileCalendarModel> GetLecturesEvents(int userId)
+        {
+            var model = new List<ProfileCalendarModel>();
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var subjects = repositoriesContainer.SubjectRepository.GetSubjects(lecturerId: userId);
+
+                foreach (var subject in subjects)
+                {
+                    var name = subject.ShortName;
+
+                    foreach (var lecturesScheduleVisiting in subject.LecturesScheduleVisitings)
+                    {
+                        model.Add(new ProfileCalendarModel()
+                        {
+                            Start = lecturesScheduleVisiting.Date.ToString("yyyy-MM-dd"),
+                            Title = string.Format("{0} -  Лекция", name),
+                            Color = "#3c8dbc"
+                        }); 
+                    }
+                }
+            }
+
+            return model;
+        }
+
+        public List<Subject> GetSubjectsByLector(int userId)
+        {
+            List<Subject> model;
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                model = repositoriesContainer.SubjectRepository.GetSubjects(lecturerId: userId).Where(e => !e.IsArchive).ToList();
+            }
+
+            return model;
+        }
+
+        public List<Subject> GetSubjectsByStudent(int userId)
+        {
+            List<Subject> model;
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var student = repositoriesContainer.StudentsRepository.GetStudent(userId);
+                model = repositoriesContainer.SubjectRepository.GetSubjects(groupId: student.GroupId).Where(e => !e.IsArchive).ToList();
+            }
+
+            return model;
+        }
+
+        public int LabsCountByStudent(int userId)
+        {
+            var count = 0;
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var student = repositoriesContainer.StudentsRepository.GetStudent(userId);
+                var subjects = repositoriesContainer.SubjectRepository.GetSubjects(groupId: student.GroupId).Where(e => !e.IsArchive).ToList();
+
+                count += subjects.Sum(subject => subject.Labs.Count);
+            }
+
+            return count;
+        }
+
+        public int LabsCountByLector(int userId)
+        {
+            var count = 0;
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var subjects = repositoriesContainer.SubjectRepository.GetSubjects(lecturerId: userId).Where(e => !e.IsArchive).ToList();
+
+                count += subjects.Sum(subject => subject.Labs.Count);
+            }
+
+            return count;
+           
+        }
     }
 }
