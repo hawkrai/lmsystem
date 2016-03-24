@@ -1733,7 +1733,8 @@
     <Content Include="Views\ComplexMaterial\_AddRootConceptForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_MemoForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenConceptForm.cshtml" />
-    <Content Include="Views\CP\ConsultationDate.cshtml" />
+	<Content Include="Views\CP\ConsultationDate.cshtml" />
+    <Content Include="Views\Shared\_SearchPartial.cshtml" />
     <Content Include="Views\CP\Index.cshtml" />
     <Content Include="Views\CP\Percentage.cshtml" />
     <Content Include="Views\CP\PercentageResults.cshtml" />
