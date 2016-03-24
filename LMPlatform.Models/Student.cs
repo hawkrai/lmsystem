@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Application.Core.Data;
 using LMPlatform.Models.DP;
 using LMPlatform.Models.KnowledgeTesting;
+using LMPlatform.Models.CP;
 
 namespace LMPlatform.Models
 {
@@ -74,17 +75,35 @@ namespace LMPlatform.Models
             set;
         }
 
+        public virtual ICollection<AssignedCourseProject> AssignedCourseProjects
+        {
+            get;
+            set;
+        }
+
         public virtual ICollection<DiplomPercentagesResult> PercentagesResults
         {
             get; 
             set;
-        } 
+        }
+
+        public virtual ICollection<CoursePercentagesResult> CoursePercentagesResults
+        {
+            get;
+            set;
+        }
 
         public virtual ICollection<DiplomProjectConsultationMark> DiplomProjectConsultationMarks
         {
             get; 
             set;
-        } 
+        }
+
+        public virtual ICollection<CourseProjectConsultationMark> CourseProjectConsultationMarks
+        {
+            get;
+            set;
+        }
 
         public ICollection<LecturesVisitMark> LecturesVisitMarks { get; set; } 
 
