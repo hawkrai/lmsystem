@@ -1733,7 +1733,7 @@
     <Content Include="Views\ComplexMaterial\_AddRootConceptForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_MemoForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenConceptForm.cshtml" />
-	<Content Include="Views\CP\ConsultationDate.cshtml" />
+    <Content Include="Views\CP\ConsultationDate.cshtml" />
     <Content Include="Views\Shared\_SearchPartial.cshtml" />
     <Content Include="Views\CP\Index.cshtml" />
     <Content Include="Views\CP\Percentage.cshtml" />
@@ -1769,6 +1769,10 @@
     <ProjectReference Include="..\Application.Infrastructure\Application.Infrastructure.csproj">
       <Project>{A9E94869-28E1-4B55-ABE1-984E6AE62EAF}</Project>
       <Name>Application.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.SearchEngine\Application.SearchEngine.csproj">
+      <Project>{8371cb8f-cc57-426f-a9d5-0b2ab3bc64e7}</Project>
+      <Name>Application.SearchEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\LMPlatform.Data\LMPlatform.Data.csproj">
       <Project>{79EE9ED9-A7E4-43DB-B01F-FF693309ADC9}</Project>
