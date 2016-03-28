@@ -1,14 +1,14 @@
 ﻿@model LMPlatform.UI.ViewModels.ComplexMaterialsViewModel.AddOrEditConceptViewModel
 <div id="memoForm" style="text-align:center;">
-    <a id="zoom-plus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomPlus()"><i style="margin-right: 10px;" class="fa fa-plus"></i>Увеличить</a>
-    <a id="zoom-minus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomMinus()"><i style="margin-right: 10px;" class="fa fa-minus"></i>Уменьшить</a>
-    <a id="move-prev" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="movePrev()"><i style="margin-right: 10px;" class=" glyphicon glyphicon-backward"></i>Предыдущий</a>
-    <a id="move-next" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="moveNext()">Следующий<i style="margin-left: 10px;" class="glyphicon glyphicon-forward"></i></a>
+    <a id="zoom-plusF" style="text-decoration: none;" class="btn btn-link btn-sm"><i style="margin-right: 10px;" class="fa fa-plus"></i>Увеличить</a>
+    <a id="zoom-minusF" style="text-decoration: none;" class="btn btn-link btn-sm"><i style="margin-right: 10px;" class="fa fa-minus"></i>Уменьшить</a>
+    <a id="move-prevF" style="text-decoration: none;" class="btn btn-link btn-sm"><i style="margin-right: 10px;" class=" glyphicon glyphicon-backward"></i>Предыдущий</a>
+    <a id="move-nextF" style="text-decoration: none;" class="btn btn-link btn-sm">Следующий<i style="margin-left: 10px;" class="glyphicon glyphicon-forward"></i></a>
     <div id="dataContainer" style=" text-align: center; overflow: auto;"></div>
-    <a id="zoom-plus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomPlus()"><i style="margin-right: 10px;" class="fa fa-plus"></i>Увеличить</a>
-    <a id="zoom-minus" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="zoomMinus()"><i style="margin-right: 10px;" class="fa fa-minus"></i>Уменьшить</a>
-    <a id="move-prev" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="movePrev()"><i style="margin-right: 10px;" class=" glyphicon glyphicon-backward"></i>Предыдущий</a>
-    <a id="move-next" style="text-decoration: none;" class="btn btn-link btn-sm" onclick="moveNext()">Следующий<i style="margin-left: 10px;" class="glyphicon glyphicon-forward"></i></a>
+    <a id="zoom-plusL" style="text-decoration: none;" class="btn btn-link btn-sm"><i style="margin-right: 10px;" class="fa fa-plus"></i>Увеличить</a>
+    <a id="zoom-minusL" style="text-decoration: none;" class="btn btn-link btn-sm"><i style="margin-right: 10px;" class="fa fa-minus"></i>Уменьшить</a>
+    <a id="move-prevL" style="text-decoration: none;" class="btn btn-link btn-sm"><i style="margin-right: 10px;" class=" glyphicon glyphicon-backward"></i>Предыдущий</a>
+    <a id="move-nextL" style="text-decoration: none;" class="btn btn-link btn-sm">Следующий<i style="margin-left: 10px;" class="glyphicon glyphicon-forward"></i></a>
 </div>
 <style>
     .pdf-page {
@@ -16,95 +16,110 @@
         margin: 10px;
     }
 </style>
+<script src="~/Scripts/application/ComplexMaterials/extension.js"></script>
+<script src="~/Scripts/application/ComplexMaterials/BaseLoader.js"></script>
 <script src="~/Scripts/application/ComplexMaterials/PDFLoader.js"></script>
+<script src="~/Scripts/application/ComplexMaterials/VideoLoader.js"></script>
 <script type="text/javascript">
+    $(document).ready(function () {
+        var pdfLoader = new PDFLoader($('#dataContainer'), $(".loading"), $(document), $("#myModalLabel"));
+        var videoLoader = new VideoLoader($('#dataContainer'), $(".loading"), $(document), $("#myModalLabel"));
+        var uiHelper = new DilogUIHelper($(document), $('#dataContainer'));
+        var currentLoader = null;
 
-    
-    debugger;
-    var pdfLoader = new PDFLoader($('#dataContainer'), $(".loading"));
-    var currentLoader = pdfLoader;
+        function initEventHandlers() {
+            $("#zoom-plusF").on("click", zoomPlus);
+            $("#zoom-plusL").on("click", zoomPlus);
 
-    function resizeDialog() {
-        $('.modal-dialog').width(($(document).width() * 0.75) + 'px');
-    }
+            $("#zoom-minusF").on("click", zoomMinus);
+            $("#zoom-minusL").on("click", zoomMinus);
 
-    resizeDialog();
+            $("#move-nextF").on("click", moveNext);
+            $("#move-nextL").on("click", moveNext);
 
-    $(window).resize(function () {
+            $("#move-prevF").on("click", movePrev);
+            $("#move-prevL").on("click", movePrev);
+        }
 
-        //resizeDialog();
-        //renderPdf();
+        function resizeDialog() {
+            $('.modal-dialog').width(($(document).width() * 0.75) + 'px');
+        }
+        initEventHandlers();
+        resizeDialog();
+
+        function zoomPlus() {
+            currentLoader.zoomPlus();
+        }
+
+        function zoomMinus() {
+            currentLoader.zoomMinus();
+        }
+
+        function moveNext() {
+            debugger
+            var url = "/Services/Concept/ConceptService.svc/GetNextConceptData?elementId=" + currentId;
+            loadConceptAttach(url);
+        }
+
+        function movePrev() {
+            var url = "/Services/Concept/ConceptService.svc/GetPrevConceptData?elementId=" + currentId;
+            loadConceptAttach(url);
+        }
+
+        function getFileExtension(filepath) {
+            return filepath.slice((filepath.lastIndexOf(".") - 1 >>> 0) + 2);
+        }
+
+        function getLoader(filepath) {
+            if (filepath.length < 1) {
+                throw new Error("Невалидный путь файла");
+            }
+
+            var ext = getFileExtension(filepath);
+            if(ext.toUpperCase()==="PDF")
+                return pdfLoader
+            if (ext.toUpperCase() === "WMV" || ext.toUpperCase() === "FLV" || ext.toUpperCase() === "MP4")
+                return videoLoader;
+
+            throw new Error("Не поддерживаемый формат загрузчика")
+        }
+
+        function loadConceptAttach(servicePath) {
+            var scope = this;
+            $.get(servicePath)
+            .done(function (data) {
+                if (!data.HasData) {
+                    uiHelper.showEmptyContainer("У файла нет связного элемента в этом направлении");
+                    return;
+                }
+                currentLoader = getLoader(data.FullPath)
+                
+                if (data.HasAttach) {
+                    currentLoader.loadData(data.FullPath);
+                }
+                else
+                    uiHelper.showEmptyContainer("Пустой файл");
+                currentLoader.updateHeader(data.Name);
+                currentId = data.Id
+            });
+        }
+
+        function loadConcept(filepath) {
+            try {
+                debugger;
+                currentLoader = getLoader(filepath)
+                currentLoader.loadData(filepath);
+            }
+            catch (e) {
+                alertify.error(e.message);
+                if (currentLoader)
+                    currentLoader.stopSpin();
+            }
+
+        }
+
+        var currentId = @Model.Id
+        loadConcept('@Model.GetRelativePathForActiveAttachment()');
     })
-
-    function zoomPlus() {
-        currentLoader.zoomPlus();
-    }
-
-    function zoomMinus() {
-        currentLoader.zoomMinus();
-    }
-
-    
-
-    function showEmptyContainer(message) {
-        var height = $(document).height() / 3;
-        var dataContainer = $('#dataContainer');
-        dataContainer.empty();
-        dataContainer.html("<div style='height:" + height + "px;'><label style='top:40%; position: relative;'><h5><i>" + message + "</i></h5></label></div>");
-    }
-
-    function updateHeader(name) {
-        var prefix = "Просмотр файла";
-        var title = prefix;
-        if (name && name.length > 0)
-            title = prefix + ' "' + name + '"';
-
-        $("#myModalLabel").html(title);
-    }
-
-    function loadConceptAttach(servicePath) {
-        $.get(servicePath)
-        .done(function (data) {
-            if (!data.HasData) {
-                showEmptyContainer("У файла нет связного элемента в этом направлении");
-                return;
-            }
-
-            if (data.HasAttach) {
-                LoadPDF(data.FullPath);
-            }
-            else
-                showEmptyContainer("Пустой файл");
-            updateHeader(data.Name);
-            currentId = data.Id
-        });
-    }
-
-    function moveNext() {
-        var url = "/Services/Concept/ConceptService.svc/GetNextConceptData?elementId=" + currentId;
-        loadConceptAttach(url);
-    }
-
-    function movePrev() {
-        var url = "/Services/Concept/ConceptService.svc/GetPrevConceptData?elementId=" + currentId;
-        loadConceptAttach(url);
-    }
-
-    function LoadPDF(filepath) {
-        if (filepath.length < 1) {
-            showEmptyContainer("Пустой файл");
-            return;
-        }
-        debugger;
-        try {
-            currentLoader.loadData(filepath);
-        }
-        catch (e) {
-            alertify.error(e.message);
-        }
-
-    }
-
-    var currentId = @Model.Id
-    LoadPDF('@Model.GetRelativePathForActiveAttachment()');
+      
 </script>

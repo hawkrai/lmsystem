@@ -1,40 +1,10 @@
 ﻿PDFJS.workerSrc = '/Scripts/pdfjs/pdf.worker.js';
-
-// helpers --------------------------------
-function extend(Child, Parent) {
-    var F = function () { }
-    F.prototype = Parent.prototype
-    Child.prototype = new F()
-    Child.prototype.constructor = Child
-    Child.superclass = Parent.prototype
-}
-//end helpers------------------------------
-
-/// base loader ---------------------------
-function BaseLoader(dataContainer, loader) {
-    this.$dataContainer = dataContainer;
-    this.loader = loader;
-}
-
-BaseLoader.prototype.clearDataContainer = function() {
-    this.$dataContainer.empty();
-}
-
-BaseLoader.prototype.startSpin = function() {
-    this.loader.toggleClass('ng-hide', false);
-};
-
-BaseLoader.prototype.stopSpin = function() {
-    this.loader.toggleClass('ng-hide', true);
-};
-//end base loader -------------------------
+// pdf ---------------------
 
 extend(PDFLoader, BaseLoader)
 
-// pdf ---------------------
-
-function PDFLoader(dataContainer, loader) {
-    BaseLoader.call(this, dataContainer, loader);
+function PDFLoader(dataContainer, loader, doc, dialog) {
+    BaseLoader.call(this, dataContainer, loader, doc, dialog);
 
     var scale = 4.5;
     var scaleStep = 0.1;
@@ -107,16 +77,15 @@ PDFLoader.prototype.loadData = function (filePath) {
     }).catch(function (error) {
         scope.stopSpin();
         if (error.name === 'InvalidPDFException') {
-            showEmptyContainer("Не поддерживаемый формат документа. Наиболее вероятной причиной подобной ошибки является загруженный документ не в формате PDF. Убедитесь, что Вы загрузили документ в формате PDF и повторите попытку открытия документа");
+            scope.showEmptyContainer("Не поддерживаемый формат документа. Наиболее вероятной причиной подобной ошибки является загруженный документ не в формате PDF. Убедитесь, что Вы загрузили документ в формате PDF и повторите попытку открытия документа");
         }
         else {
-            showEmptyContainer("Произошла ошибка при загрузке объекта. Обратитесь к Адмнистратору");
+            scope.showEmptyContainer("Произошла ошибка при загрузке объекта. Обратитесь к Адмнистратору");
         }
         alertify.error("Произошла ошибка при открытии объекта");
     });;
 }
 
-
-
 // end pdf ---------------------
+
 

@@ -180,7 +180,10 @@ namespace LMPlatform.UI.Services.Modules.Concept
             res.Add(first);
             var next = source.FirstOrDefault(s => s.Id == first.Next.GetValueOrDefault());
             if (next == null)
+            {
+                res.AddRange(source.Where(i=>!res.Any(r=>r.Id==i.Id)));
                 return res;
+            }
             else
             {
                 res.Add(next);

@@ -307,12 +307,15 @@
     <Content Include="Images\Лого2.png" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\application\ComplexMaterials\BaseLoader.js" />
     <Content Include="Scripts\application\ComplexMaterials\complexMaterialsApp.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\catalogController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\homeController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\mapController.js" />
+    <Content Include="Scripts\application\ComplexMaterials\extension.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\navigationService.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
+    <Content Include="Scripts\application\ComplexMaterials\VideoLoader.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />

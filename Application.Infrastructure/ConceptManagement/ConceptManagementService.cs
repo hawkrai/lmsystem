@@ -298,9 +298,21 @@ namespace Application.Infrastructure.ConceptManagement
                     source = GetById(concept.Id);
                 repositoriesContainer.ConceptRepository.Save(concept);
                 repositoriesContainer.ApplyChanges();
+                if (source == null)
+                    InitNeighborConcept(concept, repositoriesContainer);
                 BindNeighborConcept(concept, source, repositoriesContainer);
                 TryPublishParent(concept.ParentId, repositoriesContainer);
                 return concept;
+            }
+        }
+
+        private void InitNeighborConcept(Concept concept, LmPlatformRepositoriesContainer repositoriesContainer)
+        {
+            var siblings = repositoriesContainer.ConceptRepository.GetByParentId(concept.ParentId.Value);
+            var sibling = siblings.OrderByDescending(t => t.Id).FirstOrDefault(c=>c.Id!=concept.Id);
+            if(sibling!=null)
+            {
+                concept.PrevConcept = sibling.Id;
             }
         }
 
@@ -478,13 +490,34 @@ namespace Application.Infrastructure.ConceptManagement
                 }
         }
 
+        private void ResetSiblings(Int32? prevConcept, Int32? nextConcept, LmPlatformRepositoriesContainer repositoriesContainer)
+        {
+            if(prevConcept.HasValue)
+            {
+                var prevItem = GetById(prevConcept.Value);
+                prevItem.NextConcept = nextConcept.HasValue ? nextConcept.Value : (Int32?)null;
+                repositoriesContainer.ConceptRepository.Save(prevItem);
+            }
+            if(nextConcept.HasValue)
+            {
+                var nextItem = GetById(nextConcept.Value);
+                nextItem.PrevConcept = prevConcept.HasValue ? prevConcept.Value : (Int32?)null;
+                repositoriesContainer.ConceptRepository.Save(nextItem);
+            }
+            repositoriesContainer.ApplyChanges();
+        }
+
         public void Remove(Int32 id, Boolean removeChildren)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var parentId = GetById(id).ParentId;
+                var item = GetById(id);
+                var prev = item.PrevConcept;
+                var next = item.NextConcept;
+                var parentId = item.ParentId;
                 repositoriesContainer.ConceptRepository.Remove(id, removeChildren);
                 repositoriesContainer.ApplyChanges();
+                ResetSiblings(prev, next, repositoriesContainer);
                 TryPublishParent(parentId, repositoriesContainer);
             }
         }
