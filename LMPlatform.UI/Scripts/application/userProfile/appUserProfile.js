@@ -85,15 +85,15 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 				eventSources: [
 					{
 					    events: labsEvents,
-						backgroundColor: '#3c8dbc !impotant',
-						borderColor: '#3c8dbc !impotant',
-						textColor: 'white'
+						//backgroundColor: '#3c8dbc !impotant',
+						//borderColor: '#3c8dbc !impotant',
+						textColor: '#3c8dbc'
 					},
 				{
 				    events: lectEvents,
-					backgroundColor: 'green !impotant',
-					borderColor: 'green !impotant',
-					textColor: 'white'
+					//backgroundColor: 'green !impotant',
+					//borderColor: 'green !impotant',
+				    textColor: 'green'
 				}],
 				lang: "ru"
 			});

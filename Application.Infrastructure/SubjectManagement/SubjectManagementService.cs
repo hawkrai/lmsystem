@@ -781,7 +781,7 @@ namespace Application.Infrastructure.SubjectManagement
                                           {
                                               Start = scheduleProtectionLabse.Date.ToString("yyyy-MM-dd"),
                                               Title = string.Format("{0} -  Лаб.работа", name),
-                                              Color = "green"
+											  Color = "#f9f9f9"
                                           });   
                             }
                         }
@@ -809,7 +809,7 @@ namespace Application.Infrastructure.SubjectManagement
                         {
                             Start = lecturesScheduleVisiting.Date.ToString("yyyy-MM-dd"),
                             Title = string.Format("{0} -  Лекция", name),
-                            Color = "#3c8dbc"
+							Color = "#f9f9f9"
                         }); 
                     }
                 }
