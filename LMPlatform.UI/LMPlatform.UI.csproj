@@ -23,6 +23,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -242,6 +243,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\CP\CourseProjectAssignmentController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectConsultationController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectConsultationDateController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectController.cs" />
+    <Compile Include="ApiControllers\CP\CourseStudentController.cs" />
+    <Compile Include="ApiControllers\CP\CourseStudentMarkController.cs" />
+    <Compile Include="ApiControllers\CP\CourseUserController.cs" />
+    <Compile Include="ApiControllers\CP\CpCorrelationController.cs" />
+    <Compile Include="ApiControllers\CP\CpPercentageController.cs" />
+    <Compile Include="ApiControllers\CP\CpPercentageResultController.cs" />
+    <Compile Include="ApiControllers\CP\CpTaskSheetController.cs" />
+    <Compile Include="ApiControllers\CP\CpTaskSheetTemplateController.cs" />
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectConsultationDateController.cs" />
@@ -273,6 +286,7 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\ComplexMaterialController.cs" />
+    <Compile Include="Controllers\CpController.cs" />
     <Compile Include="Controllers\DpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
@@ -315,6 +329,17 @@
     <Content Include="Scripts\application\ComplexMaterials\extension.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\navigationService.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
+    <Content Include="Scripts\application\CP\controllers\homeController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentageController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentageResultsController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentagesController.js" />
+    <Content Include="Scripts\application\CP\controllers\projectController.js" />
+    <Content Include="Scripts\application\CP\controllers\projectsController.js" />
+    <Content Include="Scripts\application\CP\controllers\studentsController.js" />
+    <Content Include="Scripts\application\CP\controllers\taskSheetController.js" />
+    <Content Include="Scripts\application\CP\controllers\visitStatsController.js" />
+    <Content Include="Scripts\application\CP\cpModule.js" />
+    <Content Include="Scripts\application\CP\services\projectService.js" />
     <Content Include="Scripts\application\ComplexMaterials\VideoLoader.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
@@ -435,6 +460,7 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\LmsViewModels\ProfileCalendarViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\ProfileVewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\DataTableMessage.cs" />
     <Compile Include="ViewModels\MessageViewModels\DisplayMessageViewModel.cs" />
@@ -1712,6 +1738,18 @@
     <Content Include="Views\ComplexMaterial\_AddRootConceptForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_MemoForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenConceptForm.cshtml" />
+    <Content Include="Views\CP\ConsultationDate.cshtml" />
+    <Content Include="Views\Shared\_SearchPartial.cshtml" />
+    <Content Include="Views\CP\Index.cshtml" />
+    <Content Include="Views\CP\Percentage.cshtml" />
+    <Content Include="Views\CP\PercentageResults.cshtml" />
+    <Content Include="Views\CP\Percentages.cshtml" />
+    <Content Include="Views\CP\Project.cshtml" />
+    <Content Include="Views\CP\Projects.cshtml" />
+    <Content Include="Views\CP\Students.cshtml" />
+    <Content Include="Views\CP\TaskSheet.cshtml" />
+    <Content Include="Views\CP\TaskSheetEdit.cshtml" />
+    <Content Include="Views\CP\VisitStats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1736,6 +1774,10 @@
     <ProjectReference Include="..\Application.Infrastructure\Application.Infrastructure.csproj">
       <Project>{A9E94869-28E1-4B55-ABE1-984E6AE62EAF}</Project>
       <Name>Application.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.SearchEngine\Application.SearchEngine.csproj">
+      <Project>{8371cb8f-cc57-426f-a9d5-0b2ab3bc64e7}</Project>
+      <Name>Application.SearchEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\LMPlatform.Data\LMPlatform.Data.csproj">
       <Project>{79EE9ED9-A7E4-43DB-B01F-FF693309ADC9}</Project>

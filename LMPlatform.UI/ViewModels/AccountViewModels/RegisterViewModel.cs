@@ -7,6 +7,7 @@ using Application.Infrastructure.AccountManagement;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.StudentManagement;
+using Application.SearchEngine.SearchMethods;
 
 namespace LMPlatform.UI.ViewModels.AccountViewModels
 {
@@ -169,7 +170,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
         private void SaveStudent()
         {
             var user = UsersManagementService.GetUser(UserName);
-            StudentManagementService.Save(new Student
+            var student = StudentManagementService.Save(new Student
             {
                 Id = user.Id,
                 FirstName = Name,
@@ -177,12 +178,14 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 MiddleName = Patronymic,
                 GroupId = int.Parse(Group)
             });
+            student.User = user;
+            new StudentSearchMethod().AddToIndex(student);
         }
 
         private void SaveLecturer()
         {
             var user = UsersManagementService.GetUser(UserName);
-            LecturerManagementService.Save(new Lecturer
+            var lecturer = LecturerManagementService.Save(new Lecturer
             {
                 Id = user.Id,
                 FirstName = Name,
@@ -191,6 +194,8 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 IsSecretary = IsSecretary,
                 IsLecturerHasGraduateStudents = IsLecturerHasGraduateStudents
             });
+            lecturer.User = user;
+            new LecturerSearchMethod().AddToIndex(lecturer);
         }
     }
 }
