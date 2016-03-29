@@ -82,4 +82,14 @@
     });
 
     shared.initPlugins();
+
+    $(document).ready(function () {
+        $('#fileupload').fileupload('option', {
+            acceptFileTypes: /(\.|\/)(pdf|mp4)$/i,
+            maxFileSize: 1000000000,
+            resizeMaxWidth: 1920,
+            resizeMaxHeight: 1200,
+            autoUpload: true
+        });
+    });
 </script>
