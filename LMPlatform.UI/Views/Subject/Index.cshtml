@@ -40,16 +40,7 @@
                         }
                     </li>
                 }
-                else if (module.Type == ModuleType.ComplexMaterial)
-                {
-
-                    <li class="navLink">
-                        <a target="_blank" href="@Url.Action("Index","ComplexMaterial", new { subjectId = Model.SubjectId })">
-                            <i class="fa fa-bell fa-tab"></i>
-                            <span>ЭУМК</span>
-                        </a>
-                    </li>
-                }
+                
                 else if (module.Type == ModuleType.Dsm)
                 {
 
@@ -68,6 +59,13 @@
                             Курсовой проект(работа)
                         </a>
                     </li>
+                }
+                else if (module.Type == ModuleType.ComplexMaterial)
+                {
+                    <li class="navLink">
+                        <a class="moduleLinks linkNavbar" href="@Url.Action("Index","ComplexMaterial", new { subjectId = Model.SubjectId })"><span>ЭУМК</span></a>
+                    </li>
+                    
                 }
                 else
                 {
