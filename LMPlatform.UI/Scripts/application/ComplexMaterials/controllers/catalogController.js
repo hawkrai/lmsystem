@@ -21,6 +21,8 @@
 
             var adjustment;
             var subjectId = getParameterByName("subjectId");
+            $scope.navigationService.currentSubjectId = subjectId;
+
             var parentId = $location.search()["parent"]
             if(parentId===undefined)
                 parentId = getParameterByName("parent");

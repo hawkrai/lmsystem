@@ -8,6 +8,7 @@
         var initedHeader = false;
         var tree;
         return {
+            currentSubjectId:0,
             title: function () {
                 return title;
             },
@@ -105,7 +106,13 @@
             },
             _updateTitleContainer: function () {
                 if (!initedHeader) {
-                    $container.html(title);
+                    $container.html("")
+                    if (this.currentSubjectId) {
+                        var link = $("<a href='/Subject?subjectId=" + this.currentSubjectId + "'>" + title + "</a>")
+                        link.appendTo($container);
+                    }
+                    else
+                        $container.html(title);
                     initedHeader = true;
                 }
             }
