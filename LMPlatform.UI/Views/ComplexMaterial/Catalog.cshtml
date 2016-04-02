@@ -50,35 +50,35 @@ else
         background: #a18c29;
     }
 
-    .breadcrumb {
+    .breadcrumbs {
         padding: 1px 3px 1px 2px;
         margin-bottom: 0px;
         list-style: none;
-        font-size: 13px;
+        font-size: 11px;
         border:none;
+        font-style:italic;
     }
 
-        .breadcrumb > li {
+        .breadcrumbs > li {
             display: inline-block;
         }
 
-            .breadcrumb > li a {
+            .breadcrumbs > li a {
             }
 
-            .breadcrumb > li + li:before {
-                padding: 0 2px;
+            .breadcrumbs > li + li:before {
+                padding: 0 1px;
                 content: ">";
             }
 
-        .breadcrumb > .active {
+        .breadcrumbs > .active {
             color: #000;
         }
 </style>
-<section style=" text-align:center; margin-bottom:25px">
-    @*<h4>{{navigationService.title()}}</h4>*@
-    <ol class="breadcrumb">
+<section style=" margin-bottom:25px">
+    <ol class="breadcrumbs">
         <li ng-repeat="crumb in navigationService.getBreadcrumbs()">
-            <a ng-click="goToBredCrumb($event)" data-idfolder=" {{crumb.Id}}" class="link ng-scope">{{crumb.Name}}</a>
+            <a ng-click="goToBredCrumb($event)" data-idfolder="{{crumb.Id}}" class="link ng-scope">{{crumb.Name}}</a>
         </li>
     </ol>
 </section>
