@@ -10,7 +10,7 @@
         "navigationService",
         "$log",
         function ($scope, $route, $rootScope, $location, $resource, complexMaterialsDataService, navigationService) {
-            
+
             $scope.navigationService = navigationService;
             function getParameterByName(name) {
                 name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -32,13 +32,12 @@
                 $(".bs-glyphicons-list").sortable({
                     group: 'bs-glyphicons-list',
                     pullPlaceholder: false,
-                    beforeStop: function (ev, ui) {
+                    update: function (ev, ui) {
                         if (!ui.item.data().$scope.isShowAddFolderButton()) {
                             $(this).sortable('cancel');
                             alertify.error("Изменение корневой структуры ЭУМК запрещено");
+                            return;
                         }
-                    },
-                    update: function (ev, ui) {
                         var rightId = 0;
                         var leftId = 0;
                         var currentId = ui.item[0].id;
@@ -133,7 +132,7 @@
             }
 
             function updateQueryParams(id) {
-               
+
                 if (id || id==0)
                     $location.search({ "parent": id });
                 else if ($scope.parent)
@@ -237,7 +236,7 @@
                     }).finally(function () {
                         $scope.stopSpin();
                     });
-                }  
+                }
             };
 
             $rootScope.goToHome = function ($event) {
@@ -364,7 +363,7 @@
                 data.id = id;
                 var title = 'Просмотр файла "' + name + '"';
                 $.savingDialog(title, "/ComplexMaterial/OpenConcept", data, "primary", function (data) {
-                    
+
                 }, null, { hideSaveButton: true });
             };
 
