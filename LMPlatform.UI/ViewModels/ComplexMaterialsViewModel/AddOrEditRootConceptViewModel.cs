@@ -195,7 +195,7 @@ namespace LMPlatform.UI.ViewModels.ComplexMaterialsViewModel
                     {
                         Text = sub.Name,
                         Value = sub.Id.ToString(CultureInfo.InvariantCulture),
-                        Selected = !IsNew() && sub.Id==Id
+                        Selected = sub.Id==SelectedSubjectId
                     });
             }
             return res;

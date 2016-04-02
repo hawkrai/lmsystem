@@ -44,9 +44,12 @@ namespace LMPlatform.UI.Controllers
         }
 
 
-        public ActionResult AddRootConcept()
+        public ActionResult AddRootConcept(String subjectId)
         {
+            Int32 currentSubjectId = 0;
             var conceptViewModel = new AddOrEditRootConceptViewModel(WebSecurity.CurrentUserId, 0);
+            if (Int32.TryParse(subjectId, out currentSubjectId))
+                conceptViewModel.SelectedSubjectId = currentSubjectId;
             return PartialView("_AddRootConceptForm", conceptViewModel);
         }
 

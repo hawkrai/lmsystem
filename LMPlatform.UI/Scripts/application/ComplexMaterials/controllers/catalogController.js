@@ -279,7 +279,10 @@
             };
 
             $scope.addNewRootComplexMaterial = function () {
-                $.savingDialog("Добавление нового ЭУМК", "/ComplexMaterial/AddRootConcept", null, "primary", function (data) {
+                var url = "/ComplexMaterial/AddRootConcept";
+                if (subjectId)
+                    url = url + "/?subjectId=" + subjectId;
+                $.savingDialog("Добавление нового ЭУМК", url, null, "primary", function (data) {
                     updateRootConceptList();
                     alertify.success("Добавлен новый ЭУМК");
                 }, function () {
