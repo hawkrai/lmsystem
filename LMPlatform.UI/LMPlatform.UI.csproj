@@ -247,6 +247,8 @@
     <Compile Include="ApiControllers\CP\CourseProjectConsultationController.cs" />
     <Compile Include="ApiControllers\CP\CourseProjectConsultationDateController.cs" />
     <Compile Include="ApiControllers\CP\CourseProjectController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectGroupController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectSubjectController.cs" />
     <Compile Include="ApiControllers\CP\CourseStudentController.cs" />
     <Compile Include="ApiControllers\CP\CourseStudentMarkController.cs" />
     <Compile Include="ApiControllers\CP\CourseUserController.cs" />
