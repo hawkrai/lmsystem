@@ -15,7 +15,16 @@
 
             $scope.taskSheetHtml = "";
 
-            projectService.getDiplomProjectCorrelation()
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+            var subjectId = getParameterByName("subjectId");
+
+            projectService.getCourseProjectCorrelation(subjectId)
                 .success(function (data) {
                     $scope.projects = data;
                 });
@@ -60,7 +69,7 @@
                 $scope.template = { Id: null };
 
                 function updateTemplates() {
-                    projectService.getDiplomProjectTaskSheetTemplateCorrelation()
+                    projectService.getDiplomProjectTaskSheetTemplateCorrelation(subjectId)
                         .success(function(data) {
                             $scope.templates = data;
                         });

@@ -30,7 +30,7 @@
         });
 
         $routeProvider.when('/TaskSheet', {
-            templateUrl: '/Dp/TaskSheet',
+            templateUrl: '/Cp/TaskSheet',
             controller: 'taskSheetCtrl'
         });
 

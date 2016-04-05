@@ -21,7 +21,13 @@ namespace LMPlatform.UI.ApiControllers.CP
         public List<Correlation> Get()
         {
             var entity = HttpUtility.ParseQueryString(Request.RequestUri.Query)["entity"];
-            return CorrelationService.GetCorrelation(entity, WebSecurity.CurrentUserId);
+          
+            var subjectId = HttpUtility.ParseQueryString(Request.RequestUri.Query)["subjectId"];
+            if (subjectId == null)
+            {
+                return CorrelationService.GetCorrelation(entity, 0, WebSecurity.CurrentUserId);
+            }
+                return CorrelationService.GetCorrelation(entity, int.Parse(subjectId), WebSecurity.CurrentUserId);
         }
     }
 }

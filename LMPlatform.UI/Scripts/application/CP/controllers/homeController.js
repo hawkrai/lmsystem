@@ -5,13 +5,36 @@ angular
         '$scope',
         '$location',
         '$resource',
-        function ($scope, $location, $resource) {
+        'projectService',
+        function ($scope, $location, $resource, projectService) {
 
             $scope.Title = "Курсовые проекты (работы)";
 
             $scope.setTitle = function (title) {
                 $scope.Title = title;
             };
+
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+            var subjectId = getParameterByName("subjectId");
+
+            $scope.subject = {
+                Id: null,
+                Name: '',
+                ShortName: ''
+            };
+
+            projectService
+                .getSubject(subjectId)
+                .success(function (data, status, headers, config) {
+                    $scope.subject = data;
+                });
+
 
             $scope.dateFormat = "dd/MM/yyyy";
 

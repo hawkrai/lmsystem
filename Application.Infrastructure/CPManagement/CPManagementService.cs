@@ -7,7 +7,9 @@ using System.Data.Entity;
 using System.Linq;
 using Application.Core.Extensions;
 using LMPlatform.Models.CP;
-
+using LMPlatform.Data.Repositories;
+using LMPlatform.Models;
+using System.Collections.Generic;
 
 namespace Application.Infrastructure.CPManagement
 {
@@ -183,7 +185,7 @@ namespace Application.Infrastructure.CPManagement
 
             var courseProjectId = int.Parse(parms.Filters["courseProjectId"]);
 
-            return Context.GetGraduateStudents()
+            return Context.Students
                 .Include(x => x.Group.CourseProjectGroups)
                 .Where(x => x.Group.CourseProjectGroups.Any(dpg => dpg.CourseProjectId == courseProjectId))
                 .Where(x => !x.AssignedCourseProjects.Any())
@@ -317,6 +319,35 @@ namespace Application.Infrastructure.CPManagement
 
             Context.SaveChanges();
         }
+
+        public SubjectData GetSubject(int id)
+        {
+            SubjectData sub = new SubjectData();
+            Subject subject = new Subject();
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                subject = repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == id)
+                    .Include(e => e.SubjectGroups));    
+            }
+
+            sub.Id = subject.Id;
+            sub.Name = subject.Name;
+            sub.ShortName = subject.ShortName;
+            return sub;
+        }
+
+        public List<Correlation> GetGroups(int subjectId)
+        {
+            var groups = Context.Groups.Where(s => s.SubjectGroups.Any(d => d.SubjectId == subjectId));
+
+
+            return groups.OrderBy(x => x.Name).Select(x => new Correlation
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToList();
+        }
+
 
         private readonly LazyDependency<ICpContext> context = new LazyDependency<ICpContext>();
 

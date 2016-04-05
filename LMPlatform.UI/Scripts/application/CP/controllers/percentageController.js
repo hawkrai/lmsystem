@@ -38,7 +38,7 @@
             }
 
             projectService
-                .getGroupCorrelation()
+                .getGroupCorrelation(subjectId)
                 .success(function (data) {
                     $scope.groups = data;
                 });

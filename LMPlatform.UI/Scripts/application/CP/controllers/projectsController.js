@@ -9,7 +9,9 @@
         'ngTableParams',
         function ($scope, $timeout, $location, $modal, projectService, ngTableParams) {
 
-            $scope.setTitle("Темы курсовых проектов");
+            $scope.setTitle("Темы курсовых проектов (работ)");
+
+           
 
             $scope.forms = {};
 
@@ -51,8 +53,8 @@
 
             $scope.deleteProject = function (id) {
                 bootbox.confirm({
-                    title: "Удаление темы",
-                    message: "Вы действительно хотите удалить тему дипломного проекта?",
+                    title: "Удаление темы курсового проекта (работы)",
+                    message: "Вы действительно хотите удалить тему курсового проекта (работы)?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             projectService.deleteproject(id).success(function () {
@@ -78,8 +80,8 @@
 
             $scope.deleteAssignment = function (id) {
                 bootbox.confirm({
-                    title: "Удаление",
-                    message: "Вы действительно хотите удалить назначение дипломного проекта?",
+                    title: "Удаление назначения курсового проекта (работы)",
+                    message: "Вы действительно хотите удалить назначение курсового проекта (работы)?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             projectService.deleteAssignment(id).success(function () {
@@ -110,8 +112,8 @@
 
             $scope.chooseProject = function (id) {
                 bootbox.confirm({
-                    title: "Выбор темы",
-                    message: "Вы действительно хотите выбрать данную тему дипломного проекта?",
+                    title: "Выбор темы курсового проекта (работы)",
+                    message: "Вы действительно хотите выбрать данную тему курсового проекта (работы)?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             projectService.assignProject(id).success(function () {
@@ -140,8 +142,8 @@
 
             $scope.confirmProject = function (id) {
                 bootbox.confirm({
-                    title: "Подтверждение темы",
-                    message: "Вы действительно хотите подтвердить данную тему дипломного проекта?",
+                    title: "Подтверждение выбора темы курсового проекта (работы)",
+                    message: "Вы действительно хотите подтвердить выбор данной темы курсового проекта (работы)?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             projectService.assignProject(id).success(function () {

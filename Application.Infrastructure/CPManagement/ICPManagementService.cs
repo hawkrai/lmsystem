@@ -15,6 +15,10 @@ namespace Application.Infrastructure.CPManagement
 
         CourseProjectData GetProject(int id);
 
+        List<Correlation> GetGroups(int subjectId);
+
+        SubjectData GetSubject(int id);
+
         void DeleteProject(int userId, int id);
 
         void AssignProject(int userId, int projectId, int studentId);

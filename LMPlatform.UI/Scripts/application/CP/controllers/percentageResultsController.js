@@ -23,7 +23,7 @@
                 $scope.tableParams.reload();
             };
 
-            projectService.getLecturerDiplomGroupCorrelation()
+            projectService.getLecturerDiplomGroupCorrelation(subjectId)
                 .success(function (data) {
                     $scope.groups = data;
                     var selectedSecretaries = data.filter(function (elt) {
