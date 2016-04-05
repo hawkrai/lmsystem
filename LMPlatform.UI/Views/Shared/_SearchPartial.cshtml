@@ -1,9 +1,9 @@
-﻿<form class="navbar-form pull-left" role="search" style="width: 42%; margin-top: 5px">
+﻿<form class="navbar-form pull-left" role="search" style="width: 45%; margin-top: 5px" method="GET" action="@Url.Action("Index", "Search")">
     <div class="typeahead-container">
         <div class="typeahead-field">
 
             <span class="typeahead-query">
-                <input id="searchBox" type="search" placeholder="Ищем студентов, преподователей, проекты и группы" autocomplete="off">
+                <input name="query" id="searchBox" type="search" placeholder="Поиск студентов, преподавателей, проекты и группы" autocomplete="off">
             </span>
             <span class="typeahead-button">
                 <button type="submit" id="searchButton">
@@ -22,7 +22,7 @@
         dynamic: true,
         delay: 500,
         maxItem: 20,
-        maxItemPerGroup: 5,
+        maxItemPerGroup: 8,
         backdrop: {
             "background-color": "#fff"
         },
@@ -32,11 +32,11 @@
                 href: "/Lms/{{Email}}",
                 url: [{
                     type: "GET",
-                    url: '/Services/Search/SearchService.svc/SearchStudents',
+                    url: '/Services/Search/SearchService.svc/SearchStudents',                    
                     data: {
                         text: "{{query}}"
                     }
-                }, "data.student"],
+               }, "data.student"],
                 template:
                     '<table>' +
                         '<tr>' +
@@ -100,36 +100,6 @@
                         '</table>'
             }
         },
-        callback: {
-            onResult: function (node, query, result, resultCount) {
-                if (query === "") return;
-                
-                var studentCount = result.filter(function (el) {
-                    if (el.group === 'student')
-                        return el;
-                }).length;
-
-                var groupCount = result.filter(function (el) {
-                    if (el.group === 'group')
-                        return el;
-                }).length;
-
-                var projectCount = result.filter(function (el) {
-                    if (el.group === 'project')
-                        return el;
-                }).length;
-
-                var lecturerCount = result.filter(function (el) {
-                    if (el.group === 'lecturer')
-                        return el;
-                }).length;
-
-                console.log('project ' + result);
-                console.log('result.length ' + result.length);
-                console.log('resultCount ' + resultCount);
-                console.log('this maxItemPerGroup ' + this.options.maxItemPerGroup);
-            }
-        },
         debug: true
     });
 
@@ -146,7 +116,7 @@
         highlight: true,        // -> Added "any" to highlight any word in the template, by default true will only highlight display keys
         group: false,           // -> Improved feature, Array second index is a custom group title (html allowed)
         groupOrder: null,       // -> New feature, order groups "asc", "desc", Array, Function
-        maxItemPerGroup: null,  // -> Renamed option
+        maxItemPerGroup: 5,  // -> Renamed option
         dropdownFilter: false,  // -> Renamed option, true will take group options string will filter on object key
         dynamicFilter: null,    // -> New feature, filter the typeahead results based on dynamic value, Ex: Players based on TeamID
         backdrop: false,

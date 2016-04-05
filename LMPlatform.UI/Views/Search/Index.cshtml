@@ -1,0 +1,69 @@
+﻿@model LMPlatform.UI.ViewModels.SearchViewModel.SearchViewModel
+
+<ul class="nav nav-tabs">
+    @if (Model.Students.Any())
+    {
+        <li><a data-toggle="tab" href="#students">Студенты</a></li>
+    }
+    @if (Model.Groups.Any())
+    {
+        <li><a data-toggle="tab" href="#groups">Группы</a></li>
+    }
+    @if (Model.Lecturers.Any())
+    {
+        <li><a data-toggle="tab" href="#lecturers">Преподаватели</a></li>
+    }
+    @if (Model.Projects.Any())
+    {
+        <li><a data-toggle="tab" href="#projects">Проекты</a></li>
+    }    
+</ul>
+
+<div class="tab-content">
+    @if (Model.Students.Any())
+    {
+        <div id="students" class="tab-pane fade in active">
+            @foreach (var student in Model.Students)
+            {
+                <a href="/Lms/@student.Email" class="list-group-item">
+                    @student.FullName
+                    <br />
+                    <sub>группа: @student.GroupId</sub>
+                </a>
+            }
+        </div>
+    }
+    @if (Model.Groups.Any())
+    {
+        <div id="groups" class="tab-pane fade">
+            @foreach (var group in Model.Groups)
+            {
+                <a href="/Parental/Index/@group.Name#/Statistics" class="list-group-item">
+                    @group.Name
+                </a>
+            }
+        </div>
+    }
+    @if (Model.Lecturers.Any())
+    {
+        <div id="lecturers" class="tab-pane fade">
+            @foreach (var lecturer in Model.Lecturers)
+            {
+                <a href="/Lms/@lecturer.Skill" class="list-group-item">
+                    @lecturer.FullName
+                </a>
+            }
+        </div>
+    }
+    @if (Model.Projects.Any())
+    {
+        <div id="projects" class="tab-pane fade">
+            @foreach (var project in Model.Projects)
+            {
+                <a href="/BTS/ProjectManagement/@project.Id" class="list-group-item">
+                    @project.Title
+                </a>
+            }
+        </div>
+    }    
+</div>

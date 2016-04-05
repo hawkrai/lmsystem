@@ -1,5 +1,5 @@
-﻿using System.ServiceModel;
-using System.ServiceModel.Channels;
+﻿using System.IO;
+using System.ServiceModel;
 using System.ServiceModel.Web;
 
 namespace LMPlatform.UI.Services.Search
@@ -8,19 +8,19 @@ namespace LMPlatform.UI.Services.Search
     public interface ISearchService
     {
         [OperationContract]
-        [WebGet(BodyStyle = WebMessageBodyStyle.Bare, ResponseFormat = WebMessageFormat.Json)]
-        Message SearchStudents(string text);
+        [WebGet]
+        Stream SearchStudents(string text);
 
         [OperationContract]
-        [WebGet(BodyStyle = WebMessageBodyStyle.Bare, ResponseFormat = WebMessageFormat.Json)]
-        Message SearchProjects(string text);
+        [WebGet]
+        Stream SearchProjects(string text);        
 
         [OperationContract]
-        [WebGet(BodyStyle = WebMessageBodyStyle.Bare, ResponseFormat = WebMessageFormat.Json)]
-        Message SearchGroups(string text);
+        [WebGet]
+        Stream SearchGroups(string text);
 
         [OperationContract]
-        [WebGet(BodyStyle = WebMessageBodyStyle.Bare, ResponseFormat = WebMessageFormat.Json)]
-        Message SearchLecturers(string text);
+        [WebGet]
+        Stream SearchLecturers(string text);
     }
 }
