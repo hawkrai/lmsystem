@@ -91,12 +91,21 @@ namespace LMPlatform.UI.Controllers
                 model = subjectService.GetSubjectsByLector(user.Id);
             }
 
-            return Json(model.Select(e => new
+
+			var returnModel = new List<object>();
+
+	        foreach (var subject in model)
+	        {
+		        returnModel.Add(new
                                               {
-                                                  Name = e.Name,
-                                                  Id = e.Id,
-                                                  ShortName = e.ShortName
-                                              }));
+                                                  Name = subject.Name,
+                                                  Id = subject.Id,
+                                                  ShortName = subject.ShortName,
+												  Completing = subjectService.GetSubjectCompleting(subject.Id)
+                                              });
+	        }
+
+            return Json(returnModel);
         }
 
         [HttpPost]
