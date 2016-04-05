@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SearchMethods\BaseSearchMethod.cs" />
-    <Compile Include="SearchMethods\DiplomProjectMethod.cs" />
     <Compile Include="SearchMethods\GroupSearchMethod.cs" />
     <Compile Include="SearchMethods\LecturerSearchMethod.cs" />
     <Compile Include="SearchMethods\ProjectSearchMethod.cs" />

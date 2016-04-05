@@ -198,10 +198,9 @@
     </Reference>
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+<HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
     </Reference>    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -276,6 +275,7 @@
     <Compile Include="ApiControllers\DP\TaskSheetController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ScormModController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\TestPassingController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
@@ -298,7 +298,7 @@
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Content\materials.css" />
     <Content Include="Content\select.css" />
-    <Content Include="Images\Excel.png" />
+	<Content Include="Images\Excel.png" />
     <Content Include="Images\login_bk.jpg" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
@@ -440,6 +440,7 @@
     <Compile Include="ViewModels\ParentalViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\ParentalViewModels\StatDataTableViewModel.cs" />
     <Compile Include="ViewModels\ParentalViewModels\StatisticsViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel\SearchViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLabsViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLecturesViewModel.cs" />
@@ -1707,6 +1708,7 @@
     <Content Include="Views\ComplexMaterial\_MemoForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenConceptForm.cshtml" />
     <Content Include="Views\Shared\_SearchPartial.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
