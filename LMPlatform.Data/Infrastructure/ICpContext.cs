@@ -22,7 +22,7 @@ namespace LMPlatform.Data.Infrastructure
 
         DbSet<CourseProjectConsultationMark> CourseProjectConsultationMarks { get; set; }
         DbSet<CourseProjectTaskSheetTemplate> CourseProjectTaskSheetTemplates { get; set; }
-
+        DbSet<Group> Groups { get; set; }
 
         IQueryable<Student> GetGraduateStudents();
         IQueryable<Group> GetGraduateGroups();
