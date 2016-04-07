@@ -1167,6 +1167,7 @@
     <Content Include="Scripts\mvcfileupload\main.js" />
     <Content Include="Scripts\mvcfileupload\tmpl.js" />
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
+    <Content Include="Scripts\ng-ckeditor-1.0.1.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\pdfjs\compatibility.js" />
     <Content Include="Scripts\pdfjs\l10n.js" />
