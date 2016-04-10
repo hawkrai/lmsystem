@@ -314,6 +314,7 @@
     <Content Include="Content\fullcalendar\fullcalendar.print.css" />
     <Content Include="Content\jquery.circliful.css" />
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
+    <Content Include="Content\KnowledgeTesting\content.html" />
     <Content Include="Content\materials.css" />
     <Content Include="Content\select.css" />
     <Content Include="Images\Excel.png" />
@@ -743,6 +744,7 @@
     <Content Include="Scripts\application\DP\services\projectService.js" />
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\contentController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\controlController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\addFromAnotherTestController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\studentResultsController.js" />

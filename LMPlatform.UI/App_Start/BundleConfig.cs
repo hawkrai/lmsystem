@@ -173,6 +173,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/resultsController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/contentController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/controlController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/testUnlocksController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/questionDetailsController.js",
