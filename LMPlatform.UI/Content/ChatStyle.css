@@ -60,7 +60,7 @@
     }
 .chatRoom
 {
-    width: 650px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     border: solid 1px gray;
@@ -102,13 +102,24 @@
                 .chatRoom .content .chatWindow .message .userName
                 {
                     font-weight: bold;
-                    background-color: #008CBA;
-                    
+                    background-color: #008CBA;                  
+                }
+
+                .chatRoom .content .chatWindow .message .userAdmin
+                {
+                    font-weight: bold;
+                    background-color: #ff0000;                  
+                }
+                .chatRoom .content .chatWindow .message .userLector
+                {
+                    font-weight: bold;
+                    background-color: #008000;                  
                 }
 
         .chatRoom .content .users
         {
             min-height: 260px;
+            padding-left: 0;
         }
 
             .chatRoom .content .users .user
@@ -205,9 +216,15 @@ input, textarea {
     padding: 5px;
     width: 100px;
 }
+#findUser {
+    width: 104.5%;
+    font-size: 0.91em;
+}
 .badge {
     font-weight: bold;
     color: #ffffff;
     background-color: #008CBA;
-
+}
+h3 {
+    margin-top: 5px;
 }

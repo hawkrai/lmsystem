@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
+using LMPlatform.Models;
 using Microsoft.AspNet.SignalR;
 using LMPlatform.UI;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -21,21 +23,23 @@ namespace LMPlatform.UI
 
         #region Methods
 
-        public void Connect(string userName)
+        public void Connect(string userName, string userRole)
         {
             var id = Context.ConnectionId;
-            userName = @WebSecurity.CurrentUserName;
-          
+            userName = WebSecurity.CurrentUserName;
+            //if (Roles.IsUserInRole(userName, "admin")) userRole = "admin";
+            //else if (Roles.IsUserInRole(userName, "lector")) userRole = "lector";
+            //else userRole = "student";
             
-            if (ConnectedUsers.Count(x => x.ConnectionId == id || x.UserName == userName) == 0)
+            if (ConnectedUsers.Count(x => x.ConnectionId == id || x.UserName == userName || x.UserRole == userRole) == 0)
             {
-                ConnectedUsers.Add(new UserDetail { ConnectionId = id, UserName = userName });
+                ConnectedUsers.Add(new UserDetail { ConnectionId = id, UserName = userName, UserRole = userRole});
 
                 // send to caller
-                Clients.Caller.onConnected(id, userName, ConnectedUsers, CurrentMessage);
+                Clients.Caller.onConnected(id, userName, ConnectedUsers,  CurrentMessage, userRole);
 
                 // send to all except caller client
-                Clients.AllExcept(id).onNewUserConnected(id, userName);
+                Clients.AllExcept(id).onNewUserConnected(id, userName, userRole);
             }
             else
             {
@@ -45,13 +49,13 @@ namespace LMPlatform.UI
 
         }
 
-        public void SendMessageToAll(string userName, string message)
+        public void SendMessageToAll(string userName, string message, string userRole)
         {
             // store last 100 messages in cache
-            AddMessageinCache(userName, message);
+            AddMessageinCache(userName, message, userRole);
 
             // Broad cast message
-            Clients.All.messageReceived(userName, message);
+            Clients.All.messageReceived(userName, message, userRole);
         }
 
         public void SendPrivateMessage(string toUserId, string message)
@@ -93,9 +97,9 @@ namespace LMPlatform.UI
 
         #region private Messages
 
-        private void AddMessageinCache(string userName, string message)
+        private void AddMessageinCache(string userName, string message, string userRole)
         {
-            CurrentMessage.Add(new MessageDetail { UserName = userName, Message = message });
+            CurrentMessage.Add(new MessageDetail { UserName = userName, Message = message, UserRole = userRole});
 
             if (CurrentMessage.Count > 100)
                 CurrentMessage.RemoveAt(0);

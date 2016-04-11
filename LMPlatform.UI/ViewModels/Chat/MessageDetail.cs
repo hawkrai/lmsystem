@@ -9,5 +9,6 @@ namespace LMPlatform.UI
     {
         public string UserName { get; set; }
         public string Message { get; set; }
+        public string UserRole { get; set; }
     }
 }

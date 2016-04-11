@@ -1,6 +1,6 @@
 ﻿
 $(function () {
-    $('#divChat').draggable({
+    $('#divChat1').draggable({
 
         handle: ".header",
         stop: function () {
@@ -16,14 +16,16 @@ $(function () {
     // Start Hub
     $.connection.hub.start().done(function () {
         registerEvents(chatHub);
+        $("#btnStartChat").trigger("click");
     });
 });
 
 function setScreen(isLogin) {
     if (!isLogin) {
         $("#divChat").hide();
-        $("#divLogin").show();
-    } else {
+        $("#divLogin").hide();
+    }
+     else {
         $("#divChat").show();
         $("#divLogin").hide();
     }
@@ -35,9 +37,11 @@ function registerEvents(chatHub) {
     $("#btnStartChat").click(function (e) {
         e.preventDefault(e);
         var name = $("#txtNickName").val();
+        var text = document.getElementById('role');
+        var role = text.value;
         if (name.length > 0) {
             //chatHub.server.disconnect();
-            chatHub.server.connect(name);
+            chatHub.server.connect(name, role);
         } else {
             alert("Please enter name");
         }
@@ -49,14 +53,17 @@ function registerEvents(chatHub) {
         if (msg.length > 0) {
 
             var userName = $('#hdUserName').val();
-            chatHub.server.sendMessageToAll(userName, msg);
+            var text = document.getElementById('role');
+            var role = text.value;
+
+            chatHub.server.sendMessageToAll(userName, msg, role);
             $("#txtMessage").val('');
         }
     });
 
 
     $("#txtNickName").keypress(function (e) {
-        if (e.which == 13) {
+        if (e.which === 13) {
             $("#btnStartChat").click();
         }
     });
@@ -73,32 +80,34 @@ function registerEvents(chatHub) {
 function registerClientMethods(chatHub) {
 
     // Calls when user successfully logged in
-    chatHub.client.onConnected = function (id, userName, allUsers, messages) {
+    var text = document.getElementById('role');
+    var userRole = text.value;
+    chatHub.client.onConnected = function (id, userName, allUsers, messages, userRole) {
         setScreen(true);
-
         $('#hdId').val(id);
         $('#hdUserName').val(userName);
         $('#spanUser').html(userName);
-
+        $('#role').html(userRole);
         // Add All Users
         for (i = 0; i < allUsers.length; i++) {
 
-            AddUser(chatHub, allUsers[i].ConnectionId, allUsers[i].UserName);
+            AddUser(chatHub, allUsers[i].ConnectionId, allUsers[i].UserName, allUsers[i].UserRole);
+
         }
 
         // Add Existing Messages
         for (i = 0; i < messages.length; i++) {
 
-            AddMessage(messages[i].UserName, messages[i].Message);
+            AddMessage(messages[i].UserName, messages[i].Message, messages[i].UserRole);
         }
 
 
     };
 
     // On New User Connected
-    chatHub.client.onNewUserConnected = function (id, name) {
+    chatHub.client.onNewUserConnected = function (id, name, userRole) {
 
-        AddUser(chatHub, id, name);
+        AddUser(chatHub, id, name, userRole);
     };
 
 
@@ -119,9 +128,9 @@ function registerClientMethods(chatHub) {
 
     };
 
-    chatHub.client.messageReceived = function (userName, message) {
+    chatHub.client.messageReceived = function (userName, message, userRole) {
 
-        AddMessage(userName, message);
+        AddMessage(userName, message, userRole);
     };
 
 
@@ -149,26 +158,33 @@ function registerClientMethods(chatHub) {
     };
 }
 
-function AddUser(chatHub, id, name) {
+function AddUser(chatHub, id, name, userRole) {
 
     var userId = $('#hdId').val();
 
     var code = "";
 
     if (userId == id) {
-
-        code = $('<div class="loginUser">' + name + "</div>");
-
+        if (userRole=='admin')
+            code = $('<div class="loginUser">' + name + " <i class='fa fa-user-md  fa-1x'></i> </div>");
+        else if (userRole=='lector')
+            code = $('<div class="loginUser">' + name + " <i class='fa fa-user fa-1x'></div>");
+        else
+            code = $('<div class="loginUser">' + name + " </div>");
     }
     else {
-
-        code = $('<a id="' + id + '" class="user" >' + name + '<a>');
+        if (userRole == 'admin')
+            code = $('<a id="' + id + '" class="user" >' + name +  ' <i class="fa fa-user-md  fa-1x"></i><a>');
+        else if (userRole == 'lector')
+            code = $('<a id="' + id + '" class="user" >' + name +  ' <i class="fa fa-user fa-1x"></i><a>');
+        else
+            code = $('<div class="loginUser">' + name + " </div>");
 
         $(code).dblclick(function () {
 
             var id = $(this).attr('id');
 
-            if (userId != id)
+            if (userId !== id)
                 OpenPrivateChatWindow(chatHub, id, name);
 
         });
@@ -178,9 +194,16 @@ function AddUser(chatHub, id, name) {
 
 }
 
-function AddMessage(userName, message) {
-    $('#divChatWindow').append('<div class="message"><span class="userName badge">' + userName + ':</span> ' + message + '</div>');
+function AddMessage(userName, message, userRole) {
 
+    if(userRole=="admin") 
+        $('#divChatWindow').append('<div class="message"><span class="userAdmin badge">' + userName + ':</span> ' + message + '</div>');
+    else if (userRole=="lector")
+        $('#divChatWindow').append('<div class="message"><span class="userLector badge">' + userName + ':</span> ' + message + '</div>');
+     else {
+        $('#divChatWindow').append('<div class="message"><span class="userName badge">' + userName + ':</span> ' + message + '</div>');
+    }
+   
     var height = $('#divChatWindow')[0].scrollHeight;
     $('#divChatWindow').scrollTop(height);
 }
@@ -228,24 +251,29 @@ function createPrivateChatWindow(chatHub, userId, ctrId, userName) {
     // Send Button event
     $div.find("#btnSendMessage").click(function () {
 
-        $textBox = $div.find("#txtPrivateMessage");
-        var msg = $textBox.val();
+        window.$textBox = $div.find("#txtPrivateMessage");
+        var msg = window.$textBox.val();
         if (msg.length > 0) {
 
             chatHub.server.sendPrivateMessage(userId, msg);
-            $textBox.val('');
+            window.$textBox.val('');
         }
     });
 
     // Text Box event
     $div.find("#txtPrivateMessage").keypress(function (e) {
-        if (e.which == 13) {
+        if (e.which === 13) {
             $div.find("#btnSendMessage").click();
         }
     });
 
     AddDivToContainer($div);
 
+}
+
+function FindUser() {
+
+    $('#' + id).remove();
 }
 
 function AddDivToContainer($div) {
