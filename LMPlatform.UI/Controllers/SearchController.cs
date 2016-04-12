@@ -21,10 +21,7 @@ namespace LMPlatform.UI.Controllers
         public ActionResult Index(string query)
         {
             if (string.IsNullOrEmpty(query))
-                return RedirectToAction("Index", "Lms");
-
-            DateTime start = DateTime.Now;
-            
+                return RedirectToAction("Index", "Lms");      
 
             var model = new SearchViewModel();
 
@@ -47,11 +44,6 @@ namespace LMPlatform.UI.Controllers
             if (!lsm.IsIndexExist())
                 lsm.AddToIndex(_lecturerRepository.Value.GetLecturers());
             model.Lecturers = lsm.Search(query);
-
-            DateTime finish = DateTime.Now;
-            TimeSpan delta = finish - start;
-
-            long ticks = delta.Ticks;
 
             return View(model);
         }
