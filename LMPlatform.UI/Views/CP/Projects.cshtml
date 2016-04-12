@@ -8,7 +8,6 @@
                 <tr ng-repeat="project in $data">
                     <td style="width:1%;text-align: left;" data-title="'№'">{{$index+1}}</td>
                     <td width="45%" style="text-align: left;" data-title="'Тема курсового проекта (работы)'" sortable="'Theme'">{{project.Theme}}</td>
-                    <td width="10%" data-title="'Руководитель'" sortable="'Lecturer'">{{project.Lecturer}}</td>
                     <td width="10%" data-title="'Студент'" sortable="'Student'">{{project.Student}}</td>
                     <td width="8%" data-title="'Группа'" sortable="'Group'">{{project.Group}}</td>
                     <td width="8%" data-title="'Дата'" sortable="'ApproveDate'">{{formatDate(parseDate(project.ApproveDate))}}</td>

@@ -1,5 +1,6 @@
 ﻿using Application.Core.Data;
 using Application.Infrastructure.CTO;
+using LMPlatform.Models;
 using LMPlatform.Models.CP;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,12 @@ namespace Application.Infrastructure.CPManagement
         PagedList<CourseProjectData> GetProjects(int userId, GetPagedListParams parms);
 
         CourseProjectData GetProject(int id);
+
+        List<NewsData> GetNewses(int userId, int subjectId);
+
+        void DeleteNews(CourseProjectNews news);
+
+        CourseProjectNews SaveNews(CourseProjectNews news);
 
         List<Correlation> GetGroups(int subjectId);
 

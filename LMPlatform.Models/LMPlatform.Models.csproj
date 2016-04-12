@@ -111,6 +111,7 @@
     <Compile Include="CP\CourseProjectConsultationMark.cs" />
     <Compile Include="CP\CourseProjectGroup.cs" />
     <Compile Include="CP\CourseProjectTaskSheetTemplate.cs" />
+    <Compile Include="CP\CourseProjectNews.cs" />
     <Compile Include="DP\AssignedDiplomProject.cs" />
     <Compile Include="DP\DiplomPercentagesGraph.cs" />
     <Compile Include="DP\DiplomPercentagesGraphToGroup.cs" />

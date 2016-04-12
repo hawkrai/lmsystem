@@ -227,7 +227,7 @@ namespace Application.Infrastructure.CPManagement
             {
                 parms.SortExpression = "Name";
             }
-            var query = Context.GetGraduateStudents()
+            var query = Context.Students
                 .Where(x => isLecturerSecretary || (isStudent && getBySecretaryForStudent) || x.AssignedCourseProjects.Any(asd => asd.CourseProject.LecturerId == userId && asd.CourseProject.SubjectId == subjectId))
                 .Where(x => secretaryId == 0 || x.Group.SecretaryId == secretaryId)
                 .Where(x => x.AssignedCourseProjects.Any(a => a.CourseProject.SubjectId == subjectId));
@@ -348,6 +348,52 @@ namespace Application.Infrastructure.CPManagement
             }).ToList();
         }
 
+        public List<NewsData> GetNewses(int userId, int subjectId)
+        {
+            var newses = Context.CourseProjectNewses.Where(x => x.SubjectId == subjectId).OrderByDescending(x=>x.EditDate);
+
+            List<NewsData> list = new List<NewsData>();
+            foreach (CourseProjectNews cp in newses)
+            {
+                NewsData n = new NewsData();
+                n.Id = cp.Id;
+                n.Title = cp.Title;
+                n.Body = cp.Body;
+                n.SubjectId = cp.SubjectId;
+                n.DateCreate = cp.EditDate.ToShortDateString();
+                n.Disabled = cp.Disabled;
+                list.Add(n);
+            }
+            return list;
+        }
+
+        public CourseProjectNews SaveNews(CourseProjectNews news)
+        {
+
+            var cpEditNews = Context.CourseProjectNewses.FirstOrDefault(x => x.Id == news.Id && x.SubjectId == news.SubjectId);
+            if (cpEditNews != null)
+            {
+                CourseProjectNews cpnews = new CourseProjectNews();
+                cpEditNews.Body = news.Body;
+                cpEditNews.Disabled = news.Disabled;
+                cpEditNews.EditDate = news.EditDate;
+                cpEditNews.SubjectId = news.SubjectId;
+                cpEditNews.Title = news.Title;
+            }
+            else {
+                Context.CourseProjectNewses.Add(news);
+            }
+            Context.SaveChanges();
+
+            return news;
+        }
+
+        public void DeleteNews(CourseProjectNews news)
+        {
+            var cpnews = Context.CourseProjectNewses.Single(x => x.Id == news.Id && x.SubjectId==news.SubjectId);
+            Context.CourseProjectNewses.Remove(cpnews);
+            Context.SaveChanges();
+        }
 
         private readonly LazyDependency<ICpContext> context = new LazyDependency<ICpContext>();
 

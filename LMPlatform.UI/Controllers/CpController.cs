@@ -68,6 +68,11 @@ namespace LMPlatform.UI.Controllers
             return PartialView();
         }
 
+        public ActionResult News()
+        {
+            return PartialView();
+        }
+
         public void GetTasksSheetDocument(int courseProjectId)
         {
             

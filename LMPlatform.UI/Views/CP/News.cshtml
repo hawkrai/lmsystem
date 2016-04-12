@@ -1,0 +1,68 @@
+﻿<div>
+    <style type="text/css">
+        .nav, .pagination, .carousel, .panel-title a {
+            cursor: pointer;
+        }
+    </style>
+    <div id="navPanel" ng-show="user.IsLecturer">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="buttonActionSection">
+                            <a id="addNewsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="addNews()">Добавить объявление</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top: 21px"></div>
+
+    <div>
+        <div ng-show="user.IsLecturer || (user.IsStudent && !data.Disabled)" class="bs-callout bs-callout-fill" ng-class="data.Disabled ? 'bs-callout-default' : 'bs-callout-info'" ng-repeat="data in news">
+            <h4 style="float: left; word-wrap: break-word; margin-right: 10px;">{{data.Title}}</h4>
+
+            <div ng-show="user.IsLecturer" style="display: none;" showonhoverparent>
+                <a class="editNewsButton" style="margin-right: 10px;cursor: pointer" ng-click="editNews(data)" tooltip="Редактировать объявление" tooltip-trigger="mouseenter" tooltip-placement="top"><i class="editNewsButton fa fa-pencil fa-1x"></i></a>
+                <a class="deleteNewsButton" ng-click="deleteNews(data)" style="cursor: pointer" tooltip="Удалить объявление" tooltip-trigger="mouseenter" tooltip-placement="top"><i class="deleteNewsButton fa fa-times-circle-o fa-1x"></i></a>
+            </div>
+            <div class="clear-fix"></div>
+            <div ng-bind-html="renderHtml(data.Body)">
+            </div>
+            <p class="text-muted" style="font-size: 11px; margin-top: 10px">{{data.DateCreate}}</p>
+        </div>
+    </div>
+    <div id="dialogAddNews" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{editNewsData.TitleForm}}</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label class="control-label">Название объявления</label>
+                        <input type="text" maxlength="70" class="form-control" style="width: 545px" ng-model="editNewsData.Title" />
+                    </div>
+                    <div>
+                        <label class="control-label">Текст объявления</label>
+                        <div class="lighter" style="width: 545px">
+                            <div text-angular ng-model="editNewsData.Body" name="editor" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="newsIsOLd" ng-model="editNewsData.IsOldDate" /><span> Оставить старую дату объявления</span>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="isDisabled" ng-model="editNewsData.Disabled" /><span> Скрыть</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a href="#" class="btn btn-primary btn-sm" ng-click="saveNews()" id="saveNewsButton" data-dismiss="modal">Сохранить</a>
+            </div>
+        </div>
+    </div>
+</div>

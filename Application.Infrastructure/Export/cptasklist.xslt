@@ -77,17 +77,20 @@ div.Section1
 
                     <p class="MsoNormal" style='line-height:normal'><![CDATA[ ]]></p>
 
-                    <table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0"
+                     <table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0"
                      style='border-collapse:collapse'>
                         <tr>
-                            <td width="271" colspan="2" valign="top" style='width:403.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                                <p class="MsoNormal" align="right" style='text-align:right;line-height:normal'>
-                                    <b>«УТВЕРЖДАЮ»</b>
+                          <td width="252" valign="top" style='padding:0cm 5.4pt 0cm 5.4pt'>
+                            <p class="MsoNormal" align="right" style='text-align:right;line-height:normal'>
+                              <span style='font-size:10.0pt'></span>
+                            </p>
+                          </td>
+                            <td width="286" valign="top">
+                                <p class="MsoNormal" align="right" style='line-height:normal'>
+                                  <span style='font-size:10.0pt'>Утверждаю</span>
                                 </p>
                             </td>
-                            <!--<td width="367" valign="top" style='width:275.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                <p class="MsoNormal" style='line-height:normal'><![CDATA[ ]]></p>
-              </td>-->
+                         
                         </tr>
                     </table>
 
@@ -96,52 +99,43 @@ div.Section1
                     <table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0"
                      style='border-collapse:collapse'>
                         <tr>
-                            <td width="151" colspan="3" valign="top" style='width:104.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
+                            <td width="438" colspan="2" valign="top" style='padding:0cm 5.4pt 0cm 5.4pt'>
                                 <p class="MsoNormal" style='line-height:normal;text-align:right;'>
                                     <span style='font-size:10.0pt'>Заведующий кафедрой</span>
                                 </p>
                             </td>
-                            <!--<td width="168" valign="top" style='width:126.0pt;border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                <p class="MsoNormal" align="center" style='text-align:center;line-height:normal'><![CDATA[ ]]></p>
-              </td>-->
-              <td width="319" valign="top" style='width:239.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                <p class="MsoNormal" style='line-height:normal'>            </p>
-              </td>
-                        </tr>
-                        <tr>
-                            <td width="151" colspan="2" valign="top" style='width:114.0cm;padding:0cm 5.4pt 0cm 5.4pt'>
-                                <p class="MsoNormal" align="right" style='text-align:right;line-height:normal'><![CDATA[ ]]></p>
+                            <td width="100" valign="top" style='padding:0cm 5.4pt 0cm 5.4pt'>
+                            <p class="MsoNormal" style='line-height:normal'><![CDATA[ ]]></p>
                             </td>
-                            
-                            <td width="319" valign="top" style='width:209.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                                <p class="MsoNormal" style='line-height:normal'><![CDATA[ ]]></p>
-                          </td>
-                        <td width="168" valign="top" style='width:126.0pt;border:none;padding:0cm 5.4pt 0cm 5.4pt'>
+                            <td width="100" valign="top" style='width:126.0pt;border:none;padding:0cm 5.4pt 0cm 5.4pt'>
                             <p class="MsoNormal" style='line-height:normal'>
-                                <span style='font-size:10.0pt;text-align:right;'>Н.Н.Гурский</span>
+                              <span style='font-size:10.0pt;text-align:right;'>Н.Н.Гурский</span>
                             </p>
-                        </td>
+                            </td>
                         </tr>
+                        
                         <tr>
-                            <td width="127" valign="top" style='width:105.4pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                            <td width="438" colspan ="2" valign="top" style='padding:0cm 5.4pt 0cm 5.4pt'>
                                 <p class="MsoNormal" style='line-height:normal'>
                                     <span style='font-size:10.0pt'><![CDATA[ ]]></span>
                                 </p>
                             </td>
-                            <td width="192" colspan="2" valign="top" style='width:144.0pt;border:none;border-top:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                            <td width="100"  valign="top" style='border:none;border-top:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
                                 <p class="MsoNormal" align="right" style='text-align:right;line-height:normal'>
                                     <span style='font-size:8.0pt'>(подпись)</span>
                                 </p>
                             </td>
-                            <td width="319" valign="top" style='width:239.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                                <p class="MsoNormal" style='line-height:normal'><![CDATA[ ]]></p>
-                            </td>
+                          <td width="100"  valign="top" style='border:none;border-top:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                            <p class="MsoNormal" align="right" style='line-height:normal'>
+                              <span style='font-size:8.0pt'>(фамилия, инициалы)</span>
+                            </p>
+                          </td>
                         </tr>
                         <tr height="0">
-                            <td width="127" style='border:none'></td>
-                            <td width="24" style='border:none'></td>
-                            <td width="168" style='border:none'></td>
-                            <td width="319" style='border:none'></td>
+                            <td width="338" style='border:none'></td>
+                            <td width="100" style='border:none'></td>
+                            <td width="100" style='border:none'></td>
+                            <td width="100" style='border:none'></td>
                         </tr>
                     </table>
 
@@ -150,33 +144,38 @@ div.Section1
                     <table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0"
                      style='border-collapse:collapse'>
                         <tr>
-                            <td width="22" valign="top" style='width:1188.8pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                            <td width="292" valign="top" >
                                 <p class="MsoNormal" style='line-height:normal;text-align:right;'>
                                     <span style='font-size:10.0pt'>«</span>
                                 </p>
                             </td>
-                            <td width="33" valign="top" style='width:24.6pt;border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                                <p class="MsoNormal" style='line-height:normal;text-align:right;'>
+                            <td width="50" valign="top" style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                                <p class="MsoNormal" style='line-height:normal'>
                                     <span style='font-size:10.0pt'><![CDATA[ ]]></span>
                                 </p>
                             </td>
-                            <td width="24" valign="top" style='width:18.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                                <p class="MsoNormal" style='line-height:normal;text-align:right;'>
-                                    <span style='font-size:10.0pt'>»</span>
-                                </p>
-                            </td>
-                            <td width="132" valign="top" style='width:344.0pt;border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                                <p class="MsoNormal" style='line-height:normal;text-align:right;'>
-                                    <span style='font-size:10.0pt'><![CDATA[ ]]></span>
-                                </p>
-                            </td>
-                            <td width="427" valign="top" style='width:20.1pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                                <p class="MsoNormal" style='line-height:normal; text-align:right;'>
+                          <td width="8" valign="top" >
+                            <p class="MsoNormal" style='line-height:normal'>
+                              <span style='font-size:10.0pt'>»</span>
+                            </p>
+                          </td>
+                          <td width="100" valign="top" style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+                            <p class="MsoNormal" style='line-height:normal;'>
+                              <span style='font-size:10.0pt'><![CDATA[ ]]></span>
+                            </p>
+                          </td>
+                            <td width="50" valign="top" >
+                                <p class="MsoNormal" style='line-height:normal;'>
                                     <span style='font-size:10.0pt'>
                                         <xsl:value-of select='string(@year)' disable-output-escaping='no'/>
                                     </span>
                                 </p>
                             </td>
+                          <td width="178" valign="top">
+                            <p class="MsoNormal" style='line-height:normal;text-align:right;'>
+                              <span style='font-size:10.0pt'></span>
+                            </p>
+                          </td>
                         </tr>
                     </table>
 

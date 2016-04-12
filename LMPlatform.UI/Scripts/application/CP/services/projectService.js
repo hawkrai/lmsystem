@@ -13,6 +13,7 @@ angular
             var studentApiUrl = '/api/courseStudent/';
             var downloadTaskSheetUrl = "/Cp/GetTasksSheetDocument?courseProjectId=";
             var downloadTaskSheetHtmlUrl = "/Cp/GetTasksSheetHtml?courseProjectId=";
+            var apiUrlNewses = '/api/CourseProjectNews/';
 
             return {
                 getProjects: function (subjectId, params) {
@@ -20,6 +21,13 @@ angular
                         method: 'GET',
                         url: apiUrl,
                         params: params
+                    });
+                },
+
+                getNewses: function (subjectId) {
+                    return $http({
+                        method: 'GET',
+                        url: apiUrlNewses + subjectId
                     });
                 },
 

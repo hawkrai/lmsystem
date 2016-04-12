@@ -7,6 +7,7 @@ namespace LMPlatform.Data.Infrastructure
 {
     public interface ICpContext
     {
+        DbSet<CourseProjectNews> CourseProjectNewses { get; set; }
         DbSet<CourseProject> CourseProjects { get; set; }
         DbSet<Lecturer> Lecturers { get; set; }
         DbSet<AssignedCourseProject> AssignedCourseProjects { get; set; }

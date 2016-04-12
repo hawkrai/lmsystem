@@ -110,6 +110,7 @@
     <Compile Include="CTO\CourseProjectConsultationDateData.cs" />
     <Compile Include="CTO\CourseProjectConsultationMarkData.cs" />
     <Compile Include="CTO\CourseProjectData.cs" />
+    <Compile Include="CTO\NewsData.cs" />
     <Compile Include="CTO\PercentageGraphData.cs" />
     <Compile Include="CTO\PercentageResultData.cs" />
     <Compile Include="CTO\StudentData.cs" />
