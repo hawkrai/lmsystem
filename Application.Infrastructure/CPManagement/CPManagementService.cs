@@ -7,7 +7,9 @@ using System.Data.Entity;
 using System.Linq;
 using Application.Core.Extensions;
 using LMPlatform.Models.CP;
-
+using LMPlatform.Data.Repositories;
+using LMPlatform.Models;
+using System.Collections.Generic;
 
 namespace Application.Infrastructure.CPManagement
 {
@@ -183,7 +185,7 @@ namespace Application.Infrastructure.CPManagement
 
             var courseProjectId = int.Parse(parms.Filters["courseProjectId"]);
 
-            return Context.GetGraduateStudents()
+            return Context.Students
                 .Include(x => x.Group.CourseProjectGroups)
                 .Where(x => x.Group.CourseProjectGroups.Any(dpg => dpg.CourseProjectId == courseProjectId))
                 .Where(x => !x.AssignedCourseProjects.Any())
@@ -225,7 +227,7 @@ namespace Application.Infrastructure.CPManagement
             {
                 parms.SortExpression = "Name";
             }
-            var query = Context.GetGraduateStudents()
+            var query = Context.Students
                 .Where(x => isLecturerSecretary || (isStudent && getBySecretaryForStudent) || x.AssignedCourseProjects.Any(asd => asd.CourseProject.LecturerId == userId && asd.CourseProject.SubjectId == subjectId))
                 .Where(x => secretaryId == 0 || x.Group.SecretaryId == secretaryId)
                 .Where(x => x.AssignedCourseProjects.Any(a => a.CourseProject.SubjectId == subjectId));
@@ -315,6 +317,81 @@ namespace Application.Infrastructure.CPManagement
             dp.DrawMaterials = taskSheet.DrawMaterials;
             dp.Consultants = taskSheet.Consultants;
 
+            Context.SaveChanges();
+        }
+
+        public SubjectData GetSubject(int id)
+        {
+            SubjectData sub = new SubjectData();
+            Subject subject = new Subject();
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                subject = repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == id)
+                    .Include(e => e.SubjectGroups));    
+            }
+
+            sub.Id = subject.Id;
+            sub.Name = subject.Name;
+            sub.ShortName = subject.ShortName;
+            return sub;
+        }
+
+        public List<Correlation> GetGroups(int subjectId)
+        {
+            var groups = Context.Groups.Where(s => s.SubjectGroups.Any(d => d.SubjectId == subjectId));
+
+
+            return groups.OrderBy(x => x.Name).Select(x => new Correlation
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToList();
+        }
+
+        public List<NewsData> GetNewses(int userId, int subjectId)
+        {
+            var newses = Context.CourseProjectNewses.Where(x => x.SubjectId == subjectId).OrderByDescending(x=>x.EditDate);
+
+            List<NewsData> list = new List<NewsData>();
+            foreach (CourseProjectNews cp in newses)
+            {
+                NewsData n = new NewsData();
+                n.Id = cp.Id;
+                n.Title = cp.Title;
+                n.Body = cp.Body;
+                n.SubjectId = cp.SubjectId;
+                n.DateCreate = cp.EditDate.ToShortDateString();
+                n.Disabled = cp.Disabled;
+                list.Add(n);
+            }
+            return list;
+        }
+
+        public CourseProjectNews SaveNews(CourseProjectNews news)
+        {
+
+            var cpEditNews = Context.CourseProjectNewses.FirstOrDefault(x => x.Id == news.Id && x.SubjectId == news.SubjectId);
+            if (cpEditNews != null)
+            {
+                CourseProjectNews cpnews = new CourseProjectNews();
+                cpEditNews.Body = news.Body;
+                cpEditNews.Disabled = news.Disabled;
+                cpEditNews.EditDate = news.EditDate;
+                cpEditNews.SubjectId = news.SubjectId;
+                cpEditNews.Title = news.Title;
+            }
+            else {
+                Context.CourseProjectNewses.Add(news);
+            }
+            Context.SaveChanges();
+
+            return news;
+        }
+
+        public void DeleteNews(CourseProjectNews news)
+        {
+            var cpnews = Context.CourseProjectNewses.Single(x => x.Id == news.Id && x.SubjectId==news.SubjectId);
+            Context.CourseProjectNewses.Remove(cpnews);
             Context.SaveChanges();
         }
 

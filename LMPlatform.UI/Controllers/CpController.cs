@@ -3,6 +3,11 @@ using System.Linq;
 using System.Web.Mvc;
 using Application.Infrastructure.Export;
 using LMPlatform.Data.Infrastructure;
+using Application.Infrastructure.CTO;
+using System.Collections.Generic;
+using Application.Infrastructure.CPManagement;
+using System.Diagnostics.CodeAnalysis;
+using Application.Core;
 
 namespace LMPlatform.UI.Controllers
 {
@@ -23,6 +28,11 @@ namespace LMPlatform.UI.Controllers
 
         [HttpGet]
         public ActionResult Project()
+        {
+            return PartialView();
+        }
+
+        public ActionResult TaskSheet()
         {
             return PartialView();
         }
@@ -54,6 +64,11 @@ namespace LMPlatform.UI.Controllers
         }
 
         public ActionResult ConsultationDate()
+        {
+            return PartialView();
+        }
+
+        public ActionResult News()
         {
             return PartialView();
         }
@@ -97,5 +112,6 @@ namespace LMPlatform.UI.Controllers
         {
             return PartialView();
         }
+
     }
 }

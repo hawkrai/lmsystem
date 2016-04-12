@@ -33,7 +33,7 @@
                 $scope.tableParams.reload();
             };
 
-            projectService.getLecturerDiplomGroupCorrelation()
+            projectService.getLecturerDiplomGroupCorrelation(subjectId)
                 .success(function (data) {
                     $scope.groups = data;
                     var selectedSecretaries = data.filter(function (elt) {
@@ -68,13 +68,13 @@
 
             $scope.deletePercentage = function (id) {
                 bootbox.confirm({
-                    title: "Удаление",
-                    message: "Вы действительно хотите удалить запись?",
+                    title: "Удаление этапа процентовки",
+                    message: "Вы действительно хотите удалить этап?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             percentages.delete({ id: id }).$promise.then(function () {
                                 $scope.tableParams.reload();
-                                alertify.success("Запись успешно удалена");
+                                alertify.success("Этап успешно удален");
                             }, function (error) {
                                 $scope.handleError(error);
                             });

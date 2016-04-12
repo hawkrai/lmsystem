@@ -247,6 +247,9 @@
     <Compile Include="ApiControllers\CP\CourseProjectConsultationController.cs" />
     <Compile Include="ApiControllers\CP\CourseProjectConsultationDateController.cs" />
     <Compile Include="ApiControllers\CP\CourseProjectController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectGroupController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectNewsController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectSubjectController.cs" />
     <Compile Include="ApiControllers\CP\CourseStudentController.cs" />
     <Compile Include="ApiControllers\CP\CourseStudentMarkController.cs" />
     <Compile Include="ApiControllers\CP\CourseUserController.cs" />
@@ -331,6 +334,7 @@
     <Content Include="Scripts\application\ComplexMaterials\services\navigationService.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
     <Content Include="Scripts\application\CP\controllers\homeController.js" />
+    <Content Include="Scripts\application\CP\controllers\newsController.js" />
     <Content Include="Scripts\application\CP\controllers\percentageController.js" />
     <Content Include="Scripts\application\CP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\CP\controllers\percentagesController.js" />
@@ -1754,6 +1758,7 @@
     <Content Include="Views\CP\TaskSheet.cshtml" />
     <Content Include="Views\CP\TaskSheetEdit.cshtml" />
     <Content Include="Views\CP\VisitStats.cshtml" />
+    <Content Include="Views\CP\News.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

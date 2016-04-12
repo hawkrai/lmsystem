@@ -5,6 +5,6 @@ namespace Application.Infrastructure.CPManagement
 {
     public interface ICpCorrelationService
     {
-        List<Correlation> GetCorrelation(string entity, int? id);
+        List<Correlation> GetCorrelation(string entity, int subjectId, int? id);
     }
 }

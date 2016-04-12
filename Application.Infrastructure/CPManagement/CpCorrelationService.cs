@@ -12,7 +12,7 @@ namespace Application.Infrastructure.CPManagement
     {
         public CpCorrelationService()
         {
-            _correlationMethodsMapping = new Dictionary<string, Func<int?, List<Correlation>>>
+            _correlationMethodsMapping = new Dictionary<string, Func<int , int?, List<Correlation>>>
             {
                 { "Group", GetGroupsCorrelation },
                 { "CourseProject", GetCourseProjectCorrelation },
@@ -29,19 +29,19 @@ namespace Application.Infrastructure.CPManagement
             get { return context.Value; }
         }
 
-        private readonly Dictionary<string, Func<int?, List<Correlation>>> _correlationMethodsMapping;
+        private readonly Dictionary<string, Func<int, int?, List<Correlation>>> _correlationMethodsMapping;
 
-        public List<Correlation> GetCorrelation(string entity, int? id)
+        public List<Correlation> GetCorrelation(string entity, int subjectId, int? id)
         {
             if (!_correlationMethodsMapping.ContainsKey(entity))
             {
                 throw new Exception("CorrelationService doesn't serve this entity type!");
             }
 
-            return _correlationMethodsMapping[entity](id);
+            return _correlationMethodsMapping[entity](subjectId, id);
         }
 
-        private List<Correlation> GetGroupsCorrelation(int? userId)
+        private List<Correlation> GetGroupsCorrelation(int subjectId, int? userId)
         {
             var groups = Context.GetGraduateGroups();
 
@@ -67,7 +67,7 @@ namespace Application.Infrastructure.CPManagement
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        private List<Correlation> GetLecturerCourseGroupsCorrelation(int? id)
+        private List<Correlation> GetLecturerCourseGroupsCorrelation(int subjectId, int? id)
         {
             if (!id.HasValue)
             {
@@ -97,7 +97,7 @@ namespace Application.Infrastructure.CPManagement
                     }).ToList() : new List<Correlation>();
         }
 
-       private List<Correlation> GetCourseProjectTaskSheetTemplateCorrelation(int? id)
+       private List<Correlation> GetCourseProjectTaskSheetTemplateCorrelation(int subjectId, int? id)
         {
             return Context.CourseProjectTaskSheetTemplates
                     .Select(x => new Correlation
@@ -109,9 +109,9 @@ namespace Application.Infrastructure.CPManagement
                     .ToList();
         }
         
-        private List<Correlation> GetCourseProjectCorrelation(int? lecturerId)
+        private List<Correlation> GetCourseProjectCorrelation(int subjectId, int? lecturerId)
         {
-            var projects = lecturerId.HasValue ? Context.CourseProjects.Where(x => x.LecturerId == lecturerId) : Context.CourseProjects;
+            var projects = lecturerId.HasValue ? Context.CourseProjects.Where(x => x.LecturerId == lecturerId && x.SubjectId == subjectId) : Context.CourseProjects;
             return projects.Select(x => new Correlation
                 {
                     Id = x.CourseProjectId,
@@ -119,7 +119,7 @@ namespace Application.Infrastructure.CPManagement
                 }).OrderBy(x => x.Name).ToList();
         }
 
-        private List<Correlation> GetCourseLecturerCorrelation(int? id)
+        private List<Correlation> GetCourseLecturerCorrelation(int subjectId, int? id)
         {
             return Context.Lecturers
                 .Where(x => x.IsLecturerHasGraduateStudents && x.CourseProjects.Any(dp => dp.AssignedCourseProjects.Any()))

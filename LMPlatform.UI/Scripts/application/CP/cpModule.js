@@ -12,11 +12,18 @@
         'cpApp.ctrl.percentage',
         'cpApp.ctrl.percentageResults',
         'cpApp.ctrl.visitStats',
-        'cpApp.service.project',
+        'textAngular',
         'cpApp.ctrl.taskSheet',
+        'cpApp.ctrl.news',
+        'cpApp.service.project',
         'ui.select'
     ])
     .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+
+        $routeProvider.when('/News', {
+            templateUrl: '/Cp/News',
+            controller: 'newsCtrl'
+        });
 
         $routeProvider.when('/Projects', {
             templateUrl: '/Cp/Projects',
@@ -30,7 +37,7 @@
         });
 
         $routeProvider.when('/TaskSheet', {
-            templateUrl: '/Dp/TaskSheet',
+            templateUrl: '/Cp/TaskSheet',
             controller: 'taskSheetCtrl'
         });
 
@@ -39,13 +46,14 @@
             controller: 'percentageResultsCtrl'
         });
 
+
         $routeProvider.when('/VisitStats', {
             templateUrl: '/Cp/VisitStats',
             controller: 'visitStatsCtrl'
         });
 
         $routeProvider.otherwise({
-            redirectTo: '/Projects'
+            redirectTo: '/News'
         });
     }]).directive('loadingContainer', function () {
         return {

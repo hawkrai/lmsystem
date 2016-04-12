@@ -49,6 +49,10 @@ h1 {
     margin-right: 10px;
 }
 
+.fa-arrow-left {
+    margin-right:10px;
+}
+
 .tooltip-inner {
     background-color: #43ac6a;
 }

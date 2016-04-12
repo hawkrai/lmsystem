@@ -37,15 +37,23 @@
                     });
             }
 
-            projectService
+          /*  projectService
                 .getGroupCorrelation()
+                .success(function (data, status, headers, config) {
+                    $scope.groups = data;
+                });
+                */
+
+            var subjectId = getParameterByName("subjectId");
+            projectService
+                .getGroups(subjectId)
                 .success(function (data, status, headers, config) {
                     $scope.groups = data;
                 });
 
             $scope.saveProject = function () {
                 $scope.submitted = true;
-               var subjectId = getParameterByName("subjectId");
+               
               $scope.project.SubjectId = subjectId;
                 if ($scope.forms.projectForm.Theme.$error.required) return;
 
@@ -54,7 +62,7 @@
                 saveFunc($scope.project)
                     .success(function (data, status, headers, config) {
                         $modalInstance.close();
-                        alertify.success('Тема успешно сохранена');
+                        alertify.success('Тема курсового проекта (работы) успешно сохранена');
                     })
                     .error(function (data) {
                         $scope.handleError(data);

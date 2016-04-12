@@ -43,7 +43,7 @@ namespace Application.Infrastructure.Export
             object original = WdOriginalFormat.wdOriginalDocumentFormat;
             try
             {
-                var url = string.Format("{0}.Export.tasklist.doc", Assembly.GetExecutingAssembly().GetName().Name);
+                var url = string.Format("{0}.Export.cptasklist.doc", Assembly.GetExecutingAssembly().GetName().Name);
                 using (var templateStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(url))
                 {
                     object tempdot = tempfileName = SaveToTemp(templateStream);
@@ -174,7 +174,7 @@ namespace Application.Infrastructure.Export
             var cinfo = CultureInfo.CreateSpecificCulture("ru-ru");
             var doc = CourseProjectToXml(work, cinfo);
             var xslt = new XslTransform();
-            var url = string.Format("{0}.Export.tasklist.xslt", Assembly.GetExecutingAssembly().GetName().Name);
+            var url = string.Format("{0}.Export.cptasklist.xslt", Assembly.GetExecutingAssembly().GetName().Name);
             var xsltFile = Assembly.GetExecutingAssembly().GetManifestResourceStream(url);
             xsltFile.Seek(0, SeekOrigin.Begin);
             using (var xmlr = XmlReader.Create(xsltFile))
@@ -196,7 +196,7 @@ namespace Application.Infrastructure.Export
             var cinfo = CultureInfo.CreateSpecificCulture("ru-ru");
             var doc = CourseProjectToXml(work, cinfo);
             var xslt = new XslTransform();
-            var url = string.Format("{0}.Export.tasklist.xslt", Assembly.GetExecutingAssembly().GetName().Name);
+            var url = string.Format("{0}.Export.cptasklist.xslt", Assembly.GetExecutingAssembly().GetName().Name);
             var xsltFile = Assembly.GetExecutingAssembly().GetManifestResourceStream(url);
             xsltFile.Seek(0, SeekOrigin.Begin);
             using (var xmlr = XmlReader.Create(xsltFile))
@@ -327,9 +327,10 @@ namespace Application.Infrastructure.Export
             //SubjectGroup sg = work.Subject.Groups.GetByGroupId(work.Student.GroupId);
             var percentageGraph = new StringBuilder();
 
-            var pgs = awork.Student.Group.Secretary != null ?
-                awork.Student.Group.Secretary.CoursePercentagesGraphs : new List<CoursePercentagesGraph>();
+            /*var pgs = awork.Student.Group.Secretary != null ?
+                awork.Student.Group.Secretary.CoursePercentagesGraphs : new List<CoursePercentagesGraph>();*/
 
+            var pgs = awork.CourseProject.Subject.CoursePersentagesGraphs;
             var i = 1;
             foreach (var pg in pgs)
             {
