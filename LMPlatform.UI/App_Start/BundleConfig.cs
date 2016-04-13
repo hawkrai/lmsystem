@@ -114,6 +114,7 @@ namespace LMPlatform.UI.App_Start
     "~/Scripts/application/CP/controllers/studentsController.js",
     "~/Scripts/application/CP/controllers/projectController.js",
     "~/Scripts/application/CP/controllers/visitStatsController.js",
+    "~/Scripts/application/CP/controllers/newsController.js",
                     "~/Scripts/application/CP/controllers/percentagesController.js",
                 "~/Scripts/application/CP/controllers/percentageController.js",
                 "~/Scripts/application/CP/controllers/percentageResultsController.js",

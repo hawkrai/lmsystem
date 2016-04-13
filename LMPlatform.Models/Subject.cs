@@ -77,6 +77,13 @@ namespace LMPlatform.Models
             set;
         }
 
+        public virtual ICollection<CoursePercentagesGraph> CoursePersentagesGraphs
+        {
+            get;
+            set;
+        }
+
+
         public ICollection<Practical> Practicals
         {
             get;

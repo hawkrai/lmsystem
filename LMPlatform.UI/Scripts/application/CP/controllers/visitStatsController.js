@@ -13,6 +13,16 @@
 
             $scope.forms = {};
 
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+
+            var subjectId = getParameterByName("subjectId");
+
             var dpConsultations = $resource('api/CourseProjectConsultation');
             var dpConsultationDates = $resource('api/CourseProjectConsultationDate');
 
@@ -51,8 +61,8 @@
 
             $scope.deleteConsultationDate = function (id) {
                 bootbox.confirm({
-                    title: "Удаление даты",
-                    message: "Вы действительно хотите удалить дату?",
+                    title: "Удаление даты консультации",
+                    message: "Вы действительно хотите удалить дату консультации?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             dpConsultationDates.delete({ id: id }).$promise.then(function () {
@@ -107,7 +117,7 @@
                     dpConsultationDates.save(consultationDate)
                     .$promise.then(function () {
                         $scope.tableParams.reload();
-                        alertify.success('Консультация успешно добавлена');
+                        alertify.success('Дата консультации успешно добавлена');
                     }, $scope.handleError);
 
                     $modalInstance.close();
@@ -135,7 +145,7 @@
                 $scope.tableParams.reload();
             };
 
-            projectService.getDiplomLecturerCorrelation()
+            projectService.getDiplomLecturerCorrelation(subjectId)
                 .success(function (data) {
                     $scope.lecturers = data;
                     if (data.length == 1) {
@@ -145,15 +155,7 @@
                 });
 
 
-            function getParameterByName(name) {
-                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                    results = regex.exec(location.search);
-                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-            }
-
-           
-            var subjectId = getParameterByName("subjectId");
+            
             $scope.tableParams = new ngTableParams(
                 angular.extend({
                     page: 1,

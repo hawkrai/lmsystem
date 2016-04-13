@@ -6,11 +6,14 @@ angular
         function ($http) {
 
             var apiUrl = '/api/courseProject/';
+            var apiUrlSubject = '/api/CourseProjectSubject/';
+            var apiUrlGroups = "/api/CourseProjectGroup/";
             var projectAssignmentUrl = '/api/courseProjectAssignment/';
             var correlationApiUrl = '/api/cpcorrelation/';
             var studentApiUrl = '/api/courseStudent/';
             var downloadTaskSheetUrl = "/Cp/GetTasksSheetDocument?courseProjectId=";
             var downloadTaskSheetHtmlUrl = "/Cp/GetTasksSheetHtml?courseProjectId=";
+            var apiUrlNewses = '/api/CourseProjectNews/';
 
             return {
                 getProjects: function (subjectId, params) {
@@ -21,12 +24,33 @@ angular
                     });
                 },
 
+                getNewses: function (subjectId) {
+                    return $http({
+                        method: 'GET',
+                        url: apiUrlNewses + subjectId
+                    });
+                },
+
                getProject: function (projectId) {
                     return $http({
                         method: 'GET',
                         url: apiUrl + projectId
                     });
                 },
+
+               getSubject: function (subjectId) {
+                   return $http({
+                       method: 'GET',
+                       url: apiUrlSubject + subjectId
+                   });
+               },
+
+               getGroups: function (subjectId) {
+                   return $http({
+                       method: 'GET',
+                       url: apiUrlGroups + subjectId
+                   });
+               },
 
                 createProject: function (project) {
                     return $http({
@@ -76,47 +100,62 @@ angular
                 },
 
 
-                getGroupCorrelation: function () {
+                getGroupCorrelation: function (subjectId) {
                     return $http({
                         method: 'GET',
                         url: correlationApiUrl,
-                        params: { entity: 'Group' }
+                        params: {
+                            entity: 'Group',
+                            subjectId: subjectId
+                        }
                     });
                 },
 
 
-                getLecturerDiplomGroupCorrelation: function () {
+                getLecturerDiplomGroupCorrelation: function (subjectId) {
                     return $http({
                         method: 'GET',
                         url: correlationApiUrl,
-                        params: { entity: 'LecturerCourseGroup' }
+                        params: {
+                            entity: 'LecturerCourseGroup',
+                            subjectId: subjectId
+                        }
                     });
                 },
 
 
-                getDiplomProjectCorrelation: function () {
+                getCourseProjectCorrelation: function (subjectId) {
                     return $http({
                         method: 'GET',
                         url: correlationApiUrl,
-                        params: { entity: 'CourseProject' }
+                        params: {
+                            entity: 'CourseProject',
+                            subjectId: subjectId
+                        }
                     });
                 },
 
 
-                getDiplomLecturerCorrelation: function () {
+                getDiplomLecturerCorrelation: function (subjectId) {
                     return $http({
                         method: 'GET',
                         url: correlationApiUrl,
-                        params: { entity: 'CourseLecturer' }
+                        params: {
+                            entity: 'CourseLecturer',
+                            subjectId: subjectId
+                        }
                     });
                 },
 
 
-                getDiplomProjectTaskSheetTemplateCorrelation: function () {
+                getDiplomProjectTaskSheetTemplateCorrelation: function (subjectId) {
                     return $http({
                         method: 'GET',
                         url: correlationApiUrl,
-                        params: { entity: 'CourseProjectTaskSheetTemplate' }
+                        params: {
+                            entity: 'CourseProjectTaskSheetTemplate',
+                            subjectId: subjectId
+                        }
                     });
                 },
 

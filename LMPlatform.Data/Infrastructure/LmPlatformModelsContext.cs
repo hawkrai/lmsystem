@@ -698,6 +698,7 @@ namespace LMPlatform.Data.Infrastructure
 
         #region CP
 
+        public virtual DbSet<CourseProjectNews> CourseProjectNewses { get; set; }
         public virtual DbSet<CourseProject> CourseProjects { get; set; }
         public virtual DbSet<AssignedCourseProject> AssignedCourseProjects { get; set; }
         public virtual DbSet<CourseProjectGroup> CourseProjectGroups { get; set; }
