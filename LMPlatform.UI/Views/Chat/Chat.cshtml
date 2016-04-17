@@ -1,4 +1,5 @@
 ﻿@using Application.Core.Constants
+@using LMPlatform.UI.Controllers
 @using Microsoft.Owin.Security.Provider
 @*<link rel="stylesheet" href="~/Content/ChatStyle.css" />*@
 
@@ -51,7 +52,7 @@
                     <div id="divChatWindow" class="chatWindow col-md-8">
                     </div>
                     <div id="divusers" class="users col-md-4">
-                        <div><input id="findUser" class="finduser" type="search" onchange="FindUser" /></div>
+                        <div><input id="findUser" class="finduser" type="search" onkeyup="findUser();" placeholder="Поиск" /></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -70,6 +71,7 @@
                 <input id="hdUserName" type="hidden"/>
                 @{
                     string role;
+                    //ChatController.EnabledChat = true;
                     if (User.IsInRole("admin"))
                     {
                         role = "admin";
@@ -78,6 +80,7 @@
                     {
                         if (User.IsInRole("lector")) { role = "lector"; }
                         else { role = "student"; }
+                     
                     }
                     
                     <input id="role" value="@role" type="hidden"/>

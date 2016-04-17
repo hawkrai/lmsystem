@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -39,7 +40,7 @@ namespace LMPlatform.UI
                 Clients.Caller.onConnected(id, userName, ConnectedUsers,  CurrentMessage, userRole);
 
                 // send to all except caller client
-                Clients.AllExcept(id).onNewUserConnected(id, userName, userRole);
+                Clients.AllExcept(id).onNewUserConnected(id, userName, userRole, ConnectedUsers);
             }
             else
             {
@@ -85,7 +86,7 @@ namespace LMPlatform.UI
                    ConnectedUsers.Remove(item);
 
                    var id = Context.ConnectionId;
-                   Clients.All.onUserDisconnected(id, item.UserName);
+                   Clients.All.onUserDisconnected(id, item.UserName, ConnectedUsers);
 
                }
 

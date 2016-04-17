@@ -1,4 +1,6 @@
-﻿
+﻿//Global List of User's
+var connectedUsers = [];
+var hub;
 $(function () {
     $('#divChat1').draggable({
 
@@ -88,11 +90,12 @@ function registerClientMethods(chatHub) {
         $('#hdUserName').val(userName);
         $('#spanUser').html(userName);
         $('#role').html(userRole);
+        hub = chatHub;
+        connectedUsers = allUsers;
         // Add All Users
         for (i = 0; i < allUsers.length; i++) {
 
             AddUser(chatHub, allUsers[i].ConnectionId, allUsers[i].UserName, allUsers[i].UserRole);
-
         }
 
         // Add Existing Messages
@@ -105,14 +108,14 @@ function registerClientMethods(chatHub) {
     };
 
     // On New User Connected
-    chatHub.client.onNewUserConnected = function (id, name, userRole) {
-
+    chatHub.client.onNewUserConnected = function (id, name, userRole, updateUser) {
+        connectedUsers = updateUser;
         AddUser(chatHub, id, name, userRole);
     };
 
 
     // On User Disconnected
-    chatHub.client.onUserDisconnected = function (id, userName) {
+    chatHub.client.onUserDisconnected = function (id, userName, updateUser) {
 
         $('#' + id).remove();
 
@@ -125,6 +128,7 @@ function registerClientMethods(chatHub) {
         $(disc).hide();
         $('#divusers').prepend(disc);
         $(disc).fadeIn(200).delay(2000).fadeOut(200);
+        connectedUsers = updateUser;
 
     };
 
@@ -168,17 +172,17 @@ function AddUser(chatHub, id, name, userRole) {
         if (userRole=='admin')
             code = $('<div class="loginUser">' + name + " <i class='fa fa-user-md  fa-1x'></i> </div>");
         else if (userRole=='lector')
-            code = $('<div class="loginUser">' + name + " <i class='fa fa-user fa-1x'></div>");
+            code = $('<div class="loginUser">' + name + " <i class='fa fa-user fa-1x'></i></div>");
         else
             code = $('<div class="loginUser">' + name + " </div>");
     }
     else {
         if (userRole == 'admin')
-            code = $('<a id="' + id + '" class="user" >' + name +  ' <i class="fa fa-user-md  fa-1x"></i><a>');
+            code = $('<a id=' + id + ' class="user" >' + name +  ' <i class="fa fa-user-md  fa-1x"></i><a>');
         else if (userRole == 'lector')
-            code = $('<a id="' + id + '" class="user" >' + name +  ' <i class="fa fa-user fa-1x"></i><a>');
+            code = $('<a id=' + id + ' class="user" >' + name +  ' <i class="fa fa-user fa-1x"></i><a>');
         else
-            code = $('<div class="loginUser">' + name + " </div>");
+            code = $('<a id=' + id + ' class="user" >' + name + '<a>');
 
         $(code).dblclick(function () {
 
@@ -186,7 +190,6 @@ function AddUser(chatHub, id, name, userRole) {
 
             if (userId !== id)
                 OpenPrivateChatWindow(chatHub, id, name);
-
         });
     }
 
@@ -270,10 +273,22 @@ function createPrivateChatWindow(chatHub, userId, ctrId, userName) {
     AddDivToContainer($div);
 
 }
-
-function FindUser() {
-
-    $('#' + id).remove();
+function findUser() {
+    var userId = $('#hdId').val();
+    connectedUsersM = connectedUsers;
+    for (i = 0; i < connectedUsersM.length; i++) {
+            $('#' + connectedUsersM[i].ConnectionId).remove();
+    }
+    var user = document.getElementById("findUser").value;
+        for (i = 0; i < connectedUsersM.length; i++) {
+            if (user == "") {
+                if (connectedUsersM[i].ConnectionId != userId)
+                    AddUser(hub, connectedUsersM[i].ConnectionId, connectedUsersM[i].UserName, connectedUsersM[i].UserRole);
+            }
+            else if (connectedUsersM[i].ConnectionId != userId)
+            if (connectedUsersM[i].UserName.indexOf(user) > -1)
+                    AddUser(hub, connectedUsersM[i].ConnectionId, connectedUsersM[i].UserName, connectedUsersM[i].UserRole);
+        }
 }
 
 function AddDivToContainer($div) {
