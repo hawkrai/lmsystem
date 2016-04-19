@@ -85,5 +85,13 @@ knowledgeTestingApp.controller('testsCtrl', function ($scope, $http, $modal) {
                 }
             }
         });
-    }
+    };
+
+    $scope.onUploadImage = function() {
+        var modalInstance = $modal.open({
+            templateUrl: '/Content/KnowledgeTesting/content.html',
+            controller: 'contentCtrl',
+            scope: $scope,
+        });
+    };
 });

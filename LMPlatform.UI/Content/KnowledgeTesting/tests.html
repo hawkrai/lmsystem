@@ -1,6 +1,27 @@
-﻿<div class="row" data-ng-init="init()">
+﻿<style>
+.upload-test-content {
+  position: relative;
+  height: 40px;
+}
+
+ .upload-test-content > button {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.upload-test-content > input[type=file] {
+  opacity: 0;
+  position: fixed;
+  left: -1000px;
+}
+</style>
+
+<div class="row" data-ng-init="init()">
     <div class="col-lg-3">
         <a id="addNewTestButton" data-ng-click="onNewButtonClicked()" class="btn btn-primary btn-sm">Добавить тест</a>
+        
+         <a id="a1" data-ng-click="onUploadImage()" class="btn btn-primary btn-sm">Ресурсы</a>
     </div>
     
     <div class="input-group input-group-sm search-box" style="padding-right: 15px; float: right">

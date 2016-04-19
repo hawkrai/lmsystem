@@ -140,9 +140,12 @@
 										<button type="button" ng-disabled="tableformVisiting.$waiting" ng-click="tableformVisiting.$cancel()" class="btn btn-default btn-sm">Отмена</button>
 									</div>
 								</td>
-							    <td>
-							        <button type="button" class="btn btn-primary btn-sm" style="margin-top: -1px; width: 50px;height: 36px" ng-click="visitingLabsExport()"><img style="width: 20px" src="~/Images/Excel.png"/></button>
-							    </td>
+								<td>
+									<a class="btn btn-primary btn-sm" ng-click="visitingLabsExport()" tooltip="Загрузить документ Excel">
+										<i class="fa fa-download"></i>
+										<span>Excel</span>
+									</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -273,7 +276,6 @@
 										<th>Файлы</th>
 									    <th>Комментарий</th>
 									    <th>Дата</th>
-                                        <th>Действие</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -284,7 +286,7 @@
 											</div>
 										</td>
 									    <td>{{files.Comments}}</td>
-									    <td>{{files.Date}}</td>
+										<td>{{files.Date}}</td>
 									</tr>
 								</tbody>
 							</table>

@@ -18,6 +18,7 @@
             Title = news.Title;
             SubjectId = news.SubjectId;
             DateCreate = news.EditDate.ToShortDateString();
+	        Disabled = news.Disabled;
         }
 
         [DataMember]
@@ -34,5 +35,8 @@
 
         [DataMember]
         public string DateCreate { get; set; }
+
+		[DataMember]
+		public bool Disabled { get; set; }
     }
 }
