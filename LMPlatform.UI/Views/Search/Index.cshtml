@@ -1,5 +1,9 @@
 ﻿@model LMPlatform.UI.ViewModels.SearchViewModel.SearchViewModel
 
+@section headerTitle{
+    <h1>Результаты поиска:</h1>
+}
+
 <ul class="nav nav-tabs">
     @if (Model.Students.Any())
     {
@@ -27,7 +31,7 @@
             {
                 <a href="/Lms/@student.Email" class="list-group-item">
                     @student.FullName
-                    <br />
+                    <br/>
                     <sub>группа: @student.GroupId</sub>
                 </a>
             }
@@ -65,5 +69,9 @@
                 </a>
             }
         </div>
-    }    
+    }
 </div>
+
+<script>
+    $('.nav.nav-tabs > li:first-child').addClass('active');
+</script>
