@@ -3,7 +3,7 @@
         <div class="typeahead-field">
 
             <span class="typeahead-query">
-                <input name="query" id="searchBox" type="search" placeholder="Поиск студентов, преподавателей, проекты и группы" autocomplete="off">
+                <input name="query" id="searchBox" type="search" placeholder="Поиск студентов, преподавателей, проектов и групп" autocomplete="off">
             </span>
             <span class="typeahead-button">
                 <button type="submit" id="searchButton">
@@ -27,6 +27,24 @@
             "background-color": "#fff"
         },
         source: {
+            group: {
+                display: "Name",
+                href: "/Parental/Index/{{Name}}#/Statistics",
+                url: [{
+                    type: "GET",
+                    url: '/Services/Search/SearchService.svc/SearchGroups',
+                    data: {
+                        text: "{{query}}"
+                    }
+                }, "data.group"],
+                template:
+                    '<table>' +
+                        '<tr>' +
+                        '<td class="group-line"><small>Группа </small></td>' +
+                        '<td class="result-description"><span class="description"> {{Name}}</span></td>' +
+                        '</tr>' +
+                        '</table>'
+            },
             student: {
                 display: ["FullName", "Email", "GroupId"],
                 href: "/Lms/{{Email}}",
@@ -62,25 +80,7 @@
                         '<td class="result-description"><span class="description"> {{Title}}</span></td>' +
                         '</tr>' +
                         '</table>'
-            },
-            group: {
-                display: "Name",
-                href: "/Parental/Index/{{Name}}#/Statistics",
-                url: [{
-                    type: "GET",
-                    url: '/Services/Search/SearchService.svc/SearchGroups',
-                    data: {
-                        text: "{{query}}"
-                    }
-                }, "data.group"],
-                template:
-                    '<table>' +
-                        '<tr>' +
-                        '<td class="group-line"><small>Группа </small></td>' +
-                        '<td class="result-description"><span class="description"> {{Name}}</span></td>' +
-                        '</tr>' +
-                        '</table>'
-            },
+            },            
             lecturer: {
                 display: ["FullName", "Skill"],
                 href: "/Lms/{{Skill}}",
