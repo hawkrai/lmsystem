@@ -23,6 +23,12 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+        public int? Percent
+        {
+            get;
+            set;
+        }
+
         public DateTime StartTime
         {
             get;
