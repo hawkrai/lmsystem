@@ -260,6 +260,113 @@ namespace Application.Infrastructure.CPManagement
                     }).ApplyPaging(parms);
         }
 
+
+        public PagedList<StudentData> GetGraduateStudentsForGroup(int userId, int groupId, int subjectId, GetPagedListParams parms, bool getBySecretaryForStudent = true)
+        {
+            var secretaryId = 0;
+            if (parms.Filters.ContainsKey("secretaryId"))
+            {
+                int.TryParse(parms.Filters["secretaryId"], out secretaryId);
+            }
+
+            var isStudent = AuthorizationHelper.IsStudent(Context, userId);
+            var isLecturer = AuthorizationHelper.IsLecturer(Context, userId);
+
+            if (isStudent)
+            {
+                userId = Context.Users.Where(x => x.Id == userId)
+                     .Select(x => x.Student.AssignedCourseProjects.FirstOrDefault().CourseProject.LecturerId)
+                     .Single() ?? 0;
+            }
+
+                //var isStudent = AuthorizationHelper.IsStudent(Context, userId);
+                //var isLecturer = AuthorizationHelper.IsLecturer(Context, userId);
+                //var isLecturerSecretary = isLecturer && Context.Lecturers.Single(x => x.Id == userId).IsSecretary;
+                //secretaryId = isLecturerSecretary ? userId : secretaryId;
+                //if (isStudent)
+                //{
+                //    if (getBySecretaryForStudent)
+                //    {
+                //        secretaryId = Context.Users.Where(x => x.Id == userId).Select(x => x.Student.Group.SecretaryId).Single() ?? 0;
+                //    }
+                //    else
+                //    {
+                //        userId = Context.Users.Where(x => x.Id == userId)
+                //                .Select(x => x.Student.AssignedCourseProjects.FirstOrDefault().CourseProject.LecturerId)
+                //                .Single() ?? 0;
+                //    }
+                //}
+
+                if (string.IsNullOrWhiteSpace(parms.SortExpression) || parms.SortExpression == "Id")
+                {
+                    parms.SortExpression = "Name";
+                }
+
+            var query = Context.Students
+                .Where(x => x.GroupId == groupId)
+                .Where(x => x.AssignedCourseProjects.Any(a => a.CourseProject.SubjectId == subjectId))
+                .Where(x => x.AssignedCourseProjects.Any(a => a.CourseProject.LecturerId == userId));
+            return (from s in query
+                    let lecturer = s.AssignedCourseProjects.FirstOrDefault().CourseProject.Lecturer
+                    select new StudentData
+                    {
+                        Id = s.Id,
+                        Name = s.LastName + " " + s.FirstName + " " + s.MiddleName, //todo
+                        Mark = s.AssignedCourseProjects.FirstOrDefault().Mark,
+                        AssignedCourseProjectId = s.AssignedCourseProjects.FirstOrDefault().Id,
+                        Lecturer = lecturer.LastName + " " + lecturer.FirstName + " " + lecturer.MiddleName, //todo
+                        Group = s.AssignedCourseProjects.FirstOrDefault().CourseProject.Theme,
+                        PercentageResults = s.CoursePercentagesResults.Select(pr => new PercentageResultData
+                        {
+                            Id = pr.Id,
+                            PercentageGraphId = pr.CoursePercentagesGraphId,
+                            StudentId = pr.StudentId,
+                            Mark = pr.Mark,
+                            Comment = pr.Comments
+                        }),
+                        CourseProjectConsultationMarks = s.CourseProjectConsultationMarks.Select(cm => new CourseProjectConsultationMarkData
+                        {
+                            Id = cm.Id,
+                            ConsultationDateId = cm.ConsultationDateId,
+                            StudentId = cm.StudentId,
+                            Mark = cm.Mark,
+                            Comments = cm.Comments
+                        })
+                    }).ApplyPaging(parms);
+            //var query = Context.Students
+            //    .Where(x => isLecturerSecretary || (isStudent && getBySecretaryForStudent) || x.AssignedCourseProjects.Any(asd => asd.CourseProject.LecturerId == userId && asd.CourseProject.SubjectId == subjectId))
+            //    .Where(x => secretaryId == 0 || x.Group.SecretaryId == secretaryId)
+            //    .Where(x=>x.GroupId == groupId)
+            //    .Where(x => x.AssignedCourseProjects.Any(a => a.CourseProject.SubjectId == subjectId));
+            //return (from s in query
+            //        let lecturer = s.AssignedCourseProjects.FirstOrDefault().CourseProject.Lecturer
+            //        select new StudentData
+            //        {
+            //            Id = s.Id,
+            //            Name = s.LastName + " " + s.FirstName + " " + s.MiddleName, //todo
+            //            Mark = s.AssignedCourseProjects.FirstOrDefault().Mark,
+            //            AssignedCourseProjectId = s.AssignedCourseProjects.FirstOrDefault().Id,
+            //            Lecturer = lecturer.LastName + " " + lecturer.FirstName + " " + lecturer.MiddleName, //todo
+            //            Group = s.AssignedCourseProjects.FirstOrDefault().CourseProject.Theme,
+            //            PercentageResults = s.CoursePercentagesResults.Select(pr => new PercentageResultData
+            //            {
+            //                Id = pr.Id,
+            //                PercentageGraphId = pr.CoursePercentagesGraphId,
+            //                StudentId = pr.StudentId,
+            //                Mark = pr.Mark,
+            //                Comment = pr.Comments
+            //            }),
+            //            CourseProjectConsultationMarks = s.CourseProjectConsultationMarks.Select(cm => new CourseProjectConsultationMarkData
+            //            {
+            //                Id = cm.Id,
+            //                ConsultationDateId = cm.ConsultationDateId,
+            //                StudentId = cm.StudentId,
+            //                Mark = cm.Mark,
+            //                Comments = cm.Comments
+            //            })
+            //        }).ApplyPaging(parms);
+        }
+
         public void SetStudentDiplomMark(int lecturerId, int assignedProjectId, int mark)
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, lecturerId);

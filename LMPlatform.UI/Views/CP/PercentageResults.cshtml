@@ -1,30 +1,41 @@
-﻿<div>
-    <div loading-container="tableParams.settings().$loading">
+﻿<div style="width:100%">
+    <div style="margin-bottom: 20px;width:100%;height:100%">
+        <ui-select on-select="selectGroups($item.Id)" ng-model="group.Id" theme="bootstrap">
+            <ui-select-match placeholder="Выберите группу">{{$select.selected.Name}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in groups | filter: $select.search">
+                <div>{{item.Name}}</div>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+</div>
+
+<div>
+    <div style="height: 500px" loading-container="tableParams.settings().$loading">
         <table ng-show="user.IsLecturer || user.IsStudent" ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <thead>
                 <tr>
                     <th width="1%">№</th>
-                    <th width="70%" ng-show="user.IsLecturer || user.IsStudent" class="sortable" ng-class="{
+                    <th width="40%" ng-show="user.IsLecturer || user.IsStudent" class="sortable" ng-class="{
                         'sort-asc': tableParams.isSortBy('Name', 'asc'),
                         'sort-desc': tableParams.isSortBy('Name', 'desc')
                         }"
                         ng-click="tableParams.sorting({'Name' : tableParams.isSortBy('Name', 'asc') ? 'desc' : 'asc'})">
                         <div>Студент</div>
                     </th>
-                    <th width="5%" ng-show="user.IsLecturer" class="sortable" ng-class="{
+                    <th width="40%" ng-show="user.IsLecturer" class="sortable" ng-class="{
                         'sort-asc': tableParams.isSortBy('Group', 'asc'),
                         'sort-desc': tableParams.isSortBy('Group', 'desc')
                         }"
                         ng-click="tableParams.sorting({'Group' : tableParams.isSortBy('Group', 'asc') ? 'desc' : 'asc'})">
-                        <div>Группа</div>
+                        <div>Тема курсового проекта (работы)</div>
                     </th>
-                    <th width="5%" ng-show="user.IsLecturer" class="sortable" ng-class="{
+                    @*<th width="5%" ng-show="user.IsLecturer" class="sortable" ng-class="{
                         'sort-asc': tableParams.isSortBy('Lecturer', 'asc'),
                         'sort-desc': tableParams.isSortBy('Lecturer', 'desc')
                         }"
                         ng-click="tableParams.sorting({'Lecturer' : tableParams.isSortBy('Lecturer', 'asc') ? 'desc' : 'asc'})">
                         <div>Руководитель</div>
-                    </th>
+                    </th>*@
                     <th width="5%" ng-repeat="percentage in percentages">{{formatDate(parseDate(percentage.Date), "dd/mm")}}</th>
                     <th width="5%">Оценка</th>
                 </tr>
@@ -32,9 +43,9 @@
             <tbody>
                 <tr ng-repeat="student in $data">
                     <td style="width:1%;text-align: left;">{{$index+1}}</td>
-                    <td width="70%" style="text-align: left;">{{student.Name}}</td>
-                    <td ng-show="user.IsLecturer" width="5%" style="text-align: left;">{{student.Group}}</td>
-                    <td ng-show="user.IsLecturer" width="5%" style="text-align: left;">{{student.Lecturer}}</td>
+                    <td width="40%" style="text-align: left;">{{student.Name}}</td>
+                    <td  width="40%" style="text-align: left;">{{student.Group}}</td>
+                    @*<td ng-show="user.IsLecturer" width="5%" style="text-align: left;">{{student.Lecturer}}</td>*@
                     <td ng-repeat="percentage in percentages" width="5%" style="text-align: center;">
                         <a ng-show="user.IsLecturer" editable-text="getPercentageResult(student, percentage.Id).Mark" href="#"
                            onbeforesave="savePercentageResult(getPercentageResult(student, percentage.Id), $data)">
