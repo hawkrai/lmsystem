@@ -18,9 +18,16 @@ namespace LMPlatform.UI.ApiControllers.CP
             {
                 subjectId = int.Parse(parms.Filters["subjectId"]);
             }
+
+            var groupId = 0;
+            if (parms.Filters.ContainsKey("groupId"))
+            {
+                groupId = int.Parse(parms.Filters["groupId"]);
+            }
+
             return new
             {
-                Students = CpManagementService.GetGraduateStudentsForUser(WebSecurity.CurrentUserId, subjectId, parms),
+                Students = CpManagementService.GetGraduateStudentsForGroup(WebSecurity.CurrentUserId, groupId, subjectId, parms, false),
                 PercentageGraphs = PercentageService.GetPercentageGraphsForLecturerAll(WebSecurity.CurrentUserId, parms)
             };
         }
