@@ -51,9 +51,6 @@
                             <div text-angular ng-model="editNewsData.Body" name="editor" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
                         </div>
                     </div>
-                    <div style="width: 60%">
-                        @Html.Partial("Common/_FilesUploader", new List<LMPlatform.Models.Attachment>())
-                    </div>
                     <div>
                         <input type="checkbox" id="newsIsOLd" ng-model="editNewsData.IsOldDate" /><span> Оставить старую дату объявления</span>
                     </div>
