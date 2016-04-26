@@ -7,8 +7,8 @@
     <label class="control-label">Текст вопроса:</label>
     <input type="text" required data-ng-model="question.Title" placeholder="Текст вопроса" class="form-control input-sm">
     <label for="taskArea" class="сontrol-label">Задание к вопросу:</label>
-    <textarea data-ng-model="question.Description" class="form-control input-sm" rows="2" id="taskArea"></textarea>
-        
+    <!--<textarea data-ng-model="question.Description" class="form-control input-sm" rows="2" id="taskArea"></textarea>-->
+        <ng-ckeditor bind="question.Description" skin="moono" remove-plugins="iframe,flash,smiley"></ng-ckeditor>
     <div class="row">
         <div class="col-lg-2" style="margin-top: 10px;">Ответы</div>
         <div class="col-lg-10"> <hr /></div>

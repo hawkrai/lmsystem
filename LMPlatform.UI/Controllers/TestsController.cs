@@ -16,14 +16,68 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
+    using System.Configuration;
+    using System.IO;
+    using System.Web;
+
     [Authorize(Roles = "lector")]
     public class TestsController : BasicController
     {
+        public string TestContentPath
+        {
+            get { return ConfigurationManager.AppSettings["TestContentPath"]; }
+        }
+
         [Authorize, HttpGet]
         public ActionResult KnowledgeTesting(int subjectId)
         {
             Subject subject = SubjectsManagementService.GetSubject(subjectId);
             return View("KnowledgeTesting", subject);
+        }
+
+        [HttpPost]
+        public JsonResult UploadFile(HttpPostedFileBase file)
+        {
+            try
+            {
+                byte[] fileContent = null;
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(memoryStream);
+                    fileContent = memoryStream.ToArray();
+                }
+                var fileName = TestContentPath + Guid.NewGuid().ToString("N") + System.IO.Path.GetExtension(file.FileName);
+
+                System.IO.File.WriteAllBytes(fileName, fileContent);
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                return Json(new { ErrorMessage = e.Message });
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GetFiles()
+        {
+            try
+            {
+                var url = Request.Url.Authority;
+
+                var dirs = Directory.GetFiles(TestContentPath);
+
+                return Json(dirs.Select(e => new
+                                                 {
+                                                     Url = "http://" + url + "/UploadedTestFiles/" + System.IO.Path.GetFileName(e)
+                                                 }).ToList(), JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { ErrorMessage = e.Message });
+            }
         }
 
         public JsonResult GetTests(int? subjectId)

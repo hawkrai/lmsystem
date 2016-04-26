@@ -1,0 +1,179 @@
+﻿<form class="navbar-form pull-left" role="search" style="width: 45%; margin-top: 5px" method="GET" action="@Url.Action("Index", "Search")">
+    <div class="typeahead-container">
+        <div class="typeahead-field">
+
+            <span class="typeahead-query">
+                <input name="query" id="searchBox" type="search" placeholder="Поиск студентов, преподавателей, проектов и групп" autocomplete="off">
+            </span>
+            <span class="typeahead-button">
+                <button type="submit" id="searchButton">
+                    <i class="typeahead-search-icon"></i>
+                </button>
+            </span>
+
+        </div>
+    </div>
+</form>
+
+<script>
+    $('#searchBox').typeahead({
+        minLength: 2,
+        order: "asc",
+        dynamic: true,
+        delay: 500,
+        maxItem: 20,
+        maxItemPerGroup: 8,
+        backdrop: {
+            "background-color": "#fff"
+        },
+        source: {
+            group: {
+                display: "Name",
+                href: "/Parental/Index/{{Name}}#/Statistics",
+                url: [{
+                    type: "GET",
+                    url: '/Services/Search/SearchService.svc/SearchGroups',
+                    data: {
+                        text: "{{query}}"
+                    }
+                }, "data.group"],
+                template:
+                    '<table>' +
+                        '<tr>' +
+                        '<td class="group-line"><small>Группа </small></td>' +
+                        '<td class="result-description"><span class="description"> {{Name}}</span></td>' +
+                        '</tr>' +
+                        '</table>'
+            },
+            student: {
+                display: ["FullName", "Email", "GroupId"],
+                href: "/Lms/{{Email}}",
+                url: [{
+                    type: "GET",
+                    url: '/Services/Search/SearchService.svc/SearchStudents',                    
+                    data: {
+                        text: "{{query}}"
+                    }
+               }, "data.student"],
+                template:
+                    '<table>' +
+                        '<tr>' +
+                        '<td class="student-line"><small>Студент</small></td>' +
+                        '<td class="result-description"><span class="description"> {{FullName}}</span></td>' +
+                        '</tr>' +
+                        '</table>'
+            },
+            project: {
+                display: "Title",
+                href: "/BTS/ProjectManagement/{{Id}}",
+                url: [{
+                    type: "GET",
+                    url: '/Services/Search/SearchService.svc/SearchProjects',
+                    data: {
+                        text: "{{query}}"
+                    }
+                }, "data.project"],
+                template:
+                    '<table>' +
+                        '<tr>' +
+                        '<td class="project-line"><small>Проект</small></td>' +
+                        '<td class="result-description"><span class="description"> {{Title}}</span></td>' +
+                        '</tr>' +
+                        '</table>'
+            },            
+            lecturer: {
+                display: ["FullName", "Skill"],
+                href: "/Lms/{{Skill}}",
+                url: [{
+                    type: "GET",
+                    url: '/Services/Search/SearchService.svc/SearchLecturers',
+                    data: {
+                        text: "{{query}}"
+                    }
+                }, "data.lecturer"],
+                template:
+                    '<table>' +
+                        '<tr>' +
+                        '<td class="lecturer-line"><small>Лектор </small></td>' +
+                        '<td class="result-description"><span class="description"> {{FullName}}</span></td>' +
+                        '</tr>' +
+                        '</table>'
+            }
+        },
+        debug: true
+    });
+
+    var _options = {
+        input: null,
+        minLength: 2,           // Modified feature, now accepts 0 to search on focus
+        maxItem: 8,             // Modified feature, now accepts 0 as "Infinity" meaning all the results will be displayed
+        dynamic: false,
+        delay: 300,
+        order: null,            // ONLY sorts the first "display" key
+        offset: false,
+        hint: false,            // -> Improved feature, Added support for excessive "space" characters
+        accent: false,          // -> Improved feature, define a custom replacement object
+        highlight: true,        // -> Added "any" to highlight any word in the template, by default true will only highlight display keys
+        group: false,           // -> Improved feature, Array second index is a custom group title (html allowed)
+        groupOrder: null,       // -> New feature, order groups "asc", "desc", Array, Function
+        maxItemPerGroup: 5,  // -> Renamed option
+        dropdownFilter: false,  // -> Renamed option, true will take group options string will filter on object key
+        dynamicFilter: null,    // -> New feature, filter the typeahead results based on dynamic value, Ex: Players based on TeamID
+        backdrop: false,
+        backdropOnFocus: false, // -> New feature, display the backdrop option as the Typeahead input is :focused
+        cache: false,           // -> Improved option, true OR 'localStorage' OR 'sessionStorage'
+        ttl: 3600000,
+        compression: false,     // -> Requires LZString library
+        suggestion: false,      // -> *Coming soon* New feature, save last searches and display suggestion on matched characters
+        searchOnFocus: false,   // -> New feature, display search results on input focus
+        resultContainer: null,  // -> New feature, list the results inside any container string or jQuery object
+        generateOnLoad: null,   // -> New feature, forces the source to be generated on page load even if the input is not focused!
+        mustSelectItem: false,  // -> New option, the submit function only gets called if an item is selected
+        href: null,             // -> New feature, String or Function to format the url for right-click & open in new tab on link results
+        display: ["display"],   // -> Improved feature, allows search in multiple item keys ["display1", "display2"]
+        template: null,
+        correlativeTemplate: false, // -> New feature, compile display keys, enables multiple key search from the template string
+        emptyTemplate: false,   // -> New feature, display an empty template if no result
+        filter: true,           // -> New feature, set to false or function to bypass Typeahead filtering. WARNING: accent, correlativeTemplate, offset & matcher will not be interpreted
+        matcher: null,          // -> New feature, add an extra filtering function after the typeahead functions
+        source: null,           // -> Modified feature, source.ignore is now a regex; item.group is a reserved word; Ajax callbacks: done, fail, complete, always
+        callback: {
+            onInit: null,
+            onReady: null,              // -> New callback, when the Typeahead initial preparation is completed
+            onShowLayout: null,         // -> New callback, called when the layout is shown
+            onHideLayout: null,         // -> New callback, called when the layout is hidden
+            onSearch: null,             // -> New callback, when data is being fetched & analyzed to give search results
+            onResult: null,
+            onLayoutBuiltBefore: null,  // -> New callback, when the result HTML is build, modify it before it get showed
+            onLayoutBuiltAfter: null,   // -> New callback, modify the dom right after the results gets inserted in the result container
+            onNavigateBefore: null,     // -> New callback, when a key is pressed to navigate the results
+            onNavigateAfter: null,      // -> New callback, when a key is pressed to navigate the results
+            onMouseEnter: null,
+            onMouseLeave: null,
+            onClickBefore: null,        // -> Improved feature, possibility to e.preventDefault() to prevent the Typeahead behaviors
+            onClickAfter: null,         // -> New feature, happens after the default clicked behaviors has been executed
+            onSendRequest: null,        // -> New callback, gets called when the Ajax request(s) are sent
+            onReceiveRequest: null,     // -> New callback, gets called when the Ajax request(s) are all received
+            onSubmit: null
+        },
+        selector: {
+            container: "typeahead-container",
+            result: "typeahead-result",
+            list: "typeahead-list",
+            group: "typeahead-group",
+            item: "typeahead-item",
+            empty: "typeahead-empty",
+            display: "typeahead-display",
+            query: "typeahead-query",
+            filter: "typeahead-filter",
+            filterButton: "typeahead-filter-button",
+            filterValue: "typeahead-filter-value",
+            dropdown: "typeahead-dropdown",
+            dropdownCaret: "typeahead-caret",
+            button: "typeahead-button",
+            backdrop: "typeahead-backdrop",
+            hint: "typeahead-hint"
+        },
+        debug: false
+    };
+</script>

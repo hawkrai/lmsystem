@@ -89,9 +89,9 @@ namespace LMPlatform.UI.Controllers
                 {
 					var repository = new RepositoryBase<LmPlatformModelsContext, AccessCode>(new LmPlatformModelsContext());
 
-					var code = repository.GetAll().OrderBy(e => e.Id).FirstOrDefault();
+					var code = repository.GetAll().OrderBy(e => e.Id).ToList().LastOrDefault();
 
-	                if (code.Number == model.Code)
+	                if (code.Number.ToLower() != model.Code.ToLower())
 	                {
 		                throw new Exception("Неверный код доступа");
 	                }

@@ -12,6 +12,8 @@
             $scope.setTitle("Статистика посещения консультаций");
 
             $scope.forms = {};
+            $scope.groups = [];
+            $scope.group = { Id: null };
 
             function getParameterByName(name) {
                 name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -19,9 +21,16 @@
                     results = regex.exec(location.search);
                 return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
             }
-
-
             var subjectId = getParameterByName("subjectId");
+
+            projectService
+                .getGroups(subjectId)
+                .success(function (data) {
+                     $scope.groups = data;
+            });
+
+
+            
 
             var dpConsultations = $resource('api/CourseProjectConsultation');
             var dpConsultationDates = $resource('api/CourseProjectConsultationDate');
@@ -154,6 +163,13 @@
                     }
                 });
 
+            $scope.selectGroups = function (id) {
+                if (id) {
+                    $scope.selectedGroupId = id;
+                    $scope.tableParams.reload();
+                }
+              
+            };
 
             
             $scope.tableParams = new ngTableParams(
@@ -167,6 +183,7 @@
                         dpConsultations.get(angular.extend(params.url(), {
                             filter:
                             {
+                                groupId: $scope.selectedGroupId,
                                 subjectId: subjectId,
                                 lecturerId: $scope.selectedLecturerId
                             }}),

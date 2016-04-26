@@ -106,7 +106,7 @@ angular
                     });
                 }
                 // Sort the tree initially incase the JSON isn't in a sorted order.
-                sortTree();
+                //sortTree();
 
                 // TODO: Pan function, can be better implemented.
 

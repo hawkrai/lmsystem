@@ -1,0 +1,22 @@
+﻿<div class="modal-header">
+    <a class="close" data-ng-click="closeDialog()">&times;</a>
+    <h4>Ресурсы</h4>
+</div>
+<div class="modal-body">
+    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;margin-bottom: 10px">
+        <table class="table table-bordered">
+            <tr data-ng-repeat="content in contents">
+                <td>
+                    <img src="{{content.Url}}" style="width: 100px;" />
+                </td>
+                <td style="text-align: center; vertical-align: middle">{{content.Url}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="upload-test-content">
+        <button class="btn btn-primary btn-sm" ng-click="uploadContent()">Добавить файл</button>
+        <input class="fileupload" type="file" name="uploadContent" multiple="" onchange="angular.element(this).scope().fileNameChanged()" />
+    </div>
+</div>
+

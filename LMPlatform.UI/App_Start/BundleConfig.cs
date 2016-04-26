@@ -76,6 +76,11 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/chosen/chosen.jquery.js",
                 "~/Scripts/chosen/ajax-chosen.js"));
 
+            bundles.Add(new StyleBundle("~/Content/typeahead").Include(
+                "~/Content/jquery.typeahead.css"));
+            bundles.Add(new ScriptBundle("~/bundles/typeahead").Include(
+                "~/Scripts/jquery.typeahead.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -144,6 +149,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/ComplexMaterials/controllers/mapController.js",
                 "~/Scripts/application/ComplexMaterials/complexMaterialsApp.js",
                 "~/Scripts/application/ComplexMaterials/services/complexMaterialsDataService.js",
+                "~/Scripts/application/ComplexMaterials/services/navigationService.js",
                 "~/Scripts/tinymce/tinymce.min.js",
                 "~/Scripts/pdfjs/compatibility.js",
                 "~/Scripts/pdfjs/l10n.js",
@@ -168,6 +174,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/resultsController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/contentController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/controlController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/testUnlocksController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/questionDetailsController.js",

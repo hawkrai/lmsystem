@@ -4,273 +4,351 @@
 @model LMPlatform.UI.ViewModels.LmsViewModels.LmsViewModel
 
 @{
-	ViewBag.Title = "Система управления учебным процессом";
+    ViewBag.Title = "Система управления учебным процессом";
 }
 
 @section css
 {
-	@Styles.Render("~/Content/bootstrapcontrols")
-    <link rel="stylesheet" href="~/Content/jquery.circliful.css" type="text/css"/>
+    @Styles.Render("~/Content/bootstrapcontrols")
+    <link rel="stylesheet" href="~/Content/jquery.circliful.css" type="text/css" />
     @*    <link rel="stylesheet" href="~/Content/jquery-ui.min.css" type="text/css"/>
-    <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.css" type="text/css"/>
-    <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.print.css" type="text/css"/>*@
+        <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.css" type="text/css"/>
+        <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.print.css" type="text/css"/>*@
     @*<link href="~/Scripts/bootstrap-combined.min.css" rel="stylesheet" />*@
-	<link href="~/Content/fullcalendar/fullcalendar.css" rel="stylesheet" />
-		<link href="~/Content/fullcalendar/fullcalendar.print.css" rel="stylesheet" />
+    <link href="~/Content/fullcalendar/fullcalendar.css" rel="stylesheet" />
+    @*<link href="~/Content/fullcalendar/fullcalendar.print.css" rel="stylesheet" />*@
 }
 @section scripts
 {
-	@Scripts.Render("~/bundles/bootstrapcontrols")
-	<script src="/Scripts/locales/bootstrap-datepicker.ru.js"></script>
-	<script src="~/Scripts/jqplot/jquery.jqplot.min.js" type="text/javascript"></script>
-	<script src="~/Scripts/jqplot/jqplot.pieRenderer.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.barRenderer.min.js"></script>
-	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
-	<script type="text/javascript" src="~/Scripts/jqplot/jqplot.pointLabels.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrapcontrols")
+    <script src="/Scripts/locales/bootstrap-datepicker.ru.js"></script>
+    <script src="~/Scripts/jqplot/jquery.jqplot.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jqplot/jqplot.pieRenderer.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/Scripts/jqplot/jqplot.barRenderer.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jqplot/jqplot.pointLabels.min.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.circliful.js"></script>
-
     <script type="text/javascript" src="~/Scripts/fullcalendar/jquery-ui.min.js"></script>
     <script type="text/javascript" src="~/Scripts/fullcalendar/moment.min.js"></script>
-    
-    <script  src="~/Scripts/fullcalendar/fullcalendar.js"></script>
+    <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
     <script type="text/javascript" src="~/Scripts/application/userProfile/appUserProfile.js"></script>
 }
 
 @section headerTitle{
-	<h1>
-		Система управления учебным процессом
-		<small>Главная страница</small>
-	</h1>
+
+    @if (User.IsInRole("lector"))
+    {
+        <h1 style="float: left;">
+            Система управления учебным процессом
+            <small>Главная страница</small>
+        </h1>
+
+        <div style="text-align: right;">
+            <input type="button" class="btn btn-sm btn-default" value="Код доступа" style="width: 110px;" data-toggle="modal" data-target="#myModal">
+        </div>
+    }
+    else
+    {
+        <h1>
+            Система управления учебным процессом
+            <small>Главная страница</small>
+        </h1>
+    }
 }
 
 @section navleft
 {
-
-	<li class="treeview">
-		<a href="#">
-			<i class="fa fa-folder-open-o fa-tab"></i>
-			<span>Предметы</span>
-			<i class="fa fa-angle-left pull-right"></i>
-		</a>
-		<ul class="treeview-menu">
-			@foreach (var subject in Model.Subjects)
-			{
-				<li><a title="@subject.DisplayName" href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
-			}
-			<li class="divider"></li>
-			@if (User.IsInRole("lector"))
-			{
-				<hr style="margin: 0">
-				<li><a href="@Url.Action("Management", "Subject")" style="margin-left: 5px;padding: 15px;" class="linkNavbarLevelBelow">Управление предметами</a></li>
-			}
-		</ul>
-	</li>
-
-	<li class="treeview">
-		<a href="#">
-			<i class="fa fa-folder-open-o fa-tab"></i>
-			<span>Тестирование знаний</span>
-			<i class="fa fa-angle-left pull-right"></i>
-		</a>
-		<ul class="treeview-menu">
-			@foreach (var subject in Model.Subjects)
-			{
-				var url = User.IsInRole("lector")
-					? Url.Action("KnowledgeTesting", "Tests", new { subjectId = subject.SubjectId })
-					: Url.Action("StudentsTesting", "TestPassing", new { subjectId = subject.SubjectId });
-
-				<li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
-			}
-		</ul>
-	</li>
-    @if (User.IsInRole("lector"))
-    {
-        <li><a href="@Url.Action("Index", "ComplexMaterial")"><i class="fa fa-bell fa-tab"></i>ЭУМК</a></li>
-    }
-
-	<li class="treeview">
-		<a href="#">
-			<i class="fa fa-book fa-tab"></i>
-			<span>Методические <br /> материалы</span>
-			<i class="fa fa-angle-left pull-right"></i>
-		</a>
-		<ul class="treeview-menu">
-			@foreach (var subject in Model.Subjects)
-			{
-				var url = Url.Action("Index", "Materials", new { subjectId = subject.SubjectId });
-
-				<li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
-			}
-		</ul>
-	</li>
-
     <li class="treeview">
-    <a href="#">
-        <i class="fa fa-folder-open-o fa-tab"></i>
-        <span>Курсовые проекты (работы)</span>
-        <i class="fa fa-angle-left pull-right"></i>
-    </a>
-    <ul class="treeview-menu">
-        @foreach (var subject in Model.Subjects)
-        {
-            var url = Url.Action("Index", "CP", new { subjectId = subject.SubjectId });
-            <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
-        }
-    </ul>
+        <a href="#">
+            <i class="fa fa-folder-open-o fa-tab"></i>
+            <span>Предметы</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            @foreach (var subject in Model.Subjects)
+            {
+                <li><a title="@subject.DisplayName" href="@Url.Action("Index", "Subject", new { subjectId = subject.SubjectId })" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
+            }
+            <li class="divider"></li>
+            @if (User.IsInRole("lector"))
+            {
+                <hr style="margin: 0">
+                <li><a href="@Url.Action("Management", "Subject")" style="margin-left: 5px;padding: 15px;" class="linkNavbarLevelBelow">Управление предметами</a></li>
+            }
+        </ul>
     </li>
 
-	<li><a href="@Url.Action("Index", "BTS")"><i class="fa fa-desktop fa-tab"></i>Управление проектами</a></li>
-	
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-folder-open-o fa-tab"></i>
+            <span>Тестирование знаний</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            @foreach (var subject in Model.Subjects)
+            {
+                var url = User.IsInRole("lector")
+                    ? Url.Action("KnowledgeTesting", "Tests", new { subjectId = subject.SubjectId })
+                    : Url.Action("StudentsTesting", "TestPassing", new { subjectId = subject.SubjectId });
+
+                <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
+            }
+        </ul>
+    </li>
+    @if (User.IsInRole("lector"))
+    {
+
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-folder-open-o fa-tab"></i>
+                <span>ЭУМК</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                @foreach (var mat in Model.ComplexSubjects)
+                {
+                    var url = Url.Action("Index", "ComplexMaterial", new { subjectId = mat.SubjectId });
+
+                    <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @mat.DisplayName</a></li>
+                }
+            </ul>
+        </li>
+    }
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-folder-open-o fa-tab"></i>
+            <span>Методические <br /> материалы</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            @foreach (var subject in Model.Subjects)
+            {
+                var url = Url.Action("Index", "Materials", new { subjectId = subject.SubjectId });
+
+                <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
+            }
+        </ul>
+    </li>
+
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-folder-open-o fa-tab"></i>
+                <span>Курсовые проекты (работы)</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+         @foreach (var subject in Model.Subjects)
+            {
+             var url = Url.Action("Index", "CP", new { subjectId = subject.SubjectId });
+                <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
+            }
+        </ul>
+    </li>
+
+    <li><a href="@Url.Action("Index", "BTS")"><i class="fa fa-desktop fa-tab"></i>Управление проектами</a></li>
     @if (ViewBag.ShowDpSectionForUser)
-	{
-		<li><a href="@Url.Action("Index", "DP")"><i class="fa fa-briefcase fa-tab"></i>Дипломное проектирование</a></li>
-	}
-	<li><a href="@Url.Action("Index", "ScormMod")"><i class="fa fa-archive fa-tab"></i>SCORM</a></li>
+    {
+        <li><a href="@Url.Action("Index", "DP")"><i class="fa fa-briefcase fa-tab"></i>Дипломное проектирование</a></li>
+    }
+    <li><a href="@Url.Action("Index", "ScormMod")"><i class="fa fa-archive fa-tab"></i>SCORM</a></li>
 }
 
 <div ng-app="appUserProfile" ng-controller="ProfileController" ng-init="init('@ViewData["userLogin"]', '@ViewData["isMyProfile"].ToString().ToLower()' )">
-	@{
-		Html.RenderPartial("../Lms/ProfilePage");
-	}
+    @{
+        Html.RenderPartial("../Lms/ProfilePage");
+    }
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Код доступа</h4>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 15px">
+                    <h1 class="a-code"></h1>
+                </div>
+                <div style="text-align: center">
+                    <button type="button" id="generateCode" class="btn btn-primary">Генерация</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myModal').on('shown.bs.modal', function() {
+
+        $.ajax({
+            type: 'GET',
+            url: "/Profile/GetAccessCode",
+            dataType: "json",
+            contentType: "application/json"
+
+        }).success(function (data, status) {
+            $(".a-code").text(data);
+        });
+
+    });
+
+    $("#generateCode").on("click", function() {
+        $.ajax({
+            type: 'GET',
+            url: "/Profile/GenerateCode",
+            dataType: "json",
+            contentType: "application/json"
+
+        }).success(function (data, status) {
+            $(".a-code").text(data);
+        });
+    });
+</script>
+
+
 
 
 <style>
-	.jqplot-table-legend-swatch {
-		width: 20px;
-		height: 15px;
-		margin-right: 5px;
-	}
+    .jqplot-table-legend-swatch {
+        width: 20px;
+        height: 15px;
+        margin-right: 5px;
+    }
 </style>
 @*<div style="margin: 10px">
 
-		<div style="display: inline-block">
-			<div class="col-md-12">
-				<div class="col-md-6">
-					<h4>Активность пользователей</h4>
-					<span>Показывает процентное соотношение пользователей, осуществиших свой последний вход в систему в последние сутки, от суток до недели  и тд., от общего числа пользователей</span>
-				</div>
-				<div class="col-md-6" style="border-left: 1px #dddddd solid;">
-					<h5>Всего пользователей: @Model.UserActivity.TotalUsersCount</h5>
-					<h5>Зарегистрировано студентов: @Model.UserActivity.TotalStudentsCount</h5>
-					<h5>Зарегистрировано преподавателей: @Model.UserActivity.TotalLecturersCount</h5>
-					<h5>Сервисных аккаунтов: @Model.UserActivity.ServiceAccountsCount</h5>
-				</div>
-			</div>
-			<div class="col-md-12" style="margin-top: 40px;">
-				<div id="chart1" style="width: 600px; height: 350px; display: inline-block;"></div>
-			</div>
-		</div>
+        <div style="display: inline-block">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <h4>Активность пользователей</h4>
+                    <span>Показывает процентное соотношение пользователей, осуществиших свой последний вход в систему в последние сутки, от суток до недели  и тд., от общего числа пользователей</span>
+                </div>
+                <div class="col-md-6" style="border-left: 1px #dddddd solid;">
+                    <h5>Всего пользователей: @Model.UserActivity.TotalUsersCount</h5>
+                    <h5>Зарегистрировано студентов: @Model.UserActivity.TotalStudentsCount</h5>
+                    <h5>Зарегистрировано преподавателей: @Model.UserActivity.TotalLecturersCount</h5>
+                    <h5>Сервисных аккаунтов: @Model.UserActivity.ServiceAccountsCount</h5>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top: 40px;">
+                <div id="chart1" style="width: 600px; height: 350px; display: inline-block;"></div>
+            </div>
+        </div>
 
-		<div style="display: inline-block">
-			<div class="col-md-12">
-				<div class="col-md-6">
-					<h4>Информация по предметам системы</h4>
-					<span>Показывает полное количество предметов и количество предметов связанных с текущим пользователем</span>
-				</div>
-				@if (User.IsInRole("lector"))
-				{
-					<div class="col-md-6" style="border-left: 1px #dddddd solid;">
-						<h4>Информация по студентам</h4>
-						<span>Показывает полное количество студентов и количество студентов обучаемых текущим пользователем</span>
-					</div>
-				}
-			</div>
-			<div class="col-md-12" style="margin-top: 40px;">
-				<div class="col-md-6">
-					<div id="chartBar" class="jqplot-target" style="height: 500px; max-width: 400px; position: relative;">
-					</div>
-				</div>
-				@if (User.IsInRole("lector"))
-				{
-					<div class="col-md-6">
-						<div id="chartBarStudents" class="jqplot-target" style="height: 500px; max-width: 400px; position: relative;">
-						</div>
-					</div>
-				}
-			</div>
-		</div>
-	</div>
-	<style>
-		.jqplot-yaxis {
-			margin-right: 10px;
-		}
-	</style>
-	<script type="text/javascript">
-		$(document).ready(function () {
+        <div style="display: inline-block">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <h4>Информация по предметам системы</h4>
+                    <span>Показывает полное количество предметов и количество предметов связанных с текущим пользователем</span>
+                </div>
+                @if (User.IsInRole("lector"))
+                {
+                    <div class="col-md-6" style="border-left: 1px #dddddd solid;">
+                        <h4>Информация по студентам</h4>
+                        <span>Показывает полное количество студентов и количество студентов обучаемых текущим пользователем</span>
+                    </div>
+                }
+            </div>
+            <div class="col-md-12" style="margin-top: 40px;">
+                <div class="col-md-6">
+                    <div id="chartBar" class="jqplot-target" style="height: 500px; max-width: 400px; position: relative;">
+                    </div>
+                </div>
+                @if (User.IsInRole("lector"))
+                {
+                    <div class="col-md-6">
+                        <div id="chartBarStudents" class="jqplot-target" style="height: 500px; max-width: 400px; position: relative;">
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <style>
+        .jqplot-yaxis {
+            margin-right: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-			var data = @Html.Raw(Model.UserActivity.UserActivityJson);
+            var data = @Html.Raw(Model.UserActivity.UserActivityJson);
 
-			var line = [];
-			for (var propName in data) {
-				line.push([propName, data[propName]]);
-			}
+            var line = [];
+            for (var propName in data) {
+                line.push([propName, data[propName]]);
+            }
 
-			var plot1 = jQuery.jqplot('chart1', [line],
-			  {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.PieRenderer,
-					rendererOptions: {
-						showDataLabels: true,
-						sliceMargin: -5
-					}
-				},
-				grid: {
-					drawGridLines: true,        // wether to draw lines across the grid or not.
-					gridLineColor: '#cccccc',    // *Color of the grid lines.
-					background: '#fafafa',      // CSS color spec for background color of grid.
-					borderWidth: 0,           // pixel width of border around grid.
-					shadow: false,               // draw a shadow for grid.
-					renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
-					rendererOptions: {}         // options to pass to the renderer.  Note, the default
-				},
-				legend: { show: true, location: 'e' }
-			  }
-			);
+            var plot1 = jQuery.jqplot('chart1', [line],
+              {
+                seriesDefaults: {
+                    renderer: jQuery.jqplot.PieRenderer,
+                    rendererOptions: {
+                        showDataLabels: true,
+                        sliceMargin: -5
+                    }
+                },
+                grid: {
+                    drawGridLines: true,        // wether to draw lines across the grid or not.
+                    gridLineColor: '#cccccc',    // *Color of the grid lines.
+                    background: '#fafafa',      // CSS color spec for background color of grid.
+                    borderWidth: 0,           // pixel width of border around grid.
+                    shadow: false,               // draw a shadow for grid.
+                    renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
+                    rendererOptions: {}         // options to pass to the renderer.  Note, the default
+                },
+                legend: { show: true, location: 'e' }
+              }
+            );
 
-			var lineSubject = [['Всего предметов', @Model.TotalSubject],['Мои предметы', @Model.CurrentSubjects]];
+            var lineSubject = [['Всего предметов', @Model.TotalSubject],['Мои предметы', @Model.CurrentSubjects]];
 
-			var plotBar = $('#chartBar').jqplot([lineSubject], {
-				title:'Предметы',
-				seriesColors:['#007196', '#008cba'],
-				seriesDefaults:{
-					renderer:jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						varyBarColor: true,
-						showDataLabels: true,
-						barWidth: 40,
-					}
-				},
-				axes:{
-					xaxis:{
-						renderer: $.jqplot.CategoryAxisRenderer
-					},
-					yaxis: {
-						tickOptions: {formatString: '%d'}
-					}
-				}
-			});
+            var plotBar = $('#chartBar').jqplot([lineSubject], {
+                title:'Предметы',
+                seriesColors:['#007196', '#008cba'],
+                seriesDefaults:{
+                    renderer:jQuery.jqplot.BarRenderer,
+                    rendererOptions: {
+                        varyBarColor: true,
+                        showDataLabels: true,
+                        barWidth: 40,
+                    }
+                },
+                axes:{
+                    xaxis:{
+                        renderer: $.jqplot.CategoryAxisRenderer
+                    },
+                    yaxis: {
+                        tickOptions: {formatString: '%d'}
+                    }
+                }
+            });
 
-			var lineStudents = [['Всего студентов', @Model.TotalStudents],['Мои студенты', @Model.CurrentStudents]];
+            var lineStudents = [['Всего студентов', @Model.TotalStudents],['Мои студенты', @Model.CurrentStudents]];
 
-			var plotBarStudents = $('#chartBarStudents').jqplot([lineStudents], {
-				title:'Студенты',
-				seriesColors:['#007196', '#008cba'],
-				seriesDefaults:{
-					renderer:jQuery.jqplot.BarRenderer,
-					rendererOptions: {
-						varyBarColor: true,
-						showDataLabels: true,
-						barWidth: 40
-					}
-				},
-				axes:{
-					xaxis:{
-						renderer: $.jqplot.CategoryAxisRenderer
-					}
-				}
-			});
-		});
-	</script>*@
+            var plotBarStudents = $('#chartBarStudents').jqplot([lineStudents], {
+                title:'Студенты',
+                seriesColors:['#007196', '#008cba'],
+                seriesDefaults:{
+                    renderer:jQuery.jqplot.BarRenderer,
+                    rendererOptions: {
+                        varyBarColor: true,
+                        showDataLabels: true,
+                        barWidth: 40
+                    }
+                },
+                axes:{
+                    xaxis:{
+                        renderer: $.jqplot.CategoryAxisRenderer
+                    }
+                }
+            });
+        });
+    </script>*@
 
 

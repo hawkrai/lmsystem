@@ -121,76 +121,851 @@
 	}
 </style>
 
-<div class="row" ng-cloak style="margin: 0px">
-    <div class="col-md-6">
-        <div class="page-header">Предметы</div>
-        <div class="panel-body" style="max-height: 400px; overflow-y: auto">
-            <div>
-                <span style="padding: 10px; font-size: 18px"><a href="#">Надежность ПО</a></span>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-primary" style="width: 45%">Завершенность курса 45%</div>
-                </div>
-            </div>
-            <div>
-                <span style="padding: 10px;font-size: 18px"><a href="#">Тестирование и отладка ПО</a></span>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-primary" style="width: 60%">Завершенность курса 60%</div>
-                </div>
-            </div>
-            <div>
-                <span style="padding: 10px;font-size: 18px"><a href="#">Модульное тестирование</a></span>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-primary" style="width: 30%">Завершенность курса 30%</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="page-header">Статистика</div>
-        <div class="row">
-            <div class="col-md-6" style="text-align: -webkit-center;">
-                <span style="text-transform: uppercase;font-size: 28px;">
-                    <span style="font-size: 28px; color: #888;display: inline-block;margin: 0 10px 0 15px;">Лекций:</span> 5/16
-                </span>
-            </div>
-            <div class="col-md-6" style="text-align: -webkit-center;">
-                <span style="text-transform: uppercase;font-size: 28px;">
-                    <span style="font-size: 28px; color: #888;display: inline-block;margin: 0 10px 0 15px;">Лаб. работ:</span> 6/10
-                </span>
-            </div>
-        </div>
-        <div class="row">
-                <div class="col-md-6">
-                    <div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
-                        <div id="circle_lec" class="circliful" data-dimension="250" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
-                            <span class="circle-info" style="line-height: 312.5px;">Проведенных лекций</span>
-                        </div>
-                    </div>
-                    <div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
-                        <div id="circle_lec" class="circliful" data-dimension="250" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
-                            <span class="circle-info" style="line-height: 312.5px;">Посещенных лекций</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
-                        <div id="circle_lab" class="circliful" data-dimension="250" data-text="60%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="60" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
-                            <span class="circle-info" style="line-height: 312.5px;">Проведенных ЛБ</span>
-                        </div>
-                    </div>
-                    <div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
-                        <div id="circle_lab" class="circliful" data-dimension="250" data-text="60%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="60" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
-                            <span class="circle-info" style="line-height: 312.5px;">Посещенных ЛБ</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
-    <div>
-        <div class="page-header">Календарь занятий</div>
-        <div id='calendarEvents'></div>
-    </div>
-	<div class="loading">
-		<span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
+<style>
+	/*profile-widget*/
+
+	.profile-widget {
+		color: #fff;
+		text-align: center;
+	}
+
+	/*profile-widget image bg*/
+	.profile-widget-img {
+		background: url('../img/backgrounds/bg-11-small.jpg') no-repeat !important;
+	}
+
+	.profile-nav .profile-widget-img .bg-layer {
+		background: rgba(0,0,0,0.5) !important;
+	}
+
+	.profile-widget-img .panel-body {
+		background: rgba(0,0,0,0.5) !important;
+	}
+
+	.profile-widget-img .profile-widget-foot {
+		background: rgba(0,0,0,0.8);
+	}
+
+	.profile-widget p {
+		font-weight: 300;
+		/*margin-bottom: 15px;*/
+	}
+
+	.profile-widget .twt-category {
+		display: inline-block;
+		margin-bottom: 0px;
+		margin-top: 10px;
+		width: 100%;
+		padding: 0px;
+	}
+
+		.profile-widget .twt-category ul li {
+			color: #ffffff;
+		}
+
+	.knob-charts {
+		margin-top: 10px;
+	}
+
+	.follow-task {
+		padding: 5px;
+	}
+
+		.follow-task a {
+			color: #ffffff;
+			width: 15%;
+			display: inline-block;
+		}
+
+			.follow-task a span.badge {
+				top: -12px;
+				position: relative;
+				left: -8px;
+				background: #FFFFFF;
+				color: #34AADC;
+			}
+
+		.follow-task i {
+			font-size: 20px;
+		}
+
+	.profile-widget-foot {
+		padding: 8px 5px 5px 5px;
+		background: rgba(0,0,0,0.1);
+		color: #757575;
+		font-weight: 300;
+	}
+
+	.profile-foot {
+		padding: 8px 5px 5px 5px;
+		background: rgba(0,0,0,0.1);
+		color: #ffffff;
+		font-weight: 300;
+		overflow: hidden;
+	}
+
+		.profile-foot .active {
+		}
+
+		.profile-foot a {
+			color: #ffffff;
+		}
+
+	.profile-widget-foot ul {
+		padding: 0;
+		margin: 0;
+	}
+
+		.profile-widget-foot ul li {
+			display: inline-block;
+			text-align: center;
+			width: 48%;
+			line-height: normal;
+		}
+
+			.profile-widget-foot ul li h5 {
+				margin: 5px 0 0 0;
+			}
+
+	.follow-info {
+		text-align: left;
+		padding-top: 20px;
+	}
+
+	.profile-widget h4 {
+		margin: 5px;
+		font-size: 18px;
+		font-weight: 300;
+	}
+
+	.profile-widget h6 {
+		margin: 0px;
+		font-size: 12px;
+		color: rgba(255,255,255,0.9);
+		font-weight: 300;
+	}
+
+		.profile-widget h6 span i {
+			padding-right: 4px;
+		}
+
+		.profile-widget h6 span {
+			padding-right: 8px;
+		}
+
+	.project-team, .panel-title, .progress-panel {
+		background: #F7F7F7;
+	}
+
+	.profile-ava img {
+		border-radius: 50%;
+		-webkit-border-radius: 50%;
+		border: 2px solid #007AFF;
+		display: inline-block;
+	}
+
+		.profile-ava img.simple {
+			border-radius: 50%;
+			-webkit-border-radius: 50%;
+			border: 2px solid rgba(0,112,255,0.4);
+			display: inline-block;
+		}
+
+	.profile-name {
+		margin: 0px;
+		font-size: 16px;
+	}
+
+	.profile-occupation {
+		margin: 0px;
+		font-size: 12px;
+	}
+
+	.follow-ava {
+		border-radius: 50%;
+		-webkit-border-radius: 50%;
+		border: 5px solid rgba(0,0,0,0.1);
+		display: inline-block;
+	}
+
+	.timeline-ava {
+		border-radius: 50%;
+		-webkit-border-radius: 50%;
+		border: 5px solid #007AFF;
+		display: inline-block;
+	}
+
+		.timeline-ava img {
+			border-radius: 50%;
+			-webkit-border-radius: 50%;
+			width: 50px;
+			height: 50px;
+		}
+
+	.profile-widget img {
+		border-radius: 50%;
+		-webkit-border-radius: 50%;
+		width: 62px;
+		height: 62px;
+		/*display: inline-block;*/
+	}
+
+	/*profile-widget color bg*/
+	.profile-widget-info {
+		background: #34AADC !important;
+	}
+
+	.profile-widget-success {
+		background: #4cd964 !important;
+	}
+
+	.profile-widget-primary {
+		background: #007AFF !important;
+	}
+
+	.profile-widget-warning {
+		background: #ffcc00 !important;
+	}
+
+	.profile-widget-danger {
+		background: #ff2d55 !important;
+	}
+
+	.profile-widget-name {
+		padding: 0px;
+	}
+
+	.p-text-area, .p-text-area:focus {
+		border: none;
+		font-weight: 300;
+		box-shadow: none;
+		color: #c3c3c3;
+		font-size: 16px;
+	}
+
+	.profile-info .panel-footer {
+		background-color: #f8f7f5;
+		border-top: 1px solid #e7ebee;
+	}
+
+		.profile-info .panel-footer ul li a {
+			color: #7a7a7a;
+		}
+
+	.twt-feed {
+		border-radius: 4px 4px 0 0;
+		-webkit-border-radius: 4px 4px 0 0;
+		color: #FFFFFF;
+		padding: 10px;
+		position: relative;
+		text-align: center;
+	}
+
+		.twt-feed.blue-bg {
+			background: #FF2D55;
+		}
+
+		.twt-feed h1 {
+			font-size: 22px;
+			font-weight: 300;
+			margin-bottom: 5px;
+		}
+
+		.twt-feed a {
+			border: 8px solid #fff;
+			border-radius: 50%;
+			-webit-border-radius: 50%;
+			display: inline-block;
+			margin-bottom: -55px;
+		}
+
+			.twt-feed a img {
+				height: 112px;
+				width: 112px;
+				border-radius: 50%;
+				-webit-border-radius: 50%;
+			}
+
+	.twt-category {
+		display: inline-block;
+		margin-bottom: 11px;
+		margin-top: 55px;
+		width: 100%;
+	}
+
+	.profile-widget-data {
+		display: inline-block;
+		margin-bottom: 10px;
+		margin-top: 15px;
+		width: 100%;
+	}
+
+		.twt-category ul li, .profile-widget-data ul li, .profile-nav ul > li {
+			color: #89817f;
+			font-size: 13px;
+			border-bottom: none;
+		}
+
+	.twt-category h5 {
+		font-size: 20px;
+		font-weight: 300;
+	}
+
+	.twt-write .t-text-area {
+		border: 1px solid #eeeeee;
+		border-radius: 0;
+	}
+
+	/*weather*/
+
+	.weather-bg {
+		background: #34AADC;
+		color: #fff;
+		text-align: center;
+		font-size: 16px;
+		font-weight: 300;
+	}
+
+		.weather-bg i {
+			font-size: 60px;
+			display: block;
+		}
+
+		.weather-bg h3 {
+			font-weight: 300;
+			font-size: 28px;
+		}
+
+		.weather-bg .degree {
+			padding-top: 10px;
+			font-size: 60px;
+		}
+
+	.weather-category {
+		padding: 15px 0;
+		color: #ffffff;
+	}
+
+	.weather-info {
+		background: #34AADC;
+	}
+
+	.weather-category ul {
+		padding: 0;
+		margin: 0;
+		display: inline-block;
+		width: 100%;
+	}
+
+		.weather-category ul li {
+			display: inline-block;
+			width: 32%;
+			text-align: center;
+			border-right: 1px solid #e6e6e6;
+			display: inline-block;
+		}
+
+			.weather-category ul li h5 {
+				margin: 0 0 5px 0;
+				text-transform: uppercase;
+				font-weight: 300;
+			}
+
+	.weather-days {
+		color: #ffffff;
+		background: #34AADC;
+	}
+
+		.weather-days ul {
+			padding: 0;
+			margin: 0;
+			display: inline-block;
+			width: 100%;
+		}
+
+			.weather-days ul li {
+				display: inline-block;
+				width: 16.6%;
+				text-align: center;
+				display: inline-block;
+				margin-right: -2.9px;
+				padding: 5px 0px;
+			}
+
+				.weather-days ul li.day1 {
+					background: rgba(0,0,0,0.05);
+				}
+
+				.weather-days ul li.day2 {
+					background: rgba(0,0,0,0.1);
+				}
+
+				.weather-days ul li.day3 {
+					background: rgba(0,0,0,0.15);
+				}
+
+				.weather-days ul li.day4 {
+					background: rgba(0,0,0,0.2);
+				}
+
+				.weather-days ul li.day5 {
+					background: rgba(0,0,0,0.25);
+				}
+
+				.weather-days ul li.day6 {
+					background: rgba(0,0,0,0.3);
+				}
+
+				.weather-days ul li h5 {
+					margin: 0 0 5px 0;
+					text-transform: uppercase;
+					font-weight: 300;
+				}
+
+	.weather-category ul li a {
+	}
+
+	.weather-category ul li:last-child, .weather-days ul li:last-child {
+		border-right: none;
+	}
+
+	/*state overview*/
+
+	.state-overview .symbol, .state-overview .value {
+		display: inline-block;
+		text-align: center;
+	}
+
+	.state-overview .value {
+		float: right;
+	}
+
+		.state-overview .value h1 {
+			margin: 0;
+			padding: 0;
+			color: #007AFF;
+		}
+
+		.state-overview .value p {
+			margin: 0;
+			padding: 0;
+			color: #8E8E93;
+		}
+
+		.state-overview .value h1 {
+			font-weight: 300;
+		}
+
+	.state-overview .symbol i {
+		color: #007AFF;
+		font-size: 30px;
+	}
+
+	.state-overview .symbol {
+		width: 30%;
+		padding: 25px 15px;
+	}
+
+	.state-overview .value {
+		width: 68%;
+		padding-top: 21px;
+	}
+
+	.state-overview .terques {
+		background: #34AADC;
+	}
+
+	.state-overview .red {
+		background: #FF2D55;
+	}
+
+	.state-overview .yellow {
+		background: #FCB322;
+	}
+
+	.state-overview .blue {
+		background: #007AFF;
+	}
+
+	ul.summary-list {
+		display: inline-block;
+		padding-left: 0;
+		width: 100%;
+		margin-bottom: 0;
+	}
+
+		ul.summary-list > li {
+			display: inline-block;
+			width: 19.5%;
+			text-align: center;
+		}
+
+			ul.summary-list > li > a > i {
+				display: block;
+				font-size: 18px;
+				padding-bottom: 5px;
+			}
+
+			ul.summary-list > li > a {
+				padding: 10px 0;
+				display: inline-block;
+				color: #818181;
+			}
+
+		ul.summary-list > li {
+			border-right: 1px solid #eaeaea;
+		}
+
+			ul.summary-list > li:last-child {
+				border-right: none;
+			}
+
+	.fc-event-title {
+		font-weight: 700;
+		font-size: 13px;
+	}
+</style>
+
+<div>
+	<div class="row state-overview" ng-cloak style="margin: 0px">
+		@*<div class="col-md-6">*@
+		@*<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+						Профиль
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="ibox-content profile-content">
+						<div class="row">
+							<div class="col-md-3">
+								<img src="{{loadProfileData.Avatar}}" class="img-circle border" alt="User Image"/>
+							</div>
+							<div class="col-md-8">
+								<div>
+									<h1 class="user-name">{{loadProfileData.Name}}</h1>
+								</div>
+								<div class="user-status">
+									<div class="user-type">
+										<div ng-if="loadProfileData.UserType == '1'">Преподаватель</div>
+										<div ng-if="loadProfileData.UserType == '2'">Студент</div>
+									</div>
+									<div class="user-skill">
+										{{loadProfileData.Skill}}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<ul class="contact-list">
+									<li>
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+											<i class="fa fa-skype fa-1x"></i>
+										</a>
+										<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+											<li class="user-header">
+												<h6 style="margin-left: 10px">{{loadProfileData.SkypeContact}}</h6>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+											<i class="fa fa-envelope fa-1x"></i>
+										</a>
+										<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+											<li class="user-header">
+												<h6 style="margin-left: 10px">{{loadProfileData.Email}}</h6>
+											</li>
+										</ul>
+									</li>
+
+									<li>
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+											<i class="fa fa-phone-square fa-1x"></i>
+										</a>
+										<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+											<li class="user-header">
+												<h6 style="margin-left: 10px">{{loadProfileData.Phone}}</h6>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-8">
+								<div ng-if="!isMyProfile" style="margin-top: 10px; font-size: 11px; margin-left: -45px" class="text-muted">Последний вход - {{loadProfileData.LastLogitData}}</div>
+							</div>
+						</div>
+						<div class="page-header">
+							<h4>Обо мне</h4>
+							<p>
+								{{loadProfileData.About}}
+							</p>
+						</div>
+						<div class="row" style="margin-top: 10px">
+							<div align="center">
+								<div ng-if="!isMyProfile">
+									<a href="~/Message" class="btn btn-success btn-sm" style="width: 100%; margin-top: 5px">
+										<i style="word-wrap: break-word" class="fa fa-envelope-o"> Отправить сообщение</i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>*@
+		@*</div>*@
+		@* <div class="col-lg-4">
+				<section class="panel">
+					<div class="profile-widget profile-widget-info">
+						<div class="panel-body">
+							<div class="col-lg-4 col-sm-4 profile-widget-name">
+								<h4>{{loadProfileData.Name}}</h4>
+								<div class="follow-ava">
+									<img src="{{loadProfileData.Avatar}}" alt="">
+								</div>
+								<h6 ng-if="loadProfileData.UserType == '1'">Преподаватель</h6>
+								<h6 ng-if="loadProfileData.UserType == '2'">Студент</h6>
+							</div>
+							<div class="col-lg-8 col-sm-8 follow-info">
+								<p>Беларусский национальный технический университет.</p>
+								<p>Login</p>
+								<h6>
+									<span><i class="fa fa-clock-o"></i>11:05 AM</span>
+									<span><i class="fa fa-calendar"></i>15.03.2016</span>
+								</h6>
+							</div>
+							<div class="weather-category twt-category">
+								<ul>
+									<li class="active">
+										<h4>4</h4>
+										<i class="icon_close_alt2"></i>Предметы
+									</li>
+									<li>
+										<h4>6</h4>
+										<i class="icon_check_alt2"></i>Тесты
+									</li>
+									<li>
+										<h4>600</h4>
+										<i class="icon_plus_alt2"></i>Total Task
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="profile-widget-foot">
+							<div class="follow-task">
+								<span>
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										<i class="fa fa-skype fa-1x" title="{{loadProfileData.SkypeContact}}"></i>
+									</a>
+								</span>
+								<span>
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										<i class="fa fa-envelope fa-1x" title="{{loadProfileData.Email}}"></i>
+									</a>
+								</span>
+								<span>
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										<i class="fa fa-phone-square fa-1x" title="{{loadProfileData.Phone}}"></i>
+									</a>
+								</span>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<div class="state col-lg-8">
+				<div class="row">
+					<div class="col-lg-3 col-sm-6">
+						<section class="panel">
+							<div class="symbol">
+							   <i style="height: 50px;" class="fa fa-check"></i>
+							</div>
+							<div class="value">
+								<h1>22</h1>
+								<p>Лаб. работы</p>
+							</div>
+						</section>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<section class="panel">
+							<div class="symbol">
+							   <i style="height: 50px;" class="fa fa-check"></i>
+							</div>
+							<div class="value">
+								<h1>140</h1>
+								<p>Лекции</p>
+							</div>
+						</section>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<section class="panel">
+							<div class="symbol">
+							   <i style="height: 50px;" class="fa fa-check"></i>
+							</div>
+							<div class="value">
+								<h1>345</h1>
+								<p>Студенты</p>
+							</div>
+						</section>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<section class="panel">
+							<div class="symbol">
+								<i style="height: 50px;" class="fa fa-check"></i>
+							</div>
+							<div class="value">
+								<h1>5</h1>
+								<p>УМК</p>
+							</div>
+						</section>
+					</div>
+				</div>
+
+				<div class="row knob-charts">
+					<div class="col-lg-12">
+						<div class="panel">
+							<div class="panel-body">
+								<ul class="summary-list">
+									<li>
+										<a href="javascript:;">
+											<div style="display:inline;width:80px;height:80px;"><input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayprevious="true" data-thickness=".1" value="75" data-fgcolor="#007AFF" data-bgcolor="#F7F7F7" readonly="readonly" style="width: 44px; height: 26px; position: absolute; vertical-align: middle; margin-top: 26px; margin-left: -62px; border: 0px; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 16px; line-height: normal; font-family: Arial; text-align: center; color: rgb(0, 122, 255); padding: 0px; -webkit-appearance: none; background: none;"></div>
+
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											<div style="display:inline;width:80px;height:80px;"><input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayprevious="true" data-thickness=".1" value="25" data-fgcolor="#34AADC" data-bgcolor="#F7F7F7" readonly="readonly" style="width: 44px; height: 26px; position: absolute; vertical-align: middle; margin-top: 26px; margin-left: -62px; border: 0px; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 16px; line-height: normal; font-family: Arial; text-align: center; color: rgb(52, 170, 220); padding: 0px; -webkit-appearance: none; background: none;"></div>
+
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											<div style="display:inline;width:80px;height:80px;"><input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayprevious="true" data-thickness=".1" value="85" data-fgcolor="#FF2D55" data-bgcolor="#F7F7F7" readonly="readonly" style="width: 44px; height: 26px; position: absolute; vertical-align: middle; margin-top: 26px; margin-left: -62px; border: 0px; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 16px; line-height: normal; font-family: Arial; text-align: center; color: rgb(255, 45, 85); padding: 0px; -webkit-appearance: none; background: none;"></div>
+
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											<div style="display:inline;width:80px;height:80px;"><input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayprevious="true" data-thickness=".1" value="95" data-fgcolor="#34AADC" data-bgcolor="#F7F7F7" readonly="readonly" style="width: 44px; height: 26px; position: absolute; vertical-align: middle; margin-top: 26px; margin-left: -62px; border: 0px; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 16px; line-height: normal; font-family: Arial; text-align: center; color: rgb(52, 170, 220); padding: 0px; -webkit-appearance: none; background: none;"></div>
+
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											<div style="display:inline;width:80px;height:80px;"><input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayprevious="true" data-thickness=".1" value="65" data-fgcolor="#007AFF" data-bgcolor="#F7F7F7" readonly="readonly" style="width: 44px; height: 26px; position: absolute; vertical-align: middle; margin-top: 26px; margin-left: -62px; border: 0px; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 16px; line-height: normal; font-family: Arial; text-align: center; color: rgb(0, 122, 255); padding: 0px; -webkit-appearance: none; background: none;"></div>
+
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>*@
+
+		@*    <div class="col-md-6">
+			<div class="panel-body" style="max-height: 400px; overflow-y: auto">
+				<div>
+					<span style="padding: 10px; font-size: 18px"><a href="#">Надежность ПО</a></span>
+					<div class="progress">
+						<div class="progress-bar progress-bar-primary" style="width: 45%">Завершенность курса 45%</div>
+					</div>
+				</div>
+				<div>
+					<span style="padding: 10px; font-size: 18px"><a href="#">Тестирование и отладка ПО</a></span>
+					<div class="progress">
+						<div class="progress-bar progress-bar-primary" style="width: 60%">Завершенность курса 60%</div>
+					</div>
+				</div>
+				<div>
+					<span style="padding: 10px; font-size: 18px"><a href="#">Модульное тестирование</a></span>
+					<div class="progress">
+						<div class="progress-bar progress-bar-primary" style="width: 30%">Завершенность курса 30%</div>
+					</div>
+				</div>
+			</div>*@
+		@*</div>*@
+		@*<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-6">
+					</div>
+					<div class="col-md-6">
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
+								<div id="circle_lec" class="circliful" data-dimension="250" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+									<span class="circle-info" style="line-height: 312.5px;">Проведенных лекций</span>
+								</div>
+							</div>
+							<div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
+								<div id="circle_lec" class="circliful" data-dimension="250" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+									<span class="circle-info" style="line-height: 312.5px;">Посещенных лекций</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
+								<div id="circle_lab" class="circliful" data-dimension="250" data-text="55%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="55" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+									<span class="circle-info" style="line-height: 312.5px;">Проведенных ЛБ</span>
+								</div>
+							</div>
+							<div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
+								<div id="circle_lab" class="circliful" data-dimension="250" data-text="55%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="55" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+									<span class="circle-info" style="line-height: 312.5px;">Проведенных ЛБ</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>*@
+		<div class="col-md-8">
+			<div>
+				<div id='calendarEvents'></div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel-body">
+				<div ng-repeat="data in subject">
+					<span style="padding: 10px; font-size: 18px"><a href="/Subject?subjectId={{data.Id}}">{{data.Name}} (Завершенность {{data.Completing}}%)</a></span>
+					<div class="progress" >
+						<div class="progress-bar progress-bar-primary" style="width: {{data.Completing}}%"></div>
+					</div>
+				</div>
+			</div>
+			
+			@*<div class="row" style="margin-top: 45px">
+				<div class="col-md-6">
+					<div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
+						<div id="circle_lec" class="circliful" data-dimension="150" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+							<span class="circle-info" style="line-height: 195px;">Проведенных лекций</span>
+						</div>
+					</div>
+					<div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
+						<div id="circle_lec" class="circliful" data-dimension="150" data-text="30%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="30" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+							<span class="circle-info" style="line-height: 195px;">Посещенных лекций</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div ng-if="loadProfileData.UserType == '1'" style="text-align: -webkit-center;">
+						<div id="circle_lab" class="circliful" data-dimension="150" data-text="55%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="55" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+							<span class="circle-info" style="line-height: 195px;">Проведенных ЛБ</span>
+						</div>
+					</div>
+					<div ng-if="loadProfileData.UserType == '2'" style="text-align: -webkit-center;">
+						<div id="circle_lab" class="circliful" data-dimension="150" data-text="55%" data-info="wefwef" data-width="30" data-fontsize="40" data-percent="55" data-fgcolor="#3c8dbc" data-bgcolor="#eee">
+							<span class="circle-info" style="line-height: 195px;">Проведенных ЛБ</span>
+						</div>
+					</div>
+				</div>
+			</div>*@
+		</div>
+
+		<div class="loading">
+			<span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
+		</div>
 	</div>
+
 </div>
