@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{61B0B4CA-EBCD-4162-9879-097581F36570}"
 EndProject
@@ -35,6 +35,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scorm", "Scorm", "{723B37D6-045D-4924-B712-D37E24B5A7C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCORMHost", "SCORMHost\SCORMHost.csproj", "{AF044690-7C7E-41B2-ADF0-C0536711ABA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.SearchEngine", "Application.SearchEngine\Application.SearchEngine.csproj", "{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,6 +110,14 @@ Global
 		{AF044690-7C7E-41B2-ADF0-C0536711ABA0}.Installer|Any CPU.Build.0 = Release|Any CPU
 		{AF044690-7C7E-41B2-ADF0-C0536711ABA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF044690-7C7E-41B2-ADF0-C0536711ABA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Installer|Any CPU.ActiveCfg = Release|Any CPU
+		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Installer|Any CPU.Build.0 = Release|Any CPU
+		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,5 +131,6 @@ Global
 		{498FCA3E-909B-4830-9B55-0A8847E38B7A} = {20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}
 		{34B7781C-4F90-4B10-9E10-B22A93FA953E} = {20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}
 		{AF044690-7C7E-41B2-ADF0-C0536711ABA0} = {723B37D6-045D-4924-B712-D37E24B5A7C7}
+		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7} = {20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}
 	EndGlobalSection
 EndGlobal

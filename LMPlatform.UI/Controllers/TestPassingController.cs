@@ -72,6 +72,7 @@ namespace LMPlatform.UI.Controllers
             if (nextQuestion.Question == null)
             {
                 ViewBag.Mark = nextQuestion.Mark;
+                ViewBag.Percent = nextQuestion.Percent;
                 return PartialView("EndTest", nextQuestion.QuestionsStatuses);
             }
 

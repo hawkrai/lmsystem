@@ -19,7 +19,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             List<AnswerOnTestQuestion> testAnswers = GetAnswersForTest(testId, userId);
 
             Dictionary<int, PassedQuestionResult> questionsStatuses = GetQuestionStatuses(testAnswers);
-            Tuple<Question, int> nextQuestion = GetQuestion(testAnswers, nextQuestionNumber, userId);
+            Tuple<Question, int, int> nextQuestion = GetQuestion(testAnswers, nextQuestionNumber, userId);
 
             var result = new NextQuestionResult
             {
@@ -31,6 +31,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             if (nextQuestion.Item1 == null)
             {
                 result.Mark = nextQuestion.Item2;
+                result.Percent = nextQuestion.Item3;
             }
 
             if (nextQuestion.Item1 != null)
@@ -483,27 +484,28 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 : PassedQuestionResult.Error;
         }
 
-        private Tuple<Question, int> GetQuestion(IEnumerable<AnswerOnTestQuestion> testAnswers, int nextQuestionNumber, int userId)
+        private Tuple<Question, int, int> GetQuestion(IEnumerable<AnswerOnTestQuestion> testAnswers, int nextQuestionNumber, int userId)
         {
             var notPassedQuestions = testAnswers.Where(testAnswer => !testAnswer.Time.HasValue).ToList();
             if (notPassedQuestions.Any())
             {
-                Tuple<Question, int> nextQuestion = GetNextQuestionsFromNotPassedItems(notPassedQuestions, nextQuestionNumber);
+                Tuple<Question, int, int> nextQuestion = GetNextQuestionsFromNotPassedItems(notPassedQuestions, nextQuestionNumber);
                 return nextQuestion;
             }
 
-            int mark = CloseTest(testAnswers, userId);
-            return new Tuple<Question, int>(null, mark);
+             Tuple<int, int> mark = CloseTest(testAnswers, userId);
+            return new Tuple<Question, int, int>(null, mark.Item1, mark.Item2);
         }
 
-        private int CloseTest(IEnumerable<AnswerOnTestQuestion> testAnswers, int userId)
+        private Tuple<int, int> CloseTest(IEnumerable<AnswerOnTestQuestion> testAnswers, int userId)
         {
             int testId = testAnswers.First().TestId;
             TestPassResult testPassResult = GetTestPassResult(testId, userId);
 
             int points = GetResultPoints(testAnswers);
+            int percent = GetPoints(testAnswers);
             testPassResult.Points = points;
-
+            testPassResult.Percent = percent;
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().Delete(testAnswers);
@@ -522,7 +524,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 repositoriesContainer.ApplyChanges();
             }
 
-            return points;
+            return new Tuple<int, int>(points, percent);
         }
 
         private TestPassResult GetTestPassResult(int testId, int userId)
@@ -548,7 +550,17 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return (int)result;
         }
 
-        private Tuple<Question, int> GetNextQuestionsFromNotPassedItems(List<AnswerOnTestQuestion> notPassedQuestions, int nextQuestionNumber)
+        private int GetPoints(IEnumerable<AnswerOnTestQuestion> testAnswers)
+        {
+            Test test = GetTest(testAnswers.First().TestId);
+            var result = ((double)testAnswers.Sum(testAnswer => testAnswer.Points)
+                / (double)test.Questions.Where(q => testAnswers.Select(a => a.QuestionId).Contains(q.Id))
+                .Sum(question => question.ComlexityLevel)) * 100;
+
+            return (int)result;
+        }
+
+        private Tuple<Question, int, int> GetNextQuestionsFromNotPassedItems(List<AnswerOnTestQuestion> notPassedQuestions, int nextQuestionNumber)
         {
             int questionId;
             if (notPassedQuestions.Any(question => question.Number == nextQuestionNumber))
@@ -578,7 +590,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             var random = new Random();
             resultQuestion.Answers = resultQuestion.Answers.OrderBy(a => random.Next()).ToList();
             
-            return new Tuple<Question, int>(resultQuestion, nextQuestionNumber);
+            return new Tuple<Question, int, int>(resultQuestion, nextQuestionNumber, 0);
         }
 
         private Question GetQuestionById(int id)

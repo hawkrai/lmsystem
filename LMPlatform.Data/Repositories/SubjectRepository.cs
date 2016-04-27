@@ -23,6 +23,7 @@ namespace LMPlatform.Data.Repositories
 				if (groupId != 0)
 				{
 					var subjectGroup = context.Set<SubjectGroup>().Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
+                        .Include(e => e.Subject.Labs)
 							.Where(e => e.GroupId == groupId).ToList();
 					return subjectGroup.Select(e => e.Subject).ToList();
 				}
@@ -30,6 +31,9 @@ namespace LMPlatform.Data.Repositories
 				var subjectLecturer =
 					context.Set<SubjectLecturer>()
 					.Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
+                    .Include(e => e.Subject.LecturesScheduleVisitings)
+                    .Include(e => e.Subject.Labs)
+                    .Include(e => e.Subject.SubjectGroups.Select(x => x.SubGroups.Select(t => t.ScheduleProtectionLabs)))
 					.Where(e => e.LecturerId == lecturerId).ToList();
 				return subjectLecturer.Select(e => e.Subject).ToList();
 			}
@@ -174,6 +178,23 @@ namespace LMPlatform.Data.Repositories
 			dataContext.SaveChanges();
 
 			base.PerformUpdate(newValue, dataContext);
+		}
+
+		public void DisableNews(int subjectId, bool disable)
+		{
+			using (var context = new LmPlatformModelsContext())
+			{
+				var models = context.Set<SubjectNews>().Where(e => e.SubjectId == subjectId);
+
+				foreach (var subjectNewse in models)
+				{
+					subjectNewse.Disabled = disable;
+				}
+
+				context.Update<SubjectNews, LmPlatformModelsContext>(models);
+
+				context.SaveChanges();
+			}
 		}
 	}
 }

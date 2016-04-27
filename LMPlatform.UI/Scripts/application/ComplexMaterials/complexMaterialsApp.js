@@ -4,13 +4,14 @@
         'complexMaterialsApp.ctrl.home',
         'complexMaterialsApp.ctrl.catalog',
         'complexMaterialsApp.ctrl.map',
-        'complexMaterialsApp.service.material'
+        'complexMaterialsApp.service.material',
+        'complexMaterialsApp.service.navigation'
     ])
     .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
         $routeProvider.when('/Catalog', {
             templateUrl: '/ComplexMaterial/Catalog',
             controller: 'catalogCtrl',
-            reloadOnSearch: false
+            reloadOnSearch: true
         });
         $routeProvider.when('/Map', {
             templateUrl: '/ComplexMaterial/Map',

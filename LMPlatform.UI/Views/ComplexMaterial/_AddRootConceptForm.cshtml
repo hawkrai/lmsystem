@@ -17,9 +17,12 @@
 
         @Html.HiddenFor(e => e.Id)
         @Html.HiddenFor(e => e.Author)
+        @Html.HiddenFor(e => e.Published)
+         @Html.HiddenFor(e => e.Next)
+        @Html.HiddenFor(e => e.Prev)
 
         <div style="width: 500px">
-            @Html.Label("Name", String.Format("{0} ({1})", "Название", Model.Published ? "опубликован" : "неопубликован"), new { @class = "control-label" })
+            @Html.Label("Name", String.Format("{0}", "Название", Model.Published ? "опубликован" : "неопубликован"), new { @class = "control-label" })
             @*@Html.LabelFor(e => String.Format("{0} ({1})", e.Name, e.Published ? "опубликован" : "неопубликован"), new { @class = "control-label" })*@
             @Html.EditorFor(e => e.Name, new { @class = "form-control with-block"})
             @Html.ValidationMessageFor(e => e.Name, " ")
@@ -39,14 +42,22 @@
                 @Html.HiddenFor(e => e.SelectedSubjectId)
             }
         </div>
-        @*if (!Model.IsNew())
+        if (!Model.IsNew())
         {
-            <div style="width: 560px">
-                @Html.LabelFor(e => e.Published, new { @class = "control-label" })
-                @Html.CheckBoxFor(e => e.Published, new { @disabled = "True", @class = "form-control" })
-                @Html.HiddenFor(e => e.Published)
+            <div style="padding-bottom: 10px; padding-top: 20px; width: 560px; display: inline-block; ">
+                <label style="" class="control-label">Материал опубликован?</label>
+                @if (Model.Published)
+                {
+                    <label><b><u>Да</u></b></label>
+                }
+                else
+                {
+                    <label><b><u>Нет</u></b></label>
+                }
+
+                <label style="font-size:xx-small"><i>(устанавливается автоматически)</i></label>
             </div>
-        }*@
+        }
         @*<div style="width: 560px">
                 @Html.LabelFor(e => e.Author, new { @class = "control-label" })
                 @Html.EditorFor(e => e.Author, new { @class = "form-control" })

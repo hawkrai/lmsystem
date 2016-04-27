@@ -14,7 +14,7 @@ namespace Application.Infrastructure.StudentManagement
 
         IPageableList<Student> GetStudentsPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
-        void Save(Student student);
+        Student Save(Student student);
 
         void UpdateStudent(Student student);
 

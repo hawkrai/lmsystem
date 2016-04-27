@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Application.Core.Data;
 using LMPlatform.Models.KnowledgeTesting;
+using LMPlatform.Models.CP;
 
 namespace LMPlatform.Models
 {
@@ -63,6 +64,25 @@ namespace LMPlatform.Models
             get;
             set;
         }
+
+        public ICollection<CourseProject> CourseProjects
+        {
+            get;
+            set;
+        }
+
+        public ICollection<CourseProjectConsultationDate> CourseProjectsConsultationDates
+        {
+            get;
+            set;
+        }
+
+        public virtual ICollection<CoursePercentagesGraph> CoursePersentagesGraphs
+        {
+            get;
+            set;
+        }
+
 
         public ICollection<Practical> Practicals
         {

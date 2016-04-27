@@ -17,5 +17,8 @@ namespace LMPlatform.UI.Services.Modules.Concept
 
         [DataMember]
         public IEnumerable<ConceptViewData> Children { get; set; }
+
+        [DataMember]
+        public String SubjectName { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace Application.Infrastructure.ConceptManagement
     {
         Concept GetById(Int32 id);
         Concept GetTreeConceptByElementId(Int32 elementId);
-        IEnumerable<Concept> GetRootElements(Int32 authorId);
+        IEnumerable<Concept> GetRootElements(Int32 authorId, Boolean onlyVisible=false);
         IEnumerable<Concept> GetRootElementsBySubject(Int32 subjectId);
         IEnumerable<Concept> GetElementsByParentId(Int32 authorId, Int32 parentId);
         IEnumerable<Concept> GetElementsByParentId(Int32 parentId);
@@ -20,6 +20,7 @@ namespace Application.Infrastructure.ConceptManagement
         Concept SaveConcept(Concept concept);
         Concept UpdateRootConcept(Int32 id, String name);
         void Remove(Int32 id, Boolean removeChildren);
+        Concept AttachSiblings(Int32 sourceId, Int32 rightId, Int32 leftId);
         void AttachFolderToLectSection(String folderName, Int32 userId, Int32 subjectId);
         void AttachFolderToLabSection(String folderName, Int32 userId, Int32 subjectId);
     }

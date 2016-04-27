@@ -2,6 +2,7 @@
 using Application.Infrastructure.AccountManagement;
 using Application.Infrastructure.BugManagement;
 using Application.Infrastructure.ConceptManagement;
+using Application.Infrastructure.CPManagement;
 using Application.Infrastructure.DPManagement;
 using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.FoldersManagement;
@@ -37,11 +38,15 @@ namespace Application.Infrastructure
             containerWrapper.Register<IFilesManagementService, FilesManagementService>();
             containerWrapper.Register<IDpManagementService, DpManagementService>();
             containerWrapper.Register<ICorrelationService, CorrelationService>();
+            containerWrapper.Register<ICpCorrelationService, CpCorrelationService>();
             containerWrapper.Register<IPercentageGraphService, PercentageGraphService>();
+            containerWrapper.Register<ICpPercentageGraphService, CpPercentageGraphService>();
             containerWrapper.Register<IUserService, UserService>();
+            containerWrapper.Register<ICPUserService, CPUserService>();
             containerWrapper.Register<IFoldersManagementService, FoldersManagementService>();
             containerWrapper.Register<IMaterialsManagementService, MaterialsManagementService>();
             containerWrapper.Register<IConceptManagementService, ConceptManagementService>();
+            containerWrapper.Register<ICPManagementService, CPManagementService>();
             return containerWrapper;
         }
     }

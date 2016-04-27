@@ -1,22 +1,5 @@
-﻿
-
-angular
+﻿angular
     .module('complexMaterialsApp.service.material', [])
-    .factory('titleController', [function () {
-        var defValue = '***ЭУМК не выбран***';
-        var title = defValue;
-        return {
-            title: function () {
-                return title;
-            },
-            setTitle: function (newTitle) {
-                title = newTitle
-            },
-            setDefValue: function () {
-                title = defValue;
-            }
-        };
-    }])
     .factory('complexMaterialsDataService', [
         '$http',
         function ($http) {
@@ -24,6 +7,14 @@ angular
             var url = '/Services/Concept/ConceptService.svc/';
 
             return {
+                attachSiblings: function(data)
+                {
+                    return $http({
+                        method: 'POST',
+                        url: url + 'AttachSiblings',
+                        data: data
+                    });
+                },
                 getTree: function(data){
                     var id = data.id;
                     return $http({

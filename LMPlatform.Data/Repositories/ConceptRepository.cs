@@ -22,7 +22,7 @@ namespace LMPlatform.Data.Repositories
         {
             using (var context = new LmPlatformModelsContext())
             {
-                var concept = context.Set<Concept>().Include(c => c.Children).FirstOrDefault(e => e.Id == id);
+                var concept = context.Set<Concept>().Include(c => c.Children).Include(s=>s.Subject).FirstOrDefault(e => e.Id == id);
                 InitTreeConceptByParentIdInner(concept, concept.Children);
                 return concept;
             }
@@ -41,7 +41,11 @@ namespace LMPlatform.Data.Repositories
         {
             using (var context = new LmPlatformModelsContext())
             {
-                var concept = context.Set<Concept>().Include(c => c.Children).Include(c=>c.Author).Include(c=>c.Subject).FirstOrDefault(e => e.Id == id);
+                var concept = context.Set<Concept>()
+                    .Include(c => c.Children)
+                    .Include(c=>c.Author)
+                    .Include(c=>c.Subject)
+                    .FirstOrDefault(e => e.Id == id);
                 return concept;
             }
         }
@@ -50,7 +54,12 @@ namespace LMPlatform.Data.Repositories
         {
             using (var context = new LmPlatformModelsContext())
             {
-                var concepts = context.Set<Concept>().Include(c => c.Children).Include(a => a.Author).Where(e => e.Author.Id == authorId && !e.ParentId.HasValue && e.IsGroup);
+                var concepts = context.Set<Concept>()
+                    .Include(c => c.Children)
+                    .Include(a => a.Author)
+                    .Include(c => c.Subject)
+                    .Include(c => c.Subject.SubjectModules)
+                    .Where(e => e.Author.Id == authorId && !e.ParentId.HasValue && e.IsGroup);
                 return concepts.ToList();
             }
         }
@@ -60,7 +69,7 @@ namespace LMPlatform.Data.Repositories
         {
             using (var context = new LmPlatformModelsContext())
             {
-                var concepts = context.Set<Concept>().Include(c=>c.Children).Where(e => e.ParentId == parentId);
+                var concepts = context.Set<Concept>().Include(c=>c.Children).Include(s=>s.Subject).Where(e => e.ParentId == parentId);
                 return concepts.ToList();
             }
         }
@@ -78,7 +87,7 @@ namespace LMPlatform.Data.Repositories
         {
             using (var context = new LmPlatformModelsContext())
             {
-                var concepts = context.Set<Concept>().Include(c => c.Children).Include(s => s.Author).Where(e => e.Author.Id == authorId);
+                var concepts = context.Set<Concept>().Include(c => c.Children).Include(s => s.Author).Include(s => s.Subject).Where(e => e.Author.Id == authorId);
                 return concepts.ToList();
             }
         }

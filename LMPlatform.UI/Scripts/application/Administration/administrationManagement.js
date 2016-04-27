@@ -8,14 +8,6 @@ function initStudentManagement() {
     initStatDialog(".statButton", "Статистика посещаемости");
 };
 
-function chatControl() {
-    var url = "/Chat/EnablChat";
-    var switcher = document.getElementById("myonoffswitch").checked;
-    $.post(url, { Switcher: switcher }, function(data) {
-        $("#msg").html(data);
-    });
-};
-
 function initLecturerManagement() {
     initManagement(".editButton", "Редактировать", "Редактирование преподавателя");
     initManagement(".addButton", "", "Добавление преподавателя");
@@ -159,5 +151,15 @@ function updateDataTable(updateTableId) {
         $(".dataTable").dataTable().fnDraw();
     }
 };
+
+function chatControl() {
+    var url = "/Chat/EnablChat";
+    var switcher = document.getElementById("myonoffswitch").checked;
+    $.post(url, { Switcher: switcher }, function (data) {
+        $("#msg").html(data);
+    });
+};
+
+
 
 

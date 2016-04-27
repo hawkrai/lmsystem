@@ -53,17 +53,68 @@ namespace LMPlatform.UI.Services.News
             }
         }
 
-        public ResultViewData Save(string subjectId, string id, string title, string body, bool isOldDate)
+	    public ResultViewData DisableNews(string subjectId)
+	    {
+			try
+			{
+				SubjectManagementService.DisableNews(int.Parse(subjectId), true);
+
+				return new ResultViewData
+				{
+					Message = "Новости успешно скрыты",
+					Code = "200"
+				};
+			}
+			catch (Exception)
+			{
+				return new ResultViewData()
+				{
+					Message = "Произошла ошибка при скрытии новостей",
+					Code = "500"
+				};
+			}
+	    }
+
+	    public ResultViewData EnableNews(string subjectId)
+	    {
+			try
+			{
+				SubjectManagementService.DisableNews(int.Parse(subjectId), false);
+
+				return new ResultViewData
+				{
+					Message = "Все новости активны",
+					Code = "200"
+				};
+			}
+			catch (Exception)
+			{
+				return new ResultViewData()
+				{
+					Message = "Произошла ошибка при работе с новостями",
+					Code = "500"
+				};
+			}
+	    }
+
+	    public ResultViewData Save(string subjectId, string id, string title, string body, bool disabled, bool isOldDate)
         {
             try
             {
                 var newsIds = string.IsNullOrEmpty(id) ? 0 : int.Parse(id);
                 var date = DateTime.Now;
 
-                if (newsIds != 0 && isOldDate)
-                {
-                    date = SubjectManagementService.GetNews(newsIds, int.Parse(subjectId)).EditDate;
-                }
+	            if ((newsIds != 0 && isOldDate) || (newsIds != 0 && disabled))
+	            {
+		            date = SubjectManagementService.GetNews(newsIds, int.Parse(subjectId)).EditDate;
+	            }
+				else if ((newsIds != 0 && !disabled))
+	            {
+		            if (SubjectManagementService.GetNews(newsIds, int.Parse(subjectId)).Disabled)
+		            {
+			            date = DateTime.Now;
+		            }
+	            }
 
                 var model = new SubjectNews
                                 {
@@ -71,7 +122,8 @@ namespace LMPlatform.UI.Services.News
                                     SubjectId = int.Parse(subjectId),
                                     Body = body,
                                     EditDate = date,
-                                    Title = title
+                                    Title = title,
+									Disabled = disabled
                                 };
                 SubjectManagementService.SaveNews(model);
                 return new ResultViewData()

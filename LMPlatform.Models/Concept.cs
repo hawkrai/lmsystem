@@ -70,5 +70,11 @@ namespace LMPlatform.Models
             set;
         }
 
+        public virtual Int32? LectureId { get; set; }
+
+        public virtual Int32? PracticalId { get; set; }
+
+        public virtual Int32? LabId { get; set; }
+
     }
 }

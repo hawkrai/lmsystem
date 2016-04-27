@@ -1,10 +1,17 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Security.Policy;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.UI.WebControls;
+using System.Web.WebPages.Html;
+using Application.Core.Data;
 using Application.Core.UI.Controllers;
 using Application.Infrastructure.UserManagement;
+using LMPlatform.Data.Infrastructure;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using WebMatrix.WebData;
@@ -84,14 +91,27 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
+					var repository = new RepositoryBase<LmPlatformModelsContext, AccessCode>(new LmPlatformModelsContext());
+
+					var code = repository.GetAll().OrderBy(e => e.Id).ToList().LastOrDefault();
+
+	                if (code.Number.ToLower() != model.Code.ToLower())
+	                {
+		                throw new Exception("Неверный код доступа");
+	                }
+
                     model.RegistrationUser(new[] { "student" });
 
                     return RedirectToAction("Index", "Home");
                 }
-                catch (MembershipCreateUserException e)
-                {
-                    ModelState.AddModelError(string.Empty, ErrorCodeToString(e.StatusCode));
-                }
+				catch (MembershipCreateUserException e)
+				{
+					ModelState.AddModelError(string.Empty, ErrorCodeToString(e.StatusCode));
+				}
+				catch (Exception e)
+				{
+					ModelState.AddModelError(string.Empty, e.Message);
+				}
             }
 
             return View(model);

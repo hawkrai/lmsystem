@@ -30,6 +30,12 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+        public int Percent
+        {
+            get;
+            set;
+        }
+
         public double Seconds
         {
             get; 

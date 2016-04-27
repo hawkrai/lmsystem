@@ -1,0 +1,11 @@
+CREATE TABLE [dbo].[CourseProjectNews] (
+    [Id]        INT            IDENTITY (1, 1) NOT NULL,
+    [Title]     NVARCHAR (MAX) NULL,
+    [Body]      NVARCHAR (MAX) NULL,
+    [EditDate]  DATETIME       NOT NULL,
+    [SubjectId] INT            NOT NULL,
+    [Disabled]  BIT            NULL,
+    CONSTRAINT [PK_dbo.CourseProjectNews] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_dbo.CourseProjectNews_dbo.Subjects_SubjectId] FOREIGN KEY ([SubjectId]) REFERENCES [dbo].[Subjects] ([Id]) ON DELETE CASCADE
+);
+

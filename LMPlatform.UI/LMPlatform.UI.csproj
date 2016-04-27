@@ -23,6 +23,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -69,28 +70,28 @@
     <Reference Include="Bootstrapper.UnityExtension">
       <HintPath>..\packages\Bootstrapper.Unity.2.0.3.9\lib\Net40\Bootstrapper.UnityExtension.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenAuth.AspNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.1.4.12333\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.3.4.13329\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetOpenAuth.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetOpenAuth.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentValidation">
@@ -111,8 +112,8 @@
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -133,12 +134,8 @@
     <Reference Include="Microsoft.Practices.Unity.Configuration">
       <HintPath>..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.2.3\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.3.2.3\lib\net45\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.30506.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mvc.JQuery.Datatables, Version=1.0.5011.27913, Culture=neutral, processorArchitecture=MSIL">
@@ -153,10 +150,6 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Portable.Licensing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Portable.Licensing.1.1.0\lib\portable-net40+sl4+wp7+win8\Portable.Licensing.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
@@ -168,6 +161,10 @@
     </Reference>
     <Reference Include="System.Drawing">
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.0\lib\net40\System.Linq.Dynamic.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization">
       <Private>True</Private>
@@ -276,14 +273,6 @@
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="T4MVCExtensions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
-      <HintPath>..\packages\T4MVCExtensions.3.6.5\lib\net40\T4MVCExtensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TwitterBootstrapMVC4, Version=3.16.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TwitterBootstrapMVC.3.16.6\lib\net40\TwitterBootstrapMVC4.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Unity.Mvc4">
       <HintPath>..\packages\Unity.Mvc4.1.2.0.0\lib\net40\Unity.Mvc4.dll</HintPath>
     </Reference>
@@ -304,6 +293,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\CP\CourseProjectAssignmentController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectConsultationController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectConsultationDateController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectGroupController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectNewsController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectSubjectController.cs" />
+    <Compile Include="ApiControllers\CP\CourseStudentController.cs" />
+    <Compile Include="ApiControllers\CP\CourseStudentMarkController.cs" />
+    <Compile Include="ApiControllers\CP\CourseUserController.cs" />
+    <Compile Include="ApiControllers\CP\CpCorrelationController.cs" />
+    <Compile Include="ApiControllers\CP\CpPercentageController.cs" />
+    <Compile Include="ApiControllers\CP\CpPercentageResultController.cs" />
+    <Compile Include="ApiControllers\CP\CpTaskSheetController.cs" />
+    <Compile Include="ApiControllers\CP\CpTaskSheetTemplateController.cs" />
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectConsultationDateController.cs" />
@@ -332,12 +336,12 @@
     <Compile Include="Attributes\RequiredIfResetAttribute.cs" />
     <Compile Include="Attributes\SubjectNameAttribute.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ViewModels\Chat\ChatHub.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\ComplexMaterialController.cs" />
+    <Compile Include="Controllers\CpController.cs" />
     <Compile Include="Controllers\DpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
@@ -346,6 +350,7 @@
     <Compile Include="ApiControllers\DP\TaskSheetController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ScormModController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\TestPassingController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
@@ -366,17 +371,36 @@
     <Content Include="Content\fullcalendar\fullcalendar.print.css" />
     <Content Include="Content\jquery.circliful.css" />
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
+    <Content Include="Content\KnowledgeTesting\content.html" />
     <Content Include="Content\materials.css" />
     <Content Include="Content\select.css" />
+    <Content Include="Images\Excel.png" />
     <Content Include="Images\login_bk.jpg" />
+    <Content Include="Images\Лого2.png" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\application\Chat\chatHub.js" />
+    <Content Include="Scripts\application\ComplexMaterials\BaseLoader.js" />
     <Content Include="Scripts\application\ComplexMaterials\complexMaterialsApp.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\catalogController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\homeController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\mapController.js" />
+    <Content Include="Scripts\application\ComplexMaterials\extension.js" />
+    <Content Include="Scripts\application\ComplexMaterials\services\navigationService.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
+    <Content Include="Scripts\application\CP\controllers\homeController.js" />
+    <Content Include="Scripts\application\CP\controllers\newsController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentageController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentageResultsController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentagesController.js" />
+    <Content Include="Scripts\application\CP\controllers\projectController.js" />
+    <Content Include="Scripts\application\CP\controllers\projectsController.js" />
+    <Content Include="Scripts\application\CP\controllers\studentsController.js" />
+    <Content Include="Scripts\application\CP\controllers\taskSheetController.js" />
+    <Content Include="Scripts\application\CP\controllers\visitStatsController.js" />
+    <Content Include="Scripts\application\CP\cpModule.js" />
+    <Content Include="Scripts\application\CP\services\projectService.js" />
+    <Content Include="Scripts\application\ComplexMaterials\VideoLoader.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
@@ -482,8 +506,9 @@
     <Compile Include="ViewModels\BTSViewModels\ProjectParticipationViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\UserInfoViewModel.cs" />
-    <Compile Include="ViewModels\Chat\MessageDetail.cs" />
-    <Compile Include="ViewModels\Chat\UserDetail.cs" />
+    <Compile Include="ViewModels\ChatViewModels\ChatHub.cs" />
+    <Compile Include="ViewModels\ChatViewModels\MessageDetail.cs" />
+    <Compile Include="ViewModels\ChatViewModels\UserDetail.cs" />
     <Compile Include="ViewModels\ComplexMaterialsViewModel\AddOrEditRootConceptViewModel.cs" />
     <Compile Include="ViewModels\DPViewModels\DiplomProjectViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\AnswerViewModel.cs" />
@@ -498,6 +523,7 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\LmsViewModels\ProfileCalendarViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\ProfileVewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\DataTableMessage.cs" />
     <Compile Include="ViewModels\MessageViewModels\DisplayMessageViewModel.cs" />
@@ -508,6 +534,7 @@
     <Compile Include="ViewModels\ParentalViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\ParentalViewModels\StatDataTableViewModel.cs" />
     <Compile Include="ViewModels\ParentalViewModels\StatisticsViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel\SearchViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLabsViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLecturesViewModel.cs" />
@@ -540,6 +567,7 @@
     <Content Include="Content\bootstrap-wysihtml5.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Chat.css" />
     <Content Include="Content\chosen\chosen.css" />
     <Content Include="Content\chosen\chosen.min.css" />
     <Content Include="Content\admin.css" />
@@ -779,6 +807,7 @@
     <Content Include="Scripts\application\DP\services\projectService.js" />
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\contentController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\controlController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\addFromAnotherTestController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\studentResultsController.js" />
@@ -803,6 +832,7 @@
     <Content Include="Scripts\application\Materials\controllers\newController.js" />
     <Content Include="Scripts\application\Materials\controllers\homeController.js" />
     <Content Include="Scripts\application\Materials\materialsApp.js" />
+    <Content Include="Scripts\application\ComplexMaterials\PDFLoader.js" />
     <Content Include="Scripts\application\Materials\services\materialsService.js" />
     <Content Include="Scripts\application\Messages\message.js" />
     <Content Include="Scripts\application\Messages\msgModule.js" />
@@ -1059,6 +1089,8 @@
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
     <None Include="Properties\PublishProfiles\lmsPlatform - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\lmsPlatform - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\lmsPlatform.pubxml" />
+    <None Include="Properties\PublishProfiles\LMS_git.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -1140,8 +1172,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-3.4.0.debug.js" />
-    <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\knockout-3.0.0.debug.js" />
+    <Content Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\knockoutWrapper.js" />
@@ -1202,6 +1234,7 @@
     <Content Include="Scripts\mvcfileupload\main.js" />
     <Content Include="Scripts\mvcfileupload\tmpl.js" />
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
+    <Content Include="Scripts\ng-ckeditor-1.0.1.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\pdfjs\compatibility.js" />
     <Content Include="Scripts\pdfjs\l10n.js" />
@@ -1299,7 +1332,6 @@
     <Content Include="Scripts\tinymce\skins\light\skin.min.css" />
     <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
-    <Content Include="Scripts\TwitterBootstrapMvcJs.js" />
     <Content Include="Scripts\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\xeditable.js" />
@@ -1774,6 +1806,21 @@
     <Content Include="Views\ComplexMaterial\_AddRootConceptForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_MemoForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenConceptForm.cshtml" />
+    <Content Include="Views\CP\ConsultationDate.cshtml" />
+    <Content Include="Views\Shared\_SearchPartial.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\CP\Index.cshtml" />
+    <Content Include="Views\CP\Percentage.cshtml" />
+    <Content Include="Views\CP\PercentageResults.cshtml" />
+    <Content Include="Views\CP\Percentages.cshtml" />
+    <Content Include="Views\CP\Project.cshtml" />
+    <Content Include="Views\CP\Projects.cshtml" />
+    <Content Include="Views\CP\Students.cshtml" />
+    <Content Include="Views\CP\TaskSheet.cshtml" />
+    <Content Include="Views\CP\TaskSheetEdit.cshtml" />
+    <Content Include="Views\CP\VisitStats.cshtml" />
+    <Content Include="Views\CP\News.cshtml" />
     <Content Include="Views\Chat\Chat.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -1799,6 +1846,10 @@
     <ProjectReference Include="..\Application.Infrastructure\Application.Infrastructure.csproj">
       <Project>{A9E94869-28E1-4B55-ABE1-984E6AE62EAF}</Project>
       <Name>Application.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.SearchEngine\Application.SearchEngine.csproj">
+      <Project>{8371cb8f-cc57-426f-a9d5-0b2ab3bc64e7}</Project>
+      <Name>Application.SearchEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\LMPlatform.Data\LMPlatform.Data.csproj">
       <Project>{79EE9ED9-A7E4-43DB-B01F-FF693309ADC9}</Project>

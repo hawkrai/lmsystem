@@ -1,17 +1,18 @@
-﻿//using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-//using System.Web;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Application.Core.Constants;
+using Application.Core.Extensions;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.MessageManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.MessageViewModels;
-//using Mvc.JQuery.Datatables;
+using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
@@ -108,8 +109,7 @@ namespace LMPlatform.UI.Controllers
         {
             var recip = MessageManagementService.GetRecipients(WebSecurity.CurrentUserId);
 
-            var result = recip.Where(r => r.FullName.ToLower().Contains(term.ToLower())
-                                            || r.UserName.ToLower().Contains(term.ToLower()))
+            var result = recip.Where(r => r.FullName.ToLower().Contains(term.ToLower()))
                 .Select(r => new
                 {
                     text = r.FullName,
