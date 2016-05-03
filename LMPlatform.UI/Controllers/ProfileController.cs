@@ -12,10 +12,37 @@ namespace LMPlatform.UI.Controllers
 {
     using System.Collections.Generic;
 
+    using Application.Core;
+    using Application.Infrastructure.DPManagement;
     using Application.Infrastructure.SubjectManagement;
+
+    using LMPlatform.UI.ViewModels.AdministrationViewModels;
+
+    using WebMatrix.WebData;
 
     public class ProfileController : Controller
 	{
+        private IDpManagementService DpManagementService
+        {
+            get { return _diplomProjectManagementService.Value; }
+        }
+
+        private readonly LazyDependency<IDpManagementService> _diplomProjectManagementService = new LazyDependency<IDpManagementService>();
+
+        public ActionResult Page(string userName = "")
+        {
+            if (User.IsInRole("lector") || User.IsInRole("student"))
+            {
+                var model = new LmsViewModel(WebSecurity.CurrentUserId, User.IsInRole("lector"));
+                model.UserActivity = new UserActivityViewModel();
+
+                ViewBag.ShowDpSectionForUser = DpManagementService.ShowDpSectionForUser(WebSecurity.CurrentUserId);
+
+                return View(model);
+            }
+
+            return RedirectToAction("Login", "Account");
+        }
 
         [HttpPost]
         public ActionResult GetProfileStatistic(string userLogin)

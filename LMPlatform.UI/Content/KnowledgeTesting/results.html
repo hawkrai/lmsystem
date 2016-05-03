@@ -29,7 +29,7 @@
             <td width="300px">{{result.StudentName}}</td>
             <td data-ng-repeat="mark in result.TestPassResults">
                 <div >
-                    <div tooltip="Тест {{mark.TestName}} пройден на {{mark.Points}}" tooltip-placement="right">{{mark.Points}}</div>
+                    <div data-ng-show="mark.Points != null" tooltip="Тест {{mark.TestName}} пройден на {{mark.Points}}" tooltip-placement="right">{{mark.Points}} ({{mark.Percent}}%)</div>
                     <a data-ng-show="mark.Points == null" tooltip="Тест {{mark.TestName}} не пройден" tooltip-placement="right"><span class="fa fa-warning fa-1x"></span></a>
                 </div>
             </td>

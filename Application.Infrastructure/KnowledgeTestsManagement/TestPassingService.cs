@@ -297,11 +297,23 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 {
                     TestId = testId,
                     TestName = t != null ? t.Title : "Тест", 
-                    Points = GetPoints(rawStudent, testId)
+                    Points = GetPoints(rawStudent, testId),
+                    Percent = GetPercent(rawStudent, testId)
                 });
             }
 
             return testPassResults;
+        }
+
+        private int? GetPercent(Student rawStudent, int testId)
+        {
+            var passResult = rawStudent.User.TestPassResults.Where(result => result.TestId == testId);
+            if (passResult.Count() == 1)
+            {
+                return passResult.Single().Percent;
+            }
+
+            return null;
         }
 
         private int? GetPoints(Student rawStudent, int testId)

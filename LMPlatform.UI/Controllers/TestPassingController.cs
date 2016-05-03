@@ -85,7 +85,8 @@ namespace LMPlatform.UI.Controllers
             var results = TestPassingService.GetStidentResults(subjectId, CurrentUserId).GroupBy(g => g.TestName).Select(group => new
             {
                 Title = group.Key,
-                Points = group.Last().Points
+                Points = group.Last().Points,
+                Percent = group.Last().Percent
             });
 
             return Json(results, JsonRequestBehavior.AllowGet);
