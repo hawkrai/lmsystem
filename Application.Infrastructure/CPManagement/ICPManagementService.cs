@@ -38,7 +38,7 @@ namespace Application.Infrastructure.CPManagement
 
         PagedList<StudentData> GetGraduateStudentsForGroup(int userId, int groupId, int subjectId, GetPagedListParams parms, bool getBySecretaryForStudent = true);
 
-
+        void DisableNews(int subjectId, bool disable);
 
         void SaveProject(CourseProjectData projectData);
 

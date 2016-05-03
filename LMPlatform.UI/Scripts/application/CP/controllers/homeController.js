@@ -8,7 +8,7 @@ angular
         'projectService',
         function ($scope, $location, $resource, projectService) {
 
-            $scope.Title = "Курсовые проекты (работы)";
+            $scope.Title = "";
 
             $scope.setTitle = function (title) {
                 $scope.Title = title;

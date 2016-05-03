@@ -2,6 +2,7 @@
 using Application.Infrastructure.CPManagement;
 using Application.Infrastructure.CTO;
 using LMPlatform.Models;
+using LMPlatform.UI.Services.Modules;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -57,6 +58,8 @@ namespace LMPlatform.UI.ApiControllers.CP
                 };
             }
         }
+
+
 
         [System.Web.Http.HttpDelete]
         public System.Web.Mvc.JsonResult Delete([FromBody]CourseProjectNews deleteData)

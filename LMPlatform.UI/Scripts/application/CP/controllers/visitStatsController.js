@@ -163,19 +163,28 @@
                     }
                 });
 
+            $scope.selectedGroups = false;
+            $scope.selectedGroupId;
+
             $scope.selectGroups = function (id) {
                 if (id) {
                     $scope.selectedGroupId = id;
+                    $scope.selectedGroups = true;
                     $scope.tableParams.reload();
                 }
               
             };
 
+            $scope.searchString = "";
+            $scope.search = function () {
+                $scope.tableParams.filter.searchString = $scope.searchString;
+                $scope.tableParams.reload();
+            }
             
             $scope.tableParams = new ngTableParams(
                 angular.extend({
                     page: 1,
-                    count: 1000
+                    count: 1000,
                 }, $location.search()), {
                     total: 0,
                     getData: function ($defer, params) {
@@ -185,7 +194,8 @@
                             {
                                 groupId: $scope.selectedGroupId,
                                 subjectId: subjectId,
-                                lecturerId: $scope.selectedLecturerId
+                                lecturerId: $scope.selectedLecturerId,
+                                searchString: $scope.searchString
                             }}),
                             function (data) {
                                 $defer.resolve(data.Students.Items);

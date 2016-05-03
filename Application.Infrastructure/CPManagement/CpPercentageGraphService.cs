@@ -162,21 +162,23 @@ namespace Application.Infrastructure.CPManagement
         public void SavePercentage(int userId, PercentageGraphData percentageData)
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, userId);
-
-            if (Context.CoursePercentagesGraphs.Any(x => x.Name == percentageData.Name))
-            {
-                throw new ApplicationException("Этап с таким названием уже есть!");
-            }
-
             CoursePercentagesGraph percentage;
             if (percentageData.Id.HasValue)
             {
                 percentage = Context.CoursePercentagesGraphs
                               .Include(x => x.CoursePercentagesGraphToGroups)
                               .Single(x => x.Id == percentageData.Id);
+                if (Context.CoursePercentagesGraphs.Any(x => x.Name == percentageData.Name && x.Id != percentageData.Id))
+                {
+                    throw new ApplicationException("Этап с таким названием уже есть!");
+                }
             }
             else
             {
+                if (Context.CoursePercentagesGraphs.Any(x => x.Name == percentageData.Name))
+                {
+                    throw new ApplicationException("Этап с таким названием уже есть!");
+                }
                 percentage = new CoursePercentagesGraph();
                 Context.CoursePercentagesGraphs.Add(percentage);
                 percentage.SubjectId = percentageData.SubjectId;

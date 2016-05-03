@@ -80,13 +80,13 @@
 
             $scope.deleteAssignment = function (id) {
                 bootbox.confirm({
-                    title: "Удаление назначения курсового проекта (работы)",
-                    message: "Вы действительно хотите удалить назначение курсового проекта (работы)?",
+                    title: "Отменить назначение курсового проекта (работы)",
+                    message: "Вы действительно хотите отменить назначение курсового проекта (работы)?",
                     callback: function (isConfirmed) {
                         if (isConfirmed) {
                             projectService.deleteAssignment(id).success(function () {
                                 $scope.tableParams.reload();
-                                alertify.success("Назначение успешно удалено");
+                                alertify.success("Назначение успешно отменено");
                             }).error(function (error) {
                                 $scope.handleError(error);
                             });
@@ -179,26 +179,36 @@
             }
 
             var subjectId = getParameterByName("subjectId");
+            $scope.searchString = "";
+            $scope.search = function () {
+                $scope.tableParams.filter.searchString = $scope.searchString;
+                $scope.tableParams.reload();
+            }
+
 
             $scope.tableParams = new ngTableParams(
-              /*  angular.extend({
-                    page: 1,
-                    sorting: {
-                        Theme: 'asc'
-                    }
-                }, {}// $location.search()} uncomment in order to save params in the url
-                )*/
-                {
+
+               {
                     page: 1,
                     filter: {
-                        subjectId: subjectId
+                        subjectId: subjectId,
+                        searchString: $scope.searchString
+                    },
+                    sorting: {
+                        Id: 'desc'
                     }
-                }
-                , {
+                    
+                }, {
                     total: 0,
                     getData: function ($defer, params) {
-                        //                        $location.search(params.url());
-                        projectService.getProjects(subjectId, params.url())
+                        $location.search(params.url());
+                        projectService.getProjects(subjectId, angular.extend(params.url(), {
+                            filter:
+                            {
+                                subjectId: subjectId,
+                                searchString: $scope.searchString
+                            }
+                        })/*params.url()*/)
                             .success(function (data) {
                                 $defer.resolve(data.Items);
                                 params.total(data.Total);
@@ -209,4 +219,4 @@
 
             $scope.navigationManager.setListPage();
 
-        }]);
+        }])
