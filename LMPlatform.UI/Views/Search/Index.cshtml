@@ -1,5 +1,10 @@
 ﻿@model LMPlatform.UI.ViewModels.SearchViewModel.SearchViewModel
 
+@section navleft
+{
+    <li><a href="@Url.Action("Index", "Lms")" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
+}
+
 @section headerTitle{
     <h1>Результаты поиска:</h1>
 }
