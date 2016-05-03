@@ -3,8 +3,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Application.Infrastructure.Export;
 using LMPlatform.Data.Infrastructure;
-using Application.Infrastructure.CTO;
-using System.Collections.Generic;
 using Application.Infrastructure.CPManagement;
 using System.Diagnostics.CodeAnalysis;
 using Application.Core;
@@ -94,7 +92,19 @@ namespace LMPlatform.UI.Controllers
 
              WordCourseProject.CourseProjectToWord(docName, courseProject, Response);
         }
-        
+
+        [System.Web.Http.HttpPost]
+        public void DisableNews(string subjectId)
+        {
+            CpManagementService.DisableNews(int.Parse(subjectId), true);
+        }
+
+        [System.Web.Http.HttpPost]
+        public void EnableNews(string subjectId)
+        {
+            CpManagementService.DisableNews(int.Parse(subjectId), false);
+        }
+
         public string GetTasksSheetHtml(int courseProjectId)
         {
             //todo
@@ -111,6 +121,14 @@ namespace LMPlatform.UI.Controllers
         public ActionResult TaskSheetEdit()
         {
             return PartialView();
+        }
+
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
+        private readonly LazyDependency<ICPManagementService> _cpManagementService = new LazyDependency<ICPManagementService>();
+
+        private ICPManagementService CpManagementService
+        {
+            get { return _cpManagementService.Value; }
         }
 
     }

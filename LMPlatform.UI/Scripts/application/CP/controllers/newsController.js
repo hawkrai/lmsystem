@@ -17,6 +17,7 @@
         $scope.setTitle("Объявления по курсовому проектированию");
         $scope.news = [];
         $scope.UrlServiceNews = '/api/CourseProjectNews/';
+        $scope.UrlCpNews = '/Cp/';
         
 
         function getParameterByName(name) {
@@ -166,6 +167,36 @@
                         }
                     }
                 }
+            });
+        };
+        
+        $scope.disableNews = function () {
+            $http({
+                method: 'POST',
+                url: $scope.UrlCpNews + "DisableNews",
+                data: { subjectId: subjectId },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                alertify.success("Все объявления скрыты");
+                projectService.getNewses(subjectId)
+                    .success(function (data) {
+                        $scope.news = data;
+                    });
+            });
+        };
+
+        $scope.enableNews = function () {
+            $http({
+                method: 'POST',
+                url: $scope.UrlCpNews + "EnableNews",
+                data: { subjectId: subjectId },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                alertify.success("Все объявления активны");
+                projectService.getNewses(subjectId)
+                    .success(function (data) {
+                        $scope.news = data;
+                    });
             });
         };
 

@@ -36,6 +36,10 @@ namespace Application.Infrastructure.CPManagement
 
         PagedList<StudentData> GetGraduateStudentsForUser(int userId, int subjectId, GetPagedListParams parms, bool getBySecretaryForStudent = true);
 
+        PagedList<StudentData> GetGraduateStudentsForGroup(int userId, int groupId, int subjectId, GetPagedListParams parms, bool getBySecretaryForStudent = true);
+
+        void DisableNews(int subjectId, bool disable);
+
         void SaveProject(CourseProjectData projectData);
 
         void SetStudentDiplomMark(int lecturerId, int assignedProjectId, int mark);

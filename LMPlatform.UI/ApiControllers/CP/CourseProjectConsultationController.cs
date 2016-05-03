@@ -25,9 +25,15 @@ namespace LMPlatform.UI.ApiControllers.CP
                 subjectId = int.Parse(parms.Filters["subjectId"]);
             }
 
+            var groupId = 0;
+            if (parms.Filters.ContainsKey("groupId"))
+            {
+                groupId = int.Parse(parms.Filters["groupId"]);
+            }
+
             return new
             {
-                Students = CpManagementService.GetGraduateStudentsForUser(lecturerId, subjectId, parms, false),
+                Students = CpManagementService.GetGraduateStudentsForGroup(lecturerId, groupId, subjectId, parms, false),
                 CourseProjectConsultationDates = PercentageService.GetConsultationDatesForUser(lecturerId, subjectId)
             };
         }

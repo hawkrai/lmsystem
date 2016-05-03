@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Курсовое проектирование";
+    ViewBag.Title = "";
     ViewBag.NgApp = "cpApp";
     ViewBag.NgController = "homeCtrl";
     Layout = "~/Views/Shared/Layouts/_LayoutBase.cshtml";
@@ -12,6 +12,11 @@
 
 }
 
+@section headerTitle
+{
+    <h1>{{subject.Name}} <small>{{Title}}</small></h1>
+}
+
 @section navleft
 {
     <li ng-class="{active:isActive('/News')}" class="navLink"><a href="#/News" class="linkNavbar">Объявления</a></li>
@@ -22,12 +27,6 @@
     <li ng-class="{active:isActive('/VisitStats')}" class="navLink"><a href="#/VisitStats" class="linkNavbar">Статистика посещения консультаций</a></li>
     <li><a href="/Subject?subjectId={{subject.Id}}" linkNavbar"><i class="fa fa-arrow-left"></i>В предмет</a></li>
     <li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
-}
-
-@section headerTitle
-{
-    <h1>{{subject.Name}} <small>{{Title}}</small></h1>
-    
 }
 
 
