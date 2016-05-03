@@ -1,8 +1,14 @@
 ﻿<div>
-    <div style="padding-bottom: 20px" ng-show="user.IsLecturer" id="buttonActionSection">
+    <div style="padding-bottom: 20px; float:left" ng-show="user.IsLecturer" id="buttonActionSection">
         <a ng-click="editProject()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить тему</a>
     </div>
-    <div>
+
+    <div style="width:237px; display: inline-block;vertical-align: middle;float:right">
+            <label style="width:100%;font-size: 12px;font-weight: normal;display: inline-block;max-width: 100%; margin-bottom: 5px;">
+                <input style="margin:0;display:inline-block; width:100%" class="form-control input-sm" type="search" ng-model="searchString" ng-change="search()" placeholder="Поиск темы, студента, группы" autocomplete="off">    
+            </label>      
+    </div>
+    <div style="float:left; width:100%">
         <div loading-container="tableParams.settings().$loading">
             <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
                 <tr ng-repeat="project in $data">
@@ -19,7 +25,7 @@
                             <i tooltip-placement="left" tooltip="Назначить" class="fa fa-list-alt fa-2x"></i>
                         </a>
                         <a ng-show="project.Student!=null" ng-click="deleteAssignment(project.Id)" style="margin-right: 10px">
-                            <i tooltip-placement="left" tooltip="Удалить назначение" class="fa fa-minus-square-o fa-2x"></i>
+                            <i tooltip-placement="left" tooltip="Отменить назначение" class="fa fa-minus-square-o fa-2x"></i>
                         </a>
                         <a ng-show="project.Student !=null" ng-click="downloadTaskSheet(project.Id)" style="margin-right: 10px">
                             <i tooltip-placement="left" tooltip="Скачать лист задания" class="fa fa-download fa-2x"></i>

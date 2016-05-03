@@ -11,6 +11,8 @@
                     <td>
                         <div id="buttonActionSection">
                             <a id="addNewsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="addNews()">Добавить объявление</a>
+                            <a style="margin-right: 10px;" class="btn btn-default btn-sm" ng-click="disableNews()">Скрыть все объявления</a>
+                            <a style="margin-right: 10px; background-color:#00FF8A" class="btn btn-default btn-sm" ng-click="enableNews()">Показать все объявления</a>
                         </div>
                     </td>
                 </tr>
@@ -50,6 +52,9 @@
                         <div class="lighter" style="width: 545px">
                             <div text-angular ng-model="editNewsData.Body" name="editor" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
                         </div>
+                    </div>
+                    <div style="width: 60%">
+                        @Html.Partial("Common/_FilesUploader", new List<LMPlatform.Models.Attachment>())
                     </div>
                     <div>
                         <input type="checkbox" id="newsIsOLd" ng-model="editNewsData.IsOldDate" /><span> Оставить старую дату объявления</span>

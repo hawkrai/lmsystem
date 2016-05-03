@@ -179,6 +179,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 GroupId = int.Parse(Group)
             });
             student.User = user;
+            student.Group = GroupManagementService.GetGroup(student.GroupId);
             new StudentSearchMethod().AddToIndex(student);
         }
 

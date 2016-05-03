@@ -233,11 +233,11 @@ namespace Application.Infrastructure.Export
             faculty.InnerText = "Информационных технологий и робототехники";
             children.Add(faculty);
 
-            children.AddRange(CreateStringNodes(doc, "InputData", work.InputData, 439, 638, 13));
+            children.AddRange(CreateStringNodes(doc, "InputData", work.InputData, 439, 638,8));
 
             children.AddRange(CreateStringNodes(doc, "RPZContent", work.RpzContent, 331, 638, 15));
 
-            children.AddRange(CreateStringNodes(doc, "DrawMaterials", work.DrawMaterials, 403, 638, 5));
+            children.AddRange(CreateStringNodes(doc, "DrawMaterials", work.DrawMaterials, 403, 638, 7));
 
             children.AddRange(CreateStringNodes(doc, "Consultants", work.Consultants, 271, 638, 6));
 
@@ -303,7 +303,7 @@ namespace Application.Infrastructure.Export
 
             var univer = doc.CreateElement("item");
             univer.SetAttribute("name", "Univer");
-            univer.InnerText = "Белорусский Национальный Технический университет";
+            univer.InnerXml = "Белорусский Национальный Технический университет";
             children.Add(univer);
 
             var faculty = doc.CreateElement("item");
@@ -311,11 +311,11 @@ namespace Application.Infrastructure.Export
             faculty.InnerText = "Информационных технологий и робототехники";
             children.Add(faculty);
 
-            children.AddRange(CreateStringNodes(doc, "InputData", awork.CourseProject.InputData, 439, 638, 13));
+            children.AddRange(CreateStringNodes(doc, "InputData", awork.CourseProject.InputData, 439, 638, 8));
 
             children.AddRange(CreateStringNodes(doc, "RPZContent", awork.CourseProject.RpzContent, 331, 638, 15));
 
-            children.AddRange(CreateStringNodes(doc, "DrawMaterials", awork.CourseProject.DrawMaterials, 403, 638, 5));
+            children.AddRange(CreateStringNodes(doc, "DrawMaterials", awork.CourseProject.DrawMaterials, 403, 638, 7));
 
             children.AddRange(CreateStringNodes(doc, "Consultants", awork.CourseProject.Consultants, 271, 638, 6));
 

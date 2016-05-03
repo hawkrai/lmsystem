@@ -17,25 +17,24 @@
             $scope.percentages = [];
 
             $scope.groups = [];
-            $scope.selectGroup = function (group) {
-                $scope.selectedGroupId = group.Id;
-                $scope.setLecturerSelectedSecretaryId(group.Id);
-                $scope.tableParams.reload();
-            };
+            $scope.group = { Id: null };
 
-            projectService.getLecturerDiplomGroupCorrelation(subjectId)
-                .success(function (data) {
-                    $scope.groups = data;
-                    var selectedSecretaries = data.filter(function (elt) {
-                        return $scope.getLecturerSelectedSecretaryId() == elt.Id ? elt : null;
-                    });
-                    if (selectedSecretaries.length == 1) {
-                        $scope.group = selectedSecretaries[0];
-                        $scope.selectGroup($scope.group);
-                    } else {
-                        $scope.group = { Id: null, Name: "Выберите секретаря" };
-                    }
-                });
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+
+
+            var subjectId = getParameterByName("subjectId");
+
+            projectService
+               .getGroups(subjectId)
+               .success(function (data) {
+                   $scope.groups = data;
+               });
 
 
             $scope.getPercentageResult = function (student, percentageGraphId) {
@@ -82,16 +81,23 @@
                 return false;
             };
 
-            function getParameterByName(name) {
-                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                    results = regex.exec(location.search);
-                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            $scope.selectedGroups = false;
+
+            $scope.selectGroups = function (id) {
+                if (id) {
+                    $scope.selectedGroupId = id;
+                    $scope.selectedGroups = true;
+                    $scope.tableParams.reload();
+                }
+
+            };
+
+            $scope.searchString = "";
+            $scope.search = function () {
+                $scope.tableParams.filter.searchString = $scope.searchString;
+                $scope.tableParams.reload();
             }
 
-
-
-            var subjectId = getParameterByName("subjectId");
 
             $scope.tableParams = new ngTableParams(
                 angular.extend({
@@ -104,8 +110,10 @@
                         percentageResults.get(angular.extend(params.url(), {
                             filter:
                             {
+                                groupId: $scope.selectedGroupId,
                                 subjectId: subjectId,
-                                secretaryId: $scope.selectedGroupId
+                                secretaryId: $scope.selectedGroupId,
+                                searchString: $scope.searchString
                             }}),
                             function (data) {
                                 $defer.resolve(data.Students.Items);
