@@ -437,6 +437,10 @@
     <Compile Include="Services\Practicals\PracticalService.svc.cs">
       <DependentUpon>PracticalService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\Search\ISearchService.cs" />
+    <Compile Include="Services\Search\SearchService.svc.cs">
+      <DependentUpon>SearchService.svc</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\PersonalDataViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
@@ -1288,6 +1292,7 @@
     <Content Include="Services\News\NewsService.svc" />
     <Content Include="Services\Parental\ParentalService.svc" />
     <Content Include="Services\Practicals\PracticalService.svc" />
+    <Content Include="Services\Search\SearchService.svc" />
     <Content Include="Templates\AdminLTE.css" />
     <Content Include="Templates\css\bootstrap-slider\slider.css" />
     <Content Include="Templates\css\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
