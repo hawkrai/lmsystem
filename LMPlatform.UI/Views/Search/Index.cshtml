@@ -35,9 +35,9 @@
         <div id="students" class="tab-pane fade in active">
             @foreach (var student in Model.Students)
             {
-                <a href="/Lms/@student.Email" class="list-group-item">
+                <a href="/Profile/Page/@student.Email" class="list-group-item">
                     @student.FullName
-                    <br/>
+                    <br />
                     <sub>группа: @student.GroupId</sub>
                 </a>
             }
@@ -59,7 +59,7 @@
         <div id="lecturers" class="tab-pane fade">
             @foreach (var lecturer in Model.Lecturers)
             {
-                <a href="/Lms/@lecturer.Skill" class="list-group-item">
+                <a href="/Profile/Page/@lecturer.Skill" class="list-group-item">
                     @lecturer.FullName
                 </a>
             }
