@@ -19,5 +19,7 @@
 		public string Avatar { get; set; }
 
 		public string LastLogitData { get; set; }
+
+        public string Group { get; set; }
 	}
 }

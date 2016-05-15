@@ -277,7 +277,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             var studentResults = students.Select(rawStudent => new Student
             {
-                Id = rawStudent.Id, FirstName = rawStudent.FirstName, LastName = rawStudent.LastName, User = new User
+                Id = rawStudent.Id, FirstName = rawStudent.FirstName, LastName = rawStudent.LastName, MiddleName = rawStudent.MiddleName, User = new User
                 {
                     TestPassResults = GetTestPassResultsForStudent(testIds, rawStudent)
                 }
@@ -559,7 +559,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 / (double)test.Questions.Where(q => testAnswers.Select(a => a.QuestionId).Contains(q.Id))
                 .Sum(question => question.ComlexityLevel)) * 10;
 
-            return (int)result;
+            return (int)Math.Round(result);
         }
 
         private int GetPoints(IEnumerable<AnswerOnTestQuestion> testAnswers)
