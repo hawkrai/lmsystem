@@ -13,6 +13,11 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
+    using System;
+    using System.Text;
+
+    using Application.Core.SLExcel;
+
     public class TestPassingController : BasicController
     {
         [Authorize, HttpGet]
@@ -85,7 +90,8 @@ namespace LMPlatform.UI.Controllers
             var results = TestPassingService.GetStidentResults(subjectId, CurrentUserId).GroupBy(g => g.TestName).Select(group => new
             {
                 Title = group.Key,
-                Points = group.Last().Points
+                Points = group.Last().Points,
+                Percent = group.Last().Percent
             });
 
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -119,6 +125,76 @@ namespace LMPlatform.UI.Controllers
             TestPassingService.MakeUserAnswer(answers != null && answers.Any() ? answers.Select(answerModel => answerModel.ToAnswer()) : null, CurrentUserId, testId, questionNumber);
 
             return Json("Ok");
+        }
+
+        [Authorize, HttpGet]
+        public void GetResultsExcel(int groupId, int subjectId)
+        {
+            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
+
+            var data = new SLExcelData();
+
+            var rowsData = new List<List<string>>();
+
+            foreach (var result in results)
+            {
+                var datas = new List<string>();
+                datas.Add(result.StudentName);
+                datas.AddRange(result.TestPassResults.Select(e => e.Points != null ? string.Format("{0}({1}%)", e.Points, e.Percent) : string.Empty));
+                if (result.TestPassResults.Count(e => e.Points != null) > 0)
+                {
+                    var pointsSum = Math.Round((decimal)result.TestPassResults.Sum(e => e.Points).Value / result.TestPassResults.Count(e => e.Points != null), 0, MidpointRounding.AwayFromZero);
+                    var percentSum = Math.Round((decimal)result.TestPassResults.Sum(e => e.Percent).Value / result.TestPassResults.Count(e => e.Percent != null), 0);
+                    datas.Add(pointsSum + " (" + percentSum + "%)");    
+                }
+                rowsData.Add(datas);
+            }
+
+            var index = 0;
+            var total = new List<string>()
+                                  {
+                                      "Средние значения",
+                                  };
+
+            foreach (var testResultItemListViewModel in results[0].TestPassResults)
+            {
+                var count = 0;
+                decimal sum = 0;
+                decimal sumPoint = 0;
+                foreach (var resultItemListViewModel in results)
+                {
+                    if (resultItemListViewModel.TestPassResults[index].Points != null)
+                    {
+                        count += 1;
+                        sumPoint += resultItemListViewModel.TestPassResults[index].Points.Value;
+                    }
+
+                    if (resultItemListViewModel.TestPassResults[index].Percent != null)
+                    {
+                        sum += resultItemListViewModel.TestPassResults[index].Percent.Value;
+                    }
+
+                }
+                index += 1;
+                total.Add((int)Math.Round(sumPoint/count, 0, MidpointRounding.AwayFromZero) + " (" + Math.Round(sum / count, 0) + "%)");
+            }
+
+            data.Headers.Add("Студент");
+            data.Headers.AddRange(results[0].TestPassResults.Select(e => e.TestName));
+            data.DataRows.AddRange(rowsData);
+            data.DataRows.Add(total);
+
+            var file = (new SLExcelWriter()).GenerateExcel(data);
+
+            Response.Clear();
+            Response.Charset = "ru-ru";
+            Response.HeaderEncoding = Encoding.UTF8;
+            Response.ContentEncoding = Encoding.UTF8;
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("Content-Disposition", "attachment; filename=TestResult.xlsx");
+            Response.BinaryWrite(file);
+            Response.Flush();
+            Response.End();
         }
 
         protected int CurrentUserId

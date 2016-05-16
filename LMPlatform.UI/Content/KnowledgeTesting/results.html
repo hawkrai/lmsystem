@@ -4,6 +4,12 @@
         {{group.Name}}
     </button>
 </div>
+<div style="display: inline-table; margin-right: 10px">
+    <a class="btn btn-primary btn-sm" ng-click="resultExport()" tooltip="Загрузить документ Excel">
+        <i class="fa fa-download"></i>
+        <span>Excel</span>
+    </a>
+</div>
 
 
 
@@ -28,19 +34,27 @@
             <td width="10px">{{results.indexOf(result) + 1}}</td>
             <td width="300px">{{result.StudentName}}</td>
             <td data-ng-repeat="mark in result.TestPassResults">
-                <div >
-                    <div tooltip="Тест {{mark.TestName}} пройден на {{mark.Points}}" tooltip-placement="right">{{mark.Points}}</div>
+                <div>
+                    <div data-ng-show="mark.Points != null" tooltip="Тест {{mark.TestName}} пройден на {{mark.Points}}" tooltip-placement="right">{{mark.Points}} ({{mark.Percent}}%)</div>
                     <a data-ng-show="mark.Points == null" tooltip="Тест {{mark.TestName}} не пройден" tooltip-placement="right"><span class="fa fa-warning fa-1x"></span></a>
                 </div>
             </td>
             <td>{{calcOverage(result)}}</td>
         </tr>
+        <tr>
+            <td></td>
+            <td style="text-align: right;">Средние значения: </td>
+            <td data-ng-repeat="res in results[0].TestPassResults">
+                {{calcTotal(results, $index).Point}} ({{calcTotal(results, $index).Percent}}%)
+            </td>
+            <td>{{calcAll()}}</td>
+        </tr>
     </table>
 </div>
 <div class="row col-md-12">
-	<div id="chartBarAverage" class="jqplot-target"></div>
+    <div id="chartBarAverage" class="jqplot-target"></div>
 </div>
 
 <script>
-	$("#headerMainPage").find("small").text("Результаты тестов");
+    $("#headerMainPage").find("small").text("Результаты тестов");
 </script>

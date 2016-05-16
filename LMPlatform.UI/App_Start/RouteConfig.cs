@@ -24,6 +24,11 @@ namespace LMPlatform.UI
 				defaults: new { controller = "Lms", action = "Index"});
 
             routes.MapRoute(
+                name: "ProfilePage",
+                url: "Profile/Page/{userName}",
+                defaults: new { controller = "Profile", action = "Page" });
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional });

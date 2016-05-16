@@ -313,6 +313,7 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\circle.css" />
     <Content Include="Content\docs.min.css" />
     <Content Include="Content\fullcalendar\fullcalendar.css" />
     <Content Include="Content\fullcalendar\fullcalendar.print.css" />
@@ -781,6 +782,8 @@
     <Content Include="Scripts\application\Messages\message.js" />
     <Content Include="Scripts\application\Messages\msgModule.js" />
     <Content Include="Scripts\application\Parental\parentalModule.js" />
+    <Content Include="Scripts\application\profilePage\appProfilePage.js" />
+    <Content Include="Scripts\application\profilePage\controllers\pageController.js" />
     <Content Include="Scripts\application\scorm\app-scorm.js" />
     <Content Include="Scripts\application\scorm\scorm-controller.js" />
     <Content Include="Scripts\application\shared.js" />
@@ -1763,6 +1766,7 @@
     <Content Include="Views\CP\TaskSheetEdit.cshtml" />
     <Content Include="Views\CP\VisitStats.cshtml" />
     <Content Include="Views\CP\News.cshtml" />
+    <Content Include="Views\Profile\Page.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,10 +12,48 @@ namespace LMPlatform.UI.Controllers
 {
     using System.Collections.Generic;
 
+    using Application.Core;
+    using Application.Infrastructure.DPManagement;
+    using Application.Infrastructure.ProjectManagement;
     using Application.Infrastructure.SubjectManagement;
+
+    using LMPlatform.UI.ViewModels.AdministrationViewModels;
+
+    using WebMatrix.WebData;
+
 
     public class ProfileController : Controller
 	{
+        private IDpManagementService DpManagementService
+        {
+            get { return _diplomProjectManagementService.Value; }
+        }
+
+        private readonly LazyDependency<IDpManagementService> _diplomProjectManagementService = new LazyDependency<IDpManagementService>();
+
+        private IProjectManagementService ProjectManagementService
+        {
+            get { return projectManagementService.Value; }
+        }
+
+        private readonly LazyDependency<IProjectManagementService> projectManagementService = new LazyDependency<IProjectManagementService>();
+
+        public ActionResult Page(string userName = "")
+        {
+            if (User.IsInRole("lector") || User.IsInRole("student"))
+            {
+                var model = new LmsViewModel(WebSecurity.CurrentUserId, User.IsInRole("lector"));
+                model.UserActivity = new UserActivityViewModel();
+
+                ViewBag.ShowDpSectionForUser = DpManagementService.ShowDpSectionForUser(WebSecurity.CurrentUserId);
+
+                ViewData["userName"] = string.IsNullOrEmpty(userName) || WebSecurity.CurrentUserName == userName ? WebSecurity.CurrentUserName : userName;
+
+                return View(model);
+            }
+
+            return RedirectToAction("Login", "Account");
+        }
 
         [HttpPost]
         public ActionResult GetProfileStatistic(string userLogin)
@@ -80,7 +118,7 @@ namespace LMPlatform.UI.Controllers
 
             var user = userService.GetUser(userLogin);
 
-            var model = new List<Subject>();
+            List<Subject> model;
 
             if (user.Lecturer == null)
             {
@@ -140,12 +178,46 @@ namespace LMPlatform.UI.Controllers
                 }
 
                 model.Skill = course > 5 ? "Окончил (-а)" : course + " курс";
+
+                model.Group = user.Student.Group.Name;
             }
 
 
             return Json(model);
         }
 
+        [HttpPost]
+        public ActionResult GetUserProject(string userLogin)
+        {
+            var service = new UsersManagementService();
+
+            var user = service.GetUser(userLogin);
+            var project = ProjectManagementService.GetProjectsOfUser(user.Id);
+
+            return Json(project.Select(e => new
+                                                {
+                                                    Name = e.Project.Title
+                                                }));
+        }
+
+
+        //[HttpPost]
+        //public ActionResult GetStudentAttendance(string userLogin)
+        //{
+        //    var service = new UsersManagementService();
+
+        //    var user = service.GetUser(userLogin);
+
+        //    if (user.Lecturer != null)
+        //    {
+        //        return null;
+        //    }
+
+        //    var subjectService = new SubjectManagementService();
+
+        //    var attendance = subjectService.StudentAttendance(user.Id);
+        //}
+        
 		[HttpGet]
 		public ActionResult GetAccessCode()
 		{

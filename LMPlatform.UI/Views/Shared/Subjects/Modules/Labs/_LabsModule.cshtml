@@ -163,7 +163,7 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
 							<td style="width: 20px">{{$index + 1}}</td>
-							<td style="min-width: 300px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark">
 								<span editable-text="data.Mark" e-name="Mark" e-form="tableformVisiting">
 									{{ data.Mark || '' }}
@@ -224,7 +224,7 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
 							<td style="width: 42px">{{$index + 1}}</td>
-							<td style="min-width: 300px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 60px; text-align: center" ng-repeat="mark in student.StudentLabMarks">
 								<span editable-text="mark.Mark" e-name="Mark" e-form="tableformLabsMarks">
 									{{ mark.Mark || '' }}

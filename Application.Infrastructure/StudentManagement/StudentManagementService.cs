@@ -48,10 +48,11 @@ namespace Application.Infrastructure.StudentManagement
             {
                 searchString = searchString.Replace(" ", string.Empty);
 
-                //search by full name
+                //search by full name, group number, login
                 query.AddFilterClause(
                     e => (e.LastName + e.FirstName + e.MiddleName).Contains(searchString)
-                    || e.Group.Name.ToLower().Contains(searchString));
+                    || e.Group.Name.ToLower().Contains(searchString)
+                    || e.User.UserName.Contains(searchString));
             }
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
