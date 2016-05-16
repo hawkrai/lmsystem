@@ -4,6 +4,8 @@ using Application.Core.Data;
 using Application.SearchEngine.SearchMethods;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
+using Application.Core;
+using LMPlatform.Data.Infrastructure;
 
 namespace Application.Infrastructure.GroupManagement
 {
@@ -117,7 +119,95 @@ namespace Application.Infrastructure.GroupManagement
 			return data;
 	    }
 
-	    public Group GetGroupByName(string groupName)
+        public List<string> GetCpScheduleVisitings(int subjectId, int groupId)
+        {
+            var data = new List<string>();
+
+            var subject = Context.CourseProjectConsultationDates.Where(x => x.SubjectId == subjectId);
+
+                foreach (var cp in subject)
+                {
+                    data.Add(cp.Day.ToString("dd/MM/yyyy"));
+                }
+
+            return data;
+        }
+
+        public List<List<string>> GetCpScheduleMarks(int subjectId, int groupId)
+        {
+            var data = new List<List<string>>();
+            var groups = Context.Groups.Include("Students").Single(x=>x.Id == groupId);
+
+            foreach (var student in groups.Students.OrderBy(e => e.FullName))
+            {
+                if (student.AssignedCourseProjects.Any(x=>x.CourseProject.SubjectId == subjectId))
+                {
+                    var rows = new List<string>();
+                    rows.Add(student.FullName);
+                    foreach (var cpd in Context.CourseProjectConsultationDates.Include("CourseProjectConsultationMarks").Where(x => x.SubjectId == subjectId))
+                    {
+                        var cpM = cpd.CourseProjectConsultationMarks.Where(x => x.StudentId == student.Id);
+                        if (cpM.Count() > 0)
+                        {
+                            rows.Add("+");
+                        }
+                        else
+                        {
+                            rows.Add("-");
+                        }
+                    }
+                    data.Add(rows);
+                }
+            }
+            return data;
+        }
+
+        public List<string> GetCpPercentage(int subjectId, int groupId)
+        {
+            var data = new List<string>();
+
+            var subject = Context.CoursePercentagesGraphs.Where(x => x.SubjectId == subjectId);
+
+            foreach (var cp in subject)
+            {
+                data.Add(cp.Date.ToString("dd/MM/yyyy"));
+            }
+
+            return data;
+        }
+
+        public List<List<string>> GetCpMarks(int subjectId, int groupId)
+        {
+            var data = new List<List<string>>();
+            var groups = Context.Groups.Include("Students").Single(x => x.Id == groupId);
+
+            foreach (var student in groups.Students.OrderBy(e => e.FullName))
+            {
+                if (student.AssignedCourseProjects.Any(x => x.CourseProject.SubjectId == subjectId))
+                {
+                    var rows = new List<string>();
+                    rows.Add(student.FullName);
+                    foreach (var cpd in Context.CoursePercentagesGraphs.Include("CoursePercentagesResults").Where(x => x.SubjectId == subjectId))
+                    {
+                        var cpM = cpd.CoursePercentagesResults.FirstOrDefault(x => x.StudentId == student.Id);
+                        if (cpM != null)
+                        {
+                            rows.Add(cpM.Mark.ToString());
+                        }
+                        else
+                        {
+                            rows.Add("-");
+                        }
+                    }
+                    var st = student.AssignedCourseProjects.First();
+                    rows.Add(st.Mark.ToString());
+                    data.Add(rows);
+                }
+            }
+            return data;
+        }
+
+        public Group GetGroupByName(string groupName)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -125,6 +215,14 @@ namespace Application.Infrastructure.GroupManagement
 
                 return group;
             }
+        }
+
+
+        private readonly LazyDependency<ICpContext> context = new LazyDependency<ICpContext>();
+
+        private ICpContext Context
+        {
+            get { return context.Value; }
         }
     }
 }

@@ -32,6 +32,12 @@ namespace LMPlatform.Models
             set;
         }
 
+        public string Attachments
+        {
+            get;
+            set;
+        }
+
         public int SubjectId
         {
             get;
