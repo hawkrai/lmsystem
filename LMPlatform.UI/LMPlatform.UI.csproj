@@ -323,6 +323,7 @@
     <Content Include="Content\materials.css" />
     <Content Include="Content\select.css" />
     <Content Include="Images\Excel.png" />
+    <Content Include="Images\ExcelDownload.png" />
     <Content Include="Images\login_bk.jpg" />
     <Content Include="Images\Лого2.png" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />

@@ -10,6 +10,7 @@ using LMPlatform.Models.CP;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 using System.Collections.Generic;
+using Application.Infrastructure.FilesManagement;
 
 namespace Application.Infrastructure.CPManagement
 {
@@ -188,6 +189,8 @@ namespace Application.Infrastructure.CPManagement
 
             assignment.StudentId = studentId == 0 ? assignment.StudentId : studentId;
             assignment.ApproveDate = isLecturer ? (DateTime?)DateTime.Now : null;
+            var cp = Context.CourseProjects.FirstOrDefault(x => x.CourseProjectId == projectId);
+            cp.DateStart = isLecturer ? (DateTime?)DateTime.Now : null;
             Context.SaveChanges();
         }
 
@@ -196,6 +199,8 @@ namespace Application.Infrastructure.CPManagement
             AuthorizationHelper.ValidateLecturerAccess(Context, userId);
 
             var project = Context.AssignedCourseProjects.Single(x => x.CourseProjectId == id);
+            var cp = Context.CourseProjects.FirstOrDefault(x => x.CourseProjectId == id);
+            cp.DateStart = null;
             Context.AssignedCourseProjects.Remove(project);
             Context.SaveChanges();
         }
@@ -409,6 +414,11 @@ namespace Application.Infrastructure.CPManagement
                 existingTemplate.DrawMaterials = template.DrawMaterials;
                 existingTemplate.RpzContent = template.RpzContent;
                 existingTemplate.LecturerId = template.LecturerId;
+                existingTemplate.Faculty = template.Faculty;
+                existingTemplate.HeadCathedra = template.HeadCathedra;
+                existingTemplate.Univer = template.Univer;
+                existingTemplate.DateStart = template.DateStart;
+                existingTemplate.DateEnd = template.DateEnd;
             }
             else
             {
@@ -427,7 +437,13 @@ namespace Application.Infrastructure.CPManagement
                 Consultants = dp.Consultants,
                 CourseProjectId = dp.CourseProjectId,
                 DrawMaterials = dp.DrawMaterials,
-                RpzContent = dp.RpzContent
+                RpzContent = dp.RpzContent,
+                Faculty = dp.Faculty,
+                HeadCathedra = dp.HeadCathedra,
+                Univer = dp.Univer,
+                DateEnd = dp.DateEnd,
+                DateStart = dp.DateStart
+                
             };
         }
 
@@ -441,6 +457,11 @@ namespace Application.Infrastructure.CPManagement
             dp.RpzContent = taskSheet.RpzContent;
             dp.DrawMaterials = taskSheet.DrawMaterials;
             dp.Consultants = taskSheet.Consultants;
+            dp.HeadCathedra = taskSheet.HeadCathedra;
+            dp.Faculty = taskSheet.Faculty;
+            dp.Univer = taskSheet.Univer;
+            dp.DateStart = taskSheet.DateStart;
+            dp.DateEnd = taskSheet.DateEnd;
 
             Context.SaveChanges();
         }
@@ -487,13 +508,49 @@ namespace Application.Infrastructure.CPManagement
                 n.SubjectId = cp.SubjectId;
                 n.DateCreate = cp.EditDate.ToShortDateString();
                 n.Disabled = cp.Disabled;
+                n.PathFile = cp.Attachments;
+                n.Attachments = FilesManagementService.GetAttachments(cp.Attachments);
                 list.Add(n);
             }
             return list;
         }
 
-        public CourseProjectNews SaveNews(CourseProjectNews news)
+        private string GetGuidFileName()
         {
+            return string.Format("P{0}", Guid.NewGuid().ToString("N").ToUpper());
+        }
+
+        public CourseProjectNews SaveNews(CourseProjectNews news, IList<Attachment> attachments, Int32 userId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                if (!string.IsNullOrEmpty(news.Attachments))
+                {
+                    var deleteFiles =
+                        repositoriesContainer.AttachmentRepository.GetAll(
+                            new Query<Attachment>(e => e.PathName == news.Attachments)).ToList().Where(e => attachments.All(x => x.Id != e.Id)).ToList();
+
+                    foreach (var attachment in deleteFiles)
+                    {
+                        FilesManagementService.DeleteFileAttachment(attachment);
+                    }
+                }
+                else
+                {
+                    news.Attachments = GetGuidFileName();
+                }
+
+                FilesManagementService.SaveFiles(attachments.Where(e => e.Id == 0), news.Attachments);
+
+                foreach (var attachment in attachments)
+                {
+                    if (attachment.Id == 0)
+                    {
+                        attachment.PathName = news.Attachments;
+                        repositoriesContainer.AttachmentRepository.Save(attachment);
+                    }
+                }
+            }
 
             var cpEditNews = Context.CourseProjectNewses.FirstOrDefault(x => x.Id == news.Id && x.SubjectId == news.SubjectId);
             if (cpEditNews != null)
@@ -503,6 +560,7 @@ namespace Application.Infrastructure.CPManagement
                 cpEditNews.Disabled = news.Disabled;
                 cpEditNews.EditDate = news.EditDate;
                 cpEditNews.SubjectId = news.SubjectId;
+                cpEditNews.Attachments = news.Attachments;
                 cpEditNews.Title = news.Title;
             }
             else {
@@ -532,12 +590,48 @@ namespace Application.Infrastructure.CPManagement
            Context.SaveChanges();
         }
 
+        public CourseProjectNews GetNews(int id)
+        {
+            return Context.CourseProjectNewses.Single(x => x.Id == id);
+        }
+
+        public void DeleteUserFromAcpProject(int id, int projectId)
+        {
+            var acp = Context.AssignedCourseProjects.Single(e => e.CourseProjectId == projectId && e.StudentId == id);
+            Context.AssignedCourseProjects.Remove(acp);
+            Context.SaveChanges();
+        }
+
+        public void DeletePercenageAndVisitStatsForUser(int id)
+        {
+            var cpPR = Context.CoursePercentagesResults.Where(e => e.StudentId == id);
+            foreach(var cp in cpPR)
+            {
+                Context.CoursePercentagesResults.Remove(cp);
+            }
+
+            var cpVS = Context.CourseProjectConsultationMarks.Where(e => e.StudentId == id);
+            foreach (var cp in cpVS)
+            {
+                Context.CourseProjectConsultationMarks.Remove(cp);
+            }
+            Context.SaveChanges();
+        }
+
         private readonly LazyDependency<ICpContext> context = new LazyDependency<ICpContext>();
 
         private ICpContext Context
         {
             get { return context.Value; }
         }
-            
+
+        private readonly LazyDependency<IFilesManagementService> _filesManagementService =
+            new LazyDependency<IFilesManagementService>();
+
+        public IFilesManagementService FilesManagementService
+        {
+            get { return _filesManagementService.Value; }
+        }
+
     }
 }

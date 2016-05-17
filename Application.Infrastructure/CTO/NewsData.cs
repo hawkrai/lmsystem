@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LMPlatform.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,13 @@ namespace Application.Infrastructure.CTO
         public string DateCreate { get; set; }
 
         public bool Disabled { get; set; }
+
+        public string PathFile { get; set; }
+
+        public IList<Attachment> Attachments
+        {
+            get;
+            set;
+        }
     }
 }

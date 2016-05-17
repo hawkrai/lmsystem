@@ -21,16 +21,16 @@
                     results = regex.exec(location.search);
                 return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
             }
+
             var subjectId = getParameterByName("subjectId");
+
+
 
             projectService
                 .getGroups(subjectId)
                 .success(function (data) {
                      $scope.groups = data;
             });
-
-
-            
 
             var dpConsultations = $resource('api/CourseProjectConsultation');
             var dpConsultationDates = $resource('api/CourseProjectConsultationDate');
@@ -173,6 +173,10 @@
                     $scope.tableParams.reload();
                 }
               
+            };
+
+            $scope.visitingLabsExport = function () {
+                window.location.href = "/Statistic/GetVisitCP?subjectId=" + subjectId + "&groupId=" + $scope.selectedGroupId;
             };
 
             $scope.searchString = "";

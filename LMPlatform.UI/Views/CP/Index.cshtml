@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "";
+    ViewBag.Title = "Курсовое проектирование";
     ViewBag.NgApp = "cpApp";
     ViewBag.NgController = "homeCtrl";
     Layout = "~/Views/Shared/Layouts/_LayoutBase.cshtml";
@@ -14,7 +14,7 @@
 
 @section headerTitle
 {
-    <h1>{{subject.Name}} <small>{{Title}}</small></h1>
+    <h1 ng-cloak>{{subject.Name}} <small>{{Title}}</small></h1>
 }
 
 @section navleft

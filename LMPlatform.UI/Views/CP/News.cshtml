@@ -11,8 +11,8 @@
                     <td>
                         <div id="buttonActionSection">
                             <a id="addNewsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="addNews()">Добавить объявление</a>
-                            <a style="margin-right: 10px;" class="btn btn-default btn-sm" ng-click="disableNews()">Скрыть все объявления</a>
-                            <a style="margin-right: 10px; background-color:#00FF8A" class="btn btn-default btn-sm" ng-click="enableNews()">Показать все объявления</a>
+                            <a style="margin-right: 10px; background-color:#ddd" class="btn btn-default btn-sm" ng-click="disableNews()">Скрыть все объявления</a>
+                            <a ng-show="newsDisabled" style="margin-right: 10px;" class="btn btn-default btn-sm" ng-click="enableNews()">Показать скрытые объявления</a>
                         </div>
                     </td>
                 </tr>
@@ -32,8 +32,17 @@
             <div class="clear-fix"></div>
             <div ng-bind-html="renderHtml(data.Body)">
             </div>
-            <p class="text-muted" style="font-size: 11px; margin-top: 10px">{{data.DateCreate}}</p>
-        </div>
+            <div ng-show="data.Attachments.length>0" class="btn-group" style="margin-top:10px">
+                <button id="btnGroupDrop1" type="button" class="btn btn-default btn-sm  dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+                    Прикрепленные материалы
+                    <span class="caret"></span>
+                </button>
+                <ul style="overflow:overlay; height:auto; max-height:300px" class="dropdown-menu" role="menu" aria-labelledby="btnGroupDrop1">
+                    <li ng-repeat="file in data.Attachments"><a href="api/Upload?filename={{file.PathName}}//{{file.FileName}}">{{file.Name}}</a></li>
+                </ul>
+            </div>
+                <p class="text-muted" style="font-size: 11px; margin-top: 10px">{{data.DateCreate}}</p>
+            </div>
     </div>
     <div id="dialogAddNews" class="modal">
         <div class="modal-dialog panel panel-primary" style="padding: 0px">
@@ -53,19 +62,21 @@
                             <div text-angular ng-model="editNewsData.Body" name="editor" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
                         </div>
                     </div>
-                    <div style="width: 60%">
-                        @Html.Partial("Common/_FilesUploader", new List<LMPlatform.Models.Attachment>())
-                    </div>
                     <div>
                         <input type="checkbox" id="newsIsOLd" ng-model="editNewsData.IsOldDate" /><span> Оставить старую дату объявления</span>
                     </div>
                     <div>
                         <input type="checkbox" id="isDisabled" ng-model="editNewsData.Disabled" /><span> Скрыть</span>
                     </div>
+                    <div>
+                        <h6 class="page-header">Прикрепленный материал</h6>
+                        <div id="newsFile">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a href="#" class="btn btn-default  btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
                 <a href="#" class="btn btn-primary btn-sm" ng-click="saveNews()" id="saveNewsButton" data-dismiss="modal">Сохранить</a>
             </div>
         </div>
