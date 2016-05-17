@@ -98,6 +98,9 @@
                 $scope.tableParams.reload();
             }
 
+            $scope.visitingLabsExport = function () {
+                window.location.href = "/Statistic/GetPercentageCP?subjectId=" + subjectId + "&groupId=" + $scope.selectedGroupId;
+            };
 
             $scope.tableParams = new ngTableParams(
                 angular.extend({

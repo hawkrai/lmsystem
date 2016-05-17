@@ -1,0 +1,22 @@
+GO
+ALTER TABLE dbo.CourseProjectNews ADD
+	Attachments nvarchar(MAX) NULL
+GO
+
+GO
+ALTER TABLE dbo.CourseProjectTaskSheetTemplates ADD
+	Univer nvarchar(MAX) NULL,
+	Faculty nvarchar(MAX) NULL,
+	DateEnd datetime null,
+	DateStart datetime null,
+	HeadCathedra nvarchar(MAX) NULL
+GO
+
+GO
+ALTER TABLE dbo.CourseProjects ADD
+	Univer nvarchar(MAX) NULL,
+	Faculty nvarchar(MAX) NULL,
+	DateEnd datetime null,
+	DateStart datetime null,
+	HeadCathedra nvarchar(MAX) NULL
+GO
