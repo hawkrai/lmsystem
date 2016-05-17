@@ -145,7 +145,9 @@ namespace LMPlatform.UI.Controllers
                 {
                     var pointsSum = Math.Round((decimal)result.TestPassResults.Sum(e => e.Points).Value / result.TestPassResults.Count(e => e.Points != null), 0, MidpointRounding.AwayFromZero);
                     var percentSum = Math.Round((decimal)result.TestPassResults.Sum(e => e.Percent).Value / result.TestPassResults.Count(e => e.Percent != null), 0);
-                    datas.Add(pointsSum + " (" + percentSum + "%)");    
+                    //datas.Add(pointsSum + " (" + percentSum + "%)");
+
+                    datas.Add(pointsSum.ToString());
                 }
                 rowsData.Add(datas);
             }
@@ -153,7 +155,7 @@ namespace LMPlatform.UI.Controllers
             var index = 0;
             var total = new List<string>()
                                   {
-                                      "Средние значения",
+                                      "Средний процен за тест",
                                   };
 
             foreach (var testResultItemListViewModel in results[0].TestPassResults)
@@ -176,7 +178,8 @@ namespace LMPlatform.UI.Controllers
 
                 }
                 index += 1;
-                total.Add((int)Math.Round(sumPoint/count, 0, MidpointRounding.AwayFromZero) + " (" + Math.Round(sum / count, 0) + "%)");
+                //total.Add((int)Math.Round(sumPoint/count, 0, MidpointRounding.AwayFromZero) + " (" + Math.Round(sum / count, 0) + "%)");
+                total.Add(Math.Round(sum / count, 0) + "%");
             }
 
             data.Headers.Add("Студент");

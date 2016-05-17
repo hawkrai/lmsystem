@@ -27,7 +27,7 @@
                 <th data-ng-repeat="res in results[0].TestPassResults">
                     <div tooltip="{{res.TestName}}" tooltip-placement="right" style="width: 50px;">Тест {{results[0].TestPassResults.indexOf(res) + 1}}</div>
                 </th>
-                <th>Средняя</th>
+                <th>Средняя оценка</th>
             </tr>
         </thead>
         <tr data-ng-repeat="result in results | filter:query">
@@ -43,11 +43,12 @@
         </tr>
         <tr>
             <td></td>
-            <td style="text-align: right;">Средние значения: </td>
+            <td style="text-align: right;">Средний процент за тест </td>
             <td data-ng-repeat="res in results[0].TestPassResults">
-                {{calcTotal(results, $index).Point}} ({{calcTotal(results, $index).Percent}}%)
+              <!--  {{calcTotal(results, $index).Point}} -->
+                {{calcTotal(results, $index).Percent}}%
             </td>
-            <td>{{calcAll()}}</td>
+            <td></td>
         </tr>
     </table>
 </div>
