@@ -1,21 +1,11 @@
 ﻿<div>
-    <div style="float:left;" ng-show="user.IsLecturer" id="buttonActionSection">
-        <a ng-click="addConsultationDate()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить дату консультации</a>
-    </div>
-
-    <div ng-show="selectedGroups" style="width:30%; display: inline-block;vertical-align: middle;float:right">
-        <label style="width:100%; font-size: 12px;font-weight: normal;display: inline-block;max-width: 100%; margin-bottom: 5px;">
-            <input style="margin:0; display:inline-block; width:100%" class="form-control input-sm" type="search" ng-model="searchString" ng-change="search()" placeholder="Поиск по теме, фамилии" autocomplete="off">
-        </label>
-    </div>
-    
     <table style="border:none;width:100%">
         <tr style="border:none">
-            <td style="border:none" width="100%">
-                <div style="float:left; width:100%; margin-top:15px">
-                    <div style="margin-bottom: 20px;width:100%;height:100%">
-                        <ui-select on-select="selectGroups($item.Id)" ng-model="group.Id" theme="bootstrap">
-                            <ui-select-match placeholder="Выберите группу">{{$select.selected.Name}}</ui-select-match>
+            <td style="border:none" width="90px">
+                <div style="float:left; min-width:90px;">
+                    <div style="width:auto;height:100%">
+                        <ui-select on-select="selectGroups($item)" ng-model="group.Id" theme="bootstrap">
+                            <ui-select-match placeholder="Группа">{{group.Name}}</ui-select-match>
                             <ui-select-choices repeat="item.id as item in groups | filter: $select.search">
                                 <div>{{item.Name}}</div>
                             </ui-select-choices>
@@ -23,20 +13,32 @@
                     </div>
                 </div>
             </td>
-            <td style="border:none" width="auto">
-                <a ng-show="selectedGroups" style="background-color: #fff;
+            <td style="border:none; margin-top:8px" width="auto">
+                <a ng-show="selectedGroups" style="background-color: #f9f9f9;
                                                    border: none;
                                                    border-color: #fff;
                                                    padding: 0px;
                                                    box-shadow: none;
                                                    padding-left: 10px;" 
                    class="btn btn-primary btn-sm" ng-click="visitingLabsExport()" tooltip="Загрузить документ Excel">
-                    <i style="background-image:url(../../Images/ExcelDownload.png);background-size:cover;width:30px;height:30px" class="fa"></i>
+                    <i style="margin-top:5px; background-image:url(../../Images/ExcelDownload.png);background-size:cover;width:30px;height:30px" class="fa"></i>
                 </a>
+            </td>
+            <td style="border:none;width:auto;">
+                <div ng-show="selectedGroups" style="width:40%; display: inline-block;vertical-align: middle;float:right">
+                    <label style="width:100%; font-size: 12px;font-weight: normal;display: inline-block;max-width: 100%;">
+                        <input style="margin:0; display:inline-block; width:100%" class="form-control input-sm" type="search" ng-model="searchString" ng-change="search()" placeholder="Поиск по теме, фамилии" autocomplete="off">
+                    </label>
+                </div>
             </td>
         </tr>
     </table>
-    <div style="float:left; height:500px" loading-container="tableParams.settings().$loading">
+
+    <div style="float:left;margin-top:15px" ng-show="user.IsLecturer" id="buttonActionSection">
+        <a ng-click="addConsultationDate()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить дату консультации</a>
+    </div>
+
+    <div style="float:left; height:auto; min-height:400px; margin-top:15px;" loading-container="tableParams.settings().$loading">
         <table ng-show="user.IsLecturer || user.IsStudent" ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
             <thead>
                 <tr>

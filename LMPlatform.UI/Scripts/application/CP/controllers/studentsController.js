@@ -9,8 +9,6 @@
         function ($scope, $modalInstance, projectService, ngTableParams, projectId) {
             
             $scope.assignProject = function (studentId) {
-//                bootbox.confirm("Вы действительно хотите назначить проект?", function (isConfirmed) {
-//                    if (isConfirmed) {
                         projectService.assignProject(projectId, studentId).success(function () {
                             $modalInstance.close();
                             alertify.success("Тема курсового проекта (работы) успешно назначена студенту");
@@ -18,8 +16,6 @@
                             $modalInstance.close();
                             $scope.handleError(data.ExceptionMessage);
                         });
-//                    }
-//                });
             };
 
             $scope.tableParams = new ngTableParams(

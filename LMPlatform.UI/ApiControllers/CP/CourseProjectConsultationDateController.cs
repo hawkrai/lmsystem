@@ -13,11 +13,6 @@ namespace LMPlatform.UI.ApiControllers.CP
     {
         public HttpResponseMessage Post([FromBody]/*DateTime consultationDate, int subject*/CourseProjectConsultationDateData consultationDate)
         {
-           /* if (!ModelState.IsValid)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
-           */
             PercentageService.SaveConsultationDate(WebSecurity.CurrentUserId, consultationDate.Day, consultationDate.SubjectId);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }

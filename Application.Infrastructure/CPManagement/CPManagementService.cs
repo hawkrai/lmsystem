@@ -21,7 +21,6 @@ namespace Application.Infrastructure.CPManagement
             var subjectId = int.Parse(parms.Filters["subjectId"]);
             var searchString = parms.Filters["searchString"];
 
-
             var query = Context.CourseProjects.AsNoTracking()
                 .Include(x => x.Lecturer)
                 .Include(x => x.AssignedCourseProjects.Select(asp => asp.Student.Group))
@@ -41,7 +40,6 @@ namespace Application.Infrastructure.CPManagement
 
             if (searchString.Length > 0)
             {
-
                 var courseProjects = from cp in query
                                      let acp = cp.AssignedCourseProjects.FirstOrDefault()
                                      where acp.Student.LastName.Contains(searchString) || 
