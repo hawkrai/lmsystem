@@ -23,10 +23,10 @@ namespace Application.Infrastructure.CPManagement
 
         void SavePercentageResult(int userId, PercentageResultData percentageResultData);
 
-     void SaveConsultationMark(int userId, CourseProjectConsultationMarkData consultationMarkData);
+        void SaveConsultationMark(int userId, CourseProjectConsultationMarkData consultationMarkData);
 
-   void SaveConsultationDate(int userId, DateTime date, int subjectId);
+        void SaveConsultationDate(int userId, DateTime date, int subjectId);
 
-     void DeleteConsultationDate(int userId, int id);
+        void DeleteConsultationDate(int userId, int id);
     }
 }

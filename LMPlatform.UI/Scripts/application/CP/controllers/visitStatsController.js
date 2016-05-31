@@ -13,7 +13,8 @@
 
             $scope.forms = {};
             $scope.groups = [];
-            $scope.group = { Id: null };
+            $scope.group = { Id: null,
+                                Name: ""};
 
             function getParameterByName(name) {
                 name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -24,12 +25,14 @@
 
             var subjectId = getParameterByName("subjectId");
 
-
-
             projectService
                 .getGroups(subjectId)
                 .success(function (data) {
-                     $scope.groups = data;
+                    $scope.groups = data;
+                    $scope.group.Id = $scope.groups[0].Id;
+                    $scope.group.Name = $scope.groups[0].Name;
+                    $scope.selectGroups($scope.group);
+
             });
 
             var dpConsultations = $resource('api/CourseProjectConsultation');
@@ -83,7 +86,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-sm'
+                            className: 'btn-default btn-sm'
                         },
                         'confirm': {
                             label: 'Удалить',
@@ -166,14 +169,17 @@
             $scope.selectedGroups = false;
             $scope.selectedGroupId;
 
-            $scope.selectGroups = function (id) {
-                if (id) {
-                    $scope.selectedGroupId = id;
+            $scope.selectGroups = function (item) {
+                if (item.Id) {
+                    $scope.selectedGroupId = item.Id;
                     $scope.selectedGroups = true;
                     $scope.tableParams.reload();
+                    $scope.group.Name = item.Name;
                 }
               
             };
+
+           
 
             $scope.visitingLabsExport = function () {
                 window.location.href = "/Statistic/GetVisitCP?subjectId=" + subjectId + "&groupId=" + $scope.selectedGroupId;
@@ -208,4 +214,6 @@
                             });
                     }
                 });
+
+           
         }]);
