@@ -1767,6 +1767,7 @@
     <Content Include="Views\CP\VisitStats.cshtml" />
     <Content Include="Views\CP\News.cshtml" />
     <Content Include="Views\Profile\Page.cshtml" />
+    <Content Include="Views\CP\Subjects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

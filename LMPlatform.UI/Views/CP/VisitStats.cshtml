@@ -1,6 +1,11 @@
 ﻿<div>
     <table style="border:none;width:100%">
         <tr style="border:none">
+            <td style="border:none" width="205px">
+                <div ng-show="user.IsLecturer" id="buttonActionSection">
+                    <a ng-click="addConsultationDate()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить дату консультации</a>
+                </div>
+            </td>
             <td style="border:none" width="90px">
                 <div style="float:left; min-width:90px;">
                     <div style="width:auto;height:100%">
@@ -19,7 +24,7 @@
                                                    border-color: #fff;
                                                    padding: 0px;
                                                    box-shadow: none;
-                                                   padding-left: 10px;" 
+                                                   padding-left: 15px;" 
                    class="btn btn-primary btn-sm" ng-click="visitingLabsExport()" tooltip="Загрузить документ Excel">
                     <i style="margin-top:5px; background-image:url(../../Images/ExcelDownload.png);background-size:cover;width:30px;height:30px" class="fa"></i>
                 </a>
@@ -34,9 +39,6 @@
         </tr>
     </table>
 
-    <div style="float:left;margin-top:15px" ng-show="user.IsLecturer" id="buttonActionSection">
-        <a ng-click="addConsultationDate()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить дату консультации</a>
-    </div>
 
     <div style="float:left; height:auto; min-height:400px; margin-top:15px;" loading-container="tableParams.settings().$loading">
         <table ng-show="user.IsLecturer || user.IsStudent" ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
