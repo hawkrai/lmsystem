@@ -161,7 +161,6 @@ namespace LMPlatform.UI.Controllers
             model.Email = user.Email;
             model.Phone = user.Phone;
             model.About = user.About;
-
             model.LastLogitData = user.AttendanceList.LastOrDefault().ToString("dd/MM/yyyy hh:mm:ss");
             if (user.Lecturer != null)
             {
