@@ -1,0 +1,29 @@
+CREATE TABLE [dbo].[DiplomProjectNews] (
+    [Id]        INT            IDENTITY (1, 1) NOT NULL,
+    [Title]     NVARCHAR (MAX) NULL,
+    [Body]      NVARCHAR (MAX) NULL,
+    [EditDate]  DATETIME       NOT NULL,
+    [SubjectId] INT            NOT NULL,
+    [Disabled]  BIT            NULL,
+    [Attachments] nvarchar(MAX) NULL,
+    CONSTRAINT [PK_dbo.DiplomProjectNews] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_dbo.DiplomProjectNews_dbo.Lecturers_LecturerId] FOREIGN KEY ([LecturerId]) REFERENCES [dbo].[Lecturers] ([Id]) ON DELETE CASCADE
+);
+
+GO
+ALTER TABLE dbo.DiplomProjectTaskSheetTemplates ADD
+	Univer nvarchar(MAX) NULL,
+	Faculty nvarchar(MAX) NULL,
+	DateEnd datetime null,
+	DateStart datetime null,
+	HeadCathedra nvarchar(MAX) NULL
+GO
+
+GO
+ALTER TABLE dbo.DiplomProjects ADD
+	Univer nvarchar(MAX) NULL,
+	Faculty nvarchar(MAX) NULL,
+	DateEnd datetime null,
+	DateStart datetime null,
+	HeadCathedra nvarchar(MAX) NULL
+GO
