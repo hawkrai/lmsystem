@@ -128,7 +128,9 @@ namespace LMPlatform.UI.Controllers
             //todo
             var courseProject =
                 new LmPlatformModelsContext().CourseProjects
-                .Include(x => x.AssignedCourseProjects.Select(y => y.Student.Group.Secretary.CoursePercentagesGraphs))
+                .Include(x=>x.AssignedCourseProjects.Select(y=>y.Student.Group))
+                //.Include(x=>x.Lecturer.CoursePercentagesGraphs)
+                //.Include(x => x.AssignedCourseProjects.Select(y => y.Student.Group.Secretary.CoursePercentagesGraphs))
                 .Single(x => x.CourseProjectId == courseProjectId);
 
            return courseProject.AssignedCourseProjects.Count == 1 ?

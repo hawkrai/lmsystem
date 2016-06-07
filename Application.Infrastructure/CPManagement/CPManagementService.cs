@@ -289,7 +289,6 @@ namespace Application.Infrastructure.CPManagement
                     }).ApplyPaging(parms);
         }
 
-
         public PagedList<StudentData> GetGraduateStudentsForGroup(int userId, int groupId, int subjectId, GetPagedListParams parms, bool getBySecretaryForStudent = true)
         {
             var secretaryId = 0;

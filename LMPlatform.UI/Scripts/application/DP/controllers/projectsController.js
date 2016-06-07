@@ -66,7 +66,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-sm'
+                            className: 'btn btn-default btn-sm'
                         },
                         'confirm': {
                             label: 'Удалить',
@@ -93,7 +93,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-sm'
+                            className: 'btn btn-default btn-sm'
                         },
                         'confirm': {
                             label: 'Удалить',
@@ -126,7 +126,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-sm'
+                            className: 'btn btn-default btn-sm'
                         },
                         'confirm': {
                             label: 'Выбрать',
@@ -155,7 +155,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-sm'
+                            className: 'btn btn-default btn-sm'
                         },
                         'confirm': {
                             label: 'Подтвердить',
@@ -169,19 +169,32 @@
                 projectService.downloadTaskSheet(id);
             };
             
+            $scope.searchString = "";
+            $scope.search = function () {
+                $scope.tableParams.filter.searchString = $scope.searchString;
+                $scope.tableParams.reload();
+            }
+
             $scope.tableParams = new ngTableParams(
                 angular.extend({
                     page: 1,
+                    filter: {
+                        searchString: $scope.searchString
+                    },
                     sorting: {
                         Theme: 'asc'
                     }
-                }, {}// $location.search()} uncomment in order to save params in the url
+                }, {}
                 )
                 , {
                     total: 0,
                     getData: function ($defer, params) {
-//                        $location.search(params.url());
-                        projectService.getProjects(params.url())
+                        projectService.getProjects(angular.extend(params.url(), {
+                            filter:
+                            {
+                                searchString: $scope.searchString
+                            }
+                        }))
                             .success(function (data) {
                                 $defer.resolve(data.Items);
                                 params.total(data.Total);
