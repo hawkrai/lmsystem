@@ -1,4 +1,6 @@
-﻿namespace LMPlatform.Models.DP
+﻿using System;
+
+namespace LMPlatform.Models.DP
 {
     public class DiplomProjectTaskSheetTemplate
     {
@@ -15,5 +17,15 @@
         public string DrawMaterials { get; set; }
 
         public string Consultants { get; set; }
+
+        public string Faculty { get; set; }
+
+        public string Univer { get; set; }
+
+        public string HeadCathedra { get; set; }
+
+        public DateTime? DateEnd { get; set; }
+
+        public DateTime? DateStart { get; set; }
     }
 }

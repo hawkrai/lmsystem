@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,6 +29,16 @@ namespace LMPlatform.Models.DP
         public string Consultants { get; set; }
 
         public string Workflow { get; set; }
+
+        public string Univer { get; set; }
+
+        public string Faculty { get; set; }
+
+        public string HeadCathedra { get; set; }
+
+        public DateTime? DateEnd { get; set; }
+
+        public DateTime? DateStart { get; set; }
 
         public virtual ICollection<AssignedDiplomProject> AssignedDiplomProjects { get; set; }
 

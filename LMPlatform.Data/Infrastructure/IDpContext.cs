@@ -45,5 +45,7 @@ namespace LMPlatform.Data.Infrastructure
         IQueryable<Student> GetGraduateStudents();
 
         IQueryable<Group> GetGraduateGroups();
+
+        DbSet<DiplomProjectNews> DiplomProjectNewses { get; set; }
     }
 }

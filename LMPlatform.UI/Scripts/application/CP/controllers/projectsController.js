@@ -185,7 +185,6 @@
 
 
             $scope.tableParams = new ngTableParams(
-
                {
                     page: 1,
                     filter: {

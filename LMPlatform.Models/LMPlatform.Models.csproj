@@ -113,6 +113,7 @@
     <Compile Include="CP\CourseProjectTaskSheetTemplate.cs" />
     <Compile Include="CP\CourseProjectNews.cs" />
     <Compile Include="DP\AssignedDiplomProject.cs" />
+    <Compile Include="DP\DiplomProjectNews.cs" />
     <Compile Include="DP\DiplomPercentagesGraph.cs" />
     <Compile Include="DP\DiplomPercentagesGraphToGroup.cs" />
     <Compile Include="DP\DiplomPercentagesResult.cs" />

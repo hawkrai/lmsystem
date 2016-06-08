@@ -259,6 +259,7 @@
     <Compile Include="ApiControllers\CP\CpTaskSheetController.cs" />
     <Compile Include="ApiControllers\CP\CpTaskSheetTemplateController.cs" />
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
+    <Compile Include="ApiControllers\DP\DiplomProjectNewsController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectConsultationDateController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
@@ -349,6 +350,7 @@
     <Content Include="Scripts\application\CP\cpModule.js" />
     <Content Include="Scripts\application\CP\services\projectService.js" />
     <Content Include="Scripts\application\ComplexMaterials\VideoLoader.js" />
+    <Content Include="Scripts\application\DP\controllers\newsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
@@ -1772,6 +1774,8 @@
     <Content Include="Views\CP\VisitStats.cshtml" />
     <Content Include="Views\CP\News.cshtml" />
     <Content Include="Views\Profile\Page.cshtml" />
+    <Content Include="Views\CP\Subjects.cshtml" />
+    <Content Include="Views\DP\News.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
