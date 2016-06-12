@@ -102,6 +102,20 @@ namespace LMPlatform.UI.App_Start
                 "~/Content/themes/base/jquery.ui.progressbar.css",
                 "~/Content/themes/base/jquery.ui.theme.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/cpModule").Include(
+    "~/Scripts/application/CP/cpModule.js",
+    "~/Scripts/application/CP/controllers/homeController.js",
+    "~/Scripts/application/CP/controllers/projectsController.js",
+    "~/Scripts/application/CP/controllers/studentsController.js",
+    "~/Scripts/application/CP/controllers/projectController.js",
+    "~/Scripts/application/CP/controllers/visitStatsController.js",
+    "~/Scripts/application/CP/controllers/newsController.js",
+                    "~/Scripts/application/CP/controllers/percentagesController.js",
+                "~/Scripts/application/CP/controllers/percentageController.js",
+                "~/Scripts/application/CP/controllers/percentageResultsController.js",
+                 "~/Scripts/application/CP/controllers/taskSheetController.js",
+    "~/Scripts/application/CP/services/projectService.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/dpModule").Include(
                 "~/Scripts/application/DP/dpModule.js",
                 "~/Scripts/application/DP/controllers/homeController.js",
@@ -111,6 +125,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/DP/controllers/taskSheetController.js",
                 "~/Scripts/application/DP/controllers/percentagesController.js",
                 "~/Scripts/application/DP/controllers/percentageController.js",
+                "~/Scripts/application/DP/controllers/newsController.js",
                 "~/Scripts/application/DP/controllers/percentageResultsController.js",
                 "~/Scripts/application/DP/controllers/visitStatsController.js",
                 "~/Scripts/application/DP/services/projectService.js"));
@@ -130,6 +145,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/ComplexMaterials/controllers/mapController.js",
                 "~/Scripts/application/ComplexMaterials/complexMaterialsApp.js",
                 "~/Scripts/application/ComplexMaterials/services/complexMaterialsDataService.js",
+                "~/Scripts/application/ComplexMaterials/services/navigationService.js",
                 "~/Scripts/tinymce/tinymce.min.js",
                 "~/Scripts/pdfjs/compatibility.js",
                 "~/Scripts/pdfjs/l10n.js",
@@ -154,6 +170,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/resultsController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/testDetailsController.js",
+                "~/Scripts/application/KnowledgeTesting/Controllers/contentController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/controlController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/testUnlocksController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/questionDetailsController.js",

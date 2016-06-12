@@ -16,6 +16,9 @@ namespace LMPlatform.UI.Services.Concept
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/CreateRootConcept")]
         ConceptResult SaveRootConcept(string name, string container, string subject);
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/AttachSiblings")]
+        ConceptResult AttachSiblings(string source, string left, string right);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetRootConcepts")]

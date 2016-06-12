@@ -53,7 +53,30 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -74,6 +97,26 @@
     <Compile Include="BugManagement\IBugManagementService.cs" />
     <Compile Include="ConceptManagement\ConceptManagementService.cs" />
     <Compile Include="ConceptManagement\IConceptManagementService.cs" />
+    <Compile Include="CPManagement\AuthorizationHelper.cs" />
+    <Compile Include="CPManagement\CpCorrelationService.cs" />
+    <Compile Include="CPManagement\CPManagementService.cs" />
+    <Compile Include="CPManagement\CpPercentageGraphService.cs" />
+    <Compile Include="CPManagement\CPUserService.cs" />
+    <Compile Include="CPManagement\ICpCorrelationService.cs" />
+    <Compile Include="CPManagement\ICPManagementService.cs" />
+    <Compile Include="CPManagement\ICpPercentageGraphService.cs" />
+    <Compile Include="CPManagement\ICPUserService.cs" />
+    <Compile Include="CTO\Correlation.cs" />
+    <Compile Include="CTO\CourseProjectConsultationDateData.cs" />
+    <Compile Include="CTO\CourseProjectConsultationMarkData.cs" />
+    <Compile Include="CTO\CourseProjectData.cs" />
+    <Compile Include="CTO\NewsData.cs" />
+    <Compile Include="CTO\PercentageGraphData.cs" />
+    <Compile Include="CTO\PercentageResultData.cs" />
+    <Compile Include="CTO\StudentData.cs" />
+    <Compile Include="CTO\SubjectData.cs" />
+    <Compile Include="CTO\TaskSheetData.cs" />
+    <Compile Include="CTO\UserData.cs" />
     <Compile Include="DPManagement\AuthorizationHelper.cs" />
     <Compile Include="DPManagement\CorrelationService.cs" />
     <Compile Include="DPManagement\DpManagementService.cs">
@@ -89,12 +132,14 @@
     <Compile Include="DTO\DiplomProjectConsultationDateData.cs" />
     <Compile Include="DTO\DiplomProjectData.cs" />
     <Compile Include="DTO\DipomProjectConsultationMarkData.cs" />
+    <Compile Include="DTO\NewsData.cs" />
     <Compile Include="DTO\PercentageGraphData.cs" />
     <Compile Include="DTO\PercentageResultData.cs" />
     <Compile Include="DTO\StudentData.cs" />
     <Compile Include="DTO\TaskSheetData.cs" />
     <Compile Include="DTO\UserData.cs" />
     <Compile Include="Export\Word.cs" />
+    <Compile Include="Export\WordCourseProject.cs" />
     <Compile Include="FilesManagement\AttachedFile.cs" />
     <Compile Include="FilesManagement\FilesManagementService.cs" />
     <Compile Include="FilesManagement\IFilesManagementService.cs" />
@@ -114,6 +159,7 @@
     <Compile Include="MaterialsManagement\MaterialsManagementService.cs" />
     <Compile Include="MessageManagement\IMessageManagementService.cs" />
     <Compile Include="MessageManagement\MessageManagementService.cs" />
+    <Compile Include="Models\ProfileCalendarModel.cs" />
     <Compile Include="ProjectManagement\IProjectManagementService.cs" />
     <Compile Include="ProjectManagement\ProjectManagementService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,6 +176,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <EmbeddedResource Include="Export\tasklist.doc" />
+    <EmbeddedResource Include="Export\cptasklist.doc" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +195,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Export\tasklist.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Export\cptasklist.xslt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

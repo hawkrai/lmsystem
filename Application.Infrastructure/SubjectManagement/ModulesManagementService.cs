@@ -3,6 +3,7 @@ using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
+using System;
 
 namespace Application.Infrastructure.SubjectManagement
 {
@@ -13,6 +14,17 @@ namespace Application.Infrastructure.SubjectManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return repositoriesContainer.ModulesRepository.GetAll().ToList();
+            }
+        }
+
+        public IEnumerable<Module> GetModules(Int32 subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ModulesRepository.GetAll().Where(
+                    s=>
+                        s.SubjectModules.Any(sm=>sm.SubjectId==subjectId)
+                        ).ToList();
             }
         }
     }

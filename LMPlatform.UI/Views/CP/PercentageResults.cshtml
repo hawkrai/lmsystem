@@ -1,0 +1,83 @@
+﻿<table style="border:none;width:100%">
+    <tr style="border:none">
+        <td style="border:none" width="90px">
+            <div style="float:left; min-width:90px;">
+                <div style="width:auto;height:100%">
+                    <ui-select on-select="selectGroups($item)" ng-model="group.Id" theme="bootstrap">
+                        <ui-select-match placeholder="Группа">{{group.Name}}</ui-select-match>
+                        <ui-select-choices repeat="item.id as item in groups | filter: $select.search">
+                            <div>{{item.Name}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            </td>
+        <td style="border:none;width:auto;margin-top:8px;">
+            <a ng-show="selectedGroups" style="background-color: #F9F9F9;
+                                                   border: none;
+                                                   border-color: #fff;
+                                                   padding: 0px;
+                                                   box-shadow: none;
+                                                   padding-left: 15px;" 
+               class="btn btn-primary btn-sm" ng-click="visitingLabsExport()" tooltip="Загрузить документ Excel">
+                <i style="margin-top:5px; background-image:url(../../Images/ExcelDownload.png);background-size:cover;width:30px;height:30px" class="fa"></i>
+
+            </a>
+        </td>
+        <td style="border:none;width:auto;">
+            <div ng-show="selectedGroups" style="width:40%; display: inline-block;vertical-align: middle;float:right">
+                <label style="width:100%;font-size: 12px;font-weight: normal;display: inline-block;max-width: 100%; margin-bottom: 5px;">
+                    <input style="display:inline-block; width:100%" class="form-control input-sm" type="search" ng-model="searchString" ng-change="search()" placeholder="Поиск по теме, фамилии" autocomplete="off">
+                </label>
+            </div>
+        </td>
+        </tr>
+    </table>
+            <div style="float:left; margin-top:15px">
+                <div style="height: auto; min-height:400px; " loading-container="tableParams.settings().$loading">
+                    <table ng-show="user.IsLecturer || user.IsStudent" ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
+                        <thead>
+                            <tr>
+                                <th width="1%">№</th>
+                                <th width="40%" ng-show="user.IsLecturer || user.IsStudent" @*class="sortable"*@ @*ng-class="{
+                        'sort-asc': tableParams.isSortBy('Name', 'asc'),
+                        'sort-desc': tableParams.isSortBy('Name', 'desc')
+                        }"*@
+                                    @*ng-click="tableParams.sorting({'Name' : tableParams.isSortBy('Name', 'asc') ? 'desc' : 'asc'})"*@>
+                                    <div>Студент</div>
+                                </th>
+                                <th width="40%" ng-show="user.IsLecturer || user.IsStudent" @*class="sortable" ng-class="{
+                        'sort-asc': tableParams.isSortBy('Group', 'asc'),
+                        'sort-desc': tableParams.isSortBy('Group', 'desc')
+                        }"
+                                    ng-click="tableParams.sorting({'Group' : tableParams.isSortBy('Group', 'asc') ? 'desc' : 'asc'})"*@>
+                                    <div>Тема курсового проекта (работы)</div>
+                                </th>
+                                <th width="5%" ng-repeat="percentage in percentages">{{formatDate(parseDate(percentage.Date), "dd/mm")}}</th>
+                                <th width="5%">Оценка</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="student in $data">
+                                <td style="width:1%;text-align: left;">{{$index+1}}</td>
+                                <td width="40%" style="text-align: left;">{{student.Name}}</td>
+                                <td width="40%" style="text-align: left;">{{student.Group}}</td>
+                                <td ng-repeat="percentage in percentages" width="5%" style="text-align: center;">
+                                    <a ng-show="user.IsLecturer" editable-text="getPercentageResult(student, percentage.Id).Mark" href="#"
+                                       onbeforesave="savePercentageResult(getPercentageResult(student, percentage.Id), $data)">
+                                        {{getPercentageResult(student, percentage.Id).Mark != null ? getPercentageResult(student, percentage.Id).Mark : '-'}}
+                                    </a>
+                                    <span ng-show="user.IsStudent">{{getPercentageResult(student, percentage.Id).Mark}}</span>
+                                </td>
+                                <td width="5%" style="text-align: center;">
+                                    <a ng-show="user.IsLecturer" editable-text="student.Mark" href="#"
+                                       onbeforesave="saveStudentMark(student.AssignedCourseProjectId, $data)">
+                                        {{student.Mark || '-'}}
+                                    </a>
+                                    <span ng-show="user.IsStudent">{{student.Mark}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>

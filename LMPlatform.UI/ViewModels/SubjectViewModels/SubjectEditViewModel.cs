@@ -14,6 +14,8 @@ using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.Attributes;
 using Microsoft.Ajax.Utilities;
+using LMPlatform.Data.Infrastructure;
+using Application.Infrastructure.CPManagement;
 
 namespace LMPlatform.UI.ViewModels.SubjectViewModels
 {
@@ -24,8 +26,20 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 		private readonly LazyDependency<IGroupManagementService> _groupManagementService = new LazyDependency<IGroupManagementService>();
         private readonly LazyDependency<IFoldersManagementService> _foldersManagementService = new LazyDependency<IFoldersManagementService>();
         private readonly LazyDependency<IMaterialsManagementService> _materialsManagementService = new LazyDependency<IMaterialsManagementService>();
+        private readonly LazyDependency<ICpContext> context = new LazyDependency<ICpContext>();
+        private readonly LazyDependency<ICPManagementService> _cpManagementService = new LazyDependency<ICPManagementService>();
 
-		public IGroupManagementService GroupManagementService
+        private ICPManagementService CPManagementService
+        {
+            get { return _cpManagementService.Value; }
+        }
+
+        private ICpContext Context
+        {
+            get { return context.Value; }
+        }
+
+        public IGroupManagementService GroupManagementService
 		{
 			get
 			{
@@ -221,6 +235,47 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 	        {
 				subject.SubjectGroups = new Collection<SubjectGroup>();    
 	        }
+
+            var acp = Context.AssignedCourseProjects.Include("Student").Where(x => x.CourseProject.SubjectId == subject.Id);
+
+            foreach (var a in acp)
+            {
+                bool flag = false;
+                foreach(var s in subject.SubjectGroups)
+                {
+                    if (s.GroupId == a.Student.GroupId)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag)
+                {
+                    Context.AssignedCourseProjects.Remove(a);
+                }
+                CPManagementService.DeletePercenageAndVisitStatsForUser(a.StudentId);
+            }
+
+            var cpg = Context.CourseProjectGroups.Where(x => x.CourseProject.SubjectId == subject.Id);
+
+            foreach (var a in cpg)
+            {
+                bool flag = false;
+                foreach (var s in subject.SubjectGroups)
+                {
+                    if (s.GroupId == a.GroupId)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag)
+                {
+                    Context.CourseProjectGroups.Remove(a);
+                }
+            }
+
+            Context.SaveChanges();
 
             Subject sub = SubjectManagementService.SaveSubject(subject);
 

@@ -23,6 +23,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -69,6 +70,12 @@
     <Reference Include="Bootstrapper.UnityExtension">
       <HintPath>..\packages\Bootstrapper.Unity.2.0.3.9\lib\Net40\Bootstrapper.UnityExtension.dll</HintPath>
     </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
     <Reference Include="FluentValidation">
       <HintPath>..\packages\FluentValidation.5.3.0.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
@@ -96,6 +103,9 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\packages\Quartz.2.3.3\lib\net40\Quartz.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>True</Private>
@@ -238,7 +248,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\CP\CourseProjectAssignmentController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectConsultationController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectConsultationDateController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectGroupController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectNewsController.cs" />
+    <Compile Include="ApiControllers\CP\CourseProjectSubjectController.cs" />
+    <Compile Include="ApiControllers\CP\CourseStudentController.cs" />
+    <Compile Include="ApiControllers\CP\CourseStudentMarkController.cs" />
+    <Compile Include="ApiControllers\CP\CourseUserController.cs" />
+    <Compile Include="ApiControllers\CP\CpCorrelationController.cs" />
+    <Compile Include="ApiControllers\CP\CpPercentageController.cs" />
+    <Compile Include="ApiControllers\CP\CpPercentageResultController.cs" />
+    <Compile Include="ApiControllers\CP\CpTaskSheetController.cs" />
+    <Compile Include="ApiControllers\CP\CpTaskSheetTemplateController.cs" />
     <Compile Include="ApiControllers\DP\CorrelationController.cs" />
+    <Compile Include="ApiControllers\DP\DiplomProjectNewsController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectConsultationDateController.cs" />
     <Compile Include="ApiControllers\DP\DiplomProjectController.cs" />
@@ -269,6 +295,7 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
     <Compile Include="Controllers\ComplexMaterialController.cs" />
+    <Compile Include="Controllers\CpController.cs" />
     <Compile Include="Controllers\DpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
@@ -277,6 +304,7 @@
     <Compile Include="ApiControllers\DP\TaskSheetController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ScormModController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\TestPassingController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
@@ -285,28 +313,50 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\TaskScheduler\TaskScheduler.cs" />
+    <Compile Include="Helpers\TaskScheduler\Tasks\SearchTask.cs" />
     <Compile Include="Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\circle.css" />
     <Content Include="Content\docs.min.css" />
     <Content Include="Content\fullcalendar\fullcalendar.css" />
     <Content Include="Content\fullcalendar\fullcalendar.print.css" />
     <Content Include="Content\jquery.circliful.css" />
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
+    <Content Include="Content\KnowledgeTesting\content.html" />
     <Content Include="Content\materials.css" />
     <Content Include="Content\select.css" />
     <Content Include="Images\Excel.png" />
+    <Content Include="Images\ExcelDownload.png" />
     <Content Include="Images\login_bk.jpg" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\application\ComplexMaterials\BaseLoader.js" />
     <Content Include="Scripts\application\ComplexMaterials\complexMaterialsApp.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\catalogController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\homeController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\mapController.js" />
+    <Content Include="Scripts\application\ComplexMaterials\extension.js" />
+    <Content Include="Scripts\application\ComplexMaterials\services\navigationService.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
+    <Content Include="Scripts\application\CP\controllers\homeController.js" />
+    <Content Include="Scripts\application\CP\controllers\newsController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentageController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentageResultsController.js" />
+    <Content Include="Scripts\application\CP\controllers\percentagesController.js" />
+    <Content Include="Scripts\application\CP\controllers\projectController.js" />
+    <Content Include="Scripts\application\CP\controllers\projectsController.js" />
+    <Content Include="Scripts\application\CP\controllers\studentsController.js" />
+    <Content Include="Scripts\application\CP\controllers\taskSheetController.js" />
+    <Content Include="Scripts\application\CP\controllers\visitStatsController.js" />
+    <Content Include="Scripts\application\CP\cpModule.js" />
+    <Content Include="Scripts\application\CP\services\projectService.js" />
+    <Content Include="Scripts\application\ComplexMaterials\VideoLoader.js" />
+    <Content Include="Scripts\application\DP\controllers\newsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
@@ -426,6 +476,7 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
+    <Compile Include="ViewModels\LmsViewModels\ProfileCalendarViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\ProfileVewModel.cs" />
     <Compile Include="ViewModels\MessageViewModels\DataTableMessage.cs" />
     <Compile Include="ViewModels\MessageViewModels\DisplayMessageViewModel.cs" />
@@ -436,6 +487,7 @@
     <Compile Include="ViewModels\ParentalViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\ParentalViewModels\StatDataTableViewModel.cs" />
     <Compile Include="ViewModels\ParentalViewModels\StatisticsViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel\SearchViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesBaseViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLabsViewModel.cs" />
     <Compile Include="ViewModels\SubjectModulesViewModel\ModulesLecturesViewModel.cs" />
@@ -708,6 +760,7 @@
     <Content Include="Scripts\application\DP\services\projectService.js" />
     <Content Include="Scripts\application\fileUpload.js" />
     <Content Include="Scripts\application\jQueryExtensions.js" />
+    <Content Include="Scripts\application\KnowledgeTesting\Controllers\contentController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\controlController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\addFromAnotherTestController.js" />
     <Content Include="Scripts\application\KnowledgeTesting\Controllers\studentResultsController.js" />
@@ -732,10 +785,13 @@
     <Content Include="Scripts\application\Materials\controllers\newController.js" />
     <Content Include="Scripts\application\Materials\controllers\homeController.js" />
     <Content Include="Scripts\application\Materials\materialsApp.js" />
+    <Content Include="Scripts\application\ComplexMaterials\PDFLoader.js" />
     <Content Include="Scripts\application\Materials\services\materialsService.js" />
     <Content Include="Scripts\application\Messages\message.js" />
     <Content Include="Scripts\application\Messages\msgModule.js" />
     <Content Include="Scripts\application\Parental\parentalModule.js" />
+    <Content Include="Scripts\application\profilePage\appProfilePage.js" />
+    <Content Include="Scripts\application\profilePage\controllers\pageController.js" />
     <Content Include="Scripts\application\scorm\app-scorm.js" />
     <Content Include="Scripts\application\scorm\scorm-controller.js" />
     <Content Include="Scripts\application\shared.js" />
@@ -974,6 +1030,9 @@
     <Content Include="Content\fonts\admin-icons.ttf" />
     <Content Include="Content\fonts\admin-icons.woff" />
     <Content Include="Content\memo.pdf" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\PublishProfiles\LMS.pubxml" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
@@ -1129,6 +1188,7 @@
     <Content Include="Scripts\mvcfileupload\main.js" />
     <Content Include="Scripts\mvcfileupload\tmpl.js" />
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
+    <Content Include="Scripts\ng-ckeditor-1.0.1.js" />
     <Content Include="Scripts\ng-table.js" />
     <Content Include="Scripts\pdfjs\compatibility.js" />
     <Content Include="Scripts\pdfjs\l10n.js" />
@@ -1700,6 +1760,24 @@
     <Content Include="Views\ComplexMaterial\_AddRootConceptForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_MemoForm.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenConceptForm.cshtml" />
+    <Content Include="Views\CP\ConsultationDate.cshtml" />
+    <Content Include="Views\Shared\_SearchPartial.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\CP\Index.cshtml" />
+    <Content Include="Views\CP\Percentage.cshtml" />
+    <Content Include="Views\CP\PercentageResults.cshtml" />
+    <Content Include="Views\CP\Percentages.cshtml" />
+    <Content Include="Views\CP\Project.cshtml" />
+    <Content Include="Views\CP\Projects.cshtml" />
+    <Content Include="Views\CP\Students.cshtml" />
+    <Content Include="Views\CP\TaskSheet.cshtml" />
+    <Content Include="Views\CP\TaskSheetEdit.cshtml" />
+    <Content Include="Views\CP\VisitStats.cshtml" />
+    <Content Include="Views\CP\News.cshtml" />
+    <Content Include="Views\Profile\Page.cshtml" />
+    <Content Include="Views\CP\Subjects.cshtml" />
+    <Content Include="Views\DP\News.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -17,12 +17,19 @@ namespace Application.Infrastructure.UserManagement
     using LMPlatform.Data.Repositories;
     using LMPlatform.Data.Repositories.RepositoryContracts;
     using LMPlatform.Models;
-
+    using CPManagement;
     public class UsersManagementService : IUsersManagementService
     {
         private readonly LazyDependency<IUsersRepository> _usersRepository = new LazyDependency<IUsersRepository>();
         private readonly LazyDependency<IAccountManagementService> _accountManagementService = new LazyDependency<IAccountManagementService>();
         private readonly LazyDependency<IProjectManagementService> _projectManagementService = new LazyDependency<IProjectManagementService>();
+
+        private readonly LazyDependency<ICPManagementService> _cpManagementService = new LazyDependency<ICPManagementService>();
+
+        private ICPManagementService CPManagementService
+        {
+            get { return _cpManagementService.Value; }
+        }
 
         public IUsersRepository UsersRepository
         {
@@ -117,7 +124,7 @@ namespace Application.Infrastructure.UserManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var query = new Query<User>().AddFilterClause(u => u.Id == id).Include(u => u.ProjectUsers);
+                var query = new Query<User>().AddFilterClause(u => u.Id == id).Include(u => u.ProjectUsers).Include(u=>u.Student);
                 var user = repositoriesContainer.UsersRepository.GetBy(query);
 
                 repositoriesContainer.MessageRepository.DeleteUserMessages(user.Id);
@@ -127,6 +134,14 @@ namespace Application.Infrastructure.UserManagement
                 {
                     ProjectManagementService.DeleteUserFromProject(id, projectId);
                 }
+
+                var acp = user.Student.AssignedCourseProjects.Select(e => e.CourseProjectId);
+                foreach (var acpId in acp)
+                {
+                    CPManagementService.DeleteUserFromAcpProject(id, acpId);
+                }
+
+                CPManagementService.DeletePercenageAndVisitStatsForUser(id);
 
                 var result = AccountManagementService.DeleteAccount(user.UserName);
                 repositoriesContainer.ApplyChanges();

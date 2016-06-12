@@ -6,13 +6,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using LMPlatform.Models.BTS;
 using LMPlatform.Models.DP;
+using LMPlatform.Models.CP;
 using LMPlatform.Models.KnowledgeTesting;
 
 namespace LMPlatform.Data.Infrastructure
 {
     using LMPlatform.Models;
 
-    public class LmPlatformModelsContext : DbContext, IDpContext
+    public class LmPlatformModelsContext : DbContext, IDpContext, ICpContext
     {
         #region Constructors
 
@@ -634,6 +635,11 @@ namespace LMPlatform.Data.Infrastructure
                 .WithRequired(e => e.DiplomProjectConsultationDate)
                 .HasForeignKey(e => e.ConsultationDateId);
 
+            modelBuilder.Entity<CourseProjectConsultationDate>()
+               .HasMany(e => e.CourseProjectConsultationMarks)
+               .WithRequired(e => e.CourseProjectConsultationDate)
+               .HasForeignKey(e => e.ConsultationDateId);
+
             modelBuilder.Entity<Student>()
                 .HasMany(e => e.AssignedDiplomProjects)
                 .WithRequired(e => e.Student)
@@ -668,6 +674,8 @@ namespace LMPlatform.Data.Infrastructure
             //            });
         }
 
+        public virtual DbSet<DiplomProjectNews> DiplomProjectNewses { get; set; }
+
         public virtual DbSet<AssignedDiplomProject> AssignedDiplomProjects { get; set; }
 
         public virtual DbSet<DiplomPercentagesGraph> DiplomPercentagesGraphs { get; set; }
@@ -685,6 +693,26 @@ namespace LMPlatform.Data.Infrastructure
         public virtual DbSet<DiplomProject> DiplomProjects { get; set; }
 
         public virtual DbSet<DiplomProjectTaskSheetTemplate> DiplomProjectTaskSheetTemplates { get; set; }
+
+        #endregion
+
+        #region CP
+
+        public virtual DbSet<CourseProjectNews> CourseProjectNewses { get; set; }
+        public virtual DbSet<CourseProject> CourseProjects { get; set; }
+        public virtual DbSet<AssignedCourseProject> AssignedCourseProjects { get; set; }
+        public virtual DbSet<CourseProjectGroup> CourseProjectGroups { get; set; }
+        public virtual DbSet<CoursePercentagesGraph> CoursePercentagesGraphs { get; set; }
+
+        public virtual DbSet<CoursePercentagesGraphToGroup> CoursePercentagesGraphToGroup { get; set; }
+
+        public virtual DbSet<CoursePercentagesResult> CoursePercentagesResults { get; set; }
+
+        public virtual DbSet<CourseProjectConsultationDate> CourseProjectConsultationDates { get; set; }
+
+        public virtual DbSet<CourseProjectConsultationMark> CourseProjectConsultationMarks { get; set; }
+
+        public virtual DbSet<CourseProjectTaskSheetTemplate> CourseProjectTaskSheetTemplates { get; set; }
 
         #endregion
     }

@@ -170,6 +170,9 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 MiddleName = Patronymic,
                 GroupId = int.Parse(Group)
             });
+            student.User = user;
+            student.Group = GroupManagementService.GetGroup(student.GroupId);
+            new StudentSearchMethod().AddToIndex(student);
         }
 
         private void SaveLecturer()

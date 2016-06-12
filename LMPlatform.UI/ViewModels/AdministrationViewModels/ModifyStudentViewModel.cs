@@ -122,6 +122,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
         public void ModifyStudent()
         {
+            var groupId = int.Parse(Group);
             StudentManagementService.UpdateStudent(new Student
               {
                   Id = Id,
@@ -129,7 +130,8 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                   LastName = Surname,
                   MiddleName = Patronymic,
                   Email = Email,
-                  GroupId = int.Parse(Group),
+                  GroupId = groupId,
+                  Group = GroupManagementService.GetGroup(groupId),
 				  User = new User()
 				  {
 					  Avatar = Avatar,

@@ -1,0 +1,25 @@
+﻿<div class="modal-dialog panel panel-primary" style="margin: 0;">
+    <div class="panel-heading">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
+        <h4 class="modal-title">Назначение темы курсового проекта (работы)</h4>
+    </div>
+    <div class="modal-body" style="height: 600px; overflow: auto; overflow-x: hidden; margin: 20px 0">
+        <div loading-container="tableParams.settings().$loading">
+            <table ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable" style="width: 540px;">
+                <tr ng-repeat="student in $data">
+                    <td style="width:1%;text-align: left;" data-title="'№'">{{$index+1}}</td>
+                    <td width="65%" style="text-align: left;" data-title="'Студент'">{{student.Name}}</td>
+                    <td width="20%" data-title="'Группа'">{{student.Group}}</td>
+                    <td width="15%" data-title="'Действие'">
+                        <a ng-click="assignProject(student.Id)" class="deleteSubjectButton" style="margin-right: 10px">
+                            <i tooltip-placement="left" tooltip="Назначить" class="deleteSubject fa fa-list-alt fa-2x"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="text-align: right; padding: 20px 0;">
+            <button class="btn btn-default  btn-sm" ng-click="closeDialog()">Отмена</button>
+        </div>
+    </div>
+</div>

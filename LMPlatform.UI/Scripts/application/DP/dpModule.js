@@ -13,11 +13,18 @@
         'dpApp.ctrl.percentageResults',
         'dpApp.ctrl.visitStats',
         'dpApp.ctrl.students',
+        'textAngular',
+        'dpApp.ctrl.news',
         'dpApp.service.project',
         'ui.select'
     ])
     .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
        
+        $routeProvider.when('/News', {
+            templateUrl: '/Dp/News',
+            controller: 'newsCtrl'
+        });
+
         $routeProvider.when('/Projects', {
             templateUrl: '/Dp/Projects',
             controller: 'projectsCtrl',
@@ -45,7 +52,7 @@
         });
         
         $routeProvider.otherwise({
-            redirectTo: '/Projects'
+            redirectTo: '/News'
         });
     }]).directive('loadingContainer', function () {
         return {

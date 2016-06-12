@@ -11,6 +11,7 @@ angular
             var studentApiUrl = '/api/student/';
             var downloadTaskSheetUrl = "/Dp/GetTasksSheetDocument?diplomProjectId=";
             var downloadTaskSheetHtmlUrl = "/Dp/GetTasksSheetHtml?diplomProjectId=";
+            var apiUrlNewses = '/api/DiplomProjectNews/';
 
             return {
                 getProjects: function (params) {
@@ -21,6 +22,13 @@ angular
                     });
                 },
                 
+                getNewses: function () {
+                    return $http({
+                        method: 'GET',
+                        url: apiUrlNewses
+                    });
+                },
+
                 getProject: function (projectId) {
                     return $http({
                         method: 'GET',

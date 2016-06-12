@@ -1,0 +1,78 @@
+﻿<div>
+    <table style="border:none;width:100%">
+        <tr style="border:none">
+            <td style="border:none" width="205px">
+                <div ng-show="user.IsLecturer" id="buttonActionSection">
+                    <a ng-click="addConsultationDate()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить дату консультации</a>
+                </div>
+            </td>
+            <td style="border:none" width="90px">
+                <div style="float:left; min-width:90px;">
+                    <div style="width:auto;height:100%">
+                        <ui-select on-select="selectGroups($item)" ng-model="group.Id" theme="bootstrap">
+                            <ui-select-match placeholder="Группа">{{group.Name}}</ui-select-match>
+                            <ui-select-choices repeat="item.id as item in groups | filter: $select.search">
+                                <div>{{item.Name}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </td>
+            <td style="border:none; margin-top:8px" width="auto">
+                <a ng-show="selectedGroups" style="background-color: #f9f9f9;
+                                                   border: none;
+                                                   border-color: #fff;
+                                                   padding: 0px;
+                                                   box-shadow: none;
+                                                   padding-left: 15px;" 
+                   class="btn btn-primary btn-sm" ng-click="visitingLabsExport()" tooltip="Загрузить документ Excel">
+                    <i style="margin-top:5px; background-image:url(../../Images/ExcelDownload.png);background-size:cover;width:30px;height:30px" class="fa"></i>
+                </a>
+            </td>
+            <td style="border:none;width:auto;">
+                <div ng-show="selectedGroups" style="width:40%; display: inline-block;vertical-align: middle;float:right">
+                    <label style="width:100%; font-size: 12px;font-weight: normal;display: inline-block;max-width: 100%;">
+                        <input style="margin:0; display:inline-block; width:100%" class="form-control input-sm" type="search" ng-model="searchString" ng-change="search()" placeholder="Поиск по теме, фамилии" autocomplete="off">
+                    </label>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+    <div style="float:left; height:auto; min-height:400px; margin-top:15px;" loading-container="tableParams.settings().$loading">
+        <table ng-show="user.IsLecturer || user.IsStudent" ng-table="tableParams" class="table table-bordered table-striped table-hover dataTable">
+            <thead>
+                <tr>
+                    <th width="1%">№</th>
+                    <th width="40%" sortable="'Name'">Студент</th>
+                    <th width="40%" sortable="'Group'">Тема курсового проекта (работы)</th>
+                    <th width="5%" ng-repeat="consultation in consultations">
+                        <a ng-show="user.IsLecturer" ng-click="deleteConsultationDate(consultation.Id)" onclick=" return false; " href="#">
+                            {{formatDate(parseDate(consultation.Day), "dd/mm")}}
+                        </a>
+                        <span ng-show="user.IsStudent">
+                            {{formatDate(parseDate(consultation.Day), "dd/mm")}}
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="student in $data">
+                    <td style="width:1%;text-align: left;">{{$index+1}}</td>
+                    <td width="40%"  data-title="'Студент'" sortable="'Name'" style="text-align: left;">{{student.Name}}</td>
+                    <td width="40%"  data-title="'Тема курсового проекта (работы)'" sortable="'Group'" style="text-align: left;">{{student.Group}}</td>
+                    <td ng-repeat="consultation in consultations" width="5%" style="text-align: center;">
+                        <a ng-show="user.IsLecturer" editable-text="getConsultationMark(student, consultation.Id).Mark" href="#"
+                           onbeforesave="saveConsultationMark(getConsultationMark(student, consultation.Id), $data)">
+                            {{getConsultationMark(student, consultation.Id).Mark ? getConsultationMark(student, consultation.Id).Mark : '-'}}
+                        </a>
+                        <span ng-show="user.IsStudent ">
+                            {{getConsultationMark(student, consultation.Id).Mark}}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

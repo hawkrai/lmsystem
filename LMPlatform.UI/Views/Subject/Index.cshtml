@@ -40,16 +40,7 @@
                         }
                     </li>
                 }
-                else if (module.Type == ModuleType.ComplexMaterial)
-                {
-
-                    <li class="navLink">
-                        <a target="_blank" href="@Url.Action("Index","ComplexMaterial", new { subjectId = Model.SubjectId })">
-                            <i class="fa fa-bell fa-tab"></i>
-                            <span>ЭУМК</span>
-                        </a>
-                    </li>
-                }
+                
                 else if (module.Type == ModuleType.Dsm)
                 {
 
@@ -58,7 +49,24 @@
                             <i class="fa fa-book fa-tab"></i>
                             <span>Методические материалы</span>
                         </a>
-                    </li>	   }
+                    </li>
+                }
+                else if (module.Type == ModuleType.YeManagment)
+                {
+
+                    <li class="navLink">
+                        <a class="moduleLinks linkNavbar" href="@Url.Action("Index","CP", new { subjectId = Model.SubjectId })">
+                            Курсовой проект (работа)
+                        </a>
+                    </li>
+                }
+                else if (module.Type == ModuleType.ComplexMaterial)
+                {
+                    <li class="navLink">
+                        <a class="moduleLinks linkNavbar" href="@Url.Action("Index","ComplexMaterial", new { subjectId = Model.SubjectId })"><span>ЭУМК</span></a>
+                    </li>
+                    
+                }
                 else
                 {
                     <li class="navLink">
@@ -79,7 +87,7 @@
 		{
             <h1>
                 @Model.SubjectName
-                <small id="nameMin">Преподаватель - <a href="~/Lms/@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.User.UserName">@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.FullName</a></small>
+                <small id="nameMin">Преподаватель - <a href="~/Profile/Page/@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.User.UserName">@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.FullName</a></small>
             </h1>
         }
 

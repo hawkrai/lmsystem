@@ -74,9 +74,10 @@ namespace Application.Infrastructure.LecturerManagement
             {
                 searchString = searchString.Replace(" ", string.Empty);
 
-                //search by full name
+                //search by full name, login
                 query.AddFilterClause(
-                    e => (e.LastName + e.FirstName + e.MiddleName).Contains(searchString));
+                    e => (e.LastName + e.FirstName + e.MiddleName).Contains(searchString)
+                    || e.User.UserName.Contains(searchString));
             }
 
             query.OrderBy(sortCriterias);

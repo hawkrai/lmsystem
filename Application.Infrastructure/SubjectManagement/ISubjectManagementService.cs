@@ -111,5 +111,7 @@ namespace Application.Infrastructure.SubjectManagement
         List<Subject> GetSubjectsByStudent(int userId);
 
 	    decimal GetSubjectCompleting(int subjectId);
+
+        int StudentAttendance(int userId);
     }
 }

@@ -21,6 +21,9 @@ namespace LMPlatform.UI.Services.Modules.Concept
             Published = (concept.IsGroup && concept.Children.Any() && concept.Children.All(c => c.Published)) || (!concept.IsGroup && concept.Published);
             ReadOnly = concept.ReadOnly;
             HasData = !String.IsNullOrEmpty(Container);
+            Prev = concept.PrevConcept;
+            Next = concept.NextConcept;
+            SubjectName = concept.Subject.Name;
         }
 
         public ConceptViewData(LMPlatform.Models.Concept concept, Boolean buildTree)
@@ -62,6 +65,13 @@ namespace LMPlatform.UI.Services.Modules.Concept
             set;
         }
 
+        [DataMember]
+        public string SubjectName
+        {
+            get;
+            set;
+        }
+
 
         [DataMember]
         public string Container
@@ -85,8 +95,26 @@ namespace LMPlatform.UI.Services.Modules.Concept
         [DataMember]
         public Boolean HasData { get; set; }
 
+        [DataMember]
+        public Int32? Next { get; set; }
+        [DataMember]
+        public Int32? Prev { get; set; }
+
+
         [DataMember(Name = "children")]
-        public ICollection<ConceptViewData> Children { get; set; }
+        public ICollection<ConceptViewData> Children 
+        { 
+            get
+            {
+                return _childrens.SortDoubleLinkedList();
+            }
+            set
+            {
+                _childrens = value;
+            }
+        }
+
+        private ICollection<ConceptViewData> _childrens;
     }
 
     [DataContract]
@@ -133,5 +161,44 @@ namespace LMPlatform.UI.Services.Modules.Concept
 
         [DataMember]
         public Boolean HasAttach { get; set; }
+    }
+
+    public static class ConceptViewDataExtension
+    {
+        public static List<ConceptViewData> SortDoubleLinkedList(this IEnumerable<ConceptViewData> source)
+        {
+            var checkCount = 0;
+            var res = new List<ConceptViewData>();
+            if (source == null)
+                return res;
+            var first = source.FirstOrDefault(s => s.Prev == null);
+            if (first == null)
+            {
+                res.AddRange(source);
+                return res;
+            }
+            res.Add(first);
+            var next = source.FirstOrDefault(s => s.Id == first.Next.GetValueOrDefault());
+            if (next == null)
+            {
+                res.AddRange(source.Where(i=>!res.Any(r=>r.Id==i.Id)));
+                return res;
+            }
+            else
+            {
+                res.Add(next);
+                first = next;
+                while (next != null && checkCount < 1000)
+                {
+                    next = source.FirstOrDefault(s => s.Id == first.Next.GetValueOrDefault());
+                    if (next != null)
+                        res.Add(next);
+                    first = next;
+                    checkCount++;
+                }
+            }
+
+            return res;
+        }
     }
 }
