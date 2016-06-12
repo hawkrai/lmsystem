@@ -6,6 +6,8 @@ namespace Application.Infrastructure.SubjectManagement
 {
     using System;
 
+    using Application.Infrastructure.Models;
+
     public interface ISubjectManagementService
     {
         List<Subject> GetUserSubjects(int userId);
@@ -67,10 +69,12 @@ namespace Application.Infrastructure.SubjectManagement
         void SaveScheduleProtectionPracticalDate(ScheduleProtectionPractical scheduleProtectionPractical);
 
         SubGroup GetSubGroup(int subGroupId);
+        Group GetGroup(int groupId);
 
-        void SaveLabsVisitingData(List<ScheduleProtectionLabMark> protectionLabMarks);
+        //void SaveLabsVisitingData(List <ScheduleProtectionLabMark> protectionLabMarks);
+        void SaveLabsVisitingData(ScheduleProtectionLabMark protectionLabMarks);
 
-        void SaveStudentLabsMark(List<StudentLabMark> studentLabMark);
+        void SaveStudentLabsMark(StudentLabMark studentLabMark);
 
         void SavePracticalVisitingData(List<ScheduleProtectionPracticalMark> protectionPracticalMarks);
 
@@ -95,5 +99,17 @@ namespace Application.Infrastructure.SubjectManagement
 	    bool IsSubjectName(string name, string id);
 
 	    bool IsSubjectShortName(string name, string id);
+
+	    void DisableNews(int subjectId, bool disable);
+
+        List<ProfileCalendarModel> GetLabEvents(int userId);
+
+        List<ProfileCalendarModel> GetLecturesEvents(int userId);
+
+        List<Subject> GetSubjectsByLector(int userId);
+
+        List<Subject> GetSubjectsByStudent(int userId);
+
+	    decimal GetSubjectCompleting(int subjectId);
     }
 }

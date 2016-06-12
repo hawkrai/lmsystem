@@ -10,5 +10,6 @@
 
         [DataMember]
         public string Mark { get; set; }
+
     }
 }

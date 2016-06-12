@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using LMPlatform.Models.DP;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
+using Application.Core.Data;
+using LMPlatform.Models.CP;
 
 namespace LMPlatform.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-
-    using Application.Core.Data;
 
     public class Group : ModelBase
     {
@@ -46,9 +46,13 @@ namespace LMPlatform.Models
             set;
         }
 
+
+
         public ICollection<ScheduleProtectionPractical> ScheduleProtectionPracticals { get; set; }
 
         public virtual ICollection<DiplomProjectGroup> DiplomProjectGroups { get; set; }
+
+        public virtual ICollection<CourseProjectGroup> CourseProjectGroups { get; set; }
 
         [Column("Secretary_Id")]
         public int? SecretaryId { get; set; }

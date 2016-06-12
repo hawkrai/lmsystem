@@ -154,6 +154,8 @@ namespace LMPlatform.UI.Services
                         Order = e.Order,
                         Duration = e.Duration,
                         ShortName = e.ShortName,
+                        LabId = e.Id,
+                        SubjectId = e.SubjectId,
                         ScheduleProtectionLabsRecomend = subGroups.Any() ? subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date)
                             .Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty }).ToList() : new List<ScheduleProtectionLab>()
                     }).ToList();
@@ -172,7 +174,7 @@ namespace LMPlatform.UI.Services
 
                                 if (i + 1 >= durationCount)
                                 {
-                                    if (mark != 0)
+                                    if (mark != 1)
                                     {
                                         mark -= 1;
                                     }
@@ -188,6 +190,8 @@ namespace LMPlatform.UI.Services
                         Order = e.Order,
                         Duration = e.Duration,
                         ShortName = e.ShortName,
+                        LabId = e.Id,
+                        SubjectId = e.SubjectId,
                         ScheduleProtectionLabsRecomend = subGroups.Any() ?
                             subGroups.LastOrDefault()
                             .ScheduleProtectionLabs.OrderBy(x => x.Date)
@@ -207,7 +211,7 @@ namespace LMPlatform.UI.Services
 
                                 if (i + 1 >= durationCount)
                                 {
-                                    if (mark != 0)
+                                    if (mark != 1)
                                     {
                                         mark -= 1;
                                     }
