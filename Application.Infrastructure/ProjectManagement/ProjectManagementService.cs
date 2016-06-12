@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Application.Core.Data;
-using Application.SearchEngine.SearchMethods;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
@@ -139,7 +138,7 @@ namespace Application.Infrastructure.ProjectManagement
                 repositoriesContainer.ProjectsRepository.Save(project);
                 repositoriesContainer.ApplyChanges();
             }
-            new ProjectSearchMethod().AddToIndex(project);
+
             return project;
         }
 
@@ -150,7 +149,6 @@ namespace Application.Infrastructure.ProjectManagement
                 repositoriesContainer.ProjectsRepository.Save(project);
                 repositoriesContainer.ApplyChanges();
             }
-            new ProjectSearchMethod().UpdateIndex(project);
         }
 
         public void DeleteProject(int projectId)
@@ -163,7 +161,6 @@ namespace Application.Infrastructure.ProjectManagement
                 repositoriesContainer.ProjectsRepository.DeleteProject(project);
                 repositoriesContainer.ApplyChanges();
             }
-            new ProjectSearchMethod().DeleteIndex(projectId);
         }
 
         public void ClearProject(int projectId)

@@ -31,7 +31,7 @@ namespace LMPlatform.UI.Services.News
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Save")]
-        ResultViewData Save(string subjectId, string id, string title, string body, bool disabled, bool isOldDate);
+        ResultViewData Save(string subjectId, string id, string title, string body, bool isOldDate);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Delete")]

@@ -119,10 +119,6 @@
     <Reference Include="System.Drawing">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Linq.Dynamic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Linq.Dynamic.1.0.0\lib\net40\System.Linq.Dynamic.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization">
       <Private>True</Private>
     </Reference>
@@ -337,7 +333,6 @@
     <Content Include="Images\Excel.png" />
     <Content Include="Images\ExcelDownload.png" />
     <Content Include="Images\login_bk.jpg" />
-    <Content Include="Images\Лого2.png" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\application\ComplexMaterials\BaseLoader.js" />
@@ -450,10 +445,6 @@
     <Compile Include="Services\Practicals\IPracticalService.cs" />
     <Compile Include="Services\Practicals\PracticalService.svc.cs">
       <DependentUpon>PracticalService.svc</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Search\ISearchService.cs" />
-    <Compile Include="Services\Search\SearchService.svc.cs">
-      <DependentUpon>SearchService.svc</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\PersonalDataViewModel.cs" />
@@ -1056,8 +1047,6 @@
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
     <None Include="Properties\PublishProfiles\lmsPlatform - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\lmsPlatform - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\lmsPlatform.pubxml" />
-    <None Include="Properties\PublishProfiles\LMS_git.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -1311,7 +1300,6 @@
     <Content Include="Services\News\NewsService.svc" />
     <Content Include="Services\Parental\ParentalService.svc" />
     <Content Include="Services\Practicals\PracticalService.svc" />
-    <Content Include="Services\Search\SearchService.svc" />
     <Content Include="Templates\AdminLTE.css" />
     <Content Include="Templates\css\bootstrap-slider\slider.css" />
     <Content Include="Templates\css\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
@@ -1814,10 +1802,6 @@
     <ProjectReference Include="..\Application.Infrastructure\Application.Infrastructure.csproj">
       <Project>{A9E94869-28E1-4B55-ABE1-984E6AE62EAF}</Project>
       <Name>Application.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Application.SearchEngine\Application.SearchEngine.csproj">
-      <Project>{8371cb8f-cc57-426f-a9d5-0b2ab3bc64e7}</Project>
-      <Name>Application.SearchEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\LMPlatform.Data\LMPlatform.Data.csproj">
       <Project>{79EE9ED9-A7E4-43DB-B01F-FF693309ADC9}</Project>

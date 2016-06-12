@@ -9,7 +9,6 @@ using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
-using Application.SearchEngine.SearchMethods;
 
 namespace Application.Infrastructure.StudentManagement
 {
@@ -62,14 +61,13 @@ namespace Application.Infrastructure.StudentManagement
             }
         }
 
-        public Student Save(Student student)
+        public void Save(Student student)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.StudentsRepository.SaveStudent(student);
-                repositoriesContainer.ApplyChanges();                
+                repositoriesContainer.ApplyChanges();
             }
-            return student;
         }
 
         public void UpdateStudent(Student student)
@@ -82,13 +80,11 @@ namespace Application.Infrastructure.StudentManagement
 	            user.Avatar = student.User.Avatar;
 				repositoriesContainer.UsersRepository.Save(user);
                 repositoriesContainer.ApplyChanges();
-                new StudentSearchMethod().UpdateIndex(student);
             }
         }
 
         public bool DeleteStudent(int id)
         {
-            new StudentSearchMethod().DeleteIndex(id);
             return UserManagementService.DeleteUser(id);
         }
 

@@ -4,7 +4,6 @@ using System.Linq;
 using Application.Core;
 using Application.Core.Data;
 using Application.Infrastructure.UserManagement;
-using Application.SearchEngine.SearchMethods;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 
@@ -95,7 +94,8 @@ namespace Application.Infrastructure.LecturerManagement
             {
                 repositoriesContainer.LecturerRepository.SaveLecturer(lecturer);
                 repositoriesContainer.ApplyChanges();
-            }            
+            }
+
             return lecturer;
         }
 
@@ -113,7 +113,7 @@ namespace Application.Infrastructure.LecturerManagement
 				repositoriesContainer.UsersRepository.Save(user);
                 repositoriesContainer.ApplyChanges();
             }
-            new LecturerSearchMethod().UpdateIndex(lecturer);
+
             return lecturer;
         }
 
@@ -131,7 +131,7 @@ namespace Application.Infrastructure.LecturerManagement
                     repositoriesContainer.ApplyChanges();
                 }
             }
-            new LecturerSearchMethod().DeleteIndex(id);
+
             return UserManagementService.DeleteUser(id);
         }
 

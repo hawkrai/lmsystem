@@ -69,10 +69,12 @@ namespace Application.Infrastructure.SubjectManagement
         void SaveScheduleProtectionPracticalDate(ScheduleProtectionPractical scheduleProtectionPractical);
 
         SubGroup GetSubGroup(int subGroupId);
+        Group GetGroup(int groupId);
 
-        void SaveLabsVisitingData(List<ScheduleProtectionLabMark> protectionLabMarks);
+        //void SaveLabsVisitingData(List <ScheduleProtectionLabMark> protectionLabMarks);
+        void SaveLabsVisitingData(ScheduleProtectionLabMark protectionLabMarks);
 
-        void SaveStudentLabsMark(List<StudentLabMark> studentLabMark);
+        void SaveStudentLabsMark(StudentLabMark studentLabMark);
 
         void SavePracticalVisitingData(List<ScheduleProtectionPracticalMark> protectionPracticalMarks);
 

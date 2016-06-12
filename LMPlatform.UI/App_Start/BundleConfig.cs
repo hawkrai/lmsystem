@@ -76,11 +76,6 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/chosen/chosen.jquery.js",
                 "~/Scripts/chosen/ajax-chosen.js"));
 
-            bundles.Add(new StyleBundle("~/Content/typeahead").Include(
-                "~/Content/jquery.typeahead.css"));
-            bundles.Add(new ScriptBundle("~/bundles/typeahead").Include(
-                "~/Scripts/jquery.typeahead.js"));
-
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(

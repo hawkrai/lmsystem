@@ -46,6 +46,8 @@ namespace LMPlatform.Models
             set;
         }
 
+
+
         public ICollection<ScheduleProtectionPractical> ScheduleProtectionPracticals { get; set; }
 
         public virtual ICollection<DiplomProjectGroup> DiplomProjectGroups { get; set; }

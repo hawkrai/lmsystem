@@ -22,12 +22,6 @@ namespace LMPlatform.Models
             set;
         }
 
-	    public bool Disabled
-	    {
-		    get;
-			set;
-	    }
-
         public DateTime EditDate
         {
             get;

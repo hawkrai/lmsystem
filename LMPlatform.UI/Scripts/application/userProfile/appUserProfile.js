@@ -2,10 +2,10 @@
 
 angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 	.controller("ProfileController", function ($scope, $sce, $http, usSpinnerService) {
-		$scope.login = "";
-		$scope.isMyProfile = false;
+	    $scope.login = "";
+	    $scope.isMyProfile = false;
 
-		$scope.loadProfileData = null;
+	    $scope.loadProfileData = null;
 		$scope.statistic = {
 	        Labs: 0,
 	        Lects: 0
@@ -13,14 +13,14 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 	    
 	    $scope.subject = null;
 
-		$scope.loading = false;
-		$scope.init = function (userLogin, isMyProfile) {
-			$scope.login = userLogin;
-			$scope.isMyProfile = isMyProfile === "true" ? true : false;
+	    $scope.loading = false;
+	    $scope.init = function (userLogin, isMyProfile) {
+	        $scope.login = userLogin;
+	        $scope.isMyProfile = isMyProfile === "true" ? true : false;
 
-			$scope.startSpin();
+	        $scope.startSpin();
 
-			$scope.loadProfileData();
+	        $scope.loadProfileData();
 
 		    $scope.loaEvents();
 
@@ -30,10 +30,10 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 
 			setTimeout(
 	            function () {
-	            	$scope.stopSpin();
-	            	$scope.loadCircle();
+	                $scope.stopSpin();
+	                $scope.loadCircle();
 	            }, 100);
-		};
+	    };
 
 	    $scope.loaEvents = function () {
 	        $.ajax({
@@ -99,9 +99,9 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 			});
 		};
 
-		$scope.loadCircle = function () {
-			$('#circle_lec').circliful();
-			$("#circle_lab").circliful();
+	    $scope.loadCircle = function () {
+	        $('#circle_lec').circliful();
+	        $("#circle_lab").circliful();
 		};
 
 
@@ -121,15 +121,15 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 			});
 		},
 
-		$scope.startSpin = function () {
-			$(".loading").toggleClass('ng-hide', false);
-			//usSpinnerService.spin('spinner-1');
-		};
+	    $scope.startSpin = function () {
+	        $(".loading").toggleClass('ng-hide', false);
+	        //usSpinnerService.spin('spinner-1');
+	    };
 
-		$scope.stopSpin = function () {
-			$(".loading").toggleClass('ng-hide', true);
-			//usSpinnerService.stop('spinner-1');
-		};
+	    $scope.stopSpin = function () {
+	        $(".loading").toggleClass('ng-hide', true);
+	        //usSpinnerService.stop('spinner-1');
+	    };
 
 		$scope.getNowDate = function() {
 			return new Date();

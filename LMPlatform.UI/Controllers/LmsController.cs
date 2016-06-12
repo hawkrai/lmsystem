@@ -1,16 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Dynamic;
-using System.Web.Helpers;
+﻿using System.Web.Helpers;
 using System.Web.Mvc;
 using Application.Core;
-using Application.Core.Data;
-using Application.Core.Extensions;
 using Application.Core.UI.Controllers;
 using Application.Infrastructure.DPManagement;
 using Application.Infrastructure.UserManagement;
-using LMPlatform.Data.Infrastructure;
-using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.LmsViewModels;
 using WebMatrix.WebData;
 

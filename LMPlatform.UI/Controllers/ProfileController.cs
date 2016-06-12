@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
-using Application.Core.Data;
 using Application.Infrastructure.UserManagement;
-using LMPlatform.Data.Infrastructure;
-using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.LmsViewModels;
 
 namespace LMPlatform.UI.Controllers
