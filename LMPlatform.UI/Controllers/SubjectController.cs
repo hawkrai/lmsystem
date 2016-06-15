@@ -216,34 +216,34 @@ namespace LMPlatform.UI.Controllers
             return PartialView("Common/_FilesUploader", FilesManagementService.GetAttachments(model.Attachments).ToList());
         }
 
-		public FileResult GetZipLabs(int id, int subjectId)
-	    {
-		    var zip = new ZipFile(Encoding.UTF8);
+        public FileResult GetZipLabs(int id, int subjectId)
+        {
+            var zip = new ZipFile(Encoding.UTF8);
 
-		    var subGroups = SubjectManagementService.GetSubGroup(id);
+            var groups = SubjectManagementService.GetGroup(id);
 
-		    foreach (var subGroup in subGroups.SubjectStudents)
-		    {
-			    var model = SubjectManagementService.GetUserLabFiles(subGroup.StudentId, subjectId);
+            foreach (var group in groups.Students)
+            {
+                var model = SubjectManagementService.GetUserLabFiles(group.Id, subjectId);
 
-			    var attachments = new List<Attachment>();
+                var attachments = new List<Attachment>();
 
-			    foreach (var data in model)
-			    {
-					attachments.AddRange(FilesManagementService.GetAttachments(data.Attachments));    
-			    }
+                foreach (var data in model)
+                {
+                    attachments.AddRange(FilesManagementService.GetAttachments(data.Attachments));
+                }
 
-				UtilZip.CreateZipFile(ConfigurationManager.AppSettings["FileUploadPath"], zip, attachments, subGroup.Student.FullName.Replace(" ", "_"));
-		    }
+                UtilZip.CreateZipFile(ConfigurationManager.AppSettings["FileUploadPath"], zip, attachments, group.FullName.Replace(" ", "_"));
+            }
 
-			var memoryStream = new MemoryStream();
+            var memoryStream = new MemoryStream();
 
-			zip.Save(memoryStream);
+            zip.Save(memoryStream);
 
-			memoryStream.Seek(0, SeekOrigin.Begin);
+            memoryStream.Seek(0, SeekOrigin.Begin);
 
-			return new FileStreamResult(memoryStream, "application/zip") { FileDownloadName = subGroups.SubjectGroup.Group.Name + ".zip" };
-	    }
+            return new FileStreamResult(memoryStream, "application/zip") { FileDownloadName = groups.Name + ".zip" };
+        }
 
         public FileResult GetStudentZipLabs(int id, int subjectId, int userId)
         {

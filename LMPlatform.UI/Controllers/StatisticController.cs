@@ -104,28 +104,52 @@ namespace LMPlatform.UI.Controllers
             Response.End();
         }
 
-        public void GetVisitLabs(int subjectId, int groupId, int subGroupId)
-		{
-			var data = new SLExcelData();
+        public void GetVisitLabs(int subjectId, int groupId, int subGroupOneId, int subGroupTwoId)
+        {
+            var data = new SLExcelData();
 
-			var headerData = GroupManagementService.GetLabsScheduleVisitings(subjectId, groupId, subGroupId);
-			var rowsData = GroupManagementService.GetLabsScheduleMarks(subjectId, groupId, subGroupId);
+            var headerDataOne = GroupManagementService.GetLabsScheduleVisitings(subjectId, groupId, subGroupOneId);
+            var rowsDataOne = GroupManagementService.GetLabsScheduleMarks(subjectId, groupId, subGroupOneId);
 
-			data.Headers.Add("Студент");
-			data.Headers.AddRange(headerData);
-			data.DataRows.AddRange(rowsData);
+            data.Headers.Add("Студент");
+            data.Headers.AddRange(headerDataOne);
+            data.DataRows.AddRange(rowsDataOne);
 
-			var file = (new SLExcelWriter()).GenerateExcel(data);
+            var file = (new SLExcelWriter()).GenerateExcel(data);
 
-			Response.Clear();
-			Response.Charset = "ru-ru";
-			Response.HeaderEncoding = Encoding.UTF8;
-			Response.ContentEncoding = Encoding.UTF8;
-			Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-			Response.AddHeader("Content-Disposition", "attachment; filename=LabVisiting.xlsx");
-			Response.BinaryWrite(file);
-			Response.Flush();
-			Response.End();
-		}
+            Response.Clear();
+            Response.Charset = "ru-ru";
+            Response.HeaderEncoding = Encoding.UTF8;
+            Response.ContentEncoding = Encoding.UTF8;
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("Content-Disposition", "attachment; filename=LabVisiting.xlsx");
+            Response.BinaryWrite(file);
+            Response.Flush();
+            Response.End();
+        }
+
+        public void GetLabsMarks(int subjectId, int groupId)
+        {
+            var data = new SLExcelData();
+
+            var headerData = GroupManagementService.GetLabsNames(subjectId, groupId);
+            var rowsData = GroupManagementService.GetLabsMarks(subjectId, groupId);
+
+            data.Headers.Add("Студент");
+            data.Headers.AddRange(headerData);
+            data.DataRows.AddRange(rowsData);
+
+            var file = (new SLExcelWriter()).GenerateExcel(data);
+
+            Response.Clear();
+            Response.Charset = "ru-ru";
+            Response.HeaderEncoding = Encoding.UTF8;
+            Response.ContentEncoding = Encoding.UTF8;
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("Content-Disposition", "attachment; filename=LabMarks.xlsx");
+            Response.BinaryWrite(file);
+            Response.Flush();
+            Response.End();
+        }
 	}
 }

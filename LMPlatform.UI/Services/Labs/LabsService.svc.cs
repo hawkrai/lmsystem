@@ -144,15 +144,37 @@ namespace LMPlatform.UI.Services.Labs
             }
         }
 
-        public ResultViewData SaveLabsVisitingData(List<StudentsViewData> students)
+        public ResultViewData SaveLabsVisitingData(int dateId, List<string> marks, List<string> comments, List<int> studentsId, List<int> Id, List<StudentsViewData> students)
         {
             try
             {
-                foreach (var student in students)
+                int count = studentsId.Count;
+                string currentMark, currentComment;
+                int currentStudentId, currentId;
+
+                for (int i = 0; i < count; i++)
                 {
-                    SubjectManagementService.SaveLabsVisitingData(student.LabVisitingMark.Select(e => new ScheduleProtectionLabMark { Id = e.LabVisitingMarkId, Comment = e.Comment, Mark = e.Mark, StudentId = e.StudentId, ScheduleProtectionLabId = e.ScheduleProtectionLabId }).ToList());    
+                    currentMark = marks[i];
+                    currentComment = comments[i];
+                    currentStudentId = studentsId[i];
+                    currentId = Id[i];
+
+                    foreach (var student in students)
+                    {
+                        if (student.StudentId == currentStudentId)
+                        {
+                            foreach (var labVisiting in student.LabVisitingMark)
+                            {
+                                if (labVisiting.ScheduleProtectionLabId == dateId)
+                                {
+                                    SubjectManagementService.SaveLabsVisitingData(new ScheduleProtectionLabMark(currentId, currentStudentId, currentComment, currentMark, dateId));
+                                }
+                            }
+                        }
+
+                    }
                 }
-                
+
                 return new ResultViewData()
                 {
                     Message = "Данные успешно добавлены",
@@ -169,13 +191,21 @@ namespace LMPlatform.UI.Services.Labs
             }
         }
 
-        public ResultViewData SaveStudentLabsMark(List<StudentsViewData> students)
+        public ResultViewData SaveStudentLabsMark(int studentId, int labId, string mark, string comment, string date, int id, List<StudentsViewData> students)
         {
             try
             {
                 foreach (var student in students)
                 {
-                    SubjectManagementService.SaveStudentLabsMark(student.StudentLabMarks.Select(e => new StudentLabMark { Id = e.StudentLabMarkId, LabId = e.LabId, StudentId = e.StudentId, Mark = e.Mark }).ToList());    
+                    foreach (var selectStud in student.StudentLabMarks.Select(e => (e.LabId == labId & e.StudentId == studentId)))
+                    {
+                        if (selectStud)
+                        {
+                            SubjectManagementService.SaveStudentLabsMark(new StudentLabMark(labId, studentId, mark, comment, date, id));
+                        }
+
+                    }
+
                 }
 
                 return new ResultViewData()
