@@ -70,9 +70,11 @@ namespace Application.Infrastructure.SubjectManagement
 
         SubGroup GetSubGroup(int subGroupId);
 
-        void SaveLabsVisitingData(List<ScheduleProtectionLabMark> protectionLabMarks);
+        Group GetGroup(int groupId);
 
-        void SaveStudentLabsMark(List<StudentLabMark> studentLabMark);
+        void SaveLabsVisitingData(ScheduleProtectionLabMark protectionLabMarks);
+
+        void SaveStudentLabsMark(StudentLabMark studentLabMark);
 
         void SavePracticalVisitingData(List<ScheduleProtectionPracticalMark> protectionPracticalMarks);
 

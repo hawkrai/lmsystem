@@ -31,5 +31,9 @@ namespace Application.Infrastructure.GroupManagement
         List<List<string>> GetCpMarks(int subjectId, int groupId);
 
         Group GetGroupByName(string groupName);
+
+        List<string> GetLabsNames(int subjectId, int groupId);
+
+        List<List<string>> GetLabsMarks(int subjectId, int groupId);
     }
 }
