@@ -9,6 +9,9 @@ using LMPlatform.Data.Infrastructure;
 using LMPlatform.Models;
 using LMPlatform.Models.DP;
 using Microsoft.Office.Interop.Word;
+using System.Collections.Generic;
+using Application.Infrastructure.FilesManagement;
+using LMPlatform.Data.Repositories;
 
 namespace Application.Infrastructure.DPManagement
 {
@@ -16,6 +19,7 @@ namespace Application.Infrastructure.DPManagement
     {
         public PagedList<DiplomProjectData> GetProjects(int userId, GetPagedListParams parms)
         {
+            var searchString = parms.Filters["searchString"];
             var query = Context.DiplomProjects.AsNoTracking()
                 .Include(x => x.Lecturer)
                 .Include(x => x.AssignedDiplomProjects.Select(asp => asp.Student.Group));
@@ -37,20 +41,43 @@ namespace Application.Infrastructure.DPManagement
                 query = query.Where(x => x.DiplomProjectGroups.Any(dpg => dpg.GroupId == user.Student.GroupId));
             }
 
-            var diplomProjects = from dp in query
-                                 let adp = dp.AssignedDiplomProjects.FirstOrDefault()
-                                 select new DiplomProjectData
-                                 {
-                                     Id = dp.DiplomProjectId,
-                                     Theme = dp.Theme,
-                                     Lecturer = dp.Lecturer != null ? dp.Lecturer.LastName + " " + dp.Lecturer.FirstName + " " + dp.Lecturer.MiddleName : null,
-                                     Student = adp.Student != null ? adp.Student.LastName + " " + adp.Student.FirstName + " " + adp.Student.MiddleName : null,
-                                     StudentId = adp.StudentId,
-                                     Group = adp.Student.Group.Name,
-                                     ApproveDate = adp.ApproveDate
-                                 };
+            if (searchString.Length > 0)
+            {
+                var diplomProjects = from dp in query
+                                     let adp = dp.AssignedDiplomProjects.FirstOrDefault()
+                                     where adp.Student.LastName.Contains(searchString) ||
+                                         dp.Theme.Contains(searchString) ||
+                                        adp.Student.Group.Name.Contains(searchString)
+                                     select new DiplomProjectData
+                                     {
+                                         Id = dp.DiplomProjectId,
+                                         Theme = dp.Theme,
+                                         Lecturer = dp.Lecturer != null ? dp.Lecturer.LastName + " " + dp.Lecturer.FirstName + " " + dp.Lecturer.MiddleName : null,
+                                         Student = adp.Student != null ? adp.Student.LastName + " " + adp.Student.FirstName + " " + adp.Student.MiddleName : null,
+                                         StudentId = adp.StudentId,
+                                         Group = adp.Student.Group.Name,
+                                         ApproveDate = adp.ApproveDate
+                                     };
 
-            return diplomProjects.ApplyPaging(parms);
+                return diplomProjects.ApplyPaging(parms);
+            }
+            else
+            {
+                var diplomProjects = from dp in query
+                                     let adp = dp.AssignedDiplomProjects.FirstOrDefault()
+                                     select new DiplomProjectData
+                                     {
+                                         Id = dp.DiplomProjectId,
+                                         Theme = dp.Theme,
+                                         Lecturer = dp.Lecturer != null ? dp.Lecturer.LastName + " " + dp.Lecturer.FirstName + " " + dp.Lecturer.MiddleName : null,
+                                         Student = adp.Student != null ? adp.Student.LastName + " " + adp.Student.FirstName + " " + adp.Student.MiddleName : null,
+                                         StudentId = adp.StudentId,
+                                         Group = adp.Student.Group.Name,
+                                         ApproveDate = adp.ApproveDate
+                                     };
+
+                return diplomProjects.ApplyPaging(parms);
+            }
         }
 
         public DiplomProjectData GetProject(int id)
@@ -124,7 +151,12 @@ namespace Application.Infrastructure.DPManagement
                 Consultants = dp.Consultants,
                 DiplomProjectId = dp.DiplomProjectId,
                 DrawMaterials = dp.DrawMaterials,
-                RpzContent = dp.RpzContent
+                RpzContent = dp.RpzContent,
+                Faculty = dp.Faculty,
+                HeadCathedra = dp.HeadCathedra,
+                Univer = dp.Univer,
+                DateEnd = dp.DateEnd,
+                DateStart = dp.DateStart
             };
         }
 
@@ -138,6 +170,11 @@ namespace Application.Infrastructure.DPManagement
             dp.RpzContent = taskSheet.RpzContent;
             dp.DrawMaterials = taskSheet.DrawMaterials;
             dp.Consultants = taskSheet.Consultants;
+            dp.HeadCathedra = taskSheet.HeadCathedra;
+            dp.Faculty = taskSheet.Faculty;
+            dp.Univer = taskSheet.Univer;
+            dp.DateStart = taskSheet.DateStart;
+            dp.DateEnd = taskSheet.DateEnd;
 
             Context.SaveChanges();
         }
@@ -188,6 +225,8 @@ namespace Application.Infrastructure.DPManagement
 
             assignment.StudentId = studentId == 0 ? assignment.StudentId : studentId;
             assignment.ApproveDate = isLecturer ? (DateTime?)DateTime.Now : null;
+            var dp = Context.DiplomProjects.FirstOrDefault(x => x.DiplomProjectId == projectId);
+            dp.DateStart = isLecturer ? (DateTime?)DateTime.Now : null;
             Context.SaveChanges();
         }
 
@@ -320,6 +359,12 @@ namespace Application.Infrastructure.DPManagement
                 existingTemplate.DrawMaterials = template.DrawMaterials;
                 existingTemplate.RpzContent = template.RpzContent;
                 existingTemplate.LecturerId = template.LecturerId;
+                existingTemplate.Faculty = template.Faculty;
+                existingTemplate.HeadCathedra = template.HeadCathedra;
+                existingTemplate.Univer = template.Univer;
+                existingTemplate.DateStart = template.DateStart;
+                existingTemplate.DateEnd = template.DateEnd;
+
             }
             else
             {
@@ -329,11 +374,140 @@ namespace Application.Infrastructure.DPManagement
             Context.SaveChanges();
         }
 
+        public List<NewsData> GetNewses(int lecturerId)
+        {
+            List<NewsData> list = new List<NewsData>();
+            var user = Context.Users.Any(x=>x.Lecturer.Id == lecturerId);
+            if (user) {
+                var newses = Context.DiplomProjectNewses.Where(x => x.LecturerId == lecturerId).OrderByDescending(x => x.EditDate);
+                foreach (DiplomProjectNews cp in newses)
+                {
+                    NewsData n = new NewsData();
+                    n.Id = cp.Id;
+                    n.Title = cp.Title;
+                    n.Body = cp.Body;
+                    n.LecturerId = cp.LecturerId;
+                    n.DateCreate = cp.EditDate.ToShortDateString();
+                    n.Disabled = cp.Disabled;
+                    n.PathFile = cp.Attachments;
+                    n.Attachments = FilesManagementService.GetAttachments(cp.Attachments);
+                    list.Add(n);
+                }
+            }
+            else
+            {
+                var newses = Context.DiplomProjectNewses.OrderByDescending(x => x.EditDate);
+                foreach (DiplomProjectNews cp in newses)
+                {
+                    NewsData n = new NewsData();
+                    n.Id = cp.Id;
+                    n.Title = cp.Title;
+                    n.Body = cp.Body;
+                    n.LecturerId = cp.LecturerId;
+                    n.DateCreate = cp.EditDate.ToShortDateString();
+                    n.Disabled = cp.Disabled;
+                    n.PathFile = cp.Attachments;
+                    n.Attachments = FilesManagementService.GetAttachments(cp.Attachments);
+                    list.Add(n);
+                }
+            }
+           
+            return list;
+        }
+
+        private string GetGuidFileName()
+        {
+            return string.Format("P{0}", Guid.NewGuid().ToString("N").ToUpper());
+        }
+
+        public DiplomProjectNews SaveNews(DiplomProjectNews news, IList<Attachment> attachments, Int32 userId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                if (!string.IsNullOrEmpty(news.Attachments))
+                {
+                    var deleteFiles =
+                        repositoriesContainer.AttachmentRepository.GetAll(
+                            new Query<Attachment>(e => e.PathName == news.Attachments)).ToList().Where(e => attachments.All(x => x.Id != e.Id)).ToList();
+
+                    foreach (var attachment in deleteFiles)
+                    {
+                        FilesManagementService.DeleteFileAttachment(attachment);
+                    }
+                }
+                else
+                {
+                    news.Attachments = GetGuidFileName();
+                }
+
+                FilesManagementService.SaveFiles(attachments.Where(e => e.Id == 0), news.Attachments);
+
+                foreach (var attachment in attachments)
+                {
+                    if (attachment.Id == 0)
+                    {
+                        attachment.PathName = news.Attachments;
+                        repositoriesContainer.AttachmentRepository.Save(attachment);
+                    }
+                }
+            }
+
+            var cpEditNews = Context.DiplomProjectNewses.FirstOrDefault(x => x.Id == news.Id && x.LecturerId == news.LecturerId);
+            if (cpEditNews != null)
+            {
+                CourseProjectNews cpnews = new CourseProjectNews();
+                cpEditNews.Body = news.Body;
+                cpEditNews.Disabled = news.Disabled;
+                cpEditNews.EditDate = news.EditDate;
+                cpEditNews.LecturerId = news.LecturerId;
+                cpEditNews.Attachments = news.Attachments;
+                cpEditNews.Title = news.Title;
+            }
+            else {
+                Context.DiplomProjectNewses.Add(news);
+            }
+            Context.SaveChanges();
+
+            return news;
+        }
+
+        public void DeleteNews(DiplomProjectNews news)
+        {
+            var cpnews = Context.DiplomProjectNewses.Single(x => x.Id == news.Id && x.LecturerId == news.LecturerId);
+            Context.DiplomProjectNewses.Remove(cpnews);
+            Context.SaveChanges();
+        }
+
+        public void DisableNews(int subjectId, bool disable)
+        {
+            var models = Context.DiplomProjectNewses.Where(e => e.LecturerId == subjectId);
+
+            foreach (var cpNews in models)
+            {
+                cpNews.Disabled = disable;
+            }
+            Context.SaveChanges();
+        }
+
+        public DiplomProjectNews GetNews(int id)
+        {
+            return Context.DiplomProjectNewses.Single(x => x.Id == id);
+        }
+
+
         private readonly LazyDependency<IDpContext> context = new LazyDependency<IDpContext>();
 
         private IDpContext Context
         {
             get { return context.Value; }
+        }
+
+        private readonly LazyDependency<IFilesManagementService> _filesManagementService =
+        new LazyDependency<IFilesManagementService>();
+
+        public IFilesManagementService FilesManagementService
+        {
+            get { return _filesManagementService.Value; }
         }
     }
 }

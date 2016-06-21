@@ -1,20 +1,20 @@
 ﻿<style type="text/css">
     .taskSheetEdit textarea {
-        max-width: 700px;
+        max-width: 1000px;
         max-height: 700px;
-        width: 650px;
+        width: 100%;
         height: 400px;
     }
 </style>
 
-<div class="modal-dialog panel panel-primary" style="margin: 0;width:700px;">
+<div class="modal-dialog panel panel-primary" style="margin: 0;width:742px;">
     <div class="panel-heading">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="closeDialog()">&times;</button>
         <h4 class="modal-title">Редактирование листа задания</h4>
     </div>
     <div class="modal-body">
-        <div class="col-md-12" style="float: left; clear: both; padding-left: 0;">
-            <div style="width: 650px;">
+        <div class="col-md-12" style="float: left; clear: both; padding-left: 0; width:100%;padding-right:0px">
+            <div style="width:100%;">
                 <ui-select on-select="selectTemplate($item)" ng-model="template.Id" theme="bootstrap">
                     <ui-select-match placeholder="Шаблон">{{$select.selected.Name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in templates | filter: $select.search">
@@ -22,26 +22,66 @@
                     </ui-select-choices>
                 </ui-select>
             </div>
-            <div>
-                <input type="text" style="width:490px;" ng-model="template.Name" placeholder="Название шаблона" />
-                <button ng-click="saveTaskSheetTemplate()" style="margin: 0 0 5px 5px" ng-disabled="!selectedTemplateId && !template.Name" type="submit" class="btn btn-primary btn-sm">Сохранить шаблон</button>
+            <div style="width:100%">
+                <input type="text" style="float:left;width:75%;" ng-model="template.Name" placeholder="Название шаблона" />
+                <button ng-click="saveTaskSheetTemplate()" style="margin: 5px 0 5px 5px;float:left;width:24%;margin-left:1%" ng-disabled="!selectedTemplateId && !template.Name" type="submit" class="btn btn-primary btn-sm">Сохранить шаблон</button>
             </div>
         </div>
         <br />
         <form class="taskSheetEdit">
             <tabset>
                 <tab heading="Входные данные">
-                    <textarea ng-model="taskSheet.InputData"></textarea>
+                    <textarea style="width:100%" ng-model="taskSheet.InputData"></textarea>
                 </tab>
                 <tab heading="Содержание">
-                    <textarea ng-model="taskSheet.RpzContent"></textarea>
+                    <textarea style="width:100%" ng-model="taskSheet.RpzContent"></textarea>
                 </tab>
                 <tab heading="Графические материалы">
-                    <textarea ng-model="taskSheet.DrawMaterials"></textarea>
+                    <textarea style="width:100%" ng-model="taskSheet.DrawMaterials"></textarea>
+                </tab>
+                <tab heading="Сведения о ВУЗе">
+                    <p style="margin-top:10px; margin-bottom:0px;">Название учебного заведения</p>
+                    <textarea style="height:40px; min-height:0px" ng-model="taskSheet.Univer"></textarea>
+                    <p style="margin-top:10px; margin-bottom:0px;">Название факультета</p>
+                    <textarea style="height:40px;min-height:0px" ng-model="taskSheet.Faculty"></textarea>
+                    <p style="margin-top:10px; margin-bottom:0px;">Фамилия, инициалы заведующего кафедры</p>
+                    <textarea style="height:40px;min-height:0px" ng-model="taskSheet.HeadCathedra"></textarea>
+                </tab>
+                <tab heading="Даты">
+                    <div>
+                        <label style="margin-top:10px" class="control-label" for="DateStart">Дата выдачи задания</label>
+                        <p class="input-group">
+                            <input type="text" class="form-control" style="margin: 0"
+                                   name="DateStart"
+                                   datepicker-popup="{{dateFormat}}"
+                                   ng-model="taskSheet.DateStart"
+                                   is-open="form.dateStartPickerOpened"
+                                   datepicker-options="dateOptions"
+                                   show-button-bar="false" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="dateStartPickerOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                    <div>
+                        <label style="margin-top:20px" class="control-label" for="DateEnd">Сроки сдачи курсового проекта (работы)</label>
+                        <p class="input-group">
+                            <input type="text" class="form-control" style="margin: 0"
+                                   name="dateend"
+                                   datepicker-popup="{{dateFormat}}"
+                                   ng-model="taskSheet.DateEnd"
+                                   is-open="form.dateEndPickerOpened"
+                                   datepicker-options="dateOptions"
+                                   show-button-bar="false" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="dateEndPickerOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
                 </tab>
             </tabset>
-            <div style="text-align: right; padding: 10px 0; padding-right: 10px">
-                <button ng-click="closeDialog()" class="btn btn-sm">Отмена</button>
+            <div style="text-align: right; padding: 10px 0; padding-right: 0px">
+                <button ng-click="closeDialog()" class="btn btn-default btn-sm">Отмена</button>
                 <button ng-click="saveTaskSheet()" type="submit" class="btn btn-primary btn-sm">Сохранить</button>
             </div>
         </form>

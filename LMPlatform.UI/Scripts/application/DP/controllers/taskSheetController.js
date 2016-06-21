@@ -68,6 +68,21 @@
 
                 updateTemplates();
 
+                $scope.form = {};
+                $scope.dateStartPickerOpen = function ($event) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
+
+                    $scope.form.dateStartPickerOpened = true;
+                };
+
+                $scope.dateEndPickerOpen = function ($event) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
+
+                    $scope.form.dateEndPickerOpened = true;
+                };
+
                 $scope.selectTemplate = function (template) {
                     $scope.selectedTemplateId = template.Id;
                     $scope.template.Name = template.Name;
@@ -76,6 +91,11 @@
                         $scope.taskSheet.RpzContent = data.RpzContent;
                         $scope.taskSheet.DrawMaterials = data.DrawMaterials;
                         $scope.taskSheet.Consultants = data.Consultants;
+                        $scope.taskSheet.Faculty = data.Faculty;
+                        $scope.taskSheet.HeadCathedra = data.HeadCathedra;
+                        $scope.taskSheet.Univer = data.Univer;
+                        $scope.taskSheet.DateEnd = data.DateEnd;
+                        $scope.taskSheet.DateStart = data.DateStart;
                     });
                 };
 

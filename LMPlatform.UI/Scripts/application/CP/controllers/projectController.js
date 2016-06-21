@@ -37,13 +37,6 @@
                     });
             }
 
-          /*  projectService
-                .getGroupCorrelation()
-                .success(function (data, status, headers, config) {
-                    $scope.groups = data;
-                });
-                */
-
             var subjectId = getParameterByName("subjectId");
             projectService
                 .getGroups(subjectId)
@@ -66,7 +59,6 @@
                     })
                     .error(function (data) {
                         $scope.handleError(data);
-                        //$modalInstance.close();
                     });
             };
 

@@ -9,7 +9,7 @@
     <div class="modal-body">
         <form novalidate ng-submit="saveProject()" name="forms.projectForm">
             <div ng-class="{'has-error': submitted && forms.projectForm.Theme.$error.required}">
-                <label class="control-label" for="Theme">Тема</label>
+                <label class="control-label" for="Theme">Тема курсового проекта (работы)</label>
                 <input class="form-control" name="Theme" type="text" ng-model="project.Theme" style="width: 100%;" required />
                 <span class="help-block" ng-show="submitted && forms.projectForm.Theme.$error.required">Введите тему!</span>
             </div>
@@ -23,7 +23,7 @@
                         select-min-height="300"></select>
 
                 <div style="text-align: right; padding: 20px 0;">
-                    <button type="button" class="btn btn-sm" ng-click="closeDialog()">Отмена</button>
+                    <button type="button" class="btn btn-default btn-sm" ng-click="closeDialog()">Отмена</button>
                     <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
                 </div>
 </form>

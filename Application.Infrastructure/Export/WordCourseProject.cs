@@ -225,13 +225,18 @@ namespace Application.Infrastructure.Export
 
             var univer = doc.CreateElement("item");
             univer.SetAttribute("name", "Univer");
-            univer.InnerText = "Белорусский Национальный Технический университет";
+            univer.InnerText = work.Univer;
             children.Add(univer);
 
             var faculty = doc.CreateElement("item");
             faculty.SetAttribute("name", "Faculty");
-            faculty.InnerText = "Информационных технологий и робототехники";
+            faculty.InnerText = work.Faculty;
             children.Add(faculty);
+
+            var head = doc.CreateElement("item");
+            head.SetAttribute("name", "HeadCathedra");
+            head.InnerText = work.HeadCathedra;
+            children.Add(head);
 
             children.AddRange(CreateStringNodes(doc, "InputData", work.InputData, 439, 638,8));
 
@@ -241,9 +246,14 @@ namespace Application.Infrastructure.Export
 
             children.AddRange(CreateStringNodes(doc, "Consultants", work.Consultants, 271, 638, 6));
 
+            var ed = doc.CreateElement("item");
+            ed.SetAttribute("name", "EndData");
+            ed.InnerText = work.DateEnd.HasValue ? work.DateEnd.Value.ToString("d' 'MMMM' 'yyyy'г.'", cultureInfo.DateTimeFormat) : string.Empty;
+            children.Add(ed);
+
             var pd = doc.CreateElement("item");
             pd.SetAttribute("name", "PublishData");
-            pd.InnerText = string.Empty;
+            pd.InnerText = work.DateStart.HasValue ? work.DateStart.Value.ToString("d' 'MMMM' 'yyyy'г.'", cultureInfo.DateTimeFormat) : string.Empty;
             children.Add(pd);
             children.AddRange(CreateStringNodes(doc, "Workflow", string.Empty, 638, 638, 14));
 
@@ -303,13 +313,18 @@ namespace Application.Infrastructure.Export
 
             var univer = doc.CreateElement("item");
             univer.SetAttribute("name", "Univer");
-            univer.InnerXml = "Белорусский Национальный Технический университет";
+            univer.InnerXml = awork.CourseProject.Univer;
             children.Add(univer);
 
             var faculty = doc.CreateElement("item");
             faculty.SetAttribute("name", "Faculty");
-            faculty.InnerText = "Информационных технологий и робототехники";
+            faculty.InnerText = awork.CourseProject.Faculty;
             children.Add(faculty);
+
+            var head = doc.CreateElement("item");
+            head.SetAttribute("name", "HeadCathedra");
+            head.InnerText = awork.CourseProject.HeadCathedra;
+            children.Add(head);
 
             children.AddRange(CreateStringNodes(doc, "InputData", awork.CourseProject.InputData, 439, 638, 8));
 
@@ -321,15 +336,15 @@ namespace Application.Infrastructure.Export
 
             var pd = doc.CreateElement("item");
             pd.SetAttribute("name", "PublishData");
-            pd.InnerText = awork.ApproveDate.HasValue ? awork.ApproveDate.Value.ToString("d' 'MMMM' 'yyyy'г.'", cultureInfo.DateTimeFormat) : string.Empty;
+            pd.InnerText = awork.CourseProject.DateStart.HasValue ? awork.CourseProject.DateStart.Value.ToString("d' 'MMMM' 'yyyy'г.'", cultureInfo.DateTimeFormat) : string.Empty;
             children.Add(pd);
 
-            //SubjectGroup sg = work.Subject.Groups.GetByGroupId(work.Student.GroupId);
+            var ed = doc.CreateElement("item");
+            ed.SetAttribute("name", "EndData");
+            ed.InnerText = awork.CourseProject.DateEnd.HasValue ? awork.CourseProject.DateEnd.Value.ToString("d' 'MMMM' 'yyyy'г.'", cultureInfo.DateTimeFormat) : string.Empty;
+            children.Add(ed);
+
             var percentageGraph = new StringBuilder();
-
-            /*var pgs = awork.Student.Group.Secretary != null ?
-                awork.Student.Group.Secretary.CoursePercentagesGraphs : new List<CoursePercentagesGraph>();*/
-
             var pgs = awork.CourseProject.Subject.CoursePersentagesGraphs;
             var i = 1;
             foreach (var pg in pgs)

@@ -53,6 +53,8 @@ namespace LMPlatform.UI.ViewModels.LmsViewModels
 
         public List<SubjectViewModel> ComplexSubjects { get; set; }
 
+        public List<SubjectViewModel> CourseProjectSubjects { get; set; }
+
         public int TotalSubject { get; set; }
 
         public int CurrentSubjects { get; set; }
@@ -71,6 +73,8 @@ namespace LMPlatform.UI.ViewModels.LmsViewModels
             TotalSubject = SubjectManagementService.GetSubjects().Count();
             ComplexSubjects = s
                 .Where(cs => ModulesManagementService.GetModules(cs.Id).Any(m=>m.ModuleType == ModuleType.ComplexMaterial))
+                .Select(e => new SubjectViewModel(e)).ToList();
+            CourseProjectSubjects = s.Where(cs => ModulesManagementService.GetModules(cs.Id).Any(m => m.ModuleType == ModuleType.YeManagment))
                 .Select(e => new SubjectViewModel(e)).ToList();
 
             var modelStudents = new List<int>();

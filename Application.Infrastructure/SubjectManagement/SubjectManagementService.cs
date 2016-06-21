@@ -571,23 +571,33 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
-		public void SaveLabsVisitingData(List<ScheduleProtectionLabMark> protectionLabMarks)
-		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.RepositoryFor<ScheduleProtectionLabMark>().Save(protectionLabMarks);
-				repositoriesContainer.ApplyChanges();
-			}
-		}
+        public Group GetGroup(int groupId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return
+                    repositoriesContainer.RepositoryFor<Group>().GetBy(new Query<Group>(e => e.Id == groupId)
+                    .Include(e => e.Students.Select(x => x.ScheduleProtectionLabMarks)));
+            }
+        }
 
-		public void SaveStudentLabsMark(List<StudentLabMark> studentLabMark)
-		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.RepositoryFor<StudentLabMark>().Save(studentLabMark);
-				repositoriesContainer.ApplyChanges();
-			}
-		}
+        public void SaveLabsVisitingData(ScheduleProtectionLabMark protectionLabMarks)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.RepositoryFor<ScheduleProtectionLabMark>().Save(protectionLabMarks);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
+
+        public void SaveStudentLabsMark(StudentLabMark studentLabMark)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.RepositoryFor<StudentLabMark>().Save(studentLabMark);
+                repositoriesContainer.ApplyChanges();
+            }
+        }
 
 		public void SavePracticalVisitingData(List<ScheduleProtectionPracticalMark> protectionPracticalMarks)
 		{
@@ -873,56 +883,100 @@ namespace Application.Infrastructure.SubjectManagement
 			return count;
 		}
 
-		public decimal GetSubjectCompleting(int subjectId)
+        public int StudentAttendance(int userId)
 		{
-			decimal count = 0;
+			int count = 0;
 
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				var subject =
-					repositoriesContainer.SubjectRepository.GetBy(
-						new Query<Subject>(e => e.Id == subjectId).Include(x => x.SubjectGroups.Select(t => t.SubGroups.Select(c => c.ScheduleProtectionLabs))));
+            //using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            //{
+            //    var user =
+            //        repositoriesContainer.StudentsRepository.GetBy(
+            //            new Query<Student>(e => e.Id == userId).Include(
+            //                e => e.ScheduleProtectionLabMarks.Select(x => x.ScheduleProtectionLab)));
 
-				var dates = new List<DateTime>();
+            //    var hours = 0;
 
-				var isDate = false;
+            //    foreach (var scheduleProtectionLabMark in user.ScheduleProtectionLabMarks)
+            //    {
+            //        if (!string.IsNullOrEmpty(scheduleProtectionLabMark.Mark))
+            //        {
+            //            //hours   
+            //        }   
+            //    }
 
-				foreach (var subjectGroup in subject.SubjectGroups)
-				{
-					foreach (var subGroup in subjectGroup.SubGroups)
-					{
-						if (subGroup.ScheduleProtectionLabs != null)
-						{
-							foreach (var scheduleProtectionLabs in subGroup.ScheduleProtectionLabs)
-							{
-								isDate = true;
-								dates.Add(scheduleProtectionLabs.Date);
-							}
-						}
-					}
-				}
+            //    if (isDate)
+            //    {
+            //        var numberDates = dates.Count;
+            //        dates.Sort((a, b) => a.CompareTo(b));
+            //        var nowDate = DateTime.Now.Date;
 
-				if (isDate)
-				{
-					var numberDates = dates.Count;
-					dates.Sort((a, b) => a.CompareTo(b));
-					var nowDate = DateTime.Now.Date;
+            //        var countDone = 0;
 
-					var countDone = 0;
+            //        foreach (var dateTime in dates)
+            //        {
+            //            if (nowDate > dateTime)
+            //            {
+            //                countDone += 1;
+            //            }
+            //        }
 
-					foreach (var dateTime in dates)
-					{
-						if (nowDate > dateTime)
-						{
-							countDone += 1;
-						}
-					}
-
-					count = Math.Round(((decimal)countDone / numberDates) * 100, 0);
-				}
-			}
+            //        count = Math.Round(((decimal)countDone / numberDates) * 100, 0);
+            //    }
+            //}
 
 			return count;
 		}
+
+        public decimal GetSubjectCompleting(int subjectId)
+        {
+            decimal count = 0;
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var subject =
+                    repositoriesContainer.SubjectRepository.GetBy(
+                        new Query<Subject>(e => e.Id == subjectId).Include(x => x.SubjectGroups.Select(t => t.SubGroups.Select(c => c.ScheduleProtectionLabs))));
+
+                var dates = new List<DateTime>();
+
+                var isDate = false;
+
+                foreach (var subjectGroup in subject.SubjectGroups)
+                {
+                    foreach (var subGroup in subjectGroup.SubGroups)
+                    {
+                        if (subGroup.ScheduleProtectionLabs != null)
+                        {
+                            foreach (var scheduleProtectionLabs in subGroup.ScheduleProtectionLabs)
+                            {
+                                isDate = true;
+                                dates.Add(scheduleProtectionLabs.Date);
+                            }
+                        }
+                    }
+                }
+
+                if (isDate)
+                {
+                    var numberDates = dates.Count;
+                    dates.Sort((a, b) => a.CompareTo(b));
+                    var nowDate = DateTime.Now.Date;
+
+                    var countDone = 0;
+
+                    foreach (var dateTime in dates)
+                    {
+                        if (nowDate > dateTime)
+                        {
+                            countDone += 1;
+                        }
+                    }
+
+                    count = Math.Round(((decimal)countDone / numberDates) * 100, 0);
+                }
+            }
+
+            return count;
+        }
 	}
 }

@@ -16,5 +16,11 @@
 
         [DataMember]
         public int StudentLabMarkId { get; set; }
+
+        [DataMember]
+        public string Comment { get; set; }
+
+        [DataMember]
+        public string Date { get; set; }
     }
 }

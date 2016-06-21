@@ -163,5 +163,5 @@
 
 /* Mark invalid Bootstrap */
 .ui-select-bootstrap.ng-dirty.ng-invalid > button.btn.ui-select-match {
-    border-color: #D44950;
+    border-color: #3C8DBC;
 }

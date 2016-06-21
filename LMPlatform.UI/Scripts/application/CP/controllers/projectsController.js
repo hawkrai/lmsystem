@@ -11,8 +11,6 @@
 
             $scope.setTitle("Темы курсовых проектов (работ)");
 
-           
-
             $scope.forms = {};
 
             $scope.editProject = function (projectId) {
@@ -68,7 +66,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-sm'
+                            className: 'btn-default btn-sm'
                         },
                         'confirm': {
                             label: 'Удалить',
@@ -95,7 +93,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-sm'
+                            className: 'btn-default btn-sm'
                         },
                         'confirm': {
                             label: 'Удалить',
@@ -128,7 +126,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-sm'
+                            className: 'btn-default btn-sm'
                         },
                         'confirm': {
                             label: 'Выбрать',
@@ -157,7 +155,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-sm'
+                            className: 'btn-default btn-sm'
                         },
                         'confirm': {
                             label: 'Подтвердить',
@@ -187,7 +185,6 @@
 
 
             $scope.tableParams = new ngTableParams(
-
                {
                     page: 1,
                     filter: {

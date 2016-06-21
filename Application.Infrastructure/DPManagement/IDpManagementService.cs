@@ -2,6 +2,8 @@
 using Application.Core.Data;
 using Application.Infrastructure.DTO;
 using LMPlatform.Models.DP;
+using LMPlatform.Models;
+using System;
 
 namespace Application.Infrastructure.DPManagement
 {
@@ -34,5 +36,16 @@ namespace Application.Infrastructure.DPManagement
         DiplomProjectTaskSheetTemplate GetTaskSheetTemplate(int id);
         
         void SaveTaskSheetTemplate(DiplomProjectTaskSheetTemplate template);
+
+        List<NewsData> GetNewses(int userId);
+
+        DiplomProjectNews GetNews(int id);
+
+        void DeleteNews(DiplomProjectNews news);
+
+        DiplomProjectNews SaveNews(DiplomProjectNews news, IList<Attachment> attachments, Int32 userId);
+
+        void DisableNews(int lecturerId, bool disable);
+
     }
 }

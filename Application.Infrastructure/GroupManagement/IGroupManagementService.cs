@@ -22,6 +22,18 @@ namespace Application.Infrastructure.GroupManagement
 
 		List<List<string>> GetLabsScheduleMarks(int subjectId, int groupId, int subGorupId);
 
+        List<string> GetCpScheduleVisitings(int subjectId, int groupId);
+
+        List<List<string>> GetCpScheduleMarks(int subjectId, int groupId);
+
+        List<string> GetCpPercentage(int subjectId, int groupId);
+
+        List<List<string>> GetCpMarks(int subjectId, int groupId);
+
         Group GetGroupByName(string groupName);
+
+        List<string> GetLabsNames(int subjectId, int groupId);
+
+        List<List<string>> GetLabsMarks(int subjectId, int groupId);
     }
 }
