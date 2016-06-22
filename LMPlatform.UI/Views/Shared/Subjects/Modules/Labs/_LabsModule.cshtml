@@ -627,23 +627,23 @@
         </div>
         <div class="modal-body">
             <div>
-                <label class="control-label">Выставьте отметку (от 1 до 10)</label>
+                <label class="control-label">Выставьте отметку (от 0 до 10)</label>
             </div>
             <div>
-                <input id="markInputOne" type="number" max="10" min="1" style="width:100%" />
+                <input id="markInputOne" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this)" />
             </div>
             <div>
                 <label class="control-label">Дата выставления</label>
-            </div>
-            <div>
-                <input id="dateInputOne" style="margin: 0; width:100%" type="text"
-                       datepicker-popup="{{format}}"
-                       ng-model="dt"
-                       is-open="opened"
-                       ng-click="opened = true"
-                       show-button-bar="false"
-                       close-text="Закрыть"
-                       datepicker-options="dateOptions" close-text="Close" />
+                <p class="input-group" style="width: 100%;">
+                    <input id="dateInputOne" style="margin: 0" type="text" class="form-control"
+                           datepicker-popup="{{format}}"
+                           ng-model="dt"
+                           is-open="opened"
+                           ng-click="opened = true"
+                           show-button-bar="false"
+                           close-text="Закрыть"
+                           datepicker-options="dateOptions" close-text="Close" />
+                </p>
             </div>
             <div>
                 <label class="control-label">Комментарий</label>
@@ -673,10 +673,10 @@
         </div>
         <div class="modal-body">
             <div>
-                <label class="control-label">Выставьте отметку (от 1 до 10)</label>
+                <label class="control-label">Выставьте отметку (от 0 до 10)</label>
             </div>
             <div>
-                <input id="markInputTwo" type="number" max="10" min="1" style="width:100%" />
+                <input id="markInputTwo" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this)" />
             </div>
             <div>
                 <label class="control-label">Дата выставления</label>
@@ -724,7 +724,7 @@
                     <tr style="text-align:center">
                         <td>№</td>
                         <td>ФИО</td>
-                        <td>Оценка</td>
+                        <td>Пропущено часов</td>
                         <td>Комментарий</td>
                     </tr>
                 </tbody>
@@ -732,7 +732,7 @@
                     <td style="width:20px">{{keyOne + 1}}</td>
                     <td style="width:200px">{{student.FullName}}</td>
                     <td>
-                        <input style="width:50px; text-align:center" id="markVisitingOne{{keyOne}}" />{{visitingMarkOne(student.StudentId,"markVisitingOne", keyOne)}}
+                        <input style="width:70px; text-align:center" type="number" max="100" min="1" id="markVisitingOne{{keyOne}}" onchange="angular.element(this).scope().NumberControl(this)"/>{{visitingMarkOne(student.StudentId,"markVisitingOne", keyOne)}}
                         <input style="display:none" id="studentIdOne{{keyOne}}" value="{{student.StudentId}}" />
                     </td>
                     <td><input style="width:350px" id="commentVisitingOne{{keyOne}}" />{{visitingCommentOne(student.StudentId,"commentVisitingOne", keyOne)}}</td>
@@ -764,7 +764,7 @@
                     <tr style="text-align:center">
                         <td>№</td>
                         <td>ФИО</td>
-                        <td>Оценка</td>
+                        <td>Пропущено часов</td>
                         <td>Комментарий</td>
                     </tr>
                 </tbody>
@@ -772,7 +772,7 @@
                     <td style="width:20px">{{keyTwo + 1}}</td>
                     <td style="width:200px">{{student.FullName}}</td>
                     <td>
-                        <input style="width:50px; text-align:center" id="markVisitingTwo{{keyTwo}}" />{{visitingMarkTwo(student.StudentId,"markVisitingTwo", keyTwo)}}
+                        <input style="width:70px; text-align:center" type="number" max="100" min="1" id="markVisitingTwo{{keyTwo}}" onchange="angular.element(this).scope().NumberControl(this)" />{{visitingMarkTwo(student.StudentId,"markVisitingTwo", keyTwo)}}
                         <input style="display:none" id="studentIdTwo{{keyTwo}}" value="{{student.StudentId}}" />
                     </td>
                     <td><input style="width:350px" id="commentVisitingTwo{{keyTwo}}" />{{visitingCommentTwo(student.StudentId,"commentVisitingTwo", keyTwo)}}</td>

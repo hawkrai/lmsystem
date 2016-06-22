@@ -1266,6 +1266,21 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              }
 
          };
+        
+         $scope.NumberControl = function (object) {
+             if (object.value == "") {
+                 object.value = "";
+             } else {
+                 if (parseInt(object.value) < object.min) {
+                     object.value = object.min;
+                 } else {
+                     if (parseInt(object.value) > object.max) {
+                         object.value = object.max;
+                     }
+                 }
+             }
+         };
+
 
          $scope.dotImageTwo = function (labId, studentId, studentIndex, markIndex, name) {
              var id = name + studentIndex + markIndex;
@@ -1321,7 +1336,6 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                  elem.title = "Пропустил(a) " + sum + " часа(ов): " + text;
              }
          };
-
 
          $scope.dotImageOne = function (labId, studentId, studentIndex, markIndex, name) {
              var id = name + studentIndex + markIndex;
