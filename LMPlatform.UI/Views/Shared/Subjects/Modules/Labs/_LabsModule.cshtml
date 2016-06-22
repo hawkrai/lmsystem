@@ -438,6 +438,8 @@
                                     <tr>
                                         <th>Файлы</th>
                                         <th>Комментарий</th>
+                                        <th>Дата</th>
+                                        <th>Действие</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -448,6 +450,7 @@
                                             </div>
                                         </td>
                                         <td>{{files.Comments}}</td>
+                                        <td>{{files.Date}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -513,8 +516,8 @@
                             <input style="margin: 0" type="text" class="form-control"
                                    datepicker-popup="{{format}}"
                                    ng-model="dt"
-                                   is-open="opened"
-                                   ng-click="opened = true"
+                                   is-open="openedOne"
+                                   ng-click="openedOne = true"
                                    show-button-bar="false"
                                    close-text="Закрыть"
                                    datepicker-options="dateOptions" close-text="Close" />
@@ -558,8 +561,8 @@
                             <input style="margin: 0" type="text" class="form-control"
                                    datepicker-popup="{{format}}"
                                    ng-model="dt"
-                                   is-open="opened"
-                                   ng-click="opened = true"
+                                   is-open="openedTwo"
+                                   ng-click="openedTwo = true"
                                    show-button-bar="false"
                                    close-text="Закрыть"
                                    datepicker-options="dateOptions" close-text="Close" />
@@ -634,12 +637,14 @@
             </div>
             <div>
                 <label class="control-label">Дата выставления</label>
+            </div>
+            <div>    
                 <p class="input-group" style="width: 100%;">
-                    <input id="dateInputOne" style="margin: 0" type="text" class="form-control"
+                    <input id="dateInputOne" style="margin: 0; width:100%" type="text"
                            datepicker-popup="{{format}}"
                            ng-model="dt"
-                           is-open="opened"
-                           ng-click="opened = true"
+                           is-open="openedOne"
+                           ng-click="openedOne = true"
                            show-button-bar="false"
                            close-text="Закрыть"
                            datepicker-options="dateOptions" close-text="Close" />
@@ -682,14 +687,16 @@
                 <label class="control-label">Дата выставления</label>
             </div>
             <div>
-                <input id="dateInputTwo" style="margin: 0; width:100%" type="text"
-                       datepicker-popup="{{format}}"
-                       ng-model="dt"
-                       is-open="opened"
-                       ng-click="opened = true"
-                       show-button-bar="false"
-                       close-text="Закрыть"
-                       datepicker-options="dateOptions" close-text="Close" />
+                <p class="input-group" style="width: 100%;">
+                    <input id="dateInputTwo" style="margin: 0; width:100%" type="text"
+                           datepicker-popup="{{format}}"
+                           ng-model="dt"
+                           is-open="openedTwo"
+                           ng-click="openedTwo = true"
+                           show-button-bar="false"
+                           close-text="Закрыть"
+                           datepicker-options="dateOptions" close-text="Close" />
+                </p>
             </div>
             <div>
                 <label class="control-label">Комментарий</label>
