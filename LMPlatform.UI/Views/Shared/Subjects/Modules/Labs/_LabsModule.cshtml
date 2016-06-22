@@ -214,7 +214,7 @@
                                     </div>
                                     <div id="imageVisitingOne{{studentIndexOne}}{{markIndexOne}}" style="float: right; height: 10px; width:10px; margin-top: -5px; display:none">
                                         <img src="~/Images/comment.png">
-                                        {{commentImage(data.Comment, studentIndexOne, markIndexOne,"imageVisitingOne")}}
+                                        {{commentImage(data.Comment, studentIndexOne,markIndexOne,"imageVisitingOne")}}
                                     </div>
                                 </div>
                             </td>
@@ -263,7 +263,7 @@
                                     </div>
                                     <div id="imageVisitingTwo{{studentIndexTwo}}{{markIndexTwo}}" style="float: right; height: 10px; width:10px; margin-top: -5px; display:none">
                                         <img src="~/Images/comment.png">
-                                        {{commentImage(data.Comment, studentIndexTwo, markIndexTwo,"imageVisitingTwo")}}
+                                        {{commentImage(data.Comment, studentIndexTwo,markIndexTwo,"imageVisitingTwo")}}
                                     </div>
                                 </div>
                             </td>
@@ -629,11 +629,12 @@
             <h4 class="modal-title" id="myModalLabel">Выставление отметки</h4>
         </div>
         <div class="modal-body">
+            <div style="color:red; display:none" id="errorOneMark"><h5>Значение поля должно находиться в диапазоне от 0 до 10!</h5></div>
             <div>
                 <label class="control-label">Выставьте отметку (от 0 до 10)</label>
             </div>
             <div>
-                <input id="markInputOne" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this)" />
+                <input id="markInputOne" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this, 'errorOneMark')" />
             </div>
             <div>
                 <label class="control-label">Дата выставления</label>
@@ -677,11 +678,12 @@
             <h4 class="modal-title" id="myModalLabel">Выставление отметки</h4>
         </div>
         <div class="modal-body">
+            <div style="color:red; display:none" id="errorTwoMark"><h5>Значение поля должно находиться в диапазоне от 0 до 10!</h5></div>
             <div>
                 <label class="control-label">Выставьте отметку (от 0 до 10)</label>
             </div>
             <div>
-                <input id="markInputTwo" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this)" />
+                <input id="markInputTwo" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this,'errorTwoMark')" />
             </div>
             <div>
                 <label class="control-label">Дата выставления</label>
@@ -722,6 +724,7 @@
             <h4 class="modal-title" id="myModalLabel">Посещаемость студентов</h4>
         </div>
         <div class="modal-body">
+            <div style="color:red; display:none" id="errorOne"><h5>Значение поля должно находиться в диапазоне от 1 до 100!</h5></div>
             <div>
                 <h5>Редактируемая дата:</h5>
                 <h4 id="textDateOne"></h4>
@@ -739,8 +742,8 @@
                     <td style="width:20px">{{keyOne + 1}}</td>
                     <td style="width:200px">{{student.FullName}}</td>
                     <td>
-                        <input style="width:70px; text-align:center" type="number" max="100" min="1" id="markVisitingOne{{keyOne}}" onchange="angular.element(this).scope().NumberControl(this)"/>{{visitingMarkOne(student.StudentId,"markVisitingOne", keyOne)}}
-                        <input style="display:none" id="studentIdOne{{keyOne}}" value="{{student.StudentId}}" />
+                            <input style="width:70px; text-align:center" type="number" max="100" min="1" id="markVisitingOne{{keyOne}}" onchange="angular.element(this).scope().NumberControl(this,'errorOne')" />{{visitingMarkOne(student.StudentId,"markVisitingOne", keyOne)}}
+                            <input style="display:none" id="studentIdOne{{keyOne}}" value="{{student.StudentId}}" />
                     </td>
                     <td><input style="width:350px" id="commentVisitingOne{{keyOne}}" />{{visitingCommentOne(student.StudentId,"commentVisitingOne", keyOne)}}</td>
                 </tr>
@@ -762,6 +765,7 @@
             <h4 class="modal-title" id="myModalLabel">Посещаемость студентов</h4>
         </div>
         <div class="modal-body">
+            <div style="color:red; display:none" id="errorTwo"><h5>Значение поля должно находиться в диапазоне от 1 до 100!</h5></div>
             <div>
                 <h5>Редактируемая дата:</h5>
                 <h4 id="textDateTwo"></h4>
@@ -779,7 +783,7 @@
                     <td style="width:20px">{{keyTwo + 1}}</td>
                     <td style="width:200px">{{student.FullName}}</td>
                     <td>
-                        <input style="width:70px; text-align:center" type="number" max="100" min="1" id="markVisitingTwo{{keyTwo}}" onchange="angular.element(this).scope().NumberControl(this)" />{{visitingMarkTwo(student.StudentId,"markVisitingTwo", keyTwo)}}
+                        <input style="width:70px; text-align:center" type="number" max="100" min="1" id="markVisitingTwo{{keyTwo}}" onchange="angular.element(this).scope().NumberControl(this,'errorTwo')" />{{visitingMarkTwo(student.StudentId,"markVisitingTwo", keyTwo)}}
                         <input style="display:none" id="studentIdTwo{{keyTwo}}" value="{{student.StudentId}}" />
                     </td>
                     <td><input style="width:350px" id="commentVisitingTwo{{keyTwo}}" />{{visitingCommentTwo(student.StudentId,"commentVisitingTwo", keyTwo)}}</td>
