@@ -47,7 +47,7 @@
             },
             student: {
                 display: ["FullName", "Email", "GroupId"],
-                href: "/Lms/{{Email}}",
+                href: "/Profile/Page/{{Email}}",
                 url: [{
                     type: "GET",
                     url: '/Services/Search/SearchService.svc/SearchStudents',                    
@@ -83,7 +83,7 @@
             },            
             lecturer: {
                 display: ["FullName", "Skill"],
-                href: "/Lms/{{Skill}}",
+                href: "/Profile/Page/{{Skill}}",
                 url: [{
                     type: "GET",
                     url: '/Services/Search/SearchService.svc/SearchLecturers',

@@ -822,493 +822,1087 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         //};
 
     })
-    .controller('LabsController', function ($scope, $http, $filter) {
+     .controller('LabsController', function ($scope, $http, $filter) {
 
-        $scope.labs = [];
+         $scope.labs = [];
 
-        $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
+         $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
 
-        $scope.editLabsData = {
-            TitleForm: "",
-            Theme: "",
-            Duration: "",
-            Order: 0,
-            PathFile: "",
-            ShortName: "",
-            Id: 0
-        };
-        
-        $scope.editFileSend = {
-        	Comments: "",
-        	PathFile: "",
-            Id: 0
-        };
+         $scope.editLabsData = {
+             TitleForm: "",
+             Theme: "",
+             Duration: "",
+             Order: 0,
+             PathFile: "",
+             ShortName: "",
+             Id: 0
+         };
 
-        $scope.labFilesUser = [];
+         $scope.editFileSend = {
+             Comments: "",
+             PathFile: "",
+             Id: 0
+         };
 
-        $scope.editMarksVisiting = [];
+         $scope.labFilesUser = [];
 
-        $scope.init = function () {
-            $scope.labs = [];
-            $scope.loadLabs();
-        	if ($scope.userRole == "1") {
-        		$scope.loadFilesLabUser();
-	        }
+         $scope.editMarksVisiting = [];
+
+         $scope.init = function () {
+             $scope.labs = [];
+             $scope.loadLabs();
+             if ($scope.userRole == "1") {
+                 $scope.loadFilesLabUser();
+             }
+
+         };
+         //(student.LabsMarkTotal * student.TestMark) / 2
+         $scope.ratingMark = function (student) {
+             if ((student.LabsMarkTotal == null || student.LabsMarkTotal.length == 0) && (student.TestMark == null || student.TestMark.length == 0)) return "";
+
+             if ((student.LabsMarkTotal == null || student.LabsMarkTotal.length == 0) && (student.TestMark != null && student.TestMark.length != 0)) {
+                 return student.TestMark;
+             }
+             else if ((student.LabsMarkTotal != null && student.LabsMarkTotal.length != 0) && (student.TestMark == null || student.TestMark.length == 0)) {
+                 return student.LabsMarkTotal;
+             }
+
+             return ((parseFloat(student.LabsMarkTotal) + parseFloat(student.TestMark)) / 2).toFixed(1);
+         };
+
+         $scope.visitingLabsExport = function () {
+             window.location.href = "/Statistic/GetVisitLabs?subjectId=" + $scope.subjectId + "&groupId=" + $scope.groupWorkingData.selectedGroup.GroupId + "&subGroupOneId=" + $scope.groupWorkingData.selectedGroup.SubGroupsOne.SubGroupId + "&subGroupTwoId=" + $scope.groupWorkingData.selectedGroup.SubGroupsTwo.SubGroupId;
+         };
+
+         $scope.LabMarkExport = function () {
+             window.location.href = "/Statistic/GetLabsMarks?subjectId=" + $scope.subjectId + "&groupId=" + $scope.groupWorkingData.selectedGroup.GroupId;
+         };
+
+         $scope.loadFilesLabUser = function () {
+             $http({
+                 method: 'POST',
+                 url: $scope.UrlServiceLabs + "GetFilesLab",
+                 data: {
+                     userId: $scope.userId,
+                     subjectId: $scope.subjectId
+                 },
+                 headers: { 'Content-Type': 'application/json' }
+             }).success(function (data, status) {
+                 if (data.Code != '200') {
+                     alertify.error(data.Message);
+                 } else {
+                     //$scope.$apply(function () {
+                     $scope.labFilesUser = data.UserLabFiles;
+                     //});
+                     alertify.success(data.Message);
+                 }
+             });
+         };
+
+         $scope.addLabFiles = function () {
+             $scope.editFileSend.Comments = "";
+             $scope.editFileSend.PathFile = "";
+             $scope.editFileSend.Id = "0";
+
+             $("#labsFile").empty();
+
+             $.ajax({
+                 type: 'GET',
+                 url: "/Subject/GetUserFilesLab?id=0",
+                 contentType: "application/json",
+
+             }).success(function (data, status) {
+                 $scope.$apply(function () {
+                     $("#labsFile").append(data);
+                 });
+             });
+
+             $('#dialogAddFiles').modal();
+         };
+
+         $scope.editLabFiles = function (file) {
+             $scope.editFileSend.Comments = file.Comments;
+             $scope.editFileSend.PathFile = file.PathFile;
+             $scope.editFileSend.Id = file.Id;
+
+             $("#labsFile").empty();
+
+             $.ajax({
+                 type: 'GET',
+                 url: "/Subject/GetUserFilesLab?id=" + file.Id,
+                 contentType: "application/json",
+
+             }).success(function (data, status) {
+                 $scope.$apply(function () {
+                     $("#labsFile").append(data);
+                 });
+             });
+             $('#dialogAddFiles').modal();
+         };
+
+         $scope.saveLabFiles = function () {
+             if ($scope.editFileSend.Comments == null || $scope.editFileSend.Comments.length == 0 || JSON.parse($scope.getLecturesFileAttachments()).length == 0) {
+                 bootbox.alert("Необходимо заполнить поля и прикрепить файлы.");
+                 return false;
+             }
+
+             $http({
+                 method: 'POST',
+                 url: $scope.UrlServiceLabs + "SendFile",
+                 data: {
+                     subjectId: $scope.subjectId,
+                     userId: $scope.userId,
+                     id: $scope.editFileSend.Id,
+                     comments: $scope.editFileSend.Comments,
+                     pathFile: $scope.editFileSend.PathFile,
+                     attachments: $scope.getLecturesFileAttachments()
+                 },
+                 headers: { 'Content-Type': 'application/json' }
+             }).success(function (data, status) {
+                 if (data.Code != '200') {
+                     alertify.error(data.Message);
+                 } else {
+                     $scope.loadFilesLabUser();
+                     alertify.success(data.Message);
+                 }
+                 $("#dialogAddFiles").modal('hide');
+             });
+         };
+
+         $scope.loadLabs = function () {
+             $.ajax({
+                 type: 'GET',
+                 url: $scope.UrlServiceLabs + "GetLabs/" + $scope.subjectId,
+                 dataType: "json",
+                 contentType: "application/json",
+
+             }).success(function (data, status) {
+                 if (data.Code != '200') {
+                     alertify.error(data.Message);
+                 } else {
+                     $scope.$apply(function () {
+                         $scope.labs = data.Labs;
+                     });
+                 }
+             });
+         };
+
+         $scope.addLabs = function () {
+             $scope.editLabsData.TitleForm = "Создание лабораторной работы";
+             $scope.editLabsData.Theme = "";
+             $scope.editLabsData.Duration = "";
+             $scope.editLabsData.PathFile = "";
+             $scope.editLabsData.ShortName = "";
+             $scope.editLabsData.Id = 0;
+             $scope.editLabsData.Order = 0;
+
+             $("#labsFile").empty();
+
+             $.ajax({
+                 type: 'GET',
+                 url: "/Subject/GetFileLabs?id=0",
+                 contentType: "application/json",
+
+             }).success(function (data, status) {
+                 $scope.$apply(function () {
+                     $("#labsFile").append(data);
+                 });
+             });
+
+             $('#dialogAddLabs').modal();
+         };
+
+         $scope.editLabs = function (lab) {
+             $scope.editLabsData.TitleForm = "Редактирование лабораторной работы";
+             $scope.editLabsData.Theme = lab.Theme;
+             $scope.editLabsData.Duration = lab.Duration;
+             $scope.editLabsData.PathFile = lab.PathFile;
+             $scope.editLabsData.ShortName = lab.ShortName;
+             $scope.editLabsData.Id = lab.LabId;
+             $scope.editLabsData.Order = lab.Order;
+
+             $("#labsFile").empty();
+
+             $.ajax({
+                 type: 'GET',
+                 url: "/Subject/GetFileLabs?id=" + lab.LabId,
+                 contentType: "application/json",
+
+             }).success(function (data, status) {
+                 $scope.$apply(function () {
+                     $("#labsFile").append(data);
+                 });
+             });
+             $('#dialogAddLabs').modal();
+         };
+
+         $scope.saveLabs = function () {
+
+             $http({
+                 method: 'POST',
+                 url: $scope.UrlServiceLabs + "Save",
+                 data: {
+                     subjectId: $scope.subjectId,
+                     id: $scope.editLabsData.Id,
+                     theme: $scope.editLabsData.Theme,
+                     duration: $scope.editLabsData.Duration,
+                     order: $scope.editLabsData.Order,
+                     shortName: $scope.editLabsData.ShortName,
+                     pathFile: $scope.editLabsData.PathFile,
+                     attachments: $scope.getLecturesFileAttachments()
+                 },
+                 headers: { 'Content-Type': 'application/json' }
+             }).success(function (data, status) {
+                 if (data.Code != '200') {
+                     alertify.error(data.Message);
+                 } else {
+                     $scope.loadLabs();
+                     $scope.loadGroups();
+                     alertify.success(data.Message);
+                 }
+                 $("#dialogAddLabs").modal('hide');
+             });
+         };
+
+         $scope.deleteLabs = function (lab) {
+             bootbox.dialog({
+                 message: "Вы действительно хотите удалить лабораторную работу?",
+                 title: "Удаление лабораторной работы",
+                 buttons: {
+                     danger: {
+                         label: "Отмена",
+                         className: "btn-default btn-sm",
+                         callback: function () {
+
+                         }
+                     },
+                     success: {
+                         label: "Удалить",
+                         className: "btn-primary btn-sm",
+                         callback: function () {
+                             $http({
+                                 method: 'POST',
+                                 url: $scope.UrlServiceLabs + "Delete",
+                                 data: { id: lab.LabId, subjectId: $scope.subjectId },
+                                 headers: { 'Content-Type': 'application/json' }
+                             }).success(function (data, status) {
+                                 if (data.Code != '200') {
+                                     alertify.error(data.Message);
+                                 } else {
+                                     alertify.success(data.Message);
+                                     $scope.labs.splice($scope.labs.indexOf(lab), 1);
+                                 }
+                             });
+                         }
+                     }
+                 }
+             });
+         };
+
+         $scope.deleteUserFile = function (file) {
+             bootbox.dialog({
+                 message: "Вы действительно хотите удалить работу?",
+                 title: "Удаление работы",
+                 buttons: {
+                     danger: {
+                         label: "Отмена",
+                         className: "btn-default btn-sm",
+                         callback: function () {
+
+                         }
+                     },
+                     success: {
+                         label: "Удалить",
+                         className: "btn-primary btn-sm",
+                         callback: function () {
+                             $http({
+                                 method: 'POST',
+                                 url: $scope.UrlServiceLabs + "DeleteUserFile",
+                                 data: { id: file.Id },
+                                 headers: { 'Content-Type': 'application/json' }
+                             }).success(function (data, status) {
+                                 if (data.Code != '200') {
+                                     alertify.error(data.Message);
+                                 } else {
+                                     alertify.success(data.Message);
+                                     $scope.labFilesUser.splice($scope.labFilesUser.indexOf(file), 1);
+                                 }
+                             });
+                         }
+                     }
+                 }
+             });
+         };
+
+         $scope.changeGroups = function (selectedGroup) {
+             if (selectedGroup.SubGroupsOne != null) {
+                 $scope.selectedGroupChange(selectedGroup.GroupId, selectedGroup.SubGroupsOne.SubGroupId);
+             }
+             else if (selectedGroup.SubGroupsTwo != null) {
+                 $scope.selectedGroupChange(selectedGroup.GroupId, selectedGroup.SubGroupsTwo.SubGroupId);
+             } else {
+                 $scope.selectedGroupChange(selectedGroup.GroupId, null);
+             }
+
+         };
+
+         $scope.changeSubGroup = function (selectedSubGroup) {
+             $scope.groupWorkingData.selectedSubGroup = selectedSubGroup;
+             $scope.selectedGroupChange(null, selectedSubGroup.SubGroupId);
+         };
+
+         $scope.saveVisitingMarkSubOne = function (key, markId, commentId, studId) {
+             var index = document.getElementById(key).value;
+             var arrMark = new Array(index); var arrComment = new Array(index); var arrStudentId = new Array(index); var arrId = new Array(index);
+             var mark, comment, id, studentId;
+             var dateId = document.getElementById('dateVisitingMarkOne').value;
+
+             for (var i = 0; i <= index; i++) {
+                 id = markId + i;
+                 mark = document.getElementById(id).value;
+                 id = commentId + i;
+                 comment = document.getElementById(id).value;
+                 id = studId + i;
+                 studentId = document.getElementById(id).value;
+                 arrMark[i] = mark;
+                 arrComment[i] = comment;
+                 arrStudentId[i] = studentId;
+
+                 $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Students, function (key, student) {
+                     if (student.StudentId == studentId) {
+                         $.each(student.LabVisitingMark, function (key, labVisiting) {
+                             if (labVisiting.ScheduleProtectionLabId == dateId) {
+                                 arrId[i] = labVisiting.LabVisitingMarkId;
+                             }
+                         })
+                     }
+                 })
+             }
+
+             $http({
+                 method: 'POST',
+                 url: $scope.UrlServiceLabs + "SaveLabsVisitingData",
+                 data: {
+                     dateId: dateId,
+                     marks: arrMark,
+                     comments: arrComment,
+                     studentsId: arrStudentId,
+                     Id: arrId,
+                     students: $scope.groupWorkingData.selectedGroup.SubGroupsOne.Students
+                 },
+                 headers: { 'Content-Type': 'application/json' }
+             }).success(function (data, status) {
+                 if (data.Code != '200') {
+                     alertify.error(data.Message);
+                 } else {
+                     alertify.success(data.Message);
+                     $scope.loadGroups();
+                 }
+             });
+         };
+
+
+         $scope.saveVisitingMarkSubTwo = function (key, markId, commentId, studId) {
+             var index = document.getElementById(key).value;
+             var arrMark = new Array(index); var arrComment = new Array(index); var arrStudentId = new Array(index); var arrId = new Array(index);
+             var mark, comment, id, studentId;
+             var dateId = document.getElementById('dateVisitingMarkTwo').value;
+
+             for (var i = 0; i <= index; i++) {
+                 id = markId + i;
+                 mark = document.getElementById(id).value;
+                 id = commentId + i;
+                 comment = document.getElementById(id).value;
+                 id = studId + i;
+                 studentId = document.getElementById(id).value;
+                 arrMark[i] = mark;
+                 arrComment[i] = comment;
+                 arrStudentId[i] = studentId;
+
+                 $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students, function (key, student) {
+                     if (student.StudentId == studentId) {
+                         $.each(student.LabVisitingMark, function (key, labVisiting) {
+                             if (labVisiting.ScheduleProtectionLabId == dateId) {
+                                 arrId[i] = labVisiting.LabVisitingMarkId;
+                             }
+                         })
+                     }
+                 })
+             }
+
+             $http({
+                 method: 'POST',
+                 url: $scope.UrlServiceLabs + "SaveLabsVisitingData",
+                 data: {
+                     dateId: dateId,
+                     marks: arrMark,
+                     comments: arrComment,
+                     studentsId: arrStudentId,
+                     Id: arrId,
+                     students: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students
+                 },
+                 headers: { 'Content-Type': 'application/json' }
+             }).success(function (data, status) {
+                 if (data.Code != '200') {
+                     alertify.error(data.Message);
+                 } else {
+                     alertify.success(data.Message);
+                     $scope.loadGroups();
+                 }
+             });
+         };
+
+         $scope.commentImage = function (comment, studentIndex, markIndex, name) {
+             var id = name + studentIndex + markIndex;
+             var elem = document.getElementById(id);
             
-        };
-        //(student.LabsMarkTotal * student.TestMark) / 2
-		$scope.ratingMark = function(student) {
-			if ((student.LabsMarkTotal == null || student.LabsMarkTotal.length == 0) && (student.TestMark == null || student.TestMark.length == 0)) return "";
+             if (comment != "" & comment != null) {
+                 elem.style.display = 'block';
+                 elem.title = comment;
+             }
+             else {
+                 elem.style.display = 'none';
+                 elem.title = null;
+             }
 
-			if ((student.LabsMarkTotal == null || student.LabsMarkTotal.length == 0) && (student.TestMark != null && student.TestMark.length != 0)) {
-				return student.TestMark;
-			}
-			else if ((student.LabsMarkTotal != null && student.LabsMarkTotal.length != 0) && (student.TestMark == null || student.TestMark.length == 0)) {
-				return student.LabsMarkTotal;
-			}
+         };
 
-			return ((parseFloat(student.LabsMarkTotal) + parseFloat(student.TestMark)) / 2).toFixed(1);
-		};
+         $scope.NumberControl = function (object, errorName) {
+             var error = document.getElementById(errorName);
+             if (object.value == "")
+             {
+                 object.value = "";
+                 error.style.display = 'none';
+             } else
+             {
+                 if (parseInt(object.value) < object.min)
+                 {
+                     object.value = object.min;
+                     error.style.display = 'block';
+                 } else
+                 {
+                     if (parseInt(object.value) > object.max)
+                     {
+                         object.value = object.max;
+                         error.style.display = 'block';
+                     }
+                     else { error.style.display = 'none'; }
+                 }
+             }
+         };
 
-		$scope.visitingLabsExport = function () {
-			window.location.href = "/Statistic/GetVisitLabs?subjectId=" + $scope.subjectId + "&groupId=" + $scope.groupWorkingData.selectedGroup.GroupId + "&subGroupId=" + $scope.groupWorkingData.selectedSubGroup.SubGroupId;
-		};
 
-        $scope.loadFilesLabUser = function () {
-            $http({
-                method: 'POST',
-                url: $scope.UrlServiceLabs + "GetFilesLab",
-                data: {
-                	userId: $scope.userId,
-                    subjectId: $scope.subjectId
-                },
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    //$scope.$apply(function () {
-                    	$scope.labFilesUser = data.UserLabFiles;
-                    //});
-                    alertify.success(data.Message);
-                }
-            });
-        };
+         $scope.dotImageTwo = function (labId, studentId, studentIndex, markIndex, name) {
+             var id = name + studentIndex + markIndex;
+             var elem = document.getElementById(id);
+             var labsDate = new Array();
+             var sum = 0;
+             var missedDates = new Array();
 
-        $scope.addLabFiles = function () {
-        	$scope.editFileSend.Comments = "";
-        	$scope.editFileSend.PathFile = "";
-        	$scope.editFileSend.Id = 0;
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Labs, function (key, labs) {
+                 if (labs.LabId == labId) {
+                     $.each(labs.ScheduleProtectionLabsRecomend, function (key, recom) {
+                         if (recom.Mark == '10') {
+                             labsDate.push(recom.ScheduleProtectionId);
+                         }
+                     })
+                 }
+             })
 
-        	$("#labsFile").empty();
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students, function (key, student) {
+                 if (student.StudentId == studentId) {
+                     $.each(student.LabVisitingMark, function (key, lVisiting) {
+                         for (var i = 0 ; i < labsDate.length; i++) {
+                             if (lVisiting.ScheduleProtectionLabId == labsDate[i]) {
+                                 if (lVisiting.Mark != "") {
+                                     sum = sum + parseInt(lVisiting.Mark);
+                                     $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs, function (key, date) {
+                                         if (date.ScheduleProtectionLabId == lVisiting.ScheduleProtectionLabId) {
+                                             missedDates.push(date.Date);
+                                         }
+                                     })
+                                 }
+                             }
+                         }
+                     })
 
-        	$.ajax({
-        		type: 'GET',
-        		url: "/Subject/GetUserFilesLab?id=0",
-        		contentType: "application/json",
+                 }
+             })
 
-        	}).success(function (data, status) {
-        		$scope.$apply(function () {
-        			$("#labsFile").append(data);
-        		});
-        	});
+             if (missedDates.length != 0) {
+                 var text = "";
+                 for (var i = 0; i < missedDates.length; i++) {
 
-        	$('#dialogAddFiles').modal();
-        };
+                     if (i == 0) {
+                         text = text + missedDates[i];
+                     }
+                     else {
+                         text = text + ", " + missedDates[i];
+                     }
 
-        $scope.editLabFiles = function (file) {
-        	$scope.editFileSend.Comments = file.Comments;
-        	$scope.editFileSend.PathFile = file.PathFile;
-        	$scope.editFileSend.Id = file.Id;
+                 }
 
-        	$("#labsFile").empty();
+                 elem.style.display = 'block';
+                 elem.title = "Пропустил(a) " + sum + " часа(ов): " + text;
+             }
+         };
 
-        	$.ajax({
-        		type: 'GET',
-        		url: "/Subject/GetUserFilesLab?id=" + file.Id,
-        		contentType: "application/json",
+         $scope.dotImageOne = function (labId, studentId, studentIndex, markIndex, name) {
+             var id = name + studentIndex + markIndex;
+             var elem = document.getElementById(id);
+             var labsDate = new Array();
+             var sum = 0;
+             var missedDates = new Array();
 
-        	}).success(function (data, status) {
-        		$scope.$apply(function () {
-        			$("#labsFile").append(data);
-        		});
-        	});
-        	$('#dialogAddFiles').modal();
-        };
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Labs, function (key, labs) {
+                 if (labs.LabId == labId) {
+                     $.each(labs.ScheduleProtectionLabsRecomend, function (key, recom) {
+                         if (recom.Mark == '10') {
+                             labsDate.push(recom.ScheduleProtectionId);
+                         }
+                     })
+                 }
+             })
 
-        $scope.saveLabFiles = function () {
-        	if ($scope.editFileSend.Comments == null || $scope.editFileSend.Comments.length == 0 || JSON.parse($scope.getLecturesFileAttachments()).length == 0) {
-        		bootbox.alert("Необходимо заполнить поля и прикрепить файлы.");
-		        return false;
-	        }
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Students, function (key, student) {
+                 if (student.StudentId == studentId) {
+                     $.each(student.LabVisitingMark, function (key, lVisiting) {
+                         for (var i = 0 ; i < labsDate.length; i++) {
+                             if (lVisiting.ScheduleProtectionLabId == labsDate[i]) {
+                                 if (lVisiting.Mark != "") {
+                                     sum = sum + parseInt(lVisiting.Mark);
+                                     $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs, function (key, date) {
+                                         if (date.ScheduleProtectionLabId == lVisiting.ScheduleProtectionLabId) {
+                                             missedDates.push(date.Date);
+                                         }
+                                     })
+                                 }
+                             }
+                         }
+                     })
 
-        	$http({
-        		method: 'POST',
-        		url: $scope.UrlServiceLabs + "SendFile",
-        		data: {
-        			subjectId: $scope.subjectId,
-        			userId: $scope.userId,
-        			id: $scope.editFileSend.Id,
-        			comments: $scope.editFileSend.Comments,
-        			pathFile: $scope.editFileSend.PathFile,
-        			attachments: $scope.getLecturesFileAttachments()
-        		},
-        		headers: { 'Content-Type': 'application/json' }
-        	}).success(function (data, status) {
-        		if (data.Code != '200') {
-        			alertify.error(data.Message);
-        		} else {
-        			$scope.loadFilesLabUser();
-        			alertify.success(data.Message);
-        		}
-        		$("#dialogAddFiles").modal('hide');
-        	});
-        };
+                 }
+             })
 
-        $scope.loadLabs = function () {
-            $.ajax({
-                type: 'GET',
-                url: $scope.UrlServiceLabs + "GetLabs/" + $scope.subjectId,
-                dataType: "json",
-                contentType: "application/json",
+             if (missedDates.length != 0) {
+                 var text = "";
+                 for (var i = 0; i < missedDates.length; i++) {
 
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    $scope.$apply(function () {
-                        $scope.labs = data.Labs;
-                    });
-                }
-            });
-        };
+                     if (i == 0) {
+                         text = text + missedDates[i];
+                     }
+                     else {
+                         text = text + ", " + missedDates[i];
+                     }
 
-        $scope.addLabs = function () {
-            $scope.editLabsData.TitleForm = "Создание лабораторной работы";
-            $scope.editLabsData.Theme = "";
-            $scope.editLabsData.Duration = "";
-            $scope.editLabsData.PathFile = "";
-            $scope.editLabsData.ShortName = "";
-            $scope.editLabsData.Id = "0";
-            $scope.editLabsData.Order = 0;
+                 }
 
-            $("#labsFile").empty();
+                 elem.style.display = 'block';
+                 elem.title = "Пропустил(a) " + sum + " часа(ов): " + text;
+             }
+         };
 
-            $.ajax({
-                type: 'GET',
-                url: "/Subject/GetFileLabs?id=0",
-                contentType: "application/json",
 
-            }).success(function (data, status) {
-                $scope.$apply(function () {
-                    $("#labsFile").append(data);
-                });
-            });
+         $scope.managementDateSubOne = function () {
+             $('#dialogmanagementDataSubOne').modal();
+         };
 
-            $('#dialogAddLabs').modal();
-        };
 
-        $scope.editLabs = function (lab) {
-            $scope.editLabsData.TitleForm = "Редактирование лабораторной работы";
-            $scope.editLabsData.Theme = lab.Theme;
-            $scope.editLabsData.Duration = lab.Duration;
-            $scope.editLabsData.PathFile = lab.PathFile;
-            $scope.editLabsData.ShortName = lab.ShortName;
-            $scope.editLabsData.Id = lab.LabId;
-            $scope.editLabsData.Order = lab.Order;
+         $scope.managementDateSubTwo = function () {
+             $('#dialogmanagementDataSubTwo').modal();
+         };
 
-            $("#labsFile").empty();
+         $scope.exposeMarkSubOne = function (mark, comment, date, labId, studentId, Id) {
+             $('#markInputOne').val(mark);
+             $('#commentInputOne').val(comment);
+             if (date == '' || date == null) {
+                 $('#dateInputOne').val($scope.getCurentDate());
+             }
+             else {
+                 $('#dateInputOne').val(date);
+             }
 
-            $.ajax({
-                type: 'GET',
-                url: "/Subject/GetFileLabs?id=" + lab.LabId,
-                contentType: "application/json",
+             $('#inputLabIdOne').val(labId);
+             $('#inputStudentIdOne').val(studentId);
+             $('#inputIdOne').val(Id);
+             $('#dialogexposeMarkOne').modal();
+         };
 
-            }).success(function (data, status) {
-                $scope.$apply(function () {
-                    $("#labsFile").append(data);
-                });
-            });
-            $('#dialogAddLabs').modal();
-        };
+         $scope.exposeMarkSubTwo = function (mark, comment, date, labId, studentId, Id) {
+             $('#markInputTwo').val(mark);
+             $('#commentInputTwo').val(comment);
+             if (date == '' || date == null) {
+                 $('#dateInputTwo').val($scope.getCurentDate());
+             }
+             else {
+                 $('#dateInputTwo').val(date);
+             }
 
-        $scope.saveLabs = function () {
+             $('#inputLabIdTwo').val(labId);
+             $('#inputStudentIdTwo').val(studentId);
+             $('#inputIdTwo').val(Id);
+             $('#dialogexposeMarkTwo').modal();
+         };
 
-            $http({
-                method: 'POST',
-                url: $scope.UrlServiceLabs + "Save",
-                data: {
-                    subjectId: $scope.subjectId,
-                    id: $scope.editLabsData.Id,
-                    theme: $scope.editLabsData.Theme,
-                    duration: $scope.editLabsData.Duration,
-                    order: $scope.editLabsData.Order,
-                    shortName: $scope.editLabsData.ShortName,
-                    pathFile: $scope.editLabsData.PathFile,
-                    attachments: $scope.getLecturesFileAttachments()
-                },
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    $scope.loadLabs();
-                    $scope.loadGroups();
-                    alertify.success(data.Message);
-                }
-                $("#dialogAddLabs").modal('hide');
-            });
-        };
+         $scope.exposeMarkVisitingOne = function (dateId) {
+             var elem = document.getElementById('textDateOne');
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs, function (key, date) {
+                 if (date.ScheduleProtectionLabId == dateId) {
+                     elem.innerHTML = date.Date;
+                 }
+             })
 
-        $scope.deleteLabs = function (lab) {
-            bootbox.dialog({
-                message: "Вы действительно хотите удалить лабораторную работу?",
-                title: "Удаление лабораторной работы",
-                buttons: {
-                    danger: {
-                        label: "Отмена",
-                        className: "btn-default btn-sm",
-                        callback: function () {
+             $('#dateVisitingMarkOne').val(dateId);
+             $('#dialogexposeVisitingMarkOne').modal();
+         };
 
-                        }
-                    },
-                    success: {
-                        label: "Удалить",
-                        className: "btn-primary btn-sm",
-                        callback: function () {
-                            $http({
-                                method: 'POST',
-                                url: $scope.UrlServiceLabs + "Delete",
-                                data: { id: lab.LabId, subjectId: $scope.subjectId },
-                                headers: { 'Content-Type': 'application/json' }
-                            }).success(function (data, status) {
-                                if (data.Code != '200') {
-                                    alertify.error(data.Message);
-                                } else {
-                                    alertify.success(data.Message);
-                                    $scope.labs.splice($scope.labs.indexOf(lab), 1);
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-        };
+         $scope.exposeMarkVisitingTwo = function (dateId) {
+             var elem = document.getElementById('textDateTwo');
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs, function (key, date) {
+                 if (date.ScheduleProtectionLabId == dateId) {
+                     elem.innerHTML = date.Date;
+                 }
+             })
+             $('#dateVisitingMarkTwo').val(dateId);
+             $('#dialogexposeVisitingMarkTwo').modal();
+         };
 
-        $scope.deleteUserFile = function (file) {
-        	bootbox.dialog({
-        		message: "Вы действительно хотите удалить работу?",
-        		title: "Удаление работы",
-        		buttons: {
-        			danger: {
-        				label: "Отмена",
-        				className: "btn-default btn-sm",
-        				callback: function () {
+         $scope.visitingMarkOne = function (studentId, name, index) {
+             var id = name + index;
+             var elem = document.getElementById(id);
+             var dateId = document.getElementById('dateVisitingMarkOne').value;
 
-        				}
-        			},
-        			success: {
-        				label: "Удалить",
-        				className: "btn-primary btn-sm",
-        				callback: function () {
-        					$http({
-        						method: 'POST',
-        						url: $scope.UrlServiceLabs + "DeleteUserFile",
-        						data: { id: file.Id },
-        						headers: { 'Content-Type': 'application/json' }
-        					}).success(function (data, status) {
-        						if (data.Code != '200') {
-        							alertify.error(data.Message);
-        						} else {
-        							alertify.success(data.Message);
-        							$scope.labFilesUser.splice($scope.labFilesUser.indexOf(file), 1);
-        						}
-        					});
-        				}
-        			}
-        		}
-        	});
-        };
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Students, function (key, student) {
+                 if (student.StudentId == studentId) {
+                     $.each(student.LabVisitingMark, function (key, labVisitingMark) {
+                         if (labVisitingMark.ScheduleProtectionLabId == dateId) {
+                             elem.value = labVisitingMark.Mark;
+                         }
+                     })
+                 }
+             })
+         };
+         $scope.visitingCommentOne = function (studentId, name, index) {
+             var id = name + index;
+             var elem = document.getElementById(id);
+             var dateId = document.getElementById('dateVisitingMarkOne').value;
 
-        $scope.changeGroups = function (selectedGroup) {
-            if (selectedGroup.SubGroupsOne != null) {
-                $scope.selectedGroupChange(selectedGroup.GroupId, selectedGroup.SubGroupsOne.SubGroupId);
-            }
-            else if (selectedGroup.SubGroupsTwo != null) {
-                $scope.selectedGroupChange(selectedGroup.GroupId, selectedGroup.SubGroupsTwo.SubGroupId);
-            } else {
-                $scope.selectedGroupChange(selectedGroup.GroupId, null);
-            }
-			
-        };
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Students, function (key, student) {
+                 if (student.StudentId == studentId) {
+                     $.each(student.LabVisitingMark, function (key, labVisitingMark) {
+                         if (labVisitingMark.ScheduleProtectionLabId == dateId) {
+                             elem.value = labVisitingMark.Comment;
+                         }
+                     })
+                 }
+             })
+             elem = document.getElementById("keyOne");
+             elem.value = index;
+         };
 
-        $scope.changeSubGroup = function (selectedSubGroup) {
-        	$scope.groupWorkingData.selectedSubGroup = selectedSubGroup;
-            $scope.selectedGroupChange(null, selectedSubGroup.SubGroupId);
-        };
+         $scope.visitingMarkTwo = function (studentId, name, index) {
+             var id = name + index;
+             var elem = document.getElementById(id);
+             var dateId = document.getElementById('dateVisitingMarkTwo').value;
 
-        $scope.saveVisitingMark = function () {
-            $http({
-                method: 'POST',
-                url: $scope.UrlServiceLabs + "SaveLabsVisitingData",
-                data: {
-                    students: $scope.groupWorkingData.selectedSubGroup.Students
-                },
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    alertify.success(data.Message);
-                    $scope.loadGroups();
-                }
-            });
-        };
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students, function (key, student) {
+                 if (student.StudentId == studentId) {
+                     $.each(student.LabVisitingMark, function (key, labVisitingMark) {
+                         if (labVisitingMark.ScheduleProtectionLabId == dateId) {
+                             elem.value = labVisitingMark.Mark;
+                         }
+                     })
+                 }
+             })
+         };
+         $scope.visitingCommentTwo = function (studentId, name, index) {
+             var id = name + index;
+             var elem = document.getElementById(id);
+             var dateId = document.getElementById('dateVisitingMarkTwo').value;
 
-        $scope.managementDate = function () {
-            $('#dialogmanagementData').modal();
-        };
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students, function (key, student) {
+                 if (student.StudentId == studentId) {
+                     $.each(student.LabVisitingMark, function (key, labVisitingMark) {
+                         if (labVisitingMark.ScheduleProtectionLabId == dateId) {
+                             elem.value = labVisitingMark.Comment;
+                         }
+                     })
+                 }
+             })
+             elem = document.getElementById("keyTwo");
+             elem.value = index;
+         };
 
-        $scope.addDate = function () {
-            date = $filter('date')($scope.dt, "dd/MM/yyyy");
-            var isDate = false;
-            $.each($scope.groupWorkingData.selectedSubGroup.ScheduleProtectionLabs, function (key, value) {
-                if (value.Date == date) {
-                    isDate = true;
-                }
-            });
+         $scope.getCurentDate = function () {
+             var dt = new Date();
+             var month = dt.getMonth() + 1;
+             if (month < 10) month = '0' + month;
+             var day = dt.getDate();
+             if (day < 10) day = '0' + day;
+             var year = dt.getFullYear();
+             return day + '.' + month + '.' + year;
+         };
 
-            if (isDate) {
-                bootbox.dialog({
-                    message: "Данная дата уже добавлена. Добавить еще одну такую дату?",
-                    title: "Добавление даты",
-                    buttons: {
-                        danger: {
-                            label: "Отмена",
-                            className: "btn-default btn-sm",
-                            callback: function () {
+         $scope.StrToDate = function (Dat) {
+             var year = Number(Dat.split(".")[2])
+             var month = Number(Dat.split(".")[1])
+             var day = Number(Dat.split(".")[0])
+             var dat = new Date(year, month, day)
+             return dat
+         };
 
-                            }
-                        },
-                        success: {
-                            label: "Добавить",
-                            className: "btn-primary btn-sm",
-                            callback: function () {
-                                $http({
-                                    method: 'POST',
-                                    url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
-                                    data: {
-                                        subGroupId: $scope.groupWorkingData.selectedSubGroup.SubGroupId,
-                                        date: date
-                                    },
-                                    headers: { 'Content-Type': 'application/json' }
-                                }).success(function (data, status) {
-                                    if (data.Code != '200') {
-                                        alertify.error(data.Message);
-                                    } else {
-                                        $scope.loadGroups();
-                                        alertify.success(data.Message);
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
-            } else {
-                $http({
-                    method: 'POST',
-                    url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
-                    data: {
-                        subGroupId: $scope.groupWorkingData.selectedSubGroup.SubGroupId,
-                        date: date
-                    },
-                    headers: { 'Content-Type': 'application/json' }
-                }).success(function (data, status) {
-                    if (data.Code != '200') {
-                        alertify.error(data.Message);
-                    } else {
-                        $scope.loadGroups();
-                        alertify.success(data.Message);
-                    }
-                });
-            }
-        };
+         $scope.setMarkSubOne = function (labId, studentId, studentIndex, markIndex) {
+             var date = $scope.getCurentDate();
+             var dateId;
+             var cell = document.getElementById("markOne" + studentIndex + markIndex);
 
-        $scope.saveLabsMarks = function () {
-            $http({
-                method: 'POST',
-                url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
-                data: {
-                    students: $scope.groupWorkingData.selectedSubGroup.Students,
-                },
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    $scope.loadGroups();
-                    alertify.success(data.Message);
-                }
-            });
-        };
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Students, function (key, studentValue) {
+                 $.each(studentValue.StudentLabMarks, function (key, studentLabMarksValue) {
+                     if (studentLabMarksValue.LabId == labId) {
+                         if (studentLabMarksValue.StudentId == studentId) {
+                             if (studentLabMarksValue.Mark != "") {
+                                 cell.innerHTML = studentLabMarksValue.Mark;
+                             }
+                             else {
+                                 $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs, function (key, scheduleProtectionLabsValue) {
+                                     if (scheduleProtectionLabsValue.Date == date) {
+                                         dateId = scheduleProtectionLabsValue.ScheduleProtectionLabId;
+                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Labs, function (key, valueLabs) {
+                                             if (valueLabs.LabId == labId) {
+                                                 $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
+                                                     if (valueRecomend.ScheduleProtectionId == dateId) {
+                                                         cell.innerHTML = valueRecomend.Mark;
+                                                         cell.style.color = '#c8bfbf';
+                                                         cell.title = "Рекоммендуемая отметка"
+                                                     }
+                                                 })
+                                             }
+                                         })
+                                     }
+                                     else if ($scope.StrToDate(scheduleProtectionLabsValue.Date) < $scope.StrToDate(date)) {
+                                         dateId = scheduleProtectionLabsValue.ScheduleProtectionLabId;
+                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Labs, function (key, valueLabs) {
+                                             if (valueLabs.LabId == labId) {
+                                                 $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
+                                                     if (valueRecomend.ScheduleProtectionId == dateId) {
+                                                         cell.innerHTML = valueRecomend.Mark;
+                                                         cell.style.color = '#c8bfbf';
+                                                         cell.title = "Рекоммендуемая отметка"
+                                                     }
+                                                 })
+                                             }
+                                         })
+                                     }
+                                 })
+                             }
+                         }
+                     }
+                 })
+             })
+         };
 
-        $scope.deleteVisitingDate = function (idDate) {
-            bootbox.dialog({
-                message: "Вы действительно хотите удалить дату и все связанные с ней данные?",
-                title: "Удаление даты",
-                buttons: {
-                    danger: {
-                        label: "Отмена",
-                        className: "btn-default btn-sm",
-                        callback: function () {
+         $scope.setMarkSubTwo = function (labId, studentId, studentIndex, markIndex) {
+             var date = $scope.getCurentDate();
+             var dateId;
+             var cell = document.getElementById("markTwo" + studentIndex + markIndex);
 
-                        }
-                    },
-                    success: {
-                        label: "Удалить",
-                        className: "btn-primary btn-sm",
-                        callback: function () {
-                            $http({
-                                method: 'POST',
-                                url: $scope.UrlServiceLabs + "DeleteVisitingDate",
-                                data: { id: idDate },
-                                headers: { 'Content-Type': 'application/json' }
-                            }).success(function (data, status) {
-                                if (data.Code != '200') {
-                                    alertify.error(data.Message);
-                                } else {
-                                    alertify.success(data.Message);
-                                    $scope.loadGroups();
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-        };
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students, function (key, studentValue) {
+                 $.each(studentValue.StudentLabMarks, function (key, studentLabMarksValue) {
+                     if (studentLabMarksValue.LabId == labId) {
+                         if (studentLabMarksValue.StudentId == studentId) {
+                             if (studentLabMarksValue.Mark != "") {
+                                 cell.innerHTML = studentLabMarksValue.Mark;
+                             }
+                             else {
+                                 $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs, function (key, scheduleProtectionLabsValue) {
+                                     if (scheduleProtectionLabsValue.Date == date) {
+                                         dateId = scheduleProtectionLabsValue.ScheduleProtectionLabId;
+                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Labs, function (key, valueLabs) {
+                                             if (valueLabs.LabId == labId) {
+                                                 $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
+                                                     if (valueRecomend.ScheduleProtectionId == dateId) {
+                                                         cell.innerHTML = valueRecomend.Mark;
+                                                         cell.style.color = '#c8bfbf';
+                                                         cell.title = "Рекоммендуемая отметка"
+                                                     }
+                                                 })
+                                             }
+                                         })
+                                     }
+                                     else if ($scope.StrToDate(scheduleProtectionLabsValue.Date) < $scope.StrToDate(date)) {
+                                         dateId = scheduleProtectionLabsValue.ScheduleProtectionLabId;
+                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Labs, function (key, valueLabs) {
+                                             if (valueLabs.LabId == labId) {
+                                                 $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
+                                                     if (valueRecomend.ScheduleProtectionId == dateId) {
+                                                         cell.innerHTML = valueRecomend.Mark;
+                                                         cell.style.color = '#c8bfbf';
+                                                         cell.title = "Рекоммендуемая отметка"
+                                                     }
+                                                 })
+                                             }
+                                         })
+                                     }
+                                 })
+                             }
+                         }
+                     }
+                 })
+             })
+         };
 
-		$scope.saveZip = function() {
-			var subGroupId = $scope.groupWorkingData.selectedSubGroup.SubGroupId;
-			document.location.href = "/Subject/GetZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId;
-			//$.ajax({
-			//	type: 'GET',
-			//	url: "/Subject/GetZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId,
-			//	contentType: "application/zip",
-			//}).success(function (data, status) {
-			//});
-		};
-        
-		$scope.getZip = function (userId) {
-		    var subGroupId = $scope.groupWorkingData.selectedSubGroup.SubGroupId;
-		    document.location.href = "/Subject/GetStudentZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId + "&userId=" + userId;
-		    //$.ajax({
-		    //	type: 'GET',
-		    //	url: "/Subject/GetZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId,
-		    //	contentType: "application/zip",
-		    //}).success(function (data, status) {
-		    //});
-		};
-	})
+
+         $scope.addDateSubOne = function () {
+             date = $filter('date')($scope.dt, "dd.MM.yyyy");
+             var isDate = false;
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs, function (key, value) {
+                 if (value.Date == date) {
+                     isDate = true;
+                 }
+             });
+
+             if (isDate) {
+                 bootbox.dialog({
+                     message: "Данная дата уже добавлена. Добавить еще одну такую дату?",
+                     title: "Добавление даты",
+                     buttons: {
+                         danger: {
+                             label: "Отмена",
+                             className: "btn-default btn-sm",
+                             callback: function () {
+
+                             }
+                         },
+                         success: {
+                             label: "Добавить",
+                             className: "btn-primary btn-sm",
+                             callback: function () {
+                                 $http({
+                                     method: 'POST',
+                                     url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
+                                     data: {
+                                         subGroupId: $scope.groupWorkingData.selectedGroup.SubGroupsOne.SubGroupId,
+                                         date: date
+                                     },
+                                     headers: { 'Content-Type': 'application/json' }
+                                 }).success(function (data, status) {
+                                     if (data.Code != '200') {
+                                         alertify.error(data.Message);
+                                     } else {
+                                         $scope.loadGroups();
+                                         alertify.success(data.Message);
+                                     }
+                                 });
+                             }
+                         }
+                     }
+                 });
+             } else {
+                 $http({
+                     method: 'POST',
+                     url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
+                     data: {
+                         subGroupId: $scope.groupWorkingData.selectedGroup.SubGroupsOne.SubGroupId,
+                         date: date
+                     },
+                     headers: { 'Content-Type': 'application/json' }
+                 }).success(function (data, status) {
+                     if (data.Code != '200') {
+                         alertify.error(data.Message);
+                     } else {
+                         $scope.loadGroups();
+                         alertify.success(data.Message);
+                     }
+                 });
+             }
+         };
+
+         $scope.addDateSubTwo = function () {
+             date = $filter('date')($scope.dt, "dd.MM.yyyy");
+             var isDate = false;
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs, function (key, value) {
+                 if (value.Date == date) {
+                     isDate = true;
+                 }
+             });
+
+             if (isDate) {
+                 bootbox.dialog({
+                     message: "Данная дата уже добавлена. Добавить еще одну такую дату?",
+                     title: "Добавление даты",
+                     buttons: {
+                         danger: {
+                             label: "Отмена",
+                             className: "btn-default btn-sm",
+                             callback: function () {
+
+                             }
+                         },
+                         success: {
+                             label: "Добавить",
+                             className: "btn-primary btn-sm",
+                             callback: function () {
+                                 $http({
+                                     method: 'POST',
+                                     url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
+                                     data: {
+                                         subGroupId: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.SubGroupId,
+                                         date: date
+                                     },
+                                     headers: { 'Content-Type': 'application/json' }
+                                 }).success(function (data, status) {
+                                     if (data.Code != '200') {
+                                         alertify.error(data.Message);
+                                     } else {
+                                         $scope.loadGroups();
+                                         alertify.success(data.Message);
+                                     }
+                                 });
+                             }
+                         }
+                     }
+                 });
+             } else {
+                 $http({
+                     method: 'POST',
+                     url: $scope.UrlServiceLabs + "SaveScheduleProtectionDate",
+                     data: {
+                         subGroupId: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.SubGroupId,
+                         date: date
+                     },
+                     headers: { 'Content-Type': 'application/json' }
+                 }).success(function (data, status) {
+                     if (data.Code != '200') {
+                         alertify.error(data.Message);
+                     } else {
+                         $scope.loadGroups();
+                         alertify.success(data.Message);
+                     }
+                 });
+             }
+         };
+
+         $scope.saveLabsMarksSubOne = function () {
+
+             var labId = document.getElementById('inputLabIdOne').value;
+             var studentId = document.getElementById('inputStudentIdOne').value;
+             var mark = document.getElementById('markInputOne').value;
+             var comment = document.getElementById('commentInputOne').value;
+             var date = document.getElementById('dateInputOne').value;
+             var Id = document.getElementById('inputIdOne').value;
+
+             $http({
+                 method: 'POST',
+                 url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
+                 data: {
+                     studentId: studentId,
+                     labId: labId,
+                     mark: mark,
+                     comment: comment,
+                     date: date,
+                     id: Id,
+                     students: $scope.groupWorkingData.selectedGroup.SubGroupsOne.Students,
+                 },
+                 headers: { 'Content-Type': 'application/json' }
+             }).success(function (data, status) {
+                 if (data.Code != '200') {
+                     alertify.error(data.Message);
+                 } else {
+                     $scope.loadGroups();
+                     alertify.success(data.Message);
+                 }
+             });
+         };
+
+
+         $scope.saveLabsMarksSubTwo = function () {
+
+             var labId = document.getElementById('inputLabIdTwo').value;
+             var studentId = document.getElementById('inputStudentIdTwo').value;
+             var mark = document.getElementById('markInputTwo').value;
+             var comment = document.getElementById('commentInputTwo').value;
+             var date = document.getElementById('dateInputTwo').value;
+             var Id = document.getElementById('inputIdTwo').value;
+
+             $http({
+                 method: 'POST',
+                 url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
+                 data: {
+                     studentId: studentId,
+                     labId: labId,
+                     mark: mark,
+                     comment: comment,
+                     date: date,
+                     id: Id,
+                     students: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students,
+                 },
+                 headers: { 'Content-Type': 'application/json' }
+             }).success(function (data, status) {
+                 if (data.Code != '200') {
+                     alertify.error(data.Message);
+                 } else {
+                     $scope.loadGroups();
+                     alertify.success(data.Message);
+                 }
+             });
+         };
+
+         $scope.deleteVisitingDate = function (idDate) {
+             bootbox.dialog({
+                 message: "Вы действительно хотите удалить дату и все связанные с ней данные?",
+                 title: "Удаление даты",
+                 buttons: {
+                     danger: {
+                         label: "Отмена",
+                         className: "btn-default btn-sm",
+                         callback: function () {
+
+                         }
+                     },
+                     success: {
+                         label: "Удалить",
+                         className: "btn-primary btn-sm",
+                         callback: function () {
+                             $http({
+                                 method: 'POST',
+                                 url: $scope.UrlServiceLabs + "DeleteVisitingDate",
+                                 data: { id: idDate },
+                                 headers: { 'Content-Type': 'application/json' }
+                             }).success(function (data, status) {
+                                 if (data.Code != '200') {
+                                     alertify.error(data.Message);
+                                 } else {
+                                     alertify.success(data.Message);
+                                     $scope.loadGroups();
+                                 }
+                             });
+                         }
+                     }
+                 }
+             });
+         };
+
+         $scope.saveZip = function () {
+             document.location.href = "/Subject/GetZipLabs?id=" + $scope.groupWorkingData.selectedGroup.GroupId + "&subjectId=" + $scope.subjectId;
+             //$.ajax({
+             //	type: 'GET',
+             //	url: "/Subject/GetZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId,
+             //	contentType: "application/zip",
+             //}).success(function (data, status) {
+             //});
+         };
+
+         $scope.getZip = function (userId) {
+             var subGroupId = $scope.groupWorkingData.selectedSubGroup.SubGroupId;
+             document.location.href = "/Subject/GetStudentZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId + "&userId=" + userId;
+             //$.ajax({
+             //	type: 'GET',
+             //	url: "/Subject/GetZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId,
+             //	contentType: "application/zip",
+             //}).success(function (data, status) {
+             //});
+         };
+     })
     .controller('PracticalsController', function ($scope, $http) {
 
         $scope.practicals = [];

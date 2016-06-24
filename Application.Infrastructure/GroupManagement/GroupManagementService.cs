@@ -80,43 +80,112 @@ namespace Application.Infrastructure.GroupManagement
 
 		public List<string> GetLabsScheduleVisitings(int subjectId, int groupId, int subGorupId)
 	    {
-			var data = new List<string>();
+            var data = new List<string>();
 
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				var subject = repositoriesContainer.SubjectRepository.GetBy(new PageableQuery<Subject>(e => e.Id == subjectId)
-					.Include(x => x.SubjectGroups.Select(t => t.SubGroups.Select(f => f.ScheduleProtectionLabs))));
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                data.Add("Студент");
 
-				foreach (var scheduleProtectionLabs in subject.SubjectGroups.FirstOrDefault(e => e.GroupId == groupId).SubGroups.FirstOrDefault(e => e.Id == subGorupId).ScheduleProtectionLabs)
-				{
-					data.Add(scheduleProtectionLabs.Date.ToString("dd/MM/yyyy"));	
-				}
-			}
+                var subject = repositoriesContainer.SubjectRepository.GetBy(new PageableQuery<Subject>(e => e.Id == subjectId)
+                    .Include(x => x.SubjectGroups.Select(t => t.SubGroups.Select(f => f.ScheduleProtectionLabs))));
 
-			return data;
+                foreach (var scheduleProtectionLabs in subject.SubjectGroups.FirstOrDefault(e => e.GroupId == groupId).SubGroups.FirstOrDefault(e => e.Id == subGorupId).ScheduleProtectionLabs)
+                {
+                    data.Add(scheduleProtectionLabs.Date.ToString("dd/MM/yyyy"));
+                    data.Add("Комментарий");
+                }
+            }
+
+            return data;
 	    }
 
-	    public List<List<string>> GetLabsScheduleMarks(int subjectId, int groupId, int subGorupId)
+	    public List<List<string>> GetLabsScheduleMarks(int subjectId, int groupId, int subGroupOneId, int subGroupTwoId)
 	    {
-			var data = new List<List<string>>();
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				var group = repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId).Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(u => u.SubjectStudents.Select(r => r.Student.ScheduleProtectionLabMarks.Select(n => n.ScheduleProtectionLab))))));
+		    var data = new List<List<string>>();
 
-				foreach (var student in group.SubjectGroups.FirstOrDefault(e => e.SubjectId == subjectId).SubGroups.FirstOrDefault(e => e.Id == subGorupId).SubjectStudents.OrderBy(e => e.Student.FullName))
-				{
-					var rows = new List<string>();
-					if (student.SubGroupId == subGorupId)
-					{
-						rows.Add(student.Student.FullName);
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var group = repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId).Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(u => u.SubjectStudents.Select(r => r.Student.ScheduleProtectionLabMarks.Select(n => n.ScheduleProtectionLab))))));
+                
+                var row = new List<string>();
+                row.Add(" ");
+                row.Add("Подгруппа 1");
+                data.Add(row);
+                data.Add(GetLabsScheduleVisitings(subjectId, groupId, subGroupOneId));
 
-						rows.AddRange(student.Student.ScheduleProtectionLabMarks.OrderBy(e => e.ScheduleProtectionLab.Date).Select(scheduleProtectionLabMark => scheduleProtectionLabMark.Mark));
-					}
+                foreach (var student in group.SubjectGroups.FirstOrDefault(e => e.SubjectId == subjectId).SubGroups.FirstOrDefault(e => e.Id == subGroupOneId).SubjectStudents.OrderBy(e => e.Student.FullName))
+                {
+                    var rowsOne = new List<string>();
 
-					data.Add(rows);
-				}
-			}
-			return data;
+                    if (student.SubGroupId == subGroupOneId)
+                    {
+                        rowsOne.Add(student.Student.FullName);
+
+                        var subject = repositoriesContainer.SubjectRepository.GetBy(new PageableQuery<Subject>(e => e.Id == subjectId)
+                            .Include(x => x.SubjectGroups.Select(t => t.SubGroups.Select(f => f.ScheduleProtectionLabs))));
+                        var labMark = new List<string>();
+
+                        foreach (var scheduleProtectionLabs in subject.SubjectGroups.FirstOrDefault(e => e.GroupId == groupId).SubGroups.FirstOrDefault(e => e.Id == subGroupOneId).ScheduleProtectionLabs)
+                        {
+                            foreach (var marks in student.Student.ScheduleProtectionLabMarks)
+                                {
+                                    if (student.StudentId == marks.StudentId)
+                                    {
+                                        if (marks.ScheduleProtectionLabId == scheduleProtectionLabs.Id)
+                                        {
+                                            labMark.Add(marks.Mark);
+                                            labMark.Add(marks.Comment);
+                                            break;
+                                        }
+                                    }                                    
+                                }
+                        }
+                        rowsOne.AddRange(labMark);
+                    }
+
+                    data.Add(rowsOne);
+                }
+
+                var rowtwo = new List<string>();
+                rowtwo.Add(" ");
+                rowtwo.Add("Подгруппа 2");
+                data.Add(rowtwo);
+                data.Add(GetLabsScheduleVisitings(subjectId, groupId, subGroupTwoId));
+
+                foreach (var student in group.SubjectGroups.FirstOrDefault(e => e.SubjectId == subjectId).SubGroups.FirstOrDefault(e => e.Id == subGroupTwoId).SubjectStudents.OrderBy(e => e.Student.FullName))
+                {
+                    var rowsTwo = new List<string>();
+
+                    if (student.SubGroupId == subGroupTwoId)
+                    {
+                        rowsTwo.Add(student.Student.FullName);
+
+                        var subject = repositoriesContainer.SubjectRepository.GetBy(new PageableQuery<Subject>(e => e.Id == subjectId)
+                            .Include(x => x.SubjectGroups.Select(t => t.SubGroups.Select(f => f.ScheduleProtectionLabs))));
+                        var labMark = new List<string>();
+
+                        foreach (var scheduleProtectionLabs in subject.SubjectGroups.FirstOrDefault(e => e.GroupId == groupId).SubGroups.FirstOrDefault(e => e.Id == subGroupTwoId).ScheduleProtectionLabs)
+                        {
+                            foreach (var marks in student.Student.ScheduleProtectionLabMarks)
+                            {
+                                if (student.StudentId == marks.StudentId)
+                                {
+                                    if (marks.ScheduleProtectionLabId == scheduleProtectionLabs.Id)
+                                    {
+                                        labMark.Add(marks.Mark);
+                                        labMark.Add(marks.Comment);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        rowsTwo.AddRange(labMark);
+                    }
+
+                    data.Add(rowsTwo);
+                }
+            }
+            return data;
 	    }
 
         public List<string> GetCpScheduleVisitings(int subjectId, int groupId)
@@ -223,6 +292,82 @@ namespace Application.Infrastructure.GroupManagement
         private ICpContext Context
         {
             get { return context.Value; }
+        }
+
+        public List<string> GetLabsNames(int subjectId, int groupId)
+        {
+            var data = new List<string>();
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var subject = repositoriesContainer.SubjectRepository.GetBy(new PageableQuery<Subject>(e => e.Id == subjectId).Include(x => x.Labs));
+
+                foreach (var labs in subject.Labs)
+                {
+                    data.Add(labs.Theme);
+                    data.Add("Коментарий");
+                    data.Add("Дата выставления");
+                }
+            }
+
+            return data;
+        }
+
+        public List<List<string>> GetLabsMarks(int subjectId, int groupId)
+        {
+            var data = new List<List<string>>();
+            string mark = "", comment = "", date = "";
+
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var group = repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId).Include(x => x.Students
+                    .Select(t => t.StudentLabMarks)));
+
+                foreach (var student in group.Students.OrderBy(e => e.FullName))
+                {
+
+                    var rows = new List<string>();
+
+                    rows.Add(student.FullName);
+
+                    var subject = repositoriesContainer.SubjectRepository.GetBy(new PageableQuery<Subject>(e => e.Id == subjectId).Include(x => x.Labs));
+                    var labMark = new List<string>();
+
+                    foreach (var lab in subject.Labs)
+                    {
+                        foreach (var labToLabMark in student.StudentLabMarks)
+                        {
+                            if (student.Id == labToLabMark.StudentId)
+                            {
+                                if (lab.Id == labToLabMark.LabId)
+                                {
+                                    mark = labToLabMark.Mark;
+                                    comment = labToLabMark.Comment;
+                                    date = labToLabMark.Date;
+                                    break;
+                                }
+                                else
+                                {
+                                    mark = "";
+                                    comment = "";
+                                    date = "";
+                                }
+                            }
+                        }
+
+                        labMark.Add(mark);
+                        labMark.Add(comment);
+                        labMark.Add(date);
+                    }
+
+                    rows.AddRange(labMark);
+
+                    data.Add(rows);
+
+                }
+            }
+            return data;
         }
     }
 }

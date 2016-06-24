@@ -85,7 +85,7 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
                 return item.Percent;
             }) / passedPercent.Count();
 
-            return Math.round(markSum) + " (" + Math.round(percentSum) + "%)";
+            return Math.round(markSum);// + " (" + Math.round(percentSum) + "%)";
         } else {
             return empty;
         }
@@ -138,8 +138,8 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
                 }) / passedPercent.Count();
             }
         });
-        
-        return Math.round(points / count) + " (" + Math.round(percents/count) + "%)";
+
+        return Math.round(points / count);// + " (" + Math.round(percents/count) + "%)";
     };
 
     $scope.resultExport = function() {

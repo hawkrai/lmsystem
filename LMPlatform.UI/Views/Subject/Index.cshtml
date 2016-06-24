@@ -87,7 +87,7 @@
 		{
             <h1>
                 @Model.SubjectName
-                <small id="nameMin">Преподаватель - <a href="~/Lms/@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.User.UserName">@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.FullName</a></small>
+                <small id="nameMin">Преподаватель - <a href="~/Profile/Page/@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.User.UserName">@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.FullName</a></small>
             </h1>
         }
 

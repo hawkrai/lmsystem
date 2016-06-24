@@ -1,420 +1,800 @@
 ﻿<div ng-controller="LabsController" ng-init="init()">
 
-	<style type="text/css">
-		.nav, .pagination, .carousel, .panel-title a {
-			cursor: pointer;
-		}
-
-		.table-hoverT > tbody > tr:hover > td,
-		.table-hoverT > tbody > tr:hover > th {
-			background-color: #e7e7e7;
-		}
-
-		.box_rotate {
-			-moz-transform: rotate(270deg); /* FF3.5+ */
-			-o-transform: rotate(270deg); /* Opera 10.5 */
-			-webkit-transform: rotate(270deg); /* Saf3.1+, Chrome */
-			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083); /* IE6,IE7 */
-			-ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
-		}
-
-        .btn.btn-success.active {
-            background-color: #008d4c;
-            border-color: #008d4c;
+    <style type="text/css">
+        .nav, .pagination, .carousel, .panel-title a {
+            cursor: pointer;
         }
-	</style>
 
-	<tabset>
-		<tab heading="Лабораторные работы">
-			<div style="margin-top: 15px; margin-bottom: 15px; ">
-				<table>
-					<tbody>
-						<tr>
-							<td>
-								<div id="buttonActionSection">
-									<a id="addLabsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="addLabs()">Добавить лабораторную работу</a>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="table-responsive">
-				<table class="table table-bordered table-striped">
-					<thead>
-						<tr>
-							<th>№</th>
-							<th>Название</th>
-							<th>Краткое название</th>
-							<th>Часы</th>
-							<th>Действие</th>
-						</tr>
-					</thead>
-					<tr ng-repeat="data in labs">
-						<td style="width: 20px">{{data.Order}}</td>
-						<td style="max-width: 400px;word-wrap: break-word;">{{data.Theme}}</td>
-						<td>{{data.ShortName}}</td>
-						<td>{{data.Duration}}</td>
-						<td style="width: 90px;">
-							<div>
-								<a style="margin-right: 10px" href="" ng-click="editLabs(data)"><i class="fa fa-edit fa-1x" tooltip="Редактировать работу" tooltip-trigger="mouseenter" tooltip-placement="left"></i></a>
-								<a ng-click="deleteLabs(data)" href=""><i class="fa fa-trash-o fa-1x" tooltip="Удалить работу" tooltip-trigger="mouseenter" tooltip-placement="left"></i></a>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</tab>
-		<tab heading="График защиты">
-			<div style="margin-bottom: 15px; margin-top: 15px; ">
-				<table>
-					<tbody>
-						<tr>
-							<td>
-								<div id="buttonActionSection">
-									<a style="margin-right: 10px;" class="btn btn-primary btn-sm" ng-click="managementDate()">Управление датами</a>
-								</div>
-							</td>
-							<td>
-								<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
-							</td>
-							<td>
-								<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
-									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-success btn-sm" style="width: 150px;">
-										{{subGroup.Name}}
-									</button>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="table-responsive" style="overflow-x: auto;">
-				<table class="table table-bordered table-striped">
-					<thead>
-						<tr>
-							<th>№</th>
-							<th>Лабораторная работа</th>
-							<th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
-								<div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
-							</th>
-						</tr>
-					</thead>
-					<tr ng-repeat="data in groupWorkingData.selectedSubGroup.Labs">
-						<td style="width: 20px">{{data.Order}}</td>
-						<td style="min-width: 300px">{{data.Theme}}</td>
-						<td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
-							{{recomend.Mark}}
-						</td>
-					</tr>
-				</table>
-			</div>
-		</tab>
-		<tab heading="Статистика посещения">
+        .table-hoverT > tbody > tr:hover > td,
+        .table-hoverT > tbody > tr:hover > th {
+            background-color: #e7e7e7;
+        }
 
-			<form editable-form name="tableformVisiting" onaftersave="saveVisitingMark()" oncancel="cancel()">
-				<div style="margin-bottom: 15px; margin-top: 15px;">
-					<table>
-						<tbody>
-							<tr>
-								<td>
-									<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
-								</td>
-								<td>
-									<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
-										<button type="button" data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-success btn-sm" style="width: 150px;">
-											{{subGroup.Name}}
-										</button>
-									</div>
-								</td>
-								<td>
-									<div style="margin-left: 10px">
-										<button type="button" class="btn btn-primary btn-sm" ng-show="!tableformVisiting.$visible" ng-click="tableformVisiting.$show()">
-											Отметить посещаемость
-										</button>
-									</div>
-								</td>
-								<td>
-									<div ng-show="tableformVisiting.$visible">
-										<button type="submit" ng-disabled="tableformVisiting.$waiting" class="btn btn-success btn-sm">Сохранить</button>
-										<button type="button" ng-disabled="tableformVisiting.$waiting" ng-click="tableformVisiting.$cancel()" class="btn btn-default btn-sm">Отмена</button>
-									</div>
-								</td>
-								<td>
-									<a class="btn btn-primary btn-sm" ng-click="visitingLabsExport()" tooltip="Загрузить документ Excel">
-										<i class="fa fa-download"></i>
-										<span>Excel</span>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="table-responsive" style="overflow-x: auto;">
-					<table class="table table-bordered table-striped table-hoverT">
-						<thead>
-							<tr>
-								<th style="text-align: center; vertical-align: middle">№</th>
-								<th style="text-align: center; vertical-align: middle">Студент</th>
-								<th style="height: 80px; width: 10px; padding: 0px; margin: 0px; padding-bottom: 30px; text-align: center" ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
-									<div style="cursor: pointer; display: inline-block" class="box_rotate">{{data.Date}}</div>
-								</th>
-							</tr>
-						</thead>
-						<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
-							<td style="width: 20px">{{$index + 1}}</td>
-							<td style="min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
-							<td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark">
-								<span editable-text="data.Mark" e-name="Mark" e-form="tableformVisiting">
-									{{ data.Mark || '' }}
-								</span>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</form>
-		</tab>
-		<tab heading="Результаты">
-			<form editable-form name="tableformLabsMarks" onaftersave="saveLabsMarks()" oncancel="cancel()">
-				<div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
-					<table>
-						<tbody>
-							<tr>
-								<td>
-									<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
-								</td>
-								<td>
-									<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
-										<button type="button" data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-success btn-sm" style="width: 150px;">
-											{{subGroup.Name}}
-										</button>
-									</div>
-								</td>
-								<td>
-									<div style="margin-left: 10px">
-										<button type="button" class="btn btn-primary btn-sm" ng-show="!tableformLabsMarks.$visible" ng-click="tableformLabsMarks.$show()">
-											Выставить оценки
-										</button>
-									</div>
-									
-								</td>
-								<td>
-									<div ng-show="tableformLabsMarks.$visible">
-										<button type="submit" ng-disabled="tableformLabsMarks.$waiting" class="btn btn-success btn-sm">Сохранить</button>
-										<button type="button" ng-disabled="tableformLabsMarks.$waiting" ng-click="tableformLabsMarks.$cancel()" class="btn btn-default btn-sm">Отмена</button>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div style="overflow-x: auto;">
-					<table class="table table-bordered table-striped table-hoverT">
-						<thead>
-							<tr>
-								<th>№</th>
-								<th>Студент</th>
-								<th ng-repeat="lab in groupWorkingData.selectedSubGroup.Labs">
-									{{lab.ShortName}}
-								</th>
-								<th>Средний балл</th>
-								<th>Средний балл за тесты</th>
-								<th>Рейтинговая оценка</th>
-							</tr>
-						</thead>
-						<tr ng-repeat="student in groupWorkingData.selectedSubGroup.Students">
-							<td style="width: 42px">{{$index + 1}}</td>
-							<td style="min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
-							<td style="width: 60px; text-align: center" ng-repeat="mark in student.StudentLabMarks">
-								<span editable-text="mark.Mark" e-name="Mark" e-form="tableformLabsMarks">
-									{{ mark.Mark || '' }}
-								</span>
-							</td>
-							<td style="width: 50px; text-align: center; color: red"><b>{{student.LabsMarkTotal}}</b></td>
-							<td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
-							<td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
-						</tr>
-					</table>
-				</div>
-			</form>
-		</tab>
-		<tab heading="Защита работ">
-			<div style="margin-bottom: 15px; margin-top: 15px; ">
-				<table>
-					<tbody>
-						<tr>
-							<td>
-								<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
-							</td>
-							<td>
-								<div data-ng-repeat="subGroup in subGroups" style="display: inline-table; margin-left: 10px">
-									<button data-ng-click="changeSubGroup(subGroup)" data-ng-class="{'active':groupWorkingData.selectedSubGroup == subGroup }" class="btn btn-success btn-sm" style="width: 150px;">
-										{{subGroup.Name}}
-									</button>
-								</div>
-							</td>
-							<td>
-								<button class="btn-sm btn btn-info" ng-click="saveZip()" style="width: 130px;margin-left: 10px">Скачать архив</button></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div style="margin-top: 10px;margin-bottom: 10px">
+        .box_rotate {
+            -moz-transform: rotate(270deg); /* FF3.5+ */
+            -o-transform: rotate(270deg); /* Opera 10.5 */
+            -webkit-transform: rotate(270deg); /* Saf3.1+, Chrome */
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083); /* IE6,IE7 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
+        }
+    </style>
 
-				<accordion>
-					<accordion-group ng-repeat="data in groupWorkingData.selectedSubGroup.Students">
-						<accordion-heading>
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.FullName}}</a>
-							</h4>
-							<div class="clear-fix"></div>
-						</accordion-heading>
-						<div>
-							<table class="table table-bordered table-hover table-responsive">
-								<thead>
-									<tr>
-										<th>Файлы</th>
-									    <th>Комментарий</th>
-									    <th>Дата</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="files in data.FileLabs">
-										<td>
-											<div ng-repeat="file in files.Attachments">
-												<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
-											</div>
-										</td>
-									    <td>{{files.Comments}}</td>
-										<td>{{files.Date}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</accordion-group>
-				</accordion>
-			</div>
-		</tab>
-	</tabset>
+    <tabset>
+        <tab heading="Лабораторные работы">
+            <div style="margin-top: 15px; margin-bottom: 15px; ">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div id="buttonActionSection">
+                                    <a id="addLabsButton" style="margin-right: 10px" class="btn btn-primary btn-sm" ng-click="addLabs()">Добавить лабораторную работу</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Название</th>
+                            <th>Краткое название</th>
+                            <th>Часы</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="data in labs">
+                        <td style="width: 20px">{{data.Order}}</td>
+                        <td style="max-width: 400px;word-wrap: break-word;">{{data.Theme}}</td>
+                        <td>{{data.ShortName}}</td>
+                        <td>{{data.Duration}}</td>
+                        <td style="width: 90px;">
+                            <div>
+                                <a style="margin-right: 10px" href="" ng-click="editLabs(data)"><i class="fa fa-edit fa-1x" tooltip="Редактировать работу" tooltip-trigger="mouseenter" tooltip-placement="left"></i></a>
+                                <a ng-click="deleteLabs(data)" href=""><i class="fa fa-trash-o fa-1x" tooltip="Удалить работу" tooltip-trigger="mouseenter" tooltip-placement="left"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </tab>
 
-	<div id="dialogAddLabs" class="modal">
-		<div class="modal-dialog panel panel-primary" style="padding: 0px">
-			<div class="panel-heading">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">{{editLabsData.TitleForm}}</h4>
-			</div>
-			<div class="modal-body">
-				<div>
-					<div class="control-group">
-						<label class="control-label">Название лабораторной работы</label>
-						<textarea class="form-control" name="Theme" style="max-width: 545px; width: 545px;" ng-model="editLabsData.Theme"></textarea>
-					</div>
-					<div class="control-group">
-						<label class="control-label">Сокращенное название лабораторной работы</label>
-						<input type="text" name="ShortName" class="form-control" style="width: 545px" ng-model="editLabsData.ShortName" />
-					</div>
-					<div class="control-group">
-						<label class="control-label">Порядковый номер лабораторной работы</label>
-						<input type="number" min="1" class="form-control" name="Order" style="width: 545px" ng-model="editLabsData.Order" />
-					</div>
-					<div>
-						<label class="control-label">Количество часов (1-99)</label>
-						<input type="number" class="form-control" name="Duration" min="1" max="99" style="width: 545px" ng-model="editLabsData.Duration" />
-					</div>
-				</div>
 
-				<div>
-					<h6 class="page-header">Прикрепленный материал</h6>
-					<div id="labsFile">
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-				<a class="btn btn-primary btn-sm" ng-click="saveLabs()">Сохранить</a>
-			</div>
-		</div>
-	</div>
+        <tab heading="График защиты">
+            <table style="margin-bottom: 15px; margin-top: 15px; ">
+                <tbody>
+                    <tr>
+                        <td>
+                            <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <form>
+                <div>
+                    <h4 style="margin-top: 20px;">Подгруппа 1</h4>
+                    <hr style="margin-top:0px;" />
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="float:left; margin-bottom:15px">
+                                    <a class="btn btn-primary btn-sm" ng-click="managementDateSubOne()">Управление датами</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-	<div id="dialogmanagementData" class="modal">
-		<div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
-			<div class="panel-heading">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">График защиты</h4>
-			</div>
-			<div class="modal-body">
-				<div>
-					@*	                <div>
-							<label class="control-label">Дата</label>
-							<input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="width: 100%" />
-						</div>*@
-					<div>
-						<label class="control-label">Дата</label>
-						<p class="input-group" style="width: 100%;">
-							<input style="margin: 0" type="text" class="form-control"
-								   datepicker-popup="{{format}}"
-								   ng-model="dt"
-								   is-open="opened"
-								   ng-click="opened = true"
-								   show-button-bar="false"
-								   close-text="Закрыть"
-								   datepicker-options="dateOptions" close-text="Close" />
-						</p>
-					</div>
-					<div>
-						<input ng-click="addDate()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width: 100%" />
-					</div>
-					<div>
-						<label class="control-label">График</label>
-						<div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
-							<table class="table table-bordered table-striped">
-								<tr ng-repeat="data in groupWorkingData.selectedSubGroup.ScheduleProtectionLabs">
-									<td>
-										<p>{{data.Date}}</p>
-									</td>
-									<td style="width: 20px"><a ng-click="deleteVisitingDate(data.ScheduleProtectionLabId)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a></td>
-								</tr>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn btn-primary btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
-			</div>
-		</div>
-	</div>
+                <div class="table-responsive" style="overflow-x: auto;">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Лабораторная работа</th>
+                                <th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center"
+                                    ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs">
+                                    <div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.Labs">
+                            <td style="width: 20px">{{data.Order}}</td>
+                            <td style="min-width: 300px">{{data.Theme}}</td>
+                            <td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
+                                {{recomend.Mark}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
 
-	<div id="dialogEditMarksVisiting" class="modal">
-		<div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
-			<div class="panel-heading">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">{{editVisitingDate}}</h4>
-			</div>
-			<div class="modal-body">
-				<div style="max-height: 600px; overflow-y: auto">
-					<table class="table table-bordered table-striped">
-						<tr ng-repeat="data in editMarksVisiting">
-							<td>
-								<p>{{data.StudentName}}</p>
-							</td>
-							<td>
-								<input ng-model="data.Mark" class="form-control" style="width: 50px; text-align: center" maxlength="1" />
-							</td>
-							<td>
-								<input ng-model="data.Comment" class="form-control" style="width: 50px; text-align: center" maxlength="1" />
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn btn-primary btn-sm" data-dismiss="modal">Закрыть</a>
-				<a href="#" class="btn btn-primary btn-sm" ng-click="saveMarksVisiting()" data-dismiss="modal">Сохранить</a>
-			</div>
-		</div>
-	</div>
+            @* -------------------------------- *@
+
+
+            <form>
+                <div style="margin-bottom: 15px; margin-top: 15px; ">
+                    <div>
+                        <h4 style="margin-top: 20px;">Подгруппа 2</h4>
+                        <hr style="margin-top:0px;" />
+
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="float:left">
+                                        <a class="btn btn-primary btn-sm" ng-click="managementDateSubTwo()">Управление датами</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="table-responsive" style="overflow-x: auto;">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Лабораторная работа</th>
+                                <th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs">
+                                    <div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.Labs">
+                            <td style="width: 20px">{{data.Order}}</td>
+                            <td style="min-width: 300px">{{data.Theme}}</td>
+                            <td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
+                                {{recomend.Mark}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </tab>
+
+        <tab heading="Статистика посещения">
+
+            <div style="margin-bottom: 15px; margin-top: 15px; ">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="padding-right:15px">
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                            </td>
+                            <td style="margin-top:5px; float:right">
+                                <a ng-click="visitingLabsExport()" style="margin-right:10px;" tooltip="Загрузить документ в Excel">
+                                    <img src="~/Images/ExcelDownload.png" />
+                                </a>
+                                <a ng-click="#" style="margin-right:10px;" tooltip="Построить график">
+                                    <img src="~/Images/graphik.png" />
+                                </a>
+                                <a ng-click="$('#print-table').printthis();" style="margin-right:20px;" tooltip="Печать таблицы">
+                                    <img src="~/Images/print.png" />
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5 style="float:right"><i>Для редактирования сделайте двойной клик по дате либо ячейке</i></h5>
+            </div>
+
+            <form editable-form name="tableformVisitingSubOne">
+
+                <div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
+                    <div>
+                        <h4 style="margin-top:20px">Подгруппа 1</h4>
+                    </div>
+                </div>
+                <div class="table-responsive" style="overflow-x: auto;">
+                    <table id="VisitingSub1" class="table table-bordered table-striped table-hoverT">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; vertical-align: middle" rowspan="2">№</th>
+                                <th style="text-align: center; vertical-align: middle" rowspan="2">Студент</th>
+                                <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsOne.Labs" colspan="{{lab.Duration/2}}"
+                                    title="{{lab.Theme}}">
+                                    {{lab.ShortName}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="height: 80px; width: 10px; padding: 0px; margin: 0px; padding-bottom: 30px; text-align: center"
+                                    ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs" ng-dblclick="exposeMarkVisitingOne(data.ScheduleProtectionLabId)">
+                                    <div style="cursor: pointer; display: inline-block" class="box_rotate">{{data.Date}}</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.Students" ng-init="studentIndexOne=$index">
+                            <td style="width: 20px">{{studentIndexOne + 1}}</td>
+                            <td style="min-width: 300px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
+                            <td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark" ng-init="markIndexOne=$index" ng-dblclick="exposeMarkVisitingOne(data.ScheduleProtectionLabId)">
+                                <div style="text-align:center">
+                                    <div style="float:left; margin-left:10px;">
+                                        {{ data.Mark || '' }}
+                                    </div>
+                                    <div id="imageVisitingOne{{studentIndexOne}}{{markIndexOne}}" style="float: right; height: 10px; width:10px; margin-top: -5px; display:none">
+                                        <img src="~/Images/comment.png">
+                                        {{commentImage(data.Comment, studentIndexOne,markIndexOne,"imageVisitingOne")}}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+
+
+            @* ---------------------------------------------------------------- *@
+
+
+            <form editable-form name="tableformVisitingSubTwo">
+                <div style="margin-bottom: 15px; margin-top: 15px;">
+                    <div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
+                        <div>
+                            <h4 style="margin-top:20px">Подгруппа 2</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive" style="overflow-x: auto">
+                    <table class=" table table-bordered table-striped table-hovert">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; vertical-align: middle" rowspan="2">№</th>
+                                <th style="text-align: center; vertical-align: middle" rowspan="2">Студент</th>
+                                <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsTwo.Labs" colspan="{{lab.Duration/2}}"
+                                    title="{{lab.Theme}}">
+                                    {{lab.ShortName}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="height: 80px; width: 10px; padding: 0px; margin: 0px; padding-bottom: 30px; text-align: center"
+                                    ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs" ng-dblclick="exposeMarkVisitingTwo(data.ScheduleProtectionLabId)">
+                                    <div style="cursor: pointer; display: inline-block" class="box_rotate">{{data.Date}}</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.Students" ng-init="studentIndexTwo=$index">
+                            <td style="width: 20px">{{studentIndexTwo + 1}}</td>
+                            <td style="min-width: 300px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
+                            <td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark" ng-init="markIndexTwo=$index" ng-dblclick="exposeMarkVisitingTwo(data.ScheduleProtectionLabId)">
+                                <div style="text-align:center">
+                                    <div style="float:left; margin-left:10px;">
+                                        {{ data.Mark || '' }}
+                                    </div>
+                                    <div id="imageVisitingTwo{{studentIndexTwo}}{{markIndexTwo}}" style="float: right; height: 10px; width:10px; margin-top: -5px; display:none">
+                                        <img src="~/Images/comment.png">
+                                        {{commentImage(data.Comment, studentIndexTwo,markIndexTwo,"imageVisitingTwo")}}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+
+        </tab>
+
+        <tab heading="Результаты">
+            <div style="margin-bottom: 15px; margin-top: 15px; ">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="padding-right:15px">
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                            </td>
+                            <td style="margin-top:5px; float:right">
+                                <a ng-click="LabMarkExport()" style="margin-right:10px;" tooltip="Загрузить документ в Excel">
+                                    <img src="~/Images/ExcelDownload.png" />
+                                </a>
+                                <a ng-click="#" style="margin-right:10px;" tooltip="Построить график">
+                                    <img src="~/Images/graphik.png" />
+                                </a>
+                                <a ng-click="$('#print-table').printthis();" style="margin-right:20px;" tooltip="Печать таблицы">
+                                    <img src="~/Images/print.png" />
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5 style="float:right"><i>Для редактирования сделайте двойной клик по ячейке</i></h5>
+            </div>
+
+            <form editable-form name="tableformLabsMarksSubOne">
+                <div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
+                    <div>
+                        <h4 style="margin-top:20px">Подгруппа 1</h4>
+                    </div>
+                </div>
+                <div style="width:100%">
+                    <table class="table table-bordered table-striped table-hoverT">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; vertical-align: middle">№</th>
+                                <th style="text-align: center; vertical-align: middle">Студент</th>
+                                <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsOne.Labs" title="{{lab.Theme}}">
+                                    {{lab.ShortName}}
+                                </th>
+                                <th style="text-align: center; vertical-align: middle">Средний балл</th>
+                                <th style="text-align: center; vertical-align: middle">Средний балл за тесты</th>
+                                <th style="text-align: center; vertical-align: middle">Рейтинговая оценка</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.Students" ng-init="studentIndex=$index">
+                            <td style="width: 42px">{{studentIndex + 1}}</td>
+                            <td style="width: auto"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
+                            <td style="width: 60px; text-align: center" ng-repeat="mark in student.StudentLabMarks"
+                                ng-init="markIndex=$index" ng-dblclick="exposeMarkSubOne(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
+
+                                <div style="text-align:center;">
+                                    <div style="float:left; margin-left:10px; color:black" id="markOne{{studentIndex}}{{markIndex}}">
+                                        {{setMarkSubOne(mark.LabId, mark.StudentId, studentIndex, markIndex)}}
+                                    </div>
+                                    <div style="float: right">
+                                        <div id="imageOne{{studentIndex}}{{markIndex}}" style="height: 10px; width: 10px; margin-top: -5px; display:none">
+                                            <img src="~/Images/comment.png">
+                                            {{commentImage(mark.Comment, studentIndex, markIndex,"imageOne")}}
+                                        </div>
+                                        <div id="imageDotOne{{studentIndex}}{{markIndex}}" style="height: 5px; width: 5px; margin-top:2px; display: none">
+                                            <img src="~/Images/redDot.png">
+                                            {{dotImageOne(mark.LabId, mark.StudentId, studentIndex, markIndex,"imageDotOne")}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+
+                            <td style="width: 50px; text-align: center; color: red"><b>{{student.LabsMarkTotal}}</b></td>
+                            <td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
+                            <td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+
+
+            @* ---------------------------------------------- *@
+
+            <form editable-form name="tableformLabsMarksSubTwo">
+                <div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
+                    <div>
+                        <h4 style="margin-top:20px">Подгруппа 2</h4>
+                    </div>
+                </div>
+                <div style="width:100%">
+                    <table class="table table-bordered table-striped table-hoverT">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; vertical-align: middle">№</th>
+                                <th style="text-align: center; vertical-align: middle">Студент</th>
+                                <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsTwo.Labs" title="{{lab.Theme}}">
+                                    {{lab.ShortName}}
+                                </th>
+                                <th style="text-align: center; vertical-align: middle">Средний балл</th>
+                                <th style="text-align: center; vertical-align: middle">Средний балл за тесты</th>
+                                <th style="text-align: center; vertical-align: middle">Рейтинговая оценка</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.Students" ng-init="studentIndex=$index">
+                            <td style="width: 42px">{{studentIndex + 1}}</td>
+                            <td style="width: auto"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
+                            <td style="width: 60px; text-align: center" ng-repeat="mark in student.StudentLabMarks"
+                                ng-init="markIndex=$index" ng-dblclick="exposeMarkSubTwo(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
+
+                                <div style="text-align:center;">
+                                    <div style="float:left; margin-left:10px; color:black" id="markTwo{{studentIndex}}{{markIndex}}">
+                                        {{setMarkSubTwo(mark.LabId, mark.StudentId, studentIndex, markIndex)}}
+                                    </div>
+                                    <div style="float: right">
+                                        <div id="imageTwo{{studentIndex}}{{markIndex}}" style="height: 10px; width: 10px; margin-top: -5px; display:none">
+                                            <img src="~/Images/comment.png">
+                                            {{commentImage(mark.Comment, studentIndex, markIndex,"imageTwo")}}
+                                        </div>
+                                        <div id="imageDotTwo{{studentIndex}}{{markIndex}}" style="height: 5px; width: 5px; margin-top:2px; display: none">
+                                            <img src="~/Images/redDot.png">
+                                            {{dotImageTwo(mark.LabId, mark.StudentId, studentIndex, markIndex,"imageDotTwo")}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width: 50px; text-align: center; color: red"><b>{{student.LabsMarkTotal}}</b></td>
+                            <td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
+                            <td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </tab>
+
+        <tab heading="Защита работ">
+            <div style="margin-bottom: 15px; margin-top: 15px; ">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="padding-right:15px">
+                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                            </td>
+                            <td style="margin-top:5px">
+                                <a ng-click="saveZip()" style="margin-right:10px;" tooltip="Скачать архивом">
+                                    <img src="~/Images/rar.png" />
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 10px;margin-bottom: 10px">
+
+                <accordion>
+                    <accordion-group ng-repeat="data in groupWorkingData.selectedGroup.Students">
+                        <accordion-heading>
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.FullName}}</a>
+                            </h4>
+                            <div class="clear-fix"></div>
+                        </accordion-heading>
+                        <div>
+                            <table class="table table-bordered table-hover table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Файлы</th>
+                                        <th>Комментарий</th>
+                                        <th>Дата</th>
+                                        <th>Действие</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="files in data.FileLabs">
+                                        <td>
+                                            <div ng-repeat="file in files.Attachments">
+                                                <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
+                                            </div>
+                                        </td>
+                                        <td>{{files.Comments}}</td>
+                                        <td>{{files.Date}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </accordion-group>
+                </accordion>
+            </div>
+        </tab>
+    </tabset>
+
+    <div id="dialogAddLabs" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{editLabsData.TitleForm}}</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="control-group">
+                        <label class="control-label">Название лабораторной работы</label>
+                        <textarea class="form-control" name="Theme" style="max-width: 545px; width: 545px;" ng-model="editLabsData.Theme"></textarea>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Сокращенное название лабораторной работы</label>
+                        <input type="text" name="ShortName" class="form-control" style="width: 545px" ng-model="editLabsData.ShortName" />
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Порядковый номер лабораторной работы</label>
+                        <input type="number" min="1" class="form-control" name="Order" style="width: 545px" ng-model="editLabsData.Order" />
+                    </div>
+                    <div>
+                        <label class="control-label">Количество часов (1-99)</label>
+                        <input type="number" class="form-control" name="Duration" min="1" max="99" style="width: 545px" ng-model="editLabsData.Duration" />
+                    </div>
+                </div>
+
+                <div>
+                    <h6 class="page-header">Прикрепленный материал</h6>
+                    <div id="labsFile">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a class="btn btn-primary btn-sm" ng-click="saveLabs()">Сохранить</a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="dialogmanagementDataSubOne" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 500px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Управление датами (Подгруппа 1)</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label class="control-label">Выберите дату</label>
+                        <p class="input-group" style="width: 100%;">
+                            <input style="margin: 0" type="text" class="form-control"
+                                   datepicker-popup="{{format}}"
+                                   ng-model="dt"
+                                   is-open="openedOne"
+                                   ng-click="openedOne = true"
+                                   show-button-bar="false"
+                                   close-text="Закрыть"
+                                   datepicker-options="dateOptions" close-text="Close" />
+                        </p>
+                    </div>
+                    <div style="height:30px">
+                        <input ng-click="addDateSubOne()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width:20%; float:right;" />
+                    </div>
+                    <div>
+                        <label class="control-label">Даты занятий</label>
+                        <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
+                            <table class="table table-bordered table-striped">
+                                <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs">
+                                    <td>
+                                        <p>{{data.Date}}</p>
+                                    </td>
+                                    <td style="width: 20px"><a ng-click="deleteVisitingDate(data.ScheduleProtectionLabId)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @* ----------------------------------------- *@
+    <div id="dialogmanagementDataSubTwo" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 500px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Управление датами (Подгруппа 2)</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <label class="control-label">Выберите дату</label>
+                        <p class="input-group" style="width: 100%;">
+                            <input style="margin: 0" type="text" class="form-control"
+                                   datepicker-popup="{{format}}"
+                                   ng-model="dt"
+                                   is-open="openedTwo"
+                                   ng-click="openedTwo = true"
+                                   show-button-bar="false"
+                                   close-text="Закрыть"
+                                   datepicker-options="dateOptions" close-text="Close" />
+                        </p>
+                    </div>
+                    <div style="height:30px">
+                        <input ng-click="addDateSubTwo()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width:20%; float:right;" />
+                    </div>
+                    <div>
+                        <label class="control-label">Даты занятий</label>
+                        <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
+                            <table class="table table-bordered table-striped">
+                                <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs">
+                                    <td>
+                                        <p>{{data.Date}}</p>
+                                    </td>
+                                    <td style="width: 20px"><a ng-click="deleteVisitingDate(data.ScheduleProtectionLabId)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="dialogEditMarksVisiting" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{editVisitingDate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div style="max-height: 600px; overflow-y: auto">
+                    <table class="table table-bordered table-striped">
+                        <tr ng-repeat="data in editMarksVisiting">
+                            <td>
+                                <p>{{data.StudentName}}</p>
+                            </td>
+                            <td>
+                                <input ng-model="data.Mark" class="form-control" style="width: 50px; text-align: center" maxlength="1" />
+                            </td>
+                            <td>
+                                <input ng-model="data.Comment" class="form-control" style="width: 50px; text-align: center" maxlength="1" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary btn-sm" data-dismiss="modal">Закрыть</a>
+                <a href="#" class="btn btn-primary btn-sm" ng-click="saveMarksVisiting()" data-dismiss="modal">Сохранить</a>
+            </div>
+        </div>
+    </div>
 
 </div>
 
+<div id="dialogexposeMarkOne" class="modal">
+    <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 500px">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Выставление отметки</h4>
+        </div>
+        <div class="modal-body">
+            <div style="color:red; display:none" id="errorOneMark"><h5>Значение поля должно находиться в диапазоне от 0 до 10!</h5></div>
+            <div>
+                <label class="control-label">Выставьте отметку (от 0 до 10)</label>
+            </div>
+            <div>
+                <input id="markInputOne" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this, 'errorOneMark')" />
+            </div>
+            <div>
+                <label class="control-label">Дата выставления</label>
+            </div>
+            <div>    
+                <p class="input-group" style="width: 100%;">
+                    <input id="dateInputOne" style="margin: 0; width:100%" type="text"
+                           datepicker-popup="{{format}}"
+                           ng-model="dt"
+                           is-open="openedOne"
+                           ng-click="openedOne = true"
+                           show-button-bar="false"
+                           close-text="Закрыть"
+                           datepicker-options="dateOptions" close-text="Close" />
+                </p>
+            </div>
+            <div>
+                <label class="control-label">Комментарий</label>
+            </div>
+            <div>
+                <textarea id="commentInputOne" style="width:100%; min-width:0px;" />
+            </div>
+            <div style="display:none">
+                <label></label>
+            </div>
+            <input id="inputLabIdOne" style="display:none" />
+            <input id="inputStudentIdOne" style="display:none" />
+            <input id="inputIdOne" style="display:none" />
+            <div class="modal-footer" style="padding-bottom:0px; padding-right:0px">
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a class="btn btn-primary btn-sm" ng-click="saveLabsMarksSubOne()" data-dismiss="modal">Сохранить</a>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div id="dialogexposeMarkTwo" class="modal">
+    <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 500px">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Выставление отметки</h4>
+        </div>
+        <div class="modal-body">
+            <div style="color:red; display:none" id="errorTwoMark"><h5>Значение поля должно находиться в диапазоне от 0 до 10!</h5></div>
+            <div>
+                <label class="control-label">Выставьте отметку (от 0 до 10)</label>
+            </div>
+            <div>
+                <input id="markInputTwo" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this,'errorTwoMark')" />
+            </div>
+            <div>
+                <label class="control-label">Дата выставления</label>
+            </div>
+            <div>
+                <p class="input-group" style="width: 100%;">
+                    <input id="dateInputTwo" style="margin: 0; width:100%" type="text"
+                           datepicker-popup="{{format}}"
+                           ng-model="dt"
+                           is-open="openedTwo"
+                           ng-click="openedTwo = true"
+                           show-button-bar="false"
+                           close-text="Закрыть"
+                           datepicker-options="dateOptions" close-text="Close" />
+                </p>
+            </div>
+            <div>
+                <label class="control-label">Комментарий</label>
+            </div>
+            <div>
+                <textarea id="commentInputTwo" style="width:100%; min-width:0px;" />
+            </div>
+            <input id="inputLabIdTwo" style="display:none" />
+            <input id="inputStudentIdTwo" style="display:none" />
+            <input id="inputIdTwo" style="display:none" />
+            <div class="modal-footer" style="padding-bottom:0px; padding-right:0px">
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a class="btn btn-primary btn-sm" ng-click="saveLabsMarksSubTwo()" data-dismiss="modal">Сохранить</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dialogexposeVisitingMarkOne" class="modal">
+    <div class="modal-dialog panel panel-primary" style="padding: 0px; width:700px">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Посещаемость студентов</h4>
+        </div>
+        <div class="modal-body">
+            <div style="color:red; display:none" id="errorOne"><h5>Значение поля должно находиться в диапазоне от 1 до 100!</h5></div>
+            <div>
+                <h5>Редактируемая дата:</h5>
+                <h4 id="textDateOne"></h4>
+            </div>
+            <table class="table table-bordered table-striped table-hoverT">
+                <tbody>
+                    <tr style="text-align:center">
+                        <td>№</td>
+                        <td>ФИО</td>
+                        <td>Пропущено часов</td>
+                        <td>Комментарий</td>
+                    </tr>
+                </tbody>
+                <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.Students" ng-init="keyOne=$index">
+                    <td style="width:20px">{{keyOne + 1}}</td>
+                    <td style="width:200px">{{student.FullName}}</td>
+                    <td>
+                            <input style="width:70px; text-align:center" type="number" max="100" min="1" id="markVisitingOne{{keyOne}}" onchange="angular.element(this).scope().NumberControl(this,'errorOne')" />{{visitingMarkOne(student.StudentId,"markVisitingOne", keyOne)}}
+                            <input style="display:none" id="studentIdOne{{keyOne}}" value="{{student.StudentId}}" />
+                    </td>
+                    <td><input style="width:350px" id="commentVisitingOne{{keyOne}}" />{{visitingCommentOne(student.StudentId,"commentVisitingOne", keyOne)}}</td>
+                </tr>
+            </table>
+            <div class="modal-footer" style="padding-bottom:0px; padding-right:0px">
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a class="btn btn-primary btn-sm" ng-click="saveVisitingMarkSubOne('keyOne','markVisitingOne','commentVisitingOne', 'studentIdOne')" data-dismiss="modal">Сохранить</a>
+            </div>
+            <input id="dateVisitingMarkOne" style="display:none" />
+            <input id="keyOne" style="display:none" />
+        </div>
+    </div>
+</div>
+
+<div id="dialogexposeVisitingMarkTwo" class="modal">
+    <div class="modal-dialog panel panel-primary" style="padding: 0px; width:700px">
+        <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Посещаемость студентов</h4>
+        </div>
+        <div class="modal-body">
+            <div style="color:red; display:none" id="errorTwo"><h5>Значение поля должно находиться в диапазоне от 1 до 100!</h5></div>
+            <div>
+                <h5>Редактируемая дата:</h5>
+                <h4 id="textDateTwo"></h4>
+            </div>
+            <table class="table table-bordered table-striped table-hoverT">
+                <tbody>
+                    <tr style="text-align:center">
+                        <td>№</td>
+                        <td>ФИО</td>
+                        <td>Пропущено часов</td>
+                        <td>Комментарий</td>
+                    </tr>
+                </tbody>
+                <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.Students" ng-init="keyTwo=$index">
+                    <td style="width:20px">{{keyTwo + 1}}</td>
+                    <td style="width:200px">{{student.FullName}}</td>
+                    <td>
+                        <input style="width:70px; text-align:center" type="number" max="100" min="1" id="markVisitingTwo{{keyTwo}}" onchange="angular.element(this).scope().NumberControl(this,'errorTwo')" />{{visitingMarkTwo(student.StudentId,"markVisitingTwo", keyTwo)}}
+                        <input style="display:none" id="studentIdTwo{{keyTwo}}" value="{{student.StudentId}}" />
+                    </td>
+                    <td><input style="width:350px" id="commentVisitingTwo{{keyTwo}}" />{{visitingCommentTwo(student.StudentId,"commentVisitingTwo", keyTwo)}}</td>
+                </tr>
+            </table>
+            <div class="modal-footer" style="padding-bottom:0px; padding-right:0px">
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a class="btn btn-primary btn-sm" ng-click="saveVisitingMarkSubTwo('keyTwo','markVisitingTwo','commentVisitingTwo', 'studentIdTwo')" data-dismiss="modal">Сохранить</a>
+            </div>
+            <input id="dateVisitingMarkTwo" style="display:none" />
+            <input id="keyTwo" style="display:none" />
+        </div>
+    </div>
+</div>
