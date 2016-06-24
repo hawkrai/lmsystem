@@ -135,20 +135,23 @@ namespace Application.Infrastructure.DPManagement
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, userId);
 
-            if (Context.DiplomPercentagesGraphs.Any(x => x.Name == percentageData.Name))
-            {
-                throw new ApplicationException("Этап с таким названием уже есть!");
-            }
-
             DiplomPercentagesGraph percentage;
             if (percentageData.Id.HasValue)
             {
                 percentage = Context.DiplomPercentagesGraphs
                               .Include(x => x.DiplomPercentagesGraphToGroups)
                               .Single(x => x.Id == percentageData.Id);
+                if (Context.DiplomPercentagesGraphs.Any(x => x.Name == percentageData.Name && x.Id != percentageData.Id))
+                {
+                    throw new ApplicationException("Этап с таким названием уже есть!");
+                }
             }
             else
             {
+                if (Context.DiplomPercentagesGraphs.Any(x => x.Name == percentageData.Name))
+                {
+                    throw new ApplicationException("Этап с таким названием уже есть!");
+                }
                 percentage = new DiplomPercentagesGraph();
                 Context.DiplomPercentagesGraphs.Add(percentage);
             }

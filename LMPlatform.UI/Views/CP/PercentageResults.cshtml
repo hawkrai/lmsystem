@@ -13,13 +13,13 @@
             </div>
             </td>
         <td style="border:none;width:auto;margin-top:8px;">
-            <a ng-show="selectedGroups" style="background-color: #F9F9F9;
+            <a ng-show="selectedGroups && user.IsLecturer" style="background-color: #F9F9F9;
                                                    border: none;
                                                    border-color: #fff;
                                                    padding: 0px;
                                                    box-shadow: none;
                                                    padding-left: 15px;" 
-               class="btn btn-primary btn-sm" ng-click="visitingLabsExport()" tooltip="Загрузить документ Excel">
+               class="btn btn-primary btn-sm" ng-click="visitingLabsExport()" tooltip="Экспорт в Excel">
                 <i style="margin-top:5px; background-image:url(../../Images/ExcelDownload.png);background-size:cover;width:30px;height:30px" class="fa"></i>
 
             </a>

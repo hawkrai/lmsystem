@@ -47,5 +47,9 @@ namespace Application.Infrastructure.DPManagement
 
         void DisableNews(int lecturerId, bool disable);
 
+        void DeleteUserFromAdpProject(int id, int projectId);
+
+        void DeletePercenageAndVisitStatsForUser(int id);
+
     }
 }

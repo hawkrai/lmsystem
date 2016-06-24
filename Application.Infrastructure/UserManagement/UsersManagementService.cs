@@ -18,6 +18,7 @@ namespace Application.Infrastructure.UserManagement
     using LMPlatform.Data.Repositories.RepositoryContracts;
     using LMPlatform.Models;
     using CPManagement;
+    using DPManagement;
     public class UsersManagementService : IUsersManagementService
     {
         private readonly LazyDependency<IUsersRepository> _usersRepository = new LazyDependency<IUsersRepository>();
@@ -29,6 +30,13 @@ namespace Application.Infrastructure.UserManagement
         private ICPManagementService CPManagementService
         {
             get { return _cpManagementService.Value; }
+        }
+
+        private readonly LazyDependency<IDpManagementService> _dpManagementService = new LazyDependency<IDpManagementService>();
+
+        private IDpManagementService DPManagementService
+        {
+            get { return _dpManagementService.Value; }
         }
 
         public IUsersRepository UsersRepository
@@ -142,6 +150,15 @@ namespace Application.Infrastructure.UserManagement
                 }
 
                 CPManagementService.DeletePercenageAndVisitStatsForUser(id);
+
+                var adp = user.Student.AssignedDiplomProjects.Select(e => e.DiplomProjectId);
+
+                foreach (var acpId in adp)
+                {
+                    DPManagementService.DeleteUserFromAdpProject(id, acpId);
+                }
+
+                DPManagementService.DeletePercenageAndVisitStatsForUser(id);
 
                 var result = AccountManagementService.DeleteAccount(user.UserName);
                 repositoriesContainer.ApplyChanges();

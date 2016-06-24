@@ -3,8 +3,8 @@
         <tr style="border:none; width:100%">
             <td style="border:none; width:100%">
                 <div class="col-md-8" style="padding:0; width:100%; height:auto; float:left">
-                    <ui-select on-select="selectProject($item)" ng-model="project.Id" theme="bootstrap">
-                        <ui-select-match placeholder="Выберите тему курсового проекта (работы)">{{$select.selected.Name}}</ui-select-match>
+                    <ui-select ng-disabled="user.IsStudent" on-select="selectProject($item)" ng-model="project.Id" theme="bootstrap">
+                        <ui-select-match placeholder="Выберите тему курсового проекта (работы)">{{project.Name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in projects | filter: $select.search">
                             <div>{{item.Name}}</div>
                         </ui-select-choices>
@@ -17,7 +17,7 @@
                 </a>
             </td>
             <td style="border:none; width:auto">
-                <a ng-show="selectedProjectId" ng-click="editTaskSheet()" style="margin-left: 10px; margin-top:5px; width:100%; display:block; float:left">
+                <a ng-show="selectedProjectId && user.IsLecturer" ng-click="editTaskSheet()" style="margin-left: 10px; margin-top:5px; width:100%; display:block; float:left">
                     <i style="font-size: 2.5em" tooltip-placement="left" tooltip="Редактировать" class="fa fa-edit fa-2x"></i>
                 </a>
             </td>

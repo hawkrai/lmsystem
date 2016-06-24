@@ -1,7 +1,7 @@
 ﻿<div>
     <table style="border:none;width:100%">
         <tr style="border:none">
-            <td style="border:none" width="205px">
+            <td ng-show="user.IsLecturer" style="border:none" width="205px">
                 <div ng-show="user.IsLecturer" id="buttonActionSection">
                     <a ng-click="addConsultationDate()" class="addSubject btn btn-primary btn-sm" data-toggle="tooltip">Добавить дату консультации</a>
                 </div>
@@ -19,13 +19,13 @@
                 </div>
             </td>
             <td style="border:none; margin-top:8px" width="auto">
-                <a ng-show="selectedGroups" style="background-color: #f9f9f9;
+                <a ng-show="selectedGroups && user.IsLecturer" style="background-color: #f9f9f9;
                                                    border: none;
                                                    border-color: #fff;
                                                    padding: 0px;
                                                    box-shadow: none;
                                                    padding-left: 15px;" 
-                   class="btn btn-primary btn-sm" ng-click="visitingLabsExport()" tooltip="Загрузить документ Excel">
+                   class="btn btn-primary btn-sm" ng-click="visitingLabsExport()" tooltip="Экспорт в Excel">
                     <i style="margin-top:5px; background-image:url(../../Images/ExcelDownload.png);background-size:cover;width:30px;height:30px" class="fa"></i>
                 </a>
             </td>
