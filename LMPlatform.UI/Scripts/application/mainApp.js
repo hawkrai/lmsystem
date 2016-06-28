@@ -1255,7 +1255,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          $scope.commentImage = function (comment, studentIndex, markIndex, name) {
              var id = name + studentIndex + markIndex;
              var elem = document.getElementById(id);
-
+            
              if (comment != "" & comment != null) {
                  elem.style.display = 'block';
                  elem.title = comment;
@@ -1266,6 +1266,31 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              }
 
          };
+
+         $scope.NumberControl = function (object, errorName) {
+             var error = document.getElementById(errorName);
+             if (object.value == "")
+             {
+                 object.value = "";
+                 error.style.display = 'none';
+             } else
+             {
+                 if (parseInt(object.value) < object.min)
+                 {
+                     object.value = object.min;
+                     error.style.display = 'block';
+                 } else
+                 {
+                     if (parseInt(object.value) > object.max)
+                     {
+                         object.value = object.max;
+                         error.style.display = 'block';
+                     }
+                     else { error.style.display = 'none'; }
+                 }
+             }
+         };
+
 
          $scope.dotImageTwo = function (labId, studentId, studentIndex, markIndex, name) {
              var id = name + studentIndex + markIndex;
@@ -1321,7 +1346,6 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                  elem.title = "Пропустил(a) " + sum + " часа(ов): " + text;
              }
          };
-
 
          $scope.dotImageOne = function (labId, studentId, studentIndex, markIndex, name) {
              var id = name + studentIndex + markIndex;

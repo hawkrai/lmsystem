@@ -1,6 +1,7 @@
 ﻿using Application.Core.UI.Controllers;
 using Application.Infrastructure.ConceptManagement;
 using Application.Infrastructure.FoldersManagement;
+using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.ComplexMaterialsViewModel;
@@ -97,6 +98,22 @@ namespace LMPlatform.UI.Controllers
             return PartialView();
         }
 
+        //public ActionResult Tests(Int32 subjectId)
+        //{
+        //    Subject subject = SubjectsManagementService.GetSubject(subjectId);
+        //    return PartialView();
+        //}
+
+        public ActionResult Tests(String subjectId)
+        {
+            Subject subject = SubjectsManagementService.GetSubject(1);
+            return PartialView(subject);
+            //return PartialView("~/Views/Tests/KnowledgeTesting.cshtml", subject);
+            //return PartialView("~/Content/KnowledgeTesting/passing.html", subject);
+            
+        }
+       
+
         public ActionResult Map()
         {
             return PartialView();
@@ -107,6 +124,14 @@ namespace LMPlatform.UI.Controllers
             get
             {
                 return ApplicationService<IConceptManagementService>();
+            }
+        }
+
+        public ISubjectManagementService SubjectsManagementService
+        {
+            get
+            {
+                return ApplicationService<ISubjectManagementService>();
             }
         }
     }

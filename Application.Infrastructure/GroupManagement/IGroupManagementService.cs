@@ -20,7 +20,7 @@ namespace Application.Infrastructure.GroupManagement
 
 	    List<string> GetLabsScheduleVisitings(int subjectId, int groupId, int subGorupId);
 
-		List<List<string>> GetLabsScheduleMarks(int subjectId, int groupId, int subGorupId);
+		List<List<string>> GetLabsScheduleMarks(int subjectId, int groupId, int subGroupOneId, int subGroupTwoId);
 
         List<string> GetCpScheduleVisitings(int subjectId, int groupId);
 

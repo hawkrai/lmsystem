@@ -108,11 +108,8 @@ namespace LMPlatform.UI.Controllers
         {
             var data = new SLExcelData();
 
-            var headerDataOne = GroupManagementService.GetLabsScheduleVisitings(subjectId, groupId, subGroupOneId);
-            var rowsDataOne = GroupManagementService.GetLabsScheduleMarks(subjectId, groupId, subGroupOneId);
+            var rowsDataOne = GroupManagementService.GetLabsScheduleMarks(subjectId, groupId, subGroupOneId, subGroupTwoId);
 
-            data.Headers.Add("Студент");
-            data.Headers.AddRange(headerDataOne);
             data.DataRows.AddRange(rowsDataOne);
 
             var file = (new SLExcelWriter()).GenerateExcel(data);

@@ -345,6 +345,7 @@
     <Content Include="Scripts\application\ComplexMaterials\controllers\catalogController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\homeController.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\mapController.js" />
+    <Content Include="Scripts\application\ComplexMaterials\controllers\testController.js" />
     <Content Include="Scripts\application\ComplexMaterials\extension.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\navigationService.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
@@ -1790,6 +1791,7 @@
     <Content Include="Views\Profile\Page.cshtml" />
     <Content Include="Views\CP\Subjects.cshtml" />
     <Content Include="Views\DP\News.cshtml" />
+    <Content Include="Views\ComplexMaterial\Tests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

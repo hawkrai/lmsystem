@@ -178,7 +178,7 @@ namespace LMPlatform.UI.Services.Modules.Concept
                 return res;
             }
             res.Add(first);
-            var next = source.FirstOrDefault(s => s.Id == first.Next.GetValueOrDefault());
+            var next = source.FirstOrDefault(s => s.Id == first.Next.GetValueOrDefault(-1));
             if (next == null)
             {
                 res.AddRange(source.Where(i=>!res.Any(r=>r.Id==i.Id)));
