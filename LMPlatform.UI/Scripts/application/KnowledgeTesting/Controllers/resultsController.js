@@ -71,12 +71,78 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
              return item.Points != null;
         });
 
+        var passedPercent = Enumerable.From(results).Where(function (item) {
+            return item.Percent != null;
+        });
+
         if (passed.Count() > 0) {
-            return passed.Sum(function (item) {
+
+            var markSum = passed.Sum(function(item) {
                 return item.Points;
             }) / passed.Count();
+
+            var percentSum = passedPercent.Sum(function (item) {
+                return item.Percent;
+            }) / passedPercent.Count();
+
+            return Math.round(markSum);// + " (" + Math.round(percentSum) + "%)";
         } else {
             return empty;
         }
+    };
+
+    $scope.calcTotal = function(result, index) {
+        var sum = 0;
+        var count = 0;
+        
+        $.each(result, function (key, value) {
+            if (value.TestPassResults[index].Points != null) {
+                count = count + 1;
+                sum = sum + value.TestPassResults[index].Percent;
+            }
+        });
+
+        var percent = Math.round(sum / count);
+
+        return {
+            Percent: Math.round(sum / count),
+            Point: Math.round(percent / 10),
+        };
+    };
+
+    $scope.calcAll = function () {
+        var count = 0;
+        var points = 0;
+        var percents = 0;
+        $.each($scope.results, function (key, value) {
+            var studentResult = value.TestPassResults;
+
+            var passed = Enumerable.From(studentResult).Where(function (item) {
+                return item.Points != null;
+            });
+
+            var passedPercent = Enumerable.From(studentResult).Where(function (item) {
+                return item.Percent != null;
+            });
+            
+            if (passed.Count() > 0) {
+
+                count += 1;
+                
+                points += passed.Sum(function (item) {
+                    return item.Points;
+                }) / passed.Count();
+
+                percents += passedPercent.Sum(function (item) {
+                    return item.Percent;
+                }) / passedPercent.Count();
+            }
+        });
+
+        return Math.round(points / count);// + " (" + Math.round(percents/count) + "%)";
+    };
+
+    $scope.resultExport = function() {
+        window.location.href = "/TestPassing/GetResultsExcel?groupId=" + $scope.gropId + "&subjectId=" + $scope.subjectId;
     };
 });

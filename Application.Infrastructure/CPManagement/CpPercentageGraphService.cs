@@ -40,11 +40,6 @@ namespace Application.Infrastructure.CPManagement
             var isLecturer = user.Lecturer != null;
             var isStudent = user.Student != null;
             var isSecretary = isLecturer && user.Lecturer.IsSecretary;
-           /* if (isLecturer && !isSecretary)
-            {
-                return GetPercentageGraphsForLecturer(userId, parms, groupId);
-            }
-            */
             
             var secretaryId = isStudent ? user.Student.Group.SecretaryId : userId;
             if (isStudent)
@@ -84,7 +79,7 @@ namespace Application.Infrastructure.CPManagement
             var isStudent = AuthorizationHelper.IsStudent(Context, userId);
             var isLecturer = AuthorizationHelper.IsLecturer(Context, userId);
             var isLecturerSecretary = isLecturer && Context.Lecturers.Single(x => x.Id == userId).IsSecretary;
-            secretaryId = /*isLecturerSecretary ?*/ userId/* : secretaryId*/;
+            secretaryId = userId;
 
             if (isStudent)
             {
@@ -92,7 +87,6 @@ namespace Application.Infrastructure.CPManagement
                 secretaryId = Context.Users.Where(x => x.Id == userId)
                             .Select(x => x.Student.AssignedCourseProjects.FirstOrDefault().CourseProject.LecturerId)
                             .Single() ?? 0;
-                //secretaryId = Context.Users.Where(x => x.Id == userId).Select(x => x.Student.Group.SecretaryId).Single() ?? 0;
             }
 
             return GetPercentageGraphDataForLecturerQuery(isLecturer || isStudent ? 0 : userId, secretaryId, subjectId)
@@ -138,14 +132,8 @@ namespace Application.Infrastructure.CPManagement
         /// <returns></returns>
         private IQueryable<PercentageGraphData> GetPercentageGraphDataForLecturerQuery(int lecturer, int secretaryId, int subjectId)
         {
-            
-
             IQueryable<PercentageGraphData> p = Context.CoursePercentagesGraphs.Where(x => x.LecturerId == secretaryId).Where(x=>x.SubjectId == subjectId).
-                Select(ToPercentageDataPlain);/*Context.Lecturers.Where(x => lecturerId == 0 || x.Id == lecturerId)
-                .SelectMany(x => x.CourseProjects
-                    .SelectMany(dp => dp.CourseProjectGroups.Where(dpg => secretaryId == 0 || dpg.Group.SecretaryId == secretaryId)
-                        .SelectMany(dpg => dpg.Group.Secretary.CoursePercentagesGraphs)))
-                .Distinct().Select(ToPercentageDataPlain);*/
+                Select(ToPercentageDataPlain);
 
             return p;
         }
@@ -188,8 +176,6 @@ namespace Application.Infrastructure.CPManagement
             percentage.Name = percentageData.Name;
             percentage.Percentage = percentageData.Percentage;
             percentage.Date = percentageData.Date;
-            //percentage.SubjectId = percentageData.SubjectId;
-
             Context.SaveChanges();
         }
 
@@ -250,7 +236,6 @@ namespace Application.Infrastructure.CPManagement
 
             consultationMark.Mark = string.IsNullOrWhiteSpace(consultationMarkData.Mark) ? null : consultationMarkData.Mark;
 
-            //            consultationMark.Comments = consultationMarkData.Comment;
             Context.SaveChanges();
         }
 

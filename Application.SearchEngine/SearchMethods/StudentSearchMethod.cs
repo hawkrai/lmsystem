@@ -29,7 +29,7 @@ namespace Application.SearchEngine.SearchMethods
             doc.Add(new Field(SearchingFields.FirstName.ToString(), student.FirstName, Field.Store.YES, Field.Index.ANALYZED));
             doc.Add(new Field(SearchingFields.MiddleName.ToString(), student.MiddleName, Field.Store.YES, Field.Index.ANALYZED));
             doc.Add(new Field(SearchingFields.LastName.ToString(), student.LastName, Field.Store.YES, Field.Index.ANALYZED));
-            doc.Add(new Field(SearchingFields.Group.ToString(), student.Group != null ? student.Group.Name : "", Field.Store.YES, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field(SearchingFields.Group.ToString(), student.Group != null ? student.Group.Name : "", Field.Store.YES, Field.Index.ANALYZED));
             doc.Add(new Field(SearchingFields.Name.ToString(), student.User != null ? student.User.UserName : "", Field.Store.YES, Field.Index.ANALYZED));
 
             writer.AddDocument(doc);

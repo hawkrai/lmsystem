@@ -676,6 +676,8 @@ namespace LMPlatform.Data.Infrastructure
             //            });
         }
 
+        public virtual DbSet<DiplomProjectNews> DiplomProjectNewses { get; set; }
+
         public virtual DbSet<AssignedDiplomProject> AssignedDiplomProjects { get; set; }
 
         public virtual DbSet<DiplomPercentagesGraph> DiplomPercentagesGraphs { get; set; }

@@ -2,6 +2,7 @@
 
 @section navleft
 {
+    <li><a class="linkNavbar" href="" onclick="history.go(-1);return true;"><i class="fa fa-arrow-left"></i>Назад</a></li>
     <li><a href="@Url.Action("Index", "Lms")" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
 }
 
@@ -34,9 +35,9 @@
         <div id="students" class="tab-pane fade in active">
             @foreach (var student in Model.Students)
             {
-                <a href="/Lms/@student.Email" class="list-group-item">
+                <a href="/Profile/Page/@student.Email" class="list-group-item">
                     @student.FullName
-                    <br/>
+                    <br />
                     <sub>группа: @student.GroupId</sub>
                 </a>
             }
@@ -58,7 +59,7 @@
         <div id="lecturers" class="tab-pane fade">
             @foreach (var lecturer in Model.Lecturers)
             {
-                <a href="/Lms/@lecturer.Skill" class="list-group-item">
+                <a href="/Profile/Page/@lecturer.Skill" class="list-group-item">
                     @lecturer.FullName
                 </a>
             }

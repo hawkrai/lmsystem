@@ -114,22 +114,7 @@
             </ul>
         </li>
     }
-    <li class="treeview">
-        <a href="#">
-            <i class="fa fa-folder-open-o fa-tab"></i>
-            <span>Методические <br /> материалы</span>
-            <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-            @foreach (var subject in Model.Subjects)
-            {
-                var url = Url.Action("Index", "Materials", new { subjectId = subject.SubjectId });
-
-                <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
-            }
-        </ul>
-    </li>
-
+    
     <li class="treeview">
         <a href="#">
             <i class="fa fa-folder-open-o fa-tab"></i>
@@ -137,7 +122,7 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-         @foreach (var subject in Model.Subjects)
+         @foreach (var subject in Model.CourseProjectSubjects)
             {
              var url = Url.Action("Index", "CP", new { subjectId = subject.SubjectId });
                 <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>

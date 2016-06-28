@@ -18,9 +18,11 @@ namespace Application.Infrastructure.CPManagement
 
         List<NewsData> GetNewses(int userId, int subjectId);
 
+        CourseProjectNews GetNews(int id);
+
         void DeleteNews(CourseProjectNews news);
 
-        CourseProjectNews SaveNews(CourseProjectNews news);
+        CourseProjectNews SaveNews(CourseProjectNews news, IList<Attachment> attachments, Int32 userId);
 
         List<Correlation> GetGroups(int subjectId);
 
@@ -47,6 +49,10 @@ namespace Application.Infrastructure.CPManagement
         CourseProjectTaskSheetTemplate GetTaskSheetTemplate(int id);
 
         void SaveTaskSheetTemplate(CourseProjectTaskSheetTemplate template);
+
+        void DeleteUserFromAcpProject(int id, int projectId);
+
+        void DeletePercenageAndVisitStatsForUser(int id);
 
         TaskSheetData GetTaskSheet(int courseProjectId);
 

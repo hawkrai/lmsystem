@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Application.Core;
 using Application.Core.UI.Controllers;
 using Application.Infrastructure.GroupManagement;
@@ -23,9 +22,6 @@ namespace LMPlatform.UI.Controllers
             if (string.IsNullOrEmpty(query))
                 return RedirectToAction("Index", "Lms");
 
-            DateTime start = DateTime.Now;
-            
-
             var model = new SearchViewModel();
 
             var ssm = new StudentSearchMethod();
@@ -47,11 +43,6 @@ namespace LMPlatform.UI.Controllers
             if (!lsm.IsIndexExist())
                 lsm.AddToIndex(_lecturerRepository.Value.GetLecturers());
             model.Lecturers = lsm.Search(query);
-
-            DateTime finish = DateTime.Now;
-            TimeSpan delta = finish - start;
-
-            long ticks = delta.Ticks;
 
             return View(model);
         }

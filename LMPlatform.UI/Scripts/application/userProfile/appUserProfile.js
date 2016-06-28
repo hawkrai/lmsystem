@@ -130,4 +130,8 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 			$(".loading").toggleClass('ng-hide', true);
 			//usSpinnerService.stop('spinner-1');
 		};
+
+		$scope.getNowDate = function() {
+			return new Date();
+		}
 	});

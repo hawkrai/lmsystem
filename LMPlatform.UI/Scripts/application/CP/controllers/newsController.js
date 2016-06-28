@@ -10,16 +10,15 @@
 
         function ($scope, $http, $routeParams, $location,$resource, projectService, $sce) {
 
-            $scope.renderHtml = function (htmlCode) {
-                return $sce.trustAsHtml(htmlCode);
-            };
+        $scope.renderHtml = function (htmlCode) {
+            return $sce.trustAsHtml(htmlCode);
+        };
 
         $scope.setTitle("Объявления по курсовому проектированию");
         $scope.news = [];
         $scope.UrlServiceNews = '/api/CourseProjectNews/';
         $scope.UrlCpNews = '/Cp/';
         
-
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -31,46 +30,45 @@
 
         var subjectId = getParameterByName("subjectId");
 
-            projectService.getNewses(subjectId)
-            .success(function (data) {
-                $scope.news = data;
-            });
+        $scope.newsDisabled = false;
+
+        projectService.getNewses(subjectId)
+        .success(function (data) {
+            $scope.news = data;
+            for (var i = 0; i<$scope.news.length; i++) {
+                if ($scope.news[i].Disabled) {
+                    $scope.newsDisabled = true;
+                    break;
+                } else {
+                    $scope.newsDisabled = false;
+                }
+            }
+        });
 
         $scope.editNewsData = {
             TitleForm: "",
             Title: "",
             Body: "",
             IsOldDate: false,
-			Disabled: false,
+            Disabled: false,
+            PathFile: "",
             Id: 0
         };
 
-        $scope.init = function () {
-            $scope.news = [];
-            $scope.loadNews();
-	        //$('#newsHtml').wysihtml5();
-        };
-
-        $scope.loadNews = function () {
-            $.ajax({
-                type: 'GET',
-                url: $scope.UrlServiceNews + "GetNews/" + $scope.subjectId,
-                dataType: "json",
-                contentType: "application/json",
-
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    $scope.$apply(function () {
-                        $scope.news = data.News;
-                    });
-                }
-            });
-        };
-
-
-
+        $scope.loadNews = function() {
+            projectService.getNewses(subjectId)
+           .success(function (data) {
+               $scope.news = data;
+               for (var i = 0; i<$scope.news.length; i++) {
+                   if ($scope.news[i].Disabled) {
+                       $scope.newsDisabled = true;
+                       break;
+                   } else {
+                       $scope.newsDisabled = false;
+                   }
+               }
+           });
+        }
 
         $scope.addNews = function () {
             $scope.editNewsData.TitleForm = "Создание объявления";
@@ -79,7 +77,20 @@
             $scope.editNewsData.Id = "0";
             $scope.editNewsData.IsOldDate = false;
             $scope.editNewsData.Disabled = false;
+            $scope.editNewsData.PathFile = "";
             $("#newsIsOLd").attr('disabled', 'disabled');
+            $("#newsFile").empty();
+
+            $.ajax({
+                type: 'GET',
+                url: "/Cp/GetFileNews?id=0",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                $scope.$apply(function () {
+                    $("#newsFile").append(data);
+                });
+            });
             $('#dialogAddNews').modal();
         };
 
@@ -90,7 +101,20 @@
             $scope.editNewsData.Id = news.Id;
             $scope.editNewsData.Disabled = news.Disabled;
             $scope.editNewsData.IsOldDate = false;
+            $scope.editNewsData.ShortName = news.ShortName;
             $("#newsIsOLd").removeAttr('disabled');
+            $("#newsFile").empty();
+
+            $.ajax({
+                type: 'GET',
+                url: "/Cp/GetFileNews?id=" + news.Id,
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                $scope.$apply(function () {
+                    $("#newsFile").append(data);
+                });
+            });
             $('#dialogAddNews').modal();
         };
 
@@ -122,18 +146,42 @@
             
         };
 
+        $scope.getLecturesFileAttachments = function () {
+            var itemAttachmentsTable = $('#fileupload').find('table').find('tbody tr');
+            var data = $.map(itemAttachmentsTable, function (e) {
+                var newObject = null;
+                if (e.className === "template-download fade in") {
+                    if (e.id === "-1") {
+                        newObject = { Id: 0, Title: "", Name: $(e).find('td a').text(), AttachmentType: $(e).find('td.type').text(), FileName: $(e).find('td.guid').text() };
+                    } else {
+                        newObject = { Id: e.id, Title: "", Name: $(e).find('td a').text(), AttachmentType: $(e).find('td.type').text(), FileName: $(e).find('td.guid').text() };
+                    }
+                }
+                return newObject;
+            });
+            var dataAsString = JSON.stringify(data);
+            return dataAsString;
+        };
+
+
 		$scope.fSaveNews = function() {
 			$http({
 				method: 'POST',
-				url: $scope.UrlServiceNews + "Save",
-				data: { subjectId: subjectId, id: $scope.editNewsData.Id, title: $scope.editNewsData.Title, body: $scope.editNewsData.Body, disabled: $scope.editNewsData.Disabled, isOldDate: $scope.editNewsData.IsOldDate },
+				url: $scope.UrlCpNews + "SaveNews",
+				data: {
+				    subjectId: subjectId,
+				    id: $scope.editNewsData.Id,
+				    title: $scope.editNewsData.Title,
+				    body: $scope.editNewsData.Body,
+				    disabled: $scope.editNewsData.Disabled,
+				    isOldDate: $scope.editNewsData.IsOldDate,
+				    pathFile: $scope.editNewsData.PathFile,
+				    attachments: $scope.getLecturesFileAttachments()
+				},
 				headers: { 'Content-Type': 'application/json' }
 			}).success(function(data, status) {
 			    alertify.success("Объявление успешно сохранено");
-			    projectService.getNewses(subjectId)
-                    .success(function (data) {
-                    $scope.news = data;
-                });
+			    $scope.loadNews();
 				$("#dialogAddNews").modal('hide');
 			});
 		};
@@ -163,6 +211,7 @@
                             }).success(function (data, status) {
                                     alertify.success("Объявление успешно удалено");
                                     $scope.news.splice($scope.news.indexOf(news), 1);
+                                    $scope.loadNews();
                             });
                         }
                     }
@@ -178,10 +227,7 @@
                 headers: { 'Content-Type': 'application/json' }
             }).success(function (data, status) {
                 alertify.success("Все объявления скрыты");
-                projectService.getNewses(subjectId)
-                    .success(function (data) {
-                        $scope.news = data;
-                    });
+                $scope.loadNews();
             });
         };
 
@@ -193,10 +239,7 @@
                 headers: { 'Content-Type': 'application/json' }
             }).success(function (data, status) {
                 alertify.success("Все объявления активны");
-                projectService.getNewses(subjectId)
-                    .success(function (data) {
-                        $scope.news = data;
-                    });
+                $scope.loadNews();
             });
         };
 

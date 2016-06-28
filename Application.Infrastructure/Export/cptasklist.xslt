@@ -41,9 +41,9 @@ div.Section1
                     <table class="MsoTableGrid" width="100%" border="0" cellspacing="0" cellpadding="0"
                      style='border-collapse:collapse'>
                         <tr>
-                            <td width="100%" valign="bottom" style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
-                                <p class="MsoNormal" align="center" style='text-align:center;line-height:normal'>
-                                    <xsl:value-of select='string(@Univer)' disable-output-escaping='no'/>
+                            <td width="100%" valign="bottom" style='border:none;padding:0cm 5.4pt 0cm 5.4pt'>
+                                <p class="MsoNormal" align="center" style='font-size:15pt;text-align:center;line-height:normal'>
+                                    <xsl:value-of select='string(item[@name="Univer"])' disable-output-escaping='no'/>
                                 </p>
                             </td>
                         </tr>
@@ -58,17 +58,12 @@ div.Section1
 
                     <p class="MsoNormal" style='line-height:normal'><![CDATA[ ]]></p>
 
-                    <table class="MsoTableGrid" width="100%" border="0" cellspacing="0" cellpadding="0"
-                     style='border-collapse:collapse'>
+                    <table  class="MsoTableGrid" width="100%" border="0" cellspacing="0" cellpadding="0"
+                     style='border-collapse:collapse;margin-top:10px'>
                         <tr>
-                            <td width="1%" valign="top" style='padding:0cm 5.4pt 0cm 5.4pt'>
-                                <p class="MsoNormal" style='line-height:normal'>
-                                    <span style='font-size:10.0pt'>Факультет</span>
-                                </p>
-                            </td>
-                            <td width="90%" valign="top" style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 1.4pt 0cm 1.4pt'>
-                                <p class="MsoNormal" align="center" style='text-align:center;line-height:normal'>
-                                    <xsl:value-of select='string(@Faculty)' disable-output-escaping='no'/>
+                            <td width="100%" valign="top" style='border:none;padding:0cm 1.4pt 0cm 1.4pt'>
+                                <p class="MsoNormal" align="center" style='font-size:15pt;text-align:center;line-height:normal'>
+                                    <xsl:value-of select='string(item[@name="Faculty"])' disable-output-escaping='no'/>
                                 </p>
                             </td>
                         </tr>
@@ -112,7 +107,8 @@ div.Section1
                             </td>
                             <td width="auto" valign="top" style='width:126.0pt;border:none;padding:0cm 5.4pt 0cm 5.4pt'>
                             <p class="MsoNormal" style='line-height:normal'>
-                              <span style='font-size:10.0pt;text-align:center;'>Н.Н.Гурский</span>
+                              <span style='font-size:10.0pt;text-align:center;'><xsl:value-of select='string(item[@name="HeadCathedra"])' disable-output-escaping='no'/>
+                                </span>
                             </p>
                             </td>
                         </tr>
@@ -366,7 +362,7 @@ div.Section1
                             <td width="auto"  valign="bottom" style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:17.55pt'>
                                 <p class="MsoNormal" align="left" style='text-align:left;line-height:normal'>
                                     <i>
-                                        <xsl:value-of select='string(item[@name="Deadline"])' disable-output-escaping='no'/>
+                                        <xsl:value-of select='string(item[@name="EndData"])' disable-output-escaping='no'/>
                                     </i>
                                 </p>
                             </td>

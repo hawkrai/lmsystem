@@ -51,6 +51,8 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
                                                     LabId = lab.Id,
                                                     Mark = student.StudentLabMarks.FirstOrDefault(e => e.LabId == lab.Id).Mark,
                                                     StudentId = StudentId,
+                                                    Comment = student.StudentLabMarks.FirstOrDefault(e => e.LabId == lab.Id).Comment,
+                                                    Date = student.StudentLabMarks.FirstOrDefault(e => e.LabId == lab.Id).Date,
                                                     StudentLabMarkId = student.StudentLabMarks.FirstOrDefault(e => e.LabId == lab.Id).Id
                                                 });        
                     }
@@ -61,6 +63,8 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
                             LabId = lab.Id,
                             Mark = string.Empty,
                             StudentId = StudentId,
+                            Comment = string.Empty,
+                            Date = string.Empty,
                             StudentLabMarkId = 0
                         });    
                     }
