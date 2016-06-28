@@ -87,9 +87,17 @@
         $('#fileupload').fileupload('option', {
             acceptFileTypes: /(\.|\/)(pdf|mp4)$/i,
             maxFileSize: 1000000000,
+            maxNumberOfFiles:1,
             resizeMaxWidth: 1920,
             resizeMaxHeight: 1200,
-            autoUpload: true
+            autoUpload: true,
+            prependFiles:true,
+            error: function () {
+                $('#saveButton').attr('disabled', 'true');
+            },
+            send: function () {
+                $('#saveButton').removeAttr('disabled');
+            }
         });
     });
 </script>

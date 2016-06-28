@@ -88,10 +88,16 @@
                     options = that.options,
                     files = data.files;
                 $(this).fileupload('process', data).done(function () {
-                    that._adjustMaxNumberOfFiles(-files.length);
+                    
                     data.maxNumberOfFilesAdjusted = true;
                     data.files.valid = data.isValidated = that._validate(files);
+                    if(data.files.valid)
+                    {
+                        that._adjustMaxNumberOfFiles(-files.length);
+                    }
+                    
                     data.context = that._renderUpload(files).data('data', data);
+                    $(options.filesContainer).empty();
                     options.filesContainer[
                         options.prependFiles ? 'prepend' : 'append'
                     ](data.context);

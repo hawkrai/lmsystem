@@ -13,6 +13,13 @@
     window.postData = { values: jString,  deleteValues:"DELETE"};
     
 </script>
+<style>
+    .error{
+        color:red;
+        font-weight:bold;
+        text-align:center;
+    }
+</style>
 
 <div id="fileupload">
     <div style="display: table">
@@ -38,14 +45,24 @@
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
+        {% if (!file.error) { %}
         <td class="preview"><span class="fade"></span></td>
         <td class="name"><span style="word-break: break-all;">{%=file.name%}</span></td>
         <td class="type"><span>{%=file.type%}</span></td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>        
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>   
+        {% } %}     
         {% if (file.error) { %}
-            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+            {% if (file.error=="Filetype not allowed") { %}
+            <td class="error" colspan="7">Тип файла не поддерживается</td>
+                
+        {% if(o.options.error) {o.options.error();} %}
+                
+        {% } else { %}
+            <td class="error" colspan="7">{%=file.error%}</td>
+        {% } %}
+        
         {% } else if (o.files.valid && !i) { %}
-            
+            {% if(o.options.send) {o.options.send();} %}
             <td>{% if (!o.options.autoUpload) { %}
                 <a style="margin-right: 10px" data-toggle="tooltip" data-placement="right" title="Загрузить файл" class="start"><i class="fa fa-upload fa-2x"></i></a>
 {% if (!i) { %}
