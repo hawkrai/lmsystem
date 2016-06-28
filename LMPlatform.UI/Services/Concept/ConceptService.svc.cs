@@ -159,8 +159,6 @@ namespace LMPlatform.UI.Services.Concept
             }
         }
 
-        
-
         public ConceptResult GetConcepts(String parentId)
         {
             try

@@ -12,15 +12,24 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using System.Configuration;
+using Application.Infrastructure.KnowledgeTestsManagement;
 
 namespace Application.Infrastructure.ConceptManagement
 {
     public class ConceptManagementService : IConceptManagementService
     {
+        private const String TitlePageSectionName = "Программа курса";
+        private const String ProgramSectionName = "Программа курса";
+        private const String LectSectionName = "Теоретический раздел";
+        private const String LabSectionName = "Практический раздел";
+        private const String TestSectionName = "Блок контроля знаний";
+
+
         private readonly string _storageRootTemp = ConfigurationManager.AppSettings["FileUploadPathTemp"];
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
         private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
         private readonly LazyDependency<IModulesManagementService> _modulesManagementService = new LazyDependency<IModulesManagementService>();
+        private readonly LazyDependency<ITestsManagementService> _testManagementService = new LazyDependency<ITestsManagementService>();
 
         public IFilesManagementService FilesManagementService
         {
@@ -43,6 +52,14 @@ namespace Application.Infrastructure.ConceptManagement
             get
             {
                 return _modulesManagementService.Value;
+            }
+        }
+
+        public ITestsManagementService TestsManagementService
+        {
+            get
+            {
+                return _testManagementService.Value;
             }
         }
 
@@ -117,7 +134,8 @@ namespace Application.Infrastructure.ConceptManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.ConceptRepository.GetById(id);
+                var parent = repositoriesContainer.ConceptRepository.GetById(id);
+                return parent;
             }
         }
 
@@ -145,6 +163,9 @@ namespace Application.Infrastructure.ConceptManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
+                var parent = GetById(parentId);
+                if (IsTestModule(parent.Name))
+                    return TestsManagementService.GetTestsForSubject(parent.SubjectId).Select(t => new Concept(t.Title, parent.Author, parent.Subject, false, true) { Id = t.Id});
                 return repositoriesContainer.ConceptRepository.GetByParentId(parentId);
             }
         }
@@ -153,7 +174,7 @@ namespace Application.Infrastructure.ConceptManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.ConceptRepository.GetByParentId(parentId).Where(c => c.UserId == authorId);
+                return GetElementsByParentId(parentId).Where(c => c.UserId == authorId);
             }
         }
 
@@ -381,17 +402,14 @@ namespace Application.Infrastructure.ConceptManagement
             }
         }
 
-        private const String LectSectionName = "Теоретический раздел";
-        private const String LabSectionName = "Практический раздел";
-
         private void InitBaseChildrens(Concept parent, LmPlatformRepositoriesContainer repositoriesContainer)
         {
-            var concept1 = new Concept("Титульный экран", parent.Author, parent.Subject, false, false);
+            var concept1 = new Concept(TitlePageSectionName, parent.Author, parent.Subject, false, false);
             concept1.ParentId = parent.Id;
             concept1.ReadOnly = true;
             repositoriesContainer.ConceptRepository.Save(concept1);
 
-            var concept2 = new Concept("Программа курса", parent.Author, parent.Subject, false, false);
+            var concept2 = new Concept(ProgramSectionName, parent.Author, parent.Subject, false, false);
             concept2.ParentId = parent.Id;
             concept2.ReadOnly = true;
             repositoriesContainer.ConceptRepository.Save(concept2);
@@ -417,7 +435,7 @@ namespace Application.Infrastructure.ConceptManagement
             concept3.NextConcept = concept4.Id;
             concept4.PrevConcept = concept3.Id;
 
-            var concept5 = new Concept("Блок контроля знаний", parent.Author, parent.Subject, true, false);
+            var concept5 = new Concept(TestSectionName, parent.Author, parent.Subject, true, false);
             concept5.ParentId = parent.Id;
             concept5.ReadOnly = true;
             repositoriesContainer.ConceptRepository.Save(concept5);
@@ -449,7 +467,6 @@ namespace Application.Infrastructure.ConceptManagement
                 prev = concept;
             }
         }
-
 
         private void InitPractChild(Concept parent, LmPlatformRepositoriesContainer repositoriesContainer)
         {
@@ -505,6 +522,11 @@ namespace Application.Infrastructure.ConceptManagement
                 repositoriesContainer.ConceptRepository.Save(nextItem);
             }
             repositoriesContainer.ApplyChanges();
+        }
+
+        private Boolean IsTestModule(String moduleName)
+        {
+            return String.Compare(TestSectionName, moduleName, true)==0;
         }
 
         public void Remove(Int32 id, Boolean removeChildren)

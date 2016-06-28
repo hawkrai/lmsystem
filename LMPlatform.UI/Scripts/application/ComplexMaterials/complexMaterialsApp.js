@@ -4,6 +4,7 @@
         'complexMaterialsApp.ctrl.home',
         'complexMaterialsApp.ctrl.catalog',
         'complexMaterialsApp.ctrl.map',
+        'complexMaterialsApp.ctrl.test',
         'complexMaterialsApp.service.material',
         'complexMaterialsApp.service.navigation'
     ])
@@ -16,6 +17,11 @@
         $routeProvider.when('/Map', {
             templateUrl: '/ComplexMaterial/Map',
             controller: 'mapCtrl',
+            reloadOnSearch: false
+        });
+        $routeProvider.when('/Tests', {
+            templateUrl: '/Content/KnowledgeTesting/passing.html',
+            controller: 'testCtrl',
             reloadOnSearch: false
         });
         $routeProvider.otherwise({

@@ -53,7 +53,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/angular-bootstrap-duallistbox.js",
                 "~/Scripts/select.js",
                 "~/Scripts/ui-bootstrap-tpls.js",
-				"~/Scripts/spinner-angular.js",
+                "~/Scripts/spinner-angular.js",
                 "~/Scripts/xeditable.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/textAngular").Include(
@@ -147,6 +147,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/ComplexMaterials/controllers/homeController.js",
                 "~/Scripts/application/ComplexMaterials/controllers/catalogController.js",
                 "~/Scripts/application/ComplexMaterials/controllers/mapController.js",
+                "~/Scripts/application/ComplexMaterials/controllers/testController.js",
                 "~/Scripts/application/ComplexMaterials/complexMaterialsApp.js",
                 "~/Scripts/application/ComplexMaterials/services/complexMaterialsDataService.js",
                 "~/Scripts/application/ComplexMaterials/services/navigationService.js",
@@ -162,7 +163,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/linq.js",
                 "~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/testsNavigationController.js",
-                "~/Scripts/application/KnowledgeTesting/Controllers/testsController.js", 
+                "~/Scripts/application/KnowledgeTesting/Controllers/testsController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/questionsController.js",
                 "~/Scripts/jqplot/jquery.jqplot.min.js",
                 "~/Scripts/jqplot/jqplot.barRenderer.min.js",
