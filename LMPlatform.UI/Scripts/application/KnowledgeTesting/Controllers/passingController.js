@@ -95,6 +95,12 @@ var testPassing = {
         this._getNextQuestion(testId);
     },
 
+    _onReturnButtonClicked: function()
+    {
+        var returnUrl = decodeURIComponent(getHashValue('return'));
+        window.location = returnUrl;
+    },
+
     _getNextQuestion: function (testId) {
         $.ajax({
             url: this._webServiceUrl + this._getNextQuestionMethodName,
@@ -109,6 +115,7 @@ var testPassing = {
     },
 
     _makeUserAnswer: function (answers, testId, currentQuestionNumber) {
+        
         if (answers && ((answers.length == 1 && !answers[0].Content) || (answers.length > 1 && Enumerable.From(answers)
             .Where(function(item) {
                 return item.IsCorrect != 0;
@@ -149,6 +156,11 @@ var testPassing = {
         } else {
             $('#skipButton').on('click', $.proxy(this._onSkipButtonClicked, this));
         }
+        var returnUrl = getHashValue('return');
+        if (returnUrl)
+            $('#returnButton').on('click', $.proxy(this._onReturnButtonClicked, this));
+        else
+            $('#returnButtonContainer').attr("style", "display:none");
     },
     
     _initializeTimer: function () {

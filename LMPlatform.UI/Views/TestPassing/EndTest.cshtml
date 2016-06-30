@@ -6,14 +6,18 @@
 <div class="form-group">
     @foreach (KeyValuePair<int, PassedQuestionResult> passResult in Model)
     {
-        
+
         string color = passResult.Value == PassedQuestionResult.Success
             ? "rgb(143, 207, 118)"
             : "rgb(250, 112, 112)";
-        
+
         <div class="row">
             <div class="col-lg-2">Вопрос № @passResult.Key</div>
             <div class="col-lg-10" style="background-color: @color; height:20px"></div>
         </div>
     }
+    <div id="returnButtonContainer">
+        <h4><a id="returnButton" style="margin-right: 10px"><i class="fa fa-arrow-circle-left fa-1x"></i></a>Вернуться к ЭУМК</h4>
+    </div>
+
 </div>
