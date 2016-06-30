@@ -2,6 +2,7 @@
     .module('complexMaterialsApp.ctrl.catalog', ['ngResource', "angularSpinner"])
     .controller('catalogCtrl', [
         '$scope',
+        '$window',
         '$route',
         "$rootScope",
         '$location',
@@ -9,7 +10,7 @@
         "complexMaterialsDataService",
         "navigationService",
         "$log",
-        function ($scope, $route, $rootScope, $location, $resource, complexMaterialsDataService, navigationService) {
+        function ($scope, $window, $route, $rootScope, $location, $resource, complexMaterialsDataService, navigationService) {
 
             $scope.navigationService = navigationService;
             function getParameterByName(name) {
@@ -24,11 +25,10 @@
             $scope.navigationService.currentSubjectId = subjectId;
 
             var parentId = $location.search()["parent"]
-            if(parentId===undefined)
+            if (parentId === undefined)
                 parentId = getParameterByName("parent");
             var tree;
-            function attachDragableActionToConceptList()
-            {
+            function attachDragableActionToConceptList() {
                 $(".bs-glyphicons-list").sortable({
                     group: 'bs-glyphicons-list',
                     pullPlaceholder: false,
@@ -83,7 +83,7 @@
 
             function updateRootConceptList(action) {
                 $scope.startSpin();
-                if (parentId && parentId>0) {
+                if (parentId && parentId > 0) {
                     complexMaterialsDataService.getConcepts({ parentId: parentId }).success(function (data) {
                         $scope.folders = data.Concepts;
                         $scope.parent = data.Concept;
@@ -119,8 +119,7 @@
                 });
             }
 
-            function updateCurrentCatalog(parentId)
-            {
+            function updateCurrentCatalog(parentId) {
                 $scope.startSpin();
                 complexMaterialsDataService.getConcepts({ parentId: parentId }).success(function (data) {
                     $scope.folders = data.Concepts;
@@ -133,7 +132,7 @@
 
             function updateQueryParams(id) {
 
-                if (id || id==0)
+                if (id || id == 0)
                     $location.search({ "parent": id });
                 else if ($scope.parent)
                     $location.search({ "parent": $scope.parent.Id });
@@ -152,12 +151,11 @@
 
             attachDragableActionToConceptList();
 
-            $scope.attachSiblings = function(sourceId, rightId, leftId)
-            {
+            $scope.attachSiblings = function (sourceId, rightId, leftId) {
                 if (rightId == 0 && leftId == 0 || sourceId == 0)
                     return;
                 $scope.startSpin();
-                complexMaterialsDataService.attachSiblings({ source: sourceId, left: leftId, right:rightId }).success(function (data) {
+                complexMaterialsDataService.attachSiblings({ source: sourceId, left: leftId, right: rightId }).success(function (data) {
                     updateRootConceptList()
                 }).finally(function () {
                     $scope.stopSpin();
@@ -165,7 +163,7 @@
             }
 
             $scope.getHeaderValue = function () {
-                if($scope.parent)
+                if ($scope.parent)
                     return $scope.parent.SubjectName
                 return "Модуль электронных учебно-методических комплексов";
             }
@@ -175,15 +173,16 @@
             }
 
             $scope.isShowAddFileButton = function () {
-                return $scope.parent != null && $scope.parent.IsGroup && $scope.parent.ParentId != 0;
+                
+                return $scope.parent != null && $scope.parent.IsGroup && $scope.parent.ParentId != 0&& !$scope.isTestModule($scope.parent.Name);
             }
 
             $scope.isShowEditItemButton = function () {
-                return $scope.selectedItem != null && ((!$scope.selectedItem.ReadOnly) || (!$scope.selectedItem.IsGroup));
+                return $scope.selectedItem != null && ((!$scope.selectedItem.ReadOnly) || (!$scope.selectedItem.IsGroup)) && !$scope.isTestModule($scope.selectedItem.Container);
             }
 
             $scope.isShowDeleteItemButton = function () {
-                return $scope.selectedItem != null && !$scope.selectedItem.ReadOnly;
+                return $scope.selectedItem != null && !$scope.selectedItem.ReadOnly && !$scope.isTestModule($scope.selectedItem.Container);
             }
 
             $scope.isShowOpenItemButton = function () {
@@ -191,7 +190,7 @@
             }
 
             $scope.isShowMapButton = function () {
-                return $scope.parent != null || ($scope.selectedItem != null && $scope.selectedItem.ParentId==0);
+                return $scope.parent != null || ($scope.selectedItem != null && $scope.selectedItem.ParentId == 0);
             }
 
             $scope.selectElement = function ($event) {
@@ -245,11 +244,11 @@
             }
 
             $rootScope.isBackspaceShow = function () {
-                return $scope.parent !=undefined;
+                return $scope.parent != undefined;
             }
 
             $scope.isShowAddFolderButton = function () {
-                return $scope.parent != null && $scope.parent.ParentId != 0;
+                return $scope.parent != null && $scope.parent.ParentId != 0 && !$scope.isTestModule($scope.parent.Name);
             }
 
             $scope.getById = function (input, id) {
@@ -299,7 +298,6 @@
                     alertify.success("Добавлен новый модуль");
                 }, function () {
                     $scope.startSpin();
-                    alertify.success("Добавляется новый модуль... Ожидайте");
                     var data = $scope.getFileAttachments();
                     angular.element('#FileData').val(data);
                 });
@@ -325,7 +323,7 @@
 
                 var data = {};
                 data.id = $scope.selectedItem.Id;
-                var title = 'Редактирование ЭУМК "' + $scope.selectedItem.Name+'"';
+                var title = 'Редактирование ЭУМК "' + $scope.selectedItem.Name + '"';
                 $.savingDialog(title, "/ComplexMaterial/EditRootConcept", data, "primary", function (data) {
                     updateRootConceptList();
                     alertify.success("ЭУМК отредактирован");
@@ -339,16 +337,15 @@
                 var data = {};
                 data.id = $scope.selectedItem.Id;
                 data.parentId = $scope.selectedItem.ParentId;
-                var title = 'Редактирование модуля "' + $scope.selectedItem.Name+'"';
+                var title = 'Редактирование модуля "' + $scope.selectedItem.Name + '"';
                 $.savingDialog(title, "/ComplexMaterial/EditConcept", data, "primary", function (data) {
                     alertify.success("Модуль отредактирован");
                     updateCurrentCatalog($scope.parent.Id);
                     $scope.stopSpin();
-                }, function ()
-                {
+                }, function () {
                     $scope.startSpin();
                     var data = $scope.getFileAttachments();
-                    $scope.selectedItem.HasData = data.length>0;
+                    $scope.selectedItem.HasData = data.length > 0;
                     angular.element('#FileData').val(data);
                 });
             };
@@ -358,17 +355,31 @@
                 }, null, { hideSaveButton: true });
             };
 
-            $scope.openConceptInner = function (id, name) {
-                var data = {};
-                data.id = id;
-                var title = 'Просмотр файла "' + name + '"';
-                $.savingDialog(title, "/ComplexMaterial/OpenConcept", data, "primary", function (data) {
+            $scope.openConceptInner = function (id, name, container) {
+                if ($scope.isTestModule(container))
+                    $scope.openTest(id);
+                else {
+                    var data = {};
+                    data.id = id;
+                    var title = 'Просмотр файла "' + name + '"';
+                    $.savingDialog(title, "/ComplexMaterial/OpenConcept", data, "primary", function (data) {
 
-                }, null, { hideSaveButton: true });
+                    }, null, { hideSaveButton: true });
+                }
             };
 
+            $scope.isTestModule = function (container) {
+                return container == "test" || container == 'Блок контроля знаний';
+            }
+
+            $scope.openTest = function (id) {
+                var returnUrl = encodeURIComponent($location.absUrl());
+                var url = '/Tests/KnowledgeTesting?subjectId=' + subjectId + '#/passing?testId=' + id + '&return=' + returnUrl;
+                $window.open(url, '_blank')
+            }
+
             $scope.openConcept = function (id) {
-                $scope.openConceptInner($scope.selectedItem.Id, $scope.selectedItem.Name);
+                $scope.openConceptInner($scope.selectedItem.Id, $scope.selectedItem.Name, $scope.selectedItem.Container);
             };
 
             var prevTime;
@@ -384,7 +395,7 @@
                     $scope.openFolderInner(idFolder);
                 }
                 else
-                    $scope.openConceptInner(idFolder, currentFolder.Name);
+                    $scope.openConceptInner(idFolder, currentFolder.Name, currentFolder.Container);
             };
 
             $scope.openFolderInner = function (folderId) {

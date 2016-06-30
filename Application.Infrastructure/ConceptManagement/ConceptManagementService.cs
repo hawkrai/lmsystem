@@ -13,6 +13,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Configuration;
 using Application.Infrastructure.KnowledgeTestsManagement;
+using LMPlatform.Models.KnowledgeTesting;
 
 namespace Application.Infrastructure.ConceptManagement
 {
@@ -106,6 +107,7 @@ namespace Application.Infrastructure.ConceptManagement
 
         public Concept GetTreeConceptByElementId(Int32 id)
         {
+            
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var concept = GetById(id);
@@ -114,8 +116,24 @@ namespace Application.Infrastructure.ConceptManagement
                     elementId = concept.Id;
                 else
                     FindRootId(concept, out elementId);
-                return repositoriesContainer.ConceptRepository.GetTreeConceptByElementId(elementId);
+                var res = repositoriesContainer.ConceptRepository.GetTreeConceptByElementId(elementId);
+                
+                return AttachTestModuleData(res, res.Author, res.Subject);
+                //return res;
             }
+        }
+
+        private Concept AttachTestModuleData(Concept root, User author, Subject subject)
+        {
+            var testData = TestsManagementService.GetTestsForSubject(root.SubjectId);
+            var testModule = root.Children.FirstOrDefault(c => String.Compare(c.Name, TestSectionName) == 0);
+            if (testModule != null)
+            {
+                var tests = testData.Select(t => new Concept(t.Title, author, subject, false, true) { Id = t.Id, Container = "test", ParentId = testModule.Id }).ToList();
+                tests.ForEach(t => testModule.Children.Add(t));   
+            }
+
+            return root;
         }
 
         private void FindRootId(Concept concept, out Int32 elementId)
@@ -165,7 +183,7 @@ namespace Application.Infrastructure.ConceptManagement
             {
                 var parent = GetById(parentId);
                 if (IsTestModule(parent.Name))
-                    return TestsManagementService.GetTestsForSubject(parent.SubjectId).Select(t => new Concept(t.Title, parent.Author, parent.Subject, false, true) { Id = t.Id});
+                    return TestsManagementService.GetTestsForSubject(parent.SubjectId).Select(t => new Concept(t.Title, parent.Author, parent.Subject, false, true) { Id = t.Id, Container="test"});
                 return repositoriesContainer.ConceptRepository.GetByParentId(parentId);
             }
         }

@@ -22,7 +22,7 @@ namespace LMPlatform.Data.Repositories
         {
             using (var context = new LmPlatformModelsContext())
             {
-                var concept = context.Set<Concept>().Include(c => c.Children).Include(s=>s.Subject).FirstOrDefault(e => e.Id == id);
+                var concept = context.Set<Concept>().Include(c=>c.Author).Include(c=>c.Subject).Include(c => c.Children).Include(s=>s.Subject).FirstOrDefault(e => e.Id == id);
                 InitTreeConceptByParentIdInner(concept, concept.Children);
                 return concept;
             }
