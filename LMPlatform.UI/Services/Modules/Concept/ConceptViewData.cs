@@ -36,6 +36,19 @@ namespace LMPlatform.UI.Services.Modules.Concept
             }
         }
 
+        public ConceptViewData(LMPlatform.Models.Concept concept, Boolean buildTree, Func<LMPlatform.Models.Concept, Boolean> filterFirstLevelChildren)
+            : this(concept)
+        {
+            if (buildTree)
+            {
+                Children = new List<ConceptViewData>();
+                if (filterFirstLevelChildren==null)
+                    InitTree(concept, concept.Children);
+                else
+                    InitTree(concept, concept.Children.Where(c => filterFirstLevelChildren(c)).ToList());
+            }
+        }
+
         private void InitTree(LMPlatform.Models.Concept concept, ICollection<LMPlatform.Models.Concept> ch)
         {
             if (ch != null && ch.Any())

@@ -5,48 +5,49 @@
 
 @model LMPlatform.Models.Subject
 
+
 @section scripts
 {
     <script src="/Scripts/ckeditor/ckeditor.js" type="text/javascript"></script>
     <script src="/Scripts/ng-ckeditor-1.0.1.js" type="text/javascript"></script>
     @Scripts.Render("~/bundles/knowledgeTesting")
-    @Styles.Render("~/Content/testingModule.css")
-    
+    @Styles.Render("~/Content/testingModule.css")   
 
 
     @* Move to another file *@
     <script type="text/javascript">
-        window.kt = {
-            actions: {
-                tests: {
-                    getTests: '@Url.Action("GetTests", "Tests")',
-                    getTest: '@Url.Action("GetTest", "Tests")',
-                    saveTest: '@Url.Action("SaveTest", "Tests")',
-                    deleteTest: '@Url.Action("DeleteTest", "Tests")',
-                    getNextQuestion: '@Url.Action("GetNextQuestion", "TestPassing")',
-                    unlock: '@Url.Action("UnlockTests", "Tests")',
-                    unlockOne: '@Url.Action("ChangeLockForUserForStudent", "Tests")',
-                    getForLector: '@Url.Action("GetTestForLector", "Tests")',
-                    getQuestionsFromAnotherTests: '@Url.Action("GetQuestionsFromAnotherTests", "Tests")',
-                    
-                },
-                groups: {
-                    getGroupsForSubject: '@Url.Action("GetGroups", "Tests")',
-                    getSubgroups: '@Url.Action("GetSubGroups", "Tests")'
-                },
-                questions: {
-                    getQuestions: '@Url.Action("GetQuestions", "Tests")',
-                    getQuestion: '@Url.Action("GetQuestion", "Tests")',
-                    deleteQuestion: '@Url.Action("DeleteQuestion", "Tests")',
-                    saveQuestion: '@Url.Action("SaveQuestion", "Tests")',
-                    addFromAnotherTest: '@Url.Action("AddQuestionsFromAnotherTest", "Tests")'
-                },
-                results: {
-                    getResults: '@Url.Action("GetResults", "TestPassing")',
-                    getControl: '@Url.Action("GetControlItems", "TestPassing")'
-                }
+    window.kt = {
+        actions: {
+            tests: {
+                getTests: '@Url.Action("GetTests", "Tests")',
+                getTest: '@Url.Action("GetTest", "Tests")',
+                saveTest: '@Url.Action("SaveTest", "Tests")',
+                deleteTest: '@Url.Action("DeleteTest", "Tests")',
+                getNextQuestion: '@Url.Action("GetNextQuestion", "TestPassing")',
+                unlock: '@Url.Action("UnlockTests", "Tests")',
+                unlockOne: '@Url.Action("ChangeLockForUserForStudent", "Tests")',
+                getForLector: '@Url.Action("GetTestForLector", "Tests")',
+                getQuestionsFromAnotherTests: '@Url.Action("GetQuestionsFromAnotherTests", "Tests")',
+
+            },
+            groups: {
+                getGroupsForSubject: '@Url.Action("GetGroups", "Tests")',
+                getSubgroups: '@Url.Action("GetSubGroups", "Tests")'
+            },
+            questions: {
+                getQuestions: '@Url.Action("GetQuestions", "Tests")',
+                getQuestion: '@Url.Action("GetQuestion", "Tests")',
+                getConcepts: '@Url.Action("GetConcepts", "Tests")',
+                deleteQuestion: '@Url.Action("DeleteQuestion", "Tests")',
+                saveQuestion: '@Url.Action("SaveQuestion", "Tests")',
+                addFromAnotherTest: '@Url.Action("AddQuestionsFromAnotherTest", "Tests")'
+            },
+            results: {
+                getResults: '@Url.Action("GetResults", "TestPassing")',
+                getControl: '@Url.Action("GetControlItems", "TestPassing")'
             }
-        };
+        }
+    };
     </script>
 }
 

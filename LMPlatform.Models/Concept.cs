@@ -1,18 +1,31 @@
 ﻿using Application.Core.Data;
+using LMPlatform.Models.KnowledgeTesting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LMPlatform.Models
 {
+
+    public class ConceptQuestions: ModelBase
+    {
+        public Int32 Id { get; set; }
+        public Int32 ConceptId { get; set; }
+        public Int32 QuestionId { get; set; }
+
+        public virtual Concept Concept { get; set; }
+
+        public virtual Question Question { get; set; }
+    }
     public class Concept: ModelBase
     {
         public Concept()
         {
-
+            
         }
 
         public Concept(String name, User author, Subject subject, Boolean isGroup, Boolean published)
@@ -26,7 +39,7 @@ namespace LMPlatform.Models
             SubjectId = subject.Id;
         }
 
-
+        public virtual ICollection<ConceptQuestions> ConceptQuestions { get; set; }
   
         public string Name
         {

@@ -177,6 +177,18 @@ namespace Application.Infrastructure.ConceptManagement
             }
         }
 
+        public IEnumerable<Concept> GetRootTreeElementsBySubject(int subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var roots = repositoriesContainer.ConceptRepository.GetRootElementsBySubjectId(subjectId);
+                var res = new List<Concept>();
+                foreach (var item in roots)
+                    res.Add(GetTreeConceptByElementId(item.Id));
+                return res;
+            }
+        }
+
         public IEnumerable<Concept> GetElementsByParentId(int parentId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -542,7 +554,7 @@ namespace Application.Infrastructure.ConceptManagement
             repositoriesContainer.ApplyChanges();
         }
 
-        private Boolean IsTestModule(String moduleName)
+        public Boolean IsTestModule(String moduleName)
         {
             return String.Compare(TestSectionName, moduleName, true)==0;
         }

@@ -300,6 +300,9 @@ namespace LMPlatform.Data.Infrastructure
 
             modelBuilder.Entity<Concept>().Map(m => m.ToTable("Concept"));
             modelBuilder.Entity<Concept>().HasMany<Concept>(d => d.Children);
+            modelBuilder.Entity<Concept>().HasMany<ConceptQuestions>(d => d.ConceptQuestions);
+
+            modelBuilder.Entity<ConceptQuestions>().Map(m => m.ToTable("ConceptQuestions"));
 
             modelBuilder.Entity<Subject>()
                 .HasMany<Concept>(e => e.Concept)
@@ -703,6 +706,8 @@ namespace LMPlatform.Data.Infrastructure
         public virtual DbSet<CourseProjectNews> CourseProjectNewses { get; set; }
         public virtual DbSet<CourseProject> CourseProjects { get; set; }
         public virtual DbSet<AssignedCourseProject> AssignedCourseProjects { get; set; }
+
+        public virtual DbSet<ConceptQuestions> ConceptQuestions { get; set; }
         public virtual DbSet<CourseProjectGroup> CourseProjectGroups { get; set; }
         public virtual DbSet<CoursePercentagesGraph> CoursePercentagesGraphs { get; set; }
 

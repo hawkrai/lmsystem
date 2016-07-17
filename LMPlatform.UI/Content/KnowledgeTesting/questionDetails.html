@@ -1,95 +1,162 @@
-﻿<div class="modal-header">
+﻿<style>
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+</style>
+<div class="modal-header">
     <a class="close" data-ng-click="closeDialog()">&times;</a>
     <h4>{{question.Title ? question.Title : 'Новый вопрос'}}</h4>
 </div>
 <div class="modal-body">
-<form data-ng-submit='saveQuestion()' name="questionDetailsForm">
-    <label class="control-label">Текст вопроса:</label>
-    <input type="text" required data-ng-model="question.Title" placeholder="Текст вопроса" class="form-control input-sm">
-    <label for="taskArea" class="сontrol-label">Задание к вопросу:</label>
-    <!--<textarea data-ng-model="question.Description" class="form-control input-sm" rows="2" id="taskArea"></textarea>-->
+    <form data-ng-submit='saveQuestion()' name="questionDetailsForm">
+        <label class="control-label">Текст вопроса:</label>
+        <input type="text" required data-ng-model="question.Title" placeholder="Текст вопроса" class="form-control input-sm">
+        <label for="taskArea" class="сontrol-label">Задание к вопросу:</label>
+        <!--<textarea data-ng-model="question.Description" class="form-control input-sm" rows="2" id="taskArea"></textarea>-->
         <ng-ckeditor bind="question.Description" skin="moono" remove-plugins="iframe,flash,smiley"></ng-ckeditor>
-    <div class="row">
-        <div class="col-lg-2" style="margin-top: 10px;">Ответы</div>
-        <div class="col-lg-10"> <hr /></div>
-    </div>
-       
-
-    <div class="row">
-        <div class="col-lg-4">
-            <a id="addNewVariant" data-ng-click="question.Answers.push({IsCorrect: 0, Content: ''});" class="btn btn-primary btn-sm" style="width: 100%">Добавить ответ</a>
-        </div>
-        <div class="col-lg-8">
-            <select class="form-control" data-ng-model="question.QuestionType" ng-change="questionTypeChanged()" ng-options="type.Id as type.Name for type in types"></select>
-        </div>
-    </div>
         
-    <div style="height: 15px"></div>
+        <div class="dropdown" style="padding-top:20px;position:relative">
+            <div class="dropdown">
+                <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+                    Связать с ЭУМК <span class="caret"></span>
+                </a>
+                <ul id="conceptTree" class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                    
+                </ul>
+                <span class="concept-container control-label"></span>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-2" style="margin-top: 10px;">Ответы</div>
+            <div class="col-lg-10"> <hr /></div>
+        </div>
 
-    <!-- Many variants template -->
-    <div ng-show="question.QuestionType == 1" class="table-responsive">
-        <table class="table">
-            <tr data-ng-repeat="answer in question.Answers">
-                <td style="width: 20px; border: none; padding-top: 12px">
-                    <input style="width: 15px; height: 15px;" type="checkbox" ng-model="answer.IsCorrect" ng-true-value="1" ng-false-value="0" /></td>
-                <td style="border: none">
-                    <input placeholder="Введите вариант ответа" class="form-control input-sm" ng-model="answer.Content" style="margin: 0px" /></td>
-                <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
-            </tr>
-        </table>
-    </div>
+        
+        <div class="row">
+            <div class="col-lg-4">
+                <a id="addNewVariant" data-ng-click="question.Answers.push({IsCorrect: 0, Content: ''});" class="btn btn-primary btn-sm" style="width: 100%">Добавить ответ</a>
+            </div>
+            <div class="col-lg-8">
+                <select class="form-control" data-ng-model="question.QuestionType" ng-change="questionTypeChanged()" ng-options="type.Id as type.Name for type in types"></select>
+            </div>
+        </div>
 
-    <!-- One variant template -->
-    <div ng-show="question.QuestionType == 0" class="table-responsive">
-        <table class="table">
-            <tr data-ng-repeat="answer in question.Answers">
-                <td style="width: 20px; border: none; padding-top: 12px">
-                    <input style="width: 15px; height: 15px;" type="radio" name="answer" ng-model="answer.IsCorrect" ng-value="1" ng-change="radioGroupChanged(answer)" /></td>
-                <td style="border: none">
-                    <input placeholder="Введите вариант ответа" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" /></td>
-                <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
-            </tr>
-        </table>
-    </div>
+        <div style="height: 15px"></div>
 
-    <!-- Text answer template -->
-    <div ng-show="question.QuestionType == 2" class="table-responsive">
-        <table class="table">
-            <tr data-ng-repeat="answer in question.Answers">
-                <td style="border: none">
-                    <input placeholder="Введите правильный ответ" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" /></td>
-                <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
-            </tr>
-        </table>
-    </div>
+        <!-- Many variants template -->
+        <div ng-show="question.QuestionType == 1" class="table-responsive">
+            <table class="table">
+                <tr data-ng-repeat="answer in question.Answers">
+                    <td style="width: 20px; border: none; padding-top: 12px">
+                        <input style="width: 15px; height: 15px;" type="checkbox" ng-model="answer.IsCorrect" ng-true-value="1" ng-false-value="0" />
+                    </td>
+                    <td style="border: none">
+                        <input placeholder="Введите вариант ответа" class="form-control input-sm" ng-model="answer.Content" style="margin: 0px" />
+                    </td>
+                    <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
+                </tr>
+            </table>
+        </div>
 
-    <!-- sequnce answer template -->
-    <div ng-show="question.QuestionType == 3" class="table-responsive">
-        <table class="table">
-            <tr ng-drag="true" ng-drag-data="answer" data-ng-repeat="answer in question.Answers">
-                <td style="width: 20px; border: none; padding-top: 12px;">{{$index + 1}}</td>
-                <td style="border: none">
-                    <input placeholder="Введите элемент последовательности" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" />
-                </td>
-                <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
-            </tr>
-        </table>
-    </div>
-    
+        <!-- One variant template -->
+        <div ng-show="question.QuestionType == 0" class="table-responsive">
+            <table class="table">
+                <tr data-ng-repeat="answer in question.Answers">
+                    <td style="width: 20px; border: none; padding-top: 12px">
+                        <input style="width: 15px; height: 15px;" type="radio" name="answer" ng-model="answer.IsCorrect" ng-value="1" ng-change="radioGroupChanged(answer)" />
+                    </td>
+                    <td style="border: none">
+                        <input placeholder="Введите вариант ответа" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" />
+                    </td>
+                    <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Text answer template -->
+        <div ng-show="question.QuestionType == 2" class="table-responsive">
+            <table class="table">
+                <tr data-ng-repeat="answer in question.Answers">
+                    <td style="border: none">
+                        <input placeholder="Введите правильный ответ" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" />
+                    </td>
+                    <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- sequnce answer template -->
+        <div ng-show="question.QuestionType == 3" class="table-responsive">
+            <table class="table">
+                <tr ng-drag="true" ng-drag-data="answer" data-ng-repeat="answer in question.Answers">
+                    <td style="width: 20px; border: none; padding-top: 12px;">{{$index + 1}}</td>
+                    <td style="border: none">
+                        <input placeholder="Введите элемент последовательности" ng-model="answer.Content" class="form-control input-sm" style="margin: 0px" />
+                    </td>
+                    <td style="border: none; width: 30px; padding-top: 12px"><a data-ng-click="deleteAnswer($index)"><i class="fa fa-trash-o fa-1x"></i></a></td>
+                </tr>
+            </table>
+        </div>
+
         <div class="form-group">
 
-        <label for="complexityLevel" style="margin-top: 10px" class="control-label">Уровень сложности:</label>
-        <div class="">
-            <input id="complexityLevel"  min="1" max="3" class="form-control input-sm" type="number" data-ng-model="question.ComplexityLevel" />
+            <label for="complexityLevel" style="margin-top: 10px" class="control-label">Уровень сложности:</label>
+            <div class="">
+                <input id="complexityLevel" min="1" max="3" class="form-control input-sm" type="number" data-ng-model="question.ComplexityLevel" />
+            </div>
+            
         </div>
-    </div>
+        
 
-    
-
-    <div class="modal-footer" style="margin: 0; padding: 15px 0px;">
-        <a data-ng-click="closeDialog()" class="btn btn-primary btn-sm">Отмена</a>
-        <button type="submit" id="saveButton" class="btn btn-primary btn-sm">Сохранить</button>
-    </div>
-</form>
-    </div>
+        <div class="modal-footer" style="margin: 0; padding: 15px 0px;">
+            <a data-ng-click="closeDialog()" class="btn btn-primary btn-sm">Отмена</a>
+            <button type="submit" id="saveButton" class="btn btn-primary btn-sm">Сохранить</button>
+        </div>
+    </form>
+</div>
 

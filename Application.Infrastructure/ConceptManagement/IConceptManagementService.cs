@@ -13,6 +13,7 @@ namespace Application.Infrastructure.ConceptManagement
         Concept GetTreeConceptByElementId(Int32 elementId);
         IEnumerable<Concept> GetRootElements(Int32 authorId, Boolean onlyVisible=false);
         IEnumerable<Concept> GetRootElementsBySubject(Int32 subjectId);
+        IEnumerable<Concept> GetRootTreeElementsBySubject(int subjectId);
         IEnumerable<Concept> GetElementsByParentId(Int32 authorId, Int32 parentId);
         IEnumerable<Concept> GetElementsByParentId(Int32 parentId);
         Concept CreateRootConcept(String name, Int32 authorId, Int32 subjectId);
@@ -23,5 +24,6 @@ namespace Application.Infrastructure.ConceptManagement
         Concept AttachSiblings(Int32 sourceId, Int32 rightId, Int32 leftId);
         void AttachFolderToLectSection(String folderName, Int32 userId, Int32 subjectId);
         void AttachFolderToLabSection(String folderName, Int32 userId, Int32 subjectId);
+        Boolean IsTestModule(String moduleName);
     }
 }

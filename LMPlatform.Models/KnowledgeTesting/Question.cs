@@ -49,6 +49,8 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+        public virtual ICollection<ConceptQuestions> ConceptQuestions { get; set; }
+
         public object Clone()
         {
             return new Question

@@ -19,6 +19,8 @@ namespace LMPlatform.UI.Controllers
     using System.Configuration;
     using System.IO;
     using System.Web;
+    using Application.Infrastructure.ConceptManagement;
+    using LMPlatform.UI.Services.Modules.Concept;
 
     [Authorize(Roles = "lector")]
     public class TestsController : BasicController
@@ -218,8 +220,18 @@ namespace LMPlatform.UI.Controllers
             var test = id == 0
                 ? new QuestionViewModel { Answers = new[] { new AnswerViewModel { IsCorrect = 0 } }, ComplexityLevel = 1 }
                 : QuestionViewModel.FromQuestion(QuestionsManagementService.GetQuestion(id));
-
             return Json(test, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetConcepts(int subjectId)
+        {
+            var concepts = ConceptManagementService.GetRootTreeElementsBySubject(subjectId);
+            var result = concepts.Select(c => new ConceptViewData(c, true, (Concept concept) =>
+            {
+                return concept.IsGroup && !ConceptManagementService.IsTestModule(concept.Name);
+            }));
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpDelete]
@@ -316,6 +328,11 @@ namespace LMPlatform.UI.Controllers
             {
                 return ApplicationService<StudentManagementService>();
             }
+        }
+
+        public IConceptManagementService ConceptManagementService
+        {
+            get { return ApplicationService<ConceptManagementService>(); }
         }
 
         #endregion

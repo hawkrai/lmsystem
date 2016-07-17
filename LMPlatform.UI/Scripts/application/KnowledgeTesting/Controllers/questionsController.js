@@ -76,6 +76,7 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
     };
 
     function loadQuestion(questionId) {
+        var subjectId = getUrlValue("subjectId");
         var modalInstance = $modal.open({
             templateUrl: '/Content/KnowledgeTesting/questionDetails.html',
             controller: 'questionDetailsCtrl',
@@ -83,7 +84,10 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
             resolve: {
                 id: function () {
                     return questionId;
-                }
+                },
+                subjectId: function () {
+                    return subjectId;
+                },
             }
         });
     }
