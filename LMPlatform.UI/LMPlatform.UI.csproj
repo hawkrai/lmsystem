@@ -310,6 +310,7 @@
     <Compile Include="Controllers\ScormModController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
+    <Compile Include="Controllers\StudentManagementController.cs" />
     <Compile Include="Controllers\TestPassingController.cs" />
     <Compile Include="Controllers\LmsController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
@@ -400,6 +401,7 @@
     <Compile Include="Services\Modules\CoreModels\GroupsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentLabMarkViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentPracticalMarkViewData.cs" />
+    <Compile Include="Services\Modules\CoreModels\StudentsResult.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\SubGroupsViewData.cs" />
     <Compile Include="Services\Modules\Files\AttachmentResult.cs" />
@@ -806,6 +808,8 @@
     <Content Include="Scripts\application\scorm\scorm-controller.js" />
     <Content Include="Scripts\application\shared.js" />
     <Content Include="Scripts\application\spinFunction.js" />
+    <Content Include="Scripts\application\studentManagement\studentManagement-app.js" />
+    <Content Include="Scripts\application\studentManagement\studentManagement-controller.js" />
     <Content Include="Scripts\application\subjectManagement.js" />
     <Content Include="Scripts\application\subjectWorking.js" />
     <Content Include="Scripts\application\userProfile\appUserProfile.js" />
@@ -1792,6 +1796,7 @@
     <Content Include="Views\CP\Subjects.cshtml" />
     <Content Include="Views\DP\News.cshtml" />
     <Content Include="Views\ComplexMaterial\Tests.cshtml" />
+    <Content Include="Views\StudentManagement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

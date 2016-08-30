@@ -220,5 +220,12 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
 		{
 			return UnityWrapper.Resolve<TService>();
 		}
+
+		[DataMember]
+		public bool? Confirmed
+		{
+			get;
+			set;
+		}
     }
 }

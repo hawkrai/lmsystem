@@ -23,6 +23,8 @@ namespace LMPlatform.UI.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
 
+			ViewBag.ComfirmedError = TempData["ComfirmedError"];
+
             return View();
         }
 
@@ -39,7 +41,7 @@ namespace LMPlatform.UI.Controllers
                 {
                     result = RedirectToAction("Management");                
                 }
-
+				
                 UsersManagementService.UpdateLastLoginDate(model.UserName); 
 
                 result = _RedirectToLocal(returnUrl);
@@ -87,14 +89,14 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
-					var repository = new RepositoryBase<LmPlatformModelsContext, AccessCode>(new LmPlatformModelsContext());
+					//var repository = new RepositoryBase<LmPlatformModelsContext, AccessCode>(new LmPlatformModelsContext());
 
-					var code = repository.GetAll().OrderBy(e => e.Id).ToList().LastOrDefault();
+					//var code = repository.GetAll().OrderBy(e => e.Id).ToList().LastOrDefault();
 
-	                if (code.Number.ToLower() != model.Code.ToLower())
-	                {
-		                throw new Exception("Неверный код доступа");
-	                }
+					//if (code.Number.ToLower() != model.Code.ToLower())
+					//{
+					//	throw new Exception("Неверный код доступа");
+					//}
 
                     model.RegistrationUser(new[] { "student" });
 

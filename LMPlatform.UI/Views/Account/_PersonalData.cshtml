@@ -40,8 +40,8 @@
 				</div>
 				<div>
 					@Html.LabelFor(m => m.UserName)
-					@Html.TextBoxFor(m => m.UserName, new {@class = "form-control"})
-					@Html.ValidationMessageFor(e => e.UserName, " ")
+					<br/>
+					@Html.DisplayTextFor(m => m.UserName)
 				</div>
 			</div>
 		</div>

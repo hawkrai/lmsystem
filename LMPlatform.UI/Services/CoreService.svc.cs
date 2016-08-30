@@ -18,6 +18,7 @@ namespace LMPlatform.UI.Services
 	using Application.Core;
 	using Application.Core.Data;
 	using Application.Infrastructure.GroupManagement;
+	using Application.Infrastructure.StudentManagement;
 	using Application.Infrastructure.SubjectManagement;
 
 	using LMPlatform.Models;
@@ -34,6 +35,16 @@ namespace LMPlatform.UI.Services
 			get
 			{
 				return groupManagementService.Value;
+			}
+		}
+
+		private readonly LazyDependency<IStudentManagementService> studentManagementService = new LazyDependency<IStudentManagementService>();
+
+		public IStudentManagementService StudentManagementService
+		{
+			get
+			{
+				return studentManagementService.Value;
 			}
 		}
 
@@ -64,6 +75,77 @@ namespace LMPlatform.UI.Services
 			get
 			{
 				return filesManagementService.Value;
+			}
+		}
+
+		public StudentsResult СonfirmationStudent(string studentId)
+		{
+			try
+			{
+				var student = this.StudentManagementService.GetStudent(int.Parse(studentId));
+				student.Confirmed = true;
+
+				this.StudentManagementService.UpdateStudent(student);
+
+				return new StudentsResult
+				{
+					Message = "Студент успешно подтвержден",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new StudentsResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
+			}
+		}
+
+		public StudentsResult GetStudentsByGroupId(string groupId)
+		{
+			try
+			{
+				var students = this.GroupManagementService.GetGroup(int.Parse(groupId)).Students;
+
+				return new StudentsResult
+				{
+					Students = students.Select(e => new StudentsViewData() { StudentId = e.Id, FullName = e.FullName, Confirmed  = e.Confirmed == null || e.Confirmed.Value != false}).ToList(),
+					Message = "Студенты успешно загружены",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new StudentsResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
+			}
+		}
+
+		public GroupsResult GetAllGroupsLite()
+		{
+			try
+			{
+				var groups = this.GroupManagementService.GetGroups();
+
+				return new GroupsResult
+				{
+					Groups = groups.Select(e => new GroupsViewData(){ GroupId = e.Id, GroupName = e.Name}).ToList(),
+					Message = "Группы успешно загружены",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new GroupsResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
 			}
 		}
 

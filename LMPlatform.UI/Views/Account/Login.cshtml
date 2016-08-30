@@ -187,13 +187,15 @@
 	//</div>
 }
 
+
+
 <script>
-	$(function () {
-		$("#Parental").on('click', function () {
+	$(function() {
+		$("#Parental").on('click', function() {
 			showDialog();
 		});
 	});
-	openPartialPage = function () {
+	openPartialPage = function() {
 		if (event.keyCode == 13) {
 			var groupName = $('#groupValidation').val();
 			window.location.href = "/Parental/Index/" + groupName;
@@ -204,17 +206,18 @@
 		}
 
 	};
+
 	function showDialog() {
 
 		var form =
-            '<form>' +
-                    '<div>' +
-                         '<span>Введите номер группы:</span>' +
-                    '</div>' +
-                    '<div>' +
-                         '<input id="groupValidation" onkeydown="openPartialPage();" type="text" name="group"/>' +
-                    '</div>' +
-            '</form>';
+			'<form>' +
+				'<div>' +
+				'<span>Введите номер группы:</span>' +
+				'</div>' +
+				'<div>' +
+				'<input id="groupValidation" onkeydown="openPartialPage();" type="text" name="group"/>' +
+				'</div>' +
+				'</form>';
 
 		bootbox.dialog({
 			message: form,
@@ -225,7 +228,7 @@
 				main: {
 					label: "Войти",
 					className: "btn-primary btn-submit btn-sm",
-					callback: function () {
+					callback: function() {
 						var groupName = $('#groupValidation').val();
 						window.location.href = "/Parental/Index/" + groupName;
 					}
@@ -233,6 +236,24 @@
 			}
 		});
 	}
-
-
 </script>
+
+@if (!string.IsNullOrEmpty(ViewBag.ComfirmedError))
+{
+	<script>
+		$(document).ready(function() {
+			bootbox.dialog({
+				message: '@ViewBag.ComfirmedError',
+				backdrop: true,
+				keyboard: true,
+				title: "Оповещение",
+				buttons: {
+					main: {
+						label: "OK",
+						className: "btn-primary btn-submit btn-sm"
+					}
+				}
+			});
+		});
+	</script>
+}

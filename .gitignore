@@ -26,3 +26,32 @@
 
 /LMPlatform.WebAPI/obj/Debug
 
+
+/Application.Core.UI/bin/Release
+
+/Application.Core/bin/Release
+
+/Application.Infrastructure/bin/Release
+/Application.Infrastructure/obj/Release
+
+/Application.SearchEngine/bin/Debug
+
+/Application.Core.UI/obj/Release
+/Application.Core/obj/Release
+
+/Application.SearchEngine/bin/Release
+
+/Application.SearchEngine/obj/Debug
+/Application.SearchEngine/obj/Release
+
+/SCORMHost/obj/Release
+
+/LMPlatform.Data/bin/Release
+
+/LMPlatform.Models/bin/Release
+
+/LMPlatform.Data/obj/Release
+
+/LMPlatform.Models/obj/Release
+
+/LMPlatform.UI/obj/Release

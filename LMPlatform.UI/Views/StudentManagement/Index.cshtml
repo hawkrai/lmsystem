@@ -1,0 +1,72 @@
+﻿@using System.Collections.ObjectModel
+@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.Models
+@model LMPlatform.UI.ViewModels.LmsViewModels.LmsViewModel
+
+@{
+	ViewBag.Title = "Управление студентами";
+	Layout = "~/Views/Shared/Layouts/_MainUsingNavLayout.cshtml";
+}
+
+@section css
+{
+
+}
+@section scripts
+{
+	<script src="~/Scripts/application/studentManagement/studentManagement-app.js"></script>
+	<script src="~/Scripts/application/studentManagement/studentManagement-controller.js"></script>
+
+}
+
+@section headerTitle{
+	<h1>
+		Управление студентами
+		<small>Подтверждение студентов</small>
+	</h1>
+}
+<div ng-app="studentManagementApp">
+	<div ng-cloak ng-controller="StudentManagementController" ng-init="init()">
+		@section navleft
+{
+			<li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
+		}
+
+		<div>
+			<select ng-model="selectedGroup" ng-options="group.GroupName for group in groups" ng-change="viewStudent(selectedGroup)" class="form-control"></select>
+		</div>
+		<div style="margin-top: 10px">
+			<div class="table-responsive" style="overflow-x: auto;">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>№</th>
+							<th>Студент</th>
+							<th>Подтвержден</th>
+						</tr>
+					</thead>
+					<tr ng-repeat="data in students">
+						<td style="width: 20px">{{$index + 1}}</td>
+						<td style="min-width: 300px">{{data.FullName}}</td>
+						<td style="width: 50px; text-align: center">
+							<div ng-if="data.Confirmed">
+								<i class="fa fa-1x fa-check" style="color: green"></i>
+							</div>
+							<div ng-if="!data.Confirmed">
+								<a style="cursor: pointer" ng-click="confirmationStudent(data.StudentId)">
+									<i class="fa fa-1x fa-plus" style="color: red"></i>
+								</a>
+							</div>	
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+
+

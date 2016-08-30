@@ -135,7 +135,11 @@
     {
         <li><a href="@Url.Action("Index", "DP")"><i class="fa fa-briefcase fa-tab"></i>Дипломное проектирование</a></li>
     }
-    <li><a href="@Url.Action("Index", "ScormMod")"><i class="fa fa-archive fa-tab"></i>SCORM</a></li>
+	<li><a href="@Url.Action("Index", "ScormMod")"><i class="fa fa-archive fa-tab"></i>SCORM</a></li>
+	@if (User.IsInRole("lector"))
+	{
+		<li><a href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-archive fa-tab"></i>Управление студентами</a></li>
+	}
 }
 
 <div ng-app="appUserProfile" ng-controller="ProfileController" ng-init="init('@ViewData["userLogin"]', '@ViewData["isMyProfile"].ToString().ToLower()' )">

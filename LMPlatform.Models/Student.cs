@@ -33,6 +33,12 @@ namespace LMPlatform.Models
             set;
         }
 
+	    public bool? Confirmed
+	    {
+		    get;
+			set;
+	    }
+
         public User User
         {
             get;
