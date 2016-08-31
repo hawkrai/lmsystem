@@ -18,12 +18,15 @@ namespace LMPlatform.UI.Services
 	using Application.Core;
 	using Application.Core.Data;
 	using Application.Infrastructure.GroupManagement;
+	using Application.Infrastructure.LecturerManagement;
 	using Application.Infrastructure.StudentManagement;
 	using Application.Infrastructure.SubjectManagement;
 
 	using LMPlatform.Models;
+	using LMPlatform.UI.Services.Lectures;
 	using LMPlatform.UI.Services.Modules.CoreModels;
 	using LMPlatform.UI.Services.Modules.Labs;
+	using LMPlatform.UI.Services.Modules.Parental;
 	using LMPlatform.UI.Services.Modules.Practicals;
 
 	public class CoreService : ICoreService
@@ -75,6 +78,129 @@ namespace LMPlatform.UI.Services
 			get
 			{
 				return filesManagementService.Value;
+			}
+		}
+
+		private readonly LazyDependency<ILecturerManagementService> lecturerManagementService = new LazyDependency<ILecturerManagementService>();
+
+		public ILecturerManagementService LecturerManagementService
+		{
+			get
+			{
+				return lecturerManagementService.Value;
+			}
+		}
+
+		public ResultViewData DisjoinLector(string subjectId, string lectorId)
+		{
+			try
+			{
+				this.LecturerManagementService.DisjoinLector(int.Parse(subjectId), int.Parse(lectorId), CurrentUserId);
+
+				return new ResultViewData
+				{
+					Message = "Связь успешно удалена",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new LectorResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
+			}	
+		}
+
+		public LectorResult GetJoinedLector(string subjectId)
+		{
+			try
+			{
+				var lectors = this.LecturerManagementService.GetJoinedLector(int.Parse(subjectId), this.CurrentUserId);
+
+				return new LectorResult
+				{
+					Lectors = lectors.Select(e => new LectorViewData { LectorId = e.Id, FullName = e.FullName }).ToList(),
+					Message = "Присоединенные преподаватели успешно загружены",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new LectorResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
+			}
+		}
+
+		public ResultViewData JoinLector(string subjectId, string lectorId)
+		{
+			try
+			{
+				this.LecturerManagementService.Join(int.Parse(subjectId), int.Parse(lectorId), CurrentUserId);
+
+				return new ResultViewData
+				{
+					Message = "Преподаватель успешно заприсоединен к предмету",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new LectorResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
+			}	
+		}
+
+		public LectorResult GetNoAdjointLectors(string subjectId)
+		{
+			try
+			{
+				var lectors = this.LecturerManagementService.GetLecturers().Where(e => e.Id != this.CurrentUserId && !e.SubjectLecturers.Any(x => x.SubjectId == int.Parse(subjectId) && x.Owner == this.CurrentUserId));
+
+				return new LectorResult
+				{
+					Lectors = lectors.Select(e => new LectorViewData { LectorId = e.Id, FullName = e.FullName }).ToList(),
+					Message = "Преподаватели успешно загружены",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new LectorResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
+			}
+		}
+
+		public SubjectResult GetSubjectsByOwnerUser()
+		{
+			try
+			{
+				var subjects = this.SubjectManagementService.GetSubjectsByLectorOwner(this.CurrentUserId);
+
+				return new SubjectResult
+				{
+					Subjects = subjects.Select(e => new SubjectViewData { Id = e.Id, Name = e.Name }).ToList(),
+					Message = "Предметы успешно загружены",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new SubjectResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
 			}
 		}
 
@@ -153,7 +279,7 @@ namespace LMPlatform.UI.Services
         {
             try
             {
-                var id = int.Parse(subjectId);
+				var id = int.Parse(subjectId);
                 var groups =
                     GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id))
                     .Include(e => e.Students.Select(x => x.LecturesVisitMarks))

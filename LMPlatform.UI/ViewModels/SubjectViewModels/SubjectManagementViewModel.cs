@@ -45,6 +45,8 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         public SubjectManagementViewModel(string userId)
         {
             Subjects = SubjectManagementService.GetUserSubjects(int.Parse(userId)).Where(e => !e.IsArchive).Select(e => new SubjectViewModel(e)).ToList();
+
+			//Subjects = SubjectManagementService.GetSubjectsByLectorOwner(int.Parse(userId)).Where(e => !e.IsArchive).Select(e => new SubjectViewModel(e)).ToList();
         }
     }
 }

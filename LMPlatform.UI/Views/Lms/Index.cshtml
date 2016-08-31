@@ -38,14 +38,14 @@
 
     @if (User.IsInRole("lector"))
     {
-        <h1 style="float: left;">
+        <h1 @*style="float: left;"*@>
             Система управления учебным процессом
             <small>Главная страница</small>
         </h1>
 
-        <div style="text-align: right;">
+        @*<div style="text-align: right;">
             <input type="button" class="btn btn-sm btn-default" value="Код доступа" style="width: 110px;" data-toggle="modal" data-target="#myModal">
-        </div>
+        </div>*@
     }
     else
     {
@@ -73,8 +73,10 @@
             @if (User.IsInRole("lector"))
             {
                 <hr style="margin: 0">
-                <li><a href="@Url.Action("Management", "Subject")" style="margin-left: 5px;padding: 15px;" class="linkNavbarLevelBelow">Управление предметами</a></li>
-            }
+	            <li><a href="@Url.Action("Management", "Subject")" style="margin-left: 5px; padding: 15px;" class="linkNavbarLevelBelow">Управление предметами</a></li>
+				<hr style="margin: 0">
+				<li><a href="@Url.Action("JoinLector", "Subject")" style="margin-left: 5px;padding: 15px;" class="linkNavbarLevelBelow">Преподаватели</a></li>
+			}
         </ul>
     </li>
 

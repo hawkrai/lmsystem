@@ -142,5 +142,45 @@ namespace Application.Infrastructure.LecturerManagement
         {
             get { return _userManagementService.Value; }
         }
+
+	    public bool Join(int subjectId, int lectorId, int owner)
+	    {
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				repositoriesContainer.RepositoryFor<SubjectLecturer>().Save(new SubjectLecturer()
+					                                                            {
+																					LecturerId = lectorId,
+																					SubjectId = subjectId,
+																					Owner = owner
+					                                                            });
+				repositoriesContainer.ApplyChanges();
+			}
+
+		    return true;
+	    }
+
+	    public List<Lecturer> GetJoinedLector(int subjectId, int owner)
+	    {
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(
+					new Query<SubjectLecturer>(e => e.SubjectId == subjectId && e.Owner == owner)
+					.Include(e => e.Lecturer)).Select(e => e.Lecturer).ToList();
+			}
+	    }
+
+	    public void DisjoinLector(int subjectId, int lectorId, int owner)
+	    {
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var relation =
+					repositoriesContainer.RepositoryFor<SubjectLecturer>().GetBy(
+						new Query<SubjectLecturer>(e => e.Owner == owner && e.LecturerId == lectorId && e.SubjectId == subjectId));
+
+				repositoriesContainer.RepositoryFor<SubjectLecturer>().Delete(relation);
+				repositoriesContainer.ApplyChanges();
+			}
+	    }
+
     }
 }

@@ -412,6 +412,8 @@
     <Compile Include="Services\Modules\Labs\ScheduleProtectionLabsViewData.cs" />
     <Compile Include="Services\Modules\Labs\UserLabFilesResult.cs" />
     <Compile Include="Services\Modules\Labs\UserlabFilesViewData.cs" />
+    <Compile Include="Services\Modules\LectorResult.cs" />
+    <Compile Include="Services\Modules\LectorViewData.cs" />
     <Compile Include="Services\Modules\Lectures\CalendarResult.cs" />
     <Compile Include="Services\Modules\Lectures\CalendarViewData.cs" />
     <Compile Include="Services\Modules\Lectures\LecturesGroupsVisitingViewData.cs" />
@@ -442,6 +444,7 @@
     <Compile Include="Services\Modules\Practicals\PracticalVisitingMarkViewData.cs" />
     <Compile Include="Services\Modules\Practicals\ScheduleProtectionPracticalViewData.cs" />
     <Compile Include="Services\Modules\ResultViewData.cs" />
+    <Compile Include="Services\Modules\SubjectResult.cs" />
     <Compile Include="Services\News\INewsService.cs" />
     <Compile Include="Services\News\NewsService.svc.cs">
       <DependentUpon>NewsService.svc</DependentUpon>
@@ -812,6 +815,8 @@
     <Content Include="Scripts\application\studentManagement\studentManagement-controller.js" />
     <Content Include="Scripts\application\subjectManagement.js" />
     <Content Include="Scripts\application\subjectWorking.js" />
+    <Content Include="Scripts\application\subject\joinLector\joinLector-app.js" />
+    <Content Include="Scripts\application\subject\joinLector\joinLector-controller.js" />
     <Content Include="Scripts\application\userProfile\appUserProfile.js" />
     <Content Include="Scripts\bootstrap-combined.min.css" />
     <Content Include="Scripts\bootstrap-multiselect.js" />
@@ -1797,6 +1802,7 @@
     <Content Include="Views\DP\News.cshtml" />
     <Content Include="Views\ComplexMaterial\Tests.cshtml" />
     <Content Include="Views\StudentManagement\Index.cshtml" />
+    <Content Include="Views\Subject\JoinLector.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

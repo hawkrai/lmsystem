@@ -90,7 +90,7 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public IPageableList<Subject> GetSubjectsLecturer(int lecturerId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
 		{
-			var query = new PageableQuery<Subject>(pageInfo, e => e.SubjectLecturers.Any(x => x.LecturerId == lecturerId && !e.IsArchive));
+			var query = new PageableQuery<Subject>(pageInfo, e => e.SubjectLecturers.Any(x => x.LecturerId == lecturerId && x.Owner == null && !e.IsArchive));
 
 			if (!string.IsNullOrEmpty(searchString))
 			{
@@ -839,6 +839,20 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 
 			return model;
+		}
+
+		public List<Subject> GetSubjectsByLectorOwner(int userId)
+		{
+			List<Subject> model;
+
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				model = repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(new Query<SubjectLecturer>(e => e.LecturerId == userId && e.Owner == null).Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
+					.Include(e => e.Subject.LecturesScheduleVisitings)
+					.Include(e => e.Subject.Labs)
+					.Include(e => e.Subject.SubjectGroups.Select(x => x.SubGroups.Select(t => t.ScheduleProtectionLabs)))).Select(e => e.Subject).Where(e => !e.IsArchive).ToList();
+				return model;
+			}
 		}
 
 		public List<Subject> GetSubjectsByStudent(int userId)

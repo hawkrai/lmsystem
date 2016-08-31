@@ -12,6 +12,11 @@ namespace LMPlatform.UI.Services.Modules.Parental
     [DataContract]
     public class SubjectViewData
     {
+	    public SubjectViewData()
+	    {
+		    
+	    }
+
         public SubjectViewData(Subject subject)
         {
             Id = subject.Id;

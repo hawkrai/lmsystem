@@ -16,6 +16,12 @@ namespace LMPlatform.Models
             set;
         }
 
+		public int? Owner
+		{
+			get;
+			set;
+		}
+
         public Lecturer Lecturer
         {
             get;

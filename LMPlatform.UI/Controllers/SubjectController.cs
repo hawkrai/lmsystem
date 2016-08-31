@@ -344,5 +344,10 @@ namespace LMPlatform.UI.Controllers
 		{
 			return Json(!SubjectManagementService.IsSubjectShortName(name, id), JsonRequestBehavior.AllowGet);
 		}
+
+	    public ActionResult JoinLector()
+	    {
+		    return this.View();
+	    }
     }
 }

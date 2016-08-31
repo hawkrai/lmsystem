@@ -21,5 +21,11 @@ namespace Application.Infrastructure.LecturerManagement
 	    List<List<string>> GetLecturesScheduleMarks(int subjectId, int groupId);
 
         bool DeleteLecturer(int id);
+
+		bool Join(int subjectId, int lectorId, int owner);
+
+	    List<Lecturer> GetJoinedLector(int subjectId, int owner);
+
+	    void DisjoinLector(int subjectId, int lectorId, int owner);
     }
 }

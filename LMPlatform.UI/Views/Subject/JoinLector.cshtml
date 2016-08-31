@@ -1,0 +1,78 @@
+﻿@using System.Collections.ObjectModel
+@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.Models
+
+@{
+	ViewBag.Title = "Присоединение преподавателя к предмету";
+	Layout = "~/Views/Shared/Layouts/_MainUsingNavLayout.cshtml";
+}
+
+@section css
+{
+
+}
+@section scripts
+{
+	<script src="~/Scripts/application/subject/joinLector/joinLector-app.js"></script>
+	<script src="~/Scripts/application/subject/joinLector/joinLector-controller.js"></script>
+
+}
+
+@section headerTitle{
+	<h1>
+		Присоединение преподавателя к предмету
+		<small>Управление предметами</small>
+	</h1>
+}
+<div ng-app="joinLectorApp">
+	<div ng-cloak ng-controller="JoinLectorController" ng-init="init()">
+		@section navleft
+{
+			<li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
+		}
+
+		<div class="row">
+			<div class="col-md-3">
+				<div>
+					<select ng-model="selectedSubject" ng-options="subject.Name for subject in subjects" ng-change="joinedLectors(selectedSubject)" class="form-control"></select>
+				</div>
+				<div style="margin-top: 10px">
+					<select ng-model="selectedLector" ng-options="lector.FullName for lector in lectors" class="form-control"></select>
+				</div>
+				<div style="margin-top: 10px">
+					<button style="width: 100%" class="btn btn-primary" ng-click="join()">Присоединить</button>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="table-responsive" style="overflow-x: auto;">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>№</th>
+								<th>Преподаватель</th>
+								<th>Действие</th>
+							</tr>
+						</thead>
+						<tr ng-repeat="data in joinLectors">
+							<td style="width: 20px">{{$index + 1}}</td>
+							<td style="min-width: 300px">{{data.FullName}}</td>
+							<td style="width: 50px; text-align: center">
+								<div>
+									<a style="cursor: pointer" ng-click="disjoin(data.LectorId)">
+										<i class="fa fa-1x fa-remove" style="color: red"></i>
+									</a>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			</div>
+	</div>
+
+</div>
+
+
+
+
+
