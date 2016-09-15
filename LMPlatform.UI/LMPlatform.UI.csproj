@@ -302,6 +302,7 @@
     <Compile Include="Controllers\CpController.cs" />
     <Compile Include="Controllers\DpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ParentalController.cs" />
@@ -335,9 +336,13 @@
     <Content Include="Content\KnowledgeTesting\content.html" />
     <Content Include="Content\materials.css" />
     <Content Include="Content\select.css" />
+    <Content Include="Images\book.png" />
     <Content Include="Images\Excel.png" />
     <Content Include="Images\ExcelDownload.png" />
+    <Content Include="Images\LMS_Banner.jpg" />
     <Content Include="Images\login_bk.jpg" />
+    <Content Include="Images\students-icon.svg" />
+    <Content Include="Images\w5.jpg" />
     <Content Include="Images\Лого2.png" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
@@ -1803,6 +1808,8 @@
     <Content Include="Views\ComplexMaterial\Tests.cshtml" />
     <Content Include="Views\StudentManagement\Index.cshtml" />
     <Content Include="Views\Subject\JoinLector.cshtml" />
+    <Content Include="Views\Main\Index.cshtml" />
+    <Content Include="Views\Shared\Layouts\_StartLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

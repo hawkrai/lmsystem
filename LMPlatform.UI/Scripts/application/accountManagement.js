@@ -31,6 +31,35 @@
                         $(this).remove();
                     });
                     alertify.success("Персональные данные изменены");
+                } else {
+	                var form =
+		                '<div>' +
+	                	'<ul>';
+				
+				for (var i = 0; i < data.length; i++) {
+					form += '<li style="color:red">' + data[i] + '</li>';
+				}
+
+				form += '</ul>' +
+					'</div>';
+
+                	bootbox.dialog({
+                		message: form,
+                		backdrop: true,
+                		keyboard: true,
+                		title: "Ошибки",
+                		buttons: {
+                			main: {
+                				label: "ОК",
+                				className: "btn-primary btn-submit btn-sm",
+                				callback: function () {
+                					$('#privateData').find('.spinner').each(function () {
+                						$(this).remove();
+                					});
+                				}
+                			}
+                		}
+                	});
                 }
             });
             return false;

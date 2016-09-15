@@ -29,6 +29,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
         }
 
         [StringLength(50, ErrorMessage = "Имя не может иметь размер больше 50 символов")]
+		[Required(ErrorMessage = "Поле Имя обязательно для заполнения")]
         [DataType(DataType.Text)]
         [Display(Name = "Имя")]
         public string Name
@@ -39,6 +40,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 
         [StringLength(50, ErrorMessage = "Фамилия не может иметь размер больше 50 символов")]
         [DataType(DataType.Text)]
+		[Required(ErrorMessage = "Поле Фамилия обязательно для заполнения")]
         [Display(Name = "Фамилия")]
         public string Surname
         {

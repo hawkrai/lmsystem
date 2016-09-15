@@ -1,0 +1,168 @@
+﻿@{
+	ViewBag.Title = "Главная страница";
+	Layout = "~/Views/Shared/Layouts/_StartLayout.cshtml";
+
+}
+
+<style>
+	#banner.blue {
+		/*background: #267fa6;*/
+
+	}
+
+	#banner {
+		position: relative;
+		text-align: center;
+		padding: 20px 0 0 0;
+		min-height: 340px;
+	}
+
+		#banner #banner-text {
+			float: right;
+			margin: 0 auto;
+		}
+
+	#banner-text {
+		margin-top: 20px;
+		padding: 0;
+	}
+
+	section.blue {
+		color: #fff;
+		background: #0082d1;
+	}
+
+	#banner img {
+    display: block;
+    margin: 0 auto;
+}
+#banner img {
+
+    width: auto;
+    max-width: 50%;
+    max-height: 320px;
+}
+#banner-text h1.icon {
+    padding-left: 60px;
+}
+#banner-text h1 {
+    color: #fff;
+    float: right;
+    padding: 5px 20px;
+    font-size: 2.8em;
+    font-weight: bold;
+    position: relative;
+}
+	.wrapper {
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		clear: both;
+	}
+	#cmn-video-demo3__video {
+
+	z-index: 1;
+    width: 1024px;
+    height: auto;
+
+	}
+
+	.tbutton {
+    border: 1px solid rgba(0,0,0,0.2);
+    box-sizing: content-box !important;
+    color: #f5f5f5;
+    cursor: pointer;
+    display: inline-block;
+    padding: 6px 10px;
+    text-align: center;
+    text-shadow: 0 0 5px rgba(0,0,0,0.2), 0 0 1px rgba(0,0,0,0.4);
+    text-decoration: none;
+    font-size: 12px;
+    font-family: 'Calibri';
+    white-space: normal;
+    outline: none;
+    -moz-transition: all 200ms ease 0ms !important;
+    -o-transition: all 200ms ease 0ms !important;
+    -webkit-transition: all 200ms ease 0ms !important;
+    background: none repeat scroll 0 0 rgba(255,255,255,0.04);
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding;
+    background-clip: padding-box;
+    box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+    -moz-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+    -webkit-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10x 10px rgba(255,255,255,0.08) inset;
+    box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+}
+
+	.tbutton:hover {
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0,0,0,0.2), 0 0 1px rgba(0,0,0,0.4);
+    box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+    -moz-box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+    -webkit-box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+}
+
+	.ghost-button-semi-transparent {
+    display: inline-block;
+    width: 200px;
+    padding: 8px;
+    color: #fff;
+    border: 2px solid #fff;
+    text-align: center;
+    outline: none;
+    text-decoration: none;
+    -webkit-transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
+    transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+	.ghost-button-semi-transparent:hover,
+.ghost-button-semi-transparent:active {
+		color: white;
+  background-color: #fff; /* fallback */
+  background-color: rgba(255, 255, 255, 0.4);
+  border-color: #fff; /* fallback */
+  border-color: rgba(255, 255, 255, 0.4);
+  -webkit-transition: background-color 0.3s ease-in, border-color 0.3s ease-in;
+  transition: background-color 0.3s ease-in,
+              border-color 0.3s ease-in;
+}
+</style>
+
+<div class="row blue" id="banner">
+	<div class="col-md-3">
+		<img src="/Images/students-icon.svg" style="margin: 20%;">
+	</div>
+	<div class="col-md-6" >
+		<video id="cmn-video-demo3__video" autoplay="" muted="" loop="">
+			<source src="LMS_Fitr_BNTU.mp4" type="video/mp4">
+		</video>
+	</div>
+
+	<div class="col-md-3">
+		@*<a href="@Url.Action("Login", "Account")" class="tbutton" style="height: 100px;width: 300px;padding: 20px;font-size: 35px;">Войти</a>*@
+		<img src="/Images/book.png" style="margin: 20%;color: white">
+		
+	</div>
+</div>
+<div class="row" style="text-align: center">
+	@*<div style="background: #266945; height: 100%; width: 100%; position: fixed; text-align: center;">
+		<h1 style="color: white; font-size: 70px">
+			Learning management system
+		</h1>
+		<a href="@Url.Action("Login", "Account")" class="btn btn-primary" style="height: 100px;width: 300px;padding: 20px;font-size: 35px;">Войти</a>
+	</div>
+	<div style="background: url('/Images/LMS_Banner.jpg') repeat center; width: 100%; position: absolute; text-align: center;">
+			<h1 style="color: white; font-size: 70px">
+				Learning management system
+			</h1>
+			
+		</div>*@
+	@*<a href="@Url.Action("Login", "Account")" class="tbutton" style="height: 100px;width: 300px;padding: 20px;font-size: 35px;">Войти</a>*@
+
+	<a class="ghost-button-semi-transparent" style="height: 100px;width: 300px;padding: 20px;font-size: 35px;" href="@Url.Action("Login", "Account")">Начать</a>
+</div>
+	
+

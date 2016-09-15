@@ -100,7 +100,7 @@ namespace LMPlatform.UI.Controllers
 
                     model.RegistrationUser(new[] { "student" });
 
-                    return RedirectToAction("Index", "Home");
+					return RedirectToAction("Login", "Account");
                 }
 				catch (MembershipCreateUserException e)
 				{
@@ -134,55 +134,69 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
 		public JsonResult UpdatePerconalData(PersonalDataViewModel model, string avatar)
         {
-            if (Roles.IsUserInRole("lector"))
-            {
-                var modData = new ModifyLecturerViewModel(new Lecturer
-                {
-                    FirstName = model.Name,
-					LastName = model.Surname,
-                    MiddleName = model.Patronymic,
-					IsLecturerHasGraduateStudents = model.IsLecturerHasGraduateStudents,
-					IsSecretary = model.IsSecretary,
-					Skill = model.Skill,
-                    User = new User
-                    {
-                        UserName = model.UserName,
-						Avatar = avatar,
-						About = model.About,
-						SkypeContact = model.SkypeContact,
-						Phone = model.Phone,
-						Email = model.Email,
-                        Id = WebSecurity.CurrentUserId
-                    },
-                    Id = WebSecurity.CurrentUserId
-                });
+	        if (ModelState.IsValid)
+	        {
+		        if (Roles.IsUserInRole("lector"))
+		        {
+			        var modData =
+				        new ModifyLecturerViewModel(
+					        new Lecturer
+						        {
+							        FirstName = model.Name,
+							        LastName = model.Surname,
+							        MiddleName = model.Patronymic,
+							        IsLecturerHasGraduateStudents = model.IsLecturerHasGraduateStudents,
+							        IsSecretary = model.IsSecretary,
+							        Skill = model.Skill,
+							        User =
+								        new User
+									        {
+										        UserName = model.UserName,
+										        Avatar = avatar,
+										        About = model.About,
+										        SkypeContact = model.SkypeContact,
+										        Phone = model.Phone,
+										        Email = model.Email,
+										        Id = WebSecurity.CurrentUserId
+									        },
+							        Id = WebSecurity.CurrentUserId
+						        });
 
-                modData.ModifyLecturer();
-            }
-            else
-            {
-                var modData = new ModifyStudentViewModel(new Student
-                {
-                    FirstName = model.Name,
-					LastName = model.Surname,
-                    MiddleName = model.Patronymic,
-                    User = new User
-                    {
-                        UserName = model.UserName,
-						Avatar = avatar,
-						About = model.About,
-						SkypeContact = model.SkypeContact,
-						Phone = model.Phone,
-						Email = model.Email,
-                        Id = WebSecurity.CurrentUserId
-                    },
-                    Id = WebSecurity.CurrentUserId
-                }); 
-   
-                modData.ModifyStudent();
-            }
+			        modData.ModifyLecturer();
+		        }
+		        else
+		        {
+			        var modData =
+				        new ModifyStudentViewModel(
+					        new Student
+						        {
+							        FirstName = model.Name,
+							        LastName = model.Surname,
+							        MiddleName = model.Patronymic,
+							        User =
+								        new User
+									        {
+										        UserName = model.UserName,
+										        Avatar = avatar,
+										        About = model.About,
+										        SkypeContact = model.SkypeContact,
+										        Phone = model.Phone,
+										        Email = model.Email,
+										        Id = WebSecurity.CurrentUserId
+									        },
+							        Id = WebSecurity.CurrentUserId
+						        });
 
-            return Json(true);
+			        modData.ModifyStudent();
+		        }
+		        return Json(true);
+	        }
+
+			var errorList = (from item in ModelState
+							 where item.Value.Errors.Any()
+							 select item.Value.Errors[0].ErrorMessage).ToList();
+
+			return Json(errorList);
         }
 
 		[HttpPost]

@@ -15,7 +15,8 @@ namespace LMPlatform.UI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Login", "Account");
+                //return RedirectToAction("Login", "Account");
+				return RedirectToAction("Index", "Main");
             }
 
             if (User.IsInRole("admin"))
