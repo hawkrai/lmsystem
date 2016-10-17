@@ -1256,15 +1256,16 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var id = name + studentIndex + markIndex;
              var elem = document.getElementById(id);
             
-             if (comment != "" & comment != null) {
-                 elem.style.display = 'block';
-                 elem.title = comment;
+             if (elem !== null) {
+             	if (comment != "" & comment != null) {
+             		elem.style.display = 'block';
+             		elem.title = comment;
+             	}
+             	else {
+             		elem.style.display = 'none';
+             		elem.title = null;
+             	}
              }
-             else {
-                 elem.style.display = 'none';
-                 elem.title = null;
-             }
-
          };
 
          $scope.NumberControl = function (object, errorName) {
@@ -1653,7 +1654,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
 
          $scope.addDateSubOne = function () {
-             date = $filter('date')($scope.dt, "dd.MM.yyyy");
+             date = $filter('date')($scope.dt, "dd/MM/yyyy");
              var isDate = false;
              $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs, function (key, value) {
                  if (value.Date == date) {
@@ -1718,7 +1719,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          };
 
          $scope.addDateSubTwo = function () {
-             date = $filter('date')($scope.dt, "dd.MM.yyyy");
+             date = $filter('date')($scope.dt, "dd/MM/yyyy");
              var isDate = false;
              $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs, function (key, value) {
                  if (value.Date == date) {

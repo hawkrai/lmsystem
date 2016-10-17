@@ -1,0 +1,5 @@
+ALTER TABLE [StudentLabMarks] ADD Comment VARCHAR(MAX) NULL
+GO
+
+ALTER TABLE [StudentLabMarks] ADD [Date] VARCHAR(MAX) NULL
+GO
