@@ -440,7 +440,7 @@ namespace LMPlatform.UI.Services
                                           SubjectId = e.SubjectId,
                                           ScheduleProtectionPracticalId = e.Id
                                       }).ToList(),
-									  Students = group.Students.OrderBy(e => e.LastName).Select(e => new StudentsViewData(null, e, null, scheduleProtectionPracticals, null, practicalsData)).ToList(),
+									  Students = group.Students.OrderBy(e => e.LastName).Select(e => new StudentsViewData(null, e, null, scheduleProtectionPracticals, null, practicalsData, userLabsFile.Where(x => x.UserId == e.Id).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList(),
                                       SubGroupsOne = subGroups.Any() ? new SubGroupsViewData
                                                          {
                                                              GroupId = group.Id,

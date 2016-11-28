@@ -406,7 +406,9 @@
     <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentLabMarkViewData.cs" />
+    <Compile Include="Services\Modules\CoreModels\StudentMark.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentPracticalMarkViewData.cs" />
+    <Compile Include="Services\Modules\CoreModels\StudentsMarksResult.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentsResult.cs" />
     <Compile Include="Services\Modules\CoreModels\StudentsViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\SubGroupsViewData.cs" />

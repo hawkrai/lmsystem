@@ -19,14 +19,39 @@ namespace LMPlatform.UI.Services.Labs
 
     using ADL.SCORM.LOM;
 
+    using Application.Core.Data;
+
     using LMPlatform.UI.Services.Modules.CoreModels;
     using Application.Infrastructure.ConceptManagement;
+    using Application.Infrastructure.GroupManagement;
+    using Application.Infrastructure.KnowledgeTestsManagement;
+
     using WebMatrix.WebData;
 
     using DateTime = System.DateTime;
 
     public class LabsService : ILabsService
     {
+		private readonly LazyDependency<ITestPassingService> testPassingService = new LazyDependency<ITestPassingService>();
+
+		public ITestPassingService TestPassingService
+		{
+			get
+			{
+				return testPassingService.Value;
+			}
+		}
+
+		private readonly LazyDependency<IGroupManagementService> groupManagementService = new LazyDependency<IGroupManagementService>();
+
+		public IGroupManagementService GroupManagementService
+		{
+			get
+			{
+				return groupManagementService.Value;
+			}
+		}
+
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
 
         public ISubjectManagementService SubjectManagementService
@@ -69,7 +94,48 @@ namespace LMPlatform.UI.Services.Labs
             }
         }
 
-        public ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string shortName, string pathFile, string attachments)
+		public StudentsMarksResult GetMarks(int subjectId, int groupId)
+	    {
+			try
+			{
+				var group = this.GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == subjectId && x.GroupId == groupId))
+                    .Include(e => e.Students.Select(x => x.StudentLabMarks))
+					.Include(e => e.Students.Select(x => x.User))).ToList()[0];
+
+				var labsData = this.SubjectManagementService.GetSubject(subjectId).Labs.OrderBy(e => e.Order).ToList();
+
+				var students = new List<StudentsViewData>();
+
+				foreach (var student in group.Students)
+				{
+					students.Add(new StudentsViewData(this.TestPassingService.GetStidentResults(subjectId, student.Id), student, labs: labsData));
+				}
+
+				return new StudentsMarksResult
+				{
+					Students = students.Select(e => new StudentMark()
+					{
+						FullName = e.FullName,
+						StudentId = e.StudentId,
+						LabsMarkTotal = e.LabsMarkTotal,
+						TestMark = e.TestMark,
+						Marks = e.StudentLabMarks
+					}).ToList(),
+					Message = "",
+					Code = "200"
+				};
+			}
+			catch (Exception)
+			{
+				return new StudentsMarksResult()
+				{
+					Message = "Произошла ошибка при получении результатов студентов",
+					Code = "500"
+				};
+			}
+	    }
+
+	    public ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string shortName, string pathFile, string attachments)
         {
             try
             {

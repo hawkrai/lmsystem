@@ -191,14 +191,16 @@ namespace LMPlatform.UI.Controllers
         {
             IEnumerable<TestUnlockInfo> testUnlocks = TestsManagementService.GetTestUnlocksForTest(groupId, testId);
 
-            var subgroups = SubjectsManagementService.GetSubGroups(subjectId, groupId).Select(subGroup => new
+	        var test = SubjectsManagementService.GetSubGroups(subjectId, groupId);
+
+			var subgroups = test.Select(subGroup => new
             {
                 Name = subGroup.Name,
                 Students = subGroup.SubjectStudents.Select(student => new
                 {
                     Id = student.StudentId,
                     Name = student.Student.FullName,
-                    Unlocked = testUnlocks.Single(unlock => unlock.StudentId == student.StudentId).Unlocked
+					Unlocked = testUnlocks.FirstOrDefault(e => e.StudentId == student.StudentId) != null ? testUnlocks.Single(unlock => unlock.StudentId == student.StudentId).Unlocked : false
                 }).OrderBy(student => student.Name).ToArray()
             }).ToArray();
 
