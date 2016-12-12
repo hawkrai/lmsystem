@@ -20,6 +20,9 @@
         [DataMember]
         public int SubGroupId { get; set; }
 
+		[DataMember]
+		public int SubGroup { get; set; }
+
         [DataMember]
         public string Date { get; set; }
     }

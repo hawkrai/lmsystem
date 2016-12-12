@@ -115,5 +115,11 @@ namespace Application.Infrastructure.SubjectManagement
         int StudentAttendance(int userId);
 
 	    List<Subject> GetSubjectsByLectorOwner(int userId);
+
+	    IList<SubGroup> GetSubGroupsV2(int subjectId, int groupId);
+
+		List<Labs> GetLabsV2(int subjectId);
+
+	    IList<SubGroup> GetSubGroupsV2WithScheduleProtectionLabs(int subjectId, int groupId);
     }
 }

@@ -275,6 +275,50 @@ namespace LMPlatform.UI.Services
 			}
 		}
 
+		public GroupsResult GetGroupsV2(string subjectId)
+		{
+			try
+			{
+				var id = int.Parse(subjectId);
+				var groups = this.GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id)));
+
+
+				var groupsViewData = new List<GroupsViewData>();
+
+				foreach (var @group in groups)
+				{
+					var subGroups = this.SubjectManagementService.GetSubGroupsV2(id, @group.Id);
+					groupsViewData.Add(new GroupsViewData
+					{
+						GroupId = @group.Id,
+						GroupName = @group.Name,
+						SubGroupsOne = subGroups.Any() ? new SubGroupsViewData
+							               {
+											   SubGroupId = subGroups.FirstOrDefault().Id
+							               } : new SubGroupsViewData(),
+						SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
+						{
+							SubGroupId = subGroups.LastOrDefault().Id
+						} : new SubGroupsViewData(),
+					});
+				}
+				return new GroupsResult
+                {
+					Groups = groupsViewData,
+                    Message = "Группы успешно загружены",
+                    Code = "200"
+                };
+			}
+			catch (Exception ex)
+            {
+                return new GroupsResult()
+                {
+                    Message = ex.Message + "\n" + ex.StackTrace,
+                    Code = "500"
+                };
+            }
+		}
+
 		public GroupsResult GetGroups(string subjectId)
         {
             try

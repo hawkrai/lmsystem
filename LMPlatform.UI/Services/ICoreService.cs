@@ -21,6 +21,10 @@ namespace LMPlatform.UI.Services
         GroupsResult GetGroups(string subjectId);
 
 		[OperationContract]
+		[WebInvoke(UriTemplate = "/GetGroupsV2/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+		GroupsResult GetGroupsV2(string subjectId);
+
+		[OperationContract]
 		[WebInvoke(UriTemplate = "/GetAllGroupsLite", RequestFormat = WebMessageFormat.Json, Method = "GET")]
 		GroupsResult GetAllGroupsLite();
 

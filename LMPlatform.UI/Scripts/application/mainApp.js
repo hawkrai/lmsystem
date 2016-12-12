@@ -174,7 +174,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         $scope.loadGroups = function () {
             $.ajax({
                 type: 'GET',
-                url: $scope.UrlServiceMain + "GetGroups/" + $scope.subjectId,
+                //url: $scope.UrlServiceMain + "GetGroups/" + $scope.subjectId,
+                url: $scope.UrlServiceMain + "GetGroupsV2/" + $scope.subjectId,
                 dataType: "json",
                 contentType: "application/json",
 
@@ -1057,7 +1058,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                      alertify.error(data.Message);
                  } else {
                      $scope.loadLabs();
-                     $scope.loadGroups();
+                     $scope.loadLabsV2();
                      alertify.success(data.Message);
                  }
                  $("#dialogAddLabs").modal('hide');
@@ -1089,7 +1090,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                  if (data.Code != '200') {
                                      alertify.error(data.Message);
                                  } else {
-                                     alertify.success(data.Message);
+                                 	alertify.success(data.Message);
+	                                 $scope.loadLabsV2();
                                      $scope.labs.splice($scope.labs.indexOf(lab), 1);
                                  }
                              });
@@ -1144,7 +1146,70 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                  $scope.selectedGroupChange(selectedGroup.GroupId, null);
              }
 
+         	// performance issue
+             $scope.loadLabsV2();
+	         // end performance issue
+
          };
+
+         $scope.loadLabsV2 = function () {
+			$.ajax({
+				type: 'GET',
+				url: $scope.UrlServiceLabs + "GetLabsV2?subjectId=" + $scope.subjectId + "&groupId=" + $scope.groupWorkingData.selectedGroupId,
+				dataType: "json",
+				contentType: "application/json",
+
+			}).success(function (data, status) {
+				if (data.Code != '200') {
+					alertify.error(data.Message);
+				} else {
+					$scope.$apply(function () {
+						$scope.groupWorkingData.selectedGroup.SubGroupsOne.LabsV2 = $filter("filter")(data.Labs, function (r) {
+							return r.SubGroup === 1;
+						});
+						$scope.groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2 = $filter("filter")(data.Labs, function (r) {
+							return r.SubGroup === 2;
+						});
+
+						$scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabsV2 = $filter("filter")(data.ScheduleProtectionLabs, function (r) {
+							return r.SubGroup === 1;
+						});
+						$scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2 = $filter("filter")(data.ScheduleProtectionLabs, function (r) {
+							return r.SubGroup === 2;
+						});
+					});
+					$scope.loadStudentResults();
+				}
+			});
+		};
+
+		$scope.loadStudentResults = function ()
+		{
+			$.ajax({
+				type: 'GET',
+				url: $scope.UrlServiceLabs + "GetMarksV2?subjectId=" + $scope.subjectId + "&groupId=" + $scope.groupWorkingData.selectedGroupId,
+				dataType: "json",
+				contentType: "application/json",
+
+			}).success(function (data, status) {
+				if (data.Code != '200') {
+					alertify.error(data.Message);
+				} else {
+					$scope.$apply(function () {
+						$scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2 = $filter("filter")(data.Students, function (r) {
+							return r.SubGroup === 1;
+						});
+						$scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2 = $filter("filter")(data.Students, function (r) {
+							return r.SubGroup === 2;
+						});
+
+						$scope.groupWorkingData.selectedGroup.StudentsV2 = $filter("filter")(data.Students, function (r) {
+							return r.SubGroup !== 3;
+						});
+					});
+				}
+			});
+		}
 
          $scope.changeSubGroup = function (selectedSubGroup) {
              $scope.groupWorkingData.selectedSubGroup = selectedSubGroup;
@@ -1168,7 +1233,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                  arrComment[i] = comment;
                  arrStudentId[i] = studentId;
 
-                 $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Students, function (key, student) {
+                 $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2, function (key, student) {
                      if (student.StudentId == studentId) {
                          $.each(student.LabVisitingMark, function (key, labVisiting) {
                              if (labVisiting.ScheduleProtectionLabId == dateId) {
@@ -1196,7 +1261,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                      alertify.error(data.Message);
                  } else {
                      alertify.success(data.Message);
-                     $scope.loadGroups();
+                     $scope.loadLabsV2();
                  }
              });
          };
@@ -1219,7 +1284,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                  arrComment[i] = comment;
                  arrStudentId[i] = studentId;
 
-                 $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students, function (key, student) {
+                 $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2, function (key, student) {
                      if (student.StudentId == studentId) {
                          $.each(student.LabVisitingMark, function (key, labVisiting) {
                              if (labVisiting.ScheduleProtectionLabId == dateId) {
@@ -1247,7 +1312,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                      alertify.error(data.Message);
                  } else {
                      alertify.success(data.Message);
-                     $scope.loadGroups();
+                     $scope.loadLabsV2();
                  }
              });
          };
@@ -1270,7 +1335,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
          $scope.NumberControl = function (object, errorName) {
              var error = document.getElementById(errorName);
-             if (object.value == "")
+             if (object.value === "")
              {
                  object.value = "";
                  error.style.display = 'none';
@@ -1300,25 +1365,25 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var sum = 0;
              var missedDates = new Array();
 
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Labs, function (key, labs) {
-                 if (labs.LabId == labId) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2, function (key, labs) {
+                 if (labs.LabId === labId) {
                      $.each(labs.ScheduleProtectionLabsRecomend, function (key, recom) {
-                         if (recom.Mark == '10') {
+                         if (recom.Mark === '10') {
                              labsDate.push(recom.ScheduleProtectionId);
                          }
                      })
                  }
              })
 
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students, function (key, student) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2, function (key, student) {
                  if (student.StudentId == studentId) {
                      $.each(student.LabVisitingMark, function (key, lVisiting) {
                          for (var i = 0 ; i < labsDate.length; i++) {
                              if (lVisiting.ScheduleProtectionLabId == labsDate[i]) {
-                                 if (lVisiting.Mark != "") {
+                                 if (lVisiting.Mark !== "") {
                                      sum = sum + parseInt(lVisiting.Mark);
-                                     $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs, function (key, date) {
-                                         if (date.ScheduleProtectionLabId == lVisiting.ScheduleProtectionLabId) {
+                                     $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2, function (key, date) {
+                                         if (date.ScheduleProtectionLabId === lVisiting.ScheduleProtectionLabId) {
                                              missedDates.push(date.Date);
                                          }
                                      })
@@ -1330,11 +1395,11 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                  }
              })
 
-             if (missedDates.length != 0) {
+             if (missedDates.length !== 0) {
                  var text = "";
                  for (var i = 0; i < missedDates.length; i++) {
 
-                     if (i == 0) {
+                     if (i === 0) {
                          text = text + missedDates[i];
                      }
                      else {
@@ -1355,25 +1420,25 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var sum = 0;
              var missedDates = new Array();
 
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Labs, function (key, labs) {
-                 if (labs.LabId == labId) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.LabsV2, function (key, labs) {
+                 if (labs.LabId === labId) {
                      $.each(labs.ScheduleProtectionLabsRecomend, function (key, recom) {
-                         if (recom.Mark == '10') {
+                         if (recom.Mark === '10') {
                              labsDate.push(recom.ScheduleProtectionId);
                          }
                      })
                  }
              })
 
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Students, function (key, student) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2, function (key, student) {
                  if (student.StudentId == studentId) {
                      $.each(student.LabVisitingMark, function (key, lVisiting) {
                          for (var i = 0 ; i < labsDate.length; i++) {
-                             if (lVisiting.ScheduleProtectionLabId == labsDate[i]) {
-                                 if (lVisiting.Mark != "") {
+                             if (lVisiting.ScheduleProtectionLabId === labsDate[i]) {
+                                 if (lVisiting.Mark !== "") {
                                      sum = sum + parseInt(lVisiting.Mark);
-                                     $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs, function (key, date) {
-                                         if (date.ScheduleProtectionLabId == lVisiting.ScheduleProtectionLabId) {
+                                     $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabsV2, function (key, date) {
+                                         if (date.ScheduleProtectionLabId === lVisiting.ScheduleProtectionLabId) {
                                              missedDates.push(date.Date);
                                          }
                                      })
@@ -1385,11 +1450,11 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                  }
              })
 
-             if (missedDates.length != 0) {
+             if (missedDates.length !== 0) {
                  var text = "";
                  for (var i = 0; i < missedDates.length; i++) {
 
-                     if (i == 0) {
+                     if (i === 0) {
                          text = text + missedDates[i];
                      }
                      else {
@@ -1447,7 +1512,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
          $scope.exposeMarkVisitingOne = function (dateId) {
              var elem = document.getElementById('textDateOne');
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs, function (key, date) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabsV2, function (key, date) {
                  if (date.ScheduleProtectionLabId == dateId) {
                      elem.innerHTML = date.Date;
                  }
@@ -1459,7 +1524,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
          $scope.exposeMarkVisitingTwo = function (dateId) {
              var elem = document.getElementById('textDateTwo');
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs, function (key, date) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2, function (key, date) {
                  if (date.ScheduleProtectionLabId == dateId) {
                      elem.innerHTML = date.Date;
                  }
@@ -1473,7 +1538,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var elem = document.getElementById(id);
              var dateId = document.getElementById('dateVisitingMarkOne').value;
 
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Students, function (key, student) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2, function (key, student) {
                  if (student.StudentId == studentId) {
                      $.each(student.LabVisitingMark, function (key, labVisitingMark) {
                          if (labVisitingMark.ScheduleProtectionLabId == dateId) {
@@ -1488,7 +1553,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var elem = document.getElementById(id);
              var dateId = document.getElementById('dateVisitingMarkOne').value;
 
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Students, function (key, student) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2, function (key, student) {
                  if (student.StudentId == studentId) {
                      $.each(student.LabVisitingMark, function (key, labVisitingMark) {
                          if (labVisitingMark.ScheduleProtectionLabId == dateId) {
@@ -1506,7 +1571,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var elem = document.getElementById(id);
              var dateId = document.getElementById('dateVisitingMarkTwo').value;
 
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students, function (key, student) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2, function (key, student) {
                  if (student.StudentId == studentId) {
                      $.each(student.LabVisitingMark, function (key, labVisitingMark) {
                          if (labVisitingMark.ScheduleProtectionLabId == dateId) {
@@ -1521,7 +1586,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var elem = document.getElementById(id);
              var dateId = document.getElementById('dateVisitingMarkTwo').value;
 
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students, function (key, student) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2, function (key, student) {
                  if (student.StudentId == studentId) {
                      $.each(student.LabVisitingMark, function (key, labVisitingMark) {
                          if (labVisitingMark.ScheduleProtectionLabId == dateId) {
@@ -1557,18 +1622,18 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var dateId;
              var cell = document.getElementById("markOne" + studentIndex + markIndex);
 
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Students, function (key, studentValue) {
-                 $.each(studentValue.StudentLabMarks, function (key, studentLabMarksValue) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2, function (key, studentValue) {
+             	$.each(studentValue.Marks, function (key, studentLabMarksValue) {
                      if (studentLabMarksValue.LabId == labId) {
                          if (studentLabMarksValue.StudentId == studentId) {
                              if (studentLabMarksValue.Mark != "") {
                                  cell.innerHTML = studentLabMarksValue.Mark;
                              }
                              else {
-                                 $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs, function (key, scheduleProtectionLabsValue) {
+                             	$.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabsV2, function (key, scheduleProtectionLabsValue) {
                                      if (scheduleProtectionLabsValue.Date == date) {
                                          dateId = scheduleProtectionLabsValue.ScheduleProtectionLabId;
-                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Labs, function (key, valueLabs) {
+                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.LabsV2, function (key, valueLabs) {
                                              if (valueLabs.LabId == labId) {
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
@@ -1582,7 +1647,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                      }
                                      else if ($scope.StrToDate(scheduleProtectionLabsValue.Date) < $scope.StrToDate(date)) {
                                          dateId = scheduleProtectionLabsValue.ScheduleProtectionLabId;
-                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.Labs, function (key, valueLabs) {
+                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.LabsV2, function (key, valueLabs) {
                                              if (valueLabs.LabId == labId) {
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
@@ -1607,18 +1672,18 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var dateId;
              var cell = document.getElementById("markTwo" + studentIndex + markIndex);
 
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students, function (key, studentValue) {
-                 $.each(studentValue.StudentLabMarks, function (key, studentLabMarksValue) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2, function (key, studentValue) {
+                 $.each(studentValue.Marks, function (key, studentLabMarksValue) {
                      if (studentLabMarksValue.LabId == labId) {
                          if (studentLabMarksValue.StudentId == studentId) {
                              if (studentLabMarksValue.Mark != "") {
                                  cell.innerHTML = studentLabMarksValue.Mark;
                              }
                              else {
-                                 $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs, function (key, scheduleProtectionLabsValue) {
+                             	$.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2, function (key, scheduleProtectionLabsValue) {
                                      if (scheduleProtectionLabsValue.Date == date) {
                                          dateId = scheduleProtectionLabsValue.ScheduleProtectionLabId;
-                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Labs, function (key, valueLabs) {
+                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2, function (key, valueLabs) {
                                              if (valueLabs.LabId == labId) {
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
@@ -1632,7 +1697,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                      }
                                      else if ($scope.StrToDate(scheduleProtectionLabsValue.Date) < $scope.StrToDate(date)) {
                                          dateId = scheduleProtectionLabsValue.ScheduleProtectionLabId;
-                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.Labs, function (key, valueLabs) {
+                                         $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2, function (key, valueLabs) {
                                              if (valueLabs.LabId == labId) {
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
@@ -1656,7 +1721,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          $scope.addDateSubOne = function () {
              date = $filter('date')($scope.dt, "dd/MM/yyyy");
              var isDate = false;
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs, function (key, value) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabsV2, function (key, value) {
                  if (value.Date == date) {
                      isDate = true;
                  }
@@ -1690,7 +1755,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                      if (data.Code != '200') {
                                          alertify.error(data.Message);
                                      } else {
-                                         $scope.loadGroups();
+                                     	$scope.loadLabsV2();
                                          alertify.success(data.Message);
                                      }
                                  });
@@ -1711,7 +1776,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                      if (data.Code != '200') {
                          alertify.error(data.Message);
                      } else {
-                         $scope.loadGroups();
+                     	$scope.loadLabsV2();
                          alertify.success(data.Message);
                      }
                  });
@@ -1721,7 +1786,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          $scope.addDateSubTwo = function () {
              date = $filter('date')($scope.dt, "dd/MM/yyyy");
              var isDate = false;
-             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs, function (key, value) {
+             $.each($scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2, function (key, value) {
                  if (value.Date == date) {
                      isDate = true;
                  }
@@ -1755,7 +1820,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                      if (data.Code != '200') {
                                          alertify.error(data.Message);
                                      } else {
-                                         $scope.loadGroups();
+                                     	$scope.loadLabsV2();
                                          alertify.success(data.Message);
                                      }
                                  });
@@ -1776,7 +1841,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                      if (data.Code != '200') {
                          alertify.error(data.Message);
                      } else {
-                         $scope.loadGroups();
+                     	$scope.loadLabsV2();
                          alertify.success(data.Message);
                      }
                  });
@@ -1802,14 +1867,14 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                      comment: comment,
                      date: date,
                      id: Id,
-                     students: $scope.groupWorkingData.selectedGroup.SubGroupsOne.Students,
+                     students: $scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2,
                  },
                  headers: { 'Content-Type': 'application/json' }
              }).success(function (data, status) {
                  if (data.Code != '200') {
                      alertify.error(data.Message);
                  } else {
-                     $scope.loadGroups();
+                 	$scope.loadLabsV2();
                      alertify.success(data.Message);
                  }
              });
@@ -1835,14 +1900,14 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                      comment: comment,
                      date: date,
                      id: Id,
-                     students: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students,
+                     students: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2,
                  },
                  headers: { 'Content-Type': 'application/json' }
              }).success(function (data, status) {
                  if (data.Code != '200') {
                      alertify.error(data.Message);
                  } else {
-                     $scope.loadGroups();
+                 	$scope.loadLabsV2();
                      alertify.success(data.Message);
                  }
              });
@@ -1874,7 +1939,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                      alertify.error(data.Message);
                                  } else {
                                      alertify.success(data.Message);
-                                     $scope.loadGroups();
+                                     $scope.loadLabsV2();
                                  }
                              });
                          }

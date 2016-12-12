@@ -94,12 +94,12 @@
                                 <th>№</th>
                                 <th>Лабораторная работа</th>
                                 <th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center"
-                                    ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs">
+                                    ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabsV2">
                                     <div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
                                 </th>
                             </tr>
                         </thead>
-                        <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.Labs">
+                        <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.LabsV2">
                             <td style="width: 20px">{{data.Order}}</td>
                             <td style="min-width: 300px">{{data.Theme}}</td>
                             <td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
@@ -136,12 +136,12 @@
                             <tr>
                                 <th>№</th>
                                 <th>Лабораторная работа</th>
-                                <th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs">
+                                <th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2">
                                     <div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
                                 </th>
                             </tr>
                         </thead>
-                        <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.Labs">
+                        <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2">
                             <td style="width: 20px">{{data.Order}}</td>
                             <td style="min-width: 300px">{{data.Theme}}</td>
                             <td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
@@ -192,19 +192,19 @@
                             <tr>
                                 <th style="text-align: center; vertical-align: middle" rowspan="2">№</th>
                                 <th style="text-align: center; vertical-align: middle" rowspan="2">Студент</th>
-                                <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsOne.Labs" colspan="{{lab.Duration/2}}"
+                                <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsOne.LabsV2" colspan="{{lab.Duration/2}}"
                                     title="{{lab.Theme}}">
                                     {{lab.ShortName}}
                                 </th>
                             </tr>
                             <tr>
                                 <th style="height: 80px; width: 10px; padding: 0px; margin: 0px; padding-bottom: 30px; text-align: center"
-                                    ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs" ng-dblclick="exposeMarkVisitingOne(data.ScheduleProtectionLabId)">
+                                    ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabsV2" ng-dblclick="exposeMarkVisitingOne(data.ScheduleProtectionLabId)">
                                     <div style="cursor: pointer; display: inline-block" class="box_rotate">{{data.Date}}</div>
                                 </th>
                             </tr>
                         </thead>
-                        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.Students" ng-init="studentIndexOne=$index">
+                        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2" ng-init="studentIndexOne=$index">
                             <td style="width: 20px">{{studentIndexOne + 1}}</td>
                             <td style="min-width: 300px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
                             <td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark" ng-init="markIndexOne=$index" ng-dblclick="exposeMarkVisitingOne(data.ScheduleProtectionLabId)">
@@ -241,19 +241,19 @@
                             <tr>
                                 <th style="text-align: center; vertical-align: middle" rowspan="2">№</th>
                                 <th style="text-align: center; vertical-align: middle" rowspan="2">Студент</th>
-                                <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsTwo.Labs" colspan="{{lab.Duration/2}}"
+                                <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2" colspan="{{lab.Duration/2}}"
                                     title="{{lab.Theme}}">
                                     {{lab.ShortName}}
                                 </th>
                             </tr>
                             <tr>
                                 <th style="height: 80px; width: 10px; padding: 0px; margin: 0px; padding-bottom: 30px; text-align: center"
-                                    ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs" ng-dblclick="exposeMarkVisitingTwo(data.ScheduleProtectionLabId)">
+                                    ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2" ng-dblclick="exposeMarkVisitingTwo(data.ScheduleProtectionLabId)">
                                     <div style="cursor: pointer; display: inline-block" class="box_rotate">{{data.Date}}</div>
                                 </th>
                             </tr>
                         </thead>
-                        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.Students" ng-init="studentIndexTwo=$index">
+                        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2" ng-init="studentIndexTwo=$index">
                             <td style="width: 20px">{{studentIndexTwo + 1}}</td>
                             <td style="min-width: 300px"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
                             <td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark" ng-init="markIndexTwo=$index" ng-dblclick="exposeMarkVisitingTwo(data.ScheduleProtectionLabId)">
@@ -311,42 +311,42 @@
                             <tr>
                                 <th style="text-align: center; vertical-align: middle">№</th>
                                 <th style="text-align: center; vertical-align: middle">Студент</th>
-                                <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsOne.Labs" title="{{lab.Theme}}">
-                                    {{lab.ShortName}}
-                                </th>
+								<th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsOne.LabsV2" title="{{lab.Theme}}">
+									{{lab.ShortName}}
+								</th>
                                 <th style="text-align: center; vertical-align: middle">Средний балл</th>
                                 <th style="text-align: center; vertical-align: middle">Средний балл за тесты</th>
                                 <th style="text-align: center; vertical-align: middle">Рейтинговая оценка</th>
                             </tr>
                         </thead>
-                        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.Students" ng-init="studentIndex=$index">
-                            <td style="width: 42px">{{studentIndex + 1}}</td>
-                            <td style="width: auto"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
-                            <td style="width: 60px; text-align: center" ng-repeat="mark in student.StudentLabMarks"
-                                ng-init="markIndex=$index" ng-dblclick="exposeMarkSubOne(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
+						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2" ng-init="studentIndex=$index">
+							<td style="width: 42px">{{studentIndex + 1}}</td>
+							<td style="width: auto"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="width: 60px; text-align: center" ng-repeat="mark in student.Marks"
+								ng-init="markIndex=$index" ng-dblclick="exposeMarkSubOne(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
 
-                                <div style="text-align:center;">
-                                    <div style="float:left; margin-left:10px; color:black" id="markOne{{studentIndex}}{{markIndex}}">
-                                        {{setMarkSubOne(mark.LabId, mark.StudentId, studentIndex, markIndex)}}
-                                    </div>
-                                    <div style="float: right">
-                                        <div id="imageOne{{studentIndex}}{{markIndex}}" style="height: 10px; width: 10px; margin-top: -5px; display:none">
-                                            <img src="~/Images/comment.png">
-                                            {{commentImage(mark.Comment, studentIndex, markIndex,"imageOne")}}
-                                        </div>
-                                        <div id="imageDotOne{{studentIndex}}{{markIndex}}" style="height: 5px; width: 5px; margin-top:2px; display: none">
-                                            <img src="~/Images/redDot.png">
-                                            {{dotImageOne(mark.LabId, mark.StudentId, studentIndex, markIndex,"imageDotOne")}}
-                                        </div>
-                                    </div>
-                                </div>
+								<div style="text-align:center;">
+									<div style="float:left; margin-left:10px; color:black" id="markOne{{studentIndex}}{{markIndex}}">
+										{{setMarkSubOne(mark.LabId, mark.StudentId, studentIndex, markIndex)}}
+									</div>
+									<div style="float: right">
+										<div id="imageOne{{studentIndex}}{{markIndex}}" style="height: 10px; width: 10px; margin-top: -5px; display:none">
+											<img src="~/Images/comment.png">
+											{{commentImage(mark.Comment, studentIndex, markIndex,"imageOne")}}
+										</div>
+										<div id="imageDotOne{{studentIndex}}{{markIndex}}" style="height: 5px; width: 5px; margin-top:2px; display: none">
+											<img src="~/Images/redDot.png">
+											{{dotImageOne(mark.LabId, mark.StudentId, studentIndex, markIndex,"imageDotOne")}}
+										</div>
+									</div>
+								</div>
 
-                            </td>
+							</td>
 
-                            <td style="width: 50px; text-align: center; color: red"><b>{{student.LabsMarkTotal}}</b></td>
-                            <td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
-                            <td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
-                        </tr>
+							<td style="width: 50px; text-align: center; color: red"><b>{{student.LabsMarkTotal}}</b></td>
+							<td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
+							<td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
+						</tr>
                     </table>
                 </div>
             </form>
@@ -366,40 +366,40 @@
                             <tr>
                                 <th style="text-align: center; vertical-align: middle">№</th>
                                 <th style="text-align: center; vertical-align: middle">Студент</th>
-                                <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsTwo.Labs" title="{{lab.Theme}}">
-                                    {{lab.ShortName}}
-                                </th>
+								<th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2" title="{{lab.Theme}}">
+									{{lab.ShortName}}
+								</th>
                                 <th style="text-align: center; vertical-align: middle">Средний балл</th>
                                 <th style="text-align: center; vertical-align: middle">Средний балл за тесты</th>
                                 <th style="text-align: center; vertical-align: middle">Рейтинговая оценка</th>
                             </tr>
                         </thead>
-                        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.Students" ng-init="studentIndex=$index">
-                            <td style="width: 42px">{{studentIndex + 1}}</td>
-                            <td style="width: auto"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
-                            <td style="width: 60px; text-align: center" ng-repeat="mark in student.StudentLabMarks"
-                                ng-init="markIndex=$index" ng-dblclick="exposeMarkSubTwo(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
+						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2" ng-init="studentIndex=$index">
+							<td style="width: 42px">{{studentIndex + 1}}</td>
+							<td style="width: auto"><a href="~/Lms/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="width: 60px; text-align: center" ng-repeat="mark in student.Marks"
+								ng-init="markIndex=$index" ng-dblclick="exposeMarkSubTwo(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
 
-                                <div style="text-align:center;">
-                                    <div style="float:left; margin-left:10px; color:black" id="markTwo{{studentIndex}}{{markIndex}}">
-                                        {{setMarkSubTwo(mark.LabId, mark.StudentId, studentIndex, markIndex)}}
-                                    </div>
-                                    <div style="float: right">
-                                        <div id="imageTwo{{studentIndex}}{{markIndex}}" style="height: 10px; width: 10px; margin-top: -5px; display:none">
-                                            <img src="~/Images/comment.png">
-                                            {{commentImage(mark.Comment, studentIndex, markIndex,"imageTwo")}}
-                                        </div>
-                                        <div id="imageDotTwo{{studentIndex}}{{markIndex}}" style="height: 5px; width: 5px; margin-top:2px; display: none">
-                                            <img src="~/Images/redDot.png">
-                                            {{dotImageTwo(mark.LabId, mark.StudentId, studentIndex, markIndex,"imageDotTwo")}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style="width: 50px; text-align: center; color: red"><b>{{student.LabsMarkTotal}}</b></td>
-                            <td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
-                            <td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
-                        </tr>
+								<div style="text-align:center;">
+									<div style="float:left; margin-left:10px; color:black" id="markTwo{{studentIndex}}{{markIndex}}">
+										{{setMarkSubTwo(mark.LabId, mark.StudentId, studentIndex, markIndex)}}
+									</div>
+									<div style="float: right">
+										<div id="imageTwo{{studentIndex}}{{markIndex}}" style="height: 10px; width: 10px; margin-top: -5px; display:none">
+											<img src="~/Images/comment.png">
+											{{commentImage(mark.Comment, studentIndex, markIndex,"imageTwo")}}
+										</div>
+										<div id="imageDotTwo{{studentIndex}}{{markIndex}}" style="height: 5px; width: 5px; margin-top:2px; display: none">
+											<img src="~/Images/redDot.png">
+											{{dotImageTwo(mark.LabId, mark.StudentId, studentIndex, markIndex,"imageDotTwo")}}
+										</div>
+									</div>
+								</div>
+							</td>
+							<td style="width: 50px; text-align: center; color: red"><b>{{student.LabsMarkTotal}}</b></td>
+							<td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
+							<td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
+						</tr>
                     </table>
                 </div>
             </form>
@@ -425,37 +425,37 @@
             <div style="margin-top: 10px;margin-bottom: 10px">
 
                 <accordion>
-                    <accordion-group ng-repeat="data in groupWorkingData.selectedGroup.Students">
-                        <accordion-heading>
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.FullName}}</a>
-                            </h4>
-                            <div class="clear-fix"></div>
-                        </accordion-heading>
-                        <div>
-                            <table class="table table-bordered table-hover table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>Файлы</th>
-                                        <th>Комментарий</th>
-                                        <th>Дата</th>
-                                        <th>Действие</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="files in data.FileLabs">
-                                        <td>
-                                            <div ng-repeat="file in files.Attachments">
-                                                <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
-                                            </div>
-                                        </td>
-                                        <td>{{files.Comments}}</td>
-                                        <td>{{files.Date}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </accordion-group>
+					<accordion-group ng-repeat="data in groupWorkingData.selectedGroup.StudentsV2">
+						<accordion-heading>
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.FullName}}</a>
+							</h4>
+							<div class="clear-fix"></div>
+						</accordion-heading>
+						<div>
+							<table class="table table-bordered table-hover table-responsive">
+								<thead>
+									<tr>
+										<th>Файлы</th>
+										<th>Комментарий</th>
+										<th>Дата</th>
+										<th>Действие</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="files in data.FileLabs">
+										<td>
+											<div ng-repeat="file in files.Attachments">
+												<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
+											</div>
+										</td>
+										<td>{{files.Comments}}</td>
+										<td>{{files.Date}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</accordion-group>
                 </accordion>
             </div>
         </tab>
@@ -530,7 +530,7 @@
                         <label class="control-label">Даты занятий</label>
                         <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
                             <table class="table table-bordered table-striped">
-                                <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabs">
+                                <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabsV2">
                                     <td>
                                         <p>{{data.Date}}</p>
                                     </td>
@@ -575,7 +575,7 @@
                         <label class="control-label">Даты занятий</label>
                         <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
                             <table class="table table-bordered table-striped">
-                                <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabs">
+                                <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2">
                                     <td>
                                         <p>{{data.Date}}</p>
                                     </td>
@@ -738,7 +738,7 @@
                         <td>Комментарий</td>
                     </tr>
                 </tbody>
-                <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.Students" ng-init="keyOne=$index">
+                <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2" ng-init="keyOne=$index">
                     <td style="width:20px">{{keyOne + 1}}</td>
                     <td style="width:200px">{{student.FullName}}</td>
                     <td>
@@ -779,7 +779,7 @@
                         <td>Комментарий</td>
                     </tr>
                 </tbody>
-                <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.Students" ng-init="keyTwo=$index">
+                <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2" ng-init="keyTwo=$index">
                     <td style="width:20px">{{keyTwo + 1}}</td>
                     <td style="width:200px">{{student.FullName}}</td>
                     <td>
