@@ -17,6 +17,22 @@
             filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083); /* IE6,IE7 */
             -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
         }
+
+		.loading {
+			    /* display: block; */
+    position: fixed;
+    /* z-index: 100; */
+    /* background-image: url(http://loadinggif.com/images/image-selection/3.gif); */
+    background-color: #757575;
+    opacity: 0.6;
+    /* background-repeat: no-repeat; */
+    /* background-position: center; */
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+		}
+
     </style>
 
     <tabset>
@@ -619,7 +635,9 @@
             </div>
         </div>
     </div>
-
+	<div class="loading ng-hide">
+		<span us-spinner="{radius:40, width:8, length: 16, opacity: 0, shadow: true, color: '#3c8dbc'}" spinner-key="spinner-1" spinner-start-active="true"></span>
+	</div>
 </div>
 
 <div id="dialogexposeMarkOne" class="modal">
