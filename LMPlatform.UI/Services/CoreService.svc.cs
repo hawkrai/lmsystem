@@ -275,7 +275,30 @@ namespace LMPlatform.UI.Services
 			}
 		}
 
-		public GroupsResult GetGroups(string subjectId)
+        public GroupsResult GetOnlyGroups(string subjectId)
+        {
+            try
+            {
+                var id = int.Parse(subjectId);
+                var groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id)));
+                return new GroupsResult
+                {
+                    Groups = groups.Select(e => new GroupsViewData() { GroupId = e.Id, GroupName = e.Name }).ToList(),
+                    Message = "Группы успешно загружены",
+                    Code = "200"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new GroupsResult
+                {
+                    Message = ex.Message + "\n" + ex.StackTrace,
+                    Code = "500"
+                };
+            }
+        }
+
+        public GroupsResult GetGroups(string subjectId)
         {
             try
             {

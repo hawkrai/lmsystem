@@ -172,6 +172,8 @@
     <Compile Include="UserManagement\IUsersManagementService.cs" />
     <Compile Include="UserManagement\UsersManagementService.cs" />
     <Compile Include="UtilZip.cs" />
+    <Compile Include="WatchingTimeManagement\IWatchingTimeService.cs" />
+    <Compile Include="WatchingTimeManagement\WatchingTimeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

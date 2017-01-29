@@ -382,6 +382,14 @@
                 $scope.openConceptInner($scope.selectedItem.Id, $scope.selectedItem.Name, $scope.selectedItem.Container);
             };
 
+            $scope.openConceptViews = function (id) {
+                var data = {};
+                data.id = id || $scope.selectedItem.Id;
+                var title = 'Просмотры "' + $scope.selectedItem.Name + '"';
+                $.savingDialog(title, "/ComplexMaterial/OpenViewsConcept", data, "primary", function (data) {
+                }, null, { hideSaveButton: true });
+            };
+
             var prevTime;
             $scope.openFolder = function ($event) {
                 if (prevTime && $event.timeStamp - prevTime < 2)

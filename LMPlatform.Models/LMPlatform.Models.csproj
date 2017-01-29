@@ -172,6 +172,7 @@
     <Compile Include="User.cs" />
     <Compile Include="UserLabFiles.cs" />
     <Compile Include="UserMessages.cs" />
+    <Compile Include="WatchingTime.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application.Core\Application.Core.csproj">

@@ -1,0 +1,40 @@
+<div>
+    <div>
+        <form editable-form name="tableformVisiting" onaftersave="saveVisitingMark()" oncancel="cancel()">
+            <div id="navPanel" style="margin-top: 15px; margin-bottom: 15px;">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select class="form-control" ng-model="data.selectedGroup"  ng-options="group.GroupId as group.GroupName for group in data.groups"  ng-change="changeGroup()">
+                                    <option value="" ng-if="false"></option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table id="tableformVisiting" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; vertical-align: middle">№</th>
+                            <th style="text-align: center; vertical-align: middle">Студент</th>
+                            <th style="text-align: center; vertical-align: middle">Информация</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="student in data.students">
+                        <td style="width: 20px">{{$index + 1}}</td>
+                        <td style="max-width: 300px; min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
+                        <td style="max-width: 300px; min-width: 300px"><a ng-href="#Student/{{student.StudentId}}">Информация</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+
+            </div>
+
+        </form>
+    </div>
+</div>

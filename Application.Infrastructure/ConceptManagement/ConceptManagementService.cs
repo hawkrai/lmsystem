@@ -189,6 +189,14 @@ namespace Application.Infrastructure.ConceptManagement
             }
         }
 
+        public IEnumerable<Concept> GetElementsBySubjectId(int subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ConceptRepository.GetBySubjectId(subjectId);
+            }
+        }
+
         public IEnumerable<Concept> GetElementsByParentId(int parentId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

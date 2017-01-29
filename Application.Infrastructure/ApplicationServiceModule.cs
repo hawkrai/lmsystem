@@ -15,6 +15,7 @@ using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.UserManagement;
+using Application.Infrastructure.WatchingTimeManagement;
 
 namespace Application.Infrastructure
 {
@@ -47,6 +48,8 @@ namespace Application.Infrastructure
             containerWrapper.Register<IMaterialsManagementService, MaterialsManagementService>();
             containerWrapper.Register<IConceptManagementService, ConceptManagementService>();
             containerWrapper.Register<ICPManagementService, CPManagementService>();
+            containerWrapper.Register<ICPManagementService, CPManagementService>();
+            containerWrapper.Register<IWatchingTimeService, WatchingTimeService>();
             return containerWrapper;
         }
     }

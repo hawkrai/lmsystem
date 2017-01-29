@@ -1,0 +1,25 @@
+﻿@model LMPlatform.UI.ViewModels.ComplexMaterialsViewModel.WatchingTimeViewModel
+<div id="addOrEditConceptForm">
+    <table class="table table-striped">
+        <tr>
+            <th>UserId</th>
+            <th>Time</th>
+        </tr>
+        @foreach (var record in Model.viewRecords)
+        {
+            <tr>
+                <td>@record.Name</td>
+                <td>@record.Seconds</td>
+            </tr>
+        }
+</table>
+</div>
+<script type="text/javascript">
+    $('.modal-dialog').width('560px');
+    $('#addOrEditConceptForm a').tooltip(
+    {
+        placement: "right",
+    });
+
+    shared.initPlugins();
+</script>

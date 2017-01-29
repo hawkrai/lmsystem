@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "StudentInfo";
+}
+
+<h2>StudentInfo</h2>
+
+<div style="overflow-x: auto;">
+    <table id="tableformVisiting" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="text-align: center; vertical-align: middle">Concept</th>
+                <th style="text-align: center; vertical-align: middle">Views(seconds)</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="concept in data.concepts">
+            <td style="max-width: 300px; min-width: 300px">{{concept.Name}}</td>
+            <td style="max-width: 300px; min-width: 300px">{{concept.view.Time}}</td>
+        </tr>
+    </table>
+</div>
