@@ -92,6 +92,29 @@ namespace Application.Infrastructure.StudentManagement
             return UserManagementService.DeleteUser(id);
         }
 
+		public int CountUnconfirmedStudents(int lecturerId)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var subjects = repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(new Query<SubjectLecturer>(e => e.LecturerId == lecturerId).Include(e => e.Subject.SubjectGroups.Select(x => x.Group)));
+
+				var groupIds = new List<int>();
+
+				foreach (var subject in subjects)
+				{
+					groupIds.AddRange(subject.Subject.SubjectGroups.Select(e => e.GroupId));
+				}
+
+				var query =
+					repositoriesContainer.RepositoryFor<Student>().GetAll(
+						new Query<Student>(e => groupIds.Contains(e.GroupId) && !e.Confirmed.Value));
+
+				var count = query.Any() ? query.Count() : 0;
+
+				return count;
+			}
+		}
+
         private readonly LazyDependency<IUsersManagementService> _userManagementService =
             new LazyDependency<IUsersManagementService>();
 

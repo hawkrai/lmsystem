@@ -31,6 +31,7 @@
     bottom: 0;
     right: 0;
     top: 0;
+	margin-left: 240px;
 		}
 
     </style>
@@ -178,7 +179,7 @@
                             <td style="padding-right:15px">
                                 <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
                             </td>
-                            <td style="margin-top:5px; float:right">
+                            <td style="float:right">
 	                            <button class="btn btn-default" ng-click="visitingLabsExport()" style="margin-right: 10px;" tooltip="Загрузить документ в Excel">
 									<img src="~/Images/ExcelDownload.png" />
 								</button>
@@ -429,11 +430,14 @@
                             <td style="padding-right:15px">
                                 <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
                             </td>
-                            <td style="margin-top:5px">
-                                <a ng-click="saveZip()" style="margin-right:10px;" tooltip="Скачать архивом">
-                                    <img src="~/Images/rar.png" />
-                                </a>
-                            </td>
+	                        <td style="margin-top: 5px">
+		                        <a ng-click="saveZip()" style="margin-right: 15px;" tooltip="Скачать архивом">
+			                        <img src="~/Images/rar.png"/>
+		                        </a>
+	                        </td>
+							<td style="margin-top:5px">
+								<a ng-click="reloadFiles()" class="fa fa-refresh fa-1x" style="margin-right:10px;font-size: 27px;cursor: pointer" tooltip="Обновить данные"></a>
+							</td>
                         </tr>
                     </tbody>
                 </table>
@@ -441,7 +445,7 @@
             <div style="margin-top: 10px;margin-bottom: 10px">
 
                 <accordion>
-					<accordion-group ng-repeat="data in groupWorkingData.selectedGroup.StudentsV2">
+					<accordion-group ng-repeat="data in groupWorkingData.selectedGroup.StudentsFilesV2">
 						<accordion-heading>
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.FullName}}</a>

@@ -86,7 +86,7 @@ namespace LMPlatform.UI.App_Start
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                 "~/Scripts/modernizr-*"));
             bundles.Add(new ScriptBundle("~/bundles/bootbox").Include("~/Scripts/bootbox.js", "~/Scripts/bootbox.min.js"));
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/font-awesome/font-awesome.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/Site.css", "~/Content/font-awesome/font-awesome.css"));
             bundles.Add(new StyleBundle("~/Content/angular").Include("~/Content/xeditable.css", "~/Content/ng-table.css", "~/Content/select.css"));
             bundles.Add(new StyleBundle("~/fileuploader/css").Include("~/Content/mvcfileupload/jquery.fileupload-bui.css"));
             bundles.Add(new StyleBundle("~/admin-style/css").Include(

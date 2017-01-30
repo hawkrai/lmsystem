@@ -16,6 +16,16 @@ mark {
     padding-right: 5px;
 }*/
 
+@font-face {
+  font-family: RobotoCondensed;
+  src: url('../fonts/RobotoCondensed-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url('../fonts/Roboto-Thin.ttf') format('truetype');
+}
+
 .float-left {
     float: left;
     margin: 0 auto;
@@ -977,5 +987,16 @@ legend.scheduler-border {
 .fixed-column {
     width: auto;
     /*border-right: 1px solid #ddd;*/
+}
+
+@keyframes blink {
+  50% { opacity: 0.0; }
+}
+@-webkit-keyframes blink {
+  50% { opacity: 0.0; }
+}
+.blink {
+  animation: blink 1s step-start 0s infinite;
+  -webkit-animation: blink 1s step-start 0s infinite;
 }
 

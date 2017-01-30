@@ -304,6 +304,12 @@ namespace LMPlatform.Data.Infrastructure
 
             modelBuilder.Entity<ConceptQuestions>().Map(m => m.ToTable("ConceptQuestions"));
 
+			modelBuilder.Entity<Question>()
+			  .HasMany<ConceptQuestions>(e => e.ConceptQuestions)
+			  .WithRequired(e => e.Question)
+			  .HasForeignKey(e => e.QuestionId)
+			  .WillCascadeOnDelete(true);
+
             modelBuilder.Entity<Subject>()
                 .HasMany<Concept>(e => e.Concept)
                 .WithRequired(e => e.Subject)
@@ -474,11 +480,12 @@ namespace LMPlatform.Data.Infrastructure
                 .WithMany(test => test.Questions)
                 .HasForeignKey(question => question.TestId);
 
-            var answerEntity = modelBuilder.Entity<Answer>();
+			var answerEntity = modelBuilder.Entity<Answer>();
             answerEntity.Property(answer => answer.Content).IsRequired();
             answerEntity.HasRequired(answer => answer.Question)
                 .WithMany(question => question.Answers)
                 .HasForeignKey(answer => answer.QuestionId);
+			
 
             var testUnlockEntity = modelBuilder.Entity<TestUnlock>();
             testUnlockEntity.HasRequired(testunlock => testunlock.Test)
@@ -500,7 +507,7 @@ namespace LMPlatform.Data.Infrastructure
             studentAnswerOnTestQuestionEntity.HasOptional(answer => answer.Answer)
                 .WithMany()
                 .HasForeignKey(answer => answer.AnswerId);
-        }
+		}
 
         #endregion Protected Members
 

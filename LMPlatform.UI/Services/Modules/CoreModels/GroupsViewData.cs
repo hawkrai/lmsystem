@@ -18,6 +18,9 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
         [DataMember]
         public string GroupName { get; set; }
 
+		[DataMember]
+		public int CountUnconfirmedStudents { get; set; }
+
         [DataMember]
         public List<StudentsViewData> Students { get; set; }
 

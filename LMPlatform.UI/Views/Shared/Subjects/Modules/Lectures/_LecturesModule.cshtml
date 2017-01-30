@@ -18,6 +18,22 @@
 			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083); /* IE6,IE7 */
 			-ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
 		}
+
+		.loading {
+			    /* display: block; */
+    position: fixed;
+    /* z-index: 100; */
+    /* background-image: url(http://loadinggif.com/images/image-selection/3.gif); */
+    background-color: #757575;
+    opacity: 0.6;
+    /* background-repeat: no-repeat; */
+    /* background-position: center; */
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+	margin-left: 240px;
+		}
 	</style>
 
 	<tabset>
@@ -86,7 +102,10 @@
 											</div>
 										</td>
 										<td>
-											<input type="button" style="margin-top: -1px; width: 150px;height: 36px" ng-click="visitingLExport()" class="btn btn-info btn-sm" value="Экспорт в Excel" />
+											<button class="btn btn-default" ng-click="visitingLExport()" style="margin-left: 10px;" tooltip="Загрузить документ в Excel">
+												<img src="~/Images/ExcelDownload.png" />
+											</button>
+											@*<input type="button" style="margin-top: -1px; width: 150px; height: 36px" ng-click="visitingLExport()" class="btn btn-info btn-sm" value="Экспорт в Excel"/>*@
 										</td>
 									</tr>
 								</tbody>
@@ -141,7 +160,9 @@
 				</div>
 			</tab>*@
 	</tabset>
-
+	<div class="loading ng-hide">
+		<span us-spinner="{radius:40, width:8, length: 16, opacity: 0, shadow: true, color: '#3c8dbc'}" spinner-key="spinner-1" spinner-start-active="true"></span>
+	</div>
 	<div id="dialogAddLectures" class="modal">
 		<div class="modal-dialog panel panel-primary" style="padding: 0px">
 			<div class="panel-heading">

@@ -156,14 +156,14 @@ namespace Application.Infrastructure.CPManagement
                 percentage = Context.CoursePercentagesGraphs
                               .Include(x => x.CoursePercentagesGraphToGroups)
                               .Single(x => x.Id == percentageData.Id);
-                if (Context.CoursePercentagesGraphs.Any(x => x.Name == percentageData.Name && x.Id != percentageData.Id))
+                if (Context.CoursePercentagesGraphs.Any(x => x.SubjectId == percentageData.SubjectId && x.Name == percentageData.Name && x.Id != percentageData.Id))
                 {
                     throw new ApplicationException("Этап с таким названием уже есть!");
                 }
             }
             else
             {
-                if (Context.CoursePercentagesGraphs.Any(x => x.Name == percentageData.Name))
+				if (Context.CoursePercentagesGraphs.Any(x => x.SubjectId == percentageData.SubjectId && x.Name == percentageData.Name))
                 {
                     throw new ApplicationException("Этап с таким названием уже есть!");
                 }

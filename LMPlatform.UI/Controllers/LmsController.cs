@@ -16,7 +16,9 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
-    using ViewModels.AdministrationViewModels;
+	using Application.Infrastructure.StudentManagement;
+
+	using ViewModels.AdministrationViewModels;
 
     [Authorize(Roles = "student, lector")]
     public class LmsController : BasicController
@@ -35,6 +37,7 @@ namespace LMPlatform.UI.Controllers
 	            ViewData["isMyProfile"] = isMyProfile;
 				ViewData["userLogin"] = string.IsNullOrEmpty(userLogin) || WebSecurity.CurrentUserName == userLogin ? WebSecurity.CurrentUserName : userLogin;
 
+				ViewData["UnconfirmedStudents"] = this.StudentManagementService.CountUnconfirmedStudents(WebSecurity.CurrentUserId) > 0;
 
                 return View(model);    
             }
@@ -49,6 +52,11 @@ namespace LMPlatform.UI.Controllers
 
         private readonly LazyDependency<IDpManagementService> _diplomProjectManagementService = new LazyDependency<IDpManagementService>();
 
-		
+		private IStudentManagementService StudentManagementService
+		{
+			get { return _studentManagementService.Value; }
+		}
+
+		private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
     }
 }

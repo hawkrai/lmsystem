@@ -45,6 +45,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.QuestionsRepository.Save(question);
+
                 Question existingQuestion = GetQuestion(question.Id);
                 var answersToDelete = existingQuestion.Answers.Where(a => question.Answers.All(answer => answer.Id != a.Id));
 

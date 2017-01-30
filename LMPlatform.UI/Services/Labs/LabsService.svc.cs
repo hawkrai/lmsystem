@@ -414,18 +414,7 @@ namespace LMPlatform.UI.Services.Labs
 									                                 x => x.Date).ToList()
 								                                 : new List<ScheduleProtectionLabs>()
 						                             : new List<ScheduleProtectionLabs>();
-					var files =
-						SubjectManagementService.GetUserLabFiles(student.Id, subjectId).Select(
-							t =>
-							new UserlabFilesViewData()
-								{
-									Comments = t.Comments,
-									Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty,
-									Id = t.Id,
-									PathFile = t.Attachments,
-									Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList()
-								}).ToList();
-					students.Add(new StudentsViewData(this.TestPassingService.GetStidentResults(subjectId, student.Id), student, scheduleProtectionLabs: scheduleProtectionLabs, labs: labsData, userLabsFile: files));
+					students.Add(new StudentsViewData(this.TestPassingService.GetStidentResults(subjectId, student.Id), student, scheduleProtectionLabs: scheduleProtectionLabs, labs: labsData));
 				}
 
 				return new StudentsMarksResult
@@ -439,8 +428,53 @@ namespace LMPlatform.UI.Services.Labs
 						TestMark = e.TestMark,
 						LabVisitingMark = e.LabVisitingMark,
 						Marks = e.StudentLabMarks,
-						FileLabs = e.FileLabs
 					}).ToList(),
+					Message = "",
+					Code = "200"
+				};
+			}
+			catch (Exception)
+			{
+				return new StudentsMarksResult()
+				{
+					Message = "Произошла ошибка при получении результатов студентов",
+					Code = "500"
+				};
+			}
+		}
+
+		public StudentsMarksResult GetFilesV2(int subjectId, int groupId)
+		{
+			try
+			{
+				var group = this.GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == subjectId && x.GroupId == groupId))
+					.Include(e => e.Students.Select(x => x.User))).ToList()[0];
+
+				var students = new List<StudentMark>();
+				
+				foreach (var student in group.Students.OrderBy(e => e.LastName))
+				{
+					var files =
+						SubjectManagementService.GetUserLabFiles(student.Id, subjectId).Select(
+							t =>
+							new UserlabFilesViewData()
+							{
+								Comments = t.Comments,
+								Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty,
+								Id = t.Id,
+								PathFile = t.Attachments,
+								Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList()
+							}).ToList();
+					students.Add(new StudentMark
+						             {
+										 FullName = student.FullName,
+										 FileLabs = files
+						             });
+				}
+
+				return new StudentsMarksResult
+				{
+					Students = students,
 					Message = "",
 					Code = "200"
 				};
@@ -537,14 +571,14 @@ namespace LMPlatform.UI.Services.Labs
 				labsSubOne.AddRange(labsSubTwo);
 
 				var scheduleProtectionLabsOne =
-					subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(
-						e => new ScheduleProtectionLabsViewData(e)).ToList();
+					subGroups.FirstOrDefault() != null ? subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(
+					e => new ScheduleProtectionLabsViewData(e)).ToList() : new List<ScheduleProtectionLabsViewData>();
 
 				scheduleProtectionLabsOne.ForEach(e => e.SubGroup = 1);
 
 				var scheduleProtectionLabsTwo =
-					subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(
-						e => new ScheduleProtectionLabsViewData(e)).ToList();
+					subGroups.LastOrDefault() != null ? subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(
+					e => new ScheduleProtectionLabsViewData(e)).ToList() : new List<ScheduleProtectionLabsViewData>();
 
 				scheduleProtectionLabsTwo.ForEach(e => e.SubGroup = 2);
 

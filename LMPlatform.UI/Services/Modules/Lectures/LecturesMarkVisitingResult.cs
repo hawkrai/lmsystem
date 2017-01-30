@@ -6,6 +6,7 @@ namespace LMPlatform.UI.Services.Modules.Lectures
     [DataContract]
     public class LecturesMarkVisitingResult : ResultViewData
     {
-    public List<LecturesGroupsVisitingViewData> GroupsVisiting { get; set; } 
+		[DataMember]
+		public List<LecturesGroupsVisitingViewData> GroupsVisiting { get; set; } 
     }
 }

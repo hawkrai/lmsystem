@@ -232,7 +232,5 @@ namespace LMPlatform.UI.Controllers
                 return _modulesManagementService.Value;
             }
         }
-
-
     }
 }
