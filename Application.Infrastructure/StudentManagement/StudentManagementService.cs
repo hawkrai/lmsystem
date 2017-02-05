@@ -115,7 +115,74 @@ namespace Application.Infrastructure.StudentManagement
 			}
 		}
 
-        private readonly LazyDependency<IUsersManagementService> _userManagementService =
+	    public void СonfirmationStudent(int studentId)
+	    {
+		    using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+		    {
+				var student = this.GetStudent(studentId);
+
+				student.Confirmed = true;
+
+				this.UpdateStudent(student);
+
+				var subjects = repositoriesContainer.SubjectRepository.GetSubjects(student.GroupId).Where(e => !e.IsArchive);
+
+			    foreach (var subject in subjects)
+			    {
+				    if (!subject.SubjectGroups.Any(e => e.SubjectStudents.Any(x => x.StudentId == student.Id)))
+				    {
+						var firstOrDefault = subject.SubjectGroups.FirstOrDefault(e => e.GroupId == student.GroupId);
+						if (firstOrDefault != null)
+						{
+							var subjectGroupId = firstOrDefault.Id;
+
+							var modelFirstSubGroup = repositoriesContainer.SubGroupRepository.GetBy(new Query<SubGroup>(e => e.SubjectGroupId == subjectGroupId && e.Name == "first"));
+
+							var subjectStudent = new SubjectStudent
+							{
+								StudentId = studentId,
+								SubGroupId = modelFirstSubGroup.Id,
+								SubjectGroupId = subjectGroupId
+							};
+							repositoriesContainer.RepositoryFor<SubjectStudent>().Save(subjectStudent);
+							repositoriesContainer.ApplyChanges();
+						}
+				    }
+			    }
+		    }
+	    }
+
+		public void UnConfirmationStudent(int studentId)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var student = this.GetStudent(studentId);
+
+				student.Confirmed = false;
+
+				this.UpdateStudent(student);
+
+				var subjects = repositoriesContainer.SubjectRepository.GetSubjects(student.GroupId).Where(e => !e.IsArchive);
+
+				foreach (var subject in subjects)
+				{
+					if (subject.SubjectGroups.Any(e => e.SubjectStudents.Any(x => x.StudentId == student.Id)))
+					{
+						var firstOrDefault = subject.SubjectGroups.FirstOrDefault(e => e.GroupId == student.GroupId);
+
+						if (firstOrDefault != null)
+						{
+							var subjectStudent = firstOrDefault.SubjectStudents.FirstOrDefault(e => e.StudentId == studentId);
+
+							repositoriesContainer.RepositoryFor<SubjectStudent>().Delete(subjectStudent);
+							repositoriesContainer.ApplyChanges();
+						}
+					}
+				}
+			}
+		}
+
+	    private readonly LazyDependency<IUsersManagementService> _userManagementService =
             new LazyDependency<IUsersManagementService>();
 
         public IUsersManagementService UserManagementService

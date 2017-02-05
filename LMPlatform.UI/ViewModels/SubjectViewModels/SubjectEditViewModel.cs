@@ -19,7 +19,9 @@ using Application.Infrastructure.CPManagement;
 
 namespace LMPlatform.UI.ViewModels.SubjectViewModels
 {
-    public class SubjectEditViewModel
+	using Application.Core.Data;
+
+	public class SubjectEditViewModel
     {
         private readonly LazyDependency<IModulesManagementService> _modulesManagementService = new LazyDependency<IModulesManagementService>();
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
@@ -28,6 +30,13 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         private readonly LazyDependency<IMaterialsManagementService> _materialsManagementService = new LazyDependency<IMaterialsManagementService>();
         private readonly LazyDependency<ICpContext> context = new LazyDependency<ICpContext>();
         private readonly LazyDependency<ICPManagementService> _cpManagementService = new LazyDependency<ICPManagementService>();
+
+		private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
+
+		private IStudentManagementService StudentManagementService
+		{
+			get { return _studentManagementService.Value; }
+		}
 
         private ICPManagementService CPManagementService
         {
@@ -278,6 +287,8 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             Context.SaveChanges();
 
             Subject sub = SubjectManagementService.SaveSubject(subject);
+	        this.SubjectId = sub.Id;
+	        this.CreateOrUpdateSubGroups();
 
             foreach (var module in sub.SubjectModules)
             {
@@ -287,5 +298,18 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                 }
             } 
         }
+
+	    private void CreateOrUpdateSubGroups()
+	    {
+		    var subject = this.SubjectManagementService.GetSubject(new Query<Subject>(e=> e.Id == this.SubjectId).Include(e => e.SubjectGroups.Select(x => x.SubGroups)));
+			foreach (var subjectGroup in subject.SubjectGroups)
+		    {
+			    if (!subjectGroup.SubGroups.Any())
+			    {
+					var students = this.StudentManagementService.GetGroupStudents(subjectGroup.GroupId).Where(e => e.Confirmed == null || e.Confirmed.Value);
+					this.SubjectManagementService.SaveSubGroup(this.SubjectId, subjectGroup.GroupId, students.Select(e => e.Id).ToList(), new List<int>());
+			    }
+		    }
+	    }
     }
 }

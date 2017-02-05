@@ -209,10 +209,7 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				var student = this.StudentManagementService.GetStudent(int.Parse(studentId));
-				student.Confirmed = true;
-
-				this.StudentManagementService.UpdateStudent(student);
+				this.StudentManagementService.СonfirmationStudent(int.Parse(studentId));
 
 				return new StudentsResult
 				{
@@ -234,10 +231,7 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				var student = this.StudentManagementService.GetStudent(int.Parse(studentId));
-				student.Confirmed = false;
-
-				this.StudentManagementService.UpdateStudent(student);
+				this.StudentManagementService.UnConfirmationStudent(int.Parse(studentId));
 
 				return new StudentsResult
 				{

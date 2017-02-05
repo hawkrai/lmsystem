@@ -21,5 +21,9 @@ namespace Application.Infrastructure.StudentManagement
         bool DeleteStudent(int id);
 
 	    int CountUnconfirmedStudents(int lecturerId);
+
+	    void СonfirmationStudent(int studentId);
+
+	    void UnConfirmationStudent(int studentId);
     }
 }

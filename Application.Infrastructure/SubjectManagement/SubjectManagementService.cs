@@ -88,6 +88,14 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
+		public Subject GetSubject(IQuery<Subject> query)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.SubjectRepository.GetBy(query);
+			}
+		}
+
 		public List<Labs> GetLabsV2(int subjectId)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
