@@ -7,6 +7,9 @@
     public class LabsResult : ResultViewData
     {
         [DataMember]
-        public List<LabsViewData> Labs { get; set; } 
+        public List<LabsViewData> Labs { get; set; }
+
+		[DataMember]
+		public List<ScheduleProtectionLabsViewData> ScheduleProtectionLabs { get; set; } 
     }
 }

@@ -19,5 +19,11 @@ namespace Application.Infrastructure.StudentManagement
         void UpdateStudent(Student student);
 
         bool DeleteStudent(int id);
+
+	    int CountUnconfirmedStudents(int lecturerId);
+
+	    void СonfirmationStudent(int studentId);
+
+	    void UnConfirmationStudent(int studentId);
     }
 }

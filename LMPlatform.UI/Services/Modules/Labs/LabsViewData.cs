@@ -47,6 +47,9 @@
             Attachments = FilesManagementService.GetAttachments(labs.Attachments);
         }
 
+		[DataMember]
+		public int SubGroup { get; set; }
+
         [DataMember]
         public int Order { get; set; }
 

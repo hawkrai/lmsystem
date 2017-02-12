@@ -155,7 +155,17 @@
 	<li><a href="@Url.Action("Index", "ScormMod")"><i class="fa fa-archive fa-tab"></i>SCORM</a></li>
 	@if (User.IsInRole("lector"))
 	{
-		<li class="no-hover" style="background-color: cadetblue;"><a style="color: white" href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Управление студентами</a></li>
+		<li class="no-hover" style="background-color: cadetblue;">
+			@if ((bool)ViewData["UnconfirmedStudents"])
+			{
+				<a class="blink" style="color: ivory;" href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Управление студентами</a>
+			}
+			else
+			{
+	<a style="color: white; " href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Управление студентами</a>
+}
+
+		</li>
 	}
 }
 

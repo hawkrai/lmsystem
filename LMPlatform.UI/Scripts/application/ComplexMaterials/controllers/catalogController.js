@@ -243,6 +243,10 @@
                 updateRootConceptList();
             }
 
+            $rootScope.goMonitoring = function ($event) {
+                window.location.href = "/Monitoring/?subjectId=" + subjectId;
+            }
+
             $rootScope.isBackspaceShow = function () {
                 return $scope.parent != undefined;
             }

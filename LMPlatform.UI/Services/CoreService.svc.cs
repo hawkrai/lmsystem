@@ -17,6 +17,7 @@ namespace LMPlatform.UI.Services
 
 	using Application.Core;
 	using Application.Core.Data;
+	using Application.Core.Extensions;
 	using Application.Infrastructure.GroupManagement;
 	using Application.Infrastructure.LecturerManagement;
 	using Application.Infrastructure.StudentManagement;
@@ -208,14 +209,33 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				var student = this.StudentManagementService.GetStudent(int.Parse(studentId));
-				student.Confirmed = true;
-
-				this.StudentManagementService.UpdateStudent(student);
+				this.StudentManagementService.СonfirmationStudent(int.Parse(studentId));
 
 				return new StudentsResult
 				{
 					Message = "Студент успешно подтвержден",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new StudentsResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
+			}
+		}
+
+		public StudentsResult UnConfirmationStudent(string studentId)
+		{
+			try
+			{
+				this.StudentManagementService.UnConfirmationStudent(int.Parse(studentId));
+
+				return new StudentsResult
+				{
+					Message = "Подтверждение отменено",
 					Code = "200"
 				};
 			}
@@ -256,11 +276,25 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				var groups = this.GroupManagementService.GetGroups();
+				var groups = this.GroupManagementService.GetLecturesGroups(WebSecurity.CurrentUserId);
+
+				var groupsViewModel = new List<GroupsViewData>();
+
+				foreach (var @group in groups.DistinctBy(e => e.Id))
+				{
+					var students = this.StudentManagementService.GetGroupStudents(@group.Id).Count(e => e.Confirmed != null && !e.Confirmed.Value);
+
+					groupsViewModel.Add(new GroupsViewData()
+					{
+						CountUnconfirmedStudents = students,
+						GroupId = @group.Id,
+						GroupName = students > 0 ? @group.Name + " - (" + students + ")" : @group.Name
+					});
+				}
 
 				return new GroupsResult
 				{
-					Groups = groups.Select(e => new GroupsViewData(){ GroupId = e.Id, GroupName = e.Name}).ToList(),
+					Groups = groupsViewModel.ToList(),
 					Message = "Группы успешно загружены",
 					Code = "200"
 				};
@@ -290,7 +324,7 @@ namespace LMPlatform.UI.Services
             }
             catch (Exception ex)
             {
-                return new GroupsResult
+                return new GroupsResult()
                 {
                     Message = ex.Message + "\n" + ex.StackTrace,
                     Code = "500"
@@ -298,7 +332,132 @@ namespace LMPlatform.UI.Services
             }
         }
 
-        public GroupsResult GetGroups(string subjectId)
+		public GroupsResult GetGroupsV2(string subjectId)
+		{
+			try
+			{
+				var id = int.Parse(subjectId);
+				var groups = this.GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id)));
+
+
+				var groupsViewData = new List<GroupsViewData>();
+
+				foreach (var @group in groups)
+				{
+					var subGroups = this.SubjectManagementService.GetSubGroupsV2(id, @group.Id);
+					groupsViewData.Add(new GroupsViewData
+					{
+						GroupId = @group.Id,
+						GroupName = @group.Name,
+						SubGroupsOne = subGroups.Any() ? new SubGroupsViewData
+							               {
+											   Name = "Подгруппа 1",
+											   SubGroupId = subGroups.FirstOrDefault().Id
+							               } : new SubGroupsViewData(),
+						SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
+						{
+							Name = "Подгруппа 2",
+							SubGroupId = subGroups.LastOrDefault().Id
+						} : new SubGroupsViewData(),
+					});
+				}
+
+				return new GroupsResult
+                {
+					Groups = groupsViewData,
+                    Message = "Группы успешно загружены",
+                    Code = "200"
+                };
+			}
+			catch (Exception ex)
+            {
+                return new GroupsResult()
+                {
+                    Message = ex.Message + "\n" + ex.StackTrace,
+                    Code = "500"
+                };
+            }
+        }
+
+		public LecturesMarkVisitingResult GetLecturesMarkVisitingV2(int subjectId, int groupId)
+		{
+			try
+			{
+				var groups = this.GroupManagementService.GetGroup(groupId);
+
+				var lecturesVisitingData = SubjectManagementService.GetScheduleVisitings(new Query<LecturesScheduleVisiting>(e => e.SubjectId == subjectId)).OrderBy(e => e.Date);
+
+				var lecturesVisiting = new List<LecturesMarkVisitingViewData>();
+
+				foreach (var student in groups.Students.OrderBy(e => e.FullName))
+				{
+					var data = new List<MarkViewData>();
+
+					foreach (var lecturesScheduleVisiting in lecturesVisitingData.OrderBy(e => e.Date))
+					{
+						if (
+							student.LecturesVisitMarks.Any(
+								e => e.LecturesScheduleVisitingId == lecturesScheduleVisiting.Id))
+						{
+							data.Add(new MarkViewData
+							{
+								Date = lecturesScheduleVisiting.Date.ToShortDateString(),
+								LecuresVisitId = lecturesScheduleVisiting.Id,
+								Mark = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == lecturesScheduleVisiting.Id).Mark,
+								MarkId = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == lecturesScheduleVisiting.Id).Id
+							});
+						}
+						else
+						{
+							data.Add(new MarkViewData
+							{
+								Date = lecturesScheduleVisiting.Date.ToShortDateString(),
+								LecuresVisitId = lecturesScheduleVisiting.Id,
+								Mark = string.Empty,
+								MarkId = 0
+							});
+						}
+					}
+
+					lecturesVisiting.Add(new LecturesMarkVisitingViewData
+					{
+						StudentId = student.Id,
+						StudentName = student.FullName,
+						Login = student.User.UserName,
+						Marks = data
+					});
+				}
+
+				var dataResulet = new List<LecturesGroupsVisitingViewData>()
+					                  {
+						                  new LecturesGroupsVisitingViewData()
+							                  {
+								                  GroupId =
+									                  groupId,
+								                  LecturesMarksVisiting
+									                  =
+									                  lecturesVisiting
+							                  }
+					                  };
+
+				return new LecturesMarkVisitingResult
+				{
+					GroupsVisiting = dataResulet,
+					Message = "",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new LecturesMarkVisitingResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
+			}
+		}
+
+		public GroupsResult GetGroups(string subjectId)
         {
             try
             {

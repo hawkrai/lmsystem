@@ -419,6 +419,7 @@
     <Compile Include="Services\Modules\Labs\LabsViewData.cs" />
     <Compile Include="Services\Modules\Labs\LabVisitingMark.cs" />
     <Compile Include="Services\Modules\Labs\ScheduleProtectionLab.cs" />
+    <Compile Include="Services\Modules\Labs\ScheduleProtectionLabResult.cs" />
     <Compile Include="Services\Modules\Labs\ScheduleProtectionLabsViewData.cs" />
     <Compile Include="Services\Modules\Labs\UserLabFilesResult.cs" />
     <Compile Include="Services\Modules\Labs\UserlabFilesViewData.cs" />

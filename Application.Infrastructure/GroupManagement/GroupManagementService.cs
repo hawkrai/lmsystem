@@ -15,7 +15,8 @@ namespace Application.Infrastructure.GroupManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId).Include(e => e.Students.Select(x => x.LecturesVisitMarks)));
+                return repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId).Include(e => e.Students.Select(x => x.LecturesVisitMarks))
+					.Include(e => e.Students.Select(x => x.User)));
             }
         }
 
@@ -369,5 +370,22 @@ namespace Application.Infrastructure.GroupManagement
             }
             return data;
         }
+
+	    public List<Group> GetLecturesGroups(int id)
+	    {
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var subjects = repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(new Query<SubjectLecturer>(e => e.LecturerId == id).Include(e => e.Subject.SubjectGroups.Select(x => x.Group)));
+
+				var groups = new List<Group>();
+
+				foreach (var subject in subjects)
+				{
+					groups.AddRange(subject.Subject.SubjectGroups.Select(e => e.Group));
+				}
+
+				return groups;
+			}
+	    }
     }
 }

@@ -50,7 +50,9 @@
 						<td style="min-width: 300px">{{data.FullName}}</td>
 						<td style="width: 50px; text-align: center">
 							<div ng-if="data.Confirmed">
-								<i class="fa fa-1x fa-check" style="color: green"></i>
+								<a style="cursor: pointer" ng-click="unConfirmationStudent(data.StudentId)">
+									<i class="fa fa-1x fa-check" style="color: green"></i>
+								</a>
 							</div>
 							<div ng-if="!data.Confirmed">
 								<a style="cursor: pointer" ng-click="confirmationStudent(data.StudentId)">

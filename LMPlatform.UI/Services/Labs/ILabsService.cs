@@ -24,6 +24,18 @@ namespace LMPlatform.UI.Services.Labs
 		[WebInvoke(UriTemplate = "/GetMarks?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
 		StudentsMarksResult GetMarks(int subjectId, int groupId);
 
+		[OperationContract]
+		[WebInvoke(UriTemplate = "/GetMarksV2?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+		StudentsMarksResult GetMarksV2(int subjectId, int groupId);
+
+		[OperationContract]
+		[WebInvoke(UriTemplate = "/GetFilesV2?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+		StudentsMarksResult GetFilesV2(int subjectId, int groupId);
+		
+		[OperationContract]
+		[WebInvoke(UriTemplate = "/GetLabsV2?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+		LabsResult GetLabsV2(string subjectId, int groupId);
+
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Save")]
         ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string shortName, string pathFile, string attachments);

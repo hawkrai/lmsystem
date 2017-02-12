@@ -259,7 +259,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                students = repositoriesContainer.StudentsRepository.GetAll(new Query<Student>(student => student.GroupId == groupId)
+				students = repositoriesContainer.StudentsRepository.GetAll(new Query<Student>(student => student.GroupId == groupId && (student.Confirmed == null || student.Confirmed.Value))
                     .Include(student => student.User.TestPassResults))
                     .ToList();
 

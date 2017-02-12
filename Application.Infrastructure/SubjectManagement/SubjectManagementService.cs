@@ -88,6 +88,22 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
+		public Subject GetSubject(IQuery<Subject> query)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.SubjectRepository.GetBy(query);
+			}
+		}
+
+		public List<Labs> GetLabsV2(int subjectId)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.LabsRepository.GetAll(new Query<Labs>(e => e.SubjectId == subjectId)).ToList();
+			}
+		}
+
 		public IPageableList<Subject> GetSubjectsLecturer(int lecturerId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
 		{
 			var query = new PageableQuery<Subject>(pageInfo, e => e.SubjectLecturers.Any(x => x.LecturerId == lecturerId && x.Owner == null && !e.IsArchive));
@@ -343,6 +359,32 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
+		public IList<SubGroup> GetSubGroupsV2(int subjectId, int groupId)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var subjectGroup =
+					repositoriesContainer.SubjectRepository.GetBy(
+						new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId))
+						.Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents))));
+						
+				return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
+			}
+		}
+
+		public IList<SubGroup> GetSubGroupsV2WithScheduleProtectionLabs(int subjectId, int groupId)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var subjectGroup =
+					repositoriesContainer.SubjectRepository.GetBy(
+						new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId))
+						.Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.ScheduleProtectionLabs))));
+						
+				return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
+			}
+		}
+		
 		public void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
