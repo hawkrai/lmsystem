@@ -1383,7 +1383,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                      comments: arrComment,
                      studentsId: arrStudentId,
                      Id: arrId,
-                     students: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students
+                     students: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2
                  },
                  headers: { 'Content-Type': 'application/json' }
              }).success(function (data, status) {
