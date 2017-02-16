@@ -5,6 +5,7 @@ using Application.SearchEngine.SearchMethods;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
+using System.Data.Entity;
 
 namespace Application.Infrastructure.ProjectManagement
 {
@@ -99,8 +100,8 @@ namespace Application.Infrastructure.ProjectManagement
         public IPageableList<Project> GetProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
             var query = new PageableQuery<Project>(pageInfo);
-            query.Include(e => e.Creator);
-            if (!string.IsNullOrEmpty(searchString))
+            query.Include(e => e.Creator.Lecturer).Include(e => e.Creator.Student);
+            if(!string.IsNullOrEmpty(searchString))
             {
                 query.AddFilterClause(
                     e => e.Title.ToLower().StartsWith(searchString) || e.Title.ToLower().Contains(searchString));

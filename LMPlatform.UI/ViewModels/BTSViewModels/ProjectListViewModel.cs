@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using Application.Core.UI.HtmlHelpers;
+using LMPlatform.Models;
 
 namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
@@ -29,6 +30,20 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
 
         public int Id { get; set; }
 
+        //TODO: Remove field
         public bool IsAssigned { get; set; }
+
+        public ProjectListViewModel()
+        {
+        }
+
+        public ProjectListViewModel(Project project)
+        {
+            Id = project.Id;
+            Title = project.Title;
+            CreatorName = project.Creator.FullName;
+            CreationDate = project.DateOfChange.ToShortDateString();
+            //UserQuentity = _context.GetProjectUsers(project.Id).Count;
+        }
     }
 }

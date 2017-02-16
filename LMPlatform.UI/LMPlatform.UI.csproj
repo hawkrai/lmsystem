@@ -252,6 +252,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\BTS\BTSProjectsController.cs" />
     <Compile Include="ApiControllers\CP\CourseProjectAssignmentController.cs" />
     <Compile Include="ApiControllers\CP\CourseProjectConsultationController.cs" />
     <Compile Include="ApiControllers\CP\CourseProjectConsultationDateController.cs" />
