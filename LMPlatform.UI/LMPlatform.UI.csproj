@@ -1826,6 +1826,8 @@
     <Content Include="Views\BTS\Projects.cshtml" />
     <Content Include="Views\Lms\ProfilePage.cshtml" />
     <Content Include="Views\BTS\IndexV2.cshtml" />
+    <Content Include="Views\BTS\_BTSnavleft.cshtml" />
+    <Content Include="Views\BTS\Projects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
