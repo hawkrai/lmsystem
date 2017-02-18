@@ -6,5 +6,4 @@
         '$resource',
         function ($scope, $location, $resource) {
 
-            $scope.Title = "Проекты";
         }]);

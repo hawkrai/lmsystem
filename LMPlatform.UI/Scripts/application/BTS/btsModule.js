@@ -7,8 +7,7 @@
     .config(['$routeProvider', function ($routeProvider) {
 
         $routeProvider.when('/Projects', {
-            template: 'AZAZA',
-            //templateUrl: '/Dp/Projects',
+            templateUrl: '/BTS/Projects',
             controller: 'projectsCtrl'
         });
 
