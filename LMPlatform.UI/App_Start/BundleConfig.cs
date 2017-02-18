@@ -195,6 +195,11 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/studentResultsController.js",
                 "~/Scripts/application/KnowledgeTesting/kkcountdown.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/btsApp").Include(
+                "~/Scripts/application/BTS/btsModule.js",
+                "~/Scripts/application/BTS/controllers/homeController.js",
+                "~/Scripts/application/BTS/controllers/projectsController.js"));
         }
     }
 }

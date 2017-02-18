@@ -348,6 +348,8 @@
     <Content Include="Images\Лого2.png" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\application\BTS\controllers\homeController.js" />
+    <Content Include="Scripts\application\BTS\controllers\projectsController.js" />
     <Content Include="Scripts\application\ComplexMaterials\BaseLoader.js" />
     <Content Include="Scripts\application\ComplexMaterials\complexMaterialsApp.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\catalogController.js" />
@@ -374,6 +376,7 @@
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
+    <Content Include="Scripts\application\BTS\btsModule.js" />
     <Compile Include="Services\Concept\ConceptService.svc.cs">
       <DependentUpon>ConceptService.svc</DependentUpon>
     </Compile>
@@ -1815,6 +1818,7 @@
     <Content Include="Views\Subject\JoinLector.cshtml" />
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\Shared\Layouts\_StartLayout.cshtml" />
+    <Content Include="Views\BTS\IndexV2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "BTS";
+    ViewBag.NgApp = "btsApp";
+    ViewBag.NgController = "homeCtrl";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/btsApp")
+}
+
+@section navleft
+{
+    @Html.Partial("_BTSnavleft")
+}
+
+@section headerTitle
+{
+    <h1 ng-cloak>{{Title}}</h1>
+}
+
+<div ng-view></div>

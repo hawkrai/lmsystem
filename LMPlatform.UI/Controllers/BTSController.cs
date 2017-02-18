@@ -46,6 +46,12 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult IndexV2()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Index(ProjectListViewModel model)
         {
