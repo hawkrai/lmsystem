@@ -6,6 +6,7 @@ using LMPlatform.Models;
 
 namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
+    //TODO: Remove inheritance
     public class ProjectListViewModel : BaseNumberedGridItem
     {
         [DataType(DataType.Text)]
@@ -21,6 +22,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Кол-во участников проекта")]
         public int UserQuentity { get; set; }
 
+        //TODO: Remove field
         [DisplayName("Действие")]
         public HtmlString Action
         {
@@ -43,7 +45,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             Title = project.Title;
             CreatorName = project.Creator.FullName;
             CreationDate = project.DateOfChange.ToShortDateString();
-            //UserQuentity = _context.GetProjectUsers(project.Id).Count;
+            UserQuentity = project.ProjectUsers.Count;
         }
     }
 }

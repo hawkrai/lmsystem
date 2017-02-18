@@ -100,7 +100,9 @@ namespace Application.Infrastructure.ProjectManagement
         public IPageableList<Project> GetProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
             var query = new PageableQuery<Project>(pageInfo);
-            query.Include(e => e.Creator.Lecturer).Include(e => e.Creator.Student);
+            query.Include(e => e.Creator.Lecturer)
+                .Include(e => e.Creator.Student)
+                .Include(e => e.ProjectUsers);
             if(!string.IsNullOrEmpty(searchString))
             {
                 query.AddFilterClause(
