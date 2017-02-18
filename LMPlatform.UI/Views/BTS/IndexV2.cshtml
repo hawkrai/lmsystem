@@ -19,4 +19,7 @@
     <h1 ng-cloak>{{Title}}</h1>
 }
 
-<div ng-view></div>
+@{
+    var IsLector = @User.IsInRole("lector") ? 1 : 0;
+    <div ng-view ng-init="init(@IsLector)"></div>
+}
