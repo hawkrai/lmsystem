@@ -9,6 +9,6 @@
             $scope.Title = 'Проекты';
             
             $scope.isActive = function (href) {
-                return href == $location.path();
+                return href === $location.path();
             };
         }]);
