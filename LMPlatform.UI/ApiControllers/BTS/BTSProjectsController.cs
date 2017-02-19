@@ -21,13 +21,10 @@ namespace LMPlatform.UI.ApiControllers.BTS
         }
 
         [System.Web.Http.HttpGet]
-        public JsonResult Index(int? pageSize = null, int pageNumber = 1)
+        public JsonResult Index(int pageSize = 0, int pageNumber = 1)
         {
             var pageInfo = new PageInfo();
-            if (pageSize.HasValue)
-            {
-                pageInfo.PageSize = pageSize.Value;
-            }
+            pageInfo.PageSize = pageSize;
             pageInfo.PageNumber = pageNumber;
             var projects = ProjectManagementService.GetProjects(pageInfo: pageInfo).Items.Select(e => new ProjectListViewModel(e)).ToList();
             return new JsonResult()
