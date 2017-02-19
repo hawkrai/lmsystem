@@ -7,30 +7,24 @@
     <table>
         <tr>
             <td>
-                @Html.ListBox("StudentList",Model.StudentGroupList, new {@class = "form-control", @style="width: 250px; height: 480px"})    
+	            @*@Html.ListBox("StudentList",Model.StudentGroupList, new {@class = "form-control", @style="width: 250px; height: 480px"})*@
+				<div>
+					<h5 class="text-muted">Первая подгруппа</h5>
+					@Html.ListBox("StudentFirstList", Model.SubGroupsFirstList.OrderBy(e => e.Text), new { @class = "form-control", @style = "width: 300px; height:  402px" })
+				</div>
             </td>
             <td>
-                <div id="subGroupFirst" style="margin-top: 30px">
+                <div id="subGroup" style="margin-top: 30px">
                     <a class="btn btn-sm bright" style="margin: 5px"><i class="fa fa-angle-right fa-2x"></i></a>
                     <a class="btn btn-sm bleft" style="margin: 5px"><i class="fa fa-angle-left fa-2x"></i></a>
                     <a class="btn btn-sm double-right" style="margin: 5px"><i class="fa fa-angle-double-right fa-2x"></i></a>
                     <a class="btn btn-sm double-left" style="margin: 5px"><i class="fa fa-angle-double-left fa-2x"></i></a>
                 </div>
-                <div id="subGroupTwo" style="margin-top: 30px">
-                    <a class="btn btn-sm bright" style="margin: 5px"><i class="fa fa-angle-right fa-2x"></i></a>
-                    <a class="btn btn-sm bleft" style="margin: 5px"><i class="fa fa-angle-left fa-2x"></i></a>
-                    <a class="btn btn-sm double-right" style="margin: 5px"><i class="fa fa-angle-double-right fa-2x"></i></a>
-                    <a class="btn btn-sm double-left" style="margin: 5px"><i class="fa fa-angle-double-left fa-2x"></i></a>
-                </div>
             </td>
             <td>
-                <div>
-                    <h5 class="text-muted">Первая подгруппа</h5>
-                    @Html.ListBox("StudentFirstList", Model.SubGroupsFirstList.OrderBy(e => e.Text), new {@class = "form-control", @style="width: 245px; height:  202px"})
-                </div>
                 <div>
                     <h5 class="text-muted">Вторая подгруппа</h5>
-                    @Html.ListBox("StudentSecondList", Model.SubGroupsTwoList.OrderBy(e => e.Text), new {@class = "form-control", @style="width: 245px; height: 202px"})
+                    @Html.ListBox("StudentSecondList", Model.SubGroupsTwoList.OrderBy(e => e.Text), new {@class = "form-control", @style="width: 300px; height: 402px"})
                 </div>
             </td>
         </tr>

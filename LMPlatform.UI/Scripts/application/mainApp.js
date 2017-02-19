@@ -1222,7 +1222,14 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 					alertify.error(data.Message);
 				} else {
 					$scope.$apply(function () {
-						$scope.groupWorkingData.selectedGroup.StudentsFilesV2 = data.Students;
+						$scope.groupWorkingData.selectedGroup.StudentsFilesV2_1 = $filter("filter")(data.Students, function (r) {
+							return r.SubGroup === 1;
+						});
+
+						$scope.groupWorkingData.selectedGroup.StudentsFilesV2_2 = $filter("filter")(data.Students, function (r) {
+							return r.SubGroup === 2;
+						});
+
 					});
 				}
 				$scope.stopSpin();

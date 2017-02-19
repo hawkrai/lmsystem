@@ -26,6 +26,9 @@
 
 					if ($scope.selectedGroup) {
 						$scope.viewStudent($scope.selectedGroup);
+					} else if ($scope.groups != null && $scope.groups.length > 0) {
+						$scope.selectedGroup = $scope.groups[0];
+						$scope.viewStudent($scope.selectedGroup);
 					}
 				});
 			});

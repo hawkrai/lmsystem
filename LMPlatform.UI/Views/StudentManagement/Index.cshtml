@@ -42,13 +42,13 @@
 						<tr>
 							<th>№</th>
 							<th>Студент</th>
-							<th>Подтвержден</th>
+							<th style="width: 100px">Подтвердить/Открепить</th>
 						</tr>
 					</thead>
 					<tr ng-repeat="data in students">
 						<td style="width: 20px">{{$index + 1}}</td>
 						<td style="min-width: 300px">{{data.FullName}}</td>
-						<td style="width: 50px; text-align: center">
+						<td style="width: 100px; text-align: center">
 							<div ng-if="data.Confirmed">
 								<a style="cursor: pointer" ng-click="unConfirmationStudent(data.StudentId)">
 									<i class="fa fa-1x fa-check" style="color: green"></i>
