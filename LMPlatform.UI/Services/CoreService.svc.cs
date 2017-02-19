@@ -253,7 +253,7 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				var students = this.GroupManagementService.GetGroup(int.Parse(groupId)).Students;
+				var students = this.GroupManagementService.GetGroup(int.Parse(groupId)).Students.OrderBy(e => e.FullName);
 
 				return new StudentsResult
 				{

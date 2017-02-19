@@ -28,7 +28,7 @@
 		}
 		return context[func].apply(context, args);
 	},
-	savingDialog: function (header, url, data, color, saveCallback, beforeSave, setting) {
+	savingDialog: function (header, url, data, color, saveCallback, beforeSave, setting, width) {
 	    var that = this;
 	    var dialogId = that.generateUniqID();
 	    if (color == null) {
@@ -45,13 +45,17 @@
 	        "<div class=\"modal-body\">" +
 	        "</div>" +
 	        " <div class=\"modal-footer\">" +
-	        "<a href=\"#\" class=\"btn btn-" + color + " btn-sm\" id=\"cancelButton\" data-dismiss=\"modal\">Отменить</a>";
+	        "<a href=\"#\" class=\"btn btn-default btn-sm\" id=\"cancelButton\" data-dismiss=\"modal\">Отменить</a>";
 	    if (!setting || (setting && (!setting.hideSaveButton)))
 	        bootstrapDialogMarkup += "<a href=\"#\" class=\"btn btn-" + color + " btn-sm\" id=\"saveButton\" data-dismiss=\"modal\">Сохранить</a></div>";
 	    bootstrapDialogMarkup += "</div>" +
         "</dvi>";
 	    
 	    $(dialogContainer).html(bootstrapDialogMarkup);
+
+	    if (width) {
+		    $(dialogContainer).find('.modal-dialog').attr("style", 'padding:0px; width:' + width);
+	    }
 	    
 		$("#" + dialogId + " .modal-body").load(url, data, function () {
 			var form = $($.elementId(dialogId) + " .modal-body").find("form")[0];
