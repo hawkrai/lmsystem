@@ -350,6 +350,7 @@
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\application\BTS\controllers\homeController.js" />
     <Content Include="Scripts\application\BTS\controllers\projectsController.js" />
+    <Content Include="Scripts\application\BTS\services\projectsService.js" />
     <Content Include="Scripts\application\ComplexMaterials\BaseLoader.js" />
     <Content Include="Scripts\application\ComplexMaterials\complexMaterialsApp.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\catalogController.js" />

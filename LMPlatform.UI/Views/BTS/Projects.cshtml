@@ -10,24 +10,27 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr ng-repeat="project in projects">
             <td>
-                1
+                {{project.Number}}
             </td>
             <td>
-                2
+                {{project.Title}}
             </td>
             <td>
-                3
+                {{project.CreationDate}}
             </td>
             <td>
-                4
+                {{project.CreatorName}}
             </td>
             <td>
-                5
+                {{project.UserQuentity}}
             </td>
-            <td>
-                6
+            <td style="width: 83px;">
+                <div name="projectGridActionsCol" align="center">
+                    <a class="editProjectButton" href="#" style="margin-right: 10px"><i class="editProject fa fa-edit fa-1x"></i></a>
+                    <a href="#" class="deleteButton" style="margin-right: 10px"><span class="fa fa-trash-o fa-1x"/></a>
+                </div>
             </td>
         </tr>
     </tbody>

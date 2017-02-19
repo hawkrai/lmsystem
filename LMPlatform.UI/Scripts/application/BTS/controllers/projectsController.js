@@ -1,9 +1,12 @@
 ﻿angular
-    .module('btsApp.ctrl.projects', ['ngResource'])
+    .module('btsApp.ctrl.projects', [])
     .controller('projectsCtrl', [
         '$scope',
-        '$location',
-        '$resource',
-        function ($scope, $location, $resource) {
+        'projectsService',
+        function ($scope, projectsService) {
 
+            projectsService.getProjects().then(function (response) {
+                $scope.projects = response.data.Data.Data;
+                projectsService.addNumbering($scope.projects);
+            });
         }]);
