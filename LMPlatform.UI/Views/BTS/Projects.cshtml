@@ -9,7 +9,7 @@
             <th>Действие</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody infinite-scroll='loadProjects()' infinite-scroll-distance='1'>
         <tr ng-repeat="project in projects" project-directive>
             <td>
                 {{project.Number}}
@@ -29,7 +29,7 @@
             <td style="width: 83px;">
                 <div name="projectGridActionsCol" align="center">
                     <a class="editProjectButton" href="#" style="margin-right: 10px"><i class="editProject fa fa-edit fa-1x"></i></a>
-                    <a href="#" class="deleteButton" style="margin-right: 10px"><span class="fa fa-trash-o fa-1x"/></a>
+                    <a href="#" class="deleteButton" style="margin-right: 10px"><span class="fa fa-trash-o fa-1x" /></a>
                 </div>
             </td>
         </tr>

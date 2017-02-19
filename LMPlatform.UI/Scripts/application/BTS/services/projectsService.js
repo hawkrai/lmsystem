@@ -6,19 +6,27 @@
 
             var projectsUrl = '/api/BtsProjects';
 
+            function formParams(pageNumber, pageSize) {
+                return {
+                    pageNumber: pageNumber,
+                    pageSize: pageSize
+                };
+            };
+
             return {
-                getProjects: function (params) {
+                getProjects: function (pageNumber, pageSize) {
                     return $http({
                         method: 'GET',
                         url: projectsUrl,
-                        params: params
+                        params: formParams(pageNumber, pageSize)
                     });
                 },
 
-                addNumbering: function (projects) {
-                    projects.forEach(function (item, i) {
-                        item.Number = i + 1;
-                    });
+                addNumbering: function (projects, indexFrom) {
+                    var length = projects.length;
+                    for (var i = indexFrom; i < length; i++) {
+                        projects[i].Number = i + 1;
+                    }
                 }
             };
         }]);
