@@ -1,4 +1,13 @@
-﻿<table class="table table-bordered table-striped table-hover">
+﻿<div class="row">
+    <div class="col-md-2 col-lg-2">
+        <a class="addProjectButton btn btn-primary btn-sm" href="@Url.Action("AddProject", "BTS")">Добавить проект</a>
+    </div>
+    <div class="col-md-3 col-md-offset-7 col-lg-2 col-lg-offset-8">
+        <input id="projectsSearch" type="text" class="form-control" placeholder="Поиск">
+    </div>
+</div>
+
+<table class="table table-bordered table-striped table-hover">
     <thead>
         <tr>
             <th>№</th>
