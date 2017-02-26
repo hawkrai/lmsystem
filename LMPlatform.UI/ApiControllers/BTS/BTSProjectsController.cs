@@ -9,6 +9,7 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ApiControllers.BTS
 {
+    [System.Web.Http.Authorize(Roles = "student, lector")]
     public class BTSProjectsController : ApiController
     {
         private readonly LazyDependency<IProjectManagementService> projectManagementService = new LazyDependency<IProjectManagementService>();
