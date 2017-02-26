@@ -10,7 +10,7 @@
 <table class="table table-bordered table-striped table-hover">
     <thead>
         <tr>
-            <th>№</th>
+            <th style="text-align: center;">№</th>
             <th>Тема проекта</th>
             <th>Дата создания</th>
             <th>Создатель</th>
@@ -20,7 +20,7 @@
     </thead>
     <tbody infinite-scroll='loadProjects()' infinite-scroll-distance='1'>
         <tr ng-repeat="project in projects" project-directive>
-            <td>
+            <td style="text-align: center; width: 20px;">
                 {{project.Number}}
             </td>
             <td>
