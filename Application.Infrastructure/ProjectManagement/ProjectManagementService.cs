@@ -116,6 +116,26 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
+        public IPageableList<Project> GetUserProjects(int userId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
+        {
+            var query = new PageableQuery<Project>(pageInfo);
+            query.Include(e => e.Creator.Lecturer)
+                .Include(e => e.Creator.Student)
+                .Include(e => e.ProjectUsers)
+                .AddFilterClause(e => e.ProjectUsers.Any(e2 => e2.UserId == userId));
+            if(!string.IsNullOrEmpty(searchString))
+            {
+                query.AddFilterClause(
+                    e => e.Title.ToLower().StartsWith(searchString) || e.Title.ToLower().Contains(searchString));
+            }
+
+            query.OrderBy(sortCriterias);
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetPageableBy(query);
+            }
+        }
+
         //public void AssingRole(int userId, int projectId, int roleId)
         public void AssingRole(ProjectUser projectUser)
         {

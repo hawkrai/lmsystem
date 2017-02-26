@@ -18,6 +18,8 @@ namespace Application.Infrastructure.ProjectManagement
 
         IPageableList<Project> GetProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
+        IPageableList<Project> GetUserProjects(int userId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
+
         List<ProjectUser> GetProjectUsers(int projectId);
 
         List<ProjectUser> GetProjectsOfUser(int userId);

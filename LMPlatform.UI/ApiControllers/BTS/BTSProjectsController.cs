@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Application.Core.Data;
 using System.Linq;
 using LMPlatform.UI.ViewModels.BTSViewModels;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ApiControllers.BTS
 {
@@ -20,13 +21,14 @@ namespace LMPlatform.UI.ApiControllers.BTS
             }
         }
 
+        
         [System.Web.Http.HttpGet]
         public JsonResult Index(int pageSize = 0, int pageNumber = 1)
         {
             var pageInfo = new PageInfo();
             pageInfo.PageSize = pageSize;
             pageInfo.PageNumber = pageNumber;
-            var projects = ProjectManagementService.GetProjects(pageInfo: pageInfo).Items.Select(e => new ProjectListViewModel(e)).ToList();
+            var projects = ProjectManagementService.GetUserProjects(WebSecurity.CurrentUserId, pageInfo: pageInfo).Items.Select(e => new ProjectListViewModel(e)).ToList();
             return new JsonResult()
             {
                 Data = new
