@@ -27,4 +27,10 @@
                     busy = false;
                 });
             };
+
+            $scope.addProject = function () {
+                $.savingDialog("Добавление проекта", "/BTS/AddProject", null, "primary", function (data) {
+                    alertify.success("Добавлен новый проект");
+                })
+            };
         }]);
