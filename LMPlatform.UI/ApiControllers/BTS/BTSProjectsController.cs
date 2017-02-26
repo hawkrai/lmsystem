@@ -29,7 +29,8 @@ namespace LMPlatform.UI.ApiControllers.BTS
             var pageInfo = new PageInfo();
             pageInfo.PageSize = pageSize;
             pageInfo.PageNumber = pageNumber;
-            var projects = ProjectManagementService.GetUserProjects(WebSecurity.CurrentUserId, pageInfo: pageInfo).Items.Select(e => new ProjectListViewModel(e)).ToList();
+            var projects = ProjectManagementService.GetUserProjects(WebSecurity.CurrentUserId, pageInfo: pageInfo).Items
+                .Select(e => new ProjectListViewModel(e)).ToList();
             return new JsonResult()
             {
                 Data = new
