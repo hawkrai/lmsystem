@@ -28,9 +28,39 @@
                 });
             };
 
-            $scope.addProject = function () {
+            $scope.onAddProject = function () {
                 $.savingDialog("Добавление проекта", "/BTS/AddProject", null, "primary", function (data) {
                     alertify.success("Добавлен новый проект");
                 })
+            };
+
+            $scope.onEditProject = function (id) {
+                $.savingDialog("Редактирование проекта", "/BTS/Editproject/" + id, null, "primary", function (data) {
+                    alertify.success("Проект успешно изменен");
+                });
+            };
+
+            function deleteProject(id) {
+                console.log(id);
+            };
+
+            $scope.onDeleteProject = function (id) {
+                bootbox.confirm({
+                    title: 'Удаление проекта',
+                    message: 'Вы дествительно хотите удалить проект?',
+                    buttons: {
+                        'cancel': {
+                            label: 'Отмена',
+                            className: 'btn btn-primary btn-sm'
+                        },
+                        'confirm': {
+                            label: 'Удалить',
+                            className: 'btn btn-primary btn-sm',
+                        }
+                    },
+                    callback: function () {
+                        deleteProject(id);
+                    }
+                });
             };
         }]);

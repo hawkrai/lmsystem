@@ -1,6 +1,6 @@
 ﻿<div class="row">
     <div class="col-md-2 col-lg-2">
-        <a class="btn btn-primary btn-sm" ng-click="addProject()">Добавить проект</a>
+        <a class="btn btn-primary btn-sm" ng-click="onAddProject()">Добавить проект</a>
     </div>
     <div class="col-md-3 col-md-offset-7 col-lg-2 col-lg-offset-8">
         <input id="projectsSearch" type="text" class="form-control" placeholder="Поиск">
@@ -37,8 +37,8 @@
             </td>
             <td style="width: 83px;">
                 <div name="projectGridActionsCol" align="center">
-                    <a class="editProjectButton" href="#" style="margin-right: 10px"><i class="editProject fa fa-edit fa-1x"></i></a>
-                    <a href="#" class="deleteButton" style="margin-right: 10px"><span class="fa fa-trash-o fa-1x" /></a>
+                    <a ng-click="onEditProject(project.Id)" style="margin-right: 10px"><i class="editProject fa fa-edit fa-1x"></i></a>
+                    <a ng-click="onDeleteProject(project.Id)" style="margin-right: 10px"><span class="fa fa-trash-o fa-1x" /></a>
                 </div>
             </td>
         </tr>
