@@ -21,7 +21,6 @@ namespace LMPlatform.UI.ApiControllers.BTS
                 return projectManagementService.Value;
             }
         }
-
         
         [System.Web.Http.HttpGet]
         public JsonResult Index(int pageSize = 0, int pageNumber = 1)
