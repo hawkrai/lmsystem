@@ -179,6 +179,7 @@ namespace LMPlatform.UI.Controllers
                 model.Skill = course > 5 ? "Окончил (-а)" : course + " курс";
 
                 model.Group = user.Student.Group.Name;
+				model.GroupId = user.Student.Group.Id;
             }
 
 
