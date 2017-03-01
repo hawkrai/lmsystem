@@ -83,14 +83,14 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			SubGroupsFirstList = new List<SelectListItem>();
 			SubGroupsTwoList = new List<SelectListItem>();
 
-			SubGroupsFirstList = subGroups.FirstOrDefault().SubjectStudents.Select(e => new SelectListItem
+			SubGroupsFirstList = subGroups.FirstOrDefault().SubjectStudents.Where(e => e.Student.Confirmed == null || e.Student.Confirmed.Value).Select(e => new SelectListItem
 			{
 				Text = e.Student.FullName,
 				Value = e.Student.Id.ToString(CultureInfo.InvariantCulture),
 				Selected = false
 			}).ToList();
 
-			SubGroupsTwoList = subGroups.LastOrDefault().SubjectStudents.Select(e => new SelectListItem
+			SubGroupsTwoList = subGroups.LastOrDefault().SubjectStudents.Where(e => e.Student.Confirmed == null || e.Student.Confirmed.Value).Select(e => new SelectListItem
 			{
                 Text = e.Student.FullName,
 				Value = e.Student.Id.ToString(CultureInfo.InvariantCulture),

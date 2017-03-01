@@ -67,10 +67,54 @@ namespace Application.Infrastructure.StudentManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 repositoriesContainer.StudentsRepository.SaveStudent(student);
-                repositoriesContainer.ApplyChanges();                
+                repositoriesContainer.ApplyChanges();
+				this.UpdateSubGroup(repositoriesContainer, student);
+
             }
             return student;
         }
+
+
+		private void UpdateSubGroup(LmPlatformRepositoriesContainer repositoriesContainer, Student student)
+	    {
+			var subjectGroup = 
+				repositoriesContainer.RepositoryFor<SubjectGroup>().GetAll(
+					new Query<SubjectGroup>(e => e.GroupId == student.GroupId).Include(
+						e => e.Subject.SubjectGroups.Select(x => x.SubGroups))
+						.Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))).ToList();
+
+			foreach (var subject in subjectGroup.Select(e => e.Subject).ToList())
+			{
+				var subGroup = subject.SubjectGroups.FirstOrDefault(e => e.GroupId == student.GroupId);
+
+				if (
+					!subGroup.SubjectStudents.Any(
+						e => e.StudentId == student.Id))
+				{
+					if (subGroup.SubGroups != null && subGroup.SubGroups.Any())
+					{
+						var modelFirstSubGroup = subGroup.SubGroups.FirstOrDefault(e => e.Name == "first").SubjectStudents;
+
+						var first = modelFirstSubGroup.Select(e => e.StudentId).ToList();
+
+						first.Add(student.Id);
+
+						var modelSecondSubGroup = subGroup.SubGroups.FirstOrDefault(e => e.Name == "second").SubjectStudents ?? new List<SubjectStudent>();
+
+						repositoriesContainer.SubGroupRepository.SaveStudents(subject.Id, subGroup.Id, first, modelSecondSubGroup.Select(e => e.StudentId).ToList());
+					}
+					else
+					{
+						var students = this.GetGroupStudents(student.GroupId).Where(e => e.Confirmed == null || e.Confirmed.Value);
+
+						repositoriesContainer.SubGroupRepository.CreateSubGroup(subject.Id, subGroup.Id, students.Select(e => e.Id).ToList(), new List<int>());
+						
+					}
+					
+					repositoriesContainer.ApplyChanges();
+				}
+			}
+	    }
 
         public void UpdateStudent(Student student)
         {
@@ -83,6 +127,8 @@ namespace Application.Infrastructure.StudentManagement
 				repositoriesContainer.UsersRepository.Save(user);
                 repositoriesContainer.ApplyChanges();
                 new StudentSearchMethod().UpdateIndex(student);
+
+				this.UpdateSubGroup(repositoriesContainer, student);
             }
         }
 

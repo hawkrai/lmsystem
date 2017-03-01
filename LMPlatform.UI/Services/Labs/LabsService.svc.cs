@@ -403,7 +403,7 @@ namespace LMPlatform.UI.Services.Labs
 				var students = new List<StudentsViewData>();
 
 
-				foreach (var student in group.Students.OrderBy(e => e.LastName))
+				foreach (var student in group.Students.Where(e => e.Confirmed == null || e.Confirmed.Value).OrderBy(e => e.LastName))
 				{
 					var scheduleProtectionLabs = subGroups.Any()
 						                             ? subGroups.FirstOrDefault().SubjectStudents.Any(x => x.StudentId == student.Id)
