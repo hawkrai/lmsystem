@@ -17,6 +17,14 @@ namespace Application.Infrastructure.ProjectManagement
 
     public class ProjectManagementService : IProjectManagementService
     {
+        public List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string searchString = null)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetUserProjects(userId);
+            }
+        }
+
         public Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

@@ -380,6 +380,10 @@
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
     <Content Include="Scripts\application\BTS\btsModule.js" />
+    <Compile Include="Services\BTS\IProjectsService.cs" />
+    <Compile Include="Services\BTS\ProjectsService.svc.cs">
+      <DependentUpon>ProjectsService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Services\Concept\ConceptService.svc.cs">
       <DependentUpon>ConceptService.svc</DependentUpon>
     </Compile>
@@ -408,6 +412,8 @@
     <Compile Include="Services\Lectures\LecturesService.svc.cs">
       <DependentUpon>LecturesService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\Modules\BTS\ProjectsResult.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectsViewData.cs" />
     <Compile Include="Services\Modules\Concept\ConceptResult.cs" />
     <Compile Include="Services\Modules\Concept\ConceptViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
@@ -1327,6 +1333,7 @@
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\xeditable.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Services\BTS\ProjectsService.svc" />
     <Content Include="Services\Concept\ConceptService.svc" />
     <Content Include="Services\CoreService.svc" />
     <Content Include="Services\Files\FilesService.svc" />

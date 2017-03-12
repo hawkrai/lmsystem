@@ -16,6 +16,19 @@ namespace LMPlatform.Data.Repositories
         {
         }
 
+        public List<Project> GetUserProjects(int userId)
+        {
+            using(var context = new LmPlatformModelsContext())
+            {
+                return context.Set<Project>()
+                    .Include(e => e.Creator.Lecturer)
+                    .Include(e => e.Creator.Student)
+                    .Include(e => e.ProjectUsers)
+                    .Where(e => e.ProjectUsers.Any(e2 => e2.UserId == userId))
+                    .ToList();
+            }
+        } 
+
         public void DeleteProject(Project project)
         {
             using (var context = new LmPlatformModelsContext())
