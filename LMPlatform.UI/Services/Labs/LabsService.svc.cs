@@ -422,6 +422,7 @@ namespace LMPlatform.UI.Services.Labs
 					Students = students.Select(e => new StudentMark()
 					{
 						FullName = e.FullName,
+						Login = e.Login,
 						SubGroup = subGroups.FirstOrDefault().SubjectStudents.Any(x => x.StudentId == e.StudentId) ? 1 : subGroups.LastOrDefault().SubjectStudents.Any(x => x.StudentId == e.StudentId) ? 2 : 3,
 						StudentId = e.StudentId,
 						LabsMarkTotal = e.LabsMarkTotal,

@@ -15,6 +15,9 @@
 		public string FullName { get; set; }
 
 		[DataMember]
+		public string Login { get; set; }
+
+		[DataMember]
 		public List<StudentLabMarkViewData> Marks { get; set; }
 
 		[DataMember]
