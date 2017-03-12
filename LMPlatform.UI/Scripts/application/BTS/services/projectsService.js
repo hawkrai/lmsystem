@@ -4,7 +4,7 @@
         '$http',
         function ($http) {
 
-            var projectsUrl = '/api/BtsProjects';
+            var projectsUrl = '/Services/BTS/ProjectsService.svc/Index';
 
             function formParams(pageNumber, pageSize) {
                 return {

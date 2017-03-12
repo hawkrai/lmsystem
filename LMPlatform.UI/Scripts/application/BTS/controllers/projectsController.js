@@ -16,11 +16,11 @@
                 busy = true;
 
                 projectsService.getProjects(++pageNumber, PAGE_SIZE).then(function (response) {
-                    if (response.data.Data.Data.length == 0) {
+                    if (response.data.Projects.length == 0) {
                         busy = true;
                         return;
                     }
-                    response.data.Data.Data.forEach(function (item, i) {
+                    response.data.Projects.forEach(function (item, i) {
                         $scope.projects.push(item);
                     });
                     projectsService.addNumbering($scope.projects, (pageNumber - 1) * PAGE_SIZE);
