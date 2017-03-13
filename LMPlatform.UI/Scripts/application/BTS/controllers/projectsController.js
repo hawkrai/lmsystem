@@ -51,7 +51,7 @@
                     buttons: {
                         'cancel': {
                             label: 'Отмена',
-                            className: 'btn btn-primary btn-sm'
+                            className: 'btn btn-default btn-sm'
                         },
                         'confirm': {
                             label: 'Удалить',
