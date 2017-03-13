@@ -16,7 +16,7 @@ namespace LMPlatform.Data.Repositories
         {
         }
 
-        public List<Project> GetUserProjects(int userId, int limit, int offset)
+        public List<Project> GetUserProjects(int userId, int limit, int offset, string searchString)
         {
             using(var context = new LmPlatformModelsContext())
             {
@@ -25,6 +25,7 @@ namespace LMPlatform.Data.Repositories
                     .Include(e => e.Creator.Student)
                     .Include(e => e.ProjectUsers)
                     .Where(e => e.ProjectUsers.Any(e2 => e2.UserId == userId))
+                    .Where(e => searchString == null ? true : e.Title.Contains(searchString))
                     .OrderBy(e => e.Id)
                     .Skip(offset)
                     .Take(limit)

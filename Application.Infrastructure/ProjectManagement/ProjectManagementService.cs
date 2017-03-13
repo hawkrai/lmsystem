@@ -19,9 +19,11 @@ namespace Application.Infrastructure.ProjectManagement
     {
         public List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string searchString = null)
         {
+            if (searchString?.Length < 3)
+                searchString = null;
             using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.ProjectsRepository.GetUserProjects(userId, pageSize, (pageNumber - 1) * pageSize);
+                return repositoriesContainer.ProjectsRepository.GetUserProjects(userId, pageSize, (pageNumber - 1) * pageSize, searchString);
             }
         }
 
