@@ -21,7 +21,7 @@ namespace Application.Infrastructure.ProjectManagement
         {
             using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.ProjectsRepository.GetUserProjects(userId);
+                return repositoriesContainer.ProjectsRepository.GetUserProjects(userId, pageSize, (pageNumber - 1) * pageSize);
             }
         }
 

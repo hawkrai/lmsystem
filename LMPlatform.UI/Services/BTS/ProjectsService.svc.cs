@@ -23,7 +23,7 @@ namespace LMPlatform.UI.Services.BTS
             }
         }
 
-        public ProjectsResult Index(int pageSize, int pageNumber = 0)
+        public ProjectsResult Index(int pageSize, int pageNumber = 1)
         {
             var projects = ProjectManagementService.GetUserProjects(WebSecurity.CurrentUserId, pageSize, pageNumber).Select(e => new ProjectsViewData(e)).ToList();
             return new ProjectsResult
