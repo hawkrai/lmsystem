@@ -1,23 +1,29 @@
 ﻿angular
     .module('btsApp.ctrl.projects', [])
     .constant('PAGE_SIZE', 30)
+    .constant('MIN_SEARCH_TEXT_LENGTH', 3)
     .controller('projectsCtrl', [
         '$scope',
         'projectsService',
         'PAGE_SIZE',
-        function ($scope, projectsService, PAGE_SIZE) {
+        'MIN_SEARCH_TEXT_LENGTH',
+        function ($scope, projectsService, PAGE_SIZE, MIN_SEARCH_TEXT_LENGTH) {
 
+            $scope.inputedSearchString = '';
+            var searchString = '';
             var pageNumber = 0;
             $scope.projects = [];
             var busy = false;
+            var nothingToLoad = false;
 
             $scope.loadProjects = function () {
-                if (busy) return;
+                if (busy || nothingToLoad) return;
                 busy = true;
 
-                projectsService.getProjects(++pageNumber, PAGE_SIZE).then(function (response) {
+                projectsService.getProjects(++pageNumber, PAGE_SIZE, searchString).then(function (response) {
                     if (response.data.Projects.length == 0) {
-                        busy = true;
+                        nothingToLoad = true;
+                        busy = false;
                         return;
                     }
                     response.data.Projects.forEach(function (item, i) {
@@ -62,5 +68,19 @@
                         deleteProject(id);
                     }
                 });
+            };
+
+            function needReloadPage() {
+                return ($scope.inputedSearchString.length >= MIN_SEARCH_TEXT_LENGTH || $scope.inputedSearchString.length == 0) && searchString != $scope.inputedSearchString;
+            };
+
+            $scope.onSearch = function () {
+                if (needReloadPage()) {
+                    searchString = $scope.inputedSearchString;
+                    $scope.projects = [];
+                    pageNumber = 0;
+                    nothingToLoad = false;
+                    $scope.loadProjects();
+                }
             };
         }]);

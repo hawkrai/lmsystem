@@ -3,7 +3,7 @@
         <a class="btn btn-primary btn-sm" ng-click="onAddProject()">Добавить проект</a>
     </div>
     <div class="col-md-3 col-md-offset-7 col-lg-2 col-lg-offset-8">
-        <input id="projectsSearch" type="text" class="form-control" placeholder="Поиск">
+        <input id="projectsSearch" type="text" class="form-control" placeholder="Поиск" ng-model="inputedSearchString" ng-keyup="onSearch()">
     </div>
 </div>
 
