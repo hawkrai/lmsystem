@@ -61,7 +61,7 @@
             };
 
             $scope.tableParams = new NgTableParams({
-                sorting: { CreationDate: "desc" },
+                sorting: { DateOfChange: "desc" },
                 count: PAGE_SIZE
             }, {
                 getData: function (params) {

@@ -17,7 +17,7 @@ namespace LMPlatform.UI.Services.Modules.BTS
         public string Title { get; set; }
 
         [DataMember]
-        public string CreationDate { get; set; }
+        public string DateOfChange { get; set; }
 
         [DataMember]
         public string CreatorName { get; set; }
@@ -30,7 +30,7 @@ namespace LMPlatform.UI.Services.Modules.BTS
             Id = project.Id;
             Title = project.Title;
             CreatorName = project.Creator.FullName;
-            CreationDate = project.DateOfChange.ToShortDateString();
+            DateOfChange = project.DateOfChange.ToShortDateString();
             UserQuentity = project.ProjectUsers.Count;
         }
     }
