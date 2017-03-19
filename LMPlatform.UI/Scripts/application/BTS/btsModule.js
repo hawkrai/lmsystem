@@ -4,8 +4,7 @@
         'btsApp.ctrl.home',
         'btsApp.ctrl.projects',
         'btsApp.service.projects',
-        'btsApp.directive.project',
-        'infinite-scroll'
+        'btsApp.directive.project'
     ])
     .config(['$routeProvider', function ($routeProvider) {
 
