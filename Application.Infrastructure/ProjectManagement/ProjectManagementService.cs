@@ -27,6 +27,16 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
+        public int GetUserProjectsCount(int userId, string searchString = null)
+        {
+            if(searchString?.Length < 3)
+                searchString = null;
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetUserProjectsCount(userId, searchString);
+            }
+        }
+
         public Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

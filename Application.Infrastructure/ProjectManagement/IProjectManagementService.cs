@@ -11,6 +11,8 @@ namespace Application.Infrastructure.ProjectManagement
     public interface IProjectManagementService
     {
         List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string searchString = null);
+
+        int GetUserProjectsCount(int userId, string searchString = null);
         Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false);
 
         List<Project> GetProjects();

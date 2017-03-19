@@ -20,18 +20,20 @@ namespace LMPlatform.Data.Repositories
         {
             using(var context = new LmPlatformModelsContext())
             {
-                return context.Set<Project>()
-                    .Include(e => e.Creator.Lecturer)
-                    .Include(e => e.Creator.Student)
-                    .Include(e => e.ProjectUsers)
-                    .Where(e => e.ProjectUsers.Any(e2 => e2.UserId == userId))
-                    .Where(e => searchString == null ? true : e.Title.Contains(searchString))
-                    .OrderBy(e => e.Id)
+                return GetUserProjectsQuery(context, userId, searchString)
                     .Skip(offset)
                     .Take(limit)
                     .ToList();
             }
-        } 
+        }
+
+        public int GetUserProjectsCount(int userId, string searchString)
+        {
+            using(var context = new LmPlatformModelsContext())
+            {
+                return GetUserProjectsQuery(context, userId, searchString).Count();
+            }
+        }
 
         public void DeleteProject(Project project)
         {
@@ -55,6 +57,17 @@ namespace LMPlatform.Data.Repositories
                 var groups = groupList.Select(e => e.Group).DistinctBy(g => g.Name);
                 return groups.ToList();
             }
+        }
+
+        private IQueryable<Project> GetUserProjectsQuery(LmPlatformModelsContext context, int userId, string searchString)
+        {
+            return context.Set<Project>()
+                .Include(e => e.Creator.Lecturer)
+                .Include(e => e.Creator.Student)
+                .Include(e => e.ProjectUsers)
+                .Where(e => e.ProjectUsers.Any(e2 => e2.UserId == userId))
+                .Where(e => searchString == null ? true : e.Title.Contains(searchString))
+                .OrderBy(e => e.Id);
         }
     }
 }

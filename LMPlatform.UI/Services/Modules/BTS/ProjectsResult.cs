@@ -11,5 +11,8 @@ namespace LMPlatform.UI.Services.Modules.BTS
     {
         [DataMember]
         public List<ProjectsViewData> Projects { get; set; }
+
+        [DataMember]
+        public int TotalCount { get; set; }
     }
 }

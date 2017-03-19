@@ -65,7 +65,7 @@
             }, {
                 getData: function (params) {
                     return projectsService.getProjects(params.page(), params.count(), searchString).then(function (response) {
-                        params.total(140);
+                        params.total(response.data.TotalCount);
                         projectsService.addNumbering(response.data.Projects, (params.page() - 1) * params.count());
                         return response.data.Projects;
                     });
