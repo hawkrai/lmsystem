@@ -6,21 +6,26 @@ using Application.Core.Extensions;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
+using System.Linq.Expressions;
+using System;
+using System.Reflection;
 
 namespace LMPlatform.Data.Repositories
 {
     public class ProjectsRepository : RepositoryBase<LmPlatformModelsContext, Project>, IProjectsRepository
     {
+
         public ProjectsRepository(LmPlatformModelsContext dataContext)
             : base(dataContext)
         {
         }
 
-        public List<Project> GetUserProjects(int userId, int limit, int offset, string searchString)
+        public List<Project> GetUserProjects(int userId, int limit, int offset, string searchString, string sortingPropertyName, bool desc)
         {
             using(var context = new LmPlatformModelsContext())
             {
-                return GetUserProjectsQuery(context, userId, searchString)
+                var query = GetUserProjectsQuery(context, userId, searchString);
+                return GetUserProjectsSortedQuery(query, sortingPropertyName, desc)
                     .Skip(offset)
                     .Take(limit)
                     .ToList();
@@ -66,8 +71,30 @@ namespace LMPlatform.Data.Repositories
                 .Include(e => e.Creator.Student)
                 .Include(e => e.ProjectUsers)
                 .Where(e => e.ProjectUsers.Any(e2 => e2.UserId == userId))
-                .Where(e => searchString == null ? true : e.Title.Contains(searchString))
-                .OrderBy(e => e.Id);
+                .Where(e => searchString == null ? true : e.Title.Contains(searchString));
+        }
+
+
+        private IQueryable<Project> GetUserProjectsSortedQuery(IQueryable<Project> query, string sortingPropertyName, bool desc)
+        {
+            switch(sortingPropertyName)
+            {
+                case "UserQuentity":
+                    if(desc)
+                        return query.OrderByDescending(e => e.ProjectUsers.Count);
+                    else
+                        return query.OrderBy(e => e.ProjectUsers.Count);
+                case "Title":
+                    if(desc)
+                        return query.OrderByDescending(e => e.Title);
+                    else
+                        return query.OrderBy(e => e.Title);
+                default:
+                    if(desc)
+                        return query.OrderByDescending(e => e.DateOfChange);
+                    else
+                        return query.OrderBy(e => e.DateOfChange);
+            }
         }
     }
 }

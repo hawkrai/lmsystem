@@ -10,9 +10,9 @@ namespace Application.Infrastructure.ProjectManagement
 {
     public interface IProjectManagementService
     {
-        List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string searchString = null);
+        List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
+        int GetUserProjectsCount(int userId, string searchString);
 
-        int GetUserProjectsCount(int userId, string searchString = null);
         Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false);
 
         List<Project> GetProjects();

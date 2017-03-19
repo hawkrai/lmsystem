@@ -7,7 +7,7 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
     public interface IProjectsRepository : IRepositoryBase<Project>
     {
 
-        List<Project> GetUserProjects(int userId, int limit, int offset, string searchString);
+        List<Project> GetUserProjects(int userId, int limit, int offset, string searchString, string sortedPropertyName, bool desc = false);
         int GetUserProjectsCount(int userId, string searchString);
 
         void DeleteProject(Project project);

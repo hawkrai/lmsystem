@@ -23,9 +23,9 @@ namespace LMPlatform.UI.Services.BTS
             }
         }
 
-        public ProjectsResult Index(int pageSize, int pageNumber, string searchString)
+        public ProjectsResult Index(int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null)
         {
-            var projects = ProjectManagementService.GetUserProjects(WebSecurity.CurrentUserId, pageSize, pageNumber, searchString).Select(e => new ProjectsViewData(e)).ToList();
+            var projects = ProjectManagementService.GetUserProjects(WebSecurity.CurrentUserId, pageSize, pageNumber, sortingPropertyName, desc, searchString).Select(e => new ProjectsViewData(e)).ToList();
             int totalCount = ProjectManagementService.GetUserProjectsCount(WebSecurity.CurrentUserId, searchString);
             return new ProjectsResult
             {

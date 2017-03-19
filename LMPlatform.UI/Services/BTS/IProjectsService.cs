@@ -13,7 +13,7 @@ namespace LMPlatform.UI.Services.BTS
     public interface IProjectsService
     {
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "/Index?pageSize={pageSize}&pageNumber={pageNumber}&searchString={searchString}", ResponseFormat = WebMessageFormat.Json)]
-        ProjectsResult Index(int pageSize, int pageNumber, string searchString = null);
+        [WebInvoke(Method = "GET", UriTemplate = "/Index?pageSize={pageSize}&pageNumber={pageNumber}&sortingPropertyName={sortingPropertyName}&desc={desc}&searchString={searchString}", ResponseFormat = WebMessageFormat.Json)]
+        ProjectsResult Index(int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null);
     }
 }

@@ -17,17 +17,17 @@ namespace Application.Infrastructure.ProjectManagement
 
     public class ProjectManagementService : IProjectManagementService
     {
-        public List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string searchString = null)
+        public List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
         {
             if (searchString?.Length < 3)
                 searchString = null;
             using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.ProjectsRepository.GetUserProjects(userId, pageSize, (pageNumber - 1) * pageSize, searchString);
+                return repositoriesContainer.ProjectsRepository.GetUserProjects(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
             }
         }
 
-        public int GetUserProjectsCount(int userId, string searchString = null)
+        public int GetUserProjectsCount(int userId, string searchString)
         {
             if(searchString?.Length < 3)
                 searchString = null;
