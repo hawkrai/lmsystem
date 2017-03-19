@@ -28,10 +28,8 @@
 
                 addNumbering: function (projects, indexFrom) {
                     var length = projects.length;
-                    if (indexFrom < 0)
-                        indexFrom = 0;
-                    for (var i = indexFrom; i < length; i++) {
-                        projects[i].Number = i + 1;
+                    for (var i = 0; i < length; i++) {
+                        projects[i].Number = i + 1 + indexFrom;
                     }
                 }
             };

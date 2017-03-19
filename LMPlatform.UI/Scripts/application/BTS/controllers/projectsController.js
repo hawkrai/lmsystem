@@ -1,13 +1,14 @@
 ﻿angular
-    .module('btsApp.ctrl.projects', [])
-    .constant('PAGE_SIZE', 30)
+    .module('btsApp.ctrl.projects', ['ngTable'])
+    .constant('PAGE_SIZE', 25)
     .constant('MIN_SEARCH_TEXT_LENGTH', 3)
     .controller('projectsCtrl', [
         '$scope',
         'projectsService',
         'PAGE_SIZE',
         'MIN_SEARCH_TEXT_LENGTH',
-        function ($scope, projectsService, PAGE_SIZE, MIN_SEARCH_TEXT_LENGTH) {
+        'NgTableParams',
+        function ($scope, projectsService, PAGE_SIZE, MIN_SEARCH_TEXT_LENGTH, NgTableParams) {
 
             $scope.inputedSearchString = '';
             var searchString = '';
@@ -83,4 +84,16 @@
                     $scope.loadProjects();
                 }
             };
+
+            $scope.tableParams = new NgTableParams({
+                count: PAGE_SIZE
+            }, {
+                getData: function (params) {
+                    return projectsService.getProjects(params.page(), params.count(), '').then(function (response) {
+                        params.total(140);
+                        projectsService.addNumbering(response.data.Projects, (params.page() - 1) * params.count());
+                        return response.data.Projects;
+                    });
+                }
+            });
         }]);

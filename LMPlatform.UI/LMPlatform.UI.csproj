@@ -336,6 +336,7 @@
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Content\KnowledgeTesting\content.html" />
     <Content Include="Content\materials.css" />
+    <Content Include="Content\ng-table.min.css" />
     <Content Include="Content\select.css" />
     <Content Include="Images\book.png" />
     <Content Include="Images\Excel.png" />
@@ -1232,6 +1233,7 @@
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
     <Content Include="Scripts\ng-ckeditor-1.0.1.js" />
     <Content Include="Scripts\ng-table.js" />
+    <Content Include="Scripts\ng-table.min.js" />
     <Content Include="Scripts\pdfjs\compatibility.js" />
     <Content Include="Scripts\pdfjs\l10n.js" />
     <Content Include="Scripts\pdfjs\pdf.js" />

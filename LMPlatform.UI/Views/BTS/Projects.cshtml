@@ -7,40 +7,18 @@
     </div>
 </div>
 
-<table class="table table-bordered table-striped table-hover">
-    <thead>
-        <tr>
-            <th style="text-align: center;">№</th>
-            <th>Тема проекта</th>
-            <th>Дата изменения</th>
-            <th>Создатель</th>
-            <th>Кол-во участников проекта</th>
-            <th>Действие</th>
-        </tr>
-    </thead>
-    <tbody infinite-scroll='loadProjects()' infinite-scroll-distance='1'>
-        <tr ng-repeat="project in projects" project-directive>
-            <td style="text-align: center; width: 20px;">
-                {{project.Number}}
-            </td>
-            <td>
-                {{project.Title}}
-            </td>
-            <td>
-                {{project.CreationDate}}
-            </td>
-            <td>
-                {{project.CreatorName}}
-            </td>
-            <td>
-                {{project.UserQuentity}}
-            </td>
-            <td style="width: 83px;">
-                <div name="projectGridActionsCol" align="center">
-                    <a ng-click="onEditProject(project.Id)" style="margin-right: 10px"><i class="editProject fa fa-edit fa-1x"></i></a>
-                    <a ng-click="onDeleteProject(project.Id)" style="margin-right: 10px"><span class="deleteButton fa fa-trash-o fa-1x" /></a>
-                </div>
-            </td>
-        </tr>
-    </tbody>
+<table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+    <tr ng-repeat="project in $data" project-directive>
+        <td data-title="'№'" style="text-align: center; width: 20px;">{{project.Number}}</td>
+        <td data-title="'Тема проекта'">{{project.Title}}</td>
+        <td data-title="'Дата создания'">{{project.CreationDate}}</td>
+        <td data-title="'Создатель'">{{project.CreatorName}}</td>
+        <td data-title="'Кол-во участников проекта'">{{project.UserQuentity}}</td>
+        <td data-title="'Действие'" style="width: 83px;">
+            <div name="projectGridActionsCol" align="center">
+                <a ng-click="onEditProject(project.Id)" style="margin-right: 10px"><i class="editProject fa fa-edit fa-1x"></i></a>
+                <a ng-click="onDeleteProject(project.Id)" style="margin-right: 10px"><span class="deleteButton fa fa-trash-o fa-1x" /></a>
+            </div>
+        </td>
+    </tr>
 </table>

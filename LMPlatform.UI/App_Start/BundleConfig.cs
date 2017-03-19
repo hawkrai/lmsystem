@@ -203,6 +203,14 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/BTS/services/projectsService.js",
                 "~/Scripts/application/BTS/directives/projectDirective.js",
                 "~/Scripts/application/BTS/ng-infinite-scroll.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ngTable").Include(
+                "~/Scripts/ng-table.min.js"
+                ));
+
+            bundles.Add(new StyleBundle("~/bundles/ngTable/styles").Include(
+                "~/Content/ng-table.min.css"
+                ));
         }
     }
 }
