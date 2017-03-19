@@ -89,6 +89,11 @@ namespace LMPlatform.Data.Repositories
                         return query.OrderByDescending(e => e.Title);
                     else
                         return query.OrderBy(e => e.Title);
+                case "CreatorName":
+                    if(desc)
+                        return query.OrderByDescending(e => e.Creator.Student == null ? e.Creator.Lecturer.LastName : e.Creator.Student.LastName);
+                    else
+                        return query.OrderBy(e => e.Creator.Student == null ? e.Creator.Lecturer.LastName : e.Creator.Student.LastName);
                 default:
                     if(desc)
                         return query.OrderByDescending(e => e.DateOfChange);
