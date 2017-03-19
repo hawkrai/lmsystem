@@ -8,9 +8,11 @@ using Application.Core;
 using Application.Infrastructure.ProjectManagement;
 using LMPlatform.UI.Services.Modules.BTS;
 using WebMatrix.WebData;
+using System.Web.Http;
 
 namespace LMPlatform.UI.Services.BTS
 {
+    [Authorize(Roles = "student, lector")]
     public class ProjectsService : IProjectsService
     {
         private readonly LazyDependency<IProjectManagementService> projectManagementService = new LazyDependency<IProjectManagementService>();
