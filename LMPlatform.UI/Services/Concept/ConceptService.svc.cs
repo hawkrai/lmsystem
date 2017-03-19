@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using WebMatrix.WebData;
+using LMPlatform.Models;
 
 namespace LMPlatform.UI.Services.Concept
 {
@@ -259,6 +260,11 @@ namespace LMPlatform.UI.Services.Concept
                 return new AttachViewData(0, String.Empty, null);
             var att = FilesManagementService.GetAttachments(neighbor.Container).FirstOrDefault();
             return new AttachViewData(neighbor.Id, neighbor.Name, att);
+        }
+
+        public ConceptViewData GetConcept(String elementId)
+        {
+            return new ConceptViewData(ConceptManagementService.GetById(Convert.ToInt32(elementId)));
         }
     }
 }

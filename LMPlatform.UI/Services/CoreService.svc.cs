@@ -272,7 +272,43 @@ namespace LMPlatform.UI.Services
 			}
 		}
 
-		public GroupsResult GetAllGroupsLite()
+
+        public StudentsResult GetStudentsByStudentGroupId(string groupId, string subjectId)
+        {
+            try
+            {
+                var subGroups = this.SubjectManagementService.GetSubGroups(int.Parse(subjectId), int.Parse(groupId));
+                List<StudentsViewData> Students = new List<StudentsViewData>();
+                int subGroupIndex = 0;
+                foreach (var subGroup in subGroups)
+                {
+                    Students.AddRange(subGroup.SubjectStudents.Select(e => new StudentsViewData() {
+                        StudentId = e.Student.Id,
+                        FullName = e.Student.FullName,
+                        Confirmed = e.Student.Confirmed == null || e.Student.Confirmed.Value != false,
+                        SubgroupId = subGroupIndex
+                    }));
+                    subGroupIndex++;
+                }
+
+                return new StudentsResult
+                {
+                    Students = Students,
+                    Message = "Студенты успешно загружены",
+                    Code = "200"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new StudentsResult()
+                {
+                    Message = ex.Message + "\n" + ex.StackTrace,
+                    Code = "500"
+                };
+            }
+        }
+
+        public GroupsResult GetAllGroupsLite()
 		{
 			try
 			{

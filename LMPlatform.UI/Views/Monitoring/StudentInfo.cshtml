@@ -1,20 +1,23 @@
-﻿@{
-    ViewBag.Title = "StudentInfo";
-}
-
-<h2>StudentInfo</h2>
+﻿
+<style>
+    .redRow{
+        background-color: crimson;
+    }
+</style>
 
 <div style="overflow-x: auto;">
-    <table id="tableformVisiting" class="table table-bordered table-striped">
+    <table id="tableformVisiting" class="table table-bordered">
         <thead>
             <tr>
-                <th style="text-align: center; vertical-align: middle">Concept</th>
-                <th style="text-align: center; vertical-align: middle">Views(seconds)</th>
+                <th style="text-align: center; vertical-align: middle">Материал</th>
+                <th style="text-align: center; vertical-align: middle">Просмотрено (сек)</th>
+                <th style="text-align: center; vertical-align: middle">Ожидалось (сек)</th>
             </tr>
         </thead>
-        <tr ng-repeat="concept in data.concepts">
+        <tr ng-repeat="concept in data.concepts" ng-class="{redRow: IsVeryLong(concept)}">
             <td style="max-width: 300px; min-width: 300px">{{concept.Name}}</td>
-            <td style="max-width: 300px; min-width: 300px">{{concept.view.Time}}</td>
+            <td style="max-width: 300px; min-width: 300px">{{getTime(concept.view.Time)}}</td>
+            <td style="max-width: 300px; min-width: 300px">{{getTime(concept.Estimated)}}</td>
         </tr>
     </table>
 </div>

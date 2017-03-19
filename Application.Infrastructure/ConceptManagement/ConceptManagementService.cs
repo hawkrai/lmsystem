@@ -473,7 +473,7 @@ namespace Application.Infrastructure.ConceptManagement
             concept3.NextConcept = concept4.Id;
             concept4.PrevConcept = concept3.Id;
 
-            var concept5 = new Concept(TestSectionName, parent.Author, parent.Subject, true, false);
+            var concept5 = new Concept(TestSectionName, parent.Author, parent.Subject, true, true);
             concept5.ParentId = parent.Id;
             concept5.ReadOnly = true;
             repositoriesContainer.ConceptRepository.Save(concept5);

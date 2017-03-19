@@ -40,7 +40,11 @@ namespace LMPlatform.UI.Services
 	    [WebInvoke(UriTemplate = "/GetStudentsByGroupId/{groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
 	    StudentsResult GetStudentsByGroupId(string groupId);
 
-	    [OperationContract]
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/GetStudentsByStudentGroupId/{subjectId}/{groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+        StudentsResult GetStudentsByStudentGroupId(string groupId, string subjectId);
+
+        [OperationContract]
 	    [WebInvoke(UriTemplate = "/СonfirmationStudent/{studentId}", RequestFormat = WebMessageFormat.Json, Method = "PUT")]
 	    StudentsResult СonfirmationStudent(string studentId);
 

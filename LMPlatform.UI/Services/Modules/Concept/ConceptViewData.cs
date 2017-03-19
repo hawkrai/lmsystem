@@ -18,7 +18,8 @@ namespace LMPlatform.UI.Services.Modules.Concept
             Container = concept.Container;
             ParentId = concept.ParentId.GetValueOrDefault();
             IsGroup = concept.IsGroup;
-            Published = (concept.IsGroup && concept.Children.Any() && concept.Children.All(c => c.Published)) || (!concept.IsGroup && concept.Published);
+            Published = concept.Published;
+            //Published = (concept.IsGroup && concept.Children.Any() && concept.Children.All(c => c.Published)) || (!concept.IsGroup && concept.Published);
             ReadOnly = concept.ReadOnly;
             HasData = !String.IsNullOrEmpty(Container);
             Prev = concept.PrevConcept;

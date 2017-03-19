@@ -244,7 +244,8 @@
             }
 
             $rootScope.goMonitoring = function ($event) {
-                window.location.href = "/Monitoring/?subjectId=" + subjectId;
+                var rootId = $scope.navigationService.getBreadcrumbs()[0].Id;
+                window.location.href = "/Monitoring/?subjectId=" + subjectId + (rootId != undefined ? "&root=" + rootId : "");
             }
 
             $rootScope.isBackspaceShow = function () {

@@ -179,6 +179,9 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
         public int StudentId { get; set; }
 
         [DataMember]
+        public int SubgroupId { get; set; }
+
+        [DataMember]
         public string FullName { get; set; }
 
 		[DataMember]

@@ -14,22 +14,23 @@
                     </tbody>
                 </table>
             </div>
-
-            <div style="overflow-x: auto;">
-                <table id="tableformVisiting" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th style="text-align: center; vertical-align: middle">№</th>
-                            <th style="text-align: center; vertical-align: middle">Студент</th>
-                            <th style="text-align: center; vertical-align: middle">Информация</th>
+            <div ng-repeat="subGroup in data.subGroups">
+                <div style="overflow-x: auto;">
+                    <table id="tableformVisiting" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; vertical-align: middle">№</th>
+                                <th style="text-align: center; vertical-align: middle">Студент</th>
+                                <th style="text-align: center; vertical-align: middle">Информация</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="student in subGroup | orderBy:'FullName'">
+                            <td style="width: 20px">{{$index + 1}}</td>
+                            <td style="max-width: 300px; min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
+                            <td style="max-width: 300px; min-width: 300px"><a ng-href="#Student/{{student.StudentId}}">Информация</a></td>
                         </tr>
-                    </thead>
-                    <tr ng-repeat="student in data.students">
-                        <td style="width: 20px">{{$index + 1}}</td>
-                        <td style="max-width: 300px; min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
-                        <td style="max-width: 300px; min-width: 300px"><a ng-href="#Student/{{student.StudentId}}">Информация</a></td>
-                    </tr>
-                </table>
+                    </table>
+                </div>
             </div>
             <div>
 

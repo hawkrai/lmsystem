@@ -28,17 +28,25 @@ angular
                     var id = data.id;
                     return $http({
                         method: 'GET',
-                        url: url + 'GetStudentsByGroupId/' + id,
-                        data: data
+                        url: url + 'GetStudentsByStudentGroupId/' + gup("subjectId", window.location.href) + '/' + id,
                     });
                 },
                 getConcepts: function (data) {
                     var id = data.id;
                     return $http({
                         method: 'GET',
-                        url: '/api/WatchingTime/' + id,
+                        url: '/api/WatchingTime/' + id + "?root=" + gup("root", window.location.href),
                         data: data
                     });
+                },
+                getConcept: function () {
+                    return $http({
+                        method: 'GET',
+                        url: '/Services/Concept/ConceptService.svc/GetConcept?elementId=' + gup("root", window.location.href),
+                    });
+                },
+                getRootId: function () {
+                    return gup("root", window.location.href);
                 },
                 getSubjectId: function () {
                     return gup("subjectId", window.location.href);
