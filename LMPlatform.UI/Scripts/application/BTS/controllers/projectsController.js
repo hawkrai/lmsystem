@@ -12,28 +12,6 @@
 
             $scope.inputedSearchString = '';
             var searchString = '';
-            var pageNumber = 0;
-            $scope.projects = [];
-            var busy = false;
-            var nothingToLoad = false;
-
-            $scope.loadProjects = function () {
-                if (busy || nothingToLoad) return;
-                busy = true;
-
-                projectsService.getProjects(++pageNumber, PAGE_SIZE, searchString).then(function (response) {
-                    if (response.data.Projects.length == 0) {
-                        nothingToLoad = true;
-                        busy = false;
-                        return;
-                    }
-                    response.data.Projects.forEach(function (item, i) {
-                        $scope.projects.push(item);
-                    });
-                    projectsService.addNumbering($scope.projects, (pageNumber - 1) * PAGE_SIZE);
-                    busy = false;
-                });
-            };
 
             $scope.onAddProject = function () {
                 $.savingDialog("Добавление проекта", "/BTS/AddProject", null, "primary", function (data) {
@@ -78,10 +56,7 @@
             $scope.onSearch = function () {
                 if (needReloadPage()) {
                     searchString = $scope.inputedSearchString;
-                    $scope.projects = [];
-                    pageNumber = 0;
-                    nothingToLoad = false;
-                    $scope.loadProjects();
+                    $scope.tableParams.reload();
                 }
             };
 
@@ -89,7 +64,7 @@
                 count: PAGE_SIZE
             }, {
                 getData: function (params) {
-                    return projectsService.getProjects(params.page(), params.count(), '').then(function (response) {
+                    return projectsService.getProjects(params.page(), params.count(), searchString).then(function (response) {
                         params.total(140);
                         projectsService.addNumbering(response.data.Projects, (params.page() - 1) * params.count());
                         return response.data.Projects;
