@@ -73,7 +73,7 @@
 
 	<header class="header">
 		<a href="/Lms" class="logo">
-			(LMS).Platform
+			<img src="~/Images/logo_nav_widescreen.png" style="width: 155px; margin-top: -8px;" />
 		</a>
 		<nav class="navbar navbar-static-top" role="navigation">
 		    <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -101,7 +101,7 @@
 		                    <li class="user-header bg-light-blue">
 		                        <div style="padding: 20px">
 		                            <h5>Система управления учебным процессом для средних и высших учебнымх заведений</h5>
-		                            <h5>Версия: 2.1.0</h5>
+		                            <h5>Версия: 2.2.0</h5>
 		                            <hr/>
 		                            <h5>Разработчики: Яцынович С.В., Бураковский А.И., Барковская О.А., Тарасюк П.В., Колосовский К.А., Завистовская Е.С., Михно В.С.</h5>
 		                            <hr/>
@@ -120,7 +120,7 @@
 		                    <li class="user-header bg-light-blue">
 		                        <img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image"/>
 		                        <p>
-		                            @User.Identity.Name
+		                            @Html.Action("GetFullName", "Account")
 		                        </p>
 		                        @if (User.IsInRole("student"))
 		                        {
@@ -157,14 +157,15 @@
 	<div class="wrapper row-offcanvas row-offcanvas-left">
 		<aside class="left-side sidebar-offcanvas">
 		    <section class="sidebar">
-		        <div class="user-panel">
-					<div class="pull-left image">
-						<img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image" />
-					</div>
-					<div class="pull-left info">
-						<p>@User.Identity.Name</p>
-					</div>
-				</div>
+			    <div class="user-panel text-center">
+				    <div class="image left">
+					    <img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image" style="width: 75px; height: 75px;"/>
+				    </div>
+				    <div class="info" style="margin-top: 25px">
+					    <p>@Html.Action("GetFullName", "Account")</p>
+				    </div>
+			    </div>
+				<div class="clear-fix"></div>
 		        <ul class="sidebar-menu">
 		            @RenderSection("navleft", false)
 		        </ul>
