@@ -16,17 +16,22 @@
             $scope.onAddProject = function () {
                 $.savingDialog("Добавление проекта", "/BTS/AddProject", null, "primary", function (data) {
                     alertify.success("Добавлен новый проект");
+                    $scope.tableParams.reload();
                 })
             };
 
             $scope.onEditProject = function (id) {
                 $.savingDialog("Редактирование проекта", "/BTS/Editproject/" + id, null, "primary", function (data) {
                     alertify.success("Проект успешно изменен");
+                    $scope.tableParams.reload();
                 });
             };
 
             function deleteProject(id) {
-                console.log(id);
+                projectsService.deleteProject(id).then(function () {
+                    $scope.tableParams.reload();
+                    alertify.success("Проект удален");
+                });
             };
 
             $scope.onDeleteProject = function (id) {
@@ -43,8 +48,9 @@
                             className: 'btn btn-primary btn-sm',
                         }
                     },
-                    callback: function () {
-                        deleteProject(id);
+                    callback: function (result) {
+                        if (result)
+                            deleteProject(id);
                     }
                 });
             };

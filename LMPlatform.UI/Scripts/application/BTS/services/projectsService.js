@@ -35,6 +35,13 @@
                     });
                 },
 
+                deleteProject: function (projectId) {
+                    return $http({
+                        method: 'DELETE',
+                        url: '/BTS/DeleteProject/' + projectId
+                    });
+                },
+
                 addNumbering: function (projects, indexFrom) {
                     var length = projects.length;
                     for (var i = 0; i < length; i++) {
