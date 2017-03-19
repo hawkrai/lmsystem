@@ -61,10 +61,11 @@
             };
 
             $scope.tableParams = new NgTableParams({
+                sorting: { CreationDate: "desc" },
                 count: PAGE_SIZE
             }, {
                 getData: function (params) {
-                    return projectsService.getProjects(params.page(), params.count(), searchString).then(function (response) {
+                    return projectsService.getProjects(params.page(), params.count(), searchString, params.orderBy()).then(function (response) {
                         params.total(response.data.TotalCount);
                         projectsService.addNumbering(response.data.Projects, (params.page() - 1) * params.count());
                         return response.data.Projects;
