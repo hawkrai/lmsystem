@@ -49,7 +49,7 @@
                 
                 $(forms).append('<input type=\"hidden\" id=\"subGroupSecondIds\" name=\"subGroupSecondIds\" />');
                 $("#subGroupSecondIds").val(subjectWorking.getSubGroupIds("StudentSecondList"));
-            });
+            }, null, '690px');
             return false;
         });
     },
@@ -89,40 +89,8 @@
     	$(".bleft").tooltip({ title: "Переместить выделенных студентов из подгруппы", placement: 'right' });
     	$(".double-left").tooltip({ title: "Переместить всех студентов из подгруппы", placement: 'right' });
 
-        $("#subGroupFirst").find("a.bright").handle("click", function () {
-            var selectStudents = $("#StudentList").find("option");
-            selectStudents.each(function (index, element) {
-                if (element.selected == true) {
-                    element.selected = false;
-                    $("#StudentFirstList").append(element);
-                }
-            });
-        });
-        $("#subGroupFirst").find("a.bleft").handle("click", function () {
-            var selectStudents = $("#StudentFirstList").find("option");
-            selectStudents.each(function (index, element) {
-                if (element.selected == true) {
-                    element.selected = false;
-                    $("#StudentList").append(element);
-                }
-            });
-        });
-        $("#subGroupFirst").find("a.double-right").handle("click", function () {
-            var selectStudents = $("#StudentList").find("option");
-            selectStudents.each(function (index, element) {
-                    element.selected = false;
-                    $("#StudentFirstList").append(element);
-            });
-        });
-        $("#subGroupFirst").find("a.double-left").handle("click", function () {
-            var selectStudents = $("#StudentFirstList").find("option");
-            selectStudents.each(function (index, element) {
-                    element.selected = false;
-                    $("#StudentList").append(element);
-            });
-        });
-        $("#subGroupTwo").find("a.bright").handle("click", function () {
-            var selectStudents = $("#StudentList").find("option");
+    	$("#subGroup").find("a.bright").handle("click", function () {
+    		var selectStudents = $("#StudentFirstList").find("option");
             selectStudents.each(function (index, element) {
                 if (element.selected == true) {
                     element.selected = false;
@@ -130,30 +98,30 @@
                 }
             });
         });
-        $("#subGroupTwo").find("a.bleft").handle("click", function () {
-            var selectStudents = $("#StudentSecondList").find("option");
+    	$("#subGroup").find("a.bleft").handle("click", function () {
+    		var selectStudents = $("#StudentSecondList").find("option");
             selectStudents.each(function (index, element) {
                 if (element.selected == true) {
                     element.selected = false;
-                    $("#StudentList").append(element);
+                    $("#StudentFirstList").append(element);
                 }
             });
         });
-        $("#subGroupTwo").find("a.double-right").handle("click", function () {
-            var selectStudents = $("#StudentList").find("option");
+    	$("#subGroup").find("a.double-right").handle("click", function () {
+    		var selectStudents = $("#StudentFirstList").find("option");
             selectStudents.each(function (index, element) {
-                element.selected = false;
-                $("#StudentSecondList").append(element);
+                    element.selected = false;
+                    $("#StudentSecondList").append(element);
             });
         });
-        $("#subGroupTwo").find("a.double-left").handle("click", function () {
-            var selectStudents = $("#StudentSecondList").find("option");
+    	$("#subGroup").find("a.double-left").handle("click", function () {
+    		var selectStudents = $("#StudentSecondList").find("option");
             selectStudents.each(function (index, element) {
-                element.selected = false;
-                $("#StudentList").append(element);
+                    element.selected = false;
+                    $("#StudentFirstList").append(element);
             });
         });
-
+        
         $("#GroupId").change(function() {
             var subjectId = $(".conteinerModule").attr('data-subjectId');
             var element = $(this).find("option:selected");

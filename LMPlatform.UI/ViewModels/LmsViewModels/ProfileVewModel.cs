@@ -22,6 +22,8 @@
 
         public string Group { get; set; }
 
+		public int GroupId { get; set; }
+
 		public string Login { get; set; }
 	}
 }

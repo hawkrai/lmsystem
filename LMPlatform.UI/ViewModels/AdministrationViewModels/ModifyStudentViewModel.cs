@@ -130,6 +130,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                   LastName = Surname,
                   MiddleName = Patronymic,
                   Email = Email,
+				  Confirmed = true,
                   GroupId = groupId,
                   Group = GroupManagementService.GetGroup(groupId),
 				  User = new User()

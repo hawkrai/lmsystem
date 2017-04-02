@@ -1222,7 +1222,14 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 					alertify.error(data.Message);
 				} else {
 					$scope.$apply(function () {
-						$scope.groupWorkingData.selectedGroup.StudentsFilesV2 = data.Students;
+						$scope.groupWorkingData.selectedGroup.StudentsFilesV2_1 = $filter("filter")(data.Students, function (r) {
+							return r.SubGroup === 1;
+						});
+
+						$scope.groupWorkingData.selectedGroup.StudentsFilesV2_2 = $filter("filter")(data.Students, function (r) {
+							return r.SubGroup === 2;
+						});
+
 					});
 				}
 				$scope.stopSpin();
@@ -1383,7 +1390,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                      comments: arrComment,
                      studentsId: arrStudentId,
                      Id: arrId,
-                     students: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.Students
+                     students: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2
                  },
                  headers: { 'Content-Type': 'application/json' }
              }).success(function (data, status) {

@@ -225,6 +225,13 @@ namespace LMPlatform.UI.Controllers
 			return model.Avatar;
 		}
 
+	    public string GetFullName()
+	    {
+			var model = new PersonalDataViewModel();
+
+			return string.Format("{0} {1} {2}", model.Surname, model.Name, model.Patronymic);
+	    }
+
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
             switch (createStatus)

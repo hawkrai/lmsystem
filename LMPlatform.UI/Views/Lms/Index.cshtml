@@ -15,7 +15,8 @@
         <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.css" type="text/css"/>
         <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.print.css" type="text/css"/>*@
     @*<link href="~/Scripts/bootstrap-combined.min.css" rel="stylesheet" />*@
-    <link href="~/Content/fullcalendar/fullcalendar.css" rel="stylesheet" />
+	<link href="~/Content/fullcalendar/fullcalendar.css" rel="stylesheet"/>
+<link rel="stylesheet" href="~/Content/circle.css" />
     @*<link href="~/Content/fullcalendar/fullcalendar.print.css" rel="stylesheet" />*@
 }
 @section scripts
@@ -31,7 +32,8 @@
     <script type="text/javascript" src="~/Scripts/fullcalendar/jquery-ui.min.js"></script>
     <script type="text/javascript" src="~/Scripts/fullcalendar/moment.min.js"></script>
     <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
-    <script type="text/javascript" src="~/Scripts/application/userProfile/appUserProfile.js"></script>
+	<script type="text/javascript" src="~/Scripts/application/userProfile/appUserProfile.js"></script>
+	<script src="~/Scripts/bootstrap-datepicker.js"></script>
 }
 
 @section headerTitle{
@@ -135,7 +137,7 @@
     <li class="treeview">
         <a href="#">
             <i class="fa fa-folder-open-o fa-tab"></i>
-                <span>Курсовые проекты (работы)</span>
+                <span>Курсовые работы</span>
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
@@ -158,11 +160,11 @@
 		<li class="no-hover" style="background-color: cadetblue;">
 			@if ((bool)ViewData["UnconfirmedStudents"])
 			{
-				<a class="blink" style="color: ivory;" href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Управление студентами</a>
+				<a class="blink" style="color: ivory;" href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Подтверждение студентов</a>
 			}
 			else
 			{
-	<a style="color: white; " href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Управление студентами</a>
+	<a style="color: white; " href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Подтверждение студентов</a>
 }
 
 		</li>

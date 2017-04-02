@@ -1793,7 +1793,7 @@
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.svg" />
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\light\fonts\tinymce.woff" />
-    <Content Include="Views\Lms\ProfilePage.cshtml" />
+    <Content Include="Views\Lms\ProfilePage_old.cshtml" />
     <Content Include="Views\ComplexMaterial\Catalog.cshtml" />
     <Content Include="Views\ComplexMaterial\Index.cshtml" />
     <Content Include="Views\ComplexMaterial\Map.cshtml" />
@@ -1829,6 +1829,7 @@
     <Content Include="Views\Monitoring\Index.cshtml" />
     <Content Include="Views\Monitoring\StudentInfo.cshtml" />
     <Content Include="Views\Monitoring\Students.cshtml" />
+    <Content Include="Views\Lms\ProfilePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
