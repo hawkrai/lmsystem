@@ -19,7 +19,7 @@ namespace Application.Infrastructure.ConceptManagement
 {
     public class ConceptManagementService : IConceptManagementService
     {
-        private const String TitlePageSectionName = "Программа курса";
+        private const String TitlePageSectionName = "Титульный экран";
         private const String ProgramSectionName = "Программа курса";
         private const String LectSectionName = "Теоретический раздел";
         private const String LabSectionName = "Практический раздел";
