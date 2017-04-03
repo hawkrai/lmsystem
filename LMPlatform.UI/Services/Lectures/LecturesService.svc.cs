@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using Application.Core.Data;
+using Application.Core.Extensions;
 using Application.Infrastructure.GroupManagement;
 using LMPlatform.UI.Services.Modules.CoreModels;
 

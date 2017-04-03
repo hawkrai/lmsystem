@@ -434,6 +434,40 @@ namespace LMPlatform.UI.Services
 			}
 		}
 
+		public GroupsResult GetGroupsByUser(string userId)
+		{
+			try
+			{
+				var groups = this.GroupManagementService.GetLecturesGroups(int.Parse(userId));
+
+				var groupsViewModel = new List<GroupsViewData>();
+
+				foreach (var @group in groups.DistinctBy(e => e.Id))
+				{
+					groupsViewModel.Add(new GroupsViewData()
+					{
+						GroupId = @group.Id,
+						GroupName = @group.Name
+					});
+				}
+
+				return new GroupsResult
+				{
+					Groups = groupsViewModel.ToList(),
+					Message = "Группы успешно загружены",
+					Code = "200"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new GroupsResult()
+				{
+					Message = ex.Message + "\n" + ex.StackTrace,
+					Code = "500"
+				};
+			}
+		}
+
 		public GroupsResult GetGroups(string subjectId)
         {
             try
