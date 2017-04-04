@@ -59,8 +59,6 @@ namespace LMPlatform.Data.Repositories
                 .Include(e => e.Status)
                 .Include(e => e.Project.Creator.Lecturer)
                 .Include(e => e.Project.Creator.Student)
-                .Include(e => e.AssignedDeveloper.Lecturer)
-                .Include(e => e.AssignedDeveloper.Student)
                 .Where(e => e.Project.ProjectUsers.Any(e2 => e2.UserId == userId))
                 .Where(e => searchString == null ? true : e.Summary.Contains(searchString));
         }

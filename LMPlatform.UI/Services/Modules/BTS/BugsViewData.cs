@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Runtime.Serialization;
 using LMPlatform.Models;
+using Application.Infrastructure.ProjectManagement;
 
 namespace LMPlatform.UI.Services.Modules.BTS
 {
@@ -44,7 +45,8 @@ namespace LMPlatform.UI.Services.Modules.BTS
         {
             if (bug.AssignedDeveloperId == 0)
                 return "отсутствует";
-            return bug.AssignedDeveloper.FullName;
+            //TODO: Make developers abble to be loaded in repository
+            return new ProjectManagementService().GetCreatorName(bug.AssignedDeveloperId);
         }
     }
 }
