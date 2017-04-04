@@ -31,7 +31,8 @@ namespace LMPlatform.UI
             routes.MapRoute(
                 name: "BTS",
                 url: "BTS/{controller}/{action}/{id}",
-                defaults: new { action = "Index", id = UrlParameter.Optional });
+                defaults: new { action = "Index", id = UrlParameter.Optional },
+                constraints: new { controller = "Bugs" });
 
             routes.MapRoute(
                 name: "Default",
