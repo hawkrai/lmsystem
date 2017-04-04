@@ -13,7 +13,7 @@ namespace LMPlatform.UI.Controllers.BTS
 
         public ActionResult Index()
         {
-            return View("~/Views/BTS/Bugs/Index.cshtml");
+            return View("~/Views/BTS/Bugs/_Index.cshtml");
         }
     }
 }

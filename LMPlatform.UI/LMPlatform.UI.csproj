@@ -1833,7 +1833,7 @@
     <Content Include="Views\BTS\_BTSnavleft.cshtml" />
     <Content Include="Views\BTS\_Projects.cshtml" />
     <Content Include="Views\Lms\ProfilePage.cshtml" />
-    <Content Include="Views\BTS\Bugs\Index.cshtml" />
+    <Content Include="Views\BTS\Bugs\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
