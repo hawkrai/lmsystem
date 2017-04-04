@@ -55,7 +55,7 @@ namespace LMPlatform.UI.Controllers
         [HttpGet]
         public ActionResult Projects()
         {
-            return PartialView();
+            return PartialView("_Projects");
         }
 
         [HttpPost]
