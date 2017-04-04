@@ -299,7 +299,6 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
-    <Compile Include="Controllers\BTS\BugsController.cs" />
     <Compile Include="Controllers\ComplexMaterialController.cs" />
     <Compile Include="Controllers\CpController.cs" />
     <Compile Include="Controllers\DpController.cs" />
@@ -349,6 +348,7 @@
     <Content Include="Images\Лого2.png" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\application\BTS\controllers\bugsController.js" />
     <Content Include="Scripts\application\BTS\controllers\homeController.js" />
     <Content Include="Scripts\application\BTS\controllers\projectsController.js" />
     <Content Include="Scripts\application\BTS\directives\projectDirective.js" />

@@ -29,11 +29,6 @@ namespace LMPlatform.UI
                 defaults: new { controller = "Profile", action = "Page" });
 
             routes.MapRoute(
-                name: "BTSAllBugs",
-                url: "BTS/Bugs",
-                defaults: new { controller = "Bugs", action = "Index" });
-
-            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional });
