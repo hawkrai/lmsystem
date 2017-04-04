@@ -203,7 +203,8 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/BTS/controllers/projectsController.js",
                 "~/Scripts/application/BTS/services/projectsService.js",
                 "~/Scripts/application/BTS/directives/projectDirective.js",
-                "~/Scripts/application/BTS/controllers/bugsController.js"
+                "~/Scripts/application/BTS/controllers/bugsController.js",
+                "~/Scripts/application/BTS/services/bugsService.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/ngTable").Include(

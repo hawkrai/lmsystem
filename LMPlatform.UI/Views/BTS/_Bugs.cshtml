@@ -1,73 +1,18 @@
-﻿ASD
-
-@*@using Application.Core.UI.HtmlHelpers
-@using LMPlatform.UI.Controllers
-@model LMPlatform.UI.ViewModels.BTSViewModels.BugListViewModel
-
-@{
-    ViewBag.Title = "Управление ошибками";
-}
-
-@section css
-{
-    <link rel="stylesheet" href="/Content/chosen/chosen.css">
-    <link rel="stylesheet" href="/Content/Site.css">
-}
-
-@section scripts
-{
-    @Scripts.Render("~/bundles/datatable")
-    <script src="~/Scripts/application/BTS/bug.js" type="text/javascript"></script>
-}
-
-@section navleft
-{
-    @Html.Partial("_BTSSubnavbar")
-}
-
-@section headerTitle
-{
-	<h1>Управление ошибками</h1>
-}
-<div>
-    @if (Model.CurrentProjectId != 0)
-    {
-        <h5>Отображаются ошибки проекта "@Model.CurrentProjectName"</h5> 
-        <a class="btn btn-primary btn-sm" href="@Url.Action("BugManagement", "BTS", new { id = 0 })">Отобразить ошибки всех проектов</a>
-    }
-    else
-    {
-        <h5>Отображаются ошибки всех проектов</h5>
-        <a class="btn btn-primary btn-sm" href="@Url.Action("Index", "BTS")">Выбрать проект</a>
-    }
-</div>
-<hr />
-<div>
-    <a class="addBugButton btn btn-primary btn-sm" href="@Url.Action("AddBug", "BTS", new { id = Model.CurrentProjectId })">Задокументировать ошибку</a>
-</div>
-<br/>
-<div class="row">
-    <div class="col-md-12">
-        
-        <div>
-            @Html.Partial("_DataTable", new DataTableViewModel
-            {
-                DataTable = Html.DataTable("BugList", (BTSController controller) => controller.GetAllBugs(null)),
-                DataTableOptions = new DataTableOptions
-                {
-                    Filterable = true,
-                    Info = false,
-                    OnComplete = "bugManagement.bugEditItemActionHandler",
-                    Pagination = false,
-                    Searchable = true,
-                    Sortable = false,
-                }
-            })
-        </div>
-    </div>
-</div>
-
-<script>
-    var link = window.location.pathname;
-    $('.nav li a[href="' + link + '"]').parent().addClass('active');
-</script>*@
+﻿<table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+    <tr ng-repeat="bug in $data" project-directive>
+        <td data-title="'№'" style="text-align: center; width: 20px;">{{bug.Number}}</td>
+        <td data-title="'ID'" style="text-align: center; width: 20px;">{{bug.ID}}</td>
+        <td data-title="'Название'">{{bug.Summary}}</td>
+        <td data-title="'Важность'">{{bug.Severity}}</td>
+        <td data-title="'Статус'">{{bug.Status}}</td>
+        <td data-title="'Назначенный разработчик'">{{bug.AssignedDeveloper}}</td>
+        <td data-title="'Проект'">{{bug.ProjectTitle}}</td>
+        <td data-title="'Дата последнего изменения'">{{bug.ModifyingDate}}</td>
+        <td data-title="'Действие'" style="width: 83px;">
+            @*<div name="projectGridActionsCol" ng-class="{hide : !isLector}" align="center">
+                <a ng-click="onEditProject(project.Id)" style="margin-right: 10px"><i class="editProject fa fa-edit fa-1x"></i></a>
+                <a ng-click="onDeleteProject(project.Id)" style="margin-right: 10px"><span class="deleteButton fa fa-trash-o fa-1x" /></a>
+            </div>*@
+        </td>
+    </tr>
+</table>

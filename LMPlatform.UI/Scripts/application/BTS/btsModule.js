@@ -5,7 +5,8 @@
         'btsApp.ctrl.projects',
         'btsApp.service.projects',
         'btsApp.directive.project',
-        'btsApp.ctrl.bugs'
+        'btsApp.ctrl.bugs',
+        'btsApp.service.bugs'
     ])
     .config(['$routeProvider', function ($routeProvider) {
 
