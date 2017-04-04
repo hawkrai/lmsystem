@@ -8,6 +8,26 @@ namespace Application.Infrastructure.BugManagement
 {
     public class BugManagementService : IBugManagementService
     {
+        public List<Bug> GetUserBugs(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
+        {
+            if(searchString?.Length < 3)
+                searchString = null;
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.BugsRepository.GetUserBugs(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
+            }
+        }
+
+        public int GetUserBugsCount(int userId, string searchString)
+        {
+            if(searchString?.Length < 3)
+                searchString = null;
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.BugsRepository.GetUserBugsCount(userId, searchString);
+            }
+        }
+
         public Bug GetBug(int bugId)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

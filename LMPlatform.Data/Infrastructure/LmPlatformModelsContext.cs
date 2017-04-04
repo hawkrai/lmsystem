@@ -634,6 +634,12 @@ namespace LMPlatform.Data.Infrastructure
                 .WithMany(e => e.Bugs)
                 .HasForeignKey(e => e.ReporterId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Bug>()
+                .HasRequired<User>(e => e.AssignedDeveloper)
+                .WithMany(e => e.DeveloperBugs)
+                .HasForeignKey(e => e.AssignedDeveloperId)
+                .WillCascadeOnDelete(false);
         }
 
         #endregion Protected BTS

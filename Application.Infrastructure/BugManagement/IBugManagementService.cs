@@ -10,6 +10,9 @@ namespace Application.Infrastructure.BugManagement
 {
     public interface IBugManagementService
     {
+        List<Bug> GetUserBugs(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
+        int GetUserBugsCount(int userId, string searchString);
+
         Bug GetBug(int bugId);
 
         List<Bug> GetBugs();
