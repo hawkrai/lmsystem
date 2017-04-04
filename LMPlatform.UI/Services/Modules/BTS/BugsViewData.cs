@@ -39,6 +39,8 @@ namespace LMPlatform.UI.Services.Modules.BTS
             Severity = bug.Severity.Name;
             Status = bug.Status.Name;
             AssignedDeveloper = GetAssignedDeveloper(bug);
+            ProjectTitle = bug.Project.Title;
+            ModifyingDate = bug.ModifyingDate.ToShortDateString();
         }
 
         private string GetAssignedDeveloper(Bug bug)
