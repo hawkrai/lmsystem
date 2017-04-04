@@ -3,7 +3,6 @@ angular
     .factory('monitoringDataService', [
         '$http',
         function ($http) {
-
             var url = '/Services/CoreService.svc/';
 
             function gup(name, url) {

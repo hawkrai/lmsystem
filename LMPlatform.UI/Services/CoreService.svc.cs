@@ -277,7 +277,7 @@ namespace LMPlatform.UI.Services
         {
             try
             {
-                var subGroups = this.SubjectManagementService.GetSubGroups(int.Parse(subjectId), int.Parse(groupId));
+                var subGroups = this.SubjectManagementService.GetSubGroupsV3(int.Parse(subjectId), int.Parse(groupId));
                 List<StudentsViewData> Students = new List<StudentsViewData>();
                 int subGroupIndex = 0;
                 foreach (var subGroup in subGroups)

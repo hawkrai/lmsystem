@@ -50,11 +50,11 @@ angular
                 return href == $location.path();
             };
 
-            var users = $resource('api/User');
-            $scope.user = {};
-            users.get(function (data) {
-                $scope.user = data;
-            }, $scope.handleError);
+            //var users = $resource('api/User');
+            //$scope.user = {};
+            //users.get(function (data) {
+            //    $scope.user = data;
+            //}, $scope.handleError);
 
             function navigationManagerFactory() {
                 var listPath = '/';

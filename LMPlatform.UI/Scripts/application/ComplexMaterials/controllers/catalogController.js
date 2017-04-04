@@ -113,7 +113,7 @@
                 complexMaterialsDataService.getTree({ id: parentId }).success(function (data) {
                     $scope.navigationService.setTree(data);
                 }).error(function (e) {
-                    alertify.error(e)
+                    alertify.error(e);
                 }).finally(function () {
                     updateRootConceptList();
                 });

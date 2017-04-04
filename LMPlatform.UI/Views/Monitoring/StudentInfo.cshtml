@@ -1,7 +1,17 @@
 ﻿
 <style>
-    .redRow{
-        background-color: crimson;
+    .redRow {
+        color: red;
+    }
+    .greenRow {
+        color: green;
+    }
+    #tableformVisiting tbody tr:nth-child(odd) { /* Задаем стили для нечетных рядов таблицы */
+        background: #f9f9f9;
+    }
+
+    #tableformVisiting tbody tr:nth-child(even) { /* Задаем стили для четных рядов таблицы */
+        background: #f3f4f5;
     }
 </style>
 
@@ -14,10 +24,10 @@
                 <th style="text-align: center; vertical-align: middle">Ожидалось (сек)</th>
             </tr>
         </thead>
-        <tr ng-repeat="concept in data.concepts" ng-class="{redRow: IsVeryLong(concept)}">
-            <td style="max-width: 300px; min-width: 300px">{{concept.Name}}</td>
-            <td style="max-width: 300px; min-width: 300px">{{getTime(concept.view.Time)}}</td>
-            <td style="max-width: 300px; min-width: 300px">{{getTime(concept.Estimated)}}</td>
+        <tr ng-repeat="concept in data.concepts">
+            <td style="max-width: 300px; min-width: 300px"><b>{{concept.Name}}</b></td>
+            <td style="max-width: 300px; min-width: 300px" ng-class="{redRow: IsVeryLong(concept), greenRow: !IsVeryLong(concept)}"><b>{{getTime(concept.view.Time)}}</b></td>
+            <td style="max-width: 300px; min-width: 300px"><b>{{getTime(concept.Estimated)}}</b></td>
         </tr>
     </table>
 </div>
