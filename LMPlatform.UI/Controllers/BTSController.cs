@@ -55,7 +55,7 @@ namespace LMPlatform.UI.Controllers
         [HttpGet]
         public ActionResult Bugs()
         {
-            return PartialView("~/Views/BTS/Bugs/_Index.cshtml");
+            return PartialView("_Bugs");
         }
 
         [HttpGet]
