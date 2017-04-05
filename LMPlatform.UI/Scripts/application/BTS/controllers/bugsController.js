@@ -4,8 +4,9 @@
         '$scope',
         'bugsService',
         'PAGE_SIZE',
+        'MIN_SEARCH_TEXT_LENGTH',
         'NgTableParams',
-        function ($scope, bugsService, PAGE_SIZE, NgTableParams) {
+        function ($scope, bugsService, PAGE_SIZE, MIN_SEARCH_TEXT_LENGTH, NgTableParams) {
 
             $scope.inputedSearchString = '';
             var searchString = '';
@@ -44,6 +45,17 @@
                             deleteBug(id);
                     }
                 });
+            };
+
+            function needReloadPage() {
+                return ($scope.inputedSearchString.length >= MIN_SEARCH_TEXT_LENGTH || $scope.inputedSearchString.length == 0) && searchString != $scope.inputedSearchString;
+            };
+
+            $scope.onSearch = function () {
+                if (needReloadPage()) {
+                    searchString = $scope.inputedSearchString;
+                    $scope.tableParams.reload();
+                }
             };
 
             $scope.tableParams = new NgTableParams({
