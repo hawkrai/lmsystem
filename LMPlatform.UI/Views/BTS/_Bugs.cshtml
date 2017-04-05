@@ -9,10 +9,9 @@
         <td data-title="'Проект'">{{bug.ProjectTitle}}</td>
         <td data-title="'Дата последнего изменения'">{{bug.ModifyingDate}}</td>
         <td data-title="'Действие'" style="width: 83px;">
-            @*<div name="projectGridActionsCol" ng-class="{hide : !isLector}" align="center">
-                <a ng-click="onEditProject(project.Id)" style="margin-right: 10px"><i class="editProject fa fa-edit fa-1x"></i></a>
-                <a ng-click="onDeleteProject(project.Id)" style="margin-right: 10px"><span class="deleteButton fa fa-trash-o fa-1x" /></a>
-            </div>*@
+            <div name="bugGridActionsCol" ng-class="{hide : !isLector}" align="center">
+                <a ng-click="onDeleteBug(bug.Id)" class="deleteButton" style="margin-right: 10px"><span class="fa fa-trash-o fa-1x"/></a>
+            </div>
         </td>
     </tr>
 </table>

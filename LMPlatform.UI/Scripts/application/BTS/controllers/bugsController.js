@@ -10,6 +10,34 @@
             $scope.inputedSearchString = '';
             var searchString = '';
 
+            function deleteBug(id) {
+                bugsService.deleteBug(id).then(function () {
+                    $scope.tableParams.reload();
+                    alertify.success("Ошибка удалена");
+                });
+            };
+
+            $scope.onDeleteBug = function (id) {
+                bootbox.confirm({
+                    title: 'Удаление ошибки',
+                    message: 'Вы дествительно хотите удалить ошибку?',
+                    buttons: {
+                        'cancel': {
+                            label: 'Отмена',
+                            className: 'btn btn-default btn-sm'
+                        },
+                        'confirm': {
+                            label: 'Удалить',
+                            className: 'btn btn-primary btn-sm',
+                        }
+                    },
+                    callback: function (result) {
+                        if (result)
+                            deleteBug(id);
+                    }
+                });
+            };
+
             $scope.tableParams = new NgTableParams({
                 sorting: { ModifyingDate: "desc" },
                 count: PAGE_SIZE

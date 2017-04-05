@@ -35,6 +35,13 @@
                     });
                 },
 
+                deleteBug: function (bugId) {
+                    return $http({
+                        method: 'DELETE',
+                        url: '/BTS/DeleteBug/' + bugId
+                    });
+                },
+
                 addNumbering: function (bugs, indexFrom) {
                     var length = bugs.length;
                     for (var i = 0; i < length; i++) {
