@@ -11,6 +11,13 @@
             var searchString = '';
             $scope.isProjectBugsPage = false;
 
+            $scope.onAddBug = function (projectId) {
+                $.savingDialog("Документирование ошибки", "/BTS/AddBug", null, "primary", function (data) {
+                    $scope.tableParams.reload();
+                    alertify.success("Добавлена новая ошибка");
+                });
+            };
+
             function deleteBug(id) {
                 bugsService.deleteBug(id).then(function () {
                     $scope.tableParams.reload();

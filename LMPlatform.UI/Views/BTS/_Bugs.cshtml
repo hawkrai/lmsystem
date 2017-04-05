@@ -5,6 +5,11 @@
     </div>
 </div>
 <hr />
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-primary btn-sm" ng-click="onAddBug(0)">Задокументировать ошибку</a>
+    </div>
+</div>
 
 <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
     <tr ng-repeat="bug in $data" bug-directive>
