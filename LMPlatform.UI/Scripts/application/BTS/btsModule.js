@@ -21,6 +21,11 @@
             controller: 'bugsCtrl'
         });
 
+        $routeProvider.when('/Project/:projectId/Bugs', {
+            templateUrl: '/BTS/bugs',
+            controller: 'bugsCtrl'
+        });
+
         $routeProvider.otherwise({
             redirectTo: '/Projects'
         });

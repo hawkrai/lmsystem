@@ -1,5 +1,9 @@
-﻿<div class="row" ng-if="!isProjectBugsPage">
-    <div class="col-md-12">
+﻿<div class="row">
+    <div class="col-md-12" ng-if="isProjectBugsPage">
+        <h5>Отображаются ошибки проекта ""</h5>
+        <a class="btn btn-primary btn-sm" href="#/Bugs">Отобразить ошибки всех проектов</a>
+    </div>
+    <div class="col-md-12" ng-if="!isProjectBugsPage">
         <h5>Отображаются ошибки всех проектов</h5>
         <a class="btn btn-primary btn-sm" href="#/Projects">Выбрать проект</a>
     </div>

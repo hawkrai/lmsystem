@@ -2,15 +2,21 @@
     .module('btsApp.ctrl.bugs', ['ngTable'])
     .controller('bugsCtrl', [
         '$scope',
+        '$routeParams',
         'bugsService',
         'PAGE_SIZE',
         'MIN_SEARCH_TEXT_LENGTH',
         'NgTableParams',
-        function ($scope, bugsService, PAGE_SIZE, MIN_SEARCH_TEXT_LENGTH, NgTableParams) {
+        function ($scope, $routeParams, bugsService, PAGE_SIZE, MIN_SEARCH_TEXT_LENGTH, NgTableParams) {
 
             $scope.inputedSearchString = '';
             var searchString = '';
             $scope.isProjectBugsPage = false;
+
+            function init() {
+                if ($routeParams.projectId != null)
+                    $scope.isProjectBugsPage = true;
+            };
 
             $scope.onAddBug = function (projectId) {
                 $.savingDialog("Документирование ошибки", "/BTS/AddBug", null, "primary", function (data) {
@@ -70,4 +76,6 @@
                     });
                 }
             });
+
+            init();
         }]);
