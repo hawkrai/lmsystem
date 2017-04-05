@@ -118,15 +118,15 @@ namespace LMPlatform.Data.Repositories
                     else
                         return query.OrderBy(e => e.Project.Title);
                 case "Severity":
-                if(desc)
-                    return query.OrderByDescending(e => e.Severity.Name);
-                else
-                    return query.OrderBy(e => e.Project.Title);
+                    if(desc)
+                        return query.OrderByDescending(e => e.Severity.Name);
+                    else
+                        return query.OrderBy(e => e.Project.Title);
                 case "Status":
-                if(desc)
-                    return query.OrderByDescending(e => e.Status.Name);
-                else
-                    return query.OrderBy(e => e.Status.Name);
+                    if(desc)
+                        return query.OrderByDescending(e => e.Status.Name);
+                    else
+                        return query.OrderBy(e => e.Status.Name);
                 default:
                     if(desc)
                         return query.OrderByDescending(e => e.ModifyingDate);
