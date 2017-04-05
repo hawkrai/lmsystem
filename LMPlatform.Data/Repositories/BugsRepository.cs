@@ -76,17 +76,15 @@ namespace LMPlatform.Data.Repositories
 
         private IQueryable<Bug> GetUserBugsQuery(LmPlatformModelsContext context, int userId, string searchString)
         {
-            return context.Set<Bug>()
-                .Include(e => e.Severity)
-                .Include(e => e.Status)
-                .Include(e => e.Project.Creator.Lecturer)
-                .Include(e => e.Project.Creator.Student)
-                .Include(e => e.Project)
-                .Where(e => e.Project.ProjectUsers.Any(e2 => e2.UserId == userId))
-                .Where(e => searchString == null ? true : e.Summary.Contains(searchString));
+            return GetBugsQuery(context, searchString).Where(e => e.Project.ProjectUsers.Any(e2 => e2.UserId == userId));
         }
 
         private IQueryable<Bug> GetProjectBugsQuery(LmPlatformModelsContext context, int projectId, string searchString)
+        {
+            return GetBugsQuery(context, searchString).Where(e => e.Project.Id == projectId);
+        }
+
+        private IQueryable<Bug> GetBugsQuery(LmPlatformModelsContext context, string searchString)
         {
             return context.Set<Bug>()
                 .Include(e => e.Severity)
@@ -94,7 +92,6 @@ namespace LMPlatform.Data.Repositories
                 .Include(e => e.Project.Creator.Lecturer)
                 .Include(e => e.Project.Creator.Student)
                 .Include(e => e.Project)
-                .Where(e => e.Project.Id == projectId)
                 .Where(e => searchString == null ? true : e.Summary.Contains(searchString));
         }
 
