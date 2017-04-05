@@ -10,6 +10,10 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 
         int GetUserBugsCount(int userId, string searchString);
 
+        List<Bug> GetProjectBugs(int projectId, int limit, int offset, string searchString, string sortedPropertyName, bool desc = false);
+
+        int GetProjectBugsCount(int projectId, string searchString);
+
         Bug SaveBug(Bug bug);
         
         void DeleteBug(Bug bug);

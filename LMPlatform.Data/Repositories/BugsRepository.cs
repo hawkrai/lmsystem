@@ -19,10 +19,7 @@ namespace LMPlatform.Data.Repositories
             using(var context = new LmPlatformModelsContext())
             {
                 var query = GetUserBugsQuery(context, userId, searchString);
-                return GetUserBugsSortedQuery(query, sortedPropertyName, desc)
-                    .Skip(offset)
-                    .Take(limit)
-                    .ToList();
+                return GetPagebleSortedBugs(query, sortedPropertyName, desc, limit, offset);
             }
         }
 
@@ -31,6 +28,23 @@ namespace LMPlatform.Data.Repositories
             using(var context = new LmPlatformModelsContext())
             {
                 return GetUserBugsQuery(context, userId, searchString).Count();
+            }
+        }
+
+        public List<Bug> GetProjectBugs(int projectId, int limit, int offset, string searchString, string sortedPropertyName, bool desc = false)
+        {
+            using(var context = new LmPlatformModelsContext())
+            {
+                var query = GetProjectBugsQuery(context, projectId, searchString);
+                return GetPagebleSortedBugs(query, sortedPropertyName, desc, limit, offset);
+            }
+        }
+
+        public int GetProjectBugsCount(int projectId, string searchString)
+        {
+            using(var context = new LmPlatformModelsContext())
+            {
+                return GetProjectBugsQuery(context, projectId, searchString).Count();
             }
         }
 
@@ -52,6 +66,14 @@ namespace LMPlatform.Data.Repositories
             return bug;
         }
 
+        private List<Bug> GetPagebleSortedBugs(IQueryable<Bug> query, string sortedPropertyName, bool desc, int limit, int offset)
+        {
+            return GetSortedBugsQuery(query, sortedPropertyName, desc)
+                .Skip(offset)
+                .Take(limit)
+                .ToList();
+        }
+
         private IQueryable<Bug> GetUserBugsQuery(LmPlatformModelsContext context, int userId, string searchString)
         {
             return context.Set<Bug>()
@@ -64,7 +86,19 @@ namespace LMPlatform.Data.Repositories
                 .Where(e => searchString == null ? true : e.Summary.Contains(searchString));
         }
 
-        private IQueryable<Bug> GetUserBugsSortedQuery(IQueryable<Bug> query, string sortingPropertyName, bool desc)
+        private IQueryable<Bug> GetProjectBugsQuery(LmPlatformModelsContext context, int projectId, string searchString)
+        {
+            return context.Set<Bug>()
+                .Include(e => e.Severity)
+                .Include(e => e.Status)
+                .Include(e => e.Project.Creator.Lecturer)
+                .Include(e => e.Project.Creator.Student)
+                .Include(e => e.Project)
+                .Where(e => e.Project.Id == projectId)
+                .Where(e => searchString == null ? true : e.Summary.Contains(searchString));
+        }
+
+        private IQueryable<Bug> GetSortedBugsQuery(IQueryable<Bug> query, string sortingPropertyName, bool desc)
         {
             switch(sortingPropertyName)
             {
