@@ -59,7 +59,7 @@ namespace LMPlatform.Data.Repositories
                 .Include(e => e.Status)
                 .Include(e => e.Project.Creator.Lecturer)
                 .Include(e => e.Project.Creator.Student)
-                .Include(e => e.Project.Title)
+                .Include(e => e.Project)
                 .Where(e => e.Project.ProjectUsers.Any(e2 => e2.UserId == userId))
                 .Where(e => searchString == null ? true : e.Summary.Contains(searchString));
         }
@@ -68,21 +68,31 @@ namespace LMPlatform.Data.Repositories
         {
             switch(sortingPropertyName)
             {
-                //case "UserQuentity":
-                //if(desc)
-                //    return query.OrderByDescending(e => e.ProjectUsers.Count);
-                //else
-                //    return query.OrderBy(e => e.ProjectUsers.Count);
-                //case "Title":
-                //if(desc)
-                //    return query.OrderByDescending(e => e.Title);
-                //else
-                //    return query.OrderBy(e => e.Title);
-                //case "CreatorName":
-                //if(desc)
-                //    return query.OrderByDescending(e => e.Creator.Student == null ? e.Creator.Lecturer.LastName : e.Creator.Student.LastName);
-                //else
-                //    return query.OrderBy(e => e.Creator.Student == null ? e.Creator.Lecturer.LastName : e.Creator.Student.LastName);
+                case "Id":
+                    if(desc)
+                        return query.OrderByDescending(e => e.Id);
+                    else
+                        return query.OrderBy(e => e.Id);
+                case "Summary":
+                    if(desc)
+                        return query.OrderByDescending(e => e.Summary);
+                    else
+                        return query.OrderBy(e => e.Summary);
+                case "ProjectTitle":
+                    if(desc)
+                        return query.OrderByDescending(e => e.Project.Title);
+                    else
+                        return query.OrderBy(e => e.Project.Title);
+                case "Severity":
+                if(desc)
+                    return query.OrderByDescending(e => e.Severity.Name);
+                else
+                    return query.OrderBy(e => e.Project.Title);
+                case "Status":
+                if(desc)
+                    return query.OrderByDescending(e => e.Status.Name);
+                else
+                    return query.OrderBy(e => e.Status.Name);
                 default:
                     if(desc)
                         return query.OrderByDescending(e => e.ModifyingDate);
