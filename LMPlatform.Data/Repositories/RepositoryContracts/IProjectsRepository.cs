@@ -8,7 +8,10 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
     {
 
         List<Project> GetUserProjects(int userId, int limit, int offset, string searchString, string sortedPropertyName, bool desc = false);
+
         int GetUserProjectsCount(int userId, string searchString);
+
+        Project GetProjectWithData(int id);
 
         void DeleteProject(Project project);
 

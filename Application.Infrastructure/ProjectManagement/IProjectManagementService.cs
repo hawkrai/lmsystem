@@ -12,6 +12,7 @@ namespace Application.Infrastructure.ProjectManagement
     {
         List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
         int GetUserProjectsCount(int userId, string searchString);
+        Project GetProjectWithData(int id);
 
         Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false);
 

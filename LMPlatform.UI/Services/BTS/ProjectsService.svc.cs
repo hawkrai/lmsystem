@@ -35,5 +35,14 @@ namespace LMPlatform.UI.Services.BTS
                 TotalCount = totalCount
             };
         }
+
+        public ProjectResult Show(string id)
+        {
+            var project = new ProjectsViewData(ProjectManagementService.GetProjectWithData(Convert.ToInt32(id)));
+            return new ProjectResult
+            {
+                Project = project
+            };
+        }
     }
 }

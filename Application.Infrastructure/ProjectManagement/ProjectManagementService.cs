@@ -37,6 +37,14 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
+        public Project GetProjectWithData(int id)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetProjectWithData(id);
+            }
+        }
+
         public Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

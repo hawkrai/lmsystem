@@ -420,6 +420,7 @@
     </Compile>
     <Compile Include="Services\Modules\BTS\BugsResult.cs" />
     <Compile Include="Services\Modules\BTS\BugsViewData.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectsResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectsViewData.cs" />
     <Compile Include="Services\Modules\Concept\ConceptResult.cs" />
