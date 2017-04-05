@@ -12,6 +12,8 @@ namespace Application.Infrastructure.BugManagement
     {
         List<Bug> GetUserBugs(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
         int GetUserBugsCount(int userId, string searchString);
+        List<Bug> GetProjectBugs(int projectId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
+        int GetProjectBugsCount(int projectId, string searchString);
 
         Bug GetBug(int bugId);
 

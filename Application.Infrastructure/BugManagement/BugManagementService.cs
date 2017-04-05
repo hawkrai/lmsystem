@@ -8,10 +8,11 @@ namespace Application.Infrastructure.BugManagement
 {
     public class BugManagementService : IBugManagementService
     {
+        private const int MinSearchStringLength = 3;
+
         public List<Bug> GetUserBugs(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
         {
-            if(searchString?.Length < 3)
-                searchString = null;
+            searchString = ValidateSearchString(searchString);
             using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return repositoriesContainer.BugsRepository.GetUserBugs(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
@@ -20,11 +21,28 @@ namespace Application.Infrastructure.BugManagement
 
         public int GetUserBugsCount(int userId, string searchString)
         {
-            if(searchString?.Length < 3)
-                searchString = null;
+            searchString = ValidateSearchString(searchString);
             using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return repositoriesContainer.BugsRepository.GetUserBugsCount(userId, searchString);
+            }
+        }
+
+        public List<Bug> GetProjectBugs(int projectId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
+        {
+            searchString = ValidateSearchString(searchString);
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.BugsRepository.GetProjectBugs(projectId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
+            }
+        }
+
+        public int GetProjectBugsCount(int projectId, string searchString)
+        {
+            searchString = ValidateSearchString(searchString);
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.BugsRepository.GetProjectBugsCount(projectId, searchString);
             }
         }
 
@@ -123,6 +141,13 @@ namespace Application.Infrastructure.BugManagement
 
                 repositoriesContainer.ApplyChanges();
             }
+        }
+
+        private string ValidateSearchString(string searchString)
+        {
+            if(searchString?.Length < MinSearchStringLength)
+                return null;
+            return searchString;
         }
     }
 }
