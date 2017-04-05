@@ -9,6 +9,7 @@
 
             $scope.inputedSearchString = '';
             var searchString = '';
+            $scope.isProjectBugsPage = false;
 
             function deleteBug(id) {
                 bugsService.deleteBug(id).then(function () {
