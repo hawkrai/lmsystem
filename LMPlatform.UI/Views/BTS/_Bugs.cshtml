@@ -22,7 +22,7 @@
     <tr ng-repeat="bug in $data" bug-directive>
         <td data-title="'№'" style="text-align: center; width: 20px;">{{bug.Number}}</td>
         <td data-title="'ID'" style="text-align: center; width: 20px;" sortable="'Id'">{{bug.Id}}</td>
-        <td data-title="'Название'" sortable="'Summary'">{{bug.Summary}}</td>
+        <td data-title="'Название'" sortable="'Summary'"><a href="/BTS/BugDetails/{{bug.Id}}">{{bug.Summary}}</a></td>
         <td data-title="'Важность'" sortable="'Severity'">{{bug.Severity}}</td>
         <td data-title="'Статус'" sortable="'Status'">{{bug.Status}}</td>
         <td data-title="'Назначенный разработчик'">{{bug.AssignedDeveloper}}</td>
