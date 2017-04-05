@@ -5,7 +5,9 @@
         'MIN_SEARCH_TEXT_LENGTH',
         function ($http, MIN_SEARCH_TEXT_LENGTH) {
 
-            var projectsUrl = '/Services/BTS/ProjectsService.svc/Index';
+            var serviceUrl = '/Services/BTS/ProjectsService.svc';
+            var projectUrl = '/Show';
+            var projectsUrl = '/Index';
 
             function addSortableParams(params, orderBy) {
                 if (orderBy.length == 0)
@@ -27,10 +29,17 @@
             };
 
             return {
+                getProject: function(id) {
+                    return $http({
+                        method: 'GET',
+                        url: serviceUrl + projectUrl + '/' + id
+                    });
+                },
+
                 getProjects: function (pageNumber, pageSize, searchString, orderBy) {
                     return $http({
                         method: 'GET',
-                        url: projectsUrl,
+                        url: serviceUrl + projectsUrl,
                         params: formParams(pageNumber, pageSize, searchString, orderBy)
                     });
                 },
