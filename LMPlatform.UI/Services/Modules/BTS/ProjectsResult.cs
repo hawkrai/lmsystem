@@ -10,7 +10,7 @@ namespace LMPlatform.UI.Services.Modules.BTS
     public class ProjectsResult : ResultViewData
     {
         [DataMember]
-        public List<ProjectsViewData> Projects { get; set; }
+        public List<ProjectViewData> Projects { get; set; }
 
         [DataMember]
         public int TotalCount { get; set; }

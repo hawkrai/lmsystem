@@ -9,7 +9,7 @@ using Application.Infrastructure.ProjectManagement;
 namespace LMPlatform.UI.Services.Modules.BTS
 {
     [DataContract]
-    public class BugsViewData
+    public class BugViewData
     {
         [DataMember]
         public int Id { get; set; }
@@ -32,7 +32,7 @@ namespace LMPlatform.UI.Services.Modules.BTS
         [DataMember]
         public string ModifyingDate { get; set; }
 
-        public BugsViewData(Bug bug)
+        public BugViewData(Bug bug)
         {
             Id = bug.Id;
             Summary = bug.Summary;

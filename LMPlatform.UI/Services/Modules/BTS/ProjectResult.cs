@@ -10,6 +10,6 @@ namespace LMPlatform.UI.Services.Modules.BTS
     public class ProjectResult : ResultViewData
     {
         [DataMember]
-        public ProjectsViewData Project { get; set; }
+        public ProjectViewData Project { get; set; }
     }
 }
