@@ -4,13 +4,16 @@
     ViewBag.NgController = "homeCtrl";
 }
 
+@section css
+{
+    @Styles.Render("~/bundles/ngTable/styles")
+}
+
 @section scripts
 {
     @Scripts.Render("~/bundles/btsApp")
     @Scripts.Render("~/bundles/ngTable")
     @Scripts.Render("~/bundles/angularTabs")
-
-    @Styles.Render("~/bundles/ngTable/styles")
 }
 
 @section navleft
