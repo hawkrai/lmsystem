@@ -64,6 +64,12 @@ namespace LMPlatform.UI.Controllers
             return PartialView("_Projects");
         }
 
+        [HttpGet]
+        public ActionResult ProjectParticipationV2()
+        {
+            return PartialView("_ProjectParticipation");
+        }
+
         [HttpPost]
         public ActionResult Index(ProjectListViewModel model)
         {
