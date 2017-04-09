@@ -64,5 +64,10 @@ namespace LMPlatform.UI.Services
 	    [OperationContract]
 		[WebInvoke(UriTemplate = "/DisjoinLector/", RequestFormat = WebMessageFormat.Json, Method = "POST")]
 	    ResultViewData DisjoinLector(string subjectId, string lectorId);
+        
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/GetLecturers", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+        LectorResult GetLecturers();
+        
     }
 }
