@@ -27,7 +27,7 @@ namespace LMPlatform.UI.Services.BTS
 
         public ProjectsResult Index(int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null)
         {
-            var projects = ProjectManagementService.GetUserProjects(WebSecurity.CurrentUserId, pageSize, pageNumber, sortingPropertyName, desc, searchString).Select(e => new ProjectsViewData(e)).ToList();
+            var projects = ProjectManagementService.GetUserProjects(WebSecurity.CurrentUserId, pageSize, pageNumber, sortingPropertyName, desc, searchString).Select(e => new ProjectViewData(e)).ToList();
             int totalCount = ProjectManagementService.GetUserProjectsCount(WebSecurity.CurrentUserId, searchString);
             return new ProjectsResult
             {
@@ -38,7 +38,7 @@ namespace LMPlatform.UI.Services.BTS
 
         public ProjectResult Show(string id)
         {
-            var project = new ProjectsViewData(ProjectManagementService.GetProjectWithData(Convert.ToInt32(id)));
+            var project = new ProjectViewData(ProjectManagementService.GetProjectWithData(Convert.ToInt32(id)));
             return new ProjectResult
             {
                 Project = project

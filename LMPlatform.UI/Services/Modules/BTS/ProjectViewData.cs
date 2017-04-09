@@ -25,13 +25,17 @@ namespace LMPlatform.UI.Services.Modules.BTS
         [DataMember]
         public int UserQuentity { get; set; }
 
-        public ProjectViewData(Project project)
+        public ProjectViewData(Project project, bool full = false)
         {
             Id = project.Id;
             Title = project.Title;
             CreatorName = project.Creator.FullName;
-            DateOfChange = project.DateOfChange.ToShortDateString();
-            UserQuentity = project.ProjectUsers.Count;
+            if (full)
+            {
+                DateOfChange = project.DateOfChange.ToShortDateString();
+                UserQuentity = project.ProjectUsers.Count;
+            }
+
         }
     }
 }

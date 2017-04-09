@@ -28,7 +28,7 @@ namespace LMPlatform.UI.Services.BTS
         public BugsResult Index(int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null)
         {
             var bugs = BugManagementService.GetUserBugs(WebSecurity.CurrentUserId, pageSize, pageNumber, sortingPropertyName, desc, searchString)
-                .Select(e => new BugsViewData(e)).ToList();
+                .Select(e => new BugViewData(e)).ToList();
             int totalCount = BugManagementService.GetUserBugsCount(WebSecurity.CurrentUserId, searchString);
             return new BugsResult
             {
@@ -41,7 +41,7 @@ namespace LMPlatform.UI.Services.BTS
         {
             int convertedProjectId = Convert.ToInt32(projectId);
             var bugs = BugManagementService.GetProjectBugs(convertedProjectId, pageSize, pageNumber, sortingPropertyName, desc, searchString)
-                .Select(e => new BugsViewData(e)).ToList();
+                .Select(e => new BugViewData(e)).ToList();
             int totalCount = BugManagementService.GetProjectBugsCount(convertedProjectId, searchString);
             return new BugsResult
             {
