@@ -93,9 +93,9 @@ namespace Application.Infrastructure.StudentManagement
 				{
 					if (subGroup.SubGroups != null && subGroup.SubGroups.Any())
 					{
-						var modelFirstSubGroup = subGroup.SubGroups.FirstOrDefault(e => e.Name == "first").SubjectStudents;
+						var modelFirstSubGroup = subGroup.SubGroups.FirstOrDefault(e => e.Name == "first").SubjectStudents ?? new List<SubjectStudent>();
 
-						var first = modelFirstSubGroup.Select(e => e.StudentId).ToList();
+						var first = modelFirstSubGroup != null ? modelFirstSubGroup.Select(e => e.StudentId).ToList() : new List<int>();
 
 						first.Add(student.Id);
 
@@ -124,6 +124,10 @@ namespace Application.Infrastructure.StudentManagement
 	            var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>(e => e.Id == student.User.Id));
 	            user.UserName = student.User.UserName;
 	            user.Avatar = student.User.Avatar;
+				user.About = student.User.About;
+				user.SkypeContact = student.User.SkypeContact;
+				user.Phone = student.User.Phone;
+				user.Email = student.User.Email;
 				repositoriesContainer.UsersRepository.Save(user);
                 repositoriesContainer.ApplyChanges();
                 new StudentSearchMethod().UpdateIndex(student);

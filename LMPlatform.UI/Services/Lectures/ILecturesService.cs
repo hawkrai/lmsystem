@@ -12,6 +12,7 @@ namespace LMPlatform.UI.Services.Lectures
     using LMPlatform.UI.Services.Modules;
     using LMPlatform.UI.Services.Modules.Lectures;
     using LMPlatform.UI.Services.Modules.News;
+	using LMPlatform.UI.Services.Modules.CoreModels;
 
     [ServiceContract]
     public interface ILecturesService

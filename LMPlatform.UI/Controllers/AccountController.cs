@@ -142,9 +142,9 @@ namespace LMPlatform.UI.Controllers
 				        new ModifyLecturerViewModel(
 					        new Lecturer
 						        {
-							        FirstName = model.Name,
-							        LastName = model.Surname,
-							        MiddleName = model.Patronymic,
+									FirstName = string.IsNullOrEmpty(model.Name) ? string.Empty : model.Name.Trim(),
+									LastName = string.IsNullOrEmpty(model.Surname) ? string.Empty : model.Surname.Trim(),
+									MiddleName = string.IsNullOrEmpty(model.Patronymic) ? string.Empty : model.Patronymic.Trim(),
 							        IsLecturerHasGraduateStudents = model.IsLecturerHasGraduateStudents,
 							        IsSecretary = model.IsSecretary,
 							        Skill = model.Skill,
@@ -170,9 +170,9 @@ namespace LMPlatform.UI.Controllers
 				        new ModifyStudentViewModel(
 					        new Student
 						        {
-							        FirstName = model.Name,
-							        LastName = model.Surname,
-							        MiddleName = model.Patronymic,
+									FirstName = string.IsNullOrEmpty(model.Name) ? string.Empty : model.Name.Trim(),
+									LastName = string.IsNullOrEmpty(model.Surname) ? string.Empty : model.Surname.Trim(),
+									MiddleName = string.IsNullOrEmpty(model.Patronymic) ? string.Empty : model.Patronymic.Trim(),
 							        User =
 								        new User
 									        {
@@ -225,12 +225,19 @@ namespace LMPlatform.UI.Controllers
 			return model.Avatar;
 		}
 
+	    public string GetFullName()
+	    {
+			var model = new PersonalDataViewModel();
+
+			return string.Format("{0} {1} {2}", model.Surname, model.Name, model.Patronymic);
+	    }
+
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
             switch (createStatus)
             {
                 case MembershipCreateStatus.DuplicateUserName:
-                    return "User name already exists. Please enter a different user name.";
+					return "Такой логин уже существует в системе. Пожалуйста, введите другой логин";
 
                 case MembershipCreateStatus.DuplicateEmail:
                     return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
