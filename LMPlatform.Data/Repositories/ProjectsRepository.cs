@@ -40,6 +40,26 @@ namespace LMPlatform.Data.Repositories
             }
         }
 
+        public List<Project> GetUserProjectParticipations(int userId, int limit, int offset, string searchString, string sortingPropertyName, bool desc = false)
+        {
+            using(var context = new LmPlatformModelsContext())
+            {
+                var query = GetUserProjectParticipationsQuery(context, userId, searchString);
+                return GetUserProjectsSortedQuery(query, sortingPropertyName, desc)
+                    .Skip(offset)
+                    .Take(limit)
+                    .ToList();
+            }
+        }
+
+        public int GetUserProjectParticipationsCount(int userId, string searchString)
+        {
+            using(var context = new LmPlatformModelsContext())
+            {
+                return GetUserProjectParticipationsQuery(context, userId, searchString).Count();
+            }
+        }
+
         public Project GetProjectWithData(int id)
         {
             using(var context = new LmPlatformModelsContext())
@@ -84,6 +104,12 @@ namespace LMPlatform.Data.Repositories
                 .Include(e => e.ProjectUsers)
                 .Where(e => e.ProjectUsers.Any(e2 => e2.UserId == userId))
                 .Where(e => searchString == null ? true : e.Title.Contains(searchString));
+        }
+
+        private IQueryable<Project> GetUserProjectParticipationsQuery(LmPlatformModelsContext context, int userId, string searchString)
+        {
+            return GetUserProjectsQuery(context, userId, searchString)
+                .Include(e => e.ProjectUsers.Select(e2 => e2.ProjectRole));
         }
 
 

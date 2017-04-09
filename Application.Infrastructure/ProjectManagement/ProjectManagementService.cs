@@ -45,6 +45,21 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
+        public List<Project> GetUserProjectParticipations(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetUserProjectParticipations(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
+            }
+        }
+        public int GetUserProjectParticipationsCount(int userId, string searchString)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetUserProjectParticipationsCount(userId, searchString);
+            }
+        }
+
         public Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

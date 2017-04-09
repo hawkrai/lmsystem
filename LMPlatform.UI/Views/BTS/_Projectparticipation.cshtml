@@ -1,7 +1,14 @@
 ﻿<tabset>
     <tab heading="Занятость лекторов">
         <select ng-model="$parent.$parent.selectedLecturer" ng-options="lecturer.FullName for lecturer in lecturers" ng-change="onChangeGroup()" class="form-control"></select>
-        Static content
+        
+        <table ng-table="lecturerProjectsTableParams" class="table table-bordered table-striped table-condensed">
+            <tr ng-repeat="project in $data" bug-directive>
+                <td data-title="'Проект'">{{bug.Number}}</td>
+                <td data-title="'Роль на проекте'" sortable="'Id'">{{bug.Id}}</td>
+                <td data-title="'Создатель проекта'" sortable="'Summary'">{{bug.Id}}<td>
+            </tr>
+        </table>
     </tab>
     <tab heading="Занятость студентов">
         Static content 2
