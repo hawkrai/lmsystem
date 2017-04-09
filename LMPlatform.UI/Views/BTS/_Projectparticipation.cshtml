@@ -1,6 +1,6 @@
 ﻿<tabset>
     <tab heading="Занятость лекторов">
-        <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="" class="form-control"></select>
+        <select ng-model="$parent.$parent.selectedLecturer" ng-options="lecturer.FullName for lecturer in lecturers" ng-change="onChangeGroup()" class="form-control"></select>
         Static content
     </tab>
     <tab heading="Занятость студентов">

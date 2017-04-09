@@ -354,6 +354,7 @@
     <Content Include="Scripts\application\BTS\controllers\projectsController.js" />
     <Content Include="Scripts\application\BTS\directives\bugDirective.js" />
     <Content Include="Scripts\application\BTS\directives\projectDirective.js" />
+    <Content Include="Scripts\application\BTS\services\participationsService.js" />
     <Content Include="Scripts\application\BTS\services\bugsService.js" />
     <Content Include="Scripts\application\BTS\services\projectsService.js" />
     <Content Include="Scripts\application\ComplexMaterials\BaseLoader.js" />
