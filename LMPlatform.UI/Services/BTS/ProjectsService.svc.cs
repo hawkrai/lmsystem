@@ -54,7 +54,8 @@ namespace LMPlatform.UI.Services.BTS
             int totalCount = ProjectManagementService.GetUserProjectParticipationsCount(WebSecurity.CurrentUserId, searchString);
             return new UserProjectParticipationsResult
             {
-                Projects = projects
+                Projects = projects,
+                TotalCount = totalCount
             };
         }
     }

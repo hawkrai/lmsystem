@@ -1,12 +1,12 @@
 ﻿<tabset>
     <tab heading="Занятость лекторов">
-        <select ng-model="$parent.$parent.selectedLecturer" ng-options="lecturer.FullName for lecturer in lecturers" ng-change="onChangeGroup()" class="form-control"></select>
+        <select ng-model="$parent.$parent.selectedLecturer" ng-options="lecturer.FullName for lecturer in lecturers" ng-change="onChangeGroup()" class="form-control" style="margin-top: 15px;"></select>
         
-        <table ng-table="lecturerProjectsTableParams" class="table table-bordered table-striped table-condensed">
-            <tr ng-repeat="project in $data" bug-directive>
-                <td data-title="'Проект'">{{bug.Number}}</td>
-                <td data-title="'Роль на проекте'" sortable="'Id'">{{bug.Id}}</td>
-                <td data-title="'Создатель проекта'" sortable="'Summary'">{{bug.Id}}<td>
+        <table ng-table="lecturerProjectsTableParams" class="table table-bordered table-striped table-condensed" style="margin-top: 25px;">
+            <tr ng-repeat="project in $data">
+                <td data-title="'Проект'" sortable="'Title'">{{project.Title}}</td>
+                <td data-title="'Роль на проекте'">{{project.UserRole}}</td>
+                <td data-title="'Создатель проекта'">{{project.CreatorName}}</td>
             </tr>
         </table>
     </tab>

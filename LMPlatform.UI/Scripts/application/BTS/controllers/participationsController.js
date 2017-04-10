@@ -24,5 +24,17 @@
                 
             };
 
+            $scope.lecturerProjectsTableParams = new NgTableParams({
+                //sorting: { DateOfChange: "desc" },
+                count: PAGE_SIZE
+            }, {
+                getData: function (params) {
+                    return participationsService.getUserProjectsParticipations(params.page(), params.count(), params.orderBy()).then(function (response) {
+                        params.total(response.data.TotalCount);
+                        return response.data.Projects;
+                    });
+                }
+            });
+
             init();
         }]);
