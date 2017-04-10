@@ -51,7 +51,7 @@ namespace LMPlatform.UI.Services.BTS
             int convertedUserId = Convert.ToInt32(id);
             var projects = ProjectManagementService.GetUserProjectParticipations(convertedUserId, pageSize, pageNumber, sortingPropertyName, desc, searchString)
                 .Select(e => new UserProjectParticipationViewData(e, convertedUserId)).ToList();
-            int totalCount = ProjectManagementService.GetUserProjectParticipationsCount(WebSecurity.CurrentUserId, searchString);
+            int totalCount = ProjectManagementService.GetUserProjectParticipationsCount(convertedUserId, searchString);
             return new UserProjectParticipationsResult
             {
                 Projects = projects,

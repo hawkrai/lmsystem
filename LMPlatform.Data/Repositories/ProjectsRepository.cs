@@ -45,7 +45,8 @@ namespace LMPlatform.Data.Repositories
             using(var context = new LmPlatformModelsContext())
             {
                 var query = GetUserProjectParticipationsQuery(context, userId, searchString);
-                return GetUserProjectsSortedQuery(query, sortingPropertyName, desc)
+                var sortedQuery = GetUserProjectsSortedQuery(query, sortingPropertyName, desc);
+                return GetUserProjectsSortedQuery(sortedQuery, sortingPropertyName, desc)
                     .Skip(offset)
                     .Take(limit)
                     .ToList();

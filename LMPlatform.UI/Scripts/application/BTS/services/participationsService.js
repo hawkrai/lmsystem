@@ -35,10 +35,10 @@
                     });
                 },
 
-                getUserProjectsParticipations: function (pageNumber, pageSize, orderBy) {
+                getUserProjectsParticipations: function (userId, pageNumber, pageSize, orderBy) {
                     return $http({
                         method: 'GET',
-                        url: projectsServiceUrl + userProjectParticipationsUrl + '/' + 2,
+                        url: projectsServiceUrl + userProjectParticipationsUrl + '/' + userId,
                         params: formParams(pageNumber, pageSize, orderBy)
                     });
                 },
