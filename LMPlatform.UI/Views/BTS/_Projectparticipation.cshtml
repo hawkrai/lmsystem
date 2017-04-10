@@ -4,13 +4,13 @@
         
         <table ng-table="lecturerProjectsTableParams" class="table table-bordered table-striped table-condensed" style="margin-top: 25px;">
             <tr ng-repeat="project in $data">
-                <td data-title="'Проект'" sortable="'Title'">{{project.Title}}</td>
+                <td data-title="'Проект'" sortable="'Title'"><a href="/BTS/ProjectManagement/{{project.ProjectId}}">{{project.Title}}</a></td>
                 <td data-title="'Роль на проекте'">{{project.UserRole}}</td>
                 <td data-title="'Создатель проекта'">{{project.CreatorName}}</td>
             </tr>
         </table>
     </tab>
     <tab heading="Занятость студентов">
-        Static content 2
+        <select ng-model="$parent.$parent.selectedGroup" ng-options="lecturer.FullName for lecturer in lecturers" ng-change="onChangeGroup()" class="form-control" style="margin-top: 15px;"></select>
     </tab>
 </tabset>
