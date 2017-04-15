@@ -8,20 +8,34 @@
         function ($scope, PAGE_SIZE, NgTableParams, participationsService) {
             $scope.lecturers = [];
             $scope.selectedLecturer = null;
+            $scope.groups = [];
+            $scope.selectedGroup = null;
 
             function init() {
                 setLecturers();
+                setGroups();
             };
 
             function setLecturers() {
                 participationsService.getLecturers().then(function (response) {
                     $scope.lecturers = response.data.Lectors;
-                    $scope.selectedLecturer = $scope.lecturers[0];
-                    $scope.lecturerProjectsTableParams.reload();
+                    if ($scope.lecturers.length != 0) {
+                        $scope.selectedLecturer = $scope.lecturers[0];
+                        $scope.lecturerProjectsTableParams.reload();
+                    }
                 });
             };
 
-            $scope.onChangeGroup = function () {
+            function setGroups() {
+                participationsService.getGroups($scope.userId).then(function (response) {
+                    $scope.groups = response.data.Groups;
+                    if ($scope.groups.length != 0) {
+                        $scope.selectedGroup = $scope.groups[0];
+                    }
+                });
+            };
+
+            $scope.onChangeLecturer = function () {
                 $scope.lecturerProjectsTableParams.reload();
             };
 

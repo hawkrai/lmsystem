@@ -8,7 +8,8 @@
             var coreServiceUrl = '/Services/CoreService.svc';
             var projectsServiceUrl = '/Services/BTS/ProjectsService.svc';
             var lecturersUrl = '/GetLecturers/All';
-            var userProjectParticipationsUrl = '/ProjectParticipationsByUser';
+            var groupsUrl = '/GetGroupsByUser/';
+            var userProjectParticipationsUrl = '/ProjectParticipationsByUser/';
 
             function formParams(pageNumber, pageSize, orderBy) {
                 params = {
@@ -35,10 +36,17 @@
                     });
                 },
 
+                getGroups: function (id) {
+                    return $http({
+                        method: 'GET',
+                        url: coreServiceUrl + groupsUrl + id
+                    });
+                },
+
                 getUserProjectsParticipations: function (userId, pageNumber, pageSize, orderBy) {
                     return $http({
                         method: 'GET',
-                        url: projectsServiceUrl + userProjectParticipationsUrl + '/' + userId,
+                        url: projectsServiceUrl + userProjectParticipationsUrl + userId,
                         params: formParams(pageNumber, pageSize, orderBy)
                     });
                 },

@@ -8,12 +8,13 @@
 
             $scope.Title = 'Проекты';
 
-            $scope.init = function (isLector) {
+            $scope.init = function (isLector, userId) {
                 if (isLector === 1) {
                     $scope.isLector = true;
                 } else {
                     $scope.isLector = false;
                 }
+                $scope.userId = userId;
             };
             
             $scope.isActive = function (href) {

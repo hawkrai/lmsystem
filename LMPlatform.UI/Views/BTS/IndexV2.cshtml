@@ -27,5 +27,6 @@
 
 @{
     var IsLector = @User.IsInRole("lector") ? 1 : 0;
-    <div ng-view ng-init="init(@IsLector)"></div>
+    int userId = WebSecurity.CurrentUserId;
+    <div ng-view ng-init="init(@IsLector, @userId)"></div>
 }
