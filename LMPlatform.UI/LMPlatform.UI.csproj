@@ -362,6 +362,7 @@
     <Content Include="Scripts\application\ComplexMaterials\extension.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\navigationService.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
+    <Content Include="Scripts\application\ComplexMaterials\WatchingTimer.js" />
     <Content Include="Scripts\application\CP\controllers\homeController.js" />
     <Content Include="Scripts\application\CP\controllers\newsController.js" />
     <Content Include="Scripts\application\CP\controllers\percentageController.js" />

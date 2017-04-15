@@ -12,6 +12,8 @@ using System.ServiceModel;
 using System.Text;
 using WebMatrix.WebData;
 using LMPlatform.Models;
+using Application.Infrastructure.WatchingTimeManagement;
+using Application.Infrastructure.StudentManagement;
 
 namespace LMPlatform.UI.Services.Concept
 {
@@ -22,14 +24,32 @@ namespace LMPlatform.UI.Services.Concept
 
         private const String SuccessMessage = "Операция выполнена успешно";
 
+        private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
         private readonly LazyDependency<IConceptManagementService> _conceptManagementService = new LazyDependency<IConceptManagementService>();
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
+        private readonly LazyDependency<IWatchingTimeService> _watchingTimeService = new LazyDependency<IWatchingTimeService>();
 
         public IConceptManagementService ConceptManagementService
         {
             get
             {
                 return _conceptManagementService.Value;
+            }
+        }
+
+        public IStudentManagementService StudentManagementService
+        {
+            get
+            {
+                return _studentManagementService.Value;
+            }
+        }
+
+        public IWatchingTimeService WatchingTimeService
+        {
+            get
+            {
+                return _watchingTimeService.Value;
             }
         }
 
@@ -42,8 +62,6 @@ namespace LMPlatform.UI.Services.Concept
                 return _usersManagementService.Value;
             }
         }
-
-
 
         private readonly LazyDependency<IFilesManagementService> _filesManagementService =
            new LazyDependency<IFilesManagementService>();
@@ -253,6 +271,32 @@ namespace LMPlatform.UI.Services.Concept
             return GetNeighborConceptData(concept.PrevConcept.GetValueOrDefault());
         }
 
+        public MonitoringData GetConceptViews(int conceptId, int groupId)
+        {
+            var concept = ConceptManagementService.GetById(conceptId);
+            var list = WatchingTimeService.GetAllRecords(conceptId);
+            var viewRecords = new List<ViewsWorm>();
+            foreach (var item in list)
+            {
+                var student = StudentManagementService.GetStudent(item.UserId);
+                if (student?.GroupId == groupId)
+                    viewRecords.Add(new ViewsWorm { Name = UsersManagementService.GetUser(item.UserId).FullName, Seconds = item.Time });
+            }
+            var views = viewRecords.OrderBy(x => x.Name).ToList();
+            var estimated = WatchingTimeService.GetEstimatedTime(concept.Container);
+            return new MonitoringData() { Views = views, Estimated = estimated };
+        }
+
+        public class MonitoringData
+        {
+            public List<ViewsWorm> Views { get; set; }
+            public int Estimated { get; set; }
+        }
+        public class ViewsWorm
+        {
+            public string Name { get; set; }
+            public int Seconds { get; set; }
+        }
         private AttachViewData GetNeighborConceptData(Int32 neighborId)
         {
             var neighbor = ConceptManagementService.GetById(neighborId);

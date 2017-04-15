@@ -34,8 +34,7 @@ angular
                     var id = data.id;
                     return $http({
                         method: 'GET',
-                        url: '/api/WatchingTime/' + id + "?root=" + gup("root", window.location.href),
-                        data: data
+                        url: '/api/WatchingTime/' + id + "?root=" + gup("root", window.location.href) + "&studentId=" + window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
                     });
                 },
                 getConcept: function () {

@@ -35,14 +35,14 @@
             window.timer.stopTimer();
             console.log('delete');
         });
-        $(window).focusin(function () {
-            if ($("div").is(".modal-backdrop")) {
+        $(window).focus(function () {
+            //if ($("div").is(".modal-backdrop")) {
                 window.timer.startTimer();
-                console.log('start');
-            }
+                console.log('starttimer');
+            //}
         }).blur(function () {
             window.timer.stopTimer();
-            console.log('stop');
+            console.log('stoptimer');
         });
 
         function initEventHandlers() {

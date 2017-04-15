@@ -10,6 +10,8 @@ angular
         function ($scope, $location, $resource, $routeParams, monitoringDataService) {
             $scope.data = {
                 concepts: null,
+                fullname: null,
+                groupnumber: null,
                 view: null
             };
 
@@ -36,7 +38,9 @@ angular
             }
 
             monitoringDataService.getConcepts({ id: monitoringDataService.getSubjectId() }).success(function (data) {
-                $scope.data.concepts = data
+                $scope.data.concepts = data.Result;
+                $scope.data.fullname = data.StudentFullName;
+                $scope.data.groupnumber = data.GroupNumber;
                 $scope.data.concepts.forEach(function (concept, i, arr) {
                     concept.view = concept.Views.filter(function (item, i, arr) {
                         console.log(item.UserId + " " + $routeParams.studentId);

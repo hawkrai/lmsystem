@@ -18,6 +18,7 @@ using Application.Infrastructure.FilesManagement;
 using System.IO;
 using System.Configuration;
 using WMPLib;
+using Application.Infrastructure.StudentManagement;
 
 namespace LMPlatform.UI.ApiControllers
 {
@@ -29,17 +30,25 @@ namespace LMPlatform.UI.ApiControllers
         public int Estimated { get; set; }
     }
 
+    public class StudentInfoResult
+    {
+        public string GroupNumber;
+        public string StudentFullName;
+        public List<WatchingTimeResult> Result;
+    }
+
     public class WatchingTimeController : ApiController
     {
+        private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
         private readonly LazyDependency<IWatchingTimeService> _watchingTimeService = new LazyDependency<IWatchingTimeService>();
         private readonly LazyDependency<IConceptManagementService> _conceptManagementService = new LazyDependency<IConceptManagementService>();
-        private readonly LazyDependency<IFilesManagementService> _filesManagementService =
-            new LazyDependency<IFilesManagementService>();
 
-        public IFilesManagementService FilesManagementService
+
+        public IStudentManagementService StudentManagementService
         {
-            get { return _filesManagementService.Value; }
+            get { return _studentManagementService.Value; }
         }
+
         public IWatchingTimeService WatchingTimeService
         {
             get
@@ -67,52 +76,43 @@ namespace LMPlatform.UI.ApiControllers
         }
 
         // GET api/<controller>/5
-        public List<WatchingTimeResult> Get(int id)
+        public StudentInfoResult Get(int id)
         {
             int rootId = -1;
+            int studentId = -1;
             var queryParams = Request.GetQueryNameValuePairs().ToDictionary(x => x.Key, x => x.Value, StringComparer.OrdinalIgnoreCase);
             if (queryParams.ContainsKey("root"))
             {
                 Int32.TryParse(queryParams["root"], out rootId);
             }
+            if (queryParams.ContainsKey("studentId"))
+            {
+                Int32.TryParse(queryParams["studentId"], out studentId);
+            }
+            var studentInfo = StudentManagementService.GetStudent(studentId);
             var concepts = ConceptManagementService.GetElementsBySubjectId(id).Where(x => x.Container != null).ToList();
-            List<WatchingTimeResult> result = new List<WatchingTimeResult>();
+            List<WatchingTimeResult> viewsResult = new List<WatchingTimeResult>();
             foreach(var concept in concepts)
             {
                 if (GetConceptParentId(concept) != rootId)
                     continue;
-                var views = WatchingTimeService.GetAllRecords(concept.Id);
+                var views = WatchingTimeService.GetAllRecords(concept.Id, studentId);
                 //views.ForEach(x => x.Concept = null);
-                result.Add(new WatchingTimeResult()
+                viewsResult.Add(new WatchingTimeResult()
                 {
                     Name = concept.Name,
                     Views = views,
-                    Estimated = GetEstimatedTime(concept.Container)
+                    Estimated = WatchingTimeService.GetEstimatedTime(concept.Container)
                 });
             }
+            var result = new StudentInfoResult()
+            {
+                StudentFullName = studentInfo.FullName,
+                GroupNumber = studentInfo.Group.Name,
+                Result = viewsResult
+            };
 
             return result;
-        }
-
-        private int GetEstimatedTime(string container)
-        {
-            var attachments = FilesManagementService.GetAttachments(container);
-            if (attachments.Count == 0)
-                return 0;
-            string path = ConfigurationManager.AppSettings["FileUploadPath"] + attachments[0].PathName + "\\" + attachments[0].FileName;
-            if (!File.Exists(path))
-                return 0;
-            try
-            {
-                PdfReader pdfReader = new PdfReader(path);
-                int numberOfPages = pdfReader.NumberOfPages;
-                return numberOfPages * 30; //30 сек страница временно тут
-            } catch
-            {
-                var player = new WindowsMediaPlayer();
-                var clip = player.newMedia(path);
-                return (int)clip.duration;
-            }
         }
 
         // POST api/<controller>
