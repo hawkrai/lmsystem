@@ -7,10 +7,10 @@ using System.Web;
 namespace LMPlatform.UI.Services.Modules.BTS
 {
     [DataContract]
-    public class ProjectsStudentsResult : ResultViewData
+    public class StudentsParticipationsResult : ResultViewData
     {
         [DataMember]
-        public List<ProjectsStudentViewData> ProjectsStudents { get; set; }
+        public List<StudentParticipationViewData> ProjectsStudents { get; set; }
 
         [DataMember]
         public int TotalCount { get; set; }

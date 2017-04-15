@@ -15,9 +15,9 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 
         int GetUserProjectParticipationsCount(int userId, string searchString);
 
-        List<Student> GetStudentsGroupProjects(int groupId, int limit, int offset);
+        List<Student> GetStudentsGroupParticipations(int groupId, int limit, int offset);
 
-        int GetStudentsGroupProjectsCount(int groupId);
+        int GetStudentsGroupParticipationsCount(int groupId);
 
         Project GetProjectWithData(int id);
 

@@ -59,12 +59,12 @@ namespace LMPlatform.UI.Services.BTS
             };
         }
 
-        public ProjectsStudentsResult ProjectsStudentsByGroup(string id, int pageSize, int pageNumber)
+        public StudentsParticipationsResult StudentsParticipationsByGroup(string id, int pageSize, int pageNumber)
         {
-            var students = ProjectManagementService.GetStudentsGroupProjects(int.Parse(id), pageSize, pageNumber)
-                .Select(e => new ProjectsStudentViewData(e)).ToList();
-            int totalCount = ProjectManagementService.GetStudentsGroupProjectsCount(int.Parse(id));
-            return new ProjectsStudentsResult
+            var students = ProjectManagementService.GetStudentsGroupParticipations(int.Parse(id), pageSize, pageNumber)
+                .Select(e => new StudentParticipationViewData(e)).ToList();
+            int totalCount = ProjectManagementService.GetStudentsGroupParticipationsCount(int.Parse(id));
+            return new StudentsParticipationsResult
             {
                 ProjectsStudents = students,
                 TotalCount = totalCount

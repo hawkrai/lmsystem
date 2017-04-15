@@ -25,7 +25,7 @@ namespace LMPlatform.UI.Services.BTS
         UserProjectParticipationsResult ProjectParticipationsByUser(string id, int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "/ProjectsStudentsByGroup/{id}?pageSize={pageSize}&pageNumber={pageNumber}", ResponseFormat = WebMessageFormat.Json)]
-        ProjectsStudentsResult ProjectsStudentsByGroup(string id, int pageSize, int pageNumber);
+        [WebInvoke(Method = "GET", UriTemplate = "/StudentsParticipationsByGroup/{id}?pageSize={pageSize}&pageNumber={pageNumber}", ResponseFormat = WebMessageFormat.Json)]
+        StudentsParticipationsResult StudentsParticipationsByGroup(string id, int pageSize, int pageNumber);
     }
 }

@@ -61,11 +61,11 @@ namespace LMPlatform.Data.Repositories
             }
         }
 
-        public List<Student> GetStudentsGroupProjects(int groupId, int limit, int offset)
+        public List<Student> GetStudentsGroupParticipations(int groupId, int limit, int offset)
         {
             using(var context = new LmPlatformModelsContext())
             {
-                var query = GetStudentsGroupProjectsQuery(context, groupId);
+                var query = GetStudentsGroupParticipationsQuery(context, groupId);
                 return query
                     .OrderBy(e => e.LastName)
                     .Skip(offset)
@@ -74,11 +74,11 @@ namespace LMPlatform.Data.Repositories
             }
         }
 
-        public int GetStudentsGroupProjectsCount(int groupId)
+        public int GetStudentsGroupParticipationsCount(int groupId)
         {
             using(var context = new LmPlatformModelsContext())
             {
-                return GetStudentsGroupProjectsQuery(context, groupId).Count();
+                return GetStudentsGroupParticipationsQuery(context, groupId).Count();
             }
         }
 
@@ -134,7 +134,7 @@ namespace LMPlatform.Data.Repositories
                 .Include(e => e.ProjectUsers.Select(e2 => e2.ProjectRole));
         }
 
-        private IQueryable<Student> GetStudentsGroupProjectsQuery(LmPlatformModelsContext context, int groupId)
+        private IQueryable<Student> GetStudentsGroupParticipationsQuery(LmPlatformModelsContext context, int groupId)
         {
             return context.Set<Student>()
                 .Where(e => e.GroupId == groupId)
