@@ -423,6 +423,8 @@
     <Compile Include="Services\Modules\BTS\BugsResult.cs" />
     <Compile Include="Services\Modules\BTS\BugViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectResult.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectsStudentsResult.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectsStudentViewData.cs" />
     <Compile Include="Services\Modules\BTS\UserProjectParticipationsResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectsResult.cs" />
     <Compile Include="Services\Modules\BTS\UserProjectParticipationViewData.cs" />

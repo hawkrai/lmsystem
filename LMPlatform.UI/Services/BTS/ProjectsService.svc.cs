@@ -58,5 +58,17 @@ namespace LMPlatform.UI.Services.BTS
                 TotalCount = totalCount
             };
         }
+
+        public ProjectsStudentsResult ProjectsStudentsByGroup(string id, int pageSize, int pageNumber)
+        {
+            var students = ProjectManagementService.GetStudentsGroupProjects(int.Parse(id), pageSize, pageNumber)
+                .Select(e => new ProjectsStudentViewData(e)).ToList();
+            int totalCount = ProjectManagementService.GetStudentsGroupProjectsCount(int.Parse(id));
+            return new ProjectsStudentsResult
+            {
+                ProjectsStudents = students,
+                TotalCount = totalCount
+            };
+        }
     }
 }

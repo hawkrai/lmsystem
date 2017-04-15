@@ -59,6 +59,21 @@ namespace Application.Infrastructure.ProjectManagement
                 return repositoriesContainer.ProjectsRepository.GetUserProjectParticipationsCount(userId, searchString);
             }
         }
+        public List<Student> GetStudentsGroupProjects(int groupId, int pageSize, int pageNumber)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetStudentsGroupProjects(groupId, pageSize, (pageNumber - 1) * pageSize);
+            }
+        }
+
+        public int GetStudentsGroupProjectsCount(int groupId)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetStudentsGroupProjectsCount(groupId);
+            }
+        }
 
         public Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false)
         {

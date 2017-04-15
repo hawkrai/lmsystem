@@ -23,5 +23,9 @@ namespace LMPlatform.UI.Services.BTS
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "/ProjectParticipationsByUser/{id}?pageSize={pageSize}&pageNumber={pageNumber}&sortingPropertyName={sortingPropertyName}&desc={desc}&searchString={searchString}", ResponseFormat = WebMessageFormat.Json)]
         UserProjectParticipationsResult ProjectParticipationsByUser(string id, int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "/ProjectsStudentsByGroup/{id}?pageSize={pageSize}&pageNumber={pageNumber}", ResponseFormat = WebMessageFormat.Json)]
+        ProjectsStudentsResult ProjectsStudentsByGroup(string id, int pageSize, int pageNumber);
     }
 }

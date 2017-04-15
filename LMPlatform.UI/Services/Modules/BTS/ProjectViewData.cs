@@ -35,7 +35,6 @@ namespace LMPlatform.UI.Services.Modules.BTS
                 DateOfChange = project.DateOfChange.ToShortDateString();
                 UserQuentity = project.ProjectUsers.Count;
             }
-
         }
     }
 }

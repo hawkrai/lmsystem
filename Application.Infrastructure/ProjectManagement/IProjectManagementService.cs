@@ -15,6 +15,8 @@ namespace Application.Infrastructure.ProjectManagement
         Project GetProjectWithData(int id);
         List<Project> GetUserProjectParticipations(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
         int GetUserProjectParticipationsCount(int userId, string searchString);
+        List<Student> GetStudentsGroupProjects(int groupId, int pageSize, int pageNumber);
+        int GetStudentsGroupProjectsCount(int groupId);
 
         Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false);
 
