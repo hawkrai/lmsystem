@@ -13,16 +13,15 @@
 /LMPlatform.Data/obj/Debug
 /LMPlatform.Models/bin/Debug
 /LMPlatform.Models/obj/Debug
-/LMPlatform.UI/App_Data
 
 /LMPlatform.UI/bin
 
 /LMPlatform.UI/obj/Debug
 
 /LMPlatform.WebAPI/bin/Debug
-/LMPlatform.UI/UploadedFiles
+
 /SCORMHost/bin/Debug
-/.vs
+
 /SCORMHost/obj/Debug
 
 /LMPlatform.WebAPI/obj/Debug
