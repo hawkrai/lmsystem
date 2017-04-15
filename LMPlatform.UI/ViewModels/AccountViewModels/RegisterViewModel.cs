@@ -125,6 +125,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 
         [DataType(DataType.Password)]
         [Display(Name = "Подтверждение пароля")]
+		[Required(ErrorMessage = "Поле Подтверждение пароля обязательно для заполнения")]
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Пароль и подтвержденный пароль не совпадают.")]
         public string ConfirmPassword { get; set; }
 

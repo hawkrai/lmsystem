@@ -58,6 +58,10 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 Email = student.Email;
                 UserName = student.User.UserName;
 	            Avatar = student.User.Avatar;
+				SkypeContact = student.User.SkypeContact;
+				Phone = student.User.Phone;
+				About = student.User.About;
+				Email = student.User.Email;
             }
         }
 
@@ -137,10 +141,20 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 				  {
 					  Avatar = Avatar,
 					  UserName = UserName,
+					  About = About,
+					  SkypeContact = SkypeContact,
+					  Phone = Phone,
+					  Email = Email,
 					  Id = Id
 				  }
               });
         }
+
+		public string SkypeContact { get; set; }
+
+		public string Phone { get; set; }
+
+		public string About { get; set; }
 
         public bool ResetPassword()
         {

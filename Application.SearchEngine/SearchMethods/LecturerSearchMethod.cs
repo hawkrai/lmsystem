@@ -26,9 +26,9 @@ namespace Application.SearchEngine.SearchMethods
             var doc = new Document();
 
             doc.Add(new Field(SearchingFields.Id.ToString(), lecturer.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-            doc.Add(new Field(SearchingFields.FirstName.ToString(), lecturer.FirstName, Field.Store.YES, Field.Index.ANALYZED));
-            doc.Add(new Field(SearchingFields.MiddleName.ToString(), lecturer.MiddleName, Field.Store.YES, Field.Index.ANALYZED));
-            doc.Add(new Field(SearchingFields.LastName.ToString(), lecturer.LastName, Field.Store.YES, Field.Index.ANALYZED));
+			doc.Add(new Field(SearchingFields.FirstName.ToString(), lecturer.FirstName ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED));
+            doc.Add(new Field(SearchingFields.MiddleName.ToString(), lecturer.MiddleName ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED));
+			doc.Add(new Field(SearchingFields.LastName.ToString(), lecturer.LastName ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED));
             doc.Add(new Field(SearchingFields.Name.ToString(), lecturer.User != null ? lecturer.User.UserName : "", Field.Store.YES, Field.Index.ANALYZED));
 
             writer.AddDocument(doc);

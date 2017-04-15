@@ -83,7 +83,7 @@
 		        <span class="icon-bar"></span>
 		    </a>
 
-            @Html.Partial("_SearchPartial");
+            @Html.Partial("_SearchPartial")
 
 		    <div class="navbar-right">                
 		        <ul class="nav navbar-nav">
@@ -159,9 +159,9 @@
 		    <section class="sidebar">
 			    <div class="user-panel text-center">
 				    <div class="image left">
-					    <img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image" style="width: 75px; height: 75px;"/>
+					    <img src="@Html.Action("GetAvatar", "Account")" class="img-circle" alt="User Image" style="width: 50px; height: 50px;"/>
 				    </div>
-				    <div class="info" style="margin-top: 25px">
+				    <div class="info" style="margin-top: 15px; width: 210px;">
 					    <p>@Html.Action("GetFullName", "Account")</p>
 				    </div>
 			    </div>
