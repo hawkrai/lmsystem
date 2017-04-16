@@ -47,12 +47,6 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult IndexV2()
-        {
-            return View();
-        }
-
-        [HttpGet]
         public ActionResult Bugs()
         {
             return PartialView("_Bugs");
@@ -65,7 +59,7 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult ProjectParticipationV2()
+        public ActionResult ProjectParticipation()
         {
             return PartialView("_ProjectParticipation");
         }
@@ -346,13 +340,6 @@ namespace LMPlatform.UI.Controllers
         {
             var model = new BugsViewModel(id);
             _currentBugId = id;
-            return View(model);
-        }
-
-        [HttpGet]
-        public ActionResult ProjectParticipation()
-        {
-            var model = new ProjectParticipationViewModel();
             return View(model);
         }
 

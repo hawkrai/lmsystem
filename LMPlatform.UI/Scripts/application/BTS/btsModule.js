@@ -29,8 +29,7 @@
         });
 
         $routeProvider.when('/ProjectParticipation', {
-            //TODO: Replace with main
-            templateUrl: '/BTS/ProjectParticipationV2',
+            templateUrl: '/BTS/ProjectParticipation',
             controller: 'participationsCtrl'
         });
 

@@ -1692,7 +1692,6 @@
     <Content Include="Views\Shared\Layouts\_MainLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_LayoutBase.cshtml" />
     <Content Include="Views\Shared\Layouts\_PreMainLayout.cshtml" />
-    <Content Include="Views\BTS\Index.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\BugManagement.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
@@ -1846,7 +1845,7 @@
     <Content Include="Views\Subject\JoinLector.cshtml" />
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\Shared\Layouts\_StartLayout.cshtml" />
-    <Content Include="Views\BTS\IndexV2.cshtml" />
+    <Content Include="Views\BTS\Index.cshtml" />
     <Content Include="Views\BTS\_BTSnavleft.cshtml" />
     <Content Include="Views\BTS\_Projects.cshtml" />
     <Content Include="Views\BTS\_Bugs.cshtml" />
