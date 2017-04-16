@@ -322,20 +322,6 @@ namespace LMPlatform.UI.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public DataTablesResult<ProjectListViewModel> GetProjects(DataTablesParam dataTableParam)
-        {
-            var searchString = dataTableParam.GetSearchString();
-            var projects = ProjectManagementService.GetProjects(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
-
-            if (User.IsInRole("lector"))
-            {
-                return DataTableExtensions.GetResults(projects.Items.Select(model => FromProject(model, PartialViewToString("_ProjectsGridActions", FromProject(model)))).Where(e => e.IsAssigned), dataTableParam, projects.TotalCount);   
-            }
-
-            return DataTableExtensions.GetResults(projects.Items.Select(FromProject).Where(e => e.IsAssigned), dataTableParam, projects.TotalCount);
-        }
-
         public ProjectUserListViewModel FromProjectUser(ProjectUser projectUser, string htmlLinks)
         {
             var model = FromProjectUser(projectUser);

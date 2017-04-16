@@ -1733,7 +1733,6 @@
     <Content Include="Views\BTS\_AddBugForm.cshtml" />
     <Content Include="Views\BTS\_AddOrEditProjectForm.cshtml" />
     <Content Include="Views\BTS\_ProjectBugStatistics.cshtml" />
-    <Content Include="Views\BTS\_ProjectsGridActions.cshtml" />
     <Content Include="Views\BTS\_ProjectUsersGridActions.cshtml" />
     <Content Include="Views\BTS\_AssignStudentOnProjectForm.cshtml" />
     <Content Include="Views\TestPassing\GetNextQuestion.cshtml" />
