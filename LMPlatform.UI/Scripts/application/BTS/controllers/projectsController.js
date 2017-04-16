@@ -13,6 +13,10 @@
             $scope.inputedSearchString = '';
             var searchString = '';
 
+            function init() {
+                $scope.setTitle('Проекты');
+            };
+
             $scope.onAddProject = function () {
                 $.savingDialog("Добавление проекта", "/BTS/AddProject", null, "primary", function (data) {
                     alertify.success("Добавлен новый проект");
@@ -78,4 +82,6 @@
                     });
                 }
             });
+
+            init();
         }]);

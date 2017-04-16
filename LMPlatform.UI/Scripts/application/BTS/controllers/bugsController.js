@@ -13,9 +13,9 @@
             $scope.inputedSearchString = '';
             var searchString = '';
             $scope.isProjectBugsPage = false;
-            //$scope.projectTitle = "";
 
             function init() {
+                $scope.setTitle('Управление ошибками');
                 if ($routeParams.projectId != null) {
                     $scope.isProjectBugsPage = true;
                     setProjectTitle();

@@ -12,6 +12,7 @@
             $scope.selectedGroup = null;
 
             function init() {
+                $scope.setTitle('Занятость на проектах');
                 setLecturers();
                 setGroups();
             };
