@@ -1751,7 +1751,6 @@
     <Content Include="Views\Shared\Layouts\_ParentalLayout.cshtml" />
     <Content Include="Views\Shared\_ParentalSideNavPartial.cshtml" />
     <Content Include="Views\Parental\GroupNotFound.cshtml" />
-    <Content Include="Views\BTS\ProjectParticipation.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsPartial.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_ScheduleProtectionLabsPartial.cshtml" />
     <Content Include="Views\TestPassing\_TestsResultsGridColumn.cshtml" />
