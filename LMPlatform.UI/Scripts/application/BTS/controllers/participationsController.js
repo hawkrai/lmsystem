@@ -31,12 +31,17 @@
                     $scope.groups = response.data.Groups;
                     if ($scope.groups.length != 0) {
                         $scope.selectedGroup = $scope.groups[0];
+                        $scope.studentsParticipationsTableParams.reload();
                     }
                 });
             };
 
-            $scope.onChangeLecturer = function () {
+            $scope.onLecturerChange = function () {
                 $scope.lecturerProjectsTableParams.reload();
+            };
+
+            $scope.onGroupChange = function () {
+                $scope.studentsParticipationsTableParams.reload();
             };
 
             $scope.lecturerProjectsTableParams = new NgTableParams({
@@ -48,6 +53,19 @@
                     return participationsService.getUserProjectsParticipations($scope.selectedLecturer.LectorId, params.page(), params.count(), params.orderBy()).then(function (response) {
                         params.total(response.data.TotalCount);
                         return response.data.Projects;
+                    });
+                }
+            });
+
+            $scope.studentsParticipationsTableParams = new NgTableParams({
+                count: PAGE_SIZE
+            }, {
+                getData: function (params) {
+                    if ($scope.selectedGroup == null)
+                        return;
+                    return participationsService.geStudentsParticipations($scope.selectedGroup.GroupId, params.page(), params.count()).then(function (response) {
+                        params.total(response.data.TotalCount);
+                        return response.data.ProjectsStudents;
                     });
                 }
             });

@@ -9,6 +9,7 @@
             var projectsServiceUrl = '/Services/BTS/ProjectsService.svc';
             var lecturersUrl = '/GetLecturers/All';
             var groupsUrl = '/GetGroupsByUser/';
+            var studentParticipationsUrl = '/StudentsParticipationsByGroup/';
             var userProjectParticipationsUrl = '/ProjectParticipationsByUser/';
 
             function formParams(pageNumber, pageSize, orderBy) {
@@ -16,7 +17,9 @@
                     pageNumber: pageNumber,
                     pageSize: pageSize
                 };
-                addSortableParams(params, orderBy);
+                if (orderBy != undefined) {
+                    addSortableParams(params, orderBy);
+                }
                 return params;
             };
 
@@ -50,5 +53,13 @@
                         params: formParams(pageNumber, pageSize, orderBy)
                     });
                 },
+
+                geStudentsParticipations: function (groupId, pageNumber, pageSize) {
+                    return $http({
+                        method: 'GET',
+                        url: projectsServiceUrl + studentParticipationsUrl + groupId,
+                        params: formParams(pageNumber, pageSize)
+                    });
+                }
             };
         }]);

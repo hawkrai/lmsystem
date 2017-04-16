@@ -1,6 +1,6 @@
 ﻿<tabset>
     <tab heading="Занятость лекторов">
-        <select ng-model="$parent.$parent.selectedLecturer" ng-options="lecturer.FullName for lecturer in lecturers" ng-change="onChangeLecturer()" class="form-control" style="margin-top: 15px;"></select>
+        <select ng-model="$parent.$parent.selectedLecturer" ng-options="lecturer.FullName for lecturer in lecturers" ng-change="onLecturerChange()" class="form-control" style="margin-top: 15px;"></select>
         
         <table ng-table="lecturerProjectsTableParams" class="table table-bordered table-striped table-condensed" style="margin-top: 25px;">
             <tr ng-repeat="project in $data">
@@ -11,6 +11,27 @@
         </table>
     </tab>
     <tab heading="Занятость студентов">
-        <select ng-model="$parent.$parent.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="onChangeGroup()" class="form-control" style="margin-top: 15px;"></select>
+        <select ng-model="$parent.$parent.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="onGroupChange()" class="form-control" style="margin-top: 15px;"></select>
+
+        <table ng-table="studentsParticipationsTableParams" class="table table-bordered table-striped table-condensed" style="margin-top: 25px;">
+            <tr ng-repeat="student in $data">
+                <td data-title="'ФИО студента'">{{student.FullName}}</td>
+                <td data-title="'Проект'">
+                    <div ng-repeat="participation in student.Participations">
+                        <a href="/BTS/ProjectManagement/{{participation.ProjectId}}">{{participation.Title}}</a>
+                    </div>
+                </td>
+                <td data-title="'Роль на проекте'">
+                    <div ng-repeat="participation in student.Participations">
+                        {{participation.UserRole}}
+                    </div>
+                </td>
+                <td data-title="'Создатель проекта'">
+                    <div ng-repeat="participation in student.Participations">
+                        {{participation.CreatorName}}
+                    </div>
+                </td>
+            </tr>
+        </table>
     </tab>
 </tabset>
