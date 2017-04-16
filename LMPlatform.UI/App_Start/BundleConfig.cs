@@ -109,18 +109,18 @@ namespace LMPlatform.UI.App_Start
                 "~/Content/themes/base/jquery.ui.theme.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/cpModule").Include(
-    "~/Scripts/application/CP/cpModule.js",
-    "~/Scripts/application/CP/controllers/homeController.js",
-    "~/Scripts/application/CP/controllers/projectsController.js",
-    "~/Scripts/application/CP/controllers/studentsController.js",
-    "~/Scripts/application/CP/controllers/projectController.js",
-    "~/Scripts/application/CP/controllers/visitStatsController.js",
-    "~/Scripts/application/CP/controllers/newsController.js",
-                    "~/Scripts/application/CP/controllers/percentagesController.js",
+                "~/Scripts/application/CP/cpModule.js",
+                "~/Scripts/application/CP/controllers/homeController.js",
+                "~/Scripts/application/CP/controllers/projectsController.js",
+                "~/Scripts/application/CP/controllers/studentsController.js",
+                "~/Scripts/application/CP/controllers/projectController.js",
+                "~/Scripts/application/CP/controllers/visitStatsController.js",
+                "~/Scripts/application/CP/controllers/newsController.js",
+                "~/Scripts/application/CP/controllers/percentagesController.js",
                 "~/Scripts/application/CP/controllers/percentageController.js",
                 "~/Scripts/application/CP/controllers/percentageResultsController.js",
                  "~/Scripts/application/CP/controllers/taskSheetController.js",
-    "~/Scripts/application/CP/services/projectService.js"));
+                "~/Scripts/application/CP/services/projectService.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/dpModule").Include(
                 "~/Scripts/application/DP/dpModule.js",
@@ -208,6 +208,10 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/BTS/services/participationsService.js",
                 "~/Scripts/application/BTS/directives/projectDirective.js",
                 "~/Scripts/application/BTS/directives/bugDirective.js"
+                ));
+
+            bundles.Add(new StyleBundle("~/Content/btsModule").Include(
+                "~/Content/BTS/btsModule.css"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/ngTable").Include(

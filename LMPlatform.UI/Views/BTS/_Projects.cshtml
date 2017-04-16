@@ -1,23 +1,26 @@
-﻿<div class="row" style="padding-bottom: 15px;">
-    <div class="col-sm-3 col-md-2 col-lg-2" style="margin-top: 7px;">
-        <a class="btn btn-primary btn-sm" ng-click="onAddProject()">Добавить проект</a>
-    </div>
-    <div class="col-sm-4 col-sm-offset-5 col-md-3 col-md-offset-7 col-lg-2 col-lg-offset-8">
-        <input id="projectsSearch" type="text" class="form-control" placeholder="Поиск" ng-model="inputedSearchString" ng-keyup="onSearch()">
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="actions-field">
+            <a class="btn btn-primary btn-sm" ng-click="onAddProject()">Добавить проект</a>
+        </div>
+        <div class="search-field">
+            <span>Поиск</span>
+            <input id="projectsSearch" type="text" class="form-control" placeholder="Введите название проекта" ng-model="inputedSearchString" ng-keyup="onSearch()">
+        </div>
     </div>
 </div>
 
 <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
     <tr ng-repeat="project in $data" project-directive>
-        <td data-title="'№'" style="text-align: center; width: 20px;">{{project.Number}}</td>
+        <td data-title="'№'" class="number-column">{{project.Number}}</td>
         <td data-title="'Тема проекта'" sortable="'Title'"><a href="/BTS/ProjectManagement/{{project.Id}}">{{project.Title}}</a></td>
         <td data-title="'Дата изменения'" sortable="'DateOfChange'">{{project.DateOfChange}}</td>
         <td data-title="'Создатель'" sortable="'CreatorName'">{{project.CreatorName}}</td>
         <td data-title="'Кол-во участников проекта'" sortable="'UserQuentity'">{{project.UserQuentity}}</td>
-        <td data-title="'Действие'" style="width: 83px;">
-            <div name="projectGridActionsCol" ng-class="{hide : !isLector}" align="center">
-                <a ng-click="onEditProject(project.Id)" style="margin-right: 10px"><i class="editProject fa fa-edit fa-1x"></i></a>
-                <a ng-click="onDeleteProject(project.Id)" style="margin-right: 10px"><span class="deleteButton fa fa-trash-o fa-1x" /></a>
+        <td data-title="'Действие'" class="project-actions-column">
+            <div name="projectGridActionsCol" ng-class="{hide : !isLector}" class="table-actions">
+                <a ng-click="onEditProject(project.Id)"><i class="editProject fa fa-edit fa-1x"></i></a>
+                <a ng-click="onDeleteProject(project.Id)"><span class="deleteButton fa fa-trash-o fa-1x" /></a>
             </div>
         </td>
     </tr>

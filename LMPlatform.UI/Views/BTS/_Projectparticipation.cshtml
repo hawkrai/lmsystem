@@ -1,8 +1,8 @@
 ﻿<tabset>
     <tab heading="Занятость лекторов">
-        <select ng-model="$parent.$parent.selectedLecturer" ng-options="lecturer.FullName for lecturer in lecturers" ng-change="onLecturerChange()" class="form-control" style="margin-top: 15px;"></select>
+        <select ng-model="$parent.$parent.selectedLecturer" ng-options="lecturer.FullName for lecturer in lecturers" ng-change="onLecturerChange()" class="form-control"></select>
         
-        <table ng-table="lecturerProjectsTableParams" class="table table-bordered table-striped table-condensed" style="margin-top: 25px;">
+        <table ng-table="lecturerProjectsTableParams" class="table table-bordered table-striped table-condensed">
             <tr ng-repeat="project in $data">
                 <td data-title="'Проект'" sortable="'Title'"><a href="/BTS/ProjectManagement/{{project.ProjectId}}">{{project.Title}}</a></td>
                 <td data-title="'Роль на проекте'">{{project.UserRole}}</td>
@@ -11,9 +11,9 @@
         </table>
     </tab>
     <tab heading="Занятость студентов">
-        <select ng-model="$parent.$parent.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="onGroupChange()" class="form-control" style="margin-top: 15px;"></select>
+        <select ng-model="$parent.$parent.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="onGroupChange()" class="form-control"></select>
 
-        <table ng-table="studentsParticipationsTableParams" class="table table-bordered table-striped table-condensed" style="margin-top: 25px;">
+        <table ng-table="studentsParticipationsTableParams" class="table table-bordered table-striped table-condensed">
             <tr ng-repeat="student in $data">
                 <td data-title="'ФИО студента'">{{student.FullName}}</td>
                 <td data-title="'Проект'">
