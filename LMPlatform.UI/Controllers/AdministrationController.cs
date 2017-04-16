@@ -495,9 +495,6 @@ namespace LMPlatform.UI.Controllers
             ViewBag.DeleteActionLink = "/Administration/DeleteLecturer";
             ViewBag.StatActionLink = "/Administration/Attendance";
             var lecturers = LecturerManagementService.GetLecturersPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
-
-			this.SetupSettings(dataTableParam);
-
             return DataTableExtensions.GetResults(lecturers.Items.Select(l => LecturerViewModel.FormLecturers(l, PartialViewToString("_EditGlyphLinks", l.Id))), dataTableParam, lecturers.TotalCount);
         }
 
@@ -510,23 +507,6 @@ namespace LMPlatform.UI.Controllers
             var groups = GroupManagementService.GetGroupsPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
             return DataTableExtensions.GetResults(groups.Items.Select(g => GroupViewModel.FormGroup(g, PartialViewToString("_EditGlyphLinks", g.Id))), dataTableParam, groups.TotalCount);
         }
-
-	    private void SetupSettings(DataTablesParam dataTableParam)
-	    {
-			var n = 20;
-
-		    for (var i = 0; i < n; i++)
-		    {
-			    if (string.IsNullOrEmpty(this.HttpContext.Request.Form["iSortCol_" + i]))
-			    {
-				    return;
-			    }
-
-				dataTableParam.iSortCol.Add(int.Parse(this.HttpContext.Request.Form["iSortCol_" + i]));
-				dataTableParam.sSortDir.Add(this.HttpContext.Request.Form["sSortDir_" + i]);
-		    }
-		    
-	    }
 
         #region Dependencies
 
