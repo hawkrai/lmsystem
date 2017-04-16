@@ -79,6 +79,13 @@
                 count: PAGE_SIZE
             }, {
                 getData: function (params) {
+                    if ($scope.isProjectBugsPage) {
+                        return bugsService.getBugs(params.page(), params.count(), searchString, params.orderBy(), $routeParams.projectId).then(function (response) {
+                            params.total(response.data.TotalCount);
+                            bugsService.addNumbering(response.data.Bugs, (params.page() - 1) * params.count());
+                            return response.data.Bugs;
+                        });
+                    }
                     return bugsService.getBugs(params.page(), params.count(), searchString, params.orderBy()).then(function (response) {
                         params.total(response.data.TotalCount);
                         bugsService.addNumbering(response.data.Bugs, (params.page() - 1) * params.count());

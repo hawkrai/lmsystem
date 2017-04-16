@@ -5,7 +5,9 @@
         'MIN_SEARCH_TEXT_LENGTH',
         function ($http, MIN_SEARCH_TEXT_LENGTH) {
 
-            var bugsUrl = '/Services/BTS/BugsService.svc/Index';
+            var serviceUrl = '/Services/BTS/BugsService.svc';
+            var bugsUrl = '/Index';
+            var projectBugsUrl = '/Projects/';
 
             function addSortableParams(params, orderBy) {
                 if (orderBy.length == 0)
@@ -27,10 +29,14 @@
             };
 
             return {
-                getBugs: function (pageNumber, pageSize, searchString, orderBy) {
+                getBugs: function (pageNumber, pageSize, searchString, orderBy, projectId) {
+                    var resultUrl = serviceUrl + bugsUrl;
+                    if (projectId != undefined) {
+                        resultUrl = serviceUrl + projectBugsUrl + projectId + '/Index';
+                    }
                     return $http({
                         method: 'GET',
-                        url: bugsUrl,
+                        url: resultUrl,
                         params: formParams(pageNumber, pageSize, searchString, orderBy)
                     });
                 },
