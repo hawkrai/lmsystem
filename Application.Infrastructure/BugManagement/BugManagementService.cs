@@ -145,7 +145,7 @@ namespace Application.Infrastructure.BugManagement
 
         private string ValidateSearchString(string searchString)
         {
-            if(searchString?.Length < MinSearchStringLength)
+			if (searchString != null && searchString.Length < MinSearchStringLength)
                 return null;
             return searchString;
         }

@@ -19,7 +19,7 @@ namespace Application.Infrastructure.ProjectManagement
     {
         public List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
         {
-            if (searchString?.Length < 3)
+			if (searchString != null && searchString.Length < 3)
                 searchString = null;
             using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -29,7 +29,7 @@ namespace Application.Infrastructure.ProjectManagement
 
         public int GetUserProjectsCount(int userId, string searchString)
         {
-            if(searchString?.Length < 3)
+            if(searchString != null && searchString.Length < 3)
                 searchString = null;
             using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
