@@ -6,7 +6,6 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
-using static LMPlatform.UI.Services.Concept.ConceptService;
 
 namespace LMPlatform.UI.Services.Concept
 {
@@ -52,6 +51,6 @@ namespace LMPlatform.UI.Services.Concept
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConceptViews?conceptId={conceptId}&groupId={groupId}")]
-        MonitoringData GetConceptViews(int conceptId, int groupId);
+        ConceptService.MonitoringData GetConceptViews(int conceptId, int groupId);
     }
 }

@@ -279,7 +279,7 @@ namespace LMPlatform.UI.Services.Concept
             foreach (var item in list)
             {
                 var student = StudentManagementService.GetStudent(item.UserId);
-                if (student?.GroupId == groupId)
+                if (student != null && student.GroupId == groupId)
                     viewRecords.Add(new ViewsWorm { Name = UsersManagementService.GetUser(item.UserId).FullName, Seconds = item.Time });
             }
             var views = viewRecords.OrderBy(x => x.Name).ToList();
