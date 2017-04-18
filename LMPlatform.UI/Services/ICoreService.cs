@@ -64,6 +64,11 @@ namespace LMPlatform.UI.Services
 	    [OperationContract]
 		[WebInvoke(UriTemplate = "/DisjoinLector/", RequestFormat = WebMessageFormat.Json, Method = "POST")]
 	    ResultViewData DisjoinLector(string subjectId, string lectorId);
+        
+        //TODO: Find way to reemove /All
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/GetLecturers/All", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+        LectorResult GetLecturers();
 
 		[OperationContract]
 		[WebInvoke(UriTemplate = "/GetGroupsByUser/{userId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]

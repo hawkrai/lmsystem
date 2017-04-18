@@ -10,6 +10,14 @@ namespace Application.Infrastructure.ProjectManagement
 {
     public interface IProjectManagementService
     {
+        List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
+        int GetUserProjectsCount(int userId, string searchString);
+        Project GetProjectWithData(int id);
+        List<Project> GetUserProjectParticipations(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
+        int GetUserProjectParticipationsCount(int userId, string searchString);
+        List<Student> GetStudentsGroupParticipations(int groupId, int pageSize, int pageNumber);
+        int GetStudentsGroupParticipationsCount(int groupId);
+
         Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false);
 
         List<Project> GetProjects();
@@ -18,6 +26,8 @@ namespace Application.Infrastructure.ProjectManagement
 
         IPageableList<Project> GetProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
+        IPageableList<Project> GetUserProjects(int userId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
+        
         List<ProjectUser> GetProjectUsers(int projectId);
 
         List<ProjectUser> GetProjectsOfUser(int userId);

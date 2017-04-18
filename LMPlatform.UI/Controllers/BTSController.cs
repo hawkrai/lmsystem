@@ -29,16 +29,6 @@ namespace LMPlatform.UI.Controllers
         private static int _currentProjectId;
         private static int _currentBugId;
         private static int _prevBugStatus;
-
-        private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
-
-        public IFilesManagementService FilesManagementService
-        {
-            get
-            {
-                return filesManagementService.Value;
-            }
-        }
         
         [HttpGet]
         public ActionResult Index()
@@ -46,10 +36,22 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Index(ProjectListViewModel model)
+        [HttpGet]
+        public ActionResult Bugs()
         {
-            return View();
+            return PartialView("_Bugs");
+        }
+
+        [HttpGet]
+        public ActionResult Projects()
+        {
+            return PartialView("_Projects");
+        }
+
+        [HttpGet]
+        public ActionResult ProjectParticipation()
+        {
+            return PartialView("_ProjectParticipation");
         }
 
         public ActionResult AssignStudentOnProject()
@@ -171,11 +173,6 @@ namespace LMPlatform.UI.Controllers
             return PartialView("_EditBugFormWithAssignment", bugViewModel);
         }
 
-        //public ActionResult DeleteBug(int id)
-        //{
-        //    BugManagementService.DeleteBug(id);
-        //    return null;
-        //}
         [HttpDelete]
         public JsonResult DeleteBug(int id)
         {
@@ -325,34 +322,6 @@ namespace LMPlatform.UI.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public ActionResult ProjectParticipation()
-        {
-            var model = new ProjectParticipationViewModel();
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult ProjectParticipation(int groupId)
-        {
-            var model = new ProjectParticipationViewModel(groupId);
-            return PartialView("_studentProjectsList", model);
-        }
-
-        [HttpPost]
-        public DataTablesResult<ProjectListViewModel> GetProjects(DataTablesParam dataTableParam)
-        {
-            var searchString = dataTableParam.GetSearchString();
-            var projects = ProjectManagementService.GetProjects(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
-
-            if (User.IsInRole("lector"))
-            {
-                return DataTableExtensions.GetResults(projects.Items.Select(model => FromProject(model, PartialViewToString("_ProjectsGridActions", FromProject(model)))).Where(e => e.IsAssigned), dataTableParam, projects.TotalCount);   
-            }
-
-            return DataTableExtensions.GetResults(projects.Items.Select(FromProject).Where(e => e.IsAssigned), dataTableParam, projects.TotalCount);
-        }
-
         public ProjectUserListViewModel FromProjectUser(ProjectUser projectUser, string htmlLinks)
         {
             var model = FromProjectUser(projectUser);
@@ -423,100 +392,6 @@ namespace LMPlatform.UI.Controllers
                 UserQuentity = _context.GetProjectUsers(project.Id).Count,
                 IsAssigned = isAssigned
             };
-        }
-
-        [HttpPost]
-        public DataTablesResult<BugListViewModel> GetAllBugs(DataTablesParam dataTableParam)
-        {
-            var searchString = dataTableParam.GetSearchString();
-            var bugs = BugManagementService.GetAllBugs(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
-
-            if (User.IsInRole("lector"))
-            {
-                if (_currentProjectId != 0)
-                {
-                    return DataTableExtensions.GetResults(bugs.Items.Select(model => FromBug(model, PartialViewToString("_BugsGridActions", FromBug(model)))).Where(e => e.ProjectId == _currentProjectId), dataTableParam, bugs.TotalCount);
-                }
-
-                return DataTableExtensions.GetResults(bugs.Items.Select(model => FromBug(model, PartialViewToString("_BugsGridActions", FromBug(model)))).Where(e => e.IsAssigned), dataTableParam, bugs.TotalCount);
-            }
-
-            if (_currentProjectId != 0)
-            {
-                return DataTableExtensions.GetResults(bugs.Items.Select(FromBug).Where(e => e.ProjectId == _currentProjectId), dataTableParam, bugs.TotalCount);
-            }
-
-            return DataTableExtensions.GetResults(bugs.Items.Select(FromBug).Where(e => e.IsAssigned), dataTableParam, bugs.TotalCount);
-        }
-
-        public BugListViewModel FromBug(Bug bug, string htmlLinks)
-        {
-            var model = FromBug(bug);
-            model.Action = new HtmlString(htmlLinks);    
-
-            return model;
-        }
-
-        public BugListViewModel FromBug(Bug bug)
-        {
-            var context = new ProjectManagementService();
-
-            var isAssigned = false;
-            var user = context.GetProjectsOfUser(WebSecurity.CurrentUserId).Count(e => e.ProjectId == bug.ProjectId && e.UserId == WebSecurity.CurrentUserId);
-            if (user != 0)
-            {
-                isAssigned = true;
-            }
-
-            return new BugListViewModel
-            {
-                Id = bug.Id,
-                Steps = bug.Steps,
-                Symptom = GetSymptomName(bug.SymptomId),
-                ProjectId = bug.ProjectId,
-                ReporterName = context.GetCreatorName(bug.ReporterId),
-                ReportingDate = bug.ReportingDate.ToShortDateString(),
-                Summary = string.Format("<a href=\"{0}\">{1}</a>", Url.Action("BugDetails", "BTS", new { id = bug.Id }), bug.Summary),
-                Severity = GetSeverityName(bug.SeverityId),
-                Status = GetStatusName(bug.StatusId),
-                StatusId = bug.StatusId,
-                Project = GetProjectTitle(bug.ProjectId),
-                ModifyingDate = bug.ModifyingDate.ToShortDateString(),
-                AssignedDeveloperName = (bug.AssignedDeveloperId == 0) ? "отсутствует" : context.GetCreatorName(bug.AssignedDeveloperId),
-                IsAssigned = isAssigned
-            };
-        }
-
-        public string GetProjectTitle(int id)
-        {
-            var projectManagementService = new ProjectManagementService();
-            var project = projectManagementService.GetProject(id);
-            return project.Title;
-        }
-
-        public string GetReporterName(int id)
-        {
-            var context = new LmPlatformRepositoriesContainer();
-            var user = context.UsersRepository.GetBy(new Query<User>(e => e.Id == id));
-            return user.FullName;
-        }
-
-        public string GetStatusName(int id)
-        {
-            var status = new LmPlatformModelsContext().BugStatuses.Find(id);
-            return status.Name;
-        }
-
-        public string GetSeverityName(int id)
-        {
-            var severity = new LmPlatformModelsContext().BugSeverities.Find(id);
-            return severity.Name;
-        }
-
-        public string GetSymptomName(int id)
-        {
-            var symptom = new LmPlatformModelsContext().BugSymptoms.Find(id);
-            return symptom.Name;
         }
 
         [HttpPost]

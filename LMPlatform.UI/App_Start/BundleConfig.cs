@@ -87,7 +87,8 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/modernizr-*"));
             bundles.Add(new ScriptBundle("~/bundles/bootbox").Include("~/Scripts/bootbox.js", "~/Scripts/bootbox.min.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/Site.css", "~/Content/font-awesome/font-awesome.css"));
-            bundles.Add(new StyleBundle("~/Content/angular").Include("~/Content/xeditable.css", "~/Content/ng-table.css", "~/Content/select.css"));
+            bundles.Add(new StyleBundle("~/Content/angular").Include("~/Content/xeditable.css", "~/Content/select.css"));
+            bundles.Add(new StyleBundle("~/Content/angular/ngTable").Include("~/Content/ng-table.css"));
             bundles.Add(new StyleBundle("~/fileuploader/css").Include("~/Content/mvcfileupload/jquery.fileupload-bui.css"));
             bundles.Add(new StyleBundle("~/admin-style/css").Include(
                 "~/Content/admin-icons.css",
@@ -108,18 +109,18 @@ namespace LMPlatform.UI.App_Start
                 "~/Content/themes/base/jquery.ui.theme.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/cpModule").Include(
-    "~/Scripts/application/CP/cpModule.js",
-    "~/Scripts/application/CP/controllers/homeController.js",
-    "~/Scripts/application/CP/controllers/projectsController.js",
-    "~/Scripts/application/CP/controllers/studentsController.js",
-    "~/Scripts/application/CP/controllers/projectController.js",
-    "~/Scripts/application/CP/controllers/visitStatsController.js",
-    "~/Scripts/application/CP/controllers/newsController.js",
-                    "~/Scripts/application/CP/controllers/percentagesController.js",
+                "~/Scripts/application/CP/cpModule.js",
+                "~/Scripts/application/CP/controllers/homeController.js",
+                "~/Scripts/application/CP/controllers/projectsController.js",
+                "~/Scripts/application/CP/controllers/studentsController.js",
+                "~/Scripts/application/CP/controllers/projectController.js",
+                "~/Scripts/application/CP/controllers/visitStatsController.js",
+                "~/Scripts/application/CP/controllers/newsController.js",
+                "~/Scripts/application/CP/controllers/percentagesController.js",
                 "~/Scripts/application/CP/controllers/percentageController.js",
                 "~/Scripts/application/CP/controllers/percentageResultsController.js",
                  "~/Scripts/application/CP/controllers/taskSheetController.js",
-    "~/Scripts/application/CP/services/projectService.js"));
+                "~/Scripts/application/CP/services/projectService.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/dpModule").Include(
                 "~/Scripts/application/DP/dpModule.js",
@@ -195,6 +196,31 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/studentResultsController.js",
                 "~/Scripts/application/KnowledgeTesting/kkcountdown.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/btsApp").Include(
+                "~/Scripts/application/BTS/btsModule.js",
+                "~/Scripts/application/BTS/controllers/homeController.js",
+                "~/Scripts/application/BTS/controllers/projectsController.js",
+                "~/Scripts/application/BTS/controllers/bugsController.js",
+                "~/Scripts/application/BTS/controllers/participationsController.js",
+                "~/Scripts/application/BTS/services/projectsService.js",
+                "~/Scripts/application/BTS/services/bugsService.js",
+                "~/Scripts/application/BTS/services/participationsService.js",
+                "~/Scripts/application/BTS/directives/projectDirective.js",
+                "~/Scripts/application/BTS/directives/bugDirective.js"
+                ));
+
+            bundles.Add(new StyleBundle("~/Content/btsModule").Include(
+                "~/Content/BTS/btsModule.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/bundles/ngTable").Include(
+                "~/Scripts/ng-table.min.js"
+                ));
+
+            bundles.Add(new StyleBundle("~/bundles/ngTable/styles").Include(
+                "~/Content/ng-table.min.css"
+                ));
         }
     }
 }

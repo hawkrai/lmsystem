@@ -1,62 +1,33 @@
-﻿@using Application.Core.UI.HtmlHelpers
-@using LMPlatform.UI.Controllers
-@model LMPlatform.UI.ViewModels.BTSViewModels.ProjectListViewModel
-
-@{
-    ViewBag.Title = "Проекты";
+﻿@{
+    ViewBag.Title = "BTS";
+    ViewBag.NgApp = "btsApp";
+    ViewBag.NgController = "homeCtrl";
 }
 
 @section css
 {
-    <link rel="stylesheet" href="/Content/chosen/chosen.css">
+    @Styles.Render("~/bundles/ngTable/styles")
+    @Styles.Render("~/Content/btsModule")
 }
 
 @section scripts
 {
-    @Scripts.Render("~/bundles/datatable")
-    <script src="~/Scripts/application/BTS/project.js" type="text/javascript"></script>
+    @Scripts.Render("~/bundles/btsApp")
+    @Scripts.Render("~/bundles/ngTable")
 }
 
 @section navleft
 {
-    @Html.Partial("_BTSSubnavbar")
+    @Html.Partial("_BTSnavleft")
 }
 
 @section headerTitle
 {
-	<h1>Проекты</h1>
+    <h1 ng-cloak>{{Title}}</h1>
 }
 
-@if (User.IsInRole("lector"))
-{
-    <div>
-        <a class="addProjectButton btn btn-primary btn-sm" href="@Url.Action("AddProject", "BTS")">Добавить проект</a>
-    </div>
+@{
+    var IsLector = @User.IsInRole("lector") ? 1 : 0;
+    int userId = WebSecurity.CurrentUserId;
+    <div ng-view ng-init="init(@IsLector, @userId)"></div>
 }
-<div class="row">
-    <div class="col-md-12">
-        <div class="tab-pane active" id="allProjects">
-            <div>
-                @Html.Partial("_DataTable", new DataTableViewModel
-                {
-                    DataTable = Html.DataTable("ProjectsList", (BTSController controller) => controller.GetProjects(null)),
-                    DataTableOptions = new DataTableOptions
-                    {
-                        Filterable = true,
-                        Info = false,
-                        OnComplete = "projectManagement.projectEditItemActionHandler",
-                        Pagination = false,
-                        Searchable = true,
-                        Sortable = false
-                    }
-                })
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script>
-    var link = window.location.pathname;
-    $('.nav li a[href="' + link + '"]').parent().addClass('active');
-</script>
