@@ -83,6 +83,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
@@ -285,6 +289,7 @@
     <Compile Include="ApiControllers\LabsController.cs" />
     <Compile Include="ApiControllers\NewsController.cs" />
     <Compile Include="ApiControllers\UploadController.cs" />
+    <Compile Include="ApiControllers\WatchingTimeController.cs" />
     <Compile Include="App_Start\BootstrapBundleConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -306,6 +311,7 @@
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Controllers\ParentalController.cs" />
     <Compile Include="ApiControllers\DP\TaskSheetController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -367,6 +373,7 @@
     <Content Include="Scripts\application\ComplexMaterials\extension.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\navigationService.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
+    <Content Include="Scripts\application\ComplexMaterials\WatchingTimer.js" />
     <Content Include="Scripts\application\CP\controllers\homeController.js" />
     <Content Include="Scripts\application\CP\controllers\newsController.js" />
     <Content Include="Scripts\application\CP\controllers\percentageController.js" />
@@ -516,6 +523,7 @@
     <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\UserInfoViewModel.cs" />
     <Compile Include="ViewModels\ComplexMaterialsViewModel\AddOrEditRootConceptViewModel.cs" />
+    <Compile Include="ViewModels\ComplexMaterialsViewModel\WatchingTimeViewModel.cs" />
     <Compile Include="ViewModels\DPViewModels\DiplomProjectViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionItemListViewModel.cs" />
@@ -842,6 +850,10 @@
     <Content Include="Scripts\application\Materials\services\materialsService.js" />
     <Content Include="Scripts\application\Messages\message.js" />
     <Content Include="Scripts\application\Messages\msgModule.js" />
+    <Content Include="Scripts\application\Monitoring\controllers\studentInfoController.js" />
+    <Content Include="Scripts\application\Monitoring\controllers\studentsController.js" />
+    <Content Include="Scripts\application\Monitoring\monitoringApp.js" />
+    <Content Include="Scripts\application\Monitoring\services\monitoringDataService.js" />
     <Content Include="Scripts\application\Parental\parentalModule.js" />
     <Content Include="Scripts\application\profilePage\appProfilePage.js" />
     <Content Include="Scripts\application\profilePage\controllers\pageController.js" />
@@ -1848,6 +1860,10 @@
     <Content Include="Views\BTS\_Projects.cshtml" />
     <Content Include="Views\BTS\_Bugs.cshtml" />
     <Content Include="Views\BTS\_ProjectParticipation.cshtml" />
+     <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
+    <Content Include="Views\Monitoring\Index.cshtml" />
+    <Content Include="Views\Monitoring\StudentInfo.cshtml" />
+    <Content Include="Views\Monitoring\Students.cshtml" />
     <Content Include="Views\Lms\ProfilePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -1899,6 +1915,17 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

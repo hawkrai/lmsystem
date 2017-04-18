@@ -370,9 +370,22 @@ namespace Application.Infrastructure.SubjectManagement
 						
 				return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
 			}
-		}
+        }
 
-		public IList<SubGroup> GetSubGroupsV2WithScheduleProtectionLabs(int subjectId, int groupId)
+        public IList<SubGroup> GetSubGroupsV3(int subjectId, int groupId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var subjectGroup =
+                    repositoriesContainer.SubjectRepository.GetBy(
+                        new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId))
+                        .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.User)))));
+
+                return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
+            }
+        }
+
+        public IList<SubGroup> GetSubGroupsV2WithScheduleProtectionLabs(int subjectId, int groupId)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 			{

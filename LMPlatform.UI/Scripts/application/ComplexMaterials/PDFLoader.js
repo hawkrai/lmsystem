@@ -3,7 +3,7 @@
 
 extend(PDFLoader, BaseLoader)
 
-function PDFLoader(dataContainer, loader, doc, dialog) {
+function PDFLoader(dataContainer, loader, doc, dialog, timer) {
     BaseLoader.call(this, dataContainer, loader, doc, dialog);
 
     var scale = 4.5;
@@ -20,7 +20,7 @@ function PDFLoader(dataContainer, loader, doc, dialog) {
     }
 
     this.renderPdf = function () {
-        debugger;
+        timer.startTimer();
         currPage = 1;
         this.clearDataContainer();
         this.thePDF.getPage(currPage).then(this.handlePages);
@@ -49,7 +49,6 @@ function PDFLoader(dataContainer, loader, doc, dialog) {
     }
 
     this.zoomPlus = function () {
-        debugger;
         this.clearDataContainer();
         currPage = 1;
         scale = scale + scaleStep;

@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using static LMPlatform.UI.Services.Concept.ConceptService;
 
 namespace LMPlatform.UI.Services.Concept
 {
@@ -16,9 +17,14 @@ namespace LMPlatform.UI.Services.Concept
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/CreateRootConcept")]
         ConceptResult SaveRootConcept(string name, string container, string subject);
+
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/AttachSiblings")]
         ConceptResult AttachSiblings(string source, string left, string right);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConcept?elementId={elementId}")]
+        ConceptViewData GetConcept(String elementId);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetRootConcepts")]
@@ -43,5 +49,9 @@ namespace LMPlatform.UI.Services.Concept
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetPrevConceptData?elementId={elementId}")]
         AttachViewData GetPrevConceptData(String elementId);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConceptViews?conceptId={conceptId}&groupId={groupId}")]
+        MonitoringData GetConceptViews(int conceptId, int groupId);
     }
 }

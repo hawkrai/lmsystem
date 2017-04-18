@@ -113,7 +113,7 @@
                 complexMaterialsDataService.getTree({ id: parentId }).success(function (data) {
                     $scope.navigationService.setTree(data);
                 }).error(function (e) {
-                    alertify.error(e)
+                    alertify.error(e);
                 }).finally(function () {
                     updateRootConceptList();
                 });
@@ -241,6 +241,11 @@
             $rootScope.goToHome = function ($event) {
                 updateQueryParams(0)
                 updateRootConceptList();
+            }
+
+            $rootScope.goMonitoring = function ($event) {
+                var rootId = $scope.navigationService.getBreadcrumbs()[0].Id;
+                window.location.href = "/Monitoring/?subjectId=" + subjectId + (rootId != undefined ? "&root=" + rootId : "");
             }
 
             $rootScope.isBackspaceShow = function () {
@@ -380,6 +385,14 @@
 
             $scope.openConcept = function (id) {
                 $scope.openConceptInner($scope.selectedItem.Id, $scope.selectedItem.Name, $scope.selectedItem.Container);
+            };
+
+            $scope.openConceptViews = function (id) {
+                var data = {};
+                data.id = id || $scope.selectedItem.Id;
+                var title = 'Просмотры "' + $scope.selectedItem.Name + '"';
+                $.savingDialog(title, "/ComplexMaterial/OpenViewsConcept", data, "primary", function (data) {
+                }, null, { hideSaveButton: true });
             };
 
             var prevTime;

@@ -2,7 +2,6 @@
 @model LMPlatform.UI.ViewModels.SubjectViewModels.SubjectWorkingViewModel
 @{
     ViewBag.Title = Model.SubjectName;
-    Layout = "../Shared/Layouts/_MainUsingNavLayout.cshtml";
 }
 
 @section scripts
@@ -25,7 +24,7 @@
     <div ng-app="mainApp" ng-controller="MainCtrl" ng-init="init('@Model.SubjectId','@userRole', '@WebSecurity.CurrentUserId')">
         @section navleft
 		{
-            @foreach (var module in Model.Modules.Where(e => e.Type != ModuleType.Results && e.Type != ModuleType.StatisticsVisits && e.Type != ModuleType.ScheduleProtection).ToList())
+            @foreach (var module in Model.Modules.Where(e => e.Type != ModuleType.Results && e.Type != ModuleType.StatisticsVisits && e.Type != ModuleType.ScheduleProtection).GroupBy(x => x.ModuleId).Select(y => y.First()).ToList())
             {
                 if (module.Type == ModuleType.SmartTest)
                 {

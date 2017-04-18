@@ -87,6 +87,12 @@ namespace LMPlatform.UI.Controllers
             var conceptViewModel = new AddOrEditConceptViewModel(WebSecurity.CurrentUserId, id);
             return PartialView("_OpenConceptForm", conceptViewModel);
         }
+        
+        public ActionResult OpenViewsConcept(Int32 id)
+        {
+            var watchingTimeViewModel = new WatchingTimeViewModel(id);
+            return PartialView("_OpenViewsForm", watchingTimeViewModel);
+        }
 
         public ActionResult ShowMemo()
         {

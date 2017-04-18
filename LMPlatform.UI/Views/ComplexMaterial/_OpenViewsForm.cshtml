@@ -1,0 +1,82 @@
+﻿@model LMPlatform.UI.ViewModels.ComplexMaterialsViewModel.WatchingTimeViewModel
+<style>
+    .redRow {
+        color: red;
+    }
+
+    .greenRow {
+        color: green;
+    }
+</style>
+<div id="addOrEditConceptForm">
+    <select id="groupSelect" class="form-control">
+        @foreach (var group in Model.groups)
+        {
+            <option value="@group.Id">@group.Name</option>
+        }
+    </select>
+    <table class="table table-striped" id="dataTable">
+        <thead>
+        <td><b>Студент</b></td>
+        <td><b>Время</b></td>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    var estimated = 0;
+    $('.modal-dialog').width('560px');
+    $('#addOrEditConceptForm a').tooltip(
+    {
+        placement: "right",
+        });
+
+    $('#groupSelect').change(function () {
+        var groupId = $("#groupSelect option:selected").val();
+        loadData(@Model.conceptId, groupId);
+    });
+    $("#groupSelect").val($("#groupSelect option:first").val()).trigger('change');
+
+    function getTime(time) {
+        if (!isNaN(parseFloat(time)) && isFinite(time)) {
+            var mins = Math.floor(time / 60);
+            var str = mins < 1 ? "" : mins + "m ";
+            var secs = (time - mins * 60);
+            str += secs < 1 ? "" : secs + "s";
+            return str;
+        } else {
+            return " ";
+        }
+    }
+
+    function isVeryLong(time) {
+        if (estimated == 0 || estimated == undefined)
+            return false;
+        var coeff = Math.abs(time - estimated) / estimated;
+        if (coeff > 0.5)
+            return true;
+        else
+            return false;
+    }
+
+    function loadData(conceptId, groupId) {
+        $.ajax({
+            url: "Services/Concept/ConceptService.svc/GetConceptViews?conceptId=" + conceptId + "&groupId=" + groupId,
+            type: "GET",
+            success: function (data) {
+                $("#dataTable > tbody").empty();
+                estimated = data.Estimated;
+                data.Views.forEach(function (item, i, arr) {
+                    if (isVeryLong(item.Seconds))
+                        $('#dataTable > tbody:last').append('<tr><td>' + item.Name + '</td><td class="redRow"><b>' + getTime(item.Seconds) + '</b></td></tr>');
+                    else
+                        $('#dataTable > tbody:last').append('<tr><td>' + item.Name + '</td><td class="greenRow"><b>' + getTime(item.Seconds) + '</b></td></tr>');
+                });
+                $('#dataTable > tbody:last').append('<tr><td><i><b>Ожидаемое время</b></i></td><td><i><b>' + getTime(estimated) + '</b></i></td></tr>');
+            },
+            dataType: "json"
+        });
+    }
+
+    shared.initPlugins();
+</script>

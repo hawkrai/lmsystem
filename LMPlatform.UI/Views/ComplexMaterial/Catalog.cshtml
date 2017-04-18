@@ -86,6 +86,7 @@ else
     <a id="openSelectedItem" style="margin-right:30px;" ng-show="isShowOpenItemButton()" class="btn btn-success btn-sm" ng-click="openConcept()"><i style="margin-right:10px;" class="glyphicon glyphicon-play-circle"></i>Просмотреть</a>
     @if (User.IsInRole("lector"))
     {
+        <a id="openSelectedItem" style="margin-right:30px;" ng-show="isShowOpenItemButton()" class="btn btn-success btn-sm" ng-click="openConceptViews()"><i style="margin-right:10px;" class="glyphicon glyphicon-play-circle"></i>История просмотров</a>
         <a id="addNewComplexMaterial" ng-show="isShowRootAddButton()" class="btn btn-success btn-sm" ng-click="addNewRootComplexMaterial()"><i style="margin-right:10px;" class="fa fa-plus"></i>Добавить новый ЭУМК</a>
         <a id="addNewComplexFileMaterial" ng-show="isShowAddFileButton()" class="btn btn-info btn-sm" ng-click="addNewComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-list-alt"></i>Добавить модуль</a>
         <a id="addNewComplexFolderMaterial" ng-show="isShowAddFolderButton()" class="btn btn-primary btn-sm" ng-click="addNewFolderComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-folder-close"></i>Добавить составной модуль</a>

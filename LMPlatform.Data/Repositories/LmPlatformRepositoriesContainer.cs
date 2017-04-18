@@ -61,6 +61,8 @@ namespace LMPlatform.Data.Repositories
 
         public IConceptRepository ConceptRepository { get; set; }
 
+        public IWatchingTimeRepository WatchingTimeRepository { get; set; }
+
         public void ApplyChanges()
         {
             _dataContext.SaveChanges();
@@ -98,6 +100,7 @@ namespace LMPlatform.Data.Repositories
             ProjectUsersRepository = new ProjectUsersRepository(_dataContext);
             PracticalRepository = new PracticalRepository(_dataContext);
             ConceptRepository = new ConceptRepository(_dataContext);
+            WatchingTimeRepository = new WatchingTimeRepository(_dataContext);
         }
     }
 }

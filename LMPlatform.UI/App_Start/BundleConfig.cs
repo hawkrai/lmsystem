@@ -161,6 +161,12 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/pdfjs/pdf.worker.js",
                 "~/Scripts/tinymce/scrollTo.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/monitoringApp").Include(
+                "~/Scripts/application/Monitoring/monitoringApp.js",
+                "~/Scripts/application/Monitoring/controllers/studentsController.js",
+                "~/Scripts/application/Monitoring/controllers/studentInfoController.js",
+                "~/Scripts/application/Monitoring/services/monitoringDataService.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/knowledgeTesting").Include(
                 "~/Scripts/linq.js",
                 "~/Scripts/application/KnowledgeTesting/knowledgeTestingModule.js",

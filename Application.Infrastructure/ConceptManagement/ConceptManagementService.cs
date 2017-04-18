@@ -19,7 +19,7 @@ namespace Application.Infrastructure.ConceptManagement
 {
     public class ConceptManagementService : IConceptManagementService
     {
-        private const String TitlePageSectionName = "Программа курса";
+        private const String TitlePageSectionName = "Титульный экран";
         private const String ProgramSectionName = "Программа курса";
         private const String LectSectionName = "Теоретический раздел";
         private const String LabSectionName = "Практический раздел";
@@ -186,6 +186,14 @@ namespace Application.Infrastructure.ConceptManagement
                 foreach (var item in roots)
                     res.Add(GetTreeConceptByElementId(item.Id));
                 return res;
+            }
+        }
+
+        public IEnumerable<Concept> GetElementsBySubjectId(int subjectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ConceptRepository.GetBySubjectId(subjectId);
             }
         }
 
@@ -465,7 +473,7 @@ namespace Application.Infrastructure.ConceptManagement
             concept3.NextConcept = concept4.Id;
             concept4.PrevConcept = concept3.Id;
 
-            var concept5 = new Concept(TestSectionName, parent.Author, parent.Subject, true, false);
+            var concept5 = new Concept(TestSectionName, parent.Author, parent.Subject, true, true);
             concept5.ParentId = parent.Id;
             concept5.ReadOnly = true;
             repositoriesContainer.ConceptRepository.Save(concept5);

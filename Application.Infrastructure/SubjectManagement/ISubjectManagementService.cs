@@ -118,7 +118,9 @@ namespace Application.Infrastructure.SubjectManagement
 
 	    IList<SubGroup> GetSubGroupsV2(int subjectId, int groupId);
 
-		List<Labs> GetLabsV2(int subjectId);
+        IList<SubGroup> GetSubGroupsV3(int subjectId, int groupId);
+
+        List<Labs> GetLabsV2(int subjectId);
 
 	    IList<SubGroup> GetSubGroupsV2WithScheduleProtectionLabs(int subjectId, int groupId);
 

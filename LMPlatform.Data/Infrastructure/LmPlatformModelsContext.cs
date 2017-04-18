@@ -27,6 +27,8 @@ namespace LMPlatform.Data.Infrastructure
 
         #region DataContext Members
 
+        public DbSet<WatchingTime> WatchingTime { get; set; }
+
         public DbSet<Membership> Membership { get; set; }
 
         public DbSet<OAuthMembership> OAuthMembership { get; set; }
@@ -209,6 +211,10 @@ namespace LMPlatform.Data.Infrastructure
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<WatchingTime>()
+                .Map(m => m.ToTable("WatchingTime"));
+            //modelBuilder.Entity<WatchingTime>().HasRequired(c => c.Concept);
+
             modelBuilder.Entity<Membership>().Map(m => m.ToTable("webpages_Membership"))
                 .Property(m => m.Id)
                 .HasColumnName("UserId")
@@ -301,6 +307,10 @@ namespace LMPlatform.Data.Infrastructure
             modelBuilder.Entity<Concept>().Map(m => m.ToTable("Concept"));
             modelBuilder.Entity<Concept>().HasMany<Concept>(d => d.Children);
             modelBuilder.Entity<Concept>().HasMany<ConceptQuestions>(d => d.ConceptQuestions);
+
+            //modelBuilder.Entity<Concept>()
+            //    .HasMany<WatchingTime>(e => e.WatchingTime)
+            //    .WithRequired(e => e.Concept);
 
             modelBuilder.Entity<ConceptQuestions>().Map(m => m.ToTable("ConceptQuestions"));
 

@@ -20,12 +20,30 @@
 <script src="~/Scripts/application/ComplexMaterials/BaseLoader.js"></script>
 <script src="~/Scripts/application/ComplexMaterials/PDFLoader.js"></script>
 <script src="~/Scripts/application/ComplexMaterials/VideoLoader.js"></script>
+<script src="~/Scripts/application/ComplexMaterials/WatchingTimer.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        var pdfLoader = new PDFLoader($('#dataContainer'), $(".loading"), $(document), $("#myModalLabel"));
-        var videoLoader = new VideoLoader($('#dataContainer'), $(".loading"), $(document), $("#myModalLabel"));
+        console.log('createtimer');
+        window.timer = new WatchingTimer(@Model.Id);
+
+        var pdfLoader = new PDFLoader($('#dataContainer'), $(".loading"), $(document), $("#myModalLabel"), window.timer);
+        var videoLoader = new VideoLoader($('#dataContainer'), $(".loading"), $(document), $("#myModalLabel"), window.timer);
         var uiHelper = new DilogUIHelper($(document), $('#dataContainer'));
         var currentLoader = null;
+
+        $('.modal-dialog').bind("remove", function () {
+            window.timer.stopTimer();
+            console.log('delete');
+        });
+        $(window).focus(function () {
+            //if ($("div").is(".modal-backdrop")) {
+                window.timer.startTimer();
+                console.log('starttimer');
+            //}
+        }).blur(function () {
+            window.timer.stopTimer();
+            console.log('stoptimer');
+        });
 
         function initEventHandlers() {
             $("#zoom-plusF").on("click", zoomPlus);
@@ -56,7 +74,6 @@
         }
 
         function moveNext() {
-            debugger
             var url = "/Services/Concept/ConceptService.svc/GetNextConceptData?elementId=" + currentId;
             loadConceptAttach(url);
         }
@@ -76,7 +93,7 @@
             }
 
             var ext = getFileExtension(filepath);
-            if(ext.toUpperCase()==="PDF")
+            if(ext.toUpperCase() ==="PDF")
                 return pdfLoader
             if (ext.toUpperCase() === "WMV" || ext.toUpperCase() === "FLV" || ext.toUpperCase() === "MP4")
                 return videoLoader;
@@ -100,13 +117,15 @@
                 else
                     uiHelper.showEmptyContainer("Пустой файл");
                 currentLoader.updateHeader(data.Name);
-                currentId = data.Id
+                currentId = data.Id;
+                window.timer.setId(currentId);
+                window.timer.stopTimer();
+                window.timer.clearTimer();
             });
         }
 
         function loadConcept(filepath) {
             try {
-                debugger;
                 currentLoader = getLoader(filepath)
                 currentLoader.loadData(filepath);
             }
