@@ -1,0 +1,15 @@
+﻿<li ng-class="{active:isActive('/Projects')}" class="navLink">
+    <a href="#/Projects" class="linkNavbar"><i class="fa fa-desktop fa-tab"></i>Проекты</a>
+</li>
+@if(User.IsInRole("lector"))
+{
+    <li ng-class="{active:isActive('/ProjectParticipation')}" class="navLink">
+        <a href="#/ProjectParticipation" class="linkNavbar"><i class="fa fa-table fa-tab"></i>Занятость на проектах</a>
+    </li>
+}
+<li ng-class="{active:isActive('/Bugs')}" class="navLink">
+    <a href="#/Bugs" class="linkNavbar"><i class="fa fa-bug fa-tab"></i>Управление ошибками</a>
+</li>
+<li class="navLink">
+    <a href="@Url.Action("Index", "Lms")" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a>
+</li>

@@ -122,7 +122,7 @@ namespace LMPlatform.UI.Services
 
 				return new LectorResult
 				{
-					Lectors = lectors.Select(e => new LectorViewData { LectorId = e.Id, FullName = e.FullName }).ToList(),
+					Lectors = lectors.Select(e => new LectorViewData(e)).ToList(),
 					Message = "Присоединенные преподаватели успешно загружены",
 					Code = "200"
 				};
@@ -167,7 +167,7 @@ namespace LMPlatform.UI.Services
 
 				return new LectorResult
 				{
-					Lectors = lectors.Select(e => new LectorViewData { LectorId = e.Id, FullName = e.FullName }).ToList(),
+					Lectors = lectors.Select(e => new LectorViewData(e)).ToList(),
 					Message = "Преподаватели успешно загружены",
 					Code = "200"
 				};
@@ -745,7 +745,16 @@ namespace LMPlatform.UI.Services
             }
         }
 
-		protected int CurrentUserId
+        public LectorResult GetLecturers()
+        {
+            var lecturers = LecturerManagementService.GetLecturers().Select(e => new LectorViewData(e)).ToList();
+            return new LectorResult()
+            {
+                Lectors = lecturers
+            };
+        }
+
+        protected int CurrentUserId
 		{
 			get
 			{

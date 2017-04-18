@@ -1,0 +1,40 @@
+﻿.actions-field {
+    display:inline-block;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.search-field {
+    display:inline-block;
+    float: right;
+}
+
+.search-field input {
+    display: inline-block;
+    width: 220px;
+    font-size: 12px;
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+.number-column {
+    text-align: center;
+    width: 20px;
+}
+
+.project-actions-column {
+     width: 83px;
+}
+
+.table-actions {
+    margin: auto;
+}
+
+.table-actions a {
+    margin-right: 10px;
+}
+
+select {
+    margin-top: 15px;
+    margin-bottom: 25px;
+}

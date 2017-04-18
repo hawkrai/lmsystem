@@ -67,6 +67,12 @@ namespace LMPlatform.Models
             set;
         }
 
+        public ICollection<Bug> DeveloperBugs
+        {
+            get;
+            set;
+        }
+
         public ICollection<AnswerOnTestQuestion> UserAnswersOnTestQuestions
         {
             get;

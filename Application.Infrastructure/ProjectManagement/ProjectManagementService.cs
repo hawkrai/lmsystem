@@ -5,6 +5,7 @@ using Application.SearchEngine.SearchMethods;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
+using System.Data.Entity;
 
 namespace Application.Infrastructure.ProjectManagement
 {
@@ -16,6 +17,64 @@ namespace Application.Infrastructure.ProjectManagement
 
     public class ProjectManagementService : IProjectManagementService
     {
+        public List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
+        {
+			if (searchString != null && searchString.Length < 3)
+                searchString = null;
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetUserProjects(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
+            }
+        }
+
+        public int GetUserProjectsCount(int userId, string searchString)
+        {
+            if(searchString != null && searchString.Length < 3)
+                searchString = null;
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetUserProjectsCount(userId, searchString);
+            }
+        }
+
+        public Project GetProjectWithData(int id)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetProjectWithData(id);
+            }
+        }
+
+        public List<Project> GetUserProjectParticipations(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetUserProjectParticipations(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
+            }
+        }
+        public int GetUserProjectParticipationsCount(int userId, string searchString)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetUserProjectParticipationsCount(userId, searchString);
+            }
+        }
+        public List<Student> GetStudentsGroupParticipations(int groupId, int pageSize, int pageNumber)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetStudentsGroupParticipations(groupId, pageSize, (pageNumber - 1) * pageSize);
+            }
+        }
+
+        public int GetStudentsGroupParticipationsCount(int groupId)
+        {
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetStudentsGroupParticipationsCount(groupId);
+            }
+        }
+
         public Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -99,8 +158,10 @@ namespace Application.Infrastructure.ProjectManagement
         public IPageableList<Project> GetProjects(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
             var query = new PageableQuery<Project>(pageInfo);
-            query.Include(e => e.Creator);
-            if (!string.IsNullOrEmpty(searchString))
+            query.Include(e => e.Creator.Lecturer)
+                .Include(e => e.Creator.Student)
+                .Include(e => e.ProjectUsers);
+            if(!string.IsNullOrEmpty(searchString))
             {
                 query.AddFilterClause(
                     e => e.Title.ToLower().StartsWith(searchString) || e.Title.ToLower().Contains(searchString));
@@ -108,6 +169,26 @@ namespace Application.Infrastructure.ProjectManagement
 
             query.OrderBy(sortCriterias);
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                return repositoriesContainer.ProjectsRepository.GetPageableBy(query);
+            }
+        }
+
+        public IPageableList<Project> GetUserProjects(int userId, string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
+        {
+            var query = new PageableQuery<Project>(pageInfo);
+            query.Include(e => e.Creator.Lecturer)
+                .Include(e => e.Creator.Student)
+                .Include(e => e.ProjectUsers)
+                .AddFilterClause(e => e.ProjectUsers.Any(e2 => e2.UserId == userId));
+            if(!string.IsNullOrEmpty(searchString))
+            {
+                query.AddFilterClause(
+                    e => e.Title.ToLower().StartsWith(searchString) || e.Title.ToLower().Contains(searchString));
+            }
+
+            query.OrderBy(sortCriterias);
+            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return repositoriesContainer.ProjectsRepository.GetPageableBy(query);
             }

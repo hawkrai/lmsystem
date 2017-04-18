@@ -334,6 +334,7 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\BTS\btsModule.css" />
     <Content Include="Content\circle.css" />
     <Content Include="Content\docs.min.css" />
     <Content Include="Content\fullcalendar\fullcalendar.css" />
@@ -342,6 +343,7 @@
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Content\KnowledgeTesting\content.html" />
     <Content Include="Content\materials.css" />
+    <Content Include="Content\ng-table.min.css" />
     <Content Include="Content\select.css" />
     <Content Include="Images\book.png" />
     <Content Include="Images\Excel.png" />
@@ -353,6 +355,15 @@
     <Content Include="Images\Лого2.png" />
     <Content Include="Scripts\angular-locale_ru-ru.js" />
     <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\application\BTS\controllers\bugsController.js" />
+    <Content Include="Scripts\application\BTS\controllers\homeController.js" />
+    <Content Include="Scripts\application\BTS\controllers\participationsController.js" />
+    <Content Include="Scripts\application\BTS\controllers\projectsController.js" />
+    <Content Include="Scripts\application\BTS\directives\bugDirective.js" />
+    <Content Include="Scripts\application\BTS\directives\projectDirective.js" />
+    <Content Include="Scripts\application\BTS\services\participationsService.js" />
+    <Content Include="Scripts\application\BTS\services\bugsService.js" />
+    <Content Include="Scripts\application\BTS\services\projectsService.js" />
     <Content Include="Scripts\application\ComplexMaterials\BaseLoader.js" />
     <Content Include="Scripts\application\ComplexMaterials\complexMaterialsApp.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\catalogController.js" />
@@ -380,6 +391,15 @@
     <Content Include="Scripts\application\DP\controllers\percentageController.js" />
     <Content Include="Scripts\application\DP\controllers\percentageResultsController.js" />
     <Content Include="Scripts\application\DP\controllers\percentagesController.js" />
+    <Content Include="Scripts\application\BTS\btsModule.js" />
+    <Compile Include="Services\BTS\IBugsService.cs" />
+    <Compile Include="Services\BTS\IProjectsService.cs" />
+    <Compile Include="Services\BTS\BugsService.svc.cs">
+      <DependentUpon>BugsService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\BTS\ProjectsService.svc.cs">
+      <DependentUpon>ProjectsService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Services\Concept\ConceptService.svc.cs">
       <DependentUpon>ConceptService.svc</DependentUpon>
     </Compile>
@@ -408,6 +428,15 @@
     <Compile Include="Services\Lectures\LecturesService.svc.cs">
       <DependentUpon>LecturesService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\Modules\BTS\BugsResult.cs" />
+    <Compile Include="Services\Modules\BTS\BugViewData.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectResult.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectsStudentsResult.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectsStudentViewData.cs" />
+    <Compile Include="Services\Modules\BTS\UserProjectParticipationsResult.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectsResult.cs" />
+    <Compile Include="Services\Modules\BTS\UserProjectParticipationViewData.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectViewData.cs" />
     <Compile Include="Services\Modules\Concept\ConceptResult.cs" />
     <Compile Include="Services\Modules\Concept\ConceptViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
@@ -1232,6 +1261,7 @@
     <Content Include="Scripts\mvcfileupload\vendor\jquery.ui.widget.js" />
     <Content Include="Scripts\ng-ckeditor-1.0.1.js" />
     <Content Include="Scripts\ng-table.js" />
+    <Content Include="Scripts\ng-table.min.js" />
     <Content Include="Scripts\pdfjs\compatibility.js" />
     <Content Include="Scripts\pdfjs\l10n.js" />
     <Content Include="Scripts\pdfjs\pdf.js" />
@@ -1332,6 +1362,8 @@
     <Content Include="Scripts\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\xeditable.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Services\BTS\BugsService.svc" />
+    <Content Include="Services\BTS\ProjectsService.svc" />
     <Content Include="Services\Concept\ConceptService.svc" />
     <Content Include="Services\CoreService.svc" />
     <Content Include="Services\Files\FilesService.svc" />
@@ -1672,7 +1704,6 @@
     <Content Include="Views\Shared\Layouts\_MainLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_LayoutBase.cshtml" />
     <Content Include="Views\Shared\Layouts\_PreMainLayout.cshtml" />
-    <Content Include="Views\BTS\Index.cshtml" />
     <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\BugManagement.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
@@ -1714,7 +1745,6 @@
     <Content Include="Views\BTS\_AddBugForm.cshtml" />
     <Content Include="Views\BTS\_AddOrEditProjectForm.cshtml" />
     <Content Include="Views\BTS\_ProjectBugStatistics.cshtml" />
-    <Content Include="Views\BTS\_ProjectsGridActions.cshtml" />
     <Content Include="Views\BTS\_ProjectUsersGridActions.cshtml" />
     <Content Include="Views\BTS\_AssignStudentOnProjectForm.cshtml" />
     <Content Include="Views\TestPassing\GetNextQuestion.cshtml" />
@@ -1732,7 +1762,6 @@
     <Content Include="Views\Shared\Layouts\_ParentalLayout.cshtml" />
     <Content Include="Views\Shared\_ParentalSideNavPartial.cshtml" />
     <Content Include="Views\Parental\GroupNotFound.cshtml" />
-    <Content Include="Views\BTS\ProjectParticipation.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_LabsPartial.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Labs\_ScheduleProtectionLabsPartial.cshtml" />
     <Content Include="Views\TestPassing\_TestsResultsGridColumn.cshtml" />
@@ -1826,7 +1855,12 @@
     <Content Include="Views\Subject\JoinLector.cshtml" />
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\Shared\Layouts\_StartLayout.cshtml" />
-    <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
+    <Content Include="Views\BTS\Index.cshtml" />
+    <Content Include="Views\BTS\_BTSnavleft.cshtml" />
+    <Content Include="Views\BTS\_Projects.cshtml" />
+    <Content Include="Views\BTS\_Bugs.cshtml" />
+    <Content Include="Views\BTS\_ProjectParticipation.cshtml" />
+     <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
     <Content Include="Views\Monitoring\Index.cshtml" />
     <Content Include="Views\Monitoring\StudentInfo.cshtml" />
     <Content Include="Views\Monitoring\Students.cshtml" />

@@ -1,0 +1,40 @@
+﻿<div class="row">
+    <div class="col-md-12" ng-if="isProjectBugsPage">
+        <h5>Отображаются ошибки проекта "{{projectTitle}}"</h5>
+        <a class="btn btn-primary btn-sm" href="#/Bugs">Отобразить ошибки всех проектов</a>
+    </div>
+    <div class="col-md-12" ng-if="!isProjectBugsPage">
+        <h5>Отображаются ошибки всех проектов</h5>
+        <a class="btn btn-primary btn-sm" href="#/Projects">Выбрать проект</a>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="actions-field">
+            <a class="btn btn-primary btn-sm" ng-click="onAddBug(0)">Задокументировать ошибку</a>
+        </div>
+        <div class="search-field">
+            <span>Поиск</span>
+            <input id="bugsSearch" type="text" class="form-control" placeholder="Введите название ошибки" ng-model="inputedSearchString" ng-keyup="onSearch()">
+        </div>
+    </div>
+</div>
+
+<table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+    <tr ng-repeat="bug in $data" bug-directive>
+        <td data-title="'№'" class="number-column">{{bug.Number}}</td>
+        <td data-title="'ID'" class="number-column" sortable="'Id'">{{bug.Id}}</td>
+        <td data-title="'Название'" sortable="'Summary'"><a href="/BTS/BugDetails/{{bug.Id}}">{{bug.Summary}}</a></td>
+        <td data-title="'Важность'" sortable="'Severity'">{{bug.Severity}}</td>
+        <td data-title="'Статус'" sortable="'Status'">{{bug.Status}}</td>
+        <td data-title="'Назначенный разработчик'">{{bug.AssignedDeveloper}}</td>
+        <td data-title="'Проект'" sortable="'ProjectTitle'">{{bug.ProjectTitle}}</td>
+        <td data-title="'Дата последнего изменения'" sortable="'ModifyingDate'">{{bug.ModifyingDate}}</td>
+        <td data-title="'Действие'" style="width: 83px;">
+            <div name="bugGridActionsCol" ng-class="{hide : !isLector}" align="center">
+                <a ng-click="onDeleteBug(bug.Id)" class="deleteButton" style="margin-right: 10px"><span class="fa fa-trash-o fa-1x"/></a>
+            </div>
+        </td>
+    </tr>
+</table>

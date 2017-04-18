@@ -51,6 +51,8 @@ namespace LMPlatform.Models
 
         public int AssignedDeveloperId { get; set; }
 
+        public User AssignedDeveloper { get; set; }
+
         public Project Project { get; set; }
 
         public BugSymptom Symptom { get; set; }

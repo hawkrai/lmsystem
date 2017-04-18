@@ -53,6 +53,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
         [DisplayName("Тема проекта")]
         public string Title { get; set; }
 
+        [StringLength(1000, ErrorMessage = "Описание проекта не должно превышать 1000 символов.")]
         [DataType(DataType.MultilineText)]
         [DisplayName("Описание проекта")]
         public string Details { get; set; }
