@@ -218,6 +218,7 @@ namespace Application.Infrastructure.CPManagement
                 .Include(x => x.Group.CourseProjectGroups)
                 .Where(x => x.Group.CourseProjectGroups.Any(dpg => dpg.CourseProjectId == courseProjectId))
                 .Where(x => !x.AssignedCourseProjects.Any())
+				.Where(x => x.Confirmed == null || x.Confirmed.Value)
                 .Select(s => new StudentData
                 {
                     Id = s.Id,

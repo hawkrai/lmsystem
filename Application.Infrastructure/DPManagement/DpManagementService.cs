@@ -261,6 +261,7 @@ namespace Application.Infrastructure.DPManagement
                 .Include(x => x.Group.DiplomProjectGroups)
                 .Where(x => x.Group.DiplomProjectGroups.Any(dpg => dpg.DiplomProjectId == diplomProjectId))
                 .Where(x => !x.AssignedDiplomProjects.Any())
+				.Where(x => x.Confirmed == null || x.Confirmed.Value)
                 .Select(s => new StudentData
                 {
                     Id = s.Id,
