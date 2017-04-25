@@ -211,7 +211,7 @@ namespace LMPlatform.UI.ViewModels.ComplexMaterialsViewModel
             if (IsNew())
                 ConceptManagementService.CreateRootConcept(this.Name, this.Author, this.SelectedSubjectId);
             else
-                ConceptManagementService.UpdateRootConcept(this.Id, this.Name);
+                ConceptManagementService.UpdateRootConcept(this.Id, this.Name, this.Published);
         }
 
         public Int32 Id { get; set; }

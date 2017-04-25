@@ -17,8 +17,7 @@
 
         @Html.HiddenFor(e => e.Id)
         @Html.HiddenFor(e => e.Author)
-        @Html.HiddenFor(e => e.Published)
-         @Html.HiddenFor(e => e.Next)
+        @Html.HiddenFor(e => e.Next)
         @Html.HiddenFor(e => e.Prev)
 
         <div style="width: 500px">
@@ -46,16 +45,7 @@
         {
             <div style="padding-bottom: 10px; padding-top: 20px; width: 560px; display: inline-block; ">
                 <label style="" class="control-label">Материал опубликован?</label>
-                @if (Model.Published)
-                {
-                    <label><b><u>Да</u></b></label>
-                }
-                else
-                {
-                    <label><b><u>Нет</u></b></label>
-                }
-
-                <label style="font-size:xx-small"><i>(устанавливается автоматически)</i></label>
+                @Html.CheckBoxFor(e => e.Published)
             </div>
         }
         @*<div style="width: 560px">
