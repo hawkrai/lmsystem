@@ -44,10 +44,10 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
             {
                 foreach (var lab in labs)
                 {
-                    if (student.StudentLabMarks.Any(e => e.LabId == lab.Id && !string.IsNullOrEmpty(e.Mark)))
+                    if (student.StudentLabMarks.Any(e => e.LabId == lab.Id))
                     {
 	                    var model =
-		                    student.StudentLabMarks.FirstOrDefault(e => e.LabId == lab.Id && !string.IsNullOrEmpty(e.Mark));
+		                    student.StudentLabMarks.FirstOrDefault(e => e.LabId == lab.Id && !string.IsNullOrEmpty(e.Mark)) != null ? student.StudentLabMarks.FirstOrDefault(e => e.LabId == lab.Id && !string.IsNullOrEmpty(e.Mark)) : student.StudentLabMarks.FirstOrDefault(e => e.LabId == lab.Id);
 
                         StudentLabMarks.Add(new StudentLabMarkViewData
                                                 {
