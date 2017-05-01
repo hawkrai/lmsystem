@@ -37,11 +37,11 @@
         });
         $(window).focus(function () {
             //if ($("div").is(".modal-backdrop")) {
-                window.timer.startTimer();
-                console.log('starttimer');
+            window.timer.resumeTimer();
+            console.log('starttimer');
             //}
         }).blur(function () {
-            window.timer.stopTimer();
+            window.timer.pauseTimer();
             console.log('stoptimer');
         });
 

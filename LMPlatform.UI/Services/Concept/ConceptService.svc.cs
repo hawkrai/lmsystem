@@ -14,6 +14,7 @@ using WebMatrix.WebData;
 using LMPlatform.Models;
 using Application.Infrastructure.WatchingTimeManagement;
 using Application.Infrastructure.StudentManagement;
+using LMPlatform.UI.Services.Modules;
 
 namespace LMPlatform.UI.Services.Concept
 {
@@ -159,12 +160,16 @@ namespace LMPlatform.UI.Services.Concept
                 if(valid)
                     concepts = concepts.Where(c => c.SubjectId == subject);
                 var subj = SubjectManagementService.GetSubject(subject);
+                var lecturer = SubjectManagementService.GetSubject(subject).SubjectLecturers.FirstOrDefault().Lecturer;
+
+
                 return new ConceptResult
                 {
                     Concepts = concepts.Select(c => new ConceptViewData(c)).ToList(),
                     Message = SuccessMessage,
                     SubjectName = subj.Name,
-                    Code = SuccessCode
+                    Code = SuccessCode,
+                    Lecturer = new LectorViewData(lecturer, true)
                 };
             }
             catch (Exception ex)

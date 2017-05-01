@@ -29,7 +29,7 @@
                         <tr ng-repeat="student in subGroup | orderBy:'FullName'">
                             <td style="width: 20px">{{$index + 1}}</td>
                             <td style="max-width: 300px; min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
-                            <td style="max-width: 300px; min-width: 300px"><a ng-href="#Student/{{student.StudentId}}">Информация</a></td>
+                            <td style="max-width: 300px; min-width: 300px"><a ng-href="{{getStudentInfoLink(student.StudentId)}}">Информация</a></td>
                         </tr>
                     </table>
                 </div>
