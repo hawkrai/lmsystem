@@ -1,0 +1,20 @@
+﻿@model IEnumerable<LMPlatform.Models.Subject>
+
+
+<div id="adminModal">
+
+    @foreach (var i in Model)
+    {
+        <ul>
+            <li>@i.Name</li>
+        </ul>
+    }
+
+</div>
+
+<script type="text/javascript">
+    $('#editStudent a').tooltip(
+    {
+        placement: "right",
+    });
+</script>

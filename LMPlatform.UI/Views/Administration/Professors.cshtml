@@ -28,7 +28,7 @@
     </div>
     <div>@Html.Partial("_DataTable", new DataTableViewModel
              {
-                 DataTable = Html.DataTable("professorsList", (AdministrationController controller) => controller.GetCollectionLecturers(new DataTablesParam() { })),
+                 DataTable = Html.DataTable("professorsList", (AdministrationController controller) => controller.GetCollectionLecturers(new DataTablesParam() {})),
                  DataTableOptions = new DataTableOptions
                      {
                          Pagination = false,

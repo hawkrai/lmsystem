@@ -1,0 +1,40 @@
+﻿@using Microsoft.Ajax.Utilities
+@model IEnumerable<LMPlatform.Models.Subject>
+
+
+<div id="adminModal">
+
+    <table class="table table-bordered table-striped table-hover">
+        <caption>Список предметов</caption>
+        <thead>
+            <tr>
+                <th>Предмет</th>
+                <th>Группа</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model.Distinct())
+            {
+                <tr>
+
+                    <td>@i.Name</td>
+                    @foreach (var sub in i.SubjectGroups)
+                    {
+                        @*if (sub.Group.IfNotNull())
+                        {*@
+                            <td>@sub.GroupId</td>
+                        @*}*@
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script type="text/javascript">
+    $('#editStudent a').tooltip(
+    {
+        placement: "right",
+    });
+</script>

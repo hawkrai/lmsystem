@@ -1,0 +1,31 @@
+﻿@model IEnumerable<LMPlatform.Models.Student>
+
+
+<div id="adminModal">
+    <table class="table table-bordered table-striped table-hover">
+        <caption>Список студентов</caption>
+        <thead>
+            <tr>
+                <th>Ф.И.О.</th>
+                <th>Потвержден</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                <tr>
+
+                    <td>@i.FullName</td>
+                    <td>@i.Confirmed.HasValue</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $('#editStudent a').tooltip(
+    {
+        placement: "right",
+    });
+</script>

@@ -11,10 +11,11 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
     public class LecturerViewModel : BaseNumberedGridItem
     {
         [DisplayName("Полное имя")]
-        public string FullName
+       public HtmlString FullName
         {
-            get { return string.Format("{0} {1} {2}", LastName, FirstName, MiddleName); }
+            get { return new HtmlString(string.Format("<a href=\"/Profile/Page/{0}\" style=\"margin-left: 5px;\" class=\"linkNavbarLevelBelow\">{1} {2} {3}</a>", Login, LastName, FirstName, MiddleName)); }
         }
+
 
         [DisplayName("Логин")]
         public string Login { get; set; }
