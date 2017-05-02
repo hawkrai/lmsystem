@@ -286,7 +286,8 @@ namespace LMPlatform.UI.Services
                         StudentId = e.Student.Id,
                         FullName = e.Student.FullName,
                         Confirmed = e.Student.Confirmed == null || e.Student.Confirmed.Value != false,
-                        SubgroupId = subGroupIndex
+                        SubgroupId = subGroupIndex,
+                        Login = e.Student.User.UserName
                     }));
                     subGroupIndex++;
                 }

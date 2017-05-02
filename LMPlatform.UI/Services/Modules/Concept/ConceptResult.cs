@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LMPlatform.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -20,5 +21,8 @@ namespace LMPlatform.UI.Services.Modules.Concept
 
         [DataMember]
         public String SubjectName { get; set; }
+
+        [DataMember]
+        public LectorViewData Lecturer { get; set; }
     }
 }

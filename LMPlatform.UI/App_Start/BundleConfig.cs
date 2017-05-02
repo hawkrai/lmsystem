@@ -159,13 +159,10 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/pdfjs/pdf.js",
                 "~/Scripts/d3/d3.min.js",
                 "~/Scripts/pdfjs/pdf.worker.js",
-                "~/Scripts/tinymce/scrollTo.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/monitoringApp").Include(
-                "~/Scripts/application/Monitoring/monitoringApp.js",
-                "~/Scripts/application/Monitoring/controllers/studentsController.js",
-                "~/Scripts/application/Monitoring/controllers/studentInfoController.js",
-                "~/Scripts/application/Monitoring/services/monitoringDataService.js"));
+                "~/Scripts/tinymce/scrollTo.js",
+                "~/Scripts/application/ComplexMaterials/controllers/studentsController.js",
+                "~/Scripts/application/ComplexMaterials/controllers/studentInfoController.js",
+                "~/Scripts/application/ComplexMaterials/services/monitoringDataService.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/knowledgeTesting").Include(
                 "~/Scripts/linq.js",
@@ -226,6 +223,10 @@ namespace LMPlatform.UI.App_Start
 
             bundles.Add(new StyleBundle("~/bundles/ngTable/styles").Include(
                 "~/Content/ng-table.min.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/bundles/jsTree").Include(
+                "~/Scripts/jstree.min.js"
                 ));
         }
     }

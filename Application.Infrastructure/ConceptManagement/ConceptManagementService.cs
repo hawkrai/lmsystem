@@ -216,12 +216,13 @@ namespace Application.Infrastructure.ConceptManagement
             }
         }
 
-        public Concept UpdateRootConcept(Int32 id, String name)
+        public Concept UpdateRootConcept(Int32 id, String name, bool published)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var concept = repositoriesContainer.ConceptRepository.GetById(id);
                 concept.Name = name;
+                concept.Published = published;
                 repositoriesContainer.ConceptRepository.Save(concept);
                 repositoriesContainer.ApplyChanges();
 

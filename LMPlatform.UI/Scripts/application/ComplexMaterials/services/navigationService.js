@@ -8,7 +8,8 @@
         var initedHeader = false;
         var tree;
         return {
-            currentSubjectId:0,
+            currentSubjectId: 0,
+            currentLecturer: {},
             title: function () {
                 return title;
             },
@@ -30,6 +31,7 @@
                     this._popBreadCrumb()
             },
             setHomeNavigation: function (obj) {
+                currentLecturer = obj.Lecturer;
                 if (obj && obj.SubjectName)
                     title = obj.SubjectName;
                 else
@@ -108,7 +110,11 @@
                 if (!initedHeader) {
                     $container.html("")
                     if (this.currentSubjectId) {
-                        var link = $("<a href='/Subject?subjectId=" + this.currentSubjectId + "'>" + title + "</a>")
+                        var str = "<a href='/Subject?subjectId=" + this.currentSubjectId + "'>" + title + "</a>";
+                        if (currentLecturer != undefined) {
+                            str = str + "<small> Преподаватель - <a href=\"/Profile/Page/" + currentLecturer.UserName + "\">" + currentLecturer.FullName + "</a></small>";
+                        }
+                        var link = $(str);
                         link.appendTo($container);
                     }
                     else

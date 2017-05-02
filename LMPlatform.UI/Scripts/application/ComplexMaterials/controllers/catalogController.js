@@ -24,6 +24,7 @@
             var subjectId = getParameterByName("subjectId");
             $scope.navigationService.currentSubjectId = subjectId;
 
+            var rootConceptId = 0;
             var parentId = $location.search()["parent"]
             if (parentId === undefined)
                 parentId = getParameterByName("parent");
@@ -111,6 +112,7 @@
                 }
                 $scope.startSpin();
                 complexMaterialsDataService.getTree({ id: parentId }).success(function (data) {
+                    rootConceptId = data.Id;
                     $scope.navigationService.setTree(data);
                 }).error(function (e) {
                     alertify.error(e);
@@ -243,9 +245,14 @@
                 updateRootConceptList();
             }
 
+            $rootScope.goToConceptRoot = function ($event) {
+                parentId = rootConceptId;
+                updateQueryParams(parentId);
+                updateRootConceptList();
+            }
+
             $rootScope.goMonitoring = function ($event) {
-                var rootId = $scope.navigationService.getBreadcrumbs()[0].Id;
-                window.location.href = "/Monitoring/?subjectId=" + subjectId + (rootId != undefined ? "&root=" + rootId : "");
+                window.location.href = "#/MonitoringStudents" + (rootConceptId != undefined ? "/root/" + rootConceptId : "");
             }
 
             $rootScope.isBackspaceShow = function () {
