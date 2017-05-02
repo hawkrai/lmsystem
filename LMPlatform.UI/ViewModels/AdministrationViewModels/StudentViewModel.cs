@@ -12,9 +12,9 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
     public string Group { get; set; }
 
     [DisplayName("Полное имя")]
-    public string FullName 
-    {
-        get { return string.Format("{0} {1} {2}", LastName, FirstName, MiddleName); } 
+    public HtmlString FullName
+ {
+        get { return new HtmlString(string.Format("<a href=\"/Profile/Page/{0}\" style=\"margin-left: 5px;\" class=\"linkNavbarLevelBelow\">{1} {2} {3}</a>", Login, LastName, FirstName, MiddleName)); }
     }
 
     [DisplayName("Логин")]
