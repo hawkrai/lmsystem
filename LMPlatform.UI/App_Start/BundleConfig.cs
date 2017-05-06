@@ -204,6 +204,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/BTS/btsModule.js",
                 "~/Scripts/application/BTS/controllers/homeController.js",
                 "~/Scripts/application/BTS/controllers/projectsController.js",
+                "~/Scripts/application/BTS/controllers/projectController.js",
                 "~/Scripts/application/BTS/controllers/bugsController.js",
                 "~/Scripts/application/BTS/controllers/participationsController.js",
                 "~/Scripts/application/BTS/services/projectsService.js",

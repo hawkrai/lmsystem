@@ -358,6 +358,7 @@
     <Content Include="Scripts\application\BTS\controllers\bugsController.js" />
     <Content Include="Scripts\application\BTS\controllers\homeController.js" />
     <Content Include="Scripts\application\BTS\controllers\participationsController.js" />
+    <Content Include="Scripts\application\BTS\controllers\projectController.js" />
     <Content Include="Scripts\application\BTS\controllers\projectsController.js" />
     <Content Include="Scripts\application\BTS\directives\bugDirective.js" />
     <Content Include="Scripts\application\BTS\directives\projectDirective.js" />
@@ -1860,11 +1861,12 @@
     <Content Include="Views\BTS\_Projects.cshtml" />
     <Content Include="Views\BTS\_Bugs.cshtml" />
     <Content Include="Views\BTS\_ProjectParticipation.cshtml" />
-     <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
+    <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
     <Content Include="Views\Monitoring\Index.cshtml" />
     <Content Include="Views\Monitoring\StudentInfo.cshtml" />
     <Content Include="Views\Monitoring\Students.cshtml" />
     <Content Include="Views\Lms\ProfilePage.cshtml" />
+    <Content Include="Views\BTS\_Project.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,6 +4,7 @@
         'ui.bootstrap',
         'btsApp.ctrl.home',
         'btsApp.ctrl.projects',
+        'btsApp.ctrl.project',
         'btsApp.ctrl.participations',
         'btsApp.service.projects',
         'btsApp.directive.project',
@@ -16,6 +17,11 @@
         $routeProvider.when('/Projects', {
             templateUrl: '/BTS/Projects',
             controller: 'projectsCtrl'
+        });
+
+        $routeProvider.when('/Project/:id', {
+            templateUrl: '/BTS/Project',
+            controller: 'projectCtrl'
         });
 
         $routeProvider.when('/Bugs', {

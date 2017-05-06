@@ -54,6 +54,12 @@ namespace LMPlatform.UI.Controllers
             return PartialView("_ProjectParticipation");
         }
 
+        [HttpGet]
+        public ActionResult Project()
+        {
+            return PartialView("_Project");
+        }
+
         public ActionResult AssignStudentOnProject()
         {
             var projectUserViewModel = new AssignUserViewModel(0, _currentProjectId);
