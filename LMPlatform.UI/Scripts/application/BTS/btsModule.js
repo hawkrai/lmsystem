@@ -29,7 +29,7 @@
             controller: 'bugsCtrl'
         });
 
-        $routeProvider.when('/Project/:projectId/Bugs', {
+        $routeProvider.when('/Projects/:projectId/Bugs', {
             templateUrl: '/BTS/bugs',
             controller: 'bugsCtrl'
         });
