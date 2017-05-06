@@ -431,6 +431,7 @@
     </Compile>
     <Compile Include="Services\Modules\BTS\BugsResult.cs" />
     <Compile Include="Services\Modules\BTS\BugViewData.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectMemberViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectsStudentsResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectsStudentViewData.cs" />

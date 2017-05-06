@@ -12,7 +12,7 @@ namespace Application.Infrastructure.ProjectManagement
     {
         List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
         int GetUserProjectsCount(int userId, string searchString);
-        Project GetProjectWithData(int id);
+        Project GetProjectWithData(int id, bool withBugsAndMembers = false);
         List<Project> GetUserProjectParticipations(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
         int GetUserProjectParticipationsCount(int userId, string searchString);
         List<Student> GetStudentsGroupParticipations(int groupId, int pageSize, int pageNumber);

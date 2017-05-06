@@ -19,7 +19,7 @@
             controller: 'projectsCtrl'
         });
 
-        $routeProvider.when('/Project/:id', {
+        $routeProvider.when('/Projects/:id', {
             templateUrl: '/BTS/Project',
             controller: 'projectCtrl'
         });

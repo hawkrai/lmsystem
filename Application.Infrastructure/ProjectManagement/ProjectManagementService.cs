@@ -37,11 +37,11 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
-        public Project GetProjectWithData(int id)
+        public Project GetProjectWithData(int id, bool withBugsAndMembers = false)
         {
             using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.ProjectsRepository.GetProjectWithData(id);
+                return repositoriesContainer.ProjectsRepository.GetProjectWithData(id, withBugsAndMembers);
             }
         }
 

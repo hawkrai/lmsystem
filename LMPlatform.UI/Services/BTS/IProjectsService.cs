@@ -17,8 +17,8 @@ namespace LMPlatform.UI.Services.BTS
         ProjectsResult Index(int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "/Show/{id}", ResponseFormat = WebMessageFormat.Json)]
-        ProjectResult Show(string id);
+        [WebInvoke(Method = "GET", UriTemplate = "/Show/{id}?withDetails={withDetails}", ResponseFormat = WebMessageFormat.Json)]
+        ProjectResult Show(string id, bool withDetails);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "/ProjectParticipationsByUser/{id}?pageSize={pageSize}&pageNumber={pageNumber}&sortingPropertyName={sortingPropertyName}&desc={desc}&searchString={searchString}", ResponseFormat = WebMessageFormat.Json)]

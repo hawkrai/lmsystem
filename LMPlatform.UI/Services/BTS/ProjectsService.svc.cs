@@ -37,9 +37,18 @@ namespace LMPlatform.UI.Services.BTS
             };
         }
 
-        public ProjectResult Show(string id)
+        public ProjectResult Show(string id, bool withDetails)
         {
-            var project = new ProjectViewData(ProjectManagementService.GetProjectWithData(Convert.ToInt32(id)));
+            int intId = Convert.ToInt32(id);
+            ProjectViewData project;
+            if (withDetails)
+            {
+                project = new ProjectViewData(ProjectManagementService
+                    .GetProjectWithData(intId, withBugsAndMembers: true), withBugs: true, withMembers: true);
+            } else
+            {
+                project = new ProjectViewData(ProjectManagementService.GetProjectWithData(intId));
+            }
             return new ProjectResult
             {
                 Project = project
