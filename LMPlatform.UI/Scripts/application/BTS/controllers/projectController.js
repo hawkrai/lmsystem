@@ -74,6 +74,7 @@
                     bugType.style.width =  percantage + '%';
                 });
 
+                //Find out why Morris can't load properly
                 setTimeout(function () {
                     setBugsStatuses();
                     setGraph();
