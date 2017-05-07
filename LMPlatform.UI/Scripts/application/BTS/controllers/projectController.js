@@ -30,9 +30,10 @@
                         count: 0,
                         style: { width: '0%' }
                     }
-                ]
+                ],
+                statuses: []
             };
-
+            
             var projectManagerRoleName = 'Руководитель проекта';
 
             function init() {
@@ -59,6 +60,39 @@
                 $scope.bugs.types.forEach(function (bugType) {
                     var percantage = bugType.count * 100.0 / $scope.bugs.totalCount;
                     bugType.style.width =  percantage + '%';
+                });
+
+                setTimeout(function () {
+                    setBugsStatuses();
+                    setGraph();
+                }, 100);
+            }
+
+            function setBugsStatuses() {
+                $scope.project.Bugs.forEach(function (bug) {
+                    var existingElem;
+                    var exist = $scope.bugs.statuses.some(function (elem) {
+                        existingElem = elem;
+                        return elem.label === bug.Status;
+                    });
+                    if (exist) {
+                        existingElem.count = existingElem.count + 1;
+                    } else {
+                        $scope.bugs.statuses.push({ label: bug.Status, count: 1 });
+                    }
+                });
+
+                $scope.bugs.statuses.forEach(function (elem) {
+                    elem.value = elem.count * 100.0 / $scope.bugs.totalCount;
+                });
+            }
+
+            function setGraph() {
+
+                Morris.Donut({
+                    element: 'graph',
+                    data: $scope.bugs.statuses,
+                    formatter: function (x) { return x + "%" }
                 });
             }
 
@@ -127,7 +161,7 @@
 
             $scope.getBugCount = function (name) {
                 return $scope.project.Members.filter(function (elem) {
-                    return elem.Name == name;
+                    return elem.Name === name;
                 }).length;
             }
 

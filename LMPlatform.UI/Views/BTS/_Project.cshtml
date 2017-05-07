@@ -99,43 +99,11 @@
                                     <span class="progress-completed">{{bugs.types[3].count}}</span>
                                 </div>
                             </div>
-                        </div>
-                        @*
-                            <div style="padding-top: 5px">
-                                <h5>Важность ошибок:</h5>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfBugsBySeverity[0].Quentity * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfBugsBySeverity[0].Quentity * 100.0 / Model.BugQuentity)) + "%;")">
-                                        <span class="sr-only">@Model.QuentityOfBugsBySeverity[0].Name</span>
-                                    </div>
-                                    <span class="progress-type">@Model.QuentityOfBugsBySeverity[0].Name</span>
-                                    <span class="progress-completed">@Model.QuentityOfBugsBySeverity[0].Quentity</span>
-                                </div>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfBugsBySeverity[1].Quentity * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfBugsBySeverity[1].Quentity * 100.0 / Model.BugQuentity)) + "%;")">
-                                        <span class="sr-only">@Model.QuentityOfBugsBySeverity[1].Name</span>
-                                    </div>
-                                    <span class="progress-type">@Model.QuentityOfBugsBySeverity[1].Name</span>
-                                    <span class="progress-completed">@Model.QuentityOfBugsBySeverity[1].Quentity</span>
-                                </div>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfBugsBySeverity[2].Quentity * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfBugsBySeverity[2].Quentity * 100.0 / Model.BugQuentity)) + "%;")">
-                                        <span class="sr-only">@Model.QuentityOfBugsBySeverity[2].Name</span>
-                                    </div>
-                                    <span class="progress-type">@Model.QuentityOfBugsBySeverity[2].Name</span>
-                                    <span class="progress-completed">@Model.QuentityOfBugsBySeverity[2].Quentity</span>
-                                </div>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfBugsBySeverity[3].Quentity * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfBugsBySeverity[3].Quentity * 100.0 / Model.BugQuentity)) + "%;")">
-                                        <span class="sr-only">@Model.QuentityOfBugsBySeverity[3].Name</span>
-                                    </div>
-                                    <span class="progress-type">@Model.QuentityOfBugsBySeverity[3].Name</span>
-                                    <span class="progress-completed">@Model.QuentityOfBugsBySeverity[3].Quentity</span>
-                                </div>
-                            </div>
-                                    <h5>Статусы ошибок:</h5>
 
-                                    <div id="graph" align="center"></div>
-                        *@
+                            <h5>Статусы ошибок:</h5>
+
+                            <div id="graph" align="center"></div>
+                        </div>
                     </div>
                     <div align="center" style="padding-bottom: 10px">
                         <a type="button" class="btn btn-primary btn-sm" href="/BTS#/Projects/{{project.Id}}/Bugs">Перейти к ошибкам проекта</a>

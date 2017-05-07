@@ -1272,6 +1272,7 @@
     <Content Include="Scripts\pdfjs\pdf.worker.js" />
     <Content Include="Scripts\prettify.js" />
     <Content Include="Scripts\printThis.js" />
+    <Content Include="Scripts\raphael-min.js" />
     <Content Include="Scripts\select.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
