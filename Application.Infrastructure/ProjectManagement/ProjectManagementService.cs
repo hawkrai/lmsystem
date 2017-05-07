@@ -125,8 +125,11 @@ namespace Application.Infrastructure.ProjectManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return
-                    repositoriesContainer.ProjectCommentsRepository.GetAll(new Query<ProjectComment>(e => e.ProjectId == projectId).Include(e => e.User))
-                        .ToList();
+                    repositoriesContainer.ProjectCommentsRepository.GetAll(new Query<ProjectComment>(e => e.ProjectId == projectId)
+                        .Include(e => e.User)
+                        .Include(e => e.User.Lecturer)
+                        .Include(e => e.User.Student)
+                    ).ToList();
             }
         }
 

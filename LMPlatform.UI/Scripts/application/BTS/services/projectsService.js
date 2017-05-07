@@ -70,6 +70,23 @@
                     for (var i = 0; i < length; i++) {
                         projects[i].Number = i + 1 + indexFrom;
                     }
+                },
+
+                getProjectComments: function (id) {
+                    return $http({
+                        method: 'GET',
+                        url: serviceUrl + '/Projects/' + id + '/Bugs'
+                    });
+                },
+
+                sendProjectComment: function (id, text) {
+                    return $http({
+                        method: 'POST',
+                        url: '/BTS/ProjectManagement/' + id,
+                        data: {
+                            comment: text
+                        }
+                    });
                 }
             };
         }]);

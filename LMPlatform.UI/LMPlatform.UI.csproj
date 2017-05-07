@@ -430,9 +430,11 @@
     <Compile Include="Services\Lectures\LecturesService.svc.cs">
       <DependentUpon>LecturesService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\Modules\BTS\ProjectCommentsResult.cs" />
     <Compile Include="Services\Modules\BTS\BugsResult.cs" />
     <Compile Include="Services\Modules\BTS\BugViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectBugViewData.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectCommentViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectMemberViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectsStudentsResult.cs" />

@@ -27,5 +27,9 @@ namespace LMPlatform.UI.Services.BTS
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "/StudentsParticipationsByGroup/{id}?pageSize={pageSize}&pageNumber={pageNumber}", ResponseFormat = WebMessageFormat.Json)]
         StudentsParticipationsResult StudentsParticipationsByGroup(string id, int pageSize, int pageNumber);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "/Projects/{id}/Bugs", ResponseFormat = WebMessageFormat.Json)]
+        ProjectCommentsResult GetProjectComments(string id);
     }
 }

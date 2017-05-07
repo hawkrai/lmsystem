@@ -128,9 +128,9 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProjectManagement(string comment)
+        public ActionResult ProjectManagement(int id, string comment)
         {
-            var model = new ProjectsViewModel(_currentProjectId);
+            var model = new ProjectsViewModel(id);
             model.SaveComment(comment);
 
             return PartialView("_ChatForm", model);

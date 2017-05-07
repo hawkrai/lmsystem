@@ -6,11 +6,20 @@
         'projectsService',
         function ($scope, $routeParams, projectsService) {
             $scope.project = {};
+            $scope.comments = {};
+            $scope.commentToSend = "";
             
             var projectManagerRoleName = 'Руководитель проекта';
 
             function init() {
                 setProject();
+                setComments();
+            }
+
+            function setComments() {
+                projectsService.getProjectComments($routeParams.id).then(function (response) {
+                    $scope.comments = response.data.Comments;
+                });
             }
 
             function clearBugs() {
@@ -162,14 +171,42 @@
                 });
             };
 
-            $scope.getBugCount = function (name) {
-                return $scope.project.Members.filter(function (elem) {
-                    return elem.Name === name;
-                }).length;
-            }
+            $scope.$on('$viewContentLoaded', function () {
+                $(document).on('click', '.panel-heading span.clickable', function (e) {
+                    var $this = $(this);
+                    if (!$this.hasClass('panel-collapsed')) {
+                        $this.parents('.panel').find('.panel-body').slideUp();
+                        $this.addClass('panel-collapsed');
+                        $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+                        $(".panel-footer").slideUp();
+                    } else {
+                        $this.parents('.panel').find('.panel-body').slideDown();
+                        $this.removeClass('panel-collapsed');
+                        $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+                        $(".panel-footer").slideDown();
+                    }
+                });
+                $(document).on('click', '.panel div.clickable', function (e) {
+                    var $this = $(this);
+                    if (!$this.hasClass('panel-collapsed')) {
+                        $this.parents('.panel').find('.panel-body').slideUp();
+                        $this.addClass('panel-collapsed');
+                        $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+                        $(".panel-footer").slideUp();
+                    } else {
+                        $this.parents('.panel').find('.panel-body').slideDown();
+                        $this.removeClass('panel-collapsed');
+                        $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+                        $(".panel-footer").slideDown();
+                    }
+                });
+            });
 
-            $scope.getBugPercentage = function (name) {
-
+            $scope.onSendComment = function () {
+                projectsService.sendProjectComment($routeParams.id, $scope.commentToSend).then(function (response) {
+                    $scope.commentToSend = "";
+                    setComments();
+                });
             }
 
             init();

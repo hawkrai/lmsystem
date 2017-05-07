@@ -79,5 +79,15 @@ namespace LMPlatform.UI.Services.BTS
                 TotalCount = totalCount
             };
         }
+
+        public ProjectCommentsResult GetProjectComments(string id)
+        {
+            var comments = ProjectManagementService.GetProjectComments(int.Parse(id))
+                .Select(e => new ProjectCommentViewData(e)).ToList();
+            return new ProjectCommentsResult
+            {
+                Comments = comments
+            };
+        }
     }
 }
