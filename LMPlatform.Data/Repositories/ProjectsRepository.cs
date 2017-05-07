@@ -89,7 +89,10 @@ namespace LMPlatform.Data.Repositories
                 var query = context.Set<Project>()
                     .Include(e => e.Creator.Lecturer)
                     .Include(e => e.Creator.Student)
-                    .Include(e => e.ProjectUsers);
+                    .Include(e => e.ProjectUsers)
+                    .Include(e => e.Bugs)
+                    .Include(e => e.Bugs.Select(e2 => e2.Severity))
+                    .Include(e => e.Bugs.Select(e2 => e2.Status));
 
                 return AddBugsAndMembersToProjectQuery(query, withBugsAndMembers).First(e => e.Id == id);
             }

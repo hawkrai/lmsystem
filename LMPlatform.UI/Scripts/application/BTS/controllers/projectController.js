@@ -7,6 +7,32 @@
         function ($scope, $routeParams, projectsService) {
             $scope.project = {};
 
+            $scope.bugs = {
+                totalCount: 0,
+                types: [
+                    {
+                        name: 'Низкая',
+                        count: 0,
+                        style: { width: '0%' }
+                    },
+                    {
+                        name: 'Средняя',
+                        count: 0,
+                        style: { width: '0%' }
+                    },
+                    {
+                        name: 'Высокая',
+                        count: 0,
+                        style: { width: '0%' }
+                    },
+                    {
+                        name: 'Критическая',
+                        count: 0,
+                        style: { width: '0%' }
+                    }
+                ]
+            };
+
             var projectManagerRoleName = 'Руководитель проекта';
 
             function init() {
@@ -17,6 +43,22 @@
                 projectsService.getProjectWithBugsAndMembers($routeParams.id).then(function (response) {
                     $scope.setTitle(response.data.Project.Title);
                     $scope.project = response.data.Project;
+                    setBugs();
+                });
+            }
+
+            function setBugs() {
+                $scope.bugs.totalCount = $scope.project.Bugs.length;
+                $scope.project.Bugs.forEach(function (bug) {
+                    $scope.bugs.types.forEach(function (bugType) {
+                        if (bugType.name === bug.Severity) {
+                            bugType.count = bugType.count + 1;
+                        }
+                    });
+                });
+                $scope.bugs.types.forEach(function (bugType) {
+                    var percantage = bugType.count * 100.0 / $scope.bugs.totalCount;
+                    bugType.style.width =  percantage + '%';
                 });
             }
 
@@ -82,6 +124,16 @@
                     }
                 });
             };
+
+            $scope.getBugCount = function (name) {
+                return $scope.project.Members.filter(function (elem) {
+                    return elem.Name == name;
+                }).length;
+            }
+
+            $scope.getBugPercentage = function (name) {
+
+            }
 
             init();
         }]);

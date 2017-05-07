@@ -8,7 +8,7 @@ using LMPlatform.Models;
 namespace LMPlatform.UI.Services.Modules.BTS
 {
     [DataContract]
-    public class ProjectmemberViewData
+    public class ProjectMemberViewData
     {
         [DataMember]
         public int Id { get; set; }
@@ -22,7 +22,7 @@ namespace LMPlatform.UI.Services.Modules.BTS
         [DataMember]
         public string Role { get; set; }
 
-        public ProjectmemberViewData(ProjectUser projectUser)
+        public ProjectMemberViewData(ProjectUser projectUser)
         {
             Id = projectUser.Id;
             UserId = projectUser.User.Id;

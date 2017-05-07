@@ -29,7 +29,10 @@ namespace LMPlatform.UI.Services.Modules.BTS
         public int UserQuentity { get; set; }
 
         [DataMember]
-        public List<ProjectmemberViewData> Members { get; set; }
+        public List<ProjectMemberViewData> Members { get; set; }
+
+        [DataMember]
+        public List<ProjectBugViewData> Bugs { get; set; }
 
         public ProjectViewData(Project project, bool extended = true, bool withBugs = false, bool withMembers = false)
         {
@@ -45,10 +48,19 @@ namespace LMPlatform.UI.Services.Modules.BTS
 
             if (withMembers)
             {
-                Members = new List<ProjectmemberViewData>();
+                Members = new List<ProjectMemberViewData>();
                 foreach(var projectUser in project.ProjectUsers)
                 {
-                    Members.Add(new ProjectmemberViewData(projectUser));
+                    Members.Add(new ProjectMemberViewData(projectUser));
+                }
+            }
+
+            if(withBugs)
+            {
+                Bugs = new List<ProjectBugViewData>();
+                foreach(var bug in project.Bugs)
+                {
+                    Bugs.Add(new ProjectBugViewData(bug));
                 }
             }
         }
