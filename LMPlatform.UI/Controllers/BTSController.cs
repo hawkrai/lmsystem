@@ -60,15 +60,15 @@ namespace LMPlatform.UI.Controllers
             return PartialView("_Project");
         }
 
-        public ActionResult AssignStudentOnProject()
+        public ActionResult AssignStudentOnProject(int id)
         {
-            var projectUserViewModel = new AssignUserViewModel(0, _currentProjectId);
+            var projectUserViewModel = new AssignUserViewModel(0, id);
             return PartialView("_AssignStudentOnProjectForm", projectUserViewModel);
         }
 
-        public ActionResult AssignLecturerOnProject()
+        public ActionResult AssignLecturerOnProject(int id)
         {
-            var projectUserViewModel = new AssignUserViewModel(0, _currentProjectId);
+            var projectUserViewModel = new AssignUserViewModel(0, id);
             return PartialView("_AssignLecturerOnProjectForm", projectUserViewModel);
         }
 
@@ -82,7 +82,7 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public ActionResult SaveProjectUser(AssignUserViewModel model)
         {
-            model.SaveAssignment(_currentProjectId);
+            model.SaveAssignment();
 
             return null;
         }
@@ -106,9 +106,9 @@ namespace LMPlatform.UI.Controllers
             return Json(id);
         }
 
-        public ActionResult ClearProject()
+        public ActionResult ClearProject(int id)
         {
-            ProjectManagementService.ClearProject(_currentProjectId);
+            ProjectManagementService.ClearProject(id);
             return null;
         }
 

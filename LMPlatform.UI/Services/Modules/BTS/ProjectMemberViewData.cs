@@ -11,6 +11,9 @@ namespace LMPlatform.UI.Services.Modules.BTS
     public class ProjectmemberViewData
     {
         [DataMember]
+        public int Id { get; set; }
+
+        [DataMember]
         public int UserId { get; set; }
 
         [DataMember]
@@ -21,6 +24,7 @@ namespace LMPlatform.UI.Services.Modules.BTS
 
         public ProjectmemberViewData(ProjectUser projectUser)
         {
+            Id = projectUser.Id;
             UserId = projectUser.User.Id;
             Name = projectUser.User.FullName;
             Role = projectUser.ProjectRole.Name;

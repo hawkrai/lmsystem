@@ -16,7 +16,7 @@
 
             function init() {
                 $scope.setTitle('Управление ошибками');
-                if ($routeParams.projectId != null) {
+                if ($routeParams.projectId !== null) {
                     $scope.isProjectBugsPage = true;
                     setProjectTitle();
                 }   
@@ -64,7 +64,7 @@
             };
 
             function needReloadPage() {
-                return ($scope.inputedSearchString.length >= MIN_SEARCH_TEXT_LENGTH || $scope.inputedSearchString.length == 0) && searchString != $scope.inputedSearchString;
+                return ($scope.inputedSearchString.length >= MIN_SEARCH_TEXT_LENGTH || $scope.inputedSearchString.length === 0) && searchString !== $scope.inputedSearchString;
             };
 
             $scope.onSearch = function () {

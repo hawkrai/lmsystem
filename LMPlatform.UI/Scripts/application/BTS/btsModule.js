@@ -8,6 +8,7 @@
         'btsApp.ctrl.participations',
         'btsApp.service.projects',
         'btsApp.directive.project',
+        'btsApp.directive.projectUser',
         'btsApp.ctrl.bugs',
         'btsApp.service.bugs',
         'btsApp.directive.bug'

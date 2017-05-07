@@ -20,7 +20,7 @@
             function setLecturers() {
                 participationsService.getLecturers().then(function (response) {
                     $scope.lecturers = response.data.Lectors;
-                    if ($scope.lecturers.length != 0) {
+                    if ($scope.lecturers.length !== 0) {
                         $scope.selectedLecturer = $scope.lecturers[0];
                         $scope.lecturerProjectsTableParams.reload();
                     }
@@ -30,7 +30,7 @@
             function setGroups() {
                 participationsService.getGroups($scope.userId).then(function (response) {
                     $scope.groups = response.data.Groups;
-                    if ($scope.groups.length != 0) {
+                    if ($scope.groups.length !== 0) {
                         $scope.selectedGroup = $scope.groups[0];
                         $scope.studentsParticipationsTableParams.reload();
                     }
@@ -49,7 +49,7 @@
                 count: PAGE_SIZE
             }, {
                 getData: function (params) {
-                    if ($scope.selectedLecturer == null)
+                    if ($scope.selectedLecturer === null)
                         return;
                     return participationsService.getUserProjectsParticipations($scope.selectedLecturer.LectorId, params.page(), params.count(), params.orderBy()).then(function (response) {
                         params.total(response.data.TotalCount);
@@ -62,7 +62,7 @@
                 count: PAGE_SIZE
             }, {
                 getData: function (params) {
-                    if ($scope.selectedGroup == null)
+                    if ($scope.selectedGroup === null)
                         return;
                     return participationsService.geStudentsParticipations($scope.selectedGroup.GroupId, params.page(), params.count()).then(function (response) {
                         params.total(response.data.TotalCount);

@@ -38,3 +38,11 @@ select {
     margin-top: 15px;
     margin-bottom: 25px;
 }
+
+#project-creator-row {
+    padding-bottom: 10px;
+}
+
+#project-description-row {
+    padding-bottom: 10px;
+}

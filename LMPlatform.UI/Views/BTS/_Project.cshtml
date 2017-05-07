@@ -1,16 +1,120 @@
 ﻿<div class="row">
-    <div class="col-md-9">
-        <div class="row">
-            <div class="col-md-4">
+    <div class="col-md-9" id="project-left-content">
+        <div class="row" id="project-creator-row">
+            <div class="col-md-3">
                 <b>Создатель проекта:</b>
             </div>
-            <div class="col-md-8">
-                Тест
+            <div class="col-md-9">
+                {{project.CreatorName}}
             </div>
         </div>
+        <div id="project-description-row" class="row" ng-show="project.Description !== null">
+            <div class="col-md-3">
+                <b>Описание проекта:</b>
+            </div>
+            <div class="col-md-9">
+                <span style="white-space: pre-wrap;">{{project.Description}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Дата последнего изменения проекта:</b>
+            </div>
+            <div class="col-md-9">
+                {{project.DateOfChange}}
+            </div>
+        </div>
+
+        <hr style="margin-bottom: 5px" />
+
+        <h4>Участники проекта</h4>
+        <div class="row" ng-show="isProjectManager()">
+            <div class="col-md-7">
+                <a class="btn btn-primary btn-sm" ng-click="onAddStudent()">Добавить студента</a>
+                <a class="btn btn-primary btn-sm" ng-click="onAddLecturer()">Добавить лектора</a>
+            </div>
+            <div class="col-md-5">
+                <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onClearProject()">Очистить проект</a>
+            </div>
+        </div>
+        <br />
+
+        <table class="table table-bordered table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th>Участник</th>
+                    <th>Роль</th>
+                    <th ng-class="{hide : !isLector}" >Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="member in project.Members" project-user-directive>
+                    <td>{{member.Name}}</td>
+                    <td>{{member.Role}}</td>
+                    <td ng-class="{hide : !isLector}" >
+                        <div name="projectUserGridActionsCol" align="center">
+                            <a ng-click="onDeleteProjectUser(member.Id)" class="deleteButton" style="margin-right: 10px"><span class="fa fa-trash-o fa-1x" /></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
     </div>
 
     <div class="col-md-3">
-        2
+        <div class="row" style="padding-right: 5px;">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Анализ ошибок проекта</h3>
+                </div>
+                <div class="panel-body" style="padding: 10px; overflow: hidden">
+                    <div>
+                        <h5>Количество ошибок проекта: <b></b></h5>
+                        @*@if(Model.BugQuentity != 0)
+                        {
+                            <div style="padding-top: 5px">
+                                <h5>Важность ошибок:</h5>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfBugsBySeverity[0].Quentity * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfBugsBySeverity[0].Quentity * 100.0 / Model.BugQuentity)) + "%;")">
+                                        <span class="sr-only">@Model.QuentityOfBugsBySeverity[0].Name</span>
+                                    </div>
+                                    <span class="progress-type">@Model.QuentityOfBugsBySeverity[0].Name</span>
+                                    <span class="progress-completed">@Model.QuentityOfBugsBySeverity[0].Quentity</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfBugsBySeverity[1].Quentity * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfBugsBySeverity[1].Quentity * 100.0 / Model.BugQuentity)) + "%;")">
+                                        <span class="sr-only">@Model.QuentityOfBugsBySeverity[1].Name</span>
+                                    </div>
+                                    <span class="progress-type">@Model.QuentityOfBugsBySeverity[1].Name</span>
+                                    <span class="progress-completed">@Model.QuentityOfBugsBySeverity[1].Quentity</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfBugsBySeverity[2].Quentity * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfBugsBySeverity[2].Quentity * 100.0 / Model.BugQuentity)) + "%;")">
+                                        <span class="sr-only">@Model.QuentityOfBugsBySeverity[2].Name</span>
+                                    </div>
+                                    <span class="progress-type">@Model.QuentityOfBugsBySeverity[2].Name</span>
+                                    <span class="progress-completed">@Model.QuentityOfBugsBySeverity[2].Quentity</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@((int)(Model.QuentityOfBugsBySeverity[3].Quentity * 100.0 / Model.BugQuentity)).ToString()" aria-valuemin="0" aria-valuemax="100" style="@("width: " + ((int)(Model.QuentityOfBugsBySeverity[3].Quentity * 100.0 / Model.BugQuentity)) + "%;")">
+                                        <span class="sr-only">@Model.QuentityOfBugsBySeverity[3].Name</span>
+                                    </div>
+                                    <span class="progress-type">@Model.QuentityOfBugsBySeverity[3].Name</span>
+                                    <span class="progress-completed">@Model.QuentityOfBugsBySeverity[3].Quentity</span>
+                                </div>
+                            </div>
+                                    <h5>Статусы ошибок:</h5>
+
+                                    <div id="graph" align="center"></div>
+
+                        }*@
+                    </div>
+                    <div align="center" style="padding-bottom: 10px">
+                        <a type="button" class="btn btn-primary btn-sm" href="/BTS#/Projects/{{project.Id}}/Bugs">Перейти к ошибкам проекта</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
