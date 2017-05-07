@@ -6,33 +6,6 @@
         'projectsService',
         function ($scope, $routeParams, projectsService) {
             $scope.project = {};
-
-            $scope.bugs = {
-                totalCount: 0,
-                types: [
-                    {
-                        name: 'Низкая',
-                        count: 0,
-                        style: { width: '0%' }
-                    },
-                    {
-                        name: 'Средняя',
-                        count: 0,
-                        style: { width: '0%' }
-                    },
-                    {
-                        name: 'Высокая',
-                        count: 0,
-                        style: { width: '0%' }
-                    },
-                    {
-                        name: 'Критическая',
-                        count: 0,
-                        style: { width: '0%' }
-                    }
-                ],
-                statuses: []
-            };
             
             var projectManagerRoleName = 'Руководитель проекта';
 
@@ -40,7 +13,37 @@
                 setProject();
             }
 
+            function clearBugs() {
+                $scope.bugs = {
+                    totalCount: 0,
+                    types: [
+                        {
+                            name: 'Низкая',
+                            count: 0,
+                            style: { width: '0%' }
+                        },
+                        {
+                            name: 'Средняя',
+                            count: 0,
+                            style: { width: '0%' }
+                        },
+                        {
+                            name: 'Высокая',
+                            count: 0,
+                            style: { width: '0%' }
+                        },
+                        {
+                            name: 'Критическая',
+                            count: 0,
+                            style: { width: '0%' }
+                        }
+                    ],
+                    statuses: []
+                };
+            }
+
             function setProject() {
+                clearBugs();
                 projectsService.getProjectWithBugsAndMembers($routeParams.id).then(function (response) {
                     $scope.setTitle(response.data.Project.Title);
                     $scope.project = response.data.Project;
