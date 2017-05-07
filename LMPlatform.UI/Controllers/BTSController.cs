@@ -119,14 +119,6 @@ namespace LMPlatform.UI.Controllers
             return null;
         }
 
-        [HttpGet]
-        public ActionResult ProjectManagement(int id)
-        {
-            var model = new ProjectsViewModel(id);
-            _currentProjectId = id;
-            return View(model);
-        }
-
         [HttpPost]
         public ActionResult ProjectManagement(int id, string comment)
         {
@@ -326,93 +318,6 @@ namespace LMPlatform.UI.Controllers
             var model = new BugsViewModel(id);
             _currentBugId = id;
             return View(model);
-        }
-
-        public ProjectUserListViewModel FromProjectUser(ProjectUser projectUser, string htmlLinks)
-        {
-            var model = FromProjectUser(projectUser);
-            model.Action = new HtmlString(htmlLinks);
-
-            return model;
-        }
-
-        public ProjectUserListViewModel FromProjectUser(ProjectUser projectUser)
-        {
-            var context = new ProjectManagementService();
-            
-            return new ProjectUserListViewModel
-            {
-                Id = projectUser.Id,
-                UserName = context.GetCreatorName(projectUser.User.Id),
-                RoleName = GetRoleName(projectUser.ProjectRoleId),
-                ProjectId = projectUser.ProjectId
-            };
-        }
-
-        public static string GetProjectCreatorName(int projectId)
-        {
-            var context = new LmPlatformModelsContext();
-            var _context = new ProjectManagementService(); 
-            var project = context.Projects.Find(projectId);
-            var creator = context.Users.Find(project.CreatorId);
-            return _context.GetCreatorName(creator.Id);
-        }
-
-        public static string GetRoleName(int id)
-        {
-            var context = new LmPlatformModelsContext();
-            var role = context.ProjectRoles.Find(id);
-            return role.Name;
-        }
-
-        public ProjectListViewModel FromProject(Project project, string htmlLinks)
-        {
-            var model = FromProject(project);
-            model.Action = new HtmlString(htmlLinks);
-
-            return model;
-        }
-
-        public ProjectListViewModel FromProject(Project project)
-        {
-            var context = new LmPlatformModelsContext();
-            var isAssigned = false;
-            foreach (var user in context.ProjectUsers)
-            {
-                if (user.ProjectId == project.Id && user.UserId == WebSecurity.CurrentUserId)
-                {
-                    isAssigned = true;
-                }
-            }
-
-            var _context = new ProjectManagementService();
-            var creatorId = project.Creator.Id;
-
-            return new ProjectListViewModel
-            {
-                Id = project.Id,
-                Title =
-                    string.Format("<a href=\"{0}\">{1}</a>", Url.Action("ProjectManagement", "BTS", new { id = project.Id }), project.Title),
-                CreatorName = _context.GetCreatorName(creatorId),
-                CreationDate = project.DateOfChange.ToShortDateString(),
-                UserQuentity = _context.GetProjectUsers(project.Id).Count,
-                IsAssigned = isAssigned
-            };
-        }
-
-        [HttpPost]
-        public DataTablesResult<ProjectUserListViewModel> GetProjectUsers(DataTablesParam dataTablesParam)
-        {
-            var searchString = dataTablesParam.GetSearchString();
-            var projectUsers = ProjectManagementService.GetProjectUsers(pageInfo: dataTablesParam.ToPageInfo(),
-                searchString: searchString);
-            var projectId = int.Parse(Request.QueryString["projectId"]);
-            if (User.IsInRole("lector") && ProjectManagementService.GetProject(projectId).CreatorId == WebSecurity.CurrentUserId)
-            {
-                return DataTableExtensions.GetResults(projectUsers.Items.Select(model => FromProjectUser(model, PartialViewToString("_ProjectUsersGridActions", FromProjectUser(model)))).Where(e => e.ProjectId == projectId && e.UserName != GetProjectCreatorName(projectId)), dataTablesParam, projectUsers.TotalCount);    
-            }
-
-            return DataTableExtensions.GetResults(projectUsers.Items.Select(FromProjectUser).Where(e => e.ProjectId == projectId && e.UserName != GetProjectCreatorName(projectId)), dataTablesParam, projectUsers.TotalCount);
         }
 
         public IProjectManagementService ProjectManagementService

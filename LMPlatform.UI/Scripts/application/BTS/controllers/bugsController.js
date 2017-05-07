@@ -16,7 +16,7 @@
 
             function init() {
                 $scope.setTitle('Управление ошибками');
-                if ($routeParams.projectId !== null) {
+                if ($routeParams.projectId !== undefined) {
                     $scope.isProjectBugsPage = true;
                     setProjectTitle();
                 }   

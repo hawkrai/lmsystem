@@ -523,10 +523,7 @@
     <Compile Include="ViewModels\BTSViewModels\AddOrEditBugViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\AddOrEditProjectViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\AssignUserViewModel.cs" />
-    <Compile Include="ViewModels\BTSViewModels\BugStatisticsViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugsViewModel.cs" />
-    <Compile Include="ViewModels\BTSViewModels\ProjectParticipationViewModel.cs" />
-    <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\UserInfoViewModel.cs" />
     <Compile Include="ViewModels\ComplexMaterialsViewModel\AddOrEditRootConceptViewModel.cs" />
     <Compile Include="ViewModels\ComplexMaterialsViewModel\WatchingTimeViewModel.cs" />
@@ -536,7 +533,6 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugListViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ModifyStudentViewModel.cs" />
-    <Compile Include="ViewModels\BTSViewModels\ProjectListViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectsViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestResultItemListViewModel.cs" />
@@ -696,7 +692,6 @@
     <Content Include="Content\KnowledgeTesting\testDetails.html" />
     <Content Include="Content\KnowledgeTesting\results.html" />
     <Content Include="Content\messages.css" />
-    <Content Include="Content\morris.css" />
     <Content Include="Content\mvcfileupload\css\jquery.fileupload-ui-noscript.css" />
     <Content Include="Content\mvcfileupload\css\jquery.fileupload-ui.css" />
     <Content Include="Content\mvcfileupload\css\style.css" />
@@ -812,7 +807,6 @@
     <Content Include="Scripts\application\BTS\chat.js" />
     <Content Include="Scripts\application\BTS\easyTooltip.js" />
     <Content Include="Scripts\application\BTS\morris.js" />
-    <Content Include="Scripts\application\BTS\project.js" />
     <Content Include="Scripts\application\BTS\projectPart.js" />
     <Content Include="Scripts\application\BTS\studentProjectTable.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
@@ -1711,7 +1705,6 @@
     <Content Include="Views\Shared\Layouts\_MainLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_LayoutBase.cshtml" />
     <Content Include="Views\Shared\Layouts\_PreMainLayout.cshtml" />
-    <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\BugManagement.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
