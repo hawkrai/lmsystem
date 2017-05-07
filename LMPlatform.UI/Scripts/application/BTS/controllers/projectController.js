@@ -172,7 +172,7 @@
             };
 
             $scope.$on('$viewContentLoaded', function () {
-                $(document).on('click', '.panel-heading span.clickable', function (e) {
+                $('.panel-heading span.clickable').on('click', function (e) {
                     var $this = $(this);
                     if (!$this.hasClass('panel-collapsed')) {
                         $this.parents('.panel').find('.panel-body').slideUp();
@@ -186,7 +186,7 @@
                         $(".panel-footer").slideDown();
                     }
                 });
-                $(document).on('click', '.panel div.clickable', function (e) {
+                $('.panel div.clickable').on('click', function (e) {
                     var $this = $(this);
                     if (!$this.hasClass('panel-collapsed')) {
                         $this.parents('.panel').find('.panel-body').slideUp();
