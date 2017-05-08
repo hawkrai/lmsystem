@@ -30,8 +30,16 @@
         <h4>Участники проекта</h4>
         <div class="row" ng-show="isProjectManager()">
             <div class="col-md-7">
-                <a class="btn btn-primary btn-sm" ng-click="onAddStudent()">Добавить студента</a>
-                <a class="btn btn-primary btn-sm" ng-click="onAddLecturer()">Добавить лектора</a>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Добавить
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a ng-click="onAddStudent()">Студента</a></li>
+                        <li><a ng-click="onAddLecturer()">Лектора</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="col-md-5">
                 <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onClearProject()">Очистить проект</a>
