@@ -118,7 +118,7 @@
             }
 
             $scope.onAddStudent = function () {
-                $.savingDialog("Добавление участника к проекту", "/BTS/AssignStudentOnProject/" + $scope.project.Id,
+                $.savingDialog("Добавление студента к проекту", "/BTS/AssignStudentOnProject/" + $scope.project.Id,
                     null, "primary", function (data) {
                         setProject();
                         alertify.success("Добавлен новый участник");
@@ -126,7 +126,7 @@
             }
 
             $scope.onAddLecturer = function () {
-                $.savingDialog("Добавление участника к проекту", "/BTS/AssignLecturerOnProject/" + $scope.project.Id,
+                $.savingDialog("Добавление лектора к проекту", "/BTS/AssignLecturerOnProject/" + $scope.project.Id,
                     null, "primary", function (data) {
                         setProject();
                         alertify.success("Добавлен новый участник");
