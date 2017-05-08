@@ -2,10 +2,8 @@
 using System.Linq;
 using Application.Core.Data;
 using Application.SearchEngine.SearchMethods;
-using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
-using System.Data.Entity;
 
 namespace Application.Infrastructure.ProjectManagement
 {

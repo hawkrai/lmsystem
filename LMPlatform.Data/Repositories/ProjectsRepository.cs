@@ -6,9 +6,6 @@ using Application.Core.Extensions;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
-using System.Linq.Expressions;
-using System;
-using System.Reflection;
 
 namespace LMPlatform.Data.Repositories
 {

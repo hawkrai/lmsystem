@@ -2,23 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Application.Core;
-using Application.Core.Data;
 using Application.Core.UI.Controllers;
-using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.BugManagement;
-using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.UserManagement;
-using LMPlatform.Data.Infrastructure;
-using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.BTSViewModels;
-using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
