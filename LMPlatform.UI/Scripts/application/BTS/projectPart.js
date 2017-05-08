@@ -2,10 +2,8 @@
     init: function () {
         var that = this;
         that._initializeTooltips();
-        that.initButtonAction();
         that._setColumnsSize();
 
-        $('.deleteUserButton').on('click', 'span', $.proxy(this.onDeleteClicked, this));
 
         $("#groups").change(function () {
             $("#students").empty();
@@ -16,11 +14,20 @@
                                         data.Text + '</option>');
                 });
             });
+
+            that.setCookie(groupId);
         });
+
+        var groupId = this.getCookie(this.cookieName);
+        if (groupId !== undefined) {
+            $('.group-select').val(groupId);
+        }
     },
 
     _actionsColumnWidth: 60,
     _numberingColumnWidth: 20,
+
+    cookieName: 'selectedGroupId',
 
     _initializeTooltips: function () {
         $(".deleteUserButton").tooltip({ title: "Удалить участника проекта", placement: 'right' });
@@ -38,64 +45,17 @@
             .width(this._actionsColumnWidth);
     },
 
-    onDeleteClicked: function (eventArgs) {
-
-        var itemId = eventArgs.target.dataset.modelId;
-        var context = {
-            itemId: eventArgs.target.dataset.modelId
-        };
-
-        bootbox.confirm({
-            title: 'Удаление участника проекта',
-            message: 'Вы дествительно хотите удалить участника проекта?',
-            buttons: {
-                'cancel': {
-                    label: 'Отмена',
-                    className: 'btn btn-primary btn-sm'
-                },
-                'confirm': {
-                    label: 'Удалить',
-                    className: 'btn btn-primary btn-sm',
-                }
-            },
-            callback: $.proxy(this.onDeleteConfirmed, context)
-        });
+    setCookie: function (value) {
+        var date = new Date;
+        date.setDate(date.getDate() + 1);
+        document.cookie = this.cookieName + "=" + value + ";expires=" + date;
     },
 
-    onDeleteConfirmed: function (result) {
-        if (result) {
-            projectUserDetails.deleteProjectUser(this.itemId);
-        }
-    },
-
-    initButtonAction: function () {
-        $('.projectStudentButton').handle("click", function () {
-            $.savingDialog("Добавление участника к проекту", "/BTS/AssignStudentOnProject", null, "primary", function (data) {
-                datatable.fnDraw();
-                alertify.success("Добавлен новый участник");
-            });
-            return false;
-        });
-
-        $('.projectLecturerButton').handle("click", function () {
-            $.savingDialog("Добавление участника к проекту", "/BTS/AssignLecturerOnProject", null, "primary", function (data) {
-                datatable.fnDraw();
-                alertify.success("Добавлен новый участник");
-            });
-            return false;
-        });
-
-        $(".clearProjectButton").handle("click", function () {
-            var that = this;
-            bootbox.confirm("Вы действительно хотите очистить проект (удалить участников, ошибки и комментарии) ?", function (isConfirmed) {
-                if (isConfirmed) {
-                    $.post("/BTS/ClearProject", null, function () {
-                    });
-                    location.reload();
-                }
-            });
-            return false;
-        });
+    getCookie: function (name) {
+        var matches = document.cookie.match(new RegExp(
+          "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
     },
 
     projectUserEditItemActionHandler: function () {
@@ -144,30 +104,32 @@ var projectUserDetails = {
     },
 }
 
-$(document).ready(function () {
-    projectUserManagement.init();
-    $("#groups").change();
+//Not working for now
 
-    document.onmouseover = document.onmouseout = handler;
+//$(document).ready(function () {
+//    projectUserManagement.init();
+//    $("#groups").change();
 
-    function handler(e) {
-        e = e || event;
-        if (e.type == 'mouseover') {
-            var toElem = e.srcElement || e.target;
-            if (str(toElem) == "TD") {
-                var name = toElem.parentNode.childNodes[1];
-                var id = toElem.parentNode.childNodes[3].childNodes[0].children[0].children[0].attributes[1].value;
-                $.post("/BTS/GetUserInformation", { id: id }, function (data) {
-                    $(name).easyTooltip({
-                        tooltipId: "easyTooltip",
-                        content: data
-                    });
-                });
-            }
-        }
-    }
+//    document.onmouseover = document.onmouseout = handler;
 
-    function str(el) {
-        return el ? (el.id || el.nodeName) : 'null';
-    }
-});
+//    function handler(e) {
+//        e = e || event;
+//        if (e.type == 'mouseover') {
+//            var toElem = e.srcElement || e.target;
+//            if (str(toElem) == "TD") {
+//                var name = toElem.parentNode.childNodes[1];
+//                var id = toElem.parentNode.childNodes[3].childNodes[0].children[0].children[0].attributes[1].value;
+//                $.post("/BTS/GetUserInformation", { id: id }, function (data) {
+//                    $(name).easyTooltip({
+//                        tooltipId: "easyTooltip",
+//                        content: data
+//                    });
+//                });
+//            }
+//        }
+//    }
+
+//    function str(el) {
+//        return el ? (el.id || el.nodeName) : 'null';
+//    }
+//});
