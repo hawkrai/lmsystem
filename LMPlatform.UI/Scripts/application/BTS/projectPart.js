@@ -4,7 +4,6 @@
         that._initializeTooltips();
         that._setColumnsSize();
 
-
         $("#groups").change(function () {
             $("#students").empty();
             var groupId = $("#groups").val();
@@ -104,32 +103,31 @@ var projectUserDetails = {
     },
 }
 
-//Not working for now
+$(document).ready(function () {
+    projectUserManagement.init();
+    $("#groups").change();
+    //Not working for now
 
-//$(document).ready(function () {
-//    projectUserManagement.init();
-//    $("#groups").change();
+    //document.onmouseover = document.onmouseout = handler;
 
-//    document.onmouseover = document.onmouseout = handler;
+    //function handler(e) {
+    //    e = e || event;
+    //    if (e.type == 'mouseover') {
+    //        var toElem = e.srcElement || e.target;
+    //        if (str(toElem) == "TD") {
+    //            var name = toElem.parentNode.childNodes[1];
+    //            var id = toElem.parentNode.childNodes[3].childNodes[0].children[0].children[0].attributes[1].value;
+    //            $.post("/BTS/GetUserInformation", { id: id }, function (data) {
+    //                $(name).easyTooltip({
+    //                    tooltipId: "easyTooltip",
+    //                    content: data
+    //                });
+    //            });
+    //        }
+    //    }
+    //}
 
-//    function handler(e) {
-//        e = e || event;
-//        if (e.type == 'mouseover') {
-//            var toElem = e.srcElement || e.target;
-//            if (str(toElem) == "TD") {
-//                var name = toElem.parentNode.childNodes[1];
-//                var id = toElem.parentNode.childNodes[3].childNodes[0].children[0].children[0].attributes[1].value;
-//                $.post("/BTS/GetUserInformation", { id: id }, function (data) {
-//                    $(name).easyTooltip({
-//                        tooltipId: "easyTooltip",
-//                        content: data
-//                    });
-//                });
-//            }
-//        }
-//    }
-
-//    function str(el) {
-//        return el ? (el.id || el.nodeName) : 'null';
-//    }
-//});
+    //function str(el) {
+    //    return el ? (el.id || el.nodeName) : 'null';
+    //}
+});
