@@ -46,3 +46,12 @@ select {
 #project-description-row {
     padding-bottom: 10px;
 }
+
+.inactive-comment {
+    background-color: #dbdbdb;
+    font-style: italic;
+}
+
+#comments-panel {
+    padding: 0px;
+}

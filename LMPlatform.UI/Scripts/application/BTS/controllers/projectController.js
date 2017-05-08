@@ -13,12 +13,27 @@
 
             function init() {
                 setProject();
-                setComments();
+            }
+
+            function disabledComment(comment) {
+                return !($scope.project.Members.some(function (elem) {
+                    return elem.Name === comment.UserName;
+                }));
+            }
+
+            function setCommentStatus(comment) {
+                if (disabledComment(comment)) {
+                    comment.disabled = true;
+                }
             }
 
             function setComments() {
                 projectsService.getProjectComments($routeParams.id).then(function (response) {
                     $scope.comments = response.data.Comments;
+
+                    $scope.comments.forEach(function (elem) {
+                        setCommentStatus(elem);
+                    });
                 });
             }
 
@@ -57,6 +72,7 @@
                     $scope.setTitle(response.data.Project.Title);
                     $scope.project = response.data.Project;
                     setBugs();
+                    setComments();
                 });
             }
 

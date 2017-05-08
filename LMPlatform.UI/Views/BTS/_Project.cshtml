@@ -76,9 +76,9 @@
                             <h3 class="panel-title">Обсуждение проекта</h3>
                             <span class="pull-right clickable "><i class="glyphicon glyphicon-minus"></i></span>
                         </div>
-                        <div class="panel-body" style="padding: 10px; height: 200px">
+                        <div class="panel-body" id="comments-panel" style="height: 200px">
                             <ul class="chat">
-                                <li ng-repeat="comment in comments">
+                                <li ng-repeat="comment in comments" ng-class="comment.disabled ? 'inactive-comment' : ''">
                                     <div class="chat-body">
                                         <div class="header">
                                             <strong class="primary-font">{{comment.UserName}}</strong> <small class="pull-right text-muted">
