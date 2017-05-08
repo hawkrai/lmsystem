@@ -192,7 +192,7 @@ namespace LMPlatform.UI.Services.Concept
 
                 var concepts = CurrentUserIsLector() ?
                     ConceptManagementService.GetElementsByParentId(authorId, parent) :
-                    ConceptManagementService.GetElementsByParentId(parent).Where(c => c.Published);
+                    ConceptManagementService.GetElementsByParentId(parent);
 
                 var concept = ConceptManagementService.GetById(parent);
 
