@@ -1,5 +1,5 @@
 ﻿angular
-    .module('btsApp.ctrl.bugs', ['ngTable'])
+    .module('btsApp.ctrl.bugs', ['ngTable', 'btsApp.service.bugs', 'btsApp.directive.bug'])
     .controller('bugsCtrl', [
         '$scope',
         '$routeParams',

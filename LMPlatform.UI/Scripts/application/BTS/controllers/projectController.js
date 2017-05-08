@@ -1,5 +1,5 @@
 ﻿angular
-    .module('btsApp.ctrl.project', [])
+    .module('btsApp.ctrl.project', ['btsApp.directive.projectUser', 'btsApp.service.projects'])
     .controller('projectCtrl', [
         '$scope',
         '$routeParams',
