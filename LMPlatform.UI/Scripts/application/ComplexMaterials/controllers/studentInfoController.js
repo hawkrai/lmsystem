@@ -79,6 +79,17 @@ angular
                         'data': tree
                     }
                 });
+                $('#concept-tree').on("changed.jstree", function (e, args) {
+
+                    var data = {};
+                    data.id = args.node.data.ConceptId;
+                    var title = 'Просмотр файла "' + args.node.data.Name + '"';
+                    $.savingDialog(title, "/ComplexMaterial/OpenConcept", data, "primary", function (data) {
+
+                    }, null, { hideSaveButton: true });
+
+                    console.log(args.node);
+                });
             }
 
             function convertFormat(obj) {
@@ -97,6 +108,7 @@ angular
                 } else {
                     result.icon = "jstree-folder";
                 }
+                result.data = obj;
                 return result;
             }
 
