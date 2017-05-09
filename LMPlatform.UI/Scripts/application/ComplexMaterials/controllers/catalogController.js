@@ -252,6 +252,14 @@
                 updateRootConceptList();
             }
 
+            $rootScope.isGoToConceptRootActive = function ($event) {
+                return parentId == rootConceptId;
+            }
+
+            $rootScope.isGoMonitoring = function ($event) {
+                return false;
+            }
+
             $rootScope.goMonitoring = function ($event) {
                 window.location.href = "#/MonitoringStudents" + (rootConceptId != undefined ? "/root/" + rootConceptId : "");
             }

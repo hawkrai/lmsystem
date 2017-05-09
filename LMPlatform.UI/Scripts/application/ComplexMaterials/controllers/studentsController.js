@@ -46,11 +46,11 @@ angular
             }
 
             $rootScope.goToConceptRoot = function () {
-                window.location.href = "/ComplexMaterial/?subjectId=" + monitoringDataService.getSubjectId() + "&parent=" + monitoringDataService.getRootId();
+                window.location.href = "#/Catalog?parent=" + monitoringDataService.getRootId();
             }
 
             $rootScope.goToHome = function () {
-                window.location.href = "/ComplexMaterial/?subjectId=" + monitoringDataService.getSubjectId();
+                window.location.href = "#/Catalog";
             }
 
             $rootScope.getConceptName = function () {
@@ -68,4 +68,12 @@ angular
             $rootScope.getConceptName();
 
             navigationService.updateTitle(getParameterByName("subjectId"));
+
+            $rootScope.isGoToConceptRootActive = function ($event) {
+                return false;
+            }
+
+            $rootScope.isGoMonitoring = function ($event) {
+                return true;
+            }
         }]);
