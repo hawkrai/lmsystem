@@ -104,6 +104,16 @@ namespace LMPlatform.UI.Controllers
             return PartialView();
         }
 
+        public ActionResult MonitoringStudents()
+        {
+            return PartialView();
+        }
+
+        public ActionResult MonitoringStudentInfo()
+        {
+            return PartialView();
+        }
+
         //public ActionResult Tests(Int32 subjectId)
         //{
         //    Subject subject = SubjectsManagementService.GetSubject(subjectId);

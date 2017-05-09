@@ -1,8 +1,9 @@
 angular
-    .module('monitoringApp.service.monitoring', [])
+    .module('complexMaterialsApp.service.monitoring', [])
     .factory('monitoringDataService', [
         '$http',
-        function ($http) {
+        '$routeParams',
+        function ($http, $routeParams) {
             var url = '/Services/CoreService.svc/';
 
             function gup(name, url) {
@@ -34,17 +35,17 @@ angular
                     var id = data.id;
                     return $http({
                         method: 'GET',
-                        url: '/api/WatchingTime/' + id + "?root=" + gup("root", window.location.href) + "&studentId=" + window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
+                        url: '/api/WatchingTime/' + id + "?root=" + $routeParams.rootId + "&studentId=" + window.location.href.substr(window.location.href.lastIndexOf('/') + 1),
                     });
                 },
                 getConcept: function () {
                     return $http({
                         method: 'GET',
-                        url: '/Services/Concept/ConceptService.svc/GetConcept?elementId=' + gup("root", window.location.href),
+                        url: '/Services/Concept/ConceptService.svc/GetConcept?elementId=' + $routeParams.rootId,
                     });
                 },
                 getRootId: function () {
-                    return gup("root", window.location.href);
+                    return $routeParams.rootId;
                 },
                 getSubjectId: function () {
                     return gup("subjectId", window.location.href);

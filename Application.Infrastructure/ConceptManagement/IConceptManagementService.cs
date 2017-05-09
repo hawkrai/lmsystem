@@ -20,7 +20,7 @@ namespace Application.Infrastructure.ConceptManagement
         Concept CreateRootConcept(String name, Int32 authorId, Int32 subjectId);
         Concept SaveConcept(Concept concept, IList<Attachment> attachments);
         Concept SaveConcept(Concept concept);
-        Concept UpdateRootConcept(Int32 id, String name);
+        Concept UpdateRootConcept(Int32 id, String name, bool published);
         void Remove(Int32 id, Boolean removeChildren);
         Concept AttachSiblings(Int32 sourceId, Int32 rightId, Int32 leftId);
         void AttachFolderToLectSection(String folderName, Int32 userId, Int32 subjectId);

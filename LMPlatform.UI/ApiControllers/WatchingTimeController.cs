@@ -22,11 +22,75 @@ using Application.Infrastructure.StudentManagement;
 
 namespace LMPlatform.UI.ApiControllers
 {
+    public class ConceptResult
+    {
+        private static readonly LazyDependency<IWatchingTimeService> _watchingTimeService = new LazyDependency<IWatchingTimeService>();
+
+        public static IWatchingTimeService WatchingTimeService
+        {
+            get
+            {
+                return _watchingTimeService.Value;
+            }
+        }
+
+        public string Name;
+        public List<ConceptResult> Children;
+        public bool IsFile;
+        public int? ViewTime;
+        public int? Estimated;
+
+        public ConceptResult()
+        {
+        }
+
+        public static ConceptResult GetConceptResultTreeInViews(Concept concept, List<WatchingTimeResult> views)
+        {
+            if (concept == null || ((concept.Children == null || concept.Children.Count == 0) && !views.Any(x => x.ConceptId == concept.Id)))
+                return null;
+
+            var currentConcept = new ConceptResult()
+            {
+                Name = concept.Name,
+                IsFile = true
+            };
+
+            if (concept.Children != null && concept.Children.Count != 0)
+            {
+                currentConcept.Children = new List<ConceptResult>();
+                foreach (var child in concept.Children)
+                {
+                    var childConceptResult = GetConceptResultTreeInViews(child, views);
+                    if (childConceptResult != null)
+                        currentConcept.Children.Add(childConceptResult);
+                }
+                if (currentConcept.Children.Count == 0)
+                    return null;
+                currentConcept.IsFile = false;
+            }
+            else
+            {
+                var viewInfo = views.Find(x => x.ConceptId == concept.Id).Views;
+                if(viewInfo == null)
+                {
+                    currentConcept.ViewTime = null;
+                }
+                else
+                {
+                    currentConcept.ViewTime = viewInfo.Time;
+                }
+                currentConcept.Estimated = WatchingTimeService.GetEstimatedTime(concept.Container);
+            }
+            return currentConcept;
+        }
+    }
 
     public class WatchingTimeResult
     {
+        public int ConceptId;
+        public int? ParentId;
         public string Name { get; set; }
-        public List<WatchingTime> Views;
+        public WatchingTime Views;
         public int Estimated { get; set; }
     }
 
@@ -35,6 +99,7 @@ namespace LMPlatform.UI.ApiControllers
         public string GroupNumber;
         public string StudentFullName;
         public List<WatchingTimeResult> Result;
+        public List<ConceptResult> Tree;
     }
 
     public class WatchingTimeController : ApiController
@@ -68,7 +133,7 @@ namespace LMPlatform.UI.ApiControllers
         private int? GetConceptParentId(Concept concept)
         {
             var temp = concept;
-            while(temp.Parent != null)
+            while (temp.Parent != null)
             {
                 temp = temp.Parent;
             }
@@ -92,21 +157,25 @@ namespace LMPlatform.UI.ApiControllers
             var studentInfo = StudentManagementService.GetStudent(studentId);
             var concepts = ConceptManagementService.GetElementsBySubjectId(id).Where(x => x.Container != null).ToList();
             List<WatchingTimeResult> viewsResult = new List<WatchingTimeResult>();
-            foreach(var concept in concepts)
+            foreach (var concept in concepts)
             {
                 if (GetConceptParentId(concept) != rootId)
                     continue;
-                var views = WatchingTimeService.GetAllRecords(concept.Id, studentId);
-                //views.ForEach(x => x.Concept = null);
+                var views = WatchingTimeService.GetAllRecords(concept.Id, studentId).FirstOrDefault();
                 viewsResult.Add(new WatchingTimeResult()
                 {
+                    ConceptId = concept.Id,
+                    ParentId = concept.ParentId,
                     Name = concept.Name,
                     Views = views,
                     Estimated = WatchingTimeService.GetEstimatedTime(concept.Container)
                 });
             }
+            var tree = ConceptManagementService.GetTreeConceptByElementId(rootId);
+            var treeresult = ConceptResult.GetConceptResultTreeInViews(tree, viewsResult);
             var result = new StudentInfoResult()
             {
+                Tree = treeresult.Children,
                 StudentFullName = studentInfo.FullName,
                 GroupNumber = studentInfo.Group.Name,
                 Result = viewsResult

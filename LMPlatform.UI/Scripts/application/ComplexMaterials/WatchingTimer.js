@@ -3,18 +3,31 @@ function WatchingTimer(id) {
     var interval_delay = 1000;
     var secs = 0;
     var _conceptId = id;
+    var isCreated = false;
 
     this.setId = function (id) {
         _conceptId = id;
     }
 
-    this.startTimer = function () {
+    this.resumeTimer = function () {
+        if (isCreated) {
+            clearInterval(WatchingTimer.myInterval);
+            WatchingTimer.myInterval = setInterval(interval_function, interval_delay);
+        }
+    }
+
+    this.pauseTimer = function () {
         clearInterval(WatchingTimer.myInterval);
-        WatchingTimer.myInterval = setInterval(interval_function, interval_delay);
+    }
+
+    this.startTimer = function () {
+        isCreated = true;
+        this.resumeTimer();
     }
 
     this.stopTimer = function () {
-        clearInterval(WatchingTimer.myInterval);
+        isCreated = false;
+        this.pauseTimer();
     }
 
     this.clearTimer = function () {

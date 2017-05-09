@@ -21,15 +21,5 @@ namespace LMPlatform.UI.Controllers
             ViewBag.NgApp = "monitoringApp";
             return View();
         }
-
-        public ActionResult Students()
-        {
-            return PartialView();
-        }
-
-        public ActionResult StudentInfo()
-        {
-            return PartialView();
-        }
     }
 }
