@@ -22,7 +22,6 @@
 
             var adjustment;
             var subjectId = getParameterByName("subjectId");
-            $scope.navigationService.currentSubjectId = subjectId;
 
             var rootConceptId = 0;
             var parentId = $location.search()["parent"]
@@ -84,6 +83,7 @@
 
             function updateRootConceptList(action) {
                 $scope.startSpin();
+                $scope.navigationService.updateTitle(subjectId);
                 if (parentId && parentId > 0) {
                     complexMaterialsDataService.getConcepts({ parentId: parentId }).success(function (data) {
                         $scope.folders = data.Concepts;
@@ -219,6 +219,7 @@
                 if (!$scope.parent)
                     return;
                 var pid = $scope.parent.ParentId;
+                $scope.navigationService.updateTitle(subjectId);
                 if (pid == 0) {
                     updateQueryParams(pid);
                     updateRootConceptList("dec");

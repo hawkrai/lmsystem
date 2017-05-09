@@ -8,11 +8,19 @@ angular
         '$resource',
         '$routeParams',
         'monitoringDataService',
-        function ($scope, $rootScope, $location, $resource, $routeParams, monitoringDataService) {
+        'navigationService',
+        function ($scope, $rootScope, $location, $resource, $routeParams, monitoringDataService, navigationService) {
             $scope.data = {
                 fullname: null,
                 groupnumber: null,
             };
+
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
 
             $scope.treeConfig = {
                 core: {
@@ -91,6 +99,16 @@ angular
                 }
                 return result;
             }
+
+            navigationService.updateTitle(getParameterByName("subjectId"));
+            
+            $rootScope.getConceptName = function () {
+                monitoringDataService.getConcept().success(function (data) {
+                    $rootScope.conceptName = data.Name;
+                });
+            }
+
+            $rootScope.getConceptName();
 
             monitoringDataService.getConcepts({ id: monitoringDataService.getSubjectId() }).success(function (data) {
                 $scope.data.fullname = data.StudentFullName;

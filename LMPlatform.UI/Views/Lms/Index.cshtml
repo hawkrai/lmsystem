@@ -15,8 +15,8 @@
         <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.css" type="text/css"/>
         <link rel="stylesheet" href="~/Content/fullcalendar/fullcalendar.print.css" type="text/css"/>*@
     @*<link href="~/Scripts/bootstrap-combined.min.css" rel="stylesheet" />*@
-	<link href="~/Content/fullcalendar/fullcalendar.css" rel="stylesheet"/>
-<link rel="stylesheet" href="~/Content/circle.css" />
+    <link href="~/Content/fullcalendar/fullcalendar.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/circle.css" />
     @*<link href="~/Content/fullcalendar/fullcalendar.print.css" rel="stylesheet" />*@
 }
 @section scripts
@@ -32,8 +32,8 @@
     <script type="text/javascript" src="~/Scripts/fullcalendar/jquery-ui.min.js"></script>
     <script type="text/javascript" src="~/Scripts/fullcalendar/moment.min.js"></script>
     <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
-	<script type="text/javascript" src="~/Scripts/application/userProfile/appUserProfile.js"></script>
-	<script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="~/Scripts/application/userProfile/appUserProfile.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
 }
 
 @section headerTitle{
@@ -46,8 +46,8 @@
         </h1>
 
         @*<div style="text-align: right;">
-            <input type="button" class="btn btn-sm btn-default" value="Код доступа" style="width: 110px;" data-toggle="modal" data-target="#myModal">
-        </div>*@
+                <input type="button" class="btn btn-sm btn-default" value="Код доступа" style="width: 110px;" data-toggle="modal" data-target="#myModal">
+            </div>*@
     }
     else
     {
@@ -75,10 +75,10 @@
             @if (User.IsInRole("lector"))
             {
                 <hr style="margin: 0">
-	            <li><a href="@Url.Action("Management", "Subject")" style="margin-left: 5px; padding: 15px;" class="linkNavbarLevelBelow">Управление предметами</a></li>
-				<hr style="margin: 0">
-				<li><a href="@Url.Action("JoinLector", "Subject")" style="margin-left: 5px;padding: 15px;" class="linkNavbarLevelBelow">Преподаватели</a></li>
-			}
+                <li><a href="@Url.Action("Management", "Subject")" style="margin-left: 5px; padding: 15px;" class="linkNavbarLevelBelow">Управление предметами</a></li>
+                <hr style="margin: 0">
+                <li><a href="@Url.Action("JoinLector", "Subject")" style="margin-left: 5px;padding: 15px;" class="linkNavbarLevelBelow">Преподаватели</a></li>
+            }
         </ul>
     </li>
 
@@ -99,9 +99,7 @@
             }
         </ul>
     </li>
-    @if (User.IsInRole("lector"))
-    {
-        @*<li class="treeview">
+    @*<li class="treeview">
             <a href="#">
                 <i class="fa fa-folder-open-o fa-tab"></i>
                 <span>Мониторинг</span>
@@ -117,33 +115,32 @@
             </ul>
         </li>*@
 
-        <li class="treeview">
-            <a href="#">
-                <i class="fa fa-folder-open-o fa-tab"></i>
-                <span>ЭУМК</span>
-                <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu">
-                @foreach (var mat in Model.ComplexSubjects)
-                {
-                    var url = Url.Action("Index", "ComplexMaterial", new { subjectId = mat.SubjectId });
-
-                    <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @mat.DisplayName</a></li>
-                }
-            </ul>
-        </li>
-    }
-    
     <li class="treeview">
         <a href="#">
             <i class="fa fa-folder-open-o fa-tab"></i>
-                <span>Курсовые работы</span>
+            <span>ЭУМК</span>
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-         @foreach (var subject in Model.CourseProjectSubjects)
+            @foreach (var mat in Model.ComplexSubjects)
             {
-             var url = Url.Action("Index", "CP", new { subjectId = subject.SubjectId });
+                var url = Url.Action("Index", "ComplexMaterial", new { subjectId = mat.SubjectId });
+
+                <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @mat.DisplayName</a></li>
+            }
+        </ul>
+    </li>
+
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-folder-open-o fa-tab"></i>
+            <span>Курсовые работы</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            @foreach (var subject in Model.CourseProjectSubjects)
+            {
+                var url = Url.Action("Index", "CP", new { subjectId = subject.SubjectId });
                 <li><a href="@url" style="margin-left: 5px;" class="linkNavbarLevelBelow"><i class="fa fa-angle-double-right"></i> @subject.DisplayName</a></li>
             }
         </ul>
@@ -154,21 +151,21 @@
     {
         <li><a href="@Url.Action("Index", "DP")"><i class="fa fa-briefcase fa-tab"></i>Дипломное проектирование</a></li>
     }
-	<li><a href="@Url.Action("Index", "ScormMod")"><i class="fa fa-archive fa-tab"></i>SCORM</a></li>
-	@if (User.IsInRole("lector"))
-	{
-		<li class="no-hover" style="background-color: cadetblue;">
-			@if ((bool)ViewData["UnconfirmedStudents"])
-			{
-				<a class="blink" style="color: ivory;" href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Подтверждение студентов</a>
-			}
-			else
-			{
-	<a style="color: white; " href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Подтверждение студентов</a>
-}
+    <li><a href="@Url.Action("Index", "ScormMod")"><i class="fa fa-archive fa-tab"></i>SCORM</a></li>
+    @if (User.IsInRole("lector"))
+    {
+        <li class="no-hover" style="background-color: cadetblue;">
+            @if ((bool)ViewData["UnconfirmedStudents"])
+            {
+                <a class="blink" style="color: ivory;" href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Подтверждение студентов</a>
+            }
+            else
+            {
+                <a style="color: white; " href="@Url.Action("Index", "StudentManagement")"><i class="fa fa-group fa-tab"></i>Подтверждение студентов</a>
+            }
 
-		</li>
-	}
+        </li>
+    }
 }
 
 <div ng-app="appUserProfile" ng-controller="ProfileController" ng-init="init('@ViewData["userLogin"]', '@ViewData["isMyProfile"].ToString().ToLower()' )">
@@ -201,7 +198,7 @@
 </div>
 
 <script>
-    $('#myModal').on('shown.bs.modal', function() {
+    $('#myModal').on('shown.bs.modal', function () {
 
         $.ajax({
             type: 'GET',
@@ -215,7 +212,7 @@
 
     });
 
-    $("#generateCode").on("click", function() {
+    $("#generateCode").on("click", function () {
         $.ajax({
             type: 'GET',
             url: "/Profile/GenerateCode",
@@ -238,10 +235,10 @@
         margin-right: 5px;
     }
 
-	.skin-blue .sidebar > .sidebar-menu > .no-hover > a:hover {
-		color: #222;
-		background: cadetblue
-	}
+    .skin-blue .sidebar > .sidebar-menu > .no-hover > a:hover {
+        color: #222;
+        background: cadetblue
+    }
 </style>
 @*<div style="margin: 10px">
 
