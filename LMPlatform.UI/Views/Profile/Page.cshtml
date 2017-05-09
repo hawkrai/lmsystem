@@ -5,6 +5,11 @@
 
 @{
     ViewBag.Title = "Профиль";
+    if (User.IsInRole("admin"))
+    {
+        Layout = "../Shared/Layouts/_AdministrationLayout.cshtml";
+    }
+
 }
 
 @section css
@@ -86,7 +91,7 @@
     }
 
     <li><a href="@Url.Action("Index", "BTS")"><i class="fa fa-desktop fa-tab"></i>Управление проектами</a></li>
-    @if (ViewBag.ShowDpSectionForUser)
+    @if (!User.IsInRole("admin") && ViewBag.ShowDpSectionForUser)
     {
         <li><a href="@Url.Action("Index", "DP")"><i class="fa fa-briefcase fa-tab"></i>Дипломное проектирование</a></li>
     }
