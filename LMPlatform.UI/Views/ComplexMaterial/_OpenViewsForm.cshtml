@@ -61,7 +61,7 @@
 
     function loadData(conceptId, groupId) {
         $.ajax({
-            url: "Services/Concept/ConceptService.svc/GetConceptViews?conceptId=" + conceptId + "&groupId=" + groupId,
+            url: "/Services/Concept/ConceptService.svc/GetConceptViews?conceptId=" + conceptId + "&groupId=" + groupId,
             type: "GET",
             success: function (data) {
                 $("#dataTable > tbody").empty();
