@@ -441,6 +441,7 @@
     <Compile Include="Services\Modules\BTS\ProjectsResult.cs" />
     <Compile Include="Services\Modules\BTS\UserProjectParticipationViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectViewData.cs" />
+    <Compile Include="Services\Modules\Concept\ConceptPageTitleData.cs" />
     <Compile Include="Services\Modules\Concept\ConceptResult.cs" />
     <Compile Include="Services\Modules\Concept\ConceptViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
@@ -1866,7 +1867,6 @@
     <Content Include="Views\BTS\_Bugs.cshtml" />
     <Content Include="Views\BTS\_ProjectParticipation.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
-    <Content Include="Views\Monitoring\Index.cshtml" />
     <Content Include="Views\ComplexMaterial\MonitoringStudentInfo.cshtml" />
     <Content Include="Views\ComplexMaterial\MonitoringStudents.cshtml" />
     <Content Include="Views\Lms\ProfilePage.cshtml" />
