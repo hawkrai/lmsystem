@@ -19,7 +19,7 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 
         int GetStudentsGroupParticipationsCount(int groupId);
 
-        Project GetProjectWithData(int id);
+        Project GetProjectWithData(int id, bool withBugsAndMembers = false);
 
         void DeleteProject(Project project);
 

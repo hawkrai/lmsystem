@@ -358,8 +358,10 @@
     <Content Include="Scripts\application\BTS\controllers\bugsController.js" />
     <Content Include="Scripts\application\BTS\controllers\homeController.js" />
     <Content Include="Scripts\application\BTS\controllers\participationsController.js" />
+    <Content Include="Scripts\application\BTS\controllers\projectController.js" />
     <Content Include="Scripts\application\BTS\controllers\projectsController.js" />
     <Content Include="Scripts\application\BTS\directives\bugDirective.js" />
+    <Content Include="Scripts\application\BTS\directives\projectUserDirective.js" />
     <Content Include="Scripts\application\BTS\directives\projectDirective.js" />
     <Content Include="Scripts\application\BTS\services\participationsService.js" />
     <Content Include="Scripts\application\BTS\services\bugsService.js" />
@@ -428,8 +430,12 @@
     <Compile Include="Services\Lectures\LecturesService.svc.cs">
       <DependentUpon>LecturesService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\Modules\BTS\ProjectCommentsResult.cs" />
     <Compile Include="Services\Modules\BTS\BugsResult.cs" />
     <Compile Include="Services\Modules\BTS\BugViewData.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectBugViewData.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectCommentViewData.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectMemberViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectsStudentsResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectsStudentViewData.cs" />
@@ -517,10 +523,7 @@
     <Compile Include="ViewModels\BTSViewModels\AddOrEditBugViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\AddOrEditProjectViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\AssignUserViewModel.cs" />
-    <Compile Include="ViewModels\BTSViewModels\BugStatisticsViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugsViewModel.cs" />
-    <Compile Include="ViewModels\BTSViewModels\ProjectParticipationViewModel.cs" />
-    <Compile Include="ViewModels\BTSViewModels\ProjectUserListViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\UserInfoViewModel.cs" />
     <Compile Include="ViewModels\ComplexMaterialsViewModel\AddOrEditRootConceptViewModel.cs" />
     <Compile Include="ViewModels\ComplexMaterialsViewModel\WatchingTimeViewModel.cs" />
@@ -530,7 +533,6 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugListViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ModifyStudentViewModel.cs" />
-    <Compile Include="ViewModels\BTSViewModels\ProjectListViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\ProjectsViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestResultItemListViewModel.cs" />
@@ -690,7 +692,6 @@
     <Content Include="Content\KnowledgeTesting\testDetails.html" />
     <Content Include="Content\KnowledgeTesting\results.html" />
     <Content Include="Content\messages.css" />
-    <Content Include="Content\morris.css" />
     <Content Include="Content\mvcfileupload\css\jquery.fileupload-ui-noscript.css" />
     <Content Include="Content\mvcfileupload\css\jquery.fileupload-ui.css" />
     <Content Include="Content\mvcfileupload\css\style.css" />
@@ -805,8 +806,7 @@
     <Content Include="Scripts\application\BTS\bugDetails.js" />
     <Content Include="Scripts\application\BTS\chat.js" />
     <Content Include="Scripts\application\BTS\easyTooltip.js" />
-    <Content Include="Scripts\application\BTS\morris.js" />
-    <Content Include="Scripts\application\BTS\project.js" />
+    <Content Include="Scripts\morris.js" />
     <Content Include="Scripts\application\BTS\projectPart.js" />
     <Content Include="Scripts\application\BTS\studentProjectTable.js" />
     <Content Include="Scripts\application\datatable-bootstrappagination.js" />
@@ -1268,6 +1268,7 @@
     <Content Include="Scripts\pdfjs\pdf.worker.js" />
     <Content Include="Scripts\prettify.js" />
     <Content Include="Scripts\printThis.js" />
+    <Content Include="Scripts\raphael-min.js" />
     <Content Include="Scripts\select.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
@@ -1704,7 +1705,6 @@
     <Content Include="Views\Shared\Layouts\_MainLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_LayoutBase.cshtml" />
     <Content Include="Views\Shared\Layouts\_PreMainLayout.cshtml" />
-    <Content Include="Views\BTS\ProjectManagement.cshtml" />
     <Content Include="Views\BTS\BugManagement.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
@@ -1860,11 +1860,12 @@
     <Content Include="Views\BTS\_Projects.cshtml" />
     <Content Include="Views\BTS\_Bugs.cshtml" />
     <Content Include="Views\BTS\_ProjectParticipation.cshtml" />
-     <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
+    <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
     <Content Include="Views\Monitoring\Index.cshtml" />
     <Content Include="Views\Monitoring\StudentInfo.cshtml" />
     <Content Include="Views\Monitoring\Students.cshtml" />
     <Content Include="Views\Lms\ProfilePage.cshtml" />
+    <Content Include="Views\BTS\_Project.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

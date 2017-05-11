@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Application.Core.Data;
 using LMPlatform.Models;
 
@@ -12,7 +8,7 @@ namespace Application.Infrastructure.ProjectManagement
     {
         List<Project> GetUserProjects(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
         int GetUserProjectsCount(int userId, string searchString);
-        Project GetProjectWithData(int id);
+        Project GetProjectWithData(int id, bool withBugsAndMembers = false);
         List<Project> GetUserProjectParticipations(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString);
         int GetUserProjectParticipationsCount(int userId, string searchString);
         List<Student> GetStudentsGroupParticipations(int groupId, int pageSize, int pageNumber);

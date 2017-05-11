@@ -6,9 +6,6 @@ using Application.Core.Extensions;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
-using System.Linq.Expressions;
-using System;
-using System.Reflection;
 
 namespace LMPlatform.Data.Repositories
 {
@@ -82,15 +79,19 @@ namespace LMPlatform.Data.Repositories
             }
         }
 
-        public Project GetProjectWithData(int id)
+        public Project GetProjectWithData(int id, bool withBugsAndMembers = false)
         {
             using(var context = new LmPlatformModelsContext())
             {   
-                return context.Set<Project>()
+                var query = context.Set<Project>()
                     .Include(e => e.Creator.Lecturer)
                     .Include(e => e.Creator.Student)
                     .Include(e => e.ProjectUsers)
-                    .First(e => e.Id == id);
+                    .Include(e => e.Bugs)
+                    .Include(e => e.Bugs.Select(e2 => e2.Severity))
+                    .Include(e => e.Bugs.Select(e2 => e2.Status));
+
+                return AddBugsAndMembersToProjectQuery(query, withBugsAndMembers).First(e => e.Id == id);
             }
         }
 
@@ -144,6 +145,19 @@ namespace LMPlatform.Data.Repositories
                 .Where(e => e.User.ProjectUsers.Count > 0);
         }
 
+        private IQueryable<Project> AddBugsAndMembersToProjectQuery(IQueryable<Project> query, bool withData)
+        {
+            if (withData)
+            {
+                return query
+                    .Include(e => e.ProjectUsers.Select(e2 => e2.User).Select(e2 => e2.Lecturer))
+                    .Include(e => e.ProjectUsers.Select(e2 => e2.User).Select(e2 => e2.Student))
+                    .Include(e => e.ProjectUsers.Select(e2 => e2.ProjectRole));
+            } else
+            {
+                return query;
+            }
+        }
 
         private IQueryable<Project> GetUserProjectsSortedQuery(IQueryable<Project> query, string sortingPropertyName, bool desc)
         {

@@ -11,6 +11,8 @@
     
         @Html.AntiForgeryToken()
 
+        @Html.HiddenFor(e => e.Id)
+
         <div>
             @Html.LabelFor(e => e.UserId, new { @class = "control-label" })
             @Html.DropDownListFor(e => e.UserId, Model.GetLecturers(), new { @class = "form-control", @id = "lecturers" })
