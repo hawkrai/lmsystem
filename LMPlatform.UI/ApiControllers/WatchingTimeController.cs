@@ -39,6 +39,7 @@ namespace LMPlatform.UI.ApiControllers
         public bool IsFile;
         public int? ViewTime;
         public int? Estimated;
+        public int ConceptId;
 
         public ConceptResult()
         {
@@ -81,6 +82,7 @@ namespace LMPlatform.UI.ApiControllers
                 }
                 currentConcept.Estimated = WatchingTimeService.GetEstimatedTime(concept.Container);
             }
+            currentConcept.ConceptId = concept.Id;
             return currentConcept;
         }
     }
@@ -98,7 +100,6 @@ namespace LMPlatform.UI.ApiControllers
     {
         public string GroupNumber;
         public string StudentFullName;
-        public List<WatchingTimeResult> Result;
         public List<ConceptResult> Tree;
     }
 
@@ -178,7 +179,6 @@ namespace LMPlatform.UI.ApiControllers
                 Tree = treeresult.Children,
                 StudentFullName = studentInfo.FullName,
                 GroupNumber = studentInfo.Group.Name,
-                Result = viewsResult
             };
 
             return result;

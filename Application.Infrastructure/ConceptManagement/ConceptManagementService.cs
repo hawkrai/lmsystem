@@ -382,7 +382,7 @@ namespace Application.Infrastructure.ConceptManagement
             {
                 var parent = GetById(parentId.Value);
                 var childs = GetElementsByParentId(parent.Id);
-                parent.Published = childs.Any() && childs.All(c => c.Published);
+                parent.Published = parent.Published ? parent.Published : childs.Any() && childs.All(c => c.Published);
                 repoContainer.ConceptRepository.Save(parent);
                 repoContainer.ApplyChanges();
                 TryPublishParent(parent.ParentId, repoContainer);

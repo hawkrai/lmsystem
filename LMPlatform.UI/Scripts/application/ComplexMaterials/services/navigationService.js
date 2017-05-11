@@ -1,15 +1,28 @@
 ﻿angular
     .module('complexMaterialsApp.service.navigation', [])
-    .factory('navigationService', ['complexMaterialsDataService', function (complexMaterialsDataService) {
+    .factory('navigationService', ['complexMaterialsDataService', '$http', function (complexMaterialsDataService, $http) {
         var defValue = '***ЭУМК не выбран***';
         var title = defValue;
         var $container = angular.element("#material-header");
         var breadCrumbsArray = [];
         var initedHeader = false;
+        var currentSubjectId = 0;
         var tree;
+        var url = '/Services/Concept/ConceptService.svc/';
         return {
-            currentSubjectId: 0,
             currentLecturer: {},
+            updateTitle: function (id) {
+                var self = this;
+                currentSubjectId = id;
+                $http({
+                    method: 'GET',
+                    url: url + 'GetConceptTitleInfo?subjectId=' + id
+                }).success(function (data) {
+                    title = data.Subject.Name;
+                    currentLecturer = data.Lecturer;
+                    self._updateTitleContainer();
+                });
+            },
             title: function () {
                 return title;
             },
@@ -21,7 +34,7 @@
             },
             setNavigation: function (newNavObj, actionType) {
                 title = newNavObj.SubjectName;
-                this._updateTitleContainer();
+                //this._updateTitleContainer();
                 if(actionType==="inc")
                     if(newNavObj.ParentId > 0 && this.getBreadcrumbs().length == 0)
                         this._buildBreadCrumbsByParent(newNavObj)
@@ -31,12 +44,11 @@
                     this._popBreadCrumb()
             },
             setHomeNavigation: function (obj) {
-                currentLecturer = obj.Lecturer;
                 if (obj && obj.SubjectName)
                     title = obj.SubjectName;
                 else
                     title = defValue;
-                this._updateTitleContainer();
+                //this._updateTitleContainer();
                 this._clearBreadCrums();
                 initedHeader = false;
             },
@@ -66,7 +78,7 @@
                 if (breadCrumbsArray.length > 0)
                 {
                     title = breadCrumbsArray[0].Name;
-                    this._updateTitleContainer();
+                    //this._updateTitleContainer();
                 }
                 return parent;
             },
@@ -109,16 +121,17 @@
             _updateTitleContainer: function () {
                 if (!initedHeader) {
                     $container.html("")
-                    if (this.currentSubjectId) {
-                        var str = "<a href='/Subject?subjectId=" + this.currentSubjectId + "'>" + title + "</a>";
+                    if (currentSubjectId) {
+                        var str = "<a href='/Subject?subjectId=" + currentSubjectId + "'>" + title + "</a>";
                         if (currentLecturer != undefined) {
                             str = str + "<small> Преподаватель - <a href=\"/Profile/Page/" + currentLecturer.UserName + "\">" + currentLecturer.FullName + "</a></small>";
                         }
                         var link = $(str);
                         link.appendTo($container);
                     }
-                    else
+                    else {
                         $container.html(title);
+                    }
                     initedHeader = true;
                 }
             }

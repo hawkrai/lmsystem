@@ -160,7 +160,6 @@ namespace LMPlatform.UI.Services.Concept
                 if(valid)
                     concepts = concepts.Where(c => c.SubjectId == subject);
                 var subj = SubjectManagementService.GetSubject(subject);
-                var lecturer = SubjectManagementService.GetSubject(subject).SubjectLecturers.FirstOrDefault().Lecturer;
 
 
                 return new ConceptResult
@@ -168,8 +167,7 @@ namespace LMPlatform.UI.Services.Concept
                     Concepts = concepts.Select(c => new ConceptViewData(c)).ToList(),
                     Message = SuccessMessage,
                     SubjectName = subj.Name,
-                    Code = SuccessCode,
-                    Lecturer = new LectorViewData(lecturer, true)
+                    Code = SuccessCode
                 };
             }
             catch (Exception ex)
@@ -192,7 +190,7 @@ namespace LMPlatform.UI.Services.Concept
 
                 var concepts = CurrentUserIsLector() ?
                     ConceptManagementService.GetElementsByParentId(authorId, parent) :
-                    ConceptManagementService.GetElementsByParentId(parent).Where(c => c.Published);
+                    ConceptManagementService.GetElementsByParentId(parent);
 
                 var concept = ConceptManagementService.GetById(parent);
 
@@ -314,6 +312,19 @@ namespace LMPlatform.UI.Services.Concept
         public ConceptViewData GetConcept(String elementId)
         {
             return new ConceptViewData(ConceptManagementService.GetById(Convert.ToInt32(elementId)));
+        }
+
+        public ConceptPageTitleData GetConceptTitleInfo(string subjectId)
+        {
+            var subject = 0;
+            var valid = Int32.TryParse(subjectId, out subject);
+            var lecturer = SubjectManagementService.GetSubject(subject).SubjectLecturers.FirstOrDefault().Lecturer;
+            var subj = SubjectManagementService.GetSubject(subject);
+            return new ConceptPageTitleData()
+            {
+                Lecturer = new LectorViewData(lecturer, true),
+                Subject = new Modules.Parental.SubjectViewData(subj)
+            };
         }
     }
 }

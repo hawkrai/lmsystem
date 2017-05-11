@@ -340,6 +340,10 @@
     <Content Include="Content\fullcalendar\fullcalendar.css" />
     <Content Include="Content\fullcalendar\fullcalendar.print.css" />
     <Content Include="Content\jquery.circliful.css" />
+    <Content Include="Content\jstree\32px.png" />
+    <Content Include="Content\jstree\40px.png" />
+    <Content Include="Content\jstree\style.min.css" />
+    <Content Include="Content\jstree\throbber.gif" />
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Content\KnowledgeTesting\content.html" />
     <Content Include="Content\materials.css" />
@@ -443,6 +447,7 @@
     <Compile Include="Services\Modules\BTS\ProjectsResult.cs" />
     <Compile Include="Services\Modules\BTS\UserProjectParticipationViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectViewData.cs" />
+    <Compile Include="Services\Modules\Concept\ConceptPageTitleData.cs" />
     <Compile Include="Services\Modules\Concept\ConceptResult.cs" />
     <Compile Include="Services\Modules\Concept\ConceptViewData.cs" />
     <Compile Include="Services\Modules\CoreModels\GroupsResult.cs" />
@@ -850,10 +855,10 @@
     <Content Include="Scripts\application\Materials\services\materialsService.js" />
     <Content Include="Scripts\application\Messages\message.js" />
     <Content Include="Scripts\application\Messages\msgModule.js" />
-    <Content Include="Scripts\application\Monitoring\controllers\studentInfoController.js" />
-    <Content Include="Scripts\application\Monitoring\controllers\studentsController.js" />
+    <Content Include="Scripts\application\ComplexMaterials\controllers\studentInfoController.js" />
+    <Content Include="Scripts\application\ComplexMaterials\controllers\studentsController.js" />
     <Content Include="Scripts\application\Monitoring\monitoringApp.js" />
-    <Content Include="Scripts\application\Monitoring\services\monitoringDataService.js" />
+    <Content Include="Scripts\application\ComplexMaterials\services\monitoringDataService.js" />
     <Content Include="Scripts\application\Parental\parentalModule.js" />
     <Content Include="Scripts\application\profilePage\appProfilePage.js" />
     <Content Include="Scripts\application\profilePage\controllers\pageController.js" />
@@ -1197,6 +1202,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jstree.min.js" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
@@ -1861,6 +1867,8 @@
     <Content Include="Views\BTS\_Bugs.cshtml" />
     <Content Include="Views\BTS\_ProjectParticipation.cshtml" />
     <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
+    <Content Include="Views\ComplexMaterial\MonitoringStudentInfo.cshtml" />
+    <Content Include="Views\ComplexMaterial\MonitoringStudents.cshtml" />
     <Content Include="Views\Monitoring\Index.cshtml" />
     <Content Include="Views\Monitoring\StudentInfo.cshtml" />
     <Content Include="Views\Monitoring\Students.cshtml" />
@@ -1870,6 +1878,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="SCORM\" />
+    <Folder Include="Scripts\application\Monitoring\controllers\" />
+    <Folder Include="Scripts\application\Monitoring\services\" />
     <Folder Include="Scripts\tinymce\plugins\App_LocalResources\" />
     <Folder Include="UploadedFilesTemp\" />
     <Folder Include="UploadedFiles\" />

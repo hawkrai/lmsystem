@@ -21,8 +21,5 @@ namespace LMPlatform.UI.Services.Modules.Concept
 
         [DataMember]
         public String SubjectName { get; set; }
-
-        [DataMember]
-        public LectorViewData Lecturer { get; set; }
     }
 }
