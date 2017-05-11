@@ -51,6 +51,14 @@ namespace LMPlatform.UI.Controllers
 
                 return View(model);
             }
+            else if (User.IsInRole("admin"))
+ {
+                var model = new LmsViewModel(WebSecurity.GetUserId(userName), User.IsInRole("lector"));
+                model.UserActivity = new UserActivityViewModel();
+                ViewData["userName"] = string.IsNullOrEmpty(userName) || WebSecurity.CurrentUserName == userName ? WebSecurity.CurrentUserName : userName;
+                return View(model);
+            }
+
 
             return RedirectToAction("Login", "Account");
         }

@@ -6,12 +6,42 @@
         <span class="fa icon-stats fa-2x" style="margin-right: 4px;" />
     </a>
 }
+
+    @if (!string.IsNullOrEmpty(ViewBag.ListOfSubject))
+    {
+        <a href="@String.Format("{0}/{1}", ViewBag.ListOfSubject, @Model)" data-model-id="@Model" data-toggle="tooltip" class="listButton" title="Список группы">
+            <span class="fa fa-list fa-2x" style="margin-right: 4px;" />
+        </a>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.Profile))
+    {
+        <a href="@String.Format("{0}/{1}", ViewBag.Profile, @Model)" data-model-id="@Model"  title="Профиль">
+            <span class="fa fa-user fa-2x" style="margin-right: 4px;" />
+        </a>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.ListOfStudents))
+    {
+    <a href="@String.Format("{0}/{1}",ViewBag.ListOfStudents,@Model)" data-model-id="@Model" data-toggle="tooltip" class="listButton" title="Список группы">
+        <span class="fa fa-list fa-2x" style="margin-right: 4px;" />
+    </a>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.ListOfGroups))
+    {
+        <a href="@String.Format("{0}/{1}", ViewBag.ListOfGroups, @Model)" data-model-id="@Model" data-toggle="tooltip" class="listButton" title="Список предметов">
+            <span class="fa fa-table fa-2x" style="margin-right: 4px;" />
+        </a>
+    }
+
     @if (!string.IsNullOrEmpty(ViewBag.EditActionLink))
     {
         <a href="@String.Format("{0}/{1}",ViewBag.EditActionLink,@Model)" data-model-id="@Model" data-toggle="tooltip" class="editButton">
             <span class="fa fa-edit fa-2x" style="margin-right: 4px;" />
         </a>
     }
+
 
     @if (!string.IsNullOrEmpty(ViewBag.DeleteActionLink))
     {

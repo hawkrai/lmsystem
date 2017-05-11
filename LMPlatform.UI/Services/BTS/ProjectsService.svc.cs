@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
 using Application.Core;
 using Application.Infrastructure.ProjectManagement;
 using LMPlatform.UI.Services.Modules.BTS;
@@ -37,9 +33,18 @@ namespace LMPlatform.UI.Services.BTS
             };
         }
 
-        public ProjectResult Show(string id)
+        public ProjectResult Show(string id, bool withDetails)
         {
-            var project = new ProjectViewData(ProjectManagementService.GetProjectWithData(Convert.ToInt32(id)));
+            int intId = Convert.ToInt32(id);
+            ProjectViewData project;
+            if (withDetails)
+            {
+                project = new ProjectViewData(ProjectManagementService
+                    .GetProjectWithData(intId, withBugsAndMembers: true), withBugs: true, withMembers: true);
+            } else
+            {
+                project = new ProjectViewData(ProjectManagementService.GetProjectWithData(intId));
+            }
             return new ProjectResult
             {
                 Project = project
@@ -68,6 +73,16 @@ namespace LMPlatform.UI.Services.BTS
             {
                 ProjectsStudents = students,
                 TotalCount = totalCount
+            };
+        }
+
+        public ProjectCommentsResult GetProjectComments(string id)
+        {
+            var comments = ProjectManagementService.GetProjectComments(int.Parse(id))
+                .Select(e => new ProjectCommentViewData(e)).ToList();
+            return new ProjectCommentsResult
+            {
+                Comments = comments
             };
         }
     }

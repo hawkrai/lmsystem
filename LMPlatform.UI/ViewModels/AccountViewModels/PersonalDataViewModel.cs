@@ -100,7 +100,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 				Email = user.User.Email;
 	            IsLecturerHasGraduateStudents = user.IsLecturerHasGraduateStudents;
             }
-            else
+            else if (StudentManagementService.GetStudent(WebSecurity.CurrentUserId) != null)
             {
                 var user = StudentManagementService.GetStudent(WebSecurity.CurrentUserId);
                 Name = user.FirstName;

@@ -8,12 +8,16 @@
 {
     @Styles.Render("~/bundles/ngTable/styles")
     @Styles.Render("~/Content/btsModule")
+    <link rel="stylesheet" href="/Content/clickablePanel.css">
+    <link rel="stylesheet" href="/Content/Chat.css" />
 }
 
 @section scripts
 {
     @Scripts.Render("~/bundles/btsApp")
     @Scripts.Render("~/bundles/ngTable")
+    <script src="~/Scripts/raphael-min.js"></script>
+    <script src="~/Scripts/morris.js"></script>
 }
 
 @section navleft

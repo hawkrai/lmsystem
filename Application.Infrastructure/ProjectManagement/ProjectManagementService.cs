@@ -2,10 +2,8 @@
 using System.Linq;
 using Application.Core.Data;
 using Application.SearchEngine.SearchMethods;
-using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
-using System.Data.Entity;
 
 namespace Application.Infrastructure.ProjectManagement
 {
@@ -37,11 +35,11 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
-        public Project GetProjectWithData(int id)
+        public Project GetProjectWithData(int id, bool withBugsAndMembers = false)
         {
             using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.ProjectsRepository.GetProjectWithData(id);
+                return repositoriesContainer.ProjectsRepository.GetProjectWithData(id, withBugsAndMembers);
             }
         }
 
@@ -125,8 +123,11 @@ namespace Application.Infrastructure.ProjectManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 return
-                    repositoriesContainer.ProjectCommentsRepository.GetAll(new Query<ProjectComment>(e => e.ProjectId == projectId).Include(e => e.User))
-                        .ToList();
+                    repositoriesContainer.ProjectCommentsRepository.GetAll(new Query<ProjectComment>(e => e.ProjectId == projectId)
+                        .Include(e => e.User)
+                        .Include(e => e.User.Lecturer)
+                        .Include(e => e.User.Student)
+                    ).ToList();
             }
         }
 

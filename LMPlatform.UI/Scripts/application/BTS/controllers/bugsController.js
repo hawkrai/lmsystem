@@ -1,5 +1,5 @@
 ﻿angular
-    .module('btsApp.ctrl.bugs', ['ngTable'])
+    .module('btsApp.ctrl.bugs', ['ngTable', 'btsApp.service.bugs', 'btsApp.directive.bug'])
     .controller('bugsCtrl', [
         '$scope',
         '$routeParams',
@@ -16,7 +16,7 @@
 
             function init() {
                 $scope.setTitle('Управление ошибками');
-                if ($routeParams.projectId != null) {
+                if ($routeParams.projectId !== undefined) {
                     $scope.isProjectBugsPage = true;
                     setProjectTitle();
                 }   
@@ -64,7 +64,7 @@
             };
 
             function needReloadPage() {
-                return ($scope.inputedSearchString.length >= MIN_SEARCH_TEXT_LENGTH || $scope.inputedSearchString.length == 0) && searchString != $scope.inputedSearchString;
+                return ($scope.inputedSearchString.length >= MIN_SEARCH_TEXT_LENGTH || $scope.inputedSearchString.length === 0) && searchString !== $scope.inputedSearchString;
             };
 
             $scope.onSearch = function () {

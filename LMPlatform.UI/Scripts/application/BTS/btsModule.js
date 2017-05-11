@@ -4,12 +4,9 @@
         'ui.bootstrap',
         'btsApp.ctrl.home',
         'btsApp.ctrl.projects',
+        'btsApp.ctrl.project',
         'btsApp.ctrl.participations',
-        'btsApp.service.projects',
-        'btsApp.directive.project',
         'btsApp.ctrl.bugs',
-        'btsApp.service.bugs',
-        'btsApp.directive.bug'
     ])
     .config(['$routeProvider', function ($routeProvider) {
 
@@ -18,12 +15,17 @@
             controller: 'projectsCtrl'
         });
 
+        $routeProvider.when('/Projects/:id', {
+            templateUrl: '/BTS/Project',
+            controller: 'projectCtrl'
+        });
+
         $routeProvider.when('/Bugs', {
             templateUrl: '/BTS/bugs',
             controller: 'bugsCtrl'
         });
 
-        $routeProvider.when('/Project/:projectId/Bugs', {
+        $routeProvider.when('/Projects/:projectId/Bugs', {
             templateUrl: '/BTS/bugs',
             controller: 'bugsCtrl'
         });

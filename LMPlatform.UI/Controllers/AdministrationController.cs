@@ -8,6 +8,7 @@ using Application.Infrastructure.DPManagement;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.StudentManagement;
+using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.UI.ViewModels;
 using LMPlatform.UI.ViewModels.AccountViewModels;
@@ -325,6 +326,67 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
+     public ActionResult ListOfStudents(int id)
+        {
+            var students = StudentManagementService.GetGroupStudents(id);
+
+            if (students != null)
+            {
+                //var model =  StudentViewModel.FromStudent();
+                return PartialView("_ListOfStudents", students);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ListOfGroups(int id)
+        {
+            var groups = SubjectManagementService.GetSubjectsByLector(id);
+
+            if (groups != null)
+            {
+
+                //var model =  StudentViewModel.FromStudent();
+                return PartialView("_ListOfGroups", groups);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ListOfSubject(int id)
+        {
+            var groups = SubjectManagementService.GetSubjectsByStudent(id);
+
+
+            if (groups != null)
+            {
+                for (int i = 0; i < groups.Count; i++)
+                {
+                    //groups[i].Lectures = SubjectManagementService.GetSubject(groups[i].Id).Lectures;
+                }
+                var a = SubjectManagementService.GetSubject(groups[0].Id);
+                //var model =  StudentViewModel.FromStudent();
+                return PartialView("ListOfSubject", groups);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+        public ActionResult Profile(int id)
+        {
+            var login = UsersManagementService.GetUser(id);
+
+            if (login != null)
+            {
+
+                //var model =  StudentViewModel.FromStudent();
+                return Redirect(string.Format("/Profile/Page/{0}", login.UserName));
+            }
+
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Files()
         {
             return View();
@@ -336,6 +398,7 @@ namespace LMPlatform.UI.Controllers
             try
             {
                 var user = UsersManagementService.GetUser(login);
+
 
                 var resetPassModel = new ResetPasswordViewModel(user);
                 if (Request != null && Request.UrlReferrer != null)
@@ -480,10 +543,13 @@ namespace LMPlatform.UI.Controllers
         public DataTablesResult<StudentViewModel> GetCollectionStudents(DataTablesParam dataTableParam)
         {
             var searchString = dataTableParam.GetSearchString();
+ViewBag.Profile = "/Administration/Profile";
+            ViewBag.ListOfSubject = "/Administration/ListOfSubject";
             ViewBag.EditActionLink = "/Administration/EditStudent";
             ViewBag.DeleteActionLink = "/Administration/DeleteStudent";
             ViewBag.StatActionLink = "/Administration/Attendance";
             var students = StudentManagementService.GetStudentsPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
+            this.SetupSettings(dataTableParam);
             return DataTableExtensions.GetResults(students.Items.Select(s => StudentViewModel.FromStudent(s, PartialViewToString("_EditGlyphLinks", s.Id))), dataTableParam, students.TotalCount);
         }
 
@@ -491,13 +557,13 @@ namespace LMPlatform.UI.Controllers
         public DataTablesResult<LecturerViewModel> GetCollectionLecturers(DataTablesParam dataTableParam)
         {
             var searchString = dataTableParam.GetSearchString();
+            ViewBag.Profile = "/Administration/Profile";
+            ViewBag.ListOfStudents = "/Administration/ListOfGroups";
             ViewBag.EditActionLink = "/Administration/EditProfessor";
             ViewBag.DeleteActionLink = "/Administration/DeleteLecturer";
             ViewBag.StatActionLink = "/Administration/Attendance";
             var lecturers = LecturerManagementService.GetLecturersPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
-
-			this.SetupSettings(dataTableParam);
-
+ this.SetupSettings(dataTableParam);
             return DataTableExtensions.GetResults(lecturers.Items.Select(l => LecturerViewModel.FormLecturers(l, PartialViewToString("_EditGlyphLinks", l.Id))), dataTableParam, lecturers.TotalCount);
         }
 
@@ -505,12 +571,13 @@ namespace LMPlatform.UI.Controllers
         public DataTablesResult<GroupViewModel> GetCollectionGroups(DataTablesParam dataTableParam)
         {
             var searchString = dataTableParam.GetSearchString();
+            ViewBag.ListOfStudents = "/Administration/ListOfStudents";
             ViewBag.EditActionLink = "/Administration/EditGroup";
             ViewBag.DeleteActionLink = "/Administration/DeleteGroup";
             var groups = GroupManagementService.GetGroupsPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
+            this.SetupSettings(dataTableParam);
             return DataTableExtensions.GetResults(groups.Items.Select(g => GroupViewModel.FormGroup(g, PartialViewToString("_EditGlyphLinks", g.Id))), dataTableParam, groups.TotalCount);
         }
-
 	    private void SetupSettings(DataTablesParam dataTableParam)
 	    {
 			var n = 20;
@@ -535,6 +602,14 @@ namespace LMPlatform.UI.Controllers
             get
             {
                 return ApplicationService<IStudentManagementService>();
+            }
+        }
+
+public ISubjectManagementService SubjectManagementService
+        {
+            get
+            {
+                return ApplicationService<ISubjectManagementService>();
             }
         }
 

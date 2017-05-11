@@ -27,7 +27,10 @@ namespace Application.Infrastructure.StudentManagement
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.StudentsRepository.GetAll(new Query<Student>(e => e.GroupId == groupId).Include(e => e.Group)).ToList();
+                return repositoriesContainer.StudentsRepository
+                    .GetAll(new Query<Student>(e => e.GroupId == groupId).Include(e => e.Group))
+                    .OrderBy(e => e.LastName)
+                    .ToList();
             }
         }
 
