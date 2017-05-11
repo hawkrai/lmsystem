@@ -55,3 +55,4 @@
 /LMPlatform.Models/obj/Release
 
 /LMPlatform.UI/obj/Release
+*.bak
