@@ -75,7 +75,7 @@
 			        $(thisLengthLabel).attr('style', 'float:left');
 			        // Re-arrange the search input for a form-horizontal layout
 			        thisFilter.addClass('form-group');
-			        thisFilterInput.addClass('form-control input-sm').attr('id', currentId + '_filter_input');
+			        thisFilterInput.addClass('form-control  input-group-sm').attr('id', currentId + '_filter_input');
 			    }
 			}
 
