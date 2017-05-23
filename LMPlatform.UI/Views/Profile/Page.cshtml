@@ -25,14 +25,19 @@
 }
 
 @section headerTitle{
-    <h1>Система управления учебным процессом
-        <small>Профиль пользователя</small>
-    </h1>
+   @if (!User.IsInRole("admin"))
+    {
+        <h1>
+            Система управления учебным процессом
+            <small>Профиль пользователя</small>
+        </h1>
+    }
 }
 
 @section navleft
 {
-
+@if (!User.IsInRole("admin"))
+    {
     <li class="treeview">
         <a href="#">
             <i class="fa fa-folder-open-o fa-tab"></i>
@@ -70,7 +75,7 @@
             }
         </ul>
     </li>
-    @if (User.IsInRole("lector"))
+        if (User.IsInRole("lector"))
     {
 
         <li class="treeview">
@@ -91,18 +96,28 @@
     }
 
     <li><a href="@Url.Action("Index", "BTS")"><i class="fa fa-desktop fa-tab"></i>Управление проектами</a></li>
-    @if (!User.IsInRole("admin") && ViewBag.ShowDpSectionForUser)
+        if (ViewBag.ShowDpSectionForUser)
     {
         <li><a href="@Url.Action("Index", "DP")"><i class="fa fa-briefcase fa-tab"></i>Дипломное проектирование</a></li>
     }
     <li><a href="@Url.Action("Index", "ScormMod")"><i class="fa fa-archive fa-tab"></i>SCORM</a></li>
 }
+}
 
 <div ng-app="appProfilePage" ng-controller="PageController" ng-init="init('@ViewData["userName"]')" ng-cloak>
     <div class="row">
-        <div class="col-md-2">
-            <img src="{{loadProfileData.Avatar}}" width="300px" />
-        </div>
+ @if (User.IsInRole("admin"))
+        {
+           <div class="col-md-3">
+             <img src="{{loadProfileData.Avatar}}" width="300px"/>
+          </div>
+        }
+        else
+        {
+           <div class="col-md-2">
+             <img src="{{loadProfileData.Avatar}}" width="300px"/>
+          </div>
+        }   
         <div class="col-md-10">
             <div class="hpanel">
                 <div class="panel-heading">

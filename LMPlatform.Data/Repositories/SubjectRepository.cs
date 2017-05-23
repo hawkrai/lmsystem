@@ -24,6 +24,8 @@ namespace LMPlatform.Data.Repositories
 				{
 					var subjectGroup = context.Set<SubjectGroup>().Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
                         .Include(e => e.Subject.Labs)
+                       .Include(e => e.Subject.SubjectLecturers)
+                        .Include(e => e.Subject.SubjectLecturers.Select(x => x.Lecturer))
 							.Where(e => e.GroupId == groupId).ToList();
 					return subjectGroup.Select(e => e.Subject).ToList();
 				}
@@ -33,6 +35,7 @@ namespace LMPlatform.Data.Repositories
 					.Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
                     .Include(e => e.Subject.LecturesScheduleVisitings)
                     .Include(e => e.Subject.Labs)
+                        .Include(e=>e.Subject.SubjectGroups.Select(x => x.Group))
                     .Include(e => e.Subject.SubjectGroups.Select(x => x.SubGroups.Select(t => t.ScheduleProtectionLabs)))
 					.Where(e => e.LecturerId == lecturerId).ToList();
 				return subjectLecturer.Select(e => e.Subject).ToList();
