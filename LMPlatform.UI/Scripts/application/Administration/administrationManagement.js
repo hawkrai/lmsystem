@@ -3,12 +3,14 @@
 
 ////functions
 function initStudentManagement() {
+    initManagement(".listButton", "Список предметов", "Предмет");
     initManagement(".editButton", "Редактировать", "Редактирование студента");
     initDeleteDialog(".deleteButton", "Удалить", "Удаление студента");
     initStatDialog(".statButton", "Статистика посещаемости");
 };
 
 function initLecturerManagement() {
+    initManagement(".listButton", "Список группы", "Группа");
     initManagement(".editButton", "Редактировать", "Редактирование преподавателя");
     initManagement(".addButton", "", "Добавление преподавателя");
     initDeleteDialog(".deleteButton", "Удалить", "Удаление преподавателя");
@@ -16,6 +18,7 @@ function initLecturerManagement() {
 };
 
 function initGroupManagement() {
+    initManagement(".listButton", "Список группы", "Группа");
     initManagement(".editButton", "Редактировать", "Редактирование группы");
     initManagement(".addButton", "Добавить группу", "Добавление группы");
     initDeleteDialog(".deleteButton", "Удалить", "Удаление группы");
@@ -38,7 +41,7 @@ function initStatDialog(btnSelector, btnTooltipTitle) {
     var btn = $(btnSelector);
     btn.tooltip({ title: btnTooltipTitle, placement: 'right' });
     btn.handle("click", function () {
-        $('body').append("<div id='chart' style='width: 500px;'></div>");
+        $('body').append("<div id='chart' style='width: 550px;'></div>");
         var actionUrl = $(this).attr('href');
         $.get(actionUrl, {},
           function (data) {
@@ -68,7 +71,17 @@ function initStatDialog(btnSelector, btnTooltipTitle) {
 
                       },
                   },
-                  series: [{ lineWidth: 4, markerOptions: { style: 'square' } }]
+  series: [{
+                      seriesColors: ["#4bb2c5", "#EAA228", "#c5b47f", "#579575", "#839557", "#958c12", "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc", "#c747a3", "#cddf54", "#FBD178", "#26B4E3", "#bd70c7"],
+                      padding: 20,
+                      sliceMargin: 0,
+                      fill: true,
+                      shadow: true,
+                      startAngle: 0,
+                      lineWidth: 2.5,
+                      color: '#008CBA',
+                      highlightColors: ["rgb(129,201,214)", "rgb(240,189,104)", "rgb(214,202,165)", "rgb(137,180,158)", "rgb(168,180,137)", "rgb(180,174,89)", "rgb(180,113,161)", "rgb(129,141,236)", "rgb(227,205,120)", "rgb(255,138,76)", "rgb(76,169,219)", "rgb(215,126,190)", "rgb(220,232,135)", "rgb(200,167,96)", "rgb(103,202,235)", "rgb(208,154,215)"]
+                  }]
               });
 
               bootbox.dialog({

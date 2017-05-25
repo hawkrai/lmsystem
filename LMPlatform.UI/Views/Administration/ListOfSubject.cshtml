@@ -1,0 +1,39 @@
+﻿@model List<LMPlatform.Models.Subject>
+
+
+<div id="adminModal">
+
+    <table class="table table-bordered table-striped table-hover">
+        <caption>Предметы</caption>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Преподователь</th>
+            </tr>
+        </thead>
+        <tbody>
+           @foreach (var i in Model)
+            {
+                <tr>
+
+                    <td>@i.Name</td>
+                    @if (i.SubjectLecturers != null)
+                    {
+                        <td>@foreach (var prof in i.SubjectLecturers)
+                            {
+                                @prof.Lecturer.FullName
+                            }</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script type="text/javascript">
+    $('#editStudent a').tooltip(
+    {
+        placement: "right",
+    });
+</script>
