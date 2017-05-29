@@ -6,11 +6,11 @@
 <div id="adminModal">
 
     <table class="table table-bordered table-striped table-hover">
-        <caption>Список предметов</caption>
         <thead>
             <tr>
                 <th>Предмет</th>
                 <th>Группа</th>
+                <th>Количество студентов</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +27,17 @@
                                 @sub.Group.Name 
                                 <br/>                            
                             }
+                        }
+                    </td>
+<td>
+                        @foreach (var sub in i.SubjectGroups)
+                        {
+                            if (sub.Group != null)
+                            {
+                                <b>@sub.Group.Students.Count</b>
+                                <br/>
+                            }
+
                         }
                     </td>
                 </tr>

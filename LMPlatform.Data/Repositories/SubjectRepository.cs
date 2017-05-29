@@ -36,6 +36,7 @@ namespace LMPlatform.Data.Repositories
                     .Include(e => e.Subject.LecturesScheduleVisitings)
                     .Include(e => e.Subject.Labs)
                         .Include(e=>e.Subject.SubjectGroups.Select(x => x.Group))
+                        .Include(e=>e.Subject.SubjectGroups.Select(x => x.Group.Students))
                     .Include(e => e.Subject.SubjectGroups.Select(x => x.SubGroups.Select(t => t.ScheduleProtectionLabs)))
 					.Where(e => e.LecturerId == lecturerId).ToList();
 				return subjectLecturer.Select(e => e.Subject).ToList();
