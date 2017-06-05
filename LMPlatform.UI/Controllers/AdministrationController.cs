@@ -328,7 +328,7 @@ namespace LMPlatform.UI.Controllers
 
      public ActionResult ListOfStudents(int id)
         {
-            var students = StudentManagementService.GetGroupStudents(id);
+            var students = StudentManagementService.GetGroupStudents(id).OrderBy(student => student.FullName).ToList();
 
             if (students != null)
             {
@@ -341,13 +341,13 @@ namespace LMPlatform.UI.Controllers
 
         public ActionResult ListOfGroups(int id)
         {
-            var groups = SubjectManagementService.GetSubjectsByLector(id);
+           var sub = SubjectManagementService.GetSubjectsByLector(id).OrderBy(subject => subject.Name ).ToList();
 
-            if (groups != null)
+            if (sub != null)
             {
 
                 //var model =  StudentViewModel.FromStudent();
-                return PartialView("_ListOfGroups", groups);
+                return PartialView("_ListOfGroups", sub);
             }
 
             return RedirectToAction("Index");
@@ -355,17 +355,11 @@ namespace LMPlatform.UI.Controllers
 
         public ActionResult ListOfSubject(int id)
         {
-            var groups = SubjectManagementService.GetSubjectsByStudent(id);
+            var groups = SubjectManagementService.GetSubjectsByStudent(id).OrderBy(subject => subject.Name).ToList();
 
 
             if (groups != null)
             {
-                for (int i = 0; i < groups.Count; i++)
-                {
-                    //groups[i].Lectures = SubjectManagementService.GetSubject(groups[i].Id).Lectures;
-                }
-                var a = SubjectManagementService.GetSubject(groups[0].Id);
-                //var model =  StudentViewModel.FromStudent();
                 return PartialView("ListOfSubject", groups);
             }
 
@@ -558,7 +552,7 @@ ViewBag.Profile = "/Administration/Profile";
         {
             var searchString = dataTableParam.GetSearchString();
             ViewBag.Profile = "/Administration/Profile";
-            ViewBag.ListOfStudents = "/Administration/ListOfGroups";
+            ViewBag.ListOfSubject = "/Administration/ListOfGroups";
             ViewBag.EditActionLink = "/Administration/EditProfessor";
             ViewBag.DeleteActionLink = "/Administration/DeleteLecturer";
             ViewBag.StatActionLink = "/Administration/Attendance";

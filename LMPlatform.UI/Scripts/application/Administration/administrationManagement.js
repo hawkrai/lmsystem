@@ -3,14 +3,14 @@
 
 ////functions
 function initStudentManagement() {
-    initManagement(".listButton", "Список предметов", "Предмет");
+    initManagement(".listButton", "Список предметов", "Изучаемые предметы");
     initManagement(".editButton", "Редактировать", "Редактирование студента");
     initDeleteDialog(".deleteButton", "Удалить", "Удаление студента");
     initStatDialog(".statButton", "Статистика авторизации в систему");
 };
 
 function initLecturerManagement() {
-    initManagement(".listButton", "Список предметов", "Список предетов");
+    initManagement(".listButton", "Список предметов", "Список предметов");
     initManagement(".editButton", "Редактировать", "Редактирование преподавателя");
     initManagement(".addButton", "", "Добавление преподавателя");
     initDeleteDialog(".deleteButton", "Удалить", "Удаление преподавателя");
@@ -59,13 +59,16 @@ function initStatDialog(btnSelector, btnTooltipTitle) {
 
               var plot = $.jqplot('chart', [line], {
                   title: data.resultMessage,
+
                   axes: {
                       xaxis: {
   renderer: $.jqplot.DateAxisRenderer,
-                          tickOptions: { formatString: "%#m/%#d/%y" }
+                          tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                          tickOptions: { angle:-30 ,formatString: "%#d/%#m/%y" }
                       },
 
                       yaxis: {
+                          autoscale: true,
                           min: 0,
                           renderer: $.jqplot.LogAxisRenderer,
                           tickInterval: 1,
@@ -73,20 +76,22 @@ function initStatDialog(btnSelector, btnTooltipTitle) {
 
                       },
                   },
-  highlighter: {
-                      sizeAdjust: 10,
-                      tooltipLocation: 'n',
-                      tooltipAxes: 'y',
-                      tooltipFormatString: '<b><i><span style="color:red;">hello</span></i></b> %.2f',
-                      useAxesFormatters: true
-                  },
-                  cursor: {
+                cursor: {
                       show: true,
                       zoom: true,
                       looseZoom: true,
                       constrainOutsideZoom: false
                   },
-                  series: [{ neighborThreshold: 0, color: '#008CBA', lineWidth: 4 }]
+  highlighter: {
+                      show: true,
+                      sizeAdjust: 7.5
+                  },
+series: [{
+                      rendererOptions: {
+                      smooth: true
+                      },
+                      neighborThreshold: 1, color: '#008CBA', lineWidth: 4
+                  }]
               });
               
 
