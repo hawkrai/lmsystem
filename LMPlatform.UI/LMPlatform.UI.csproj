@@ -295,6 +295,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\GetPagedListParamsModelBinder.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\GreaterThanAttribute.cs" />
     <Compile Include="Attributes\RequiredIfResetAttribute.cs" />
@@ -304,6 +305,7 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\BTSController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\ComplexMaterialController.cs" />
     <Compile Include="Controllers\CpController.cs" />
     <Compile Include="Controllers\DpController.cs" />
@@ -335,6 +337,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\BTS\btsModule.css" />
+    <Content Include="Content\ChatStyle.css" />
     <Content Include="Content\circle.css" />
     <Content Include="Content\docs.min.css" />
     <Content Include="Content\fullcalendar\fullcalendar.css" />
@@ -370,6 +373,7 @@
     <Content Include="Scripts\application\BTS\services\participationsService.js" />
     <Content Include="Scripts\application\BTS\services\bugsService.js" />
     <Content Include="Scripts\application\BTS\services\projectsService.js" />
+    <Content Include="Scripts\application\Chat\chatHub.js" />
     <Content Include="Scripts\application\ComplexMaterials\BaseLoader.js" />
     <Content Include="Scripts\application\ComplexMaterials\complexMaterialsApp.js" />
     <Content Include="Scripts\application\ComplexMaterials\controllers\catalogController.js" />
@@ -530,6 +534,9 @@
     <Compile Include="ViewModels\BTSViewModels\AssignUserViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\BugsViewModel.cs" />
     <Compile Include="ViewModels\BTSViewModels\UserInfoViewModel.cs" />
+    <Compile Include="ViewModels\ChatViewModel\ChatHub.cs" />
+    <Compile Include="ViewModels\ChatViewModel\MessageDetail.cs" />
+    <Compile Include="ViewModels\ChatViewModel\UserDetail.cs" />
     <Compile Include="ViewModels\ComplexMaterialsViewModel\AddOrEditRootConceptViewModel.cs" />
     <Compile Include="ViewModels\ComplexMaterialsViewModel\WatchingTimeViewModel.cs" />
     <Compile Include="ViewModels\DPViewModels\DiplomProjectViewModel.cs" />
@@ -1196,6 +1203,8 @@
     <Content Include="Scripts\jquery.activity-indicator-1.0.0.min.js" />
     <Content Include="Scripts\jquery.bootstrap-duallistbox.js" />
     <Content Include="Scripts\jquery.circliful.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -1205,6 +1214,8 @@
     <Content Include="Scripts\jstree.min.js" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
+    <Content Include="Scripts\knockout-3.4.0.debug.js" />
+    <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\knockoutWrapper.js" />
@@ -1866,7 +1877,7 @@
     <Content Include="Views\BTS\_Projects.cshtml" />
     <Content Include="Views\BTS\_Bugs.cshtml" />
     <Content Include="Views\BTS\_ProjectParticipation.cshtml" />
-    <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
+    <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />    
     <Content Include="Views\ComplexMaterial\MonitoringStudentInfo.cshtml" />
     <Content Include="Views\ComplexMaterial\MonitoringStudents.cshtml" />
     <Content Include="Views\Monitoring\Index.cshtml" />
@@ -1874,6 +1885,7 @@
     <Content Include="Views\Monitoring\Students.cshtml" />
     <Content Include="Views\Lms\ProfilePage.cshtml" />
     <Content Include="Views\BTS\_Project.cshtml" />
+    <Content Include="Views\Chat\Chat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

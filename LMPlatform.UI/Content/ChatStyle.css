@@ -1,0 +1,232 @@
+﻿body
+{
+    padding: 0;
+    margin: 0;
+}
+.close-btn{
+    cursor: pointer;
+}
+.bs-component .single-chat {
+    z-index: 9999999;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    -webkit-background-clip: padding-box;
+}
+.container {
+    width: 1300px;
+}
+
+#header
+{
+    padding: 20px;
+    background-color: #d7e5e4;
+    color: #1e4638;
+    font-size: 24px;
+}
+
+.submitButton
+{
+    background-color: #d7e5e4;
+    padding: 4px;
+    cursor: pointer;
+}
+
+    .submitButton:hover
+    {
+        background-color: #e1e1e1;
+    }
+
+.login
+{
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    color: #1e4638;
+}
+
+    .login .textBox
+    {
+    }
+
+
+    .login #divButton
+    {
+        padding: 4px;
+        text-align: right;
+        width: 100px;
+    }
+
+    .btnStartChat {
+        width: 100px;
+    }
+.chatRoom
+{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    .chatRoom .title
+    {
+        font-size: 16px;
+        font-weight: bold;
+        padding: 8px;
+        background-color: #008CBA;
+    }
+
+    .chatRoom .panel-body{
+        padding-top:0;
+    }
+    .chatRoom .content.row
+    {
+        border-bottom: 1px solid #D7D7D7;
+    }
+    .chatRoom .content
+    {
+        clear: both;
+    }
+
+        .chatRoom .content .chatWindow
+        {
+            padding-top: 10px;
+            height: 260px;
+            overflow-y: scroll;
+            border-right: 1px solid #D7D7D7;
+        }
+
+            .chatRoom .content .chatWindow .message
+            {
+                padding: 4px;
+            }
+
+                .chatRoom .content .chatWindow .message .userName
+                {
+                    font-weight: bold;
+                    background-color: #008CBA;                  
+                }
+
+                .chatRoom .content .chatWindow .message .userAdmin
+                {
+                    font-weight: bold;
+                    background-color: #ff0000;                  
+                }
+                .chatRoom .content .chatWindow .message .userLector
+                {
+                    font-weight: bold;
+                    background-color: #008000;                  
+                }
+
+        .chatRoom .content .users
+        {
+            min-height: 260px;
+            padding-left: 0;
+        }
+
+            .chatRoom .content .users .user
+            {
+                display: block;
+                cursor: pointer;
+                padding: 4px;
+                background-color: #f9f9f9;
+            }
+
+            .chatRoom .content .users .loginUser
+            {
+                display: block;
+                padding: 4px;
+                color: gray;
+            }
+
+            .chatRoom .content .users .user:hover
+            {
+                background-color: #e1e1e1;
+            }
+
+    .chatRoom .messageBar
+    {
+        border-top: solid 1px gray;
+        padding: 4px;
+    }
+
+        .chatRoom .messageBar .textbox
+        {
+            width: 550px;
+        }
+
+.disconnect
+{
+    position: absolute;
+    margin: 10px;
+    background-color: #ffcbcb;
+    padding: 4px;
+    border: solid 1px red;
+}
+
+
+.draggable
+{
+    position: absolute;
+    width: 250px;
+}
+
+    .draggable .header
+    {
+        cursor: move;
+        background-color: #008CBA;
+        color: #ffffff;
+    }
+
+    .draggable .selText
+    {
+        color: black;
+        padding: 4px;
+    }
+
+    .draggable .messageArea
+    {
+        overflow-y: scroll;
+        height: 200px;
+    }
+
+        .draggable .messageArea .message
+        {
+            padding: 4px;
+        }
+
+    .draggable .buttonBar
+    {
+        width: 250px;
+       padding:4px;
+    }
+
+        .draggable .buttonBar .msgText
+        {
+            width: 172px;
+        }
+
+        .draggable .buttonBar .button
+        {
+           margin-left:4px;
+            width: 55px;
+        }
+
+input, textarea {
+    font-size: 1.2em;
+    margin: 0 0 6px 0;
+    padding: 5px;
+    width: 100px;
+}
+#findUser {
+    width: 104.5%;
+    font-size: 0.91em;
+}
+.badge {
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #008CBA;
+}
+h3 {
+    margin-top: 5px;
+}

@@ -1,0 +1,90 @@
+﻿@using Application.Core.Constants
+@using LMPlatform.UI.Controllers
+@using Microsoft.Owin.Security.Provider
+@*<link rel="stylesheet" href="~/Content/ChatStyle.css" />*@
+
+<script src="~/Scripts/jquery-2.0.3.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery-ui-1.10.4.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.signalR-2.2.0.js" type="text/javascript"></script>
+<script src="/signalr/hubs" type="text/javascript"></script>
+<script src="~/Scripts/application/Chat/chatHub.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="~/Content/ChatStyle.css" />
+@section navleft
+{
+    <li>
+        <a href="@(Request.UrlReferrer != null && !string.IsNullOrEmpty(Request.UrlReferrer.ToString()) ? Request.UrlReferrer.ToString() : "/")" style="font-size: 17px">
+            <i class="fa fa-arrow-left fa-1x fa-tab"></i>Назад
+        </a>
+    </li>
+    <li>
+        <a href="/" style="font-size: 17px">
+            <i class="fa fa-reply fa-1x fa-tab"></i>В главное меню
+        </a>
+    </li>
+}
+
+<h3>Пользовательский Чат</h3>
+<hr>
+
+<div class="container pabel panel-primary">
+    @*<div class="panel-heading">
+        <h3 class="panel-title">Чат</h3>
+    </div>*@
+    <div id="divContainer" class="bs-component">
+        <div class="modal-dialog" hidden="true">
+            <div id="divLogin" class="login modal-content">
+                <form>
+                    <div class="form-group">
+                        <label class="control-label" for="txtNickName">Ник:</label>
+                        <input type="text" class="form-control" id="txtNickName" value=@WebSecurity.CurrentUserName readonly="readonly" />
+                    </div>
+                    <button id="btnStartChat" class="btn btn-primary">Вход</button>
+                </form>
+            </div>
+        </div>
+        <div id="divChat" class="chatRoom">
+
+            <div class="panel-body">
+                <div class="content row">
+                    <div id="divChatWindow" class="chatWindow col-md-8">
+                    </div>
+                    <div id="divusers" class="users col-md-4">
+                        <div><input id="findUser" class="finduser" type="search" onkeyup="findUser();" placeholder="Поиск" /></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Сообщения:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="txtMessage">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" id="btnSendMsg" type="button">Отправить</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+             
+                <input id="hdId" type="hidden"/>
+                <input id="hdUserName" type="hidden"/>
+                @{
+                    string role;
+                    //ChatController.EnabledChat = true;
+                    if (User.IsInRole("admin"))
+                    {
+                        role = "admin";
+                    }
+                    else
+                    {
+                        if (User.IsInRole("lector")) { role = "lector"; }
+                        else { role = "student"; }
+                     
+                    }
+                    
+                    <input id="role" value="@role" type="hidden"/>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

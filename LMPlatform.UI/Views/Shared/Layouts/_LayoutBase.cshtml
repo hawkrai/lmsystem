@@ -87,6 +87,16 @@
 
 		    <div class="navbar-right">                
 		        <ul class="nav navbar-nav">
+                   @*@{
+                        if (ChatController.EnabledChat)
+                        {*@
+		            <li class="dropdown messages-menu">
+ <a href="@Url.Action("Index", "Chat")">
+                                    <i class="fa fa-comments fa-1x"></i>
+                                </a>
+                            </li>
+                        @*}
+                    }*@
 		            <li class="dropdown messages-menu">
 		                <a href="@Url.Action("Index", "Message")">
 		                    <i class="fa fa-envelope fa-1x"></i>
