@@ -10,10 +10,10 @@
             var projectsUrl = '/Index';
 
             function addSortableParams(params, orderBy) {
-                if (orderBy.length == 0)
+                if (orderBy.length === 0)
                     return;
                 params.sortingPropertyName = orderBy[0].substr(1);
-                if (orderBy[0].substr(0, 1) == '-')
+                if (orderBy[0].substr(0, 1) === '-')
                     params.desc = true;
             };
 
@@ -36,6 +36,13 @@
                     });
                 },
 
+                getProjectWithBugsAndMembers: function (id) {
+                    return $http({
+                        method: 'GET',
+                        url: serviceUrl + projectUrl + '/' + id + '?withDetails=true'
+                    });
+                },
+
                 getProjects: function (pageNumber, pageSize, searchString, orderBy) {
                     return $http({
                         method: 'GET',
@@ -51,11 +58,35 @@
                     });
                 },
 
+                deleteProjectUser: function (id) {
+                    return $http({
+                        method: 'DELETE',
+                        url: '/BTS/DeleteProjectUser/' + id
+                    });
+                },
+
                 addNumbering: function (projects, indexFrom) {
                     var length = projects.length;
                     for (var i = 0; i < length; i++) {
                         projects[i].Number = i + 1 + indexFrom;
                     }
+                },
+
+                getProjectComments: function (id) {
+                    return $http({
+                        method: 'GET',
+                        url: serviceUrl + '/Projects/' + id + '/Bugs'
+                    });
+                },
+
+                sendProjectComment: function (id, text) {
+                    return $http({
+                        method: 'POST',
+                        url: '/BTS/ProjectManagement/' + id,
+                        data: {
+                            comment: text
+                        }
+                    });
                 }
             };
         }]);

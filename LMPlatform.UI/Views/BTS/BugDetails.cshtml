@@ -159,7 +159,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="row">
-                            <a class="btn btn-primary btn-sm" href="@Url.Action("ProjectManagement", "BTS", new { id = Model.ProjectId })">Перейти к проекту текущей ошибки</a>
+                            <a class="btn btn-primary btn-sm" href="/BTS#/Projects/@Model.ProjectId">Перейти к проекту текущей ошибки</a>
                         </div>
                         <p></p>
                         @if (@Model.Status != "Закрыта")

@@ -1,0 +1,161 @@
+﻿<div class="row">
+    <div class="col-md-9" id="project-left-content">
+        <div class="row" id="project-creator-row">
+            <div class="col-md-3">
+                <b>Создатель проекта:</b>
+            </div>
+            <div class="col-md-9">
+                {{project.CreatorName}}
+            </div>
+        </div>
+        <div id="project-description-row" class="row" ng-show="project.Description !== null">
+            <div class="col-md-3">
+                <b>Описание проекта:</b>
+            </div>
+            <div class="col-md-9">
+                <span style="white-space: pre-wrap;">{{project.Description}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Дата последнего изменения проекта:</b>
+            </div>
+            <div class="col-md-9">
+                {{project.DateOfChange}}
+            </div>
+        </div>
+
+        <hr style="margin-bottom: 5px" />
+
+        <h4>Участники проекта</h4>
+        <div class="row" ng-show="isProjectManager()">
+            <div class="col-md-7">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Добавить
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a ng-click="onAddStudent()">Студента</a></li>
+                        <li><a ng-click="onAddLecturer()">Лектора</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onClearProject()">Очистить проект</a>
+            </div>
+        </div>
+        <br />
+
+        <table class="table table-bordered table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th>Участник</th>
+                    <th>Роль</th>
+                    <th ng-class="{hide : !isLector}" >Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="member in project.Members" project-user-directive>
+                    <td>{{member.Name}}</td>
+                    <td>{{member.Role}}</td>
+                    <td ng-class="{hide : !isLector}" >
+                        <div name="projectUserGridActionsCol" align="center">
+                            <a ng-click="onDeleteProjectUser(member.Id)" class="deleteButton" style="margin-right: 10px"><span class="fa fa-trash-o fa-1x" /></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row" style="margin-top: 40px;">
+            <div id="commentPanel" style="padding: 0 15px 0 15px">
+                <div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" id="accordion">
+                            <h3 class="panel-title">Обсуждение проекта</h3>
+                            <span class="pull-right clickable "><i class="glyphicon glyphicon-minus"></i></span>
+                        </div>
+                        <div class="panel-body" id="comments-panel" style="height: 200px">
+                            <ul class="chat">
+                                <li ng-repeat="comment in comments" ng-class="comment.disabled ? 'inactive-comment' : ''">
+                                    <div class="chat-body">
+                                        <div class="header">
+                                            <strong class="primary-font">{{comment.UserName}}</strong> <small class="pull-right text-muted">
+                                                <span class="glyphicon glyphicon-time" style="margin-right: -15px;"></span>{{comment.Time}}
+                                            </small>
+                                        </div>
+                                        <p>
+                                            {{comment.Text}}
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="input-group">
+                                <input id="CommentText" type="text" ng-model="commentToSend" class="form-control input-sm" style="height: 36px; width: 95%; margin-top: -1px" placeholder="Введите свой комментарий..." />
+                                <span class="input-group-btn" style="width: 5%">
+                                    <button type="submit" ng-click="onSendComment()" class="btn btn-primary btn-sm" id="chat-btn">
+                                        Отправить
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="row" style="padding-right: 5px;">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Анализ ошибок проекта</h3>
+                </div>
+                <div class="panel-body" style="padding: 10px; overflow: hidden">
+                    <div>
+                        <h5>Количество ошибок проекта: <b>{{bugs.totalCount}}</b></h5>
+                        <div ng-show="bugs.totalCount !== 0">
+                            <div style="padding-top: 5px">
+                                <h5>Важность ошибок:</h5>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" ng-style="bugs.types[0].style">
+                                    </div>
+                                    <span class="progress-type">{{bugs.types[0].name}}</span>
+                                    <span class="progress-completed">{{bugs.types[0].count}}</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" ng-style="bugs.types[1].style">
+                                    </div>
+                                    <span class="progress-type">{{bugs.types[1].name}}</span>
+                                    <span class="progress-completed">{{bugs.types[1].count}}</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" ng-style="bugs.types[2].style">
+                                    </div>
+                                    <span class="progress-type">{{bugs.types[2].name}}</span>
+                                    <span class="progress-completed">{{bugs.types[2].count}}</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" ng-style="bugs.types[3].style">
+                                    </div>
+                                    <span class="progress-type">{{bugs.types[3].name}}</span>
+                                    <span class="progress-completed">{{bugs.types[3].count}}</span>
+                                </div>
+                            </div>
+
+                            <h5>Статусы ошибок:</h5>
+
+                            <div id="graph" align="center"></div>
+                        </div>
+                    </div>
+                    <div align="center" style="padding-bottom: 10px">
+                        <a type="button" class="btn btn-primary btn-sm" href="/BTS#/Projects/{{project.Id}}/Bugs">Перейти к ошибкам проекта</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

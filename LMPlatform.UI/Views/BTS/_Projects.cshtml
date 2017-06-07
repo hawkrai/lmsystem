@@ -13,7 +13,7 @@
 <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
     <tr ng-repeat="project in $data" project-directive>
         <td data-title="'№'" class="number-column">{{project.Number}}</td>
-        <td data-title="'Тема проекта'" sortable="'Title'"><a href="/BTS/ProjectManagement/{{project.Id}}">{{project.Title}}</a></td>
+        <td data-title="'Тема проекта'" sortable="'Title'"><a href="#/Projects/{{project.Id}}">{{project.Title}}</a></td>
         <td data-title="'Дата изменения'" sortable="'DateOfChange'">{{project.DateOfChange}}</td>
         <td data-title="'Создатель'" sortable="'CreatorName'">{{project.CreatorName}}</td>
         <td data-title="'Кол-во участников проекта'" sortable="'UserQuentity'">{{project.UserQuentity}}</td>

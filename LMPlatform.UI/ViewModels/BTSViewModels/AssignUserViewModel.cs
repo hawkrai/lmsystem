@@ -171,13 +171,12 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             }).ToList();
         }
 
-        public void SaveAssignment(int projectId)
+        public void SaveAssignment()
         {
             var projectUser = new ProjectUser
             {
-                Id = Id,
                 UserId = UserId,
-                ProjectId = projectId,
+                ProjectId = Id,
                 ProjectRoleId = RoleId,
             };
 

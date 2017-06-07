@@ -15,7 +15,7 @@
 
         <div>
             @Html.LabelFor(e => e.GroupId, new { @class = "control-label" })
-            @Html.DropDownListFor(e => e.GroupId, Model.GetGroups(), new { @class = "form-control", @id = "groups" })
+            @Html.DropDownListFor(e => e.GroupId, Model.GetGroups(), new { @class = "form-control group-select", @id = "groups" })
         </div>
             
         <div>
@@ -35,5 +35,4 @@
     {
         placement: "right",
     });
-
 </script>

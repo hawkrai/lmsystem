@@ -15,6 +15,13 @@ angular
                 subGroups: []
             };
 
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
             $scope.getStudentInfoLink = function (studentId) {
                 return window.location.href + "/Student/" + studentId;
             }
@@ -39,11 +46,11 @@ angular
             }
 
             $rootScope.goToConceptRoot = function () {
-                window.location.href = "/ComplexMaterial/?subjectId=" + monitoringDataService.getSubjectId() + "&parent=" + monitoringDataService.getRootId();
+                window.location.href = "#/Catalog?parent=" + monitoringDataService.getRootId();
             }
 
             $rootScope.goToHome = function () {
-                window.location.href = "/ComplexMaterial/?subjectId=" + monitoringDataService.getSubjectId();
+                window.location.href = "#/Catalog";
             }
 
             $rootScope.getConceptName = function () {
@@ -60,4 +67,13 @@ angular
 
             $rootScope.getConceptName();
 
+            navigationService.updateTitle(getParameterByName("subjectId"));
+
+            $rootScope.isGoToConceptRootActive = function ($event) {
+                return false;
+            }
+
+            $rootScope.isGoMonitoring = function ($event) {
+                return true;
+            }
         }]);

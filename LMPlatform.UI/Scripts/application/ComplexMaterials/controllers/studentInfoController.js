@@ -8,11 +8,19 @@ angular
         '$resource',
         '$routeParams',
         'monitoringDataService',
-        function ($scope, $rootScope, $location, $resource, $routeParams, monitoringDataService) {
+        'navigationService',
+        function ($scope, $rootScope, $location, $resource, $routeParams, monitoringDataService, navigationService) {
             $scope.data = {
                 fullname: null,
                 groupnumber: null,
             };
+
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
 
             $scope.treeConfig = {
                 core: {
@@ -32,11 +40,11 @@ angular
             }
 
             $rootScope.goToConceptRoot = function () {
-                window.location.href = "/ComplexMaterial/?subjectId=" + monitoringDataService.getSubjectId() + "&parent=" + monitoringDataService.getRootId();
+                window.location.href = "#/Catalog?parent=" + monitoringDataService.getRootId();
             }
 
             $rootScope.goToHome = function () {
-                window.location.href = "/ComplexMaterial/?subjectId=" + monitoringDataService.getSubjectId();
+                window.location.href = "#/Catalog";
             }
 
             function getTime(time) {
@@ -71,6 +79,17 @@ angular
                         'data': tree
                     }
                 });
+                $('#concept-tree').on("changed.jstree", function (e, args) {
+
+                    var data = {};
+                    data.id = args.node.data.ConceptId;
+                    var title = 'Просмотр файла "' + args.node.data.Name + '"';
+                    $.savingDialog(title, "/ComplexMaterial/OpenConcept", data, "primary", function (data) {
+
+                    }, null, { hideSaveButton: true });
+
+                    console.log(args.node);
+                });
             }
 
             function convertFormat(obj) {
@@ -89,12 +108,31 @@ angular
                 } else {
                     result.icon = "jstree-folder";
                 }
+                result.data = obj;
                 return result;
             }
+
+            navigationService.updateTitle(getParameterByName("subjectId"));
+            
+            $rootScope.getConceptName = function () {
+                monitoringDataService.getConcept().success(function (data) {
+                    $rootScope.conceptName = data.Name;
+                });
+            }
+
+            $rootScope.getConceptName();
 
             monitoringDataService.getConcepts({ id: monitoringDataService.getSubjectId() }).success(function (data) {
                 $scope.data.fullname = data.StudentFullName;
                 $scope.data.groupnumber = data.GroupNumber;
                 initTree(data.Tree);
             });
+
+            $rootScope.isGoToConceptRootActive = function ($event) {
+                return false;
+            }
+
+            $rootScope.isGoMonitoring = function ($event) {
+                return true;
+            }
         }]);

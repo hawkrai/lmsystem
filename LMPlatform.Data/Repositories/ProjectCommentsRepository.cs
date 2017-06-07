@@ -26,5 +26,15 @@ namespace LMPlatform.Data.Repositories
                 context.SaveChanges();
             }
         }
+
+        public List<ProjectComment> GetProjectComments(int projectId)
+        {
+            using(var context = new LmPlatformModelsContext())
+            {
+                return context.Set<ProjectComment>()
+                    .Where(e => e.ProjectId == projectId)
+                    .ToList();
+            }
+        }
     }
 }

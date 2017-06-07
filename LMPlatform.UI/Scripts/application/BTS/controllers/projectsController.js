@@ -1,5 +1,5 @@
 ﻿angular
-    .module('btsApp.ctrl.projects', ['ngTable'])
+    .module('btsApp.ctrl.projects', ['ngTable', 'btsApp.service.projects', 'btsApp.directive.project'])
     .constant('PAGE_SIZE', 25)
     .constant('MIN_SEARCH_TEXT_LENGTH', 3)
     .controller('projectsCtrl', [
@@ -60,7 +60,7 @@
             };
 
             function needReloadPage() {
-                return ($scope.inputedSearchString.length >= MIN_SEARCH_TEXT_LENGTH || $scope.inputedSearchString.length == 0) && searchString != $scope.inputedSearchString;
+                return ($scope.inputedSearchString.length >= MIN_SEARCH_TEXT_LENGTH || $scope.inputedSearchString.length === 0) && searchString !== $scope.inputedSearchString;
             };
 
             $scope.onSearch = function () {
