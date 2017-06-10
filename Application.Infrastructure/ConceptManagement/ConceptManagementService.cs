@@ -204,7 +204,274 @@ namespace Application.Infrastructure.ConceptManagement
                 var parent = GetById(parentId);
                 if (IsTestModule(parent.Name))
                     return TestsManagementService.GetTestsForSubject(parent.SubjectId).Select(t => new Concept(t.Title, parent.Author, parent.Subject, false, true) { Id = t.Id, Container="test"});
-                return repositoriesContainer.ConceptRepository.GetByParentId(parentId);
+                var temp = repositoriesContainer.ConceptRepository.GetByParentId(parentId);
+                return temp;
+            }
+        }
+
+        public Concept GetByIdFixed(int id)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var parent = repositoriesContainer.ConceptRepository.GetById(id);
+                var fixedParent = FixReferences(parent);
+                return fixedParent;
+            }
+        }
+
+        Concept FixReferences (Concept concept)
+        {
+            if (concept.NextConcept.HasValue)
+            {
+                var next = GetById(concept.NextConcept.Value);
+                if (next.Container == null)
+                {
+                    var nextRef = FindNextReference(concept);
+                    if (nextRef.HasValue)
+                        concept.NextConcept = nextRef;
+                }
+            }
+            else
+            {
+                var nextRef = FindNextReference(concept);
+                if (nextRef.HasValue)
+                    concept.NextConcept = nextRef;
+            }
+            if (concept.PrevConcept.HasValue)
+            {
+                var prev = GetById(concept.PrevConcept.Value);
+                if (prev.Container == null)
+                {
+                    var prevRef = FindPrevReference(concept);
+                    if (prevRef.HasValue)
+                        concept.PrevConcept = prevRef;
+                }
+            }
+            else
+            {
+                var prevRef = FindPrevReference(concept);
+                if (prevRef.HasValue)
+                    concept.PrevConcept = prevRef;
+            }
+            return concept;
+        }
+
+        Queue<int?> PrevQueue = new Queue<int?>();
+
+        int? FindPrevReference(Concept concept)
+        {
+            int? result = null;
+            if(concept.Children != null && concept.Children.Count > 0)
+            {
+                result = FindUpPrevReference(concept.Id, concept.Children.ElementAt(concept.Children.Count - 1).Id);
+            }
+            else
+            {
+                result = FindUpPrevReference(concept.Id, concept.PrevConcept);
+            }
+            if (!result.HasValue)
+            {
+                if (concept.PrevConcept.HasValue)
+                {
+                    result = FindDownPrevReference(concept.Id, concept.PrevConcept);
+                }
+                else
+                {
+                    result = FindDownPrevReference(concept.Id, concept.ParentId);
+                }
+            }
+            return result;
+        }
+
+        int? FindUpPrevReference(int startId, int? id = null)
+        {
+            if (id != null && id.Value != startId)
+                PrevQueue.Enqueue(id);
+            if (PrevQueue.Count == 0)
+            {
+                return null;
+            }
+            var conceptId = PrevQueue.Dequeue();
+            if(!conceptId.HasValue)
+            {
+                PrevQueue.Clear();
+                return null;
+            }
+            else
+            {
+                var item = GetById(conceptId.Value);
+                if (item.Container != null)
+                {
+                    PrevQueue.Clear();
+                    return item.Id;
+                }
+                else if (item.Children != null)
+                {
+                    item.Children = item.Children.Reverse().ToArray();
+                    foreach(var child in item.Children)
+                    {
+                        if(id.Value != startId)
+                        {
+                            PrevQueue.Enqueue(child.Id);
+                        }
+                    }
+                    return FindUpPrevReference(startId);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        int? FindDownPrevReference(int startId, int? id = null)
+        {
+            if (id != null && id.Value != startId)
+                PrevQueue.Enqueue(id);
+            if (PrevQueue.Count == 0)
+                return null;
+            var conceptId = PrevQueue.Dequeue();
+            if (!conceptId.HasValue)
+            {
+                PrevQueue.Clear();
+                return null;
+            }
+            else
+            {
+                var item = GetById(conceptId.Value);
+                if (item.Container != null)
+                {
+                    PrevQueue.Clear();
+                    return item.Id;
+                }
+                else if(!item.ParentId.HasValue)
+                {
+                    PrevQueue.Clear();
+                    return null;
+                } 
+                else
+                {
+                    var tempRef = item.PrevConcept;
+                    while (tempRef.HasValue)
+                    {
+                        if(tempRef.Value != startId)
+                            PrevQueue.Enqueue(tempRef);
+                        var tempItem = GetById(tempRef.Value);
+                        tempRef = tempItem.PrevConcept;
+                    }
+                    if (item.ParentId.HasValue)
+                        PrevQueue.Enqueue(item.ParentId);
+                    return FindDownPrevReference(startId);
+                }
+            }
+        }
+
+        Queue<int?> NextQueue = new Queue<int?>();
+
+        int? FindNextReference(Concept concept)
+        {
+            int? result = null;
+            if (concept.Children != null && concept.Children.Count > 0)
+            {
+                result = FindUpNextReference(concept.Id, concept.Children.ElementAt(0).Id);
+            }
+            else
+            {
+                result = FindUpNextReference(concept.Id, concept.NextConcept);
+            }
+            if (!result.HasValue)
+            {
+                if (concept.NextConcept.HasValue)
+                {
+                    result = FindDownNextReference(concept.Id, concept.NextConcept);
+                }
+                else
+                {
+                    result = FindDownNextReference(concept.Id, concept.ParentId);
+                }
+            }
+            return result;
+        }
+
+        int? FindUpNextReference(int startId, int? id = null)
+        {
+            if (id != null && id.Value != startId)
+                NextQueue.Enqueue(id);
+            if (NextQueue.Count == 0)
+            {
+                return null;
+            }
+            var conceptId = NextQueue.Dequeue();
+            if (!conceptId.HasValue)
+            {
+                NextQueue.Clear();
+                return null;
+            }
+            else
+            {
+                var item = GetById(conceptId.Value);
+                if (item.Container != null)
+                {
+                    NextQueue.Clear();
+                    return item.Id;
+                }
+                else if (item.Children != null)
+                {
+                    foreach (var child in item.Children)
+                    {
+                        if (id.Value != startId)
+                        {
+                            NextQueue.Enqueue(child.Id);
+                        }
+                    }
+                    return FindUpNextReference(startId);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        int? FindDownNextReference(int startId, int? id = null)
+        {
+            if (id != null && id.Value != startId)
+                NextQueue.Enqueue(id);
+            if (NextQueue.Count == 0)
+                return null;
+            var conceptId = NextQueue.Dequeue();
+            if (!conceptId.HasValue)
+            {
+                NextQueue.Clear();
+                return null;
+            }
+            else
+            {
+                var item = GetById(conceptId.Value);
+                if (item.Container != null)
+                {
+                    NextQueue.Clear();
+                    return item.Id;
+                }
+                else if (!item.ParentId.HasValue)
+                {
+                    NextQueue.Clear();
+                    return null;
+                }
+                else
+                {
+                    var tempRef = item.NextConcept;
+                    while (tempRef.HasValue)
+                    {
+                        if (tempRef.Value != startId)
+                            NextQueue.Enqueue(tempRef);
+                        var tempItem = GetById(tempRef.Value);
+                        tempRef = tempItem.NextConcept;
+                    }
+                    if (item.ParentId.HasValue)
+                        NextQueue.Enqueue(item.ParentId);
+                    return FindDownNextReference(startId);
+                }
             }
         }
 

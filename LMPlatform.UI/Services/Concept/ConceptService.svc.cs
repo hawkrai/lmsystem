@@ -263,14 +263,14 @@ namespace LMPlatform.UI.Services.Concept
         public AttachViewData GetNextConceptData(String elementId)
         {
             var id = Int32.Parse(elementId);
-            var concept = ConceptManagementService.GetById(id);
+            var concept = ConceptManagementService.GetByIdFixed(id);
             return GetNeighborConceptData(concept.NextConcept.GetValueOrDefault());
         }
 
         public AttachViewData GetPrevConceptData(String elementId)
         {
             var id = Int32.Parse(elementId);
-            var concept = ConceptManagementService.GetById(id);
+            var concept = ConceptManagementService.GetByIdFixed(id);
             return GetNeighborConceptData(concept.PrevConcept.GetValueOrDefault());
         }
 
