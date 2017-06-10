@@ -204,8 +204,7 @@ namespace Application.Infrastructure.ConceptManagement
                 var parent = GetById(parentId);
                 if (IsTestModule(parent.Name))
                     return TestsManagementService.GetTestsForSubject(parent.SubjectId).Select(t => new Concept(t.Title, parent.Author, parent.Subject, false, true) { Id = t.Id, Container="test"});
-                var temp = repositoriesContainer.ConceptRepository.GetByParentId(parentId);
-                return temp;
+                return repositoriesContainer.ConceptRepository.GetByParentId(parentId);
             }
         }
 
@@ -214,8 +213,7 @@ namespace Application.Infrastructure.ConceptManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var parent = repositoriesContainer.ConceptRepository.GetById(id);
-                var fixedParent = FixReferences(parent);
-                return fixedParent;
+                return FixReferences(parent);
             }
         }
 
