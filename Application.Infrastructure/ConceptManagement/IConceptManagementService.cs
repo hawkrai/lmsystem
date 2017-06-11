@@ -10,6 +10,7 @@ namespace Application.Infrastructure.ConceptManagement
     public interface IConceptManagementService
     {
         Concept GetById(Int32 id);
+        Concept GetByIdFixed(Int32 id);
         Concept GetTreeConceptByElementId(Int32 elementId);
         IEnumerable<Concept> GetRootElements(Int32 authorId, Boolean onlyVisible=false);
         IEnumerable<Concept> GetRootElementsBySubject(Int32 subjectId);
