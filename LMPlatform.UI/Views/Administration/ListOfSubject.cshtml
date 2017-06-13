@@ -1,9 +1,10 @@
-﻿@model List<LMPlatform.Models.Subject>
+﻿@model LMPlatform.UI.ViewModels.AdministrationViewModels.ListSubjectViewModel
 
 
 <div id="adminModal">
 
     <table class="table table-bordered table-striped table-hover">
+        <caption> @Model.Name</caption>
         <thead>
             <tr>
                 <th>Название</th>
@@ -11,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-           @foreach (var i in Model)
+        @foreach (var i in Model.Subjects)
             {
                 <tr>
 
@@ -21,6 +22,7 @@
                         <td>@foreach (var prof in i.SubjectLecturers)
                             {
                                 @prof.Lecturer.FullName
+								<br/>
                             }</td>
                     }
                 </tr>

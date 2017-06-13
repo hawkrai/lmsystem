@@ -1,11 +1,12 @@
 ﻿@using Microsoft.Ajax.Utilities
-@model IEnumerable<LMPlatform.Models.Subject>
+@model LMPlatform.UI.ViewModels.AdministrationViewModels.ListSubjectViewModel
 
 
 
 <div id="adminModal">
 
     <table class="table table-bordered table-striped table-hover">
+        <caption> @Model.Name</caption>
         <thead>
             <tr>
                 <th>Предмет</th>
@@ -14,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var i in Model.Distinct())
+        @foreach (var i in Model.Subjects.Distinct())
             {
                 <tr>
 
@@ -27,6 +28,7 @@
                                 @sub.Group.Name 
                                 <br/>                            
                             }
+
                         }
                     </td>
 <td>

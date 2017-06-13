@@ -64,7 +64,7 @@ function initStatDialog(btnSelector, btnTooltipTitle) {
                       xaxis: {
   renderer: $.jqplot.DateAxisRenderer,
                           tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-                          tickOptions: { angle:-30 ,formatString: "%#d/%#m/%y" }
+                          tickOptions: { angle:0 ,formatString: "%#d.%#m.%y" }
                       },
 
                       yaxis: {

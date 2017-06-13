@@ -14,9 +14,15 @@
             @foreach (var i in Model)
             {
                 <tr>
-
                     <td>@i.FullName</td>
-                    <td>@i.Confirmed.HasValue</td>
+					<td>@if (i.Confirmed == null || i.Confirmed.Value)
+                    {
+                        @:Потвержен
+                    }
+                    else
+                    {
+                        @:Не потвержден
+                    }</td>
                 </tr>
             }
         </tbody>
