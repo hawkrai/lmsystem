@@ -526,6 +526,7 @@
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\LecturerViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModels\ListSubjectViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ModifyLecturerViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\UserActivityViewModel.cs" />
@@ -1877,7 +1878,7 @@
     <Content Include="Views\BTS\_Projects.cshtml" />
     <Content Include="Views\BTS\_Bugs.cshtml" />
     <Content Include="Views\BTS\_ProjectParticipation.cshtml" />
-    <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />    
+    <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
     <Content Include="Views\ComplexMaterial\MonitoringStudentInfo.cshtml" />
     <Content Include="Views\ComplexMaterial\MonitoringStudents.cshtml" />
     <Content Include="Views\Monitoring\Index.cshtml" />
