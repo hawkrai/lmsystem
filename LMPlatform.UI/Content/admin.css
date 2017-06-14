@@ -142,6 +142,11 @@ select.students-stat {
     .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
         right: 0px; 
     }
+
+     li.selected a {
+  background-color: #0079A1;
+  color: #e8eef4;
+} 
 /*statistics*/
 #stat-table {
     font-size: 14px;
