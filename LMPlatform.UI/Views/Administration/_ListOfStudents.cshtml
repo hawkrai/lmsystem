@@ -16,7 +16,7 @@
         <thead>
             <tr>
             <th>Студент &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;</th>
-                <th>Потвержден</th>
+                <th>Подтвержден</th>
             </tr>
         </thead>
         <tbody>
@@ -26,11 +26,11 @@
                     <td>@i.FullName</td>
 					<td>@if (i.Confirmed == null || i.Confirmed.Value)
                     {
-                        @:Потвержен
+                        @:Подтвержден
                     }
                     else
                     {
-                        @:Не потвержден
+                        @:Не подтвержден
                     }</td>
                 </tr>
             }
