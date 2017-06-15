@@ -452,8 +452,8 @@ namespace LMPlatform.UI.Services.Labs
 					.Include(e => e.Students.Select(x => x.User))).ToList()[0];
 				IList<SubGroup> subGroups = this.SubjectManagementService.GetSubGroupsV2(subjectId, group.Id);
 				var students = new List<StudentMark>();
-				
-				foreach (var student in group.Students.OrderBy(e => e.LastName))
+
+				foreach (var student in group.Students.Where(e => e.Confirmed == null || e.Confirmed.Value).OrderBy(e => e.LastName))
 				{
 					var files =
 						SubjectManagementService.GetUserLabFiles(student.Id, subjectId).Select(

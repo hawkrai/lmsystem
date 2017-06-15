@@ -426,7 +426,7 @@ namespace LMPlatform.UI.Services
 
 				var lecturesVisiting = new List<LecturesMarkVisitingViewData>();
 
-				foreach (var student in groups.Students.OrderBy(e => e.FullName))
+				foreach (var student in groups.Students.Where(e => e.Confirmed == null || e.Confirmed.Value).OrderBy(e => e.FullName))
 				{
 					var data = new List<MarkViewData>();
 
