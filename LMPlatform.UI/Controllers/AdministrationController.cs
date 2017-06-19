@@ -387,12 +387,11 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
-        public ActionResult ResetPassword(string id)
+        public ActionResult ResetPassword(int id)
         {
-            var login = id;
             try
             {
-                var user = UsersManagementService.GetUser(login);
+                var user = UsersManagementService.GetUser(id);
 
 
                 var resetPassModel = new ResetPasswordViewModel(user);
