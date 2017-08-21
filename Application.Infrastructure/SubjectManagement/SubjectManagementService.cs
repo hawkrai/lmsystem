@@ -342,6 +342,38 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
+		public List<SubjectNews> GetNewsByGroup(int id)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var subjects =
+					repositoriesContainer.RepositoryFor<SubjectGroup>().GetAll(new Query<SubjectGroup>(e => e.GroupId == id)).Select(
+						e => e.SubjectId).ToList();
+
+				var news =
+					repositoriesContainer.RepositoryFor<SubjectNews>().GetAll(
+						new Query<SubjectNews>(e => subjects.Contains(e.SubjectId))).ToList();
+
+				return news;
+			}
+		}
+
+		public List<SubjectNews> GetNewsByLector(int id)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var subjects =
+					repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(new Query<SubjectLecturer>(e => e.LecturerId == id)).Select(
+						e => e.SubjectId).ToList();
+
+				var news =
+					repositoriesContainer.RepositoryFor<SubjectNews>().GetAll(
+						new Query<SubjectNews>(e => subjects.Contains(e.SubjectId))).ToList();
+
+				return news;
+			}
+		}
+
 		public IList<SubGroup> GetSubGroups(int subjectId, int groupId)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())

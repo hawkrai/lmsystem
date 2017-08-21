@@ -569,7 +569,7 @@ namespace LMPlatform.UI.Services
                             .ToList().OrderBy(e => e.Date)
                             .ToList();
 
-                    foreach (var student in group.Students.OrderBy(e => e.FullName))
+					foreach (var student in group.Students.Where(e => e.Confirmed == null || e.Confirmed.Value).OrderBy(e => e.FullName))
                     {
                         var data = new List<MarkViewData>();
 
@@ -693,7 +693,7 @@ namespace LMPlatform.UI.Services
                                           SubjectId = e.SubjectId,
                                           ScheduleProtectionPracticalId = e.Id
                                       }).ToList(),
-									  Students = group.Students.OrderBy(e => e.LastName).Select(e => new StudentsViewData(null, e, null, scheduleProtectionPracticals, null, practicalsData, userLabsFile.Where(x => x.UserId == e.Id).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList(),
+									  Students = group.Students.Where(e => e.Confirmed == null || e.Confirmed.Value).OrderBy(e => e.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.User.Id), e, null, scheduleProtectionPracticals, null, practicalsData, userLabsFile.Where(x => x.UserId == e.Id).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList(),
                                       SubGroupsOne = subGroups.Any() ? new SubGroupsViewData
                                                          {
                                                              GroupId = group.Id,
@@ -701,7 +701,7 @@ namespace LMPlatform.UI.Services
                                                              Labs = labsFirstSubGroup,
                                                              ScheduleProtectionLabs = subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
                                                              SubGroupId = subGroups.FirstOrDefault().Id,
-															 Students = subGroups.FirstOrDefault().SubjectStudents.OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
+															 Students = subGroups.FirstOrDefault().SubjectStudents.Where(e => e.Student.Confirmed == null || e.Student.Confirmed.Value).OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
                                                          }
                                                          : null,
                                       SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
@@ -711,7 +711,7 @@ namespace LMPlatform.UI.Services
                                                               Labs = labsSecondSubGroup,
                                                               ScheduleProtectionLabs = subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
                                                               SubGroupId = subGroups.LastOrDefault().Id,
-                                                              Students = subGroups.LastOrDefault().SubjectStudents.OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
+															  Students = subGroups.LastOrDefault().SubjectStudents.Where(e => e.Student.Confirmed == null || e.Student.Confirmed.Value).OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
                                                           }
                                                           : null
                                   });
@@ -721,7 +721,7 @@ namespace LMPlatform.UI.Services
 	            {
 					foreach (var groupsViewData in model)
 					{
-						foreach (var student in groupsViewData.Students)
+						foreach (var student in groupsViewData.Students.Where(e => e.Confirmed == null || e.Confirmed.Value))
 						{
 							student.PracticalVisitingMark = new List<PracticalVisitingMarkViewData>();
 							student.PracticalMarkTotal = "-";

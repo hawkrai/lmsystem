@@ -33,7 +33,10 @@
     <script type="text/javascript" src="~/Scripts/fullcalendar/moment.min.js"></script>
     <script src="~/Scripts/fullcalendar/fullcalendar.js"></script>
     <script type="text/javascript" src="~/Scripts/application/userProfile/appUserProfile.js"></script>
-    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+	<script src="~/Scripts/bootstrap-datepicker.js"></script>
+	<script src="~/Scripts/moment.js"></script>
+<script src="~/Scripts/moment-with-locales.min.js"></script>
+	
 }
 
 @section headerTitle{
@@ -168,7 +171,7 @@
     }
 }
 
-<div ng-app="appUserProfile" ng-controller="ProfileController" ng-init="init('@ViewData["userLogin"]', '@ViewData["isMyProfile"].ToString().ToLower()' )">
+<div ng-app="appUserProfile" ng-controller="ProfileController" id="testA" ng-init="init('@ViewData["userLogin"]', '@ViewData["isMyProfile"].ToString().ToLower()' )">
     @{
         Html.RenderPartial("../Lms/ProfilePage");
     }

@@ -159,19 +159,20 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
                 }
             }
 
-            var summ = this.StudentLabMarks.Where(studentLabMarkViewData => !string.IsNullOrEmpty(studentLabMarkViewData.Mark)).Sum(studentLabMarkViewData => double.Parse(studentLabMarkViewData.Mark));
+			double number;
+			var summ = this.StudentLabMarks.Where(studentLabMarkViewData => !string.IsNullOrEmpty(studentLabMarkViewData.Mark) && double.TryParse(studentLabMarkViewData.Mark, out number)).Sum(studentLabMarkViewData => double.Parse(studentLabMarkViewData.Mark));
             if (StudentLabMarks.Count(e => !string.IsNullOrEmpty(e.Mark)) != 0)
             {
-				LabsMarkTotal = Math.Round(summ / StudentLabMarks.Count(e => !string.IsNullOrEmpty(e.Mark)), 1).ToString(CultureInfo.InvariantCulture);    
+				LabsMarkTotal = Math.Round(summ / StudentLabMarks.Count(e => !string.IsNullOrEmpty(e.Mark) && double.TryParse(e.Mark, out number)), 1).ToString(CultureInfo.InvariantCulture);    
             }
 
-			summ = this.StudentPracticalMarks.Where(studentPracticalMarkViewData => !string.IsNullOrEmpty(studentPracticalMarkViewData.Mark)).Sum(studentPracticalMarkViewData => double.Parse(studentPracticalMarkViewData.Mark));
+			summ = this.StudentPracticalMarks.Where(studentPracticalMarkViewData => !string.IsNullOrEmpty(studentPracticalMarkViewData.Mark) && double.TryParse(studentPracticalMarkViewData.Mark, out number)).Sum(studentPracticalMarkViewData => double.Parse(studentPracticalMarkViewData.Mark));
 
             var countMark =
-                this.StudentPracticalMarks.Count(studentPracticalMarkViewData => !string.IsNullOrEmpty(studentPracticalMarkViewData.Mark));
+				this.StudentPracticalMarks.Count(studentPracticalMarkViewData => !string.IsNullOrEmpty(studentPracticalMarkViewData.Mark) && double.TryParse(studentPracticalMarkViewData.Mark, out number));
             if (countMark != 0)
             {
-                PracticalMarkTotal = (summ / countMark).ToString(CultureInfo.InvariantCulture);
+				PracticalMarkTotal = countMark != 0 ? (summ / countMark).ToString(CultureInfo.InvariantCulture) : "0";
             }
         }
 

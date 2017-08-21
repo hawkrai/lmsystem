@@ -241,7 +241,8 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
             LabMark: 0,
             PractMark: 0,
             LabsCount: 0,
-            PractsCount: 0
+            PractsCount: 0,
+			TestMark: 0
         };
 
         var studentObj = Enumerable.From(data.Students).First(function (x) { return x.StudentId == subGroupStudent.StudentId; });
@@ -271,6 +272,7 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
         studentStat.PractMark = practMarkResult.avg;
         studentStat.LabsCount = labMarkResult.pos;
         studentStat.PractsCount = practMarkResult.pos;
+        studentStat.TestMark = parseFloat(studentObj.TestMark || 0);
 
         return studentStat;
     };
@@ -302,9 +304,9 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
 
                 $scope.statData.forEach(function (subject) {
                     var subStudent = Enumerable.From(subject.students).First(function (x) { return x.Id == student.Id; });
-                    var avgMark = (student.PractMark > 0 && student.LabMark > 0) ? (student.PractMark + student.LabMark) / 2 :
-                        ((student.PractMark == 0 && student.LabMark > 0) || (student.PractMark > 0 && student.LabMark == 0) ?
-                         (student.PractMark + student.LabMark) : '-');
+                    var avgMark = (student.TestMark > 0 && student.LabMark > 0) ? (student.TestMark + student.LabMark) / 2 :
+                        ((student.TestMark == 0 && student.LabMark > 0) || (student.TestMark > 0 && student.LabMark == 0) ?
+                         (student.TestMark + student.LabMark) : '-');
 
                     var statSubjectObj = {
                         SubjectName: subject.subjectName,
@@ -352,7 +354,8 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
                 LabMark: student.LabMark,
                 PractMark: student.PractMark,
                 LabsCount: student.LabsCount,
-                PractsCount: student.PractsCount
+                PractsCount: student.PractsCount,
+				TestMark: student.TestMark
             };
         }
 

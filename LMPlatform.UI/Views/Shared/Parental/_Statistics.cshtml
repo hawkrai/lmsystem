@@ -68,7 +68,7 @@
                     <th>Практические</th>
                     <th>Всего</th>
                     <th>Лабораторные</th>
-                    <th>Практические</th>
+                    <th>Тесты</th>
                     <th>Рейтинг</th>
                 </tr>
             </thead>
@@ -82,13 +82,13 @@
                     <td>{{student.TotalHours}}</td>
                     <td ng-if="student.LabMark > 0">{{student.LabMark.toString().replace(".", ",")}} ({{student.LabsCount}})</td>
                     <td ng-if="student.LabMark <= 0">-</td>
-                    <td ng-if="student.PractMark > 0">{{student.PractMark.toString().replace(".", ",")}} ({{student.PractsCount}})</td>
-                    <td ng-if="student.PractMark <= 0">-</td>
-                    <td ng-if="student.PractMark > 0 && student.LabMark > 0">{{((student.PractMark + student.LabMark)/2).toString().replace(".", ",")}}</td>
-                    <td ng-if="(student.PractMark == 0 && student.LabMark > 0) || (student.PractMark > 0 && student.LabMark == 0)">
-                        {{(student.PractMark + student.LabMark)}}
-                    </td>
-                    <td ng-if="student.PractMark == 0 && student.LabMark==0">-</td>
+					<td ng-if="student.TestMark > 0">{{student.TestMark.toString().replace(".", ",")}}</td>
+					<td ng-if="student.TestMark <= 0">-</td>
+					<td ng-if="student.TestMark > 0 && student.LabMark > 0">{{((student.TestMark + student.LabMark)/2).toString().replace(".", ",")}}</td>
+					<td ng-if="(student.TestMark == 0 && student.LabMark > 0) || (student.TestMark > 0 && student.LabMark == 0)">
+						{{(student.TestMark + student.LabMark)}}
+					</td>
+					<td ng-if="student.TestMark == 0 && student.LabMark==0">-</td>
                 </tr>
             </tbody>
         </table>

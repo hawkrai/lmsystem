@@ -139,18 +139,19 @@
 							<div class="text-center">
 								<h4>Список предметов</h4>
 							</div>
-							<div class="date-text">20.01.2017</div>
+							<div class="date-text">{{selectedDate}}</div>
 							<div>
 								<ul class="subjectsContainer">
-									<li class="subjectColorRed">Надежность ПО</li>
+									<li ng-repeat="data in selectedEvents">{{data.title}}</li>
+									@*<li class="subjectColorRed">Надежность ПО</li>
 									<li class="subjectColorOrange">Модульное тестирование</li>
 									<li class="subjectColorGreen">Системное программирование</li>
 									<li class="subjectColorTeal">Базы данных</li>
-									<li class="subjectColorViolet">Алгоритмы и методы принятия решений</li>
+									<li class="subjectColorViolet">Алгоритмы и методы принятия решений</li>*@
 								</ul>
 							</div>
 							<div class="text-right">
-								<a href="#">Подробное расписание</a>
+								<input type="button" class="btn btn-sm btn-default allNews" ng-click="showEvents()" value="Подробное расписание" />
 							</div>
 						</div>
 					</div>
@@ -165,23 +166,19 @@
 							<i class="fa fa-newspaper-o fa-1x icon"></i>
 						</div>
 						<div class="col-md-11 text-center lmsBColor">
-							<h1 class="panel-title">Новости и объявления <span class="badge">42</span></h1>
+							<h1 class="panel-title" ng-click="">Новости и объявления <span class="badge">{{newsCount}}</span></h1>
 						</div>
 					</div>
 				</div>
 				<div class="panel-body newsContainer">
 					<div class="newsHeader text-center">
-						<a href="#">«РАБОТАТЬ НА РЕЗУЛЬТАТ!» - ТАКОВ ДЕВИЗ ПЕРВИЧНОЙ ОРГАНИЗАЦИИ РОО «БЕЛАЯ РУСЬ» БНТУ (11.03.2017)</a>
+						<a href="#">{{lastNews.Title}}</a>
 					</div>
 					<div class="newsBody" style="height: 180px; overflow: auto;">
-						<p>
-							1 марта 2017 года в первичной организации РОО «Белая Русь» БНТУ прошло отчетно-выборное собрание.
-
-							На собрании присутствовали: первый проректор БНТУ Вершина Г.А., Депутат Палаты Представителей Национального собрания Республики Беларусь Шевцов Д.Е. и заместитель председателя Советской районной организации г. Минска РОО «Белая Русь» Никитина О.А., заместители деканов, представители центров, управлений, отделов и других структурных подразделений БНТУ, заведующие лабораториями, профессорско-преподавательский состав БНТУ.
-						</p>
+						<div ng-bind-html="renderHtml(lastNews.Body)"></div>
 					</div>
 					<div class="text-right">
-						<input type="button" class="btn btn-sm btn-default allNews" value="Все новости" />
+						<input type="button" class="btn btn-sm btn-default allNews" ng-click="showNews()" value="Все новости" />
 					</div>
 				</div>
 			</div>
@@ -253,12 +250,61 @@
 	</div>
 </div>
 
+
+<div id="dialogAllNews" class="modal">
+	<div class="modal-dialog panel panel-primary" style="padding: 0px">
+		<div class="panel-heading">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="myModalLabel">Все новости</h4>
+		</div>
+		<div class="modal-body" style="padding: 0">
+			<div style="margin-top: -20px;">
+				<div class="bs-callout bs-callout-fill" ng-class="data.Disabled ? 'bs-callout-default' : 'bs-callout-info'" ng-repeat="data in news">
+					<h4 style="float: left; word-wrap: break-word; margin-right: 10px;">{{data.Title}}</h4>
+					<div class="clear-fix"></div>
+					<div ng-bind-html="renderHtml(data.Body)">
+					</div>
+					<p class="text-muted" style="font-size: 11px; margin-top: 10px">{{data.DateCreate}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	#myCalendar > .modal-dialog {
+		width: 100%;
+		height: 100%;
+		padding: 0;
+	}
+
+	#myCalendar > .modal-content {
+		height: 100%;
+		border-radius: 0;
+	}
+</style>
+
+<div ng-cloak class="modal fade" id="myCalendar" tabindex="-1" role="dialog" aria-labelledby="myCalendarLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myCalendarLabel">Мой календарь</h4>
+			</div>
+			<div class="modal-body">
+				<div>
+					<div id='calendarEvents'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	/**
  * Russian translation for bootstrap-datepicker
  * Victor Taranenko <darwin@snowdale.com>
  */
-	(function ($) {
+	(function($) {
 		$.fn.datepicker.dates['ru'] = {
 			days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
 			daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Суб"],
@@ -272,11 +318,10 @@
 			monthsTitle: 'Месяцы'
 		};
 	}(jQuery));
-	$(function () {
-		$('#datetimepicker').datepicker({
-			language: "ru",
-			todayHighlight: true
-		});
+	$(function() {
+		
 	});
 </script>
+
+
 

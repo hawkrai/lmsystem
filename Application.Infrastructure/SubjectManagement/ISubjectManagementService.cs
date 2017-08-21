@@ -125,5 +125,9 @@ namespace Application.Infrastructure.SubjectManagement
 	    IList<SubGroup> GetSubGroupsV2WithScheduleProtectionLabs(int subjectId, int groupId);
 
 		Subject GetSubject(IQuery<Subject> query);
+
+		List<SubjectNews> GetNewsByGroup(int id);
+
+		List<SubjectNews> GetNewsByLector(int id);
     }
 }

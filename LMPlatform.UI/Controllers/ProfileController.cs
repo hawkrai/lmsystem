@@ -274,5 +274,54 @@ namespace LMPlatform.UI.Controllers
 			else
 				return builder.ToString();
 		}
+
+		[HttpPost]
+		public ActionResult GetNews(string userLogin)
+		{
+			var service = new UsersManagementService();
+
+			var subjectService = new SubjectManagementService();
+
+			var user = service.GetUser(userLogin);
+
+			var news  = new List<SubjectNews>();
+
+			if (user.Lecturer != null)
+			{
+				news = subjectService.GetNewsByLector(user.Id);
+			}
+			else
+			{
+				news = subjectService.GetNewsByGroup(user.Student.GroupId);
+			}
+
+			return Json(news.OrderBy(e => e.EditDate).ToList());
+		}
+
+		[HttpPost]
+		public ActionResult GetMiniInfoCalendar(string userLogin)
+		{
+			var userService = new UsersManagementService();
+
+			var subjectService = new SubjectManagementService();
+
+			var user = userService.GetUser(userLogin);
+
+			var labsEvents =
+				subjectService.GetLabEvents(user.Id)
+					.Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start })
+					.ToList();
+
+			var lectEvents =
+				subjectService.GetLecturesEvents(user.Id)
+					.Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start })
+					.ToList();
+
+			return Json(new
+			{
+				Labs = labsEvents,
+				Lect = lectEvents
+			});
+		}
 	}
 }
