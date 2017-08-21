@@ -843,6 +843,8 @@
     <Content Include="Scripts\application\BTS\bugDetails.js" />
     <Content Include="Scripts\application\BTS\chat.js" />
     <Content Include="Scripts\application\BTS\easyTooltip.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\morris.js" />
     <Content Include="Scripts\application\BTS\projectPart.js" />
     <Content Include="Scripts\application\BTS\studentProjectTable.js" />
