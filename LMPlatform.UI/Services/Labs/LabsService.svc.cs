@@ -406,13 +406,16 @@ namespace LMPlatform.UI.Services.Labs
 				foreach (var student in group.Students.Where(e => e.Confirmed == null || e.Confirmed.Value).OrderBy(e => e.LastName))
 				{
 					var scheduleProtectionLabs = subGroups.Any()
-						                             ? subGroups.FirstOrDefault().SubjectStudents.Any(x => x.StudentId == student.Id)
-							                               ? subGroupsWithSchedule.FirstOrDefault().ScheduleProtectionLabs.OrderBy(
+													 ? subGroups.FirstOrDefault(x => x.Name == "first").SubjectStudents.Any(x => x.StudentId == student.Id)
+														   ? subGroupsWithSchedule.FirstOrDefault(x => x.Name == "first").ScheduleProtectionLabs.OrderBy(
 								                               x => x.Date).ToList()
-							                               : subGroups.LastOrDefault().SubjectStudents.Any(x => x.StudentId == student.Id)
-								                                 ? subGroupsWithSchedule.LastOrDefault().ScheduleProtectionLabs.OrderBy(
+														   : subGroups.FirstOrDefault(x => x.Name == "second").SubjectStudents.Any(x => x.StudentId == student.Id)
+																 ? subGroupsWithSchedule.FirstOrDefault(x => x.Name == "second").ScheduleProtectionLabs.OrderBy(
 									                                 x => x.Date).ToList()
-								                                 : new List<ScheduleProtectionLabs>()
+																 : subGroups.FirstOrDefault(x => x.Name == "third").SubjectStudents.Any(x => x.StudentId == student.Id)
+																	? subGroupsWithSchedule.FirstOrDefault(x => x.Name == "third").ScheduleProtectionLabs.OrderBy(
+																		x => x.Date).ToList()
+																		: new List<ScheduleProtectionLabs>()
 						                             : new List<ScheduleProtectionLabs>();
 					students.Add(new StudentsViewData(this.TestPassingService.GetStidentResults(subjectId, student.Id), student, scheduleProtectionLabs: scheduleProtectionLabs, labs: labsData));
 				}
@@ -423,7 +426,7 @@ namespace LMPlatform.UI.Services.Labs
 					{
 						FullName = e.FullName,
 						Login = e.Login,
-						SubGroup = subGroups.FirstOrDefault().SubjectStudents.Any(x => x.StudentId == e.StudentId) ? 1 : subGroups.LastOrDefault().SubjectStudents.Any(x => x.StudentId == e.StudentId) ? 2 : 3,
+						SubGroup = subGroups.FirstOrDefault(x => x.Name == "first").SubjectStudents.Any(x => x.StudentId == e.StudentId) ? 1 : subGroups.FirstOrDefault(x => x.Name == "second").SubjectStudents.Any(x => x.StudentId == e.StudentId) ? 2 : subGroups.FirstOrDefault(x => x.Name == "third").SubjectStudents.Any(x => x.StudentId == e.StudentId) ? 3 : 4,
 						StudentId = e.StudentId,
 						LabsMarkTotal = e.LabsMarkTotal,
 						TestMark = e.TestMark,
@@ -469,7 +472,7 @@ namespace LMPlatform.UI.Services.Labs
 					students.Add(new StudentMark
 						             {
 										 FullName = student.FullName,
-										 SubGroup = subGroups.FirstOrDefault().SubjectStudents.Any(x => x.StudentId == student.Id) ? 1 : subGroups.LastOrDefault().SubjectStudents.Any(x => x.StudentId == student.Id) ? 2 : 3,
+										 SubGroup = subGroups.FirstOrDefault(x => x.Name == "first").SubjectStudents.Any(x => x.StudentId == student.Id) ? 1 : subGroups.FirstOrDefault(x => x.Name == "second").SubjectStudents.Any(x => x.StudentId == student.Id) ? 2 : subGroups.FirstOrDefault(x => x.Name == "third").SubjectStudents.Any(x => x.StudentId == student.Id) ? 3 : 4,
 										 FileLabs = files
 						             });
 				}
@@ -509,7 +512,7 @@ namespace LMPlatform.UI.Services.Labs
 					LabId = e.Id,
 					SubjectId = e.SubjectId,
 					SubGroup = 1,
-					ScheduleProtectionLabsRecomend = subGroups.Any() ? subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty }).ToList() : new List<ScheduleProtectionLab>()
+					ScheduleProtectionLabsRecomend = subGroups.Any() ? subGroups.FirstOrDefault(x => x.Name == "first").ScheduleProtectionLabs.OrderBy(x => x.Date).Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty }).ToList() : new List<ScheduleProtectionLab>()
 				}).ToList();
 
 
@@ -545,7 +548,7 @@ namespace LMPlatform.UI.Services.Labs
 					LabId = e.Id,
 					SubjectId = e.SubjectId,
 					SubGroup = 2,
-					ScheduleProtectionLabsRecomend = subGroups.Any() ? subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty }).ToList() : new List<ScheduleProtectionLab>()
+					ScheduleProtectionLabsRecomend = subGroups.Any() ? subGroups.FirstOrDefault(x => x.Name == "second").ScheduleProtectionLabs.OrderBy(x => x.Date).Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty }).ToList() : new List<ScheduleProtectionLab>()
 				}).ToList();
 
 				durationCount = 0;
@@ -570,21 +573,64 @@ namespace LMPlatform.UI.Services.Labs
 					}
 				}
 
+				var labsSubThird = labs.Select(e => new LabsViewData
+				{
+					Theme = e.Theme,
+					Order = e.Order,
+					Duration = e.Duration,
+					ShortName = e.ShortName,
+					LabId = e.Id,
+					SubjectId = e.SubjectId,
+					SubGroup = 3,
+					ScheduleProtectionLabsRecomend = subGroups.Any() ? subGroups.FirstOrDefault(x => x.Name == "third").ScheduleProtectionLabs.OrderBy(x => x.Date).Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty }).ToList() : new List<ScheduleProtectionLab>()
+				}).ToList();
+
+				durationCount = 0;
+				foreach (var lab in labsSubThird)
+				{
+					var mark = 10;
+					durationCount += lab.Duration / 2;
+					for (int i = 0; i < lab.ScheduleProtectionLabsRecomend.Count; i++)
+					{
+						if (i + 1 > durationCount - (lab.Duration / 2))
+						{
+							lab.ScheduleProtectionLabsRecomend[i].Mark = mark.ToString(CultureInfo.InvariantCulture);
+
+							if (i + 1 >= durationCount)
+							{
+								if (mark != 1)
+								{
+									mark -= 1;
+								}
+							}
+						}
+					}
+				}
+
 				labsSubOne.AddRange(labsSubTwo);
+				labsSubOne.AddRange(labsSubThird);
 
 				var scheduleProtectionLabsOne =
-					subGroups.FirstOrDefault() != null ? subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(
+					subGroups.FirstOrDefault() != null ? subGroups.FirstOrDefault(e => e.Name == "first").ScheduleProtectionLabs.OrderBy(e => e.Date).Select(
 					e => new ScheduleProtectionLabsViewData(e)).ToList() : new List<ScheduleProtectionLabsViewData>();
 
 				scheduleProtectionLabsOne.ForEach(e => e.SubGroup = 1);
 
 				var scheduleProtectionLabsTwo =
-					subGroups.LastOrDefault() != null ? subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(
+					subGroups.LastOrDefault() != null ? subGroups.FirstOrDefault(e => e.Name == "second").ScheduleProtectionLabs.OrderBy(e => e.Date).Select(
 					e => new ScheduleProtectionLabsViewData(e)).ToList() : new List<ScheduleProtectionLabsViewData>();
 
 				scheduleProtectionLabsTwo.ForEach(e => e.SubGroup = 2);
 
+				var scheduleProtectionLabsThird =
+					subGroups.LastOrDefault() != null ? subGroups.FirstOrDefault(e => e.Name == "third").ScheduleProtectionLabs.OrderBy(e => e.Date).Select(
+					e => new ScheduleProtectionLabsViewData(e)).ToList() : new List<ScheduleProtectionLabsViewData>();
+
+				scheduleProtectionLabsThird.ForEach(e => e.SubGroup = 3);
+
 				scheduleProtectionLabsOne.AddRange(scheduleProtectionLabsTwo);
+
+				scheduleProtectionLabsOne.AddRange(scheduleProtectionLabsThird);
 
 				return new LabsResult
 				{

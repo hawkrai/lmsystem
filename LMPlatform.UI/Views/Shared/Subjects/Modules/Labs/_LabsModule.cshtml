@@ -130,17 +130,57 @@
             @* -------------------------------- *@
 
 
-			<form ng-if="groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2.length > 0">
+	        <form ng-if="groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2.length > 0">
+		        <div style="margin-bottom: 15px; margin-top: 15px;">
+			        <div>
+				        <h4 style="margin-top: 20px;">Подгруппа 2</h4>
+				        <hr style="margin-top: 0px;"/>
+
+				        <table>
+					        <tbody>
+					        <tr>
+						        <td style="float: left">
+							        <a class="btn btn-primary btn-sm" ng-click="managementDateSubTwo()">Управление датами</a>
+						        </td>
+					        </tr>
+					        </tbody>
+				        </table>
+			        </div>
+		        </div>
+		        <div class="table-responsive" style="overflow-x: auto;">
+			        <table class="table table-bordered table-striped">
+				        <thead>
+				        <tr>
+					        <th>№</th>
+					        <th>Лабораторная работа</th>
+					        <th style="height: 80px; width: 10px; padding: 0px; margin: 0px; padding-bottom: 30px; text-align: center" ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2">
+						        <div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
+					        </th>
+				        </tr>
+				        </thead>
+				        <tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2">
+					        <td style="width: 20px">{{data.Order}}</td>
+					        <td style="min-width: 300px">{{data.Theme}}</td>
+					        <td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
+						        {{recomend.Mark}}
+					        </td>
+				        </tr>
+			        </table>
+		        </div>
+	        </form>
+
+
+			<form ng-if="groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2.length > 0">
 				<div style="margin-bottom: 15px; margin-top: 15px; ">
 					<div>
-						<h4 style="margin-top: 20px;">Подгруппа 2</h4>
+						<h4 style="margin-top: 20px;">Подгруппа 3</h4>
 						<hr style="margin-top:0px;" />
 
 						<table>
 							<tbody>
 								<tr>
 									<td style="float:left">
-										<a class="btn btn-primary btn-sm" ng-click="managementDateSubTwo()">Управление датами</a>
+										<a class="btn btn-primary btn-sm" ng-click="managementDateSubThird()">Управление датами</a>
 									</td>
 								</tr>
 							</tbody>
@@ -153,12 +193,12 @@
 							<tr>
 								<th>№</th>
 								<th>Лабораторная работа</th>
-								<th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2">
+								<th style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;text-align: center" ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsThird.ScheduleProtectionLabsV2">
 									<div style="cursor: pointer" class="box_rotate">{{data.Date}}</div>
 								</th>
 							</tr>
 						</thead>
-						<tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2">
+						<tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsThird.LabsV2">
 							<td style="width: 20px">{{data.Order}}</td>
 							<td style="min-width: 300px">{{data.Theme}}</td>
 							<td style="width: 50px; text-align: center" ng-repeat="recomend in data.ScheduleProtectionLabsRecomend">
@@ -289,6 +329,51 @@
 				</div>
 			</form>
 
+			<form editable-form name="tableformVisitingSubThird" ng-if="groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2.length > 0">
+				<div style="margin-bottom: 15px; margin-top: 15px;">
+					<div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
+						<div>
+							<h4 style="margin-top:20px">Подгруппа 3</h4>
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive" style="overflow-x: auto">
+					<table class=" table table-bordered table-striped table-hovert">
+						<thead>
+							<tr>
+								<th style="text-align: center; vertical-align: middle" rowspan="2">№</th>
+								<th style="text-align: center; vertical-align: middle" rowspan="2">Студент</th>
+								<th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsThird.LabsV2" colspan="{{lab.Duration/2}}"
+									title="{{lab.Theme}}">
+									{{lab.ShortName}}
+								</th>
+							</tr>
+							<tr>
+								<th style="height: 80px; width: 10px; padding: 0px; margin: 0px; padding-bottom: 30px; text-align: center"
+									ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsThird.ScheduleProtectionLabsV2" ng-dblclick="exposeMarkVisitingThird(data.ScheduleProtectionLabId)">
+									<div style="cursor: pointer; display: inline-block" class="box_rotate">{{data.Date}}</div>
+								</th>
+							</tr>
+						</thead>
+						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2" ng-init="studentIndexThird=$index">
+							<td style="width: 20px">{{studentIndexThird + 1}}</td>
+							<td style="min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark" ng-init="markIndexThird=$index" ng-dblclick="exposeMarkVisitingThird(data.ScheduleProtectionLabId)">
+								<div style="text-align:center">
+									<div style="float:left; margin-left:10px;">
+										{{ data.Mark || '' }}
+									</div>
+									<div id="imageVisitingThird{{studentIndexThird}}{{markIndexThird}}" style="float: right; height: 10px; width:10px; margin-top: -5px; display:none">
+										<img src="~/Images/comment.png">
+										{{commentImage(data.Comment, studentIndexThird,markIndexThird,"imageVisitingThird")}}
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
+
         </tab>
 
         <tab heading="Результаты">
@@ -371,10 +456,60 @@
 
             @* ---------------------------------------------- *@
 
-			<form editable-form name="tableformLabsMarksSubTwo" ng-if="groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2.length > 0">
+	        <form editable-form name="tableformLabsMarksSubTwo" ng-if="groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2.length > 0">
+		        <div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
+			        <div>
+				        <h4 style="margin-top: 20px">Подгруппа 2</h4>
+			        </div>
+		        </div>
+		        <div style="width: 100%">
+			        <table class="table table-bordered table-striped table-hoverT">
+				        <thead>
+				        <tr>
+					        <th style="text-align: center; vertical-align: middle">№</th>
+					        <th style="text-align: center; vertical-align: middle">Студент</th>
+					        <th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2" title="{{lab.Theme}}">
+						        {{lab.ShortName}}
+					        </th>
+					        <th style="text-align: center; vertical-align: middle">Средний балл</th>
+					        <th style="text-align: center; vertical-align: middle">Средний балл за тесты</th>
+					        <th style="text-align: center; vertical-align: middle">Рейтинговая оценка</th>
+				        </tr>
+				        </thead>
+				        <tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2" ng-init="studentIndex=$index">
+					        <td style="width: 42px">{{studentIndex + 1}}</td>
+					        <td style="width: auto"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
+					        <td style="width: 60px; text-align: center" ng-repeat="mark in student.Marks"
+					            ng-init="markIndex=$index" ng-dblclick="exposeMarkSubTwo(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
+
+						        <div style="text-align: center;">
+							        <div style="float: left; margin-left: 10px; color: black" id="markTwo{{studentIndex}}{{markIndex}}">
+								        {{setMarkSubTwo(mark.LabId, mark.StudentId, studentIndex, markIndex)}}
+							        </div>
+							        <div style="float: right">
+								        <div id="imageTwo{{studentIndex}}{{markIndex}}" style="height: 10px; width: 10px; margin-top: -5px; display: none">
+									        <img src="~/Images/comment.png">
+									        {{commentImage(mark.Comment, studentIndex, markIndex,"imageTwo")}}
+								        </div>
+								        <div id="imageDotTwo{{studentIndex}}{{markIndex}}" style="height: 5px; width: 5px; margin-top: 2px; display: none">
+									        <img src="~/Images/redDot.png">
+									        {{dotImageTwo(mark.LabId, mark.StudentId, studentIndex, markIndex,"imageDotTwo")}}
+								        </div>
+							        </div>
+						        </div>
+					        </td>
+					        <td style="width: 50px; text-align: center; color: red"><b>{{student.LabsMarkTotal}}</b></td>
+					        <td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
+					        <td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
+				        </tr>
+			        </table>
+		        </div>
+	        </form>
+
+			<form editable-form name="tableformLabsMarksSubThird" ng-if="groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2.length > 0">
 				<div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
 					<div>
-						<h4 style="margin-top:20px">Подгруппа 2</h4>
+						<h4 style="margin-top:20px">Подгруппа 3</h4>
 					</div>
 				</div>
 				<div style="width:100%">
@@ -383,7 +518,7 @@
 							<tr>
 								<th style="text-align: center; vertical-align: middle">№</th>
 								<th style="text-align: center; vertical-align: middle">Студент</th>
-								<th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2" title="{{lab.Theme}}">
+								<th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsThird.LabsV2" title="{{lab.Theme}}">
 									{{lab.ShortName}}
 								</th>
 								<th style="text-align: center; vertical-align: middle">Средний балл</th>
@@ -391,24 +526,24 @@
 								<th style="text-align: center; vertical-align: middle">Рейтинговая оценка</th>
 							</tr>
 						</thead>
-						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2" ng-init="studentIndex=$index">
+						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2" ng-init="studentIndex=$index">
 							<td style="width: 42px">{{studentIndex + 1}}</td>
 							<td style="width: auto"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 60px; text-align: center" ng-repeat="mark in student.Marks"
-								ng-init="markIndex=$index" ng-dblclick="exposeMarkSubTwo(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
+								ng-init="markIndex=$index" ng-dblclick="exposeMarkSubThird(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
 
 								<div style="text-align:center;">
-									<div style="float:left; margin-left:10px; color:black" id="markTwo{{studentIndex}}{{markIndex}}">
-										{{setMarkSubTwo(mark.LabId, mark.StudentId, studentIndex, markIndex)}}
+									<div style="float:left; margin-left:10px; color:black" id="markThird{{studentIndex}}{{markIndex}}">
+										{{setMarkSubThird(mark.LabId, mark.StudentId, studentIndex, markIndex)}}
 									</div>
 									<div style="float: right">
-										<div id="imageTwo{{studentIndex}}{{markIndex}}" style="height: 10px; width: 10px; margin-top: -5px; display:none">
+										<div id="imageThird{{studentIndex}}{{markIndex}}" style="height: 10px; width: 10px; margin-top: -5px; display:none">
 											<img src="~/Images/comment.png">
-											{{commentImage(mark.Comment, studentIndex, markIndex,"imageTwo")}}
+											{{commentImage(mark.Comment, studentIndex, markIndex,"imageThird")}}
 										</div>
-										<div id="imageDotTwo{{studentIndex}}{{markIndex}}" style="height: 5px; width: 5px; margin-top:2px; display: none">
+										<div id="imageDotThird{{studentIndex}}{{markIndex}}" style="height: 5px; width: 5px; margin-top:2px; display: none">
 											<img src="~/Images/redDot.png">
-											{{dotImageTwo(mark.LabId, mark.StudentId, studentIndex, markIndex,"imageDotTwo")}}
+											{{dotImageThird(mark.LabId, mark.StudentId, studentIndex, markIndex,"imageDotThird")}}
 										</div>
 									</div>
 								</div>
@@ -483,16 +618,60 @@
 			        </accordion-group>
 		        </accordion>
 	        </div>
-			<div ng-if="groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2.length > 0">
+	        <div ng-if="groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2.length > 0">
+		        <div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
+			        <div>
+				        <h4 style="margin-top: 20px">Подгруппа 2</h4>
+			        </div>
+		        </div>
+		        <div style="margin-top: 10px; margin-bottom: 10px">
+
+			        <accordion>
+				        <accordion-group ng-repeat="data in groupWorkingData.selectedGroup.StudentsFilesV2_2">
+					        <accordion-heading>
+						        <h4 class="panel-title">
+							        <a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.FullName}}</a>
+						        </h4>
+						        <div class="clear-fix"></div>
+					        </accordion-heading>
+					        <div>
+						        <table class="table table-bordered table-hover table-responsive">
+							        <thead>
+							        <tr>
+								        <th>Файлы</th>
+								        <th>Комментарий</th>
+								        <th>Дата</th>
+								        <th>Действие</th>
+							        </tr>
+							        </thead>
+							        <tbody>
+							        <tr ng-repeat="files in data.FileLabs">
+								        <td>
+									        <div ng-repeat="file in files.Attachments">
+										        <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
+									        </div>
+								        </td>
+								        <td>{{files.Comments}}</td>
+								        <td>{{files.Date}}</td>
+							        </tr>
+							        </tbody>
+						        </table>
+					        </div>
+				        </accordion-group>
+			        </accordion>
+		        </div>
+	        </div>
+
+			<div ng-if="groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2.length > 0">
 				<div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
 					<div>
-						<h4 style="margin-top:20px">Подгруппа 2</h4>
+						<h4 style="margin-top:20px">Подгруппа 3</h4>
 					</div>
 				</div>
 				<div style="margin-top: 10px;margin-bottom: 10px">
 
 					<accordion>
-						<accordion-group ng-repeat="data in groupWorkingData.selectedGroup.StudentsFilesV2_2">
+						<accordion-group ng-repeat="data in groupWorkingData.selectedGroup.StudentsFilesV2_3">
 							<accordion-heading>
 								<h4 class="panel-title">
 									<a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.FullName}}</a>
@@ -526,7 +705,7 @@
 					</accordion>
 				</div>
 			</div>
-			
+
         </tab>
     </tabset>
 
@@ -658,8 +837,49 @@
         </div>
     </div>
 
+	<div id="dialogmanagementDataSubThird" class="modal">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px; width: 500px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Управление датами (Подгруппа 2)</h4>
+			</div>
+			<div class="modal-body">
+				<div>
+					<div>
+						<label class="control-label">Выберите дату</label>
+						<p class="input-group" style="width: 100%;">
+							<input style="margin: 0" type="text" class="form-control"
+								   datepicker-popup="{{format}}"
+								   ng-model="dt"
+								   is-open="openedThird"
+								   ng-click="openedThird = true"
+								   show-button-bar="false"
+								   close-text="Закрыть"
+								   datepicker-options="dateOptions" close-text="Close" />
+						</p>
+					</div>
+					<div style="height:30px">
+						<input ng-click="addDateSubThird()" type="button" class="btn btn-primary btn-sm" value="Добавить" style="width:20%; float:right;" />
+					</div>
+					<div>
+						<label class="control-label">Даты занятий</label>
+						<div style="max-height: 300px; overflow-y: auto; overflow-x: hidden">
+							<table class="table table-bordered table-striped">
+								<tr ng-repeat="data in groupWorkingData.selectedGroup.SubGroupsThird.ScheduleProtectionLabsV2">
+									<td>
+										<p>{{data.Date}}</p>
+									</td>
+									<td style="width: 20px"><a ng-click="deleteVisitingDate(data.ScheduleProtectionLabId)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div id="dialogEditMarksVisiting" class="modal">
+<div id="dialogEditMarksVisiting" class="modal">
         <div class="modal-dialog panel panel-primary" style="padding: 0px; width: 350px">
             <div class="panel-heading">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -788,6 +1008,52 @@
     </div>
 </div>
 
+<div id="dialogexposeMarkThird" class="modal">
+	<div class="modal-dialog panel panel-primary" style="padding: 0px; width: 500px">
+		<div class="panel-heading">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="myModalLabel">Выставление отметки</h4>
+		</div>
+		<div class="modal-body">
+			<div style="color:red; display:none" id="errorThirdMark"><h5>Значение поля должно находиться в диапазоне от 0 до 10!</h5></div>
+			<div>
+				<label class="control-label">Выставьте отметку (от 0 до 10)</label>
+			</div>
+			<div>
+				<input id="markInputThird" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this, 'errorThirdMark')" />
+			</div>
+			<div>
+				<label class="control-label">Дата выставления</label>
+			</div>
+			<div>
+				<p class="input-group" style="width: 100%;">
+					<input id="dateInputThird" style="margin: 0; width:100%" type="text"
+						   datepicker-popup="{{format}}"
+						   ng-model="dt"
+						   is-open="openedThird"
+						   ng-click="openedThird = true"
+						   show-button-bar="false"
+						   close-text="Закрыть"
+						   datepicker-options="dateOptions" close-text="Close" />
+				</p>
+			</div>
+			<div>
+				<label class="control-label">Комментарий</label>
+			</div>
+			<div>
+				<textarea id="commentInputThird" style="width:100%; min-width:0px;" />
+			</div>
+			<input id="inputLabIdThird" style="display:none" />
+			<input id="inputStudentIdThird" style="display:none" />
+			<input id="inputIdThird" style="display:none" />
+			<div class="modal-footer" style="padding-bottom:0px; padding-right:0px">
+				<a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+				<a class="btn btn-primary btn-sm" ng-click="saveLabsMarksSubThird()" data-dismiss="modal">Сохранить</a>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div id="dialogexposeVisitingMarkOne" class="modal">
     <div class="modal-dialog panel panel-primary" style="padding: 0px; width:700px">
         <div class="panel-heading">
@@ -868,4 +1134,45 @@
             <input id="keyTwo" style="display:none" />
         </div>
     </div>
+</div>
+
+<div id="dialogexposeVisitingMarkThird" class="modal">
+	<div class="modal-dialog panel panel-primary" style="padding: 0px; width:700px">
+		<div class="panel-heading">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="myModalLabel">Посещаемость студентов</h4>
+		</div>
+		<div class="modal-body">
+			<div style="color:red; display:none" id="errorThird"><h5>Значение поля должно находиться в диапазоне от 1 до 100!</h5></div>
+			<div>
+				<h5>Редактируемая дата:</h5>
+				<h4 id="textDateThird"></h4>
+			</div>
+			<table class="table table-bordered table-striped table-hoverT">
+				<tbody>
+					<tr style="text-align:center">
+						<td>№</td>
+						<td>ФИО</td>
+						<td>Пропущено часов</td>
+						<td>Комментарий</td>
+					</tr>
+				</tbody>
+				<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2" ng-init="keyThird=$index">
+					<td style="width:20px">{{keyThird + 1}}</td>
+					<td style="width:200px">{{student.FullName}}</td>
+					<td>
+						<input style="width:70px; text-align:center" type="number" max="100" min="1" id="markVisitingThird{{keyThird}}" onchange="angular.element(this).scope().NumberControl(this, 'errorThird')" />{{visitingMarkThird(student.StudentId,"markVisitingThird", keyThird)}}
+						<input style="display:none" id="studentIdThird{{keyThird}}" value="{{student.StudentId}}" />
+					</td>
+					<td><input style="width:350px" id="commentVisitingThird{{keyThird}}" />{{visitingCommentThird(student.StudentId,"commentVisitingThird", keyThird)}}</td>
+				</tr>
+			</table>
+			<div class="modal-footer" style="padding-bottom:0px; padding-right:0px">
+				<a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+				<a class="btn btn-primary btn-sm" ng-click="saveVisitingMarkSubThird('keyThird','markVisitingThird','commentVisitingThird', 'studentIdThird')" data-dismiss="modal">Сохранить</a>
+			</div>
+			<input id="dateVisitingMarkThird" style="display:none" />
+			<input id="keyThird" style="display:none" />
+		</div>
+	</div>
 </div>

@@ -6,8 +6,8 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 {
 	public interface ISubGroupRepository : IRepositoryBase<SubGroup>
 	{
-        void SaveStudents(int subjectId, int subjectGroupId, IList<int> firstInts, IList<int> secoInts);
+		void SaveStudents(int subjectId, int subjectGroupId, IList<int> firstInts, IList<int> secoInts, IList<int> thirdInts);
 
-        void CreateSubGroup(int subjectId, int subjectGroupId, IList<int> firstInts, IList<int> secoInts);
+		void CreateSubGroup(int subjectId, int subjectGroupId, IList<int> firstInts, IList<int> secoInts, IList<int> thirdInts);
 	}
 }

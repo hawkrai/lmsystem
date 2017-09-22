@@ -36,6 +36,7 @@
 	<script src="~/Scripts/bootstrap-datepicker.js"></script>
 	<script src="~/Scripts/moment.js"></script>
 <script src="~/Scripts/moment-with-locales.min.js"></script>
+<script src='~/Scripts/fullcalendar/locale/ru.js'></script>
 	
 }
 
@@ -171,7 +172,7 @@
     }
 }
 
-<div ng-app="appUserProfile" ng-controller="ProfileController" id="testA" ng-init="init('@ViewData["userLogin"]', '@ViewData["isMyProfile"].ToString().ToLower()' )">
+<div ng-app="appUserProfile" ng-controller="ProfileController" id="testA" ng-cloak ng-init="init('@ViewData["userLogin"]', '@ViewData["isMyProfile"].ToString().ToLower()' )">
     @{
         Html.RenderPartial("../Lms/ProfilePage");
     }

@@ -350,9 +350,20 @@ namespace Application.Infrastructure.SubjectManagement
 					repositoriesContainer.RepositoryFor<SubjectGroup>().GetAll(new Query<SubjectGroup>(e => e.GroupId == id)).Select(
 						e => e.SubjectId).ToList();
 
+				var subjectsData =
+					repositoriesContainer.RepositoryFor<SubjectGroup>().GetAll(new Query<SubjectGroup>(e => e.GroupId == id).Include(e => e.Subject)).ToList();
+
 				var news =
 					repositoriesContainer.RepositoryFor<SubjectNews>().GetAll(
-						new Query<SubjectNews>(e => subjects.Contains(e.SubjectId))).ToList();
+						new Query<SubjectNews>(e => subjects.Contains(e.SubjectId) && !e.Disabled)).ToList();
+
+				foreach (var subjectNewse in news)
+				{
+					subjectNewse.Subject = new Subject
+					{
+						Name = subjectsData.FirstOrDefault(e => e.SubjectId == subjectNewse.SubjectId).Subject.Name
+					};
+				}
 
 				return news;
 			}
@@ -366,9 +377,20 @@ namespace Application.Infrastructure.SubjectManagement
 					repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(new Query<SubjectLecturer>(e => e.LecturerId == id)).Select(
 						e => e.SubjectId).ToList();
 
+				var subjectsData =
+					repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(new Query<SubjectLecturer>(e => e.LecturerId == id).Include(e => e.Subject)).ToList();
+
 				var news =
 					repositoriesContainer.RepositoryFor<SubjectNews>().GetAll(
-						new Query<SubjectNews>(e => subjects.Contains(e.SubjectId))).ToList();
+						new Query<SubjectNews>(e => subjects.Contains(e.SubjectId) && !e.Disabled)).ToList();
+
+				foreach (var subjectNewse in news)
+				{
+					subjectNewse.Subject = new Subject
+												{
+													Name = subjectsData.FirstOrDefault(e => e.SubjectId == subjectNewse.SubjectId).Subject.Name
+												};
+				}
 
 				return news;
 			}
@@ -429,8 +451,8 @@ namespace Application.Infrastructure.SubjectManagement
 				return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
 			}
 		}
-		
-		public void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts)
+
+		public void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts, IList<int> thirdInts)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 			{
@@ -438,11 +460,11 @@ namespace Application.Infrastructure.SubjectManagement
 				var firstOrDefault = subject.SubjectGroups.FirstOrDefault(e => e.GroupId == groupId);
 				if (firstOrDefault.SubGroups.Any())
 				{
-					repositoriesContainer.SubGroupRepository.SaveStudents(subjectId, firstOrDefault.Id, firstInts, secoInts);
+					repositoriesContainer.SubGroupRepository.SaveStudents(subjectId, firstOrDefault.Id, firstInts, secoInts, thirdInts);
 				}
 				else
 				{
-					repositoriesContainer.SubGroupRepository.CreateSubGroup(subjectId, firstOrDefault.Id, firstInts, secoInts);
+					repositoriesContainer.SubGroupRepository.CreateSubGroup(subjectId, firstOrDefault.Id, firstInts, secoInts, thirdInts);
 				}
 			}
 		}

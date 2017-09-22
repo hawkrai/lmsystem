@@ -11,9 +11,9 @@
 			height: 300px;
 		}
 
-		.lmsMainContainer .statisticContainer {
+		/*.lmsMainContainer .statisticContainer {
 			height: 250px;
-		}
+		}*/
 
 		.lmsMainContainer .allNews {
 			width: 150px;
@@ -98,8 +98,7 @@
 	}
 
 	.lmsMainContainer .statisticContainer .circleContainer {
-		margin-left: 30%;
-		margin-top: 30px;
+		margin-left: 100px;
 	}
 
 	.lmsMainContainer .statisticContainer .subjectInfo {
@@ -137,21 +136,16 @@
 						</div>
 						<div class="col-md-6">
 							<div class="text-center">
-								<h4>Список предметов</h4>
+								<h4 style="font-weight: bold;">Список предметов</h4>
 							</div>
 							<div class="date-text">{{selectedDate}}</div>
-							<div>
+							<div style="height: 170px; overflow-y: auto; margin-top: 10px; margin-left: -10px;">
 								<ul class="subjectsContainer">
-									<li ng-repeat="data in selectedEvents">{{data.title}}</li>
-									@*<li class="subjectColorRed">Надежность ПО</li>
-									<li class="subjectColorOrange">Модульное тестирование</li>
-									<li class="subjectColorGreen">Системное программирование</li>
-									<li class="subjectColorTeal">Базы данных</li>
-									<li class="subjectColorViolet">Алгоритмы и методы принятия решений</li>*@
+									<li ng-style="{'color': randomColor()}" ng-repeat="data in selectedEvents">{{data.title}}</li>	
 								</ul>
 							</div>
 							<div class="text-right">
-								<input type="button" class="btn btn-sm btn-default allNews" ng-click="showEvents()" value="Подробное расписание" />
+								<a href="#" class="allNews" ng-click="showEvents()">Подробное расписание</a>
 							</div>
 						</div>
 					</div>
@@ -173,12 +167,13 @@
 				<div class="panel-body newsContainer">
 					<div class="newsHeader text-center">
 						<a href="#">{{lastNews.Title}}</a>
+						<p style="color: #72afd2">(Предмет - {{lastNews.Subject.Name}}, Дата - {{convertJSONDate(lastNews.EditDate)}})</p>
 					</div>
-					<div class="newsBody" style="height: 180px; overflow: auto;">
+					<div class="newsBody" style="height: 205px; overflow: auto;">
 						<div ng-bind-html="renderHtml(lastNews.Body)"></div>
 					</div>
 					<div class="text-right">
-						<input type="button" class="btn btn-sm btn-default allNews" ng-click="showNews()" value="Все новости" />
+						<a href="#" class="allNews" ng-click="showNews()">Все новости</a>
 					</div>
 				</div>
 			</div>
@@ -199,19 +194,19 @@
 				</div>
 				<div class="panel-body statisticContainer">
 					<div class="row">
-						<div class="col-md-3 ">
+						<div class="col-md-12" ng-repeat="data in subject">
 							<div class="text-center">
-								Завершенность курса
+								Завершенность курса ({{data.Name}})
 							</div>
-							<div class="c100 p30 blue circleContainer">
-								<span>30%</span>
+							<div class="c100 p{{data.Completing}} blue circleContainer">
+								<span>{{data.Completing}}%</span>
 								<div class="slice">
 									<div class="bar"></div>
 									<div class="fill"></div>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-3">
+						@*<div class="col-md-3">
 							<div>
 								<a href="#">Надежность программного обеспечения</a>
 							</div>
@@ -242,7 +237,7 @@
 								<p class="text-info">Написано тестов: 2 из 4</p>
 								<p class="text-info">Рейтинг по предмету: 9</p>
 							</div>
-						</div>
+						</div>*@
 					</div>
 				</div>
 			</div>
@@ -264,7 +259,7 @@
 					<div class="clear-fix"></div>
 					<div ng-bind-html="renderHtml(data.Body)">
 					</div>
-					<p class="text-muted" style="font-size: 11px; margin-top: 10px">{{data.DateCreate}}</p>
+					<h5 style="color: #72afd2" class="text-info">Предмет - {{data.Subject.Name}}, Дата - {{convertJSONDate(data.EditDate)}}</h5>
 				</div>
 			</div>
 		</div>

@@ -42,7 +42,7 @@ namespace Application.Infrastructure.SubjectManagement
 
 	    IList<SubGroup> GetSubGroups(int subjectId, int groupId);
 
-        void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts);
+		void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts, IList<int> thirdInts);
 
         Lectures GetLectures(int id);
 

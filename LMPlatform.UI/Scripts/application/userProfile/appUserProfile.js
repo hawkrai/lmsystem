@@ -32,7 +32,7 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 
 		    $scope.loaEvents();
 
-		    //$scope.loadSubjects();
+		    $scope.loadSubjects();
 
 		    //$scope.loadStatistic();
 
@@ -63,7 +63,7 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 	            async: false,
 	            data: JSON.stringify({ userLogin: $scope.login }),
 	        }).success(function (data, status) {
-		        $scope.renderCalendar(data.Labs, data.Lect);
+	        	$scope.renderCalendar(data.Labs, data.Lect);	        	
 	        	$scope.events = data;
 	        	var now = moment().startOf('day'); //todays date
 	        	$scope.renderMiniCalendar(now);
@@ -102,8 +102,17 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 				header: {
 					left: 'prev,next today',
 					center: 'title',
-					right: 'month'
+					right: 'listDay,listWeek'
 				},
+            	
+				views: {
+					listDay: { buttonText: 'День' },
+					listWeek: { buttonText: 'Неделя' }
+				},
+				defaultView: 'listWeek',
+				defaultDate: '09/22/2017',
+				navLinks: true, // can click day/week names to navigate views
+				editable: true,
 				eventSources: [
 					{
 					    events: labsEvents,
@@ -176,7 +185,10 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 			$('#dialogAllNews').modal();
 		};
 
-		$scope.showEvents = function() {
+		$scope.showEvents = function () {
+			$('#myCalendar').on('shown.bs.modal', function () {
+				$(".fc-today-button").click();
+			})
 			$("#myCalendar").modal();
 		};
 
@@ -200,4 +212,13 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 			$scope.selectedDate = now.format("DD/MM/YYYY");
 		};
 
+		$scope.convertJSONDate = function (dateJson) {
+			var date = new Date(parseInt(dateJson.substr(6)));
+
+			return date.toLocaleDateString();
+		};
+
+		$scope.randomColor = function () {
+			return "#" + Math.floor(Math.random() * 16777215).toString(16)
+		};
 	});

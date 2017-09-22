@@ -295,7 +295,7 @@ namespace LMPlatform.UI.Controllers
 				news = subjectService.GetNewsByGroup(user.Student.GroupId);
 			}
 
-			return Json(news.OrderBy(e => e.EditDate).ToList());
+			return Json(news.OrderByDescending(e => e.EditDate).ToList());
 		}
 
 		[HttpPost]

@@ -389,12 +389,17 @@ namespace LMPlatform.UI.Services
 						SubGroupsOne = subGroups.Any() ? new SubGroupsViewData
 							               {
 											   Name = "Подгруппа 1",
-											   SubGroupId = subGroups.FirstOrDefault().Id
+											   SubGroupId = subGroups.FirstOrDefault(e => e.Name == "first").Id
 							               } : new SubGroupsViewData(),
 						SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
 						{
 							Name = "Подгруппа 2",
-							SubGroupId = subGroups.LastOrDefault().Id
+							SubGroupId = subGroups.FirstOrDefault(e => e.Name == "second").Id
+						} : new SubGroupsViewData(),
+						SubGroupsThird = subGroups.Any() ? new SubGroupsViewData
+						{
+							Name = "Подгруппа 3",
+							SubGroupId = subGroups.FirstOrDefault(e => e.Name == "third").Id
 						} : new SubGroupsViewData(),
 					});
 				}
