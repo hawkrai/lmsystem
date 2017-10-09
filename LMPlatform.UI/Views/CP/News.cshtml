@@ -1,4 +1,4 @@
-﻿<div>
+﻿<div style="min-height:500px">
     <style type="text/css">
         .nav, .pagination, .carousel, .panel-title a {
             cursor: pointer;
@@ -37,7 +37,7 @@
                     Прикрепленные материалы
                     <span class="caret"></span>
                 </button>
-                <ul style="overflow:overlay; height:auto; max-height:300px" class="dropdown-menu" role="menu" aria-labelledby="btnGroupDrop1">
+                <ul style="overflow:overlay; height:auto; max-height:200px" class="dropdown-menu" role="menu" aria-labelledby="btnGroupDrop1">
                     <li ng-repeat="file in data.Attachments"><a href="api/Upload?filename={{file.PathName}}//{{file.FileName}}">{{file.Name}}</a></li>
                 </ul>
             </div>

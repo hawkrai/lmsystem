@@ -11,7 +11,10 @@
             $scope.setTitle("Лист задания");
 
             $scope.projects = [];
-            $scope.project = { Id: null };
+            $scope.project = {
+                Id: null,
+                Name: ""
+            };
 
             $scope.taskSheetHtml = "";
 
@@ -27,17 +30,25 @@
             projectService.getCourseProjectCorrelation(subjectId)
                 .success(function (data) {
                     $scope.projects = data;
+                    if ($scope.projects.length == 1) {
+                        $scope.project.Id = $scope.projects[0].Id;
+                        $scope.project.Name = $scope.projects[0].Name;
+                        $scope.selectProject($scope.project);
+                    }
                 });
 
             $scope.selectProject = function (project) {
                 if (project) {
                     $scope.selectedProjectId = project.Id;
+                    $scope.project.Name = project.Name;
                 }
                 projectService.downloadTaskSheetHtml($scope.selectedProjectId)
                     .success(function (data) {
                         $scope.taskSheetHtml = $sce.trustAsHtml(data);
                     });
             };
+
+
 
             $scope.downloadTaskSheet = function () {
                 projectService.downloadTaskSheet($scope.selectedProjectId);

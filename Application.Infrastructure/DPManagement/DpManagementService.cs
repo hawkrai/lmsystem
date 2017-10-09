@@ -495,6 +495,28 @@ namespace Application.Infrastructure.DPManagement
             return Context.DiplomProjectNewses.Single(x => x.Id == id);
         }
 
+        public void DeleteUserFromAdpProject(int id, int projectId)
+        {
+            var acp = Context.AssignedDiplomProjects.Single(e => e.DiplomProjectId == projectId && e.StudentId == id);
+            Context.AssignedDiplomProjects.Remove(acp);
+            Context.SaveChanges();
+        }
+
+        public void DeletePercenageAndVisitStatsForUser(int id)
+        {
+            var cpPR = Context.DiplomPercentagesResults.Where(e => e.StudentId == id);
+            foreach (var cp in cpPR)
+            {
+                Context.DiplomPercentagesResults.Remove(cp);
+            }
+
+            var cpVS = Context.DiplomProjectConsultationMarks.Where(e => e.StudentId == id);
+            foreach (var cp in cpVS)
+            {
+                Context.DiplomProjectConsultationMarks.Remove(cp);
+            }
+            Context.SaveChanges();
+        }
 
         private readonly LazyDependency<IDpContext> context = new LazyDependency<IDpContext>();
 
