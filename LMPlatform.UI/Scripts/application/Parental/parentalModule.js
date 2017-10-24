@@ -181,11 +181,11 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
 
                     $scope.Subjects = data.Subjects;
 
-                    $scope.Subjects.splice(0, 0, { Name: "Все предметы (суммарная статистика)", Id: 0, ShortName: "" });
-                    $scope.Subjects.splice(0, 0, $scope.subject);
+					$scope.Subjects.splice(0, 0, $scope.subject);
+					$scope.Subjects.splice($scope.Subjects.length, 0, { Name: "Суммарная статистика по всем предметам", Id: 0, ShortName: "" });
+                    
+					
                 }
-
-                alertify.success(data.Message);
             }
         });
     };
@@ -193,7 +193,7 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
     $scope.loadData = function (subject) {
         $http({
             method: 'Get',
-            url: $scope.UrlServiceCore + "GetGroups/" + subject.Id,
+            url: $scope.UrlServiceCore + "GetGroups?subjectId=" + subject.Id + "&groupId=" + $scope.groupId,
             headers: { 'Content-Type': 'application/json' }
         }).success(function (data, status) {
             if (data.Code != '200') {
@@ -242,7 +242,8 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
             PractMark: 0,
             LabsCount: 0,
             PractsCount: 0,
-			TestMark: 0
+            TestMark: 0,
+			PractHoursView: true
         };
 
         var studentObj = Enumerable.From(data.Students).First(function (x) { return x.StudentId == subGroupStudent.StudentId; });
@@ -260,7 +261,7 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
         var practVisitResult = markArrayProc(pracVisitArray);
         var labVisitResult = markArrayProc(labVisitArray);
 
-        studentStat.LecHours = lecVisitResult.sum; //<= 0 ? "-" : lecVisitResult.sum;
+		studentStat.LecHours = lecVisitResult.sum; //<= 0 ? "-" : lecVisitResult.sum;
         studentStat.PractHours = practVisitResult.sum; //<= 0 ? "-" : practVisitResult.sum;
         studentStat.LabHours = labVisitResult.sum; //<= 0 ? "-" : labVisitResult.sum;
         studentStat.TotalHours = lecVisitResult.sum + practVisitResult.sum + labVisitResult.sum;
@@ -273,6 +274,8 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
         studentStat.LabsCount = labMarkResult.pos;
         studentStat.PractsCount = practMarkResult.pos;
         studentStat.TestMark = parseFloat(studentObj.TestMark || 0);
+
+		studentStat.PractHoursView = pracVisitArray.length > 0;
 
         return studentStat;
     };

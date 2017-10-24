@@ -110,7 +110,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         List<Subject> GetSubjectsByStudent(int userId);
 
-	    decimal GetSubjectCompleting(int subjectId);
+		decimal GetSubjectCompleting(int subjectId, string user, Student student);
 
         int StudentAttendance(int userId);
 
@@ -129,5 +129,7 @@ namespace Application.Infrastructure.SubjectManagement
 		List<SubjectNews> GetNewsByGroup(int id);
 
 		List<SubjectNews> GetNewsByLector(int id);
-    }
+
+		List<ProfileCalendarModel> GetGroupsLabEvents(int groupId, int userId);
+	}
 }

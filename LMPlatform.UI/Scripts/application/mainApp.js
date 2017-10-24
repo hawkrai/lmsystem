@@ -461,6 +461,11 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             	$(this).height($table.find("tr:eq(" + i + ")").height());
             });
 
+			if ($scope.groups.length > 0) {
+				$scope.startSpin();
+				$scope.loadLecturesMarkVisiting();
+			}
+
             //setTimeout(function() {
             //	$scope.startSpin();
             //	$scope.loadLecturesMarkVisiting();
@@ -468,6 +473,11 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
             //$scope.setBarChart();
         };
+
+		$scope.$on('groupLoaded', function (event, arg) {
+			$scope.startSpin();
+			$scope.loadLecturesMarkVisiting();
+		});
 
         $scope.changeGroups = function (selectedGroup) {
         	$scope.selectedGroupChange(selectedGroup.GroupId);

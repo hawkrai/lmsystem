@@ -99,11 +99,21 @@ namespace LMPlatform.UI.Controllers
             var subjectService = new SubjectManagementService();
            
             var user = userService.GetUser(userLogin);
-            
-            var labsEvents =
-		        subjectService.GetLabEvents(user.Id)
-		            .Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start })
-		            .ToList();
+
+			var labsEvents = new List<ProfileCalendarViewModel>();
+
+			if (user.Lecturer == null)
+			{
+				labsEvents = subjectService.GetGroupsLabEvents(user.Student.GroupId, user.Id).Select(
+					e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start, subjectId = e.SubjectId }).ToList();
+			}
+			else
+			{
+				labsEvents =
+					subjectService.GetLabEvents(user.Id)
+								.Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start, subjectId = e.SubjectId })
+								.ToList();
+			}
 
             var lectEvents =
                 subjectService.GetLecturesEvents(user.Id)
@@ -147,7 +157,7 @@ namespace LMPlatform.UI.Controllers
                                                   Name = subject.Name,
                                                   Id = subject.Id,
                                                   ShortName = subject.ShortName,
-												  Completing = subjectService.GetSubjectCompleting(subject.Id)
+												  Completing = subjectService.GetSubjectCompleting(subject.Id, user.Lecturer != null ? "L" : "S", user.Student)
                                               });
 	        }
 

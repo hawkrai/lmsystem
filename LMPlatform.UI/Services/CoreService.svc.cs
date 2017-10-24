@@ -533,18 +533,34 @@ namespace LMPlatform.UI.Services
 			}
 		}
 
-		public GroupsResult GetGroups(string subjectId)
+		public GroupsResult GetGroups(string subjectId, string groupId)
         {
             try
             {
 				var id = int.Parse(subjectId);
-                var groups =
-                    GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id))
-                    .Include(e => e.Students.Select(x => x.LecturesVisitMarks))
-                    .Include(e => e.Students.Select(x => x.StudentPracticalMarks))
-					.Include(e => e.Students.Select(x => x.User))
-                    .Include(e => e.Students.Select(x => x.ScheduleProtectionPracticalMarks))
-                    .Include(e => e.ScheduleProtectionPracticals)).ToList();
+
+				Query<Group> query;
+
+				if (!string.IsNullOrEmpty(groupId))
+				{
+					var groupdId = int.Parse(groupId);
+					query = (Query<Group>)new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id && x.GroupId == groupdId))
+						.Include(e => e.Students.Select(x => x.LecturesVisitMarks))
+						.Include(e => e.Students.Select(x => x.StudentPracticalMarks)).Include(e => e.Students.Select(x => x.User))
+						.Include(e => e.Students.Select(x => x.ScheduleProtectionPracticalMarks))
+						.Include(e => e.ScheduleProtectionPracticals);
+				}
+				else
+				{
+					query = (Query<Group>)new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id))
+						.Include(e => e.Students.Select(x => x.LecturesVisitMarks))
+						.Include(e => e.Students.Select(x => x.StudentPracticalMarks)).Include(e => e.Students.Select(x => x.User))
+						.Include(e => e.Students.Select(x => x.ScheduleProtectionPracticalMarks))
+						.Include(e => e.ScheduleProtectionPracticals);
+				}
+
+				var groups =
+					GroupManagementService.GetGroups(query).ToList();
 
                 var model = new List<GroupsViewData>();
 
@@ -562,9 +578,7 @@ namespace LMPlatform.UI.Services
                     IList<SubGroup> subGroups = this.SubjectManagementService.GetSubGroups(id, group.Id);
 
                     var subjectIntId = int.Parse(subjectId);
-
-                    var userLabsFile = SubjectManagementService.GetUserLabFiles(0, subjectIntId);
-
+					
                     var lecturesVisitingData = SubjectManagementService.GetScheduleVisitings(new Query<LecturesScheduleVisiting>(e => e.SubjectId == subjectIntId)).OrderBy(e => e.Date);
 
                     var lecturesVisiting = new List<LecturesMarkVisitingViewData>();
@@ -622,7 +636,7 @@ namespace LMPlatform.UI.Services
                         ShortName = e.ShortName,
                         LabId = e.Id,
                         SubjectId = e.SubjectId,
-                        ScheduleProtectionLabsRecomend = subGroups.Any() ? subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date)
+						ScheduleProtectionLabsRecomend = subGroups.Any() ? subGroups.FirstOrDefault(x => x.Name == "first").ScheduleProtectionLabs.OrderBy(x => x.Date)
                             .Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty }).ToList() : new List<ScheduleProtectionLab>()
                     }).ToList();
 
@@ -659,7 +673,7 @@ namespace LMPlatform.UI.Services
                         LabId = e.Id,
                         SubjectId = e.SubjectId,
                         ScheduleProtectionLabsRecomend = subGroups.Any() ?
-                            subGroups.LastOrDefault()
+							subGroups.FirstOrDefault(x => x.Name == "second")
                             .ScheduleProtectionLabs.OrderBy(x => x.Date)
                             .Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty })
                             .ToList() : new List<ScheduleProtectionLab>()
@@ -686,6 +700,43 @@ namespace LMPlatform.UI.Services
                         }
                     }
 
+					//second subGroupLabs
+					var labsThirdSubGroup = labsData.Select(e => new LabsViewData
+					{
+						Theme = e.Theme,
+						Order = e.Order,
+						Duration = e.Duration,
+						ShortName = e.ShortName,
+						LabId = e.Id,
+						SubjectId = e.SubjectId,
+						ScheduleProtectionLabsRecomend = subGroups.Any() ?
+							subGroups.FirstOrDefault(x => x.Name == "third")
+							.ScheduleProtectionLabs.OrderBy(x => x.Date)
+							.Select(x => new ScheduleProtectionLab { ScheduleProtectionId = x.Id, Mark = string.Empty })
+							.ToList() : new List<ScheduleProtectionLab>()
+					}).ToList();
+					durationCount = 0;
+					foreach (var lab in labsThirdSubGroup)
+					{
+						var mark = 10;
+						durationCount += lab.Duration / 2;
+						for (int i = 0; i < lab.ScheduleProtectionLabsRecomend.Count; i++)
+						{
+							if (i + 1 > durationCount - (lab.Duration / 2))
+							{
+								lab.ScheduleProtectionLabsRecomend[i].Mark = mark.ToString(CultureInfo.InvariantCulture);
+
+								if (i + 1 >= durationCount)
+								{
+									if (mark != 1)
+									{
+										mark -= 1;
+									}
+								}
+							}
+						}
+					}
+
                     model.Add(new GroupsViewData
                                   {
                                       GroupId = group.Id,
@@ -698,15 +749,15 @@ namespace LMPlatform.UI.Services
                                           SubjectId = e.SubjectId,
                                           ScheduleProtectionPracticalId = e.Id
                                       }).ToList(),
-									  Students = group.Students.Where(e => e.Confirmed == null || e.Confirmed.Value).OrderBy(e => e.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.User.Id), e, null, scheduleProtectionPracticals, null, practicalsData, userLabsFile.Where(x => x.UserId == e.Id).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList(),
+									  Students = group.Students.Where(e => e.Confirmed == null || e.Confirmed.Value).OrderBy(e => e.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.User.Id), e, null, scheduleProtectionPracticals, null, practicalsData)).ToList(),
                                       SubGroupsOne = subGroups.Any() ? new SubGroupsViewData
                                                          {
                                                              GroupId = group.Id,
                                                              Name = "Подгруппа 1",
                                                              Labs = labsFirstSubGroup,
-                                                             ScheduleProtectionLabs = subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
-                                                             SubGroupId = subGroups.FirstOrDefault().Id,
-															 Students = subGroups.FirstOrDefault().SubjectStudents.Where(e => e.Student.Confirmed == null || e.Student.Confirmed.Value).OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.FirstOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
+															 ScheduleProtectionLabs = subGroups.FirstOrDefault(x => x.Name == "first").ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
+															 SubGroupId = subGroups.FirstOrDefault(x => x.Name == "first").Id,
+															 Students = subGroups.FirstOrDefault(x => x.Name == "first").SubjectStudents.Where(e => e.Student.Confirmed == null || e.Student.Confirmed.Value).OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.FirstOrDefault(x => x.Name == "first").ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData)).ToList()
                                                          }
                                                          : null,
                                       SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
@@ -714,11 +765,22 @@ namespace LMPlatform.UI.Services
                                                               GroupId = group.Id,
                                                               Name = "Подгруппа 2",
                                                               Labs = labsSecondSubGroup,
-                                                              ScheduleProtectionLabs = subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
-                                                              SubGroupId = subGroups.LastOrDefault().Id,
-															  Students = subGroups.LastOrDefault().SubjectStudents.Where(e => e.Student.Confirmed == null || e.Student.Confirmed.Value).OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.LastOrDefault().ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData, null, userLabsFile.Where(x => x.UserId == e.StudentId).Select(t => new UserlabFilesViewData() { Comments = t.Comments, Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty, Id = t.Id, PathFile = t.Attachments, Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList() }).ToList())).ToList()
+															  ScheduleProtectionLabs = subGroups.FirstOrDefault(x => x.Name == "second").ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
+															  SubGroupId = subGroups.FirstOrDefault(x => x.Name == "second").Id,
+															  Students = subGroups.FirstOrDefault(x => x.Name == "second").SubjectStudents.Where(e => e.Student.Confirmed == null || e.Student.Confirmed.Value).OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.FirstOrDefault(x => x.Name == "second").ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData)).ToList()
                                                           }
-                                                          : null
+                                                          : null,
+									  SubGroupsThird = subGroups.Any() ? new SubGroupsViewData
+																		{
+																			GroupId = group.Id,
+																			Name = "Подгруппа 3",
+																			Labs = labsThirdSubGroup,
+																			ScheduleProtectionLabs = subGroups.FirstOrDefault(x => x.Name == "third").ScheduleProtectionLabs.OrderBy(e => e.Date).Select(e => new ScheduleProtectionLabsViewData(e)).ToList(),
+																			SubGroupId = subGroups.FirstOrDefault(x => x.Name == "third").Id,
+																			Students = subGroups.FirstOrDefault(x => x.Name == "third").SubjectStudents.Where(e => e.Student.Confirmed == null || e.Student.Confirmed.Value).OrderBy(e => e.Student.LastName).Select(e => new StudentsViewData(TestPassingService.GetStidentResults(subjectIntId, e.StudentId), e.Student, subGroups.FirstOrDefault(x => x.Name == "third").ScheduleProtectionLabs.OrderBy(x => x.Date).ToList(), null, labsData)).ToList()
+																		}
+														: null
+
                                   });
                 }
 

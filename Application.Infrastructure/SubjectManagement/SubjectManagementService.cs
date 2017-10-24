@@ -900,9 +900,43 @@ namespace Application.Infrastructure.SubjectManagement
 								model.Add(new ProfileCalendarModel()
 										 {
 											 Start = scheduleProtectionLabse.Date.ToString("yyyy-MM-dd"),
-											 Title = string.Format("{0} -  Лаб.работа", name),
+											 Title = string.Format("{0} -  Лаб.работа (Гр. {1})", name, group.Group.Name),
+											 SubjectId = subject.Id,
 											 Color = "#f9f9f9"
 										 });
+							}
+						}
+					}
+				}
+			}
+
+			return model;
+		}
+
+		public List<ProfileCalendarModel> GetGroupsLabEvents(int groupId, int userId)
+		{
+			var model = new List<ProfileCalendarModel>();
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var subjects = repositoriesContainer.SubjectRepository.GetSubjects(groupId: groupId);
+
+				foreach (var subject in subjects)
+				{
+					var name = subject.ShortName;
+
+					foreach (var group in subject.SubjectGroups)
+					{
+						foreach (var subGroup in group.SubGroups.Where(e => e.SubjectStudents.Any(x => x.StudentId == userId)))
+						{
+							foreach (var scheduleProtectionLabse in subGroup.ScheduleProtectionLabs)
+							{
+								model.Add(new ProfileCalendarModel()
+											{
+												Start = scheduleProtectionLabse.Date.ToString("yyyy-MM-dd"),
+												Title = string.Format("{0} -  Лаб.работа", name),
+												SubjectId = subject.Id,
+												Color = "#f9f9f9"
+											});
 							}
 						}
 					}
@@ -1050,54 +1084,76 @@ namespace Application.Infrastructure.SubjectManagement
 			return count;
 		}
 
-        public decimal GetSubjectCompleting(int subjectId)
+        public decimal GetSubjectCompleting(int subjectId, string user, Student student)
         {
             decimal count = 0;
 
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                var subject =
-                    repositoriesContainer.SubjectRepository.GetBy(
-                        new Query<Subject>(e => e.Id == subjectId).Include(x => x.SubjectGroups.Select(t => t.SubGroups.Select(c => c.ScheduleProtectionLabs))));
+			if (user == "S")
+			{
+				using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+				{
+					var subject = repositoriesContainer.SubjectRepository.GetBy(
+						new Query<Subject>(e => e.Id == subjectId)
+						.Include(x => x.Labs));
 
-                var dates = new List<DateTime>();
+					var labs = subject.Labs.ToList();
+					var labsCount = labs.Count;
 
-                var isDate = false;
+					var marks = repositoriesContainer.StudentsRepository
+													.GetBy(new Query<Student>(e => e.Id == student.Id).Include(e => e.StudentLabMarks)).StudentLabMarks.Where(e => labs.Any(x => x.Id == e.LabId)).ToList().Count;//student.StudentLabMarks.Count;
 
-                foreach (var subjectGroup in subject.SubjectGroups)
-                {
-                    foreach (var subGroup in subjectGroup.SubGroups)
-                    {
-                        if (subGroup.ScheduleProtectionLabs != null)
-                        {
-                            foreach (var scheduleProtectionLabs in subGroup.ScheduleProtectionLabs)
-                            {
-                                isDate = true;
-                                dates.Add(scheduleProtectionLabs.Date);
-                            }
-                        }
-                    }
-                }
+					count = marks == 0 ? 0 : Math.Round(((decimal)marks / labsCount) * 100, 0);
+				}
+			}
+			else
+			{
+				using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+				{
+					var subject = repositoriesContainer.SubjectRepository.GetBy(
+						new Query<Subject>(e => e.Id == subjectId).Include(
+							x => x.SubjectGroups.Select(t => t.SubGroups.Select(c => c.ScheduleProtectionLabs))));
 
-                if (isDate)
-                {
-                    var numberDates = dates.Count;
-                    dates.Sort((a, b) => a.CompareTo(b));
-                    var nowDate = DateTime.Now.Date;
+					var dates = new List<DateTime>();
 
-                    var countDone = 0;
+					var isDate = false;
 
-                    foreach (var dateTime in dates)
-                    {
-                        if (nowDate > dateTime)
-                        {
-                            countDone += 1;
-                        }
-                    }
+					foreach (var subjectGroup in subject.SubjectGroups)
+					{
+						foreach (var subGroup in subjectGroup.SubGroups)
+						{
+							if (subGroup.ScheduleProtectionLabs != null)
+							{
+								foreach (var scheduleProtectionLabs in subGroup.ScheduleProtectionLabs)
+								{
+									isDate = true;
+									dates.Add(scheduleProtectionLabs.Date);
+								}
+							}
+						}
+					}
 
-                    count = Math.Round(((decimal)countDone / numberDates) * 100, 0);
-                }
-            }
+					if (isDate)
+					{
+						var numberDates = dates.Count;
+						dates.Sort((a, b) => a.CompareTo(b));
+						var nowDate = DateTime.Now.Date;
+
+						var countDone = 0;
+
+						foreach (var dateTime in dates)
+						{
+							if (nowDate > dateTime)
+							{
+								countDone += 1;
+							}
+						}
+
+						count = Math.Round(((decimal)countDone / numberDates) * 100, 0);
+					}
+				}
+			}
+
+            
 
             return count;
         }

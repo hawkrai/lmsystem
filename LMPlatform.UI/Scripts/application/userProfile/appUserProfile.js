@@ -92,7 +92,11 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
                  async: false,
                  data: JSON.stringify({ userLogin: $scope.login }),
              }).success(function (data, status) {
-                    $scope.subject = data;
+             	$scope.subject = data;
+
+             	$.each($scope.subject, function (k, v) {
+             		$scope.subject[k].Color = "#" + Math.floor(Math.random() * 16777215).toString(16);
+             	});
              });
          },
 
@@ -109,6 +113,10 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 					listDay: { buttonText: 'День' },
 					listWeek: { buttonText: 'Неделя' }
 				},
+				allDayText: "",
+				dayNames: ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"],
+				monthNames:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+				monthNamesShort:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"],
 				defaultView: 'listWeek',
 				defaultDate: '09/22/2017',
 				navLinks: true, // can click day/week names to navigate views
@@ -126,7 +134,13 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 					//borderColor: 'green !impotant',
 				    textColor: 'green'
 				}],
-				lang: "ru"
+				eventClick: function(event) {
+					
+						window.location.href = "/Subject?subjectId=" + event.subjectId;
+						return false;
+
+				},
+				locale: "ru"
 			});
 		};
 
@@ -209,7 +223,7 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 
 			$scope.selectedEvents = $.merge($.merge([], $scope.selectedEvents), lect);
 
-			$scope.selectedDate = now.format("DD/MM/YYYY");
+			$scope.selectedDate = now.format("DD.MM.YYYY");
 		};
 
 		$scope.convertJSONDate = function (dateJson) {
