@@ -128,11 +128,7 @@
                         <h1 class="user-name">{{loadProfileData.Name}}</h1>
                     </div>
                     <div class="user-status">
-                        <div class="user-type">
-                            <div ng-if="loadProfileData.UserType == '1'">Преподаватель</div>
-                            <div ng-if="loadProfileData.UserType == '2'">Студент</div>
-                        </div>
-                        <div class="user-skill">
+                       <div class="user-skill">
                             {{loadProfileData.Skill}}
                         </div>
                     </div>
@@ -144,7 +140,7 @@
 
         </div>
     </div>
-    <div class="row">
+    @*<div class="row">
         <div class="col-md-12">
             <div class="hpanel">
                 <div class="panel-heading">
@@ -190,14 +186,14 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
     <div class="row">
         <div class="col-md-6">
             <div class="hpanel">
                 <div class="panel-heading">
                     Предметы
                 </div>
-                <div class="panel-body" style="display: block; height: 300px">
+                <div class="panel-body" style="display: block; height: 300px; overflow-y: auto;">
                     <div class="table-responsive project-list">
                         <table class="table table-striped">
                             <thead>
@@ -232,7 +228,7 @@
                 <div class="panel-heading">
                     Проекты
                 </div>
-                <div class="panel-body" style="display: block; height: 300px">
+                <div class="panel-body" style="display: block; height: 300px; overflow-y: auto;">
                     <div class="table-responsive project-list">
                         <table class="table table-striped">
                             <thead>

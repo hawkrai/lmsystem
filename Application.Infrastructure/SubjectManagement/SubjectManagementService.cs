@@ -902,7 +902,7 @@ namespace Application.Infrastructure.SubjectManagement
 											 Start = scheduleProtectionLabse.Date.ToString("yyyy-MM-dd"),
 											 Title = string.Format("{0} -  Лаб.работа (Гр. {1})", name, group.Group.Name),
 											 SubjectId = subject.Id,
-											 Color = "#f9f9f9"
+											 Color = subject.Color
 										 });
 							}
 						}
@@ -935,7 +935,7 @@ namespace Application.Infrastructure.SubjectManagement
 												Start = scheduleProtectionLabse.Date.ToString("yyyy-MM-dd"),
 												Title = string.Format("{0} -  Лаб.работа", name),
 												SubjectId = subject.Id,
-												Color = "#f9f9f9"
+												Color = subject.Color
 											});
 							}
 						}
@@ -963,7 +963,7 @@ namespace Application.Infrastructure.SubjectManagement
 						{
 							Start = lecturesScheduleVisiting.Date.ToString("yyyy-MM-dd"),
 							Title = string.Format("{0} -  Лекция", name),
-							Color = "#f9f9f9"
+							Color = subject.Color
 						});
 					}
 				}

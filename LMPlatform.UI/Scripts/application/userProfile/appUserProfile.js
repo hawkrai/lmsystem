@@ -90,13 +90,13 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
                  dataType: "json",
                  contentType: "application/json",
                  async: false,
-                 data: JSON.stringify({ userLogin: $scope.login }),
+                 data: JSON.stringify({ userLogin: $scope.login })
              }).success(function (data, status) {
              	$scope.subject = data;
 
-             	$.each($scope.subject, function (k, v) {
-             		$scope.subject[k].Color = "#" + Math.floor(Math.random() * 16777215).toString(16);
-             	});
+             	//$.each($scope.subject, function (k, v) {
+             	//	$scope.subject[k].Color = "#" + Math.floor(Math.random() * 16777215).toString(16);
+             	//});
              });
          },
 

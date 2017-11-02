@@ -155,7 +155,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 
 		    GroupId = groupId.ToString(CultureInfo.InvariantCulture);
 
-            var subGroups = SubjectManagementService.GetSubGroups(subjectId, groupId);
+			var subGroups = SubjectManagementService.GetSubGroupsV3(subjectId, groupId);
 
 			if (subGroups.Any())
 			{

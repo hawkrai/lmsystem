@@ -228,7 +228,15 @@
     color: rgba(255, 255, 255, 0.7);
 }
 
-
+	.circle {
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		float: left;
+		margin-top: 10px;
+		margin-right: 10px;
+	 
+	}
 
 </style>
 
@@ -259,6 +267,7 @@
 							<div style="height: 150px; overflow-y: auto; margin-top: 10px; margin-left: -10px;">
 								<ul class="subjectsContainer">
 									<li ng-repeat="data in selectedEvents">
+										<div class="circle" ng-style="{background : '{{data.color}}'}"></div>
 										<a style="font-weight: bold; font-size: 13px;" href="/Subject?subjectId={{data.subjectId}}">{{data.title}}</a>
 									</li>
 									<li ng-if="selectedEvents.length == 0">Нет предметов на выбранную дату</li>
@@ -318,7 +327,7 @@
 						<div class="col-lg-2 col-sm-6" ng-repeat="data in subject">
 							<div class="circle-tile ">
 								<a href="#">
-									<div class="circle-tile-heading dark-blue">
+									<div class="circle-tile-heading dark-blue" ng-style="{color : '{{data.Color}}'}">
 										<i class="fa fa-info fa-fw fa-3x"></i>
 									</div>
 								</a>

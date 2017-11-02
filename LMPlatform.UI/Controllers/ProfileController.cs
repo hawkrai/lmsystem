@@ -157,6 +157,7 @@ namespace LMPlatform.UI.Controllers
                                                   Name = subject.Name,
                                                   Id = subject.Id,
                                                   ShortName = subject.ShortName,
+												  Color = subject.Color,
 												  Completing = subjectService.GetSubjectCompleting(subject.Id, user.Lecturer != null ? "L" : "S", user.Student)
                                               });
 	        }
@@ -182,7 +183,7 @@ namespace LMPlatform.UI.Controllers
             model.LastLogitData = user.AttendanceList.LastOrDefault().ToString("dd/MM/yyyy hh:mm:ss");
             if (user.Lecturer != null)
             {
-                model.Name = user.Lecturer.FirstName + " " + user.Lecturer.LastName;
+				model.Name = user.Lecturer.LastName + " " + user.Lecturer.FirstName + " " + user.Lecturer.MiddleName;
                 model.Skill = user.Lecturer.Skill;
             }
             else

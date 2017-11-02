@@ -21,6 +21,12 @@ namespace LMPlatform.Models
             set;
         }
 
+		public string Color
+		{
+			get;
+			set;
+		}
+
         public bool IsArchive { get; set; }
 
         public ICollection<SubjectGroup> SubjectGroups

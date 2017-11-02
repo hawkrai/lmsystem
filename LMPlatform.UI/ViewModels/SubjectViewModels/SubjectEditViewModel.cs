@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -186,11 +187,16 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 
         public void Save(int userId)
         {
+			Random rnd = new Random();
+			var random = rnd.Next(1, 4); 
+
+				
             var subject = new Subject
             {
                 Id = SubjectId,
                 Name = DisplayName,
                 ShortName = ShortName,
+				Color = random == 1 ? "#0074D9" : random == 2 ? "#FF4136" : random == 3 ? "#FFDC00" : "#85144b",
                 SubjectModules = new Collection<SubjectModule>(),
                 SubjectLecturers = new Collection<SubjectLecturer>()
             };
