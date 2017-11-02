@@ -39,6 +39,12 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public bool ForSelfStudy
+        {
+            get;
+            set;
+        }
+
         public static TestItemListViewModel FromTest(Test test, string htmlLinks)
         {
             var model = FromTest(test);
@@ -54,7 +60,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Id = test.Id,
                 Title = test.Title,
                 Unlocked = test.Unlocked,
-                HasQuestions = test.Questions.Count > 0
+                HasQuestions = test.Questions.Count > 0,
+                ForSelfStudy = test.ForSelfStudy
             };
         }
     }

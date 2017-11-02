@@ -58,7 +58,7 @@ namespace LMPlatform.Models.KnowledgeTesting
         {
             get
             {
-                return TestUnlocks != null && TestUnlocks.Any();
+                return ForSelfStudy || (TestUnlocks != null && TestUnlocks.Any());
             }
         }
 
