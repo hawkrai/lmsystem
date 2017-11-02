@@ -196,7 +196,7 @@ namespace LMPlatform.UI.Controllers
         {
             var groupOfStudents = new StudentManagementService().GetGroupStudents(groupId);
             var studentList = new List<Student>();
-            foreach (var student in groupOfStudents)
+			foreach (var student in groupOfStudents.Where(e => e.Confirmed == null || e.Confirmed.Value))
             {
                 if (ProjectManagementService.IsUserAssignedOnProject(student.Id, _currentProjectId) == false)
                 {

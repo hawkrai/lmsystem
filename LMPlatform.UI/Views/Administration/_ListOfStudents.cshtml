@@ -3,20 +3,35 @@
 
 <div id="adminModal">
     <table class="table table-bordered table-striped table-hover">
-        <caption> @Model.ToArray()[0].Group.Name </caption>
+        <caption>
+	        @{
+				var name = string.Empty;
+				if (Model.ToArray().Count() != 0)
+				{
+					name = Model.ToArray()[0].Group.Name;
+				}
+			}
+			@name
+		</caption>
         <thead>
             <tr>
             <th>Студент &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;</th>
-                <th>Потвержден</th>
+                <th>Подтвержден</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var i in Model)
             {
                 <tr>
-
                     <td>@i.FullName</td>
-                    <td>@i.Confirmed.HasValue</td>
+					<td>@if (i.Confirmed == null || i.Confirmed.Value)
+                    {
+                        @:Подтвержден
+                    }
+                    else
+                    {
+                        @:Не подтвержден
+                    }</td>
                 </tr>
             }
         </tbody>

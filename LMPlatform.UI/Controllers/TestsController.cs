@@ -196,7 +196,7 @@ namespace LMPlatform.UI.Controllers
 			var subgroups = test.Select(subGroup => new
             {
                 Name = subGroup.Name,
-                Students = subGroup.SubjectStudents.Select(student => new
+				Students = subGroup.SubjectStudents.Where(e => e.Student.Confirmed == null || e.Student.Confirmed.Value).Select(student => new
                 {
                     Id = student.StudentId,
                     Name = student.Student.FullName,

@@ -339,28 +339,29 @@ namespace LMPlatform.UI.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult ListOfGroups(int id)
-        {
-           var sub = SubjectManagementService.GetSubjectsByLector(id).OrderBy(subject => subject.Name ).ToList();
+     public ActionResult ListOfGroups(int id)
+     {
+         var sub = SubjectManagementService.GetSubjectsByLector(id).OrderBy(subject => subject.Name).ToList();
+         var lec = LecturerManagementService.GetLecturer(id);
+         if (sub != null)
+         {
 
-            if (sub != null)
-            {
+             var model = ListSubjectViewModel.FormSubjects(sub, lec.FullName);
+             return PartialView("_ListOfGroups", model);
+         }
 
-                //var model =  StudentViewModel.FromStudent();
-                return PartialView("_ListOfGroups", sub);
-            }
-
-            return RedirectToAction("Index");
-        }
+         return RedirectToAction("Index");
+     }
 
         public ActionResult ListOfSubject(int id)
         {
             var groups = SubjectManagementService.GetSubjectsByStudent(id).OrderBy(subject => subject.Name).ToList();
-
+            var stud = StudentManagementService.GetStudent(id);
 
             if (groups != null)
             {
-                return PartialView("ListOfSubject", groups);
+                var model = ListSubjectViewModel.FormSubjects(groups, stud.FullName);
+                return PartialView("ListOfSubject", model);
             }
 
             return RedirectToAction("Index");
@@ -386,12 +387,11 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
-        public ActionResult ResetPassword(string id)
+        public ActionResult ResetPassword(int id)
         {
-            var login = id;
             try
             {
-                var user = UsersManagementService.GetUser(login);
+                var user = UsersManagementService.GetUser(id);
 
 
                 var resetPassModel = new ResetPasswordViewModel(user);

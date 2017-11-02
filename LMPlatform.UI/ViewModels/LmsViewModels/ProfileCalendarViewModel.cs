@@ -9,5 +9,7 @@
         public string start { get; set; }
 
         public string color { get; set; }
+
+		public int subjectId { get; set; }
     }
 }
