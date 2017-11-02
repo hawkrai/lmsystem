@@ -125,11 +125,11 @@ namespace Application.Infrastructure.ConceptManagement
 
         private Concept AttachTestModuleData(Concept root, User author, Subject subject)
         {
-            var testData = TestsManagementService.GetTestsForSubject(root.SubjectId);
+            var testData = TestsManagementService.GetTestsForSubject(root.SubjectId).Where(x => x.ForSelfStudy);
             var testModule = root.Children.FirstOrDefault(c => String.Compare(c.Name, TestSectionName) == 0);
             if (testModule != null)
             {
-                var tests = testData.Select(t => new Concept(t.Title, author, subject, false, true) { Id = t.Id, Container = "test", ParentId = testModule.Id }).ToList();
+                var tests = testData.Select(t => new Concept(t.Title, author, subject, false, t.Unlocked) { Id = t.Id, Container = "test", ParentId = testModule.Id }).ToList();
                 tests.ForEach(t => testModule.Children.Add(t));   
             }
 
@@ -203,7 +203,7 @@ namespace Application.Infrastructure.ConceptManagement
             {
                 var parent = GetById(parentId);
                 if (IsTestModule(parent.Name))
-                    return TestsManagementService.GetTestsForSubject(parent.SubjectId).Select(t => new Concept(t.Title, parent.Author, parent.Subject, false, true) { Id = t.Id, Container="test"});
+                    return TestsManagementService.GetTestsForSubject(parent.SubjectId).Where(x => x.ForSelfStudy).Select(t => new Concept(t.Title, parent.Author, parent.Subject, false, t.Unlocked) { Id = t.Id, Container="test"});
                 return repositoriesContainer.ConceptRepository.GetByParentId(parentId);
             }
         }
