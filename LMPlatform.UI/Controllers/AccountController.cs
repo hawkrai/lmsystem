@@ -131,6 +131,16 @@ namespace LMPlatform.UI.Controllers
                 : RedirectToAction("Index", "Home");
         }
 
+		[HttpPost]
+		public JsonResult SavePassword(string old, string newPassword)
+        {
+			if (WebSecurity.ChangePassword(WebSecurity.CurrentUserName, old, newPassword))
+			{
+				return Json(true);
+			}
+			
+			return Json(false);
+        }
         [HttpPost]
 		public JsonResult UpdatePerconalData(PersonalDataViewModel model, string avatar)
         {

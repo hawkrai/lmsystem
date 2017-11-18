@@ -46,7 +46,26 @@
 			</div>
 		</div>
 		<div align="center">
-			<input id="updatePersonalData" type="button" style="width: 200px" class="btn btn-primary btn-sm" value="Сохранить изменения" />
+			<input id="updatePersonalData" type="button" style="width: 200px" class="btn btn-primary btn-sm" value="Сохранить изменения"/>
+			<input id="changePassword" type="button" style="width: 200px" class="btn btn-success btn-sm" value="Сменить пароль"/>
+			<div id="changePasswordForm" style="display: none">
+				<div>
+					<label class="control-label"> Старый пароль</label>
+					<input class="form-control" type="password" id="oldpassword" />
+				</div>
+				<div>
+					<label class="control-label"> Новый пароль</label>
+					<input class="form-control" type="password" id="newPassword" />
+				</div>
+				<div>
+					<label class="control-label"> Подтвердите пароль</label>
+					<input class="form-control" type="password" id="newPassword2"/>
+				</div>
+				<p id="errorForm" class="text-danger"></p>
+				<div>
+					<input id="savePassword" type="button" style="width: 200px" class="btn btn-primary btn-sm" value="Измененить" />
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="col-md-6">

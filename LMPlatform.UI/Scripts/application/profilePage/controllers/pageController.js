@@ -21,7 +21,7 @@
 
 	        $scope.loadProfileData();
 
-	        //$scope.loadStatistic();
+	        $scope.loadStatistic();
 
 	        $scope.loadSubjects();
 	        

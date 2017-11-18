@@ -309,10 +309,10 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveSubGroup(string subjectId, string groupId, string subGroupFirstIds, string subGroupSecondIds)
+        public ActionResult SaveSubGroup(string subjectId, string groupId, string subGroupFirstIds, string subGroupSecondIds, string subGroupThirdIds)
         {
             var model = new SubGroupEditingViewModel();
-            model.SaveSubGroups(int.Parse(subjectId), int.Parse(groupId), subGroupFirstIds, subGroupSecondIds);
+            model.SaveSubGroups(int.Parse(subjectId), int.Parse(groupId), subGroupFirstIds, subGroupSecondIds, subGroupThirdIds);
             return null;
         }
 

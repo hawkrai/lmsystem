@@ -49,6 +49,9 @@
                 
                 $(forms).append('<input type=\"hidden\" id=\"subGroupSecondIds\" name=\"subGroupSecondIds\" />');
                 $("#subGroupSecondIds").val(subjectWorking.getSubGroupIds("StudentSecondList"));
+
+                $(forms).append('<input type=\"hidden\" id=\"subGroupThirdIds\" name=\"subGroupThirdIds\" />');
+                $("#subGroupThirdIds").val(subjectWorking.getSubGroupIds("StudentThirdList"));
             }, null, '690px');
             return false;
         });
@@ -122,6 +125,39 @@
             });
         });
         
+    	$("#subGroupT").find("a.brightT").handle("click", function () {
+    		var selectStudents = $("#StudentFirstList").find("option");
+    		selectStudents.each(function (index, element) {
+    			if (element.selected == true) {
+    				element.selected = false;
+    				$("#StudentThirdList").append(element);
+    			}
+    		});
+    	});
+    	$("#subGroupT").find("a.bleftT").handle("click", function () {
+    		var selectStudents = $("#StudentThirdList").find("option");
+    		selectStudents.each(function (index, element) {
+    			if (element.selected == true) {
+    				element.selected = false;
+    				$("#StudentFirstList").append(element);
+    			}
+    		});
+    	});
+    	$("#subGroupT").find("a.double-rightT").handle("click", function () {
+    		var selectStudents = $("#StudentFirstList").find("option");
+    		selectStudents.each(function (index, element) {
+    			element.selected = false;
+    			$("#StudentThirdList").append(element);
+    		});
+    	});
+    	$("#subGroupT").find("a.double-leftT").handle("click", function () {
+    		var selectStudents = $("#StudentThirdList").find("option");
+    		selectStudents.each(function (index, element) {
+    			element.selected = false;
+    			$("#StudentFirstList").append(element);
+    		});
+    	});
+
         $("#GroupId").change(function() {
             var subjectId = $(".conteinerModule").attr('data-subjectId');
             var element = $(this).find("option:selected");

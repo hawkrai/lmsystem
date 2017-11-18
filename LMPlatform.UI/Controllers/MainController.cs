@@ -16,5 +16,15 @@ namespace LMPlatform.UI.Controllers
             return View();
         }
 
+		public FileResult DownloadApk()
+		{
+			var filePath = Server.MapPath("/lms_1_0.apk");
+			byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+			var response = new FileContentResult(fileBytes, "application/vnd.android.package-archive");
+			response.FileDownloadName = "lms_1_0.apk";
+
+			return response;
+		}
+
     }
 }

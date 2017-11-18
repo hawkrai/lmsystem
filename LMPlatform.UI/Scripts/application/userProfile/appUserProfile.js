@@ -12,6 +12,12 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 	    };
 	    
 	    $scope.subject = null;
+	    $scope.selectedEvents = [];
+	    $scope.formatEventDate = "yyyy-MM-dd";
+
+	    $scope.renderHtml = function (htmlCode) {
+	    	return $sce.trustAsHtml(htmlCode);
+	    };
 
 		$scope.loading = false;
 		$scope.init = function (userLogin, isMyProfile) {
@@ -20,22 +26,35 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 
 			$scope.startSpin();
 
-			$scope.loadProfileData();
+			$scope.loadNews();
+
+			//$scope.loadProfileData();
 
 		    $scope.loaEvents();
 
 		    $scope.loadSubjects();
 
-		    $scope.loadStatistic();
+		    //$scope.loadStatistic();
 
-			setTimeout(
+		    $('#datetimepicker').datepicker({
+		    	language: "ru",
+		    	todayHighlight: true
+		    }).on("changeDate", function (date) {
+		    	var selected = moment(date.date).startOf('day');
+		    	angular.element(document.getElementById('testA')).scope().$apply(function () {
+		    		angular.element(document.getElementById('testA')).scope().renderMiniCalendar(selected);
+		    	});
+		    	
+		    });
+
+		    setTimeout(
 	            function () {
 	            	$scope.stopSpin();
 	            	$scope.loadCircle();
 	            }, 100);
 		};
 
-	    $scope.loaEvents = function () {
+		$scope.loaEvents = function () {
 	        $.ajax({
 	            type: 'POST',
 	            url: "/Profile/GetProfileInfoCalendar",
@@ -44,7 +63,10 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 	            async: false,
 	            data: JSON.stringify({ userLogin: $scope.login }),
 	        }).success(function (data, status) {
-	            $scope.renderCalendar(data.Labs, data.Lect);
+	        	$scope.renderCalendar(data.Labs, data.Lect);	        	
+	        	$scope.events = data;
+	        	var now = moment().startOf('day'); //todays date
+	        	$scope.renderMiniCalendar(now);
 	        });
 	    },
 	    
@@ -70,7 +92,11 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
                  async: false,
                  data: JSON.stringify({ userLogin: $scope.login }),
              }).success(function (data, status) {
-                    $scope.subject = data;
+             	$scope.subject = data;
+
+             	$.each($scope.subject, function (k, v) {
+             		$scope.subject[k].Color = "#" + Math.floor(Math.random() * 16777215).toString(16);
+             	});
              });
          },
 
@@ -80,8 +106,21 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 				header: {
 					left: 'prev,next today',
 					center: 'title',
-					right: 'month'
+					right: 'listDay,listWeek'
 				},
+            	
+				views: {
+					listDay: { buttonText: 'День' },
+					listWeek: { buttonText: 'Неделя' }
+				},
+				allDayText: "",
+				dayNames: ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"],
+				monthNames:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+				monthNamesShort:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"],
+				defaultView: 'listWeek',
+				defaultDate: '09/22/2017',
+				navLinks: true, // can click day/week names to navigate views
+				editable: true,
 				eventSources: [
 					{
 					    events: labsEvents,
@@ -95,7 +134,13 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 					//borderColor: 'green !impotant',
 				    textColor: 'green'
 				}],
-				lang: "ru"
+				eventClick: function(event) {
+					
+						window.location.href = "/Subject?subjectId=" + event.subjectId;
+						return false;
+
+				},
+				locale: "ru"
 			});
 		};
 
@@ -133,5 +178,61 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 
 		$scope.getNowDate = function() {
 			return new Date();
-		}
+		};
+
+		$scope.loadNews = function() {
+			$.ajax({
+				type: 'POST',
+				url: "/Profile/GetNews",
+				dataType: "json",
+				contentType: "application/json",
+				async: false,
+				data: JSON.stringify({ userLogin: $scope.login })
+			}).success(function (data, status) {
+				$scope.news = data;
+				$scope.newsCount = $scope.news.length;
+				$scope.lastNews = $scope.news[0];
+			});
+		};
+
+		$scope.showNews = function() {
+			$('#dialogAllNews').modal();
+		};
+
+		$scope.showEvents = function () {
+			$('#myCalendar').on('shown.bs.modal', function () {
+				$(".fc-today-button").click();
+			})
+			$("#myCalendar").modal();
+		};
+
+		$scope.renderMiniCalendar = function(now) {
+			$scope.selectedEvents = [];
+			
+			var labs = $.grep($scope.events.Labs, function (a) {
+				var start = moment(a.start);
+				return now.diff(start, 'days') === 0;
+			});
+
+			$scope.selectedEvents = $.merge($.merge([], $scope.selectedEvents), labs);
+
+			var lect = $.grep($scope.events.Lect, function (a) {
+				var start = moment(a.start);
+				return now.diff(start, 'days') === 0;
+			});
+
+			$scope.selectedEvents = $.merge($.merge([], $scope.selectedEvents), lect);
+
+			$scope.selectedDate = now.format("DD.MM.YYYY");
+		};
+
+		$scope.convertJSONDate = function (dateJson) {
+			var date = new Date(parseInt(dateJson.substr(6)));
+
+			return date.toLocaleDateString();
+		};
+
+		$scope.randomColor = function () {
+			return "#" + Math.floor(Math.random() * 16777215).toString(16)
+		};
 	});

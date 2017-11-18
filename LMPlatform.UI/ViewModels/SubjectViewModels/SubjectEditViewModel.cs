@@ -307,7 +307,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			    if (!subjectGroup.SubGroups.Any())
 			    {
 					var students = this.StudentManagementService.GetGroupStudents(subjectGroup.GroupId).Where(e => e.Confirmed == null || e.Confirmed.Value);
-					this.SubjectManagementService.SaveSubGroup(this.SubjectId, subjectGroup.GroupId, students.Select(e => e.Id).ToList(), new List<int>());
+					this.SubjectManagementService.SaveSubGroup(this.SubjectId, subjectGroup.GroupId, students.Select(e => e.Id).ToList(), new List<int>(), new List<int>());
 			    }
 		    }
 	    }
