@@ -312,6 +312,7 @@ namespace LMPlatform.UI.Services.Labs
 		            Comments = e.Comments,
 					Id = e.Id,
 					PathFile = e.Attachments,
+					IsReceived = e.IsReceived,
                     Date = e.Date != null ? e.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty,
 		            Attachments = FilesManagementService.GetAttachments(e.Attachments).ToList()
 	            }).ToList();
@@ -467,6 +468,7 @@ namespace LMPlatform.UI.Services.Labs
 								Date = t.Date != null ? t.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty,
 								Id = t.Id,
 								PathFile = t.Attachments,
+								IsReceived = t.IsReceived,
 								Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList()
 							}).ToList();
 					students.Add(new StudentMark
@@ -647,6 +649,48 @@ namespace LMPlatform.UI.Services.Labs
 					Message = "Произошла ошибка при получении лабораторых работ",
 					Code = "500"
 				};
+			}
+		}
+
+		public ResultViewData ReceivedLabFile(string userFileId)
+		{
+			try
+			{
+				this.SubjectManagementService.UpdateUserLabFile(userFileId, true);
+				return new ResultViewData
+				{
+					Message = "Файл(ы) перемещен(ы) в архив",
+					Code = "200"
+				};
+			}
+			catch (Exception e)
+			{
+				return new ResultViewData
+				{
+					Message = "Произошла ошибка переноса файла в архив",
+					Code = "500"
+				};
+			}
+		}
+
+		public ResultViewData CancelReceivedLabFile(string userFileId)
+		{
+			try
+			{
+				this.SubjectManagementService.UpdateUserLabFile(userFileId, false);
+				return new ResultViewData
+							{
+								Message = "Файл(ы) перемещен(ы) из архива",
+								Code = "200"
+							};
+			}
+			catch (Exception e)
+			{
+				return new ResultViewData
+							{
+								Message = "Произошла ошибка переноса файла из архива",
+								Code = "500"
+							};
 			}
 		}
     }

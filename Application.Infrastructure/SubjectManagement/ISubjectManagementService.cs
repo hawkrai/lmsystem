@@ -131,5 +131,7 @@ namespace Application.Infrastructure.SubjectManagement
 		List<SubjectNews> GetNewsByLector(int id);
 
 		List<ProfileCalendarModel> GetGroupsLabEvents(int groupId, int userId);
+
+		void UpdateUserLabFile(string userFileId, bool isReceived);
 	}
 }

@@ -907,6 +907,48 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             }
 	    };
 
+        $scope.receivedLabFile = function (id, files) {
+			$http({
+				method: 'POST',
+				url: $scope.UrlServiceLabs + "ReceivedLabFile",
+				data: {
+					userFileId: id
+				},
+				headers: { 'Content-Type': 'application/json' }
+			}).success(function (data, status) {
+				if (data.Code != '200') {
+					alertify.error(data.Message);
+				} else {
+					//$scope.$apply(function () {
+					//$scope.reloadFiles();
+					files.IsReceived = true;
+					//});
+					alertify.success(data.Message);
+				}
+			});
+		};
+
+        $scope.cancelReceivedLabFile = function (id, files) {
+			$http({
+				method: 'POST',
+				url: $scope.UrlServiceLabs + "CancelReceivedLabFile",
+				data: {
+					userFileId: id
+				},
+				headers: { 'Content-Type': 'application/json' }
+			}).success(function (data, status) {
+				if (data.Code != '200') {
+					alertify.error(data.Message);
+				} else {
+					//$scope.$apply(function () {
+					//$scope.reloadFiles();
+					files.IsReceived = false;
+					//});
+					alertify.success(data.Message);
+				}
+			});
+		};
+
 		$scope.reload = function() {
 			$scope.startSpin();
 			// performance issue

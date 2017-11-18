@@ -593,7 +593,7 @@
 					        <div class="clear-fix"></div>
 				        </accordion-heading>
 				        <div>
-					        <table class="table table-bordered table-hover table-responsive">
+					        <table class="table table-bordered table-responsive">
 						        <thead>
 						        <tr>
 							        <th>Файлы</th>
@@ -603,15 +603,23 @@
 						        </tr>
 						        </thead>
 						        <tbody>
-						        <tr ng-repeat="files in data.FileLabs">
-							        <td>
-								        <div ng-repeat="file in files.Attachments">
-									        <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
-								        </div>
-							        </td>
-							        <td>{{files.Comments}}</td>
-							        <td>{{files.Date}}</td>
-						        </tr>
+									<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">
+										<td>
+											<div ng-repeat="file in files.Attachments">
+												<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
+											</div>
+										</td>
+										<td>{{files.Comments}}</td>
+										<td>{{files.Date}}</td>
+										<td style="width: 100px; text-align: center">
+											<div ng-if="files.IsReceived">
+												<a class="btn btn-danger btn-small" ng-click="cancelReceivedLabFile(files.Id, files)">Отменить</a>
+											</div>
+											<div ng-if="!files.IsReceived">
+												<a class="btn btn-success btn-small" ng-click="receivedLabFile(files.Id, files)">Принять</a>
+											</div>
+										</td>
+									</tr>
 						        </tbody>
 					        </table>
 				        </div>
@@ -635,7 +643,7 @@
 						        <div class="clear-fix"></div>
 					        </accordion-heading>
 					        <div>
-						        <table class="table table-bordered table-hover table-responsive">
+						        <table class="table table-bordered table-responsive">
 							        <thead>
 							        <tr>
 								        <th>Файлы</th>
@@ -645,15 +653,23 @@
 							        </tr>
 							        </thead>
 							        <tbody>
-							        <tr ng-repeat="files in data.FileLabs">
-								        <td>
-									        <div ng-repeat="file in files.Attachments">
-										        <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
-									        </div>
-								        </td>
-								        <td>{{files.Comments}}</td>
-								        <td>{{files.Date}}</td>
-							        </tr>
+										<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">
+											<td>
+												<div ng-repeat="file in files.Attachments">
+													<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
+												</div>
+											</td>
+											<td>{{files.Comments}}</td>
+											<td>{{files.Date}}</td>
+											<td style="width: 100px; text-align: center">
+												<div ng-if="files.IsReceived">
+													<a class="btn btn-danger btn-small" ng-click="cancelReceivedLabFile(files.Id, files)">Отменить</a>
+												</div>
+												<div ng-if="!files.IsReceived">
+													<a class="btn btn-success btn-small" ng-click="receivedLabFile(files.Id, files)">Принять</a>
+												</div>
+											</td>
+										</tr>
 							        </tbody>
 						        </table>
 					        </div>
@@ -679,7 +695,7 @@
 								<div class="clear-fix"></div>
 							</accordion-heading>
 							<div>
-								<table class="table table-bordered table-hover table-responsive">
+								<table class="table table-bordered table-responsive">
 									<thead>
 										<tr>
 											<th>Файлы</th>
@@ -689,7 +705,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="files in data.FileLabs">
+										<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">
 											<td>
 												<div ng-repeat="file in files.Attachments">
 													<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
@@ -697,6 +713,14 @@
 											</td>
 											<td>{{files.Comments}}</td>
 											<td>{{files.Date}}</td>
+											<td style="width: 100px; text-align: center">
+												<div ng-if="files.IsReceived">
+													<a class="btn btn-danger btn-small" ng-click="cancelReceivedLabFile(files.Id, files)">Отменить</a>
+												</div>
+												<div ng-if="!files.IsReceived">
+													<a class="btn btn-success btn-small" ng-click="receivedLabFile(files.Id, files)">Принять</a>
+												</div>
+											</td>
 										</tr>
 									</tbody>
 								</table>
