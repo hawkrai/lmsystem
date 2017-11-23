@@ -1,5 +1,6 @@
 ﻿'use strict';
 knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, id, subjectId, $modalInstance) {
+    $scope.forSelfStudy = false;
     $scope.question = { QuestionType: 0 };
     $scope.types = [{ Id: 0, Name: 'С одним вариантом' }, { Id: 1, Name: 'С несколькими вариантами' }, { Id: 2, Name: 'Ввод с клавиатуры' }, { Id: 3, Name: 'Последовательность элементов' }];
 
@@ -24,12 +25,12 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
         children: [{ name: "node21", children: [] },
         {
             name: "node22", children: [
-               { name: "node31", children: [] },
-               { name: "node32", children: [] },
-               {
-                   name: "node33", children: [
-                     { name: "node41", children: [] }]
-               }]
+                { name: "node31", children: [] },
+                { name: "node32", children: [] },
+                {
+                    name: "node33", children: [
+                        { name: "node41", children: [] }]
+                }]
         },
         { name: "node23", children: [] }]
 
@@ -92,22 +93,23 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
     }
 
     $http({ method: 'GET', url: kt.actions.questions.getConcepts, dataType: 'json', params: { subjectId: subjectId } })
-   .success(function (data) {
-       $scope.initConceptTree(data)
-       $scope.loadQuestionData();
-   })
-   .error(function (data, status, headers, config) {
-       alertify.error('Во время получения данных произошла ошибка');
-   });
+        .success(function (data) {
+            $scope.initConceptTree(data)
+            $scope.loadQuestionData();
+            $scope.forSelfStudy = getHashValue('forSelfStudy') == 'true';
+        })
+        .error(function (data, status, headers, config) {
+            alertify.error('Во время получения данных произошла ошибка');
+        });
 
     $scope.loadQuestionData = function () {
         $http({ method: 'GET', url: kt.actions.questions.getQuestion, dataType: 'json', params: { id: id } })
-    .success(function (data) {
-        $scope.question = data;
-    })
-    .error(function (data, status, headers, config) {
-        alertify.error('Во время получения данных произошла ошибка');
-    });
+            .success(function (data) {
+                $scope.question = data;
+            })
+            .error(function (data, status, headers, config) {
+                alertify.error('Во время получения данных произошла ошибка');
+            });
     }
 
 
