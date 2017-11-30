@@ -17,9 +17,18 @@ namespace LMPlatform.UI.Controllers
     using System.Text;
 
     using Application.Core.SLExcel;
+    using Application.Core;
+    using Application.Infrastructure.TestQuestionPassingManagement;
 
     public class TestPassingController : BasicController
     {
+        private readonly LazyDependency<ITestQuestionPassingService> _testQuestionPassingService = new LazyDependency<ITestQuestionPassingService>();
+
+        public ITestQuestionPassingService TestQuestionPassingService
+        {
+            get { return _testQuestionPassingService.Value; }
+        }
+
         [Authorize, HttpGet]
         public ActionResult StudentsTesting(int subjectId)
         {
@@ -78,6 +87,16 @@ namespace LMPlatform.UI.Controllers
             {
                 ViewBag.Mark = nextQuestion.Mark;
                 ViewBag.Percent = nextQuestion.Percent;
+                foreach(var item in nextQuestion.QuestionsStatuses)
+                {
+                    TestQuestionPassingService.SaveTestQuestionPassResults(new TestQuestionPassResults
+                    {
+                        StudentId = CurrentUserId,
+                        TestId = testId,
+                        QuestionNumber = item.Key,
+                        Result = (int)item.Value
+                    });
+                }
                 return PartialView("EndTest", nextQuestion.QuestionsStatuses);
             }
 
@@ -100,7 +119,9 @@ namespace LMPlatform.UI.Controllers
         [Authorize, HttpGet]
         public JsonResult GetResults(int groupId, int subjectId)
         {
-            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
+            var tests = TestsManagementService.GetTestsForSubject(subjectId);
+
+            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(x => TestResultItemListViewModel.FromStudent(x, tests)).OrderBy(res => res.StudentName).ToArray();
             
             return Json(results, JsonRequestBehavior.AllowGet);
         }
@@ -130,7 +151,9 @@ namespace LMPlatform.UI.Controllers
         [Authorize, HttpGet]
         public void GetResultsExcel(int groupId, int subjectId)
         {
-            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(TestResultItemListViewModel.FromStudent).OrderBy(res => res.StudentName).ToArray();
+            var tests = TestsManagementService.GetTestsForSubject(subjectId);
+
+            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(x => TestResultItemListViewModel.FromStudent(x, tests)).OrderBy(res => res.StudentName).ToArray();
 
             var data = new SLExcelData();
 
