@@ -35,8 +35,6 @@ namespace LMPlatform.Data.Repositories
 
         public ITestsRepository TestsRepository { get; set; }
 
-        public ITestQuestionPassResultsRepository TestQuestionPassResultsRepository { get; set; }
-
         public ITestUnlocksRepository TestUnlocksRepository { get; set; }
 
         public IQuestionsRepository QuestionsRepository { get; set; }
@@ -103,7 +101,6 @@ namespace LMPlatform.Data.Repositories
             PracticalRepository = new PracticalRepository(_dataContext);
             ConceptRepository = new ConceptRepository(_dataContext);
             WatchingTimeRepository = new WatchingTimeRepository(_dataContext);
-            TestQuestionPassResultsRepository = new TestQuestionPassResultsRepository(_dataContext);
         }
     }
 }

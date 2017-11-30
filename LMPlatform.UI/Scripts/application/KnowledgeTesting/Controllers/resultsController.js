@@ -68,7 +68,7 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
         }
 
         var passed = Enumerable.From(results).Where(function (item) {
-             return item.Points != null && !item.ForSelfStudy;
+             return item.Points != null;
         });
 
         var passedPercent = Enumerable.From(results).Where(function (item) {

@@ -134,13 +134,11 @@
     <Compile Include="Repositories\RepositoryContracts\IStudentsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ISubGroupRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ISubjectRepository.cs" />
-    <Compile Include="Repositories\RepositoryContracts\ITestQuestionResultRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ITestsRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\ITestUnlocksRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IAnswerOnTestQuestionRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IUsersRepository.cs" />
     <Compile Include="Repositories\RepositoryContracts\IWatchingTimeRepository.cs" />
-    <Compile Include="Repositories\RepositoryContracts\TestQuestionPassResultsRepository.cs" />
     <Compile Include="Repositories\StudentsRepository.cs" />
     <Compile Include="Repositories\SubGroupRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
