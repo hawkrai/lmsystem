@@ -14,6 +14,7 @@ using Application.Infrastructure.MessageManagement;
 using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
+using Application.Infrastructure.TestQuestionPassingManagement;
 using Application.Infrastructure.UserManagement;
 using Application.Infrastructure.WatchingTimeManagement;
 
@@ -50,6 +51,7 @@ namespace Application.Infrastructure
             containerWrapper.Register<ICPManagementService, CPManagementService>();
             containerWrapper.Register<ICPManagementService, CPManagementService>();
             containerWrapper.Register<IWatchingTimeService, WatchingTimeService>();
+            containerWrapper.Register<ITestQuestionPassingService, TestQuestionPassingService>();
             return containerWrapper;
         }
     }
