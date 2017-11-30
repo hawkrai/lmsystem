@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -8,6 +9,7 @@ using Application.Core;
 using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
+using LMPlatform.UI.PlagiateReference;
 using LMPlatform.UI.Services.Modules;
 using LMPlatform.UI.Services.Modules.Labs;
 using LMPlatform.UI.Services.Modules.Lectures;
@@ -29,11 +31,27 @@ namespace LMPlatform.UI.Services.Labs
     using WebMatrix.WebData;
 
     using DateTime = System.DateTime;
+	using System.Configuration;
 
     public class LabsService : ILabsService
     {
 		private readonly LazyDependency<ITestPassingService> testPassingService = new LazyDependency<ITestPassingService>();
 
+		public string PlagiarismUrl
+		{
+			get { return ConfigurationManager.AppSettings["PlagiarismUrl"]; }
+		}
+
+		public string PlagiarismTempPath
+		{
+			get { return ConfigurationManager.AppSettings["PlagiarismTempPath"]; }
+		}
+
+		public string FileUploadPath
+		{
+			get { return ConfigurationManager.AppSettings["FileUploadPath"]; }
+		}
+		
 		public ITestPassingService TestPassingService
 		{
 			get
@@ -691,6 +709,68 @@ namespace LMPlatform.UI.Services.Labs
 								Message = "Произошла ошибка переноса файла из архива",
 								Code = "500"
 							};
+			}
+		}
+
+		public ResultViewData CheckPlagiarism(string userFileId, string subjectId)
+		{
+			try
+			{
+
+				var path = Guid.NewGuid().ToString("N");
+
+				Directory.CreateDirectory(this.PlagiarismTempPath + path);
+
+				var userFile = this.SubjectManagementService.GetUserLabFile(Int32.Parse(userFileId));
+
+				var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived && e.Id != userFile.Id);
+
+				var filesPaths = usersFiles.Select(e => e.Attachments);
+
+				foreach (var filesPath in filesPaths)
+				{
+					foreach (var srcPath in Directory.GetFiles(this.FileUploadPath + filesPath))
+					{
+						File.Copy(srcPath, srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
+					}
+				}
+
+				string firstFileName =
+					Directory.GetFiles(this.FileUploadPath + userFile.Attachments)
+					.Select(fi => fi)
+					.FirstOrDefault();
+
+				var service = new SoapWSClient();
+
+				var result = service.checkBySingleDoc(firstFileName, new string[] { this.PlagiarismTempPath + path }, 70, 5);
+
+				List<ResultPlag> data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ResultPlag>>(result);
+
+				foreach (var resultPlag in data)
+				{
+					var fileName = Path.GetFileName(resultPlag.doc);
+
+					var name = this.FilesManagementService.GetFileDisplayName(fileName);
+
+					resultPlag.doc = name;
+				}
+
+				Directory.Delete(this.PlagiarismTempPath + path, true);
+
+				return new ResultViewData
+				{
+					DataD = data,
+					Message = "Проверка успешно завершена",
+					Code = "200"
+				};
+			}
+			catch (Exception e)
+			{
+				return new ResultViewData
+				{
+					Message = "Проверка завершилась неудачей",
+					Code = "500"
+				};
 			}
 		}
     }

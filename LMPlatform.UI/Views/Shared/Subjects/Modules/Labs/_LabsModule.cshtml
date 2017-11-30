@@ -596,6 +596,7 @@
 					        <table class="table table-bordered table-responsive">
 						        <thead>
 						        <tr>
+									<th></th>
 							        <th>Файлы</th>
 							        <th>Комментарий</th>
 							        <th>Дата</th>
@@ -604,6 +605,11 @@
 						        </thead>
 						        <tbody>
 									<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">
+										<td style="width: 60px; text-align: center; vertical-align: middle;">
+											<a ng-click="checkPlagiarism(files.Id, files)" style="font-size:14px; cursor: pointer" tooltip="Проверить на плагиат">
+												<img src="~/Images/plagiarism.png" />
+											</a>
+										</td>
 										<td>
 											<div ng-repeat="file in files.Attachments">
 												<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
@@ -646,6 +652,7 @@
 						        <table class="table table-bordered table-responsive">
 							        <thead>
 							        <tr>
+										<th></th>
 								        <th>Файлы</th>
 								        <th>Комментарий</th>
 								        <th>Дата</th>
@@ -654,6 +661,9 @@
 							        </thead>
 							        <tbody>
 										<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">
+											<td style="width: 60px; text-align: center; vertical-align: middle;">
+												<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-refresh fa-1x" style="font-size:14px; cursor: pointer" tooltip="Проверить на плагиат"></a>
+											</td>
 											<td>
 												<div ng-repeat="file in files.Attachments">
 													<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
@@ -698,6 +708,7 @@
 								<table class="table table-bordered table-responsive">
 									<thead>
 										<tr>
+											<th></th>
 											<th>Файлы</th>
 											<th>Комментарий</th>
 											<th>Дата</th>
@@ -706,6 +717,9 @@
 									</thead>
 									<tbody>
 										<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">
+											<td style="width: 60px; text-align: center; vertical-align: middle;">
+												<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-refresh fa-1x" style="font-size:14px; cursor: pointer" tooltip="Проверить на плагиат"></a>
+											</td>
 											<td>
 												<div ng-repeat="file in files.Attachments">
 													<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
@@ -713,7 +727,7 @@
 											</td>
 											<td>{{files.Comments}}</td>
 											<td>{{files.Date}}</td>
-											<td style="width: 100px; text-align: center">
+											<td style="width: 100px; text-align: center">												
 												<div ng-if="files.IsReceived">
 													<a class="btn btn-danger btn-small" ng-click="cancelReceivedLabFile(files.Id, files)">Отменить</a>
 												</div>
@@ -732,6 +746,50 @@
 
         </tab>
     </tabset>
+
+
+	<div id="dialogPlagiarism" class="modal">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Проверка на плагиат</h4>
+			</div>
+			<div class="modal-body">
+				<div>
+					<div style="text-align: center" class="control-group">
+						{{plagiat.FileName}}
+					</div>
+				</div>
+				<div>
+					<table class="table table-bordered table-responsive">
+						<thead>
+						<tr>
+							<th></th>
+							<th>Файл</th>
+							<th>Автор</th>
+							<th>Коэффициент похожести</th>
+						</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in resultPlagiatium" >
+								<td></td>
+								<td>{{data.doc}}</td>
+								<td>{{data.author}}</td>
+								<td>{{data.coeff}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="loadingP ng-hide" style="margin-top: 170px;">
+					<span us-spinner="{radius:40, width:8, length: 16, opacity: 0, shadow: true, color: '#3c8dbc'}" spinner-key="spinner-1" spinner-start-active="true"></span>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+			</div>
+		</div>
+	</div>
+
 
     <div id="dialogAddLabs" class="modal">
         <div class="modal-dialog panel panel-primary" style="padding: 0px">

@@ -79,5 +79,9 @@ namespace LMPlatform.UI.Services.Labs
 		[OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/CancelReceivedLabFile")]
 		ResultViewData CancelReceivedLabFile(string userFileId);
+
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/CheckPlagiarism")]
+		ResultViewData CheckPlagiarism(string userFileId, string subjectId);
     }
 }

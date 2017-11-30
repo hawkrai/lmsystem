@@ -907,6 +907,39 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             }
 	    };
 
+		$scope.resultPlagiatium = [];
+
+         $scope.checkPlagiarism = function (id, files) {
+         	$scope.plagiat = {
+         		FileName: files.Attachments[0].Name
+         	};
+
+         	$('#dialogPlagiarism').modal();
+
+         	$(".loadingP").toggleClass('ng-hide', false);
+
+			$http({
+         		method: 'POST',
+         		url: $scope.UrlServiceLabs + "CheckPlagiarism",
+         		data: {
+         			userFileId: id,
+         			subjectId: $scope.subjectId
+         		},
+         		headers: { 'Content-Type': 'application/json' }
+			}).success(function (data, status) {
+				if (data.Code != '200') {
+					alertify.error(data.Message);
+				} else {
+					alertify.success(data.Message);
+
+					$scope.resultPlagiatium = data.DataD;
+
+				}
+				$(".loadingP").toggleClass('ng-hide', true);
+         		
+         	});
+         };
+
         $scope.receivedLabFile = function (id, files) {
 			$http({
 				method: 'POST',
@@ -929,25 +962,25 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 		};
 
         $scope.cancelReceivedLabFile = function (id, files) {
-			$http({
-				method: 'POST',
-				url: $scope.UrlServiceLabs + "CancelReceivedLabFile",
-				data: {
-					userFileId: id
-				},
-				headers: { 'Content-Type': 'application/json' }
-			}).success(function (data, status) {
-				if (data.Code != '200') {
-					alertify.error(data.Message);
-				} else {
-					//$scope.$apply(function () {
-					//$scope.reloadFiles();
-					files.IsReceived = false;
-					//});
-					alertify.success(data.Message);
-				}
-			});
-		};
+        	$http({
+        		method: 'POST',
+        		url: $scope.UrlServiceLabs + "CancelReceivedLabFile",
+        		data: {
+        			userFileId: id
+        		},
+        		headers: { 'Content-Type': 'application/json' }
+        	}).success(function (data, status) {
+        		if (data.Code != '200') {
+        			alertify.error(data.Message);
+        		} else {
+        			//$scope.$apply(function () {
+        			//$scope.reloadFiles();
+        			files.IsReceived = false;
+        			//});
+        			alertify.success(data.Message);
+        		}
+        	});
+        };
 
 		$scope.reload = function() {
 			$scope.startSpin();
