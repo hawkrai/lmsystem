@@ -29,6 +29,8 @@ namespace LMPlatform.Data.Infrastructure
 
         public DbSet<WatchingTime> WatchingTime { get; set; }
 
+        public DbSet<TestQuestionPassResults> TestQuestionPassResults { get; set; }
+
         public DbSet<Membership> Membership { get; set; }
 
         public DbSet<OAuthMembership> OAuthMembership { get; set; }
@@ -213,7 +215,8 @@ namespace LMPlatform.Data.Infrastructure
         {
             modelBuilder.Entity<WatchingTime>()
                 .Map(m => m.ToTable("WatchingTime"));
-            //modelBuilder.Entity<WatchingTime>().HasRequired(c => c.Concept);
+            modelBuilder.Entity<TestQuestionPassResults>()
+                .Map(m => m.ToTable("TestQuestionPassResults"));
 
             modelBuilder.Entity<Membership>().Map(m => m.ToTable("webpages_Membership"))
                 .Property(m => m.Id)
