@@ -133,6 +133,7 @@
     <Compile Include="KnowledgeTesting\RealTimePassingResult.cs" />
     <Compile Include="KnowledgeTesting\Test.cs" />
     <Compile Include="KnowledgeTesting\TestPassResult.cs" />
+    <Compile Include="KnowledgeTesting\TestQuestionPassResult.cs" />
     <Compile Include="KnowledgeTesting\TestUnlock.cs" />
     <Compile Include="KnowledgeTesting\TestUnlockInfo.cs" />
     <Compile Include="Labs.cs" />
