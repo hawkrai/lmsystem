@@ -1,6 +1,9 @@
 ﻿'use strict';
 knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
     $scope.subjectId = getUrlValue('subjectId');
+    $scope.forSelfStudyFilter = function (item) {
+        return item.ForSelfStudy === "true";
+    }
 
     $http({ method: "GET", url: kt.actions.groups.getGroupsForSubject, dataType: 'json', params: { subjectId: $scope.subjectId } })
             .success(function (data) {
