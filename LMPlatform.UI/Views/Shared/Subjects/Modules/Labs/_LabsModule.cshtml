@@ -596,7 +596,6 @@
 					        <table class="table table-bordered table-responsive">
 						        <thead>
 						        <tr>
-									<th></th>
 							        <th>Файлы</th>
 							        <th>Комментарий</th>
 							        <th>Дата</th>
@@ -605,11 +604,7 @@
 						        </thead>
 						        <tbody>
 									<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">
-										<td style="width: 60px; text-align: center; vertical-align: middle;">
-											<a ng-click="checkPlagiarism(files.Id, files)" style="font-size:14px; cursor: pointer" tooltip="Проверить на плагиат">
-												<img src="~/Images/plagiarism.png" />
-											</a>
-										</td>
+										
 										<td>
 											<div ng-repeat="file in files.Attachments">
 												<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
@@ -619,10 +614,12 @@
 										<td>{{files.Date}}</td>
 										<td style="width: 100px; text-align: center">
 											<div ng-if="files.IsReceived">
-												<a class="btn btn-danger btn-small" ng-click="cancelReceivedLabFile(files.Id, files)">Отменить</a>
+												<a class="fa fa-thumbs-o-down fa-1x" ng-click="cancelReceivedLabFile(files.Id, files)"></a>
+												<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 											</div>
 											<div ng-if="!files.IsReceived">
-												<a class="btn btn-success btn-small" ng-click="receivedLabFile(files.Id, files)">Принять</a>
+												<a class="fa fa-thumbs-o-up fa-1x" ng-click="receivedLabFile(files.Id, files)"></a>
+												<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 											</div>
 										</td>
 									</tr>
@@ -652,7 +649,6 @@
 						        <table class="table table-bordered table-responsive">
 							        <thead>
 							        <tr>
-										<th></th>
 								        <th>Файлы</th>
 								        <th>Комментарий</th>
 								        <th>Дата</th>
@@ -660,10 +656,7 @@
 							        </tr>
 							        </thead>
 							        <tbody>
-										<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">
-											<td style="width: 60px; text-align: center; vertical-align: middle;">
-												<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-refresh fa-1x" style="font-size:14px; cursor: pointer" tooltip="Проверить на плагиат"></a>
-											</td>
+										<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">											
 											<td>
 												<div ng-repeat="file in files.Attachments">
 													<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
@@ -673,10 +666,12 @@
 											<td>{{files.Date}}</td>
 											<td style="width: 100px; text-align: center">
 												<div ng-if="files.IsReceived">
-													<a class="btn btn-danger btn-small" ng-click="cancelReceivedLabFile(files.Id, files)">Отменить</a>
+													<a class="fa fa-thumbs-o-down fa-1x" ng-click="cancelReceivedLabFile(files.Id, files)"></a>
+													<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 												</div>
 												<div ng-if="!files.IsReceived">
-													<a class="btn btn-success btn-small" ng-click="receivedLabFile(files.Id, files)">Принять</a>
+													<a class="fa fa-thumbs-o-up fa-1x" ng-click="receivedLabFile(files.Id, files)"></a>
+													<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 												</div>
 											</td>
 										</tr>
@@ -707,8 +702,7 @@
 							<div>
 								<table class="table table-bordered table-responsive">
 									<thead>
-										<tr>
-											<th></th>
+										<tr>											
 											<th>Файлы</th>
 											<th>Комментарий</th>
 											<th>Дата</th>
@@ -716,10 +710,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">
-											<td style="width: 60px; text-align: center; vertical-align: middle;">
-												<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-refresh fa-1x" style="font-size:14px; cursor: pointer" tooltip="Проверить на плагиат"></a>
-											</td>
+										<tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">											
 											<td>
 												<div ng-repeat="file in files.Attachments">
 													<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
@@ -727,12 +718,14 @@
 											</td>
 											<td>{{files.Comments}}</td>
 											<td>{{files.Date}}</td>
-											<td style="width: 100px; text-align: center">												
+											<td style="width: 100px; text-align: center">
 												<div ng-if="files.IsReceived">
-													<a class="btn btn-danger btn-small" ng-click="cancelReceivedLabFile(files.Id, files)">Отменить</a>
+													<a class="fa fa-thumbs-o-down fa-1x" ng-click="cancelReceivedLabFile(files.Id, files)"></a>
+													<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 												</div>
 												<div ng-if="!files.IsReceived">
-													<a class="btn btn-success btn-small" ng-click="receivedLabFile(files.Id, files)">Принять</a>
+													<a class="fa fa-thumbs-o-up fa-1x" ng-click="receivedLabFile(files.Id, files)"></a>
+													<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 												</div>
 											</td>
 										</tr>
@@ -765,17 +758,21 @@
 						<thead>
 						<tr>
 							<th></th>
-							<th>Файл</th>
+							<th>Процент схожести %</th>
 							<th>Автор</th>
-							<th>Коэффициент похожести</th>
+							<th>Предмет</th>
+							<th>Файл</th>
+							
+							
 						</tr>
 						</thead>
 						<tbody>
 							<tr ng-repeat="data in resultPlagiatium" >
 								<td></td>
-								<td>{{data.doc}}</td>
+								<td style="text-align: center;">{{data.coeff}}</td>
 								<td>{{data.author}}</td>
-								<td>{{data.coeff}}</td>
+								<td>{{data.subjectName}}</td>
+								<td>{{data.doc}}</td>
 							</tr>
 						</tbody>
 					</table>

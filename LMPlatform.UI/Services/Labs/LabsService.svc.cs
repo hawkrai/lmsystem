@@ -32,6 +32,7 @@ namespace LMPlatform.UI.Services.Labs
 
     using DateTime = System.DateTime;
 	using System.Configuration;
+	using Application.Infrastructure.StudentManagement;
 
     public class LabsService : ILabsService
     {
@@ -87,6 +88,16 @@ namespace LMPlatform.UI.Services.Labs
 			get
 			{
 				return filesManagementService.Value;
+			}
+		}
+
+		private readonly LazyDependency<IStudentManagementService> studentManagementService = new LazyDependency<IStudentManagementService>();
+
+		public IStudentManagementService StudentManagementService
+		{
+			get
+			{
+				return studentManagementService.Value;
 			}
 		}
 
@@ -716,8 +727,9 @@ namespace LMPlatform.UI.Services.Labs
 		{
 			try
 			{
-
 				var path = Guid.NewGuid().ToString("N");
+
+				var subjectName = this.SubjectManagementService.GetSubject(Int32.Parse(subjectId)).ShortName;
 
 				Directory.CreateDirectory(this.PlagiarismTempPath + path);
 
@@ -753,6 +765,16 @@ namespace LMPlatform.UI.Services.Labs
 					var name = this.FilesManagementService.GetFileDisplayName(fileName);
 
 					resultPlag.doc = name;
+
+					resultPlag.subjectName = subjectName;
+
+					var pathName = this.FilesManagementService.GetPathName(fileName);
+
+					var userFileT = this.SubjectManagementService.GetUserLabFile(pathName);
+
+					var userId = userFileT.UserId;
+
+					resultPlag.author = this.StudentManagementService.GetStudent(userId).FullName;
 				}
 
 				Directory.Delete(this.PlagiarismTempPath + path, true);
@@ -768,7 +790,7 @@ namespace LMPlatform.UI.Services.Labs
 			{
 				return new ResultViewData
 				{
-					Message = "Проверка завершилась неудачей",
+					Message = e.Message + "   " + e.ToString(),
 					Code = "500"
 				};
 			}
