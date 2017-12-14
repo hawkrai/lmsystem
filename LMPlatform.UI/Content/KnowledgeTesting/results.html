@@ -1,19 +1,21 @@
 ﻿<h3 data-ng-show="!groups || groups.length == 0">К предмету не подсоединено ни одной группы</h3>
 <tabset>
     <tab heading="Тесты для самоконтроля и ЭУМК">
-        <div data-ng-repeat="group in groups" style="display: inline-table; margin-right: 10px">
-            <button data-ng-click="loadResults(group.Id)" data-ng-class="{'active': group.Id == gropId }" class="btn btn-primary btn-sm" style="width: 150px;">
-                {{group.Name}}
-            </button>
-        </div>
-        <div style="display: inline-table; margin-right: 10px">
-            <a class="btn btn-primary btn-sm" ng-click="resultExport()" tooltip="Загрузить документ Excel">
-                <i class="fa fa-download"></i>
-                <span>Excel</span>
-            </a>
-        </div>
 
-
+        <table>
+            <tbody>
+                <tr>
+                    <td style="padding-right:15px">
+                        <select ng-model="selectedGroup" ng-options="group.Name for group in groups" ng-change="loadResults(selectedGroup.Id)" class="form-control"></select>
+                    </td>
+                    <td style="float:right">
+                        <button class="btn btn-default" ng-click="resultExport()" style="margin-right: 10px;" tooltip="Загрузить документ в Excel">
+                            <img src="/Images/ExcelDownload.png" />
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
         <div class="input-group input-group-sm search-box" style="margin-bottom: 10px; float: right">
             <span>Поиск&nbsp;</span>
@@ -59,19 +61,21 @@
         </div>
     </tab>
     <tab heading="Тесты для контроля знаний">
-        <div data-ng-repeat="group in groups" style="display: inline-table; margin-right: 10px">
-            <button data-ng-click="loadResults(group.Id)" data-ng-class="{'active': group.Id == gropId }" class="btn btn-primary btn-sm" style="width: 150px;">
-                {{group.Name}}
-            </button>
-        </div>
-        <div style="display: inline-table; margin-right: 10px">
-            <a class="btn btn-primary btn-sm" ng-click="resultExport()" tooltip="Загрузить документ Excel">
-                <i class="fa fa-download"></i>
-                <span>Excel</span>
-            </a>
-        </div>
 
-
+        <table>
+            <tbody>
+                <tr>
+                    <td style="padding-right:15px">
+                        <select ng-model="selectedGroup" ng-options="group.Name for group in groups" ng-change="loadResults(selectedGroup.Id)" class="form-control"></select>
+                    </td>
+                    <td style="float:right">
+                        <button class="btn btn-default" ng-click="resultExport()" style="margin-right: 10px;" tooltip="Загрузить документ в Excel">
+                            <img src="/Images/ExcelDownload.png" />
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
         <div class="input-group input-group-sm search-box" style="margin-bottom: 10px; float: right">
             <span>Поиск&nbsp;</span>

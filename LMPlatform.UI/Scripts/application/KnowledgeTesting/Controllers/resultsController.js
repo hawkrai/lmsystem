@@ -10,6 +10,7 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
                 $scope.groups = data;
                 if (data.length > 0) {
                     $scope.loadResults(data[0].Id);
+                    $scope.selectedGroup = $scope.groups[0];
                 }
             })
             .error(function (data, status, headers, config) {
@@ -148,4 +149,6 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
     $scope.resultExport = function() {
         window.location.href = "/TestPassing/GetResultsExcel?groupId=" + $scope.gropId + "&subjectId=" + $scope.subjectId;
     };
+
+    $scope.selectedGroup = null;
 });
