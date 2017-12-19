@@ -46,7 +46,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                     Comment = model.Comment,
                     CalculationType = model.CalculationType,
                     TestName = model.TestName,
-                    ForSelfStudy = test?.ForSelfStudy ?? true
+                    ForSelfStudy = test != null ? test.ForSelfStudy : true
                 };
             }
         }

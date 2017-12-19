@@ -25,5 +25,12 @@ namespace LMPlatform.UI.Services.Modules
 
 		[DataMember]
 		public string coeff { get; set; }
+
+		[DataMember]
+		public string author { get; set; }
+
+		[DataMember]
+		public string subjectName { get; set; }
+		
 	}
 }

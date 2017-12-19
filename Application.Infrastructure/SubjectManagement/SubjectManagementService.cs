@@ -799,6 +799,14 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
+		public UserLabFiles GetUserLabFile(string path)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.RepositoryFor<UserLabFiles>().GetBy(new Query<UserLabFiles>(e => e.Attachments == path));
+			}
+		}
+
 		public void DeleteUserLabFile(int id)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
