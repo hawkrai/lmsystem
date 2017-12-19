@@ -2,7 +2,7 @@
 knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
     $scope.subjectId = getUrlValue('subjectId');
     $scope.forSelfStudyFilter = function (item) {
-        return item.ForSelfStudy === "true";
+        return item.ForSelfStudy;
     }
 
     $http({ method: "GET", url: kt.actions.groups.getGroupsForSubject, dataType: 'json', params: { subjectId: $scope.subjectId } })
@@ -10,6 +10,7 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
                 $scope.groups = data;
                 if (data.length > 0) {
                     $scope.loadResults(data[0].Id);
+                    $scope.selectedGroup = $scope.groups[0];
                 }
             })
             .error(function (data, status, headers, config) {
@@ -36,30 +37,30 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
             .ToArray();
 
         $('#chartBarAverage').html("");
-        var plotBar = $('#chartBarAverage').jqplot([lines], {
-            animate: !$.jqplot.use_excanvas,
-            title: 'Рейтинг студентов',
-            seriesColors: ['#007196', '#008cba'],
-            seriesDefaults: {
-                renderer: jQuery.jqplot.BarRenderer,
-                rendererOptions: {
-                    varyBarColor: true,
-                    showDataLabels: true,
-                }
-            },
-            axes: {
-                xaxis: {
-                    renderer: $.jqplot.CategoryAxisRenderer,
-                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-                    tickOptions: {
-                        angle: lines.length > 3 ? -90 : 0,
-                    }
-                },
-                yaxis: {
-                    tickOptions: { formatString: '%d&nbsp&nbsp&nbsp' }
-                }
-            }
-        });
+        //var plotBar = $('#chartBarAverage').jqplot([lines], {
+        //    animate: !$.jqplot.use_excanvas,
+        //    title: 'Рейтинг студентов',
+        //    seriesColors: ['#007196', '#008cba'],
+        //    seriesDefaults: {
+        //        renderer: jQuery.jqplot.BarRenderer,
+        //        rendererOptions: {
+        //            varyBarColor: true,
+        //            showDataLabels: true,
+        //        }
+        //    },
+        //    axes: {
+        //        xaxis: {
+        //            renderer: $.jqplot.CategoryAxisRenderer,
+        //            tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+        //            tickOptions: {
+        //                angle: lines.length > 3 ? -90 : 0,
+        //            }
+        //        },
+        //        yaxis: {
+        //            tickOptions: { formatString: '%d&nbsp&nbsp&nbsp' }
+        //        }
+        //    }
+        //});
     };
 
     $scope.calcOverage = function (result, dontUseTestResult) {
@@ -148,4 +149,6 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
     $scope.resultExport = function() {
         window.location.href = "/TestPassing/GetResultsExcel?groupId=" + $scope.gropId + "&subjectId=" + $scope.subjectId;
     };
+
+    $scope.selectedGroup = null;
 });

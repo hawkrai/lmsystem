@@ -22,7 +22,7 @@ namespace LMPlatform.UI.Controllers
     using Application.Infrastructure.ConceptManagement;
     using LMPlatform.UI.Services.Modules.Concept;
 
-    [Authorize(Roles = "lector")]
+    [Authorize]
     public class TestsController : BasicController
     {
         public string TestContentPath
