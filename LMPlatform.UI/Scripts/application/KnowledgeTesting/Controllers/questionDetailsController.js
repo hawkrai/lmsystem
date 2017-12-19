@@ -41,7 +41,9 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
         var container = $(".concept-container");
         removeControl.on("click", function () {
             container.html("");
+            $scope.question.ConceptId = null;
         });
+        $scope.question.ConceptId = $(this).attr('id');
         container.html($(this).text());
         removeControl.appendTo(container);
     }
@@ -56,7 +58,7 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
         }
         else
             li = $("<li>");
-        var a = $('<a tabindex="-1">' + child.Name + '</a>');
+        var a = $('<a tabindex="-1" id="' + child.Id + '">' + child.Name + '</a>');
         a.appendTo(li);
         a.on("click", $scope.treeNodeClicked)
         if (hasChildren)

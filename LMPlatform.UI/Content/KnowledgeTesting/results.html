@@ -47,9 +47,6 @@
                     <td></td>
                     <td style="text-align: right;">Средний процент за тест </td>
                     <td data-ng-repeat="res in results[0].TestPassResults | filter:forSelfStudyFilter">
-
-
-
                         <!--  {{calcTotal(results, $index).Point}} -->
                         {{calcTotal(results, $index).Percent}}%
                     </td>
@@ -109,7 +106,6 @@
                     <td></td>
                     <td style="text-align: right;">Средний процент за тест </td>
                     <td data-ng-repeat="res in results[0].TestPassResults | filter:!forSelfStudyFilter">
-
                         <!--  {{calcTotal(results, $index).Point}} -->
                         {{calcTotal(results, $index).Percent}}%
                     </td>
