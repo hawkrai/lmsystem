@@ -89,7 +89,17 @@ namespace LMPlatform.UI.Services.Labs
 			{
 				return filesManagementService.Value;
 			}
-		}
+        }
+
+        private readonly LazyDependency<ITestsManagementService> testsManagementService = new LazyDependency<ITestsManagementService>();
+
+        public ITestsManagementService TestsManagementService
+        {
+            get
+            {
+                return testsManagementService.Value;
+            }
+        }
 
 		private readonly LazyDependency<IStudentManagementService> studentManagementService = new LazyDependency<IStudentManagementService>();
 
@@ -134,10 +144,12 @@ namespace LMPlatform.UI.Services.Labs
 				var labsData = this.SubjectManagementService.GetSubject(subjectId).Labs.OrderBy(e => e.Order).ToList();
 				
 				var students = new List<StudentsViewData>();
-				
-				foreach (var student in group.Students)
+
+                var controlTests = TestsManagementService.GetTestsForSubject(subjectId).Where(x => !x.ForSelfStudy);
+
+                foreach (var student in group.Students)
 				{
-					students.Add(new StudentsViewData(this.TestPassingService.GetStidentResults(subjectId, student.Id), student, labs: labsData));
+					students.Add(new StudentsViewData(this.TestPassingService.GetStidentResults(subjectId, student.Id).Where(x => controlTests.Any(y => y.Id == x.TestId)).ToList(), student, labs: labsData));
 				}
 
 				return new StudentsMarksResult
@@ -432,8 +444,9 @@ namespace LMPlatform.UI.Services.Labs
 
 				var students = new List<StudentsViewData>();
 
+                var controlTests = TestsManagementService.GetTestsForSubject(subjectId).Where(x => !x.ForSelfStudy);
 
-				foreach (var student in group.Students.Where(e => e.Confirmed == null || e.Confirmed.Value).OrderBy(e => e.LastName))
+                foreach (var student in group.Students.Where(e => e.Confirmed == null || e.Confirmed.Value).OrderBy(e => e.LastName))
 				{
 					var scheduleProtectionLabs = subGroups.Any()
 													 ? subGroups.FirstOrDefault(x => x.Name == "first").SubjectStudents.Any(x => x.StudentId == student.Id)
@@ -447,7 +460,7 @@ namespace LMPlatform.UI.Services.Labs
 																		x => x.Date).ToList()
 																		: new List<ScheduleProtectionLabs>()
 						                             : new List<ScheduleProtectionLabs>();
-					students.Add(new StudentsViewData(this.TestPassingService.GetStidentResults(subjectId, student.Id), student, scheduleProtectionLabs: scheduleProtectionLabs, labs: labsData));
+					students.Add(new StudentsViewData(this.TestPassingService.GetStidentResults(subjectId, student.Id).Where(x => controlTests.Any(y => y.Id == x.TestId)).ToList(), student, scheduleProtectionLabs: scheduleProtectionLabs, labs: labsData));
 				}
 
 				return new StudentsMarksResult

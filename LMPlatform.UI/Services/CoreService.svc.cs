@@ -386,20 +386,20 @@ namespace LMPlatform.UI.Services
 					{
 						GroupId = @group.Id,
 						GroupName = @group.Name,
-						SubGroupsOne = subGroups.Any() ? new SubGroupsViewData
+						SubGroupsOne = subGroups.Any(x => x.Name == "first") ? new SubGroupsViewData
 							               {
 											   Name = "Подгруппа 1",
-											   SubGroupId = subGroups.FirstOrDefault(e => e.Name == "first").Id
+											   SubGroupId = subGroups.First(e => e.Name == "first").Id
 							               } : new SubGroupsViewData(),
-						SubGroupsTwo = subGroups.Any() ? new SubGroupsViewData
+						SubGroupsTwo = subGroups.Any(x => x.Name == "second") ? new SubGroupsViewData
 						{
 							Name = "Подгруппа 2",
-							SubGroupId = subGroups.FirstOrDefault(e => e.Name == "second").Id
+							SubGroupId = subGroups.First(e => e.Name == "second").Id
 						} : new SubGroupsViewData(),
-						SubGroupsThird = subGroups.Any() ? new SubGroupsViewData
+						SubGroupsThird = subGroups.Any(x => x.Name == "third") ? new SubGroupsViewData
 						{
 							Name = "Подгруппа 3",
-							SubGroupId = subGroups.FirstOrDefault(e => e.Name == "third").Id
+							SubGroupId = subGroups.First(e => e.Name == "third").Id
 						} : new SubGroupsViewData(),
 					});
 				}

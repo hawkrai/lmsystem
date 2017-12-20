@@ -38,6 +38,12 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public int? ConceptId
+        {
+            get;
+            set;
+        }
+
         public QuestionType QuestionType
         {
             get;
@@ -60,7 +66,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Description = Description,
                 ComlexityLevel = ComplexityLevel,
                 QuestionType = QuestionType,
-                Answers = Answers.Select(answer => answer.ToAnswer()).ToList()
+                Answers = Answers.Select(answer => answer.ToAnswer()).ToList(),
+                ConceptId = ConceptId
             };
         }
 
@@ -68,6 +75,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
         {
             return new QuestionViewModel
             {
+                ConceptId = question.ConceptId,
                 Id = question.Id,
                 TestId = question.TestId,
                 Title = question.Title,
