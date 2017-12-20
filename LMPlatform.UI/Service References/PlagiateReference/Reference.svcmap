@@ -19,10 +19,10 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8080/plagiate/services/soapws?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:8880/plagiate/services/soapws?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="SoapWS.wsdl" MetadataType="Wsdl" ID="0a4f6682-826f-4b1c-ba6d-725f58bd694e" SourceId="1" SourceUrl="http://localhost:8080/plagiate/services/soapws?wsdl" />
+    <MetadataFile FileName="SoapWS.wsdl" MetadataType="Wsdl" ID="0a4f6682-826f-4b1c-ba6d-725f58bd694e" SourceId="1" SourceUrl="http://localhost:8880/plagiate/services/soapws?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

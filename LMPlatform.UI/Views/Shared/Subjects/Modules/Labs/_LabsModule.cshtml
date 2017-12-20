@@ -615,11 +615,11 @@
 										<td style="width: 100px; text-align: center">
 											<div ng-if="files.IsReceived">
 												<a class="fa fa-thumbs-o-down fa-1x" ng-click="cancelReceivedLabFile(files.Id, files)"></a>
-												<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
+												<a ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 											</div>
 											<div ng-if="!files.IsReceived">
 												<a class="fa fa-thumbs-o-up fa-1x" ng-click="receivedLabFile(files.Id, files)"></a>
-												<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
+												<a ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 											</div>
 										</td>
 									</tr>
@@ -667,11 +667,11 @@
 											<td style="width: 100px; text-align: center">
 												<div ng-if="files.IsReceived">
 													<a class="fa fa-thumbs-o-down fa-1x" ng-click="cancelReceivedLabFile(files.Id, files)"></a>
-													<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
+													<a ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 												</div>
 												<div ng-if="!files.IsReceived">
 													<a class="fa fa-thumbs-o-up fa-1x" ng-click="receivedLabFile(files.Id, files)"></a>
-													<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
+													<a ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 												</div>
 											</td>
 										</tr>
@@ -721,11 +721,11 @@
 											<td style="width: 100px; text-align: center">
 												<div ng-if="files.IsReceived">
 													<a class="fa fa-thumbs-o-down fa-1x" ng-click="cancelReceivedLabFile(files.Id, files)"></a>
-													<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
+													<a ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 												</div>
 												<div ng-if="!files.IsReceived">
 													<a class="fa fa-thumbs-o-up fa-1x" ng-click="receivedLabFile(files.Id, files)"></a>
-													<a ng-click="checkPlagiarism(files.Id, files)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
+													<a ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px" tooltip="Проверить на плагиат"></a>
 												</div>
 											</td>
 										</tr>
@@ -750,16 +750,16 @@
 			<div class="modal-body">
 				<div>
 					<div style="text-align: center" class="control-group">
-						{{plagiat.FileName}}
+						{{plagiat.FileName}} - {{plagiat.UserName}}
 					</div>
 				</div>
 				<div>
 					<table class="table table-bordered table-responsive">
 						<thead>
 						<tr>
-							<th></th>
 							<th>Процент схожести %</th>
 							<th>Автор</th>
+							<th>Группа</th>
 							<th>Предмет</th>
 							<th>Файл</th>
 							
@@ -768,9 +768,9 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="data in resultPlagiatium" >
-								<td></td>
 								<td style="text-align: center;">{{data.coeff}}</td>
 								<td>{{data.author}}</td>
+								<td>{{data.groupName}}</td>
 								<td>{{data.subjectName}}</td>
 								<td>{{data.doc}}</td>
 							</tr>

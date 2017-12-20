@@ -191,7 +191,17 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 			}).success(function (data, status) {
 				$scope.news = data;
 				$scope.newsCount = $scope.news.length;
-				$scope.lastNews = $scope.news[0];
+
+				$scope.lastNews = [];
+
+				if ($scope.newsCount > 4) {
+					for (var i = 0; i < 4; i++) {
+						$scope.lastNews.push($scope.news[i]);
+					}
+				}
+				else {
+					$scope.lastNews = $scope.news;
+				}
 			});
 		};
 

@@ -754,7 +754,7 @@ namespace LMPlatform.UI.Services.Labs
 
 				var service = new SoapWSClient();
 
-				var result = service.checkBySingleDoc(firstFileName, new string[] { this.PlagiarismTempPath + path }, 70, 5);
+				var result = service.checkBySingleDoc(firstFileName, new string[] { this.PlagiarismTempPath + path }, 70, 6, 1);
 
 				List<ResultPlag> data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ResultPlag>>(result);
 
@@ -774,14 +774,18 @@ namespace LMPlatform.UI.Services.Labs
 
 					var userId = userFileT.UserId;
 
-					resultPlag.author = this.StudentManagementService.GetStudent(userId).FullName;
+					var user = this.StudentManagementService.GetStudent(userId);
+
+					resultPlag.author = user.FullName;
+
+					resultPlag.groupName = user.Group.Name;
 				}
 
 				Directory.Delete(this.PlagiarismTempPath + path, true);
 
 				return new ResultViewData
 				{
-					DataD = data,
+					DataD = data.ToList(),
 					Message = "Проверка успешно завершена",
 					Code = "200"
 				};

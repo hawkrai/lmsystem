@@ -17,6 +17,7 @@ using LMPlatform.UI.Attributes;
 using Microsoft.Ajax.Utilities;
 using LMPlatform.Data.Infrastructure;
 using Application.Infrastructure.CPManagement;
+using Application.Infrastructure.KnowledgeTestsManagement;
 
 namespace LMPlatform.UI.ViewModels.SubjectViewModels
 {
@@ -37,6 +38,13 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 		private IStudentManagementService StudentManagementService
 		{
 			get { return _studentManagementService.Value; }
+		}
+
+		private readonly LazyDependency<ITestsManagementService> _testsManagementService = new LazyDependency<ITestsManagementService>();
+
+		private ITestsManagementService TestsManagementService
+		{
+			get { return _testsManagementService.Value; }
 		}
 
         private ICPManagementService CPManagementService
@@ -238,6 +246,8 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                 LecturerId = userId
             });
 
+			var selectedGroupdsOld = this.SubjectManagementService.GetSubject(new Query<Subject>(e => e.Id == this.SubjectId).Include(e => e.SubjectGroups)).SubjectGroups;
+
 	        if (SelectedGroups != null)
 	        {
 				subject.SubjectGroups = SelectedGroups.Select(e => new SubjectGroup
@@ -250,6 +260,14 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 	        {
 				subject.SubjectGroups = new Collection<SubjectGroup>();    
 	        }
+
+			foreach (var subjectSubjectGroup in selectedGroupdsOld)
+			{
+				if (!subject.SubjectGroups.Any(e => e.GroupId == subjectSubjectGroup.GroupId))
+				{
+					this.TestsManagementService.UnlockAllTestForGroup(subjectSubjectGroup.GroupId);
+				}
+			}
 
             var acp = Context.AssignedCourseProjects.Include("Student").Where(x => x.CourseProject.SubjectId == subject.Id);
 

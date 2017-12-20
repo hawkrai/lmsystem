@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -20,10 +21,19 @@ namespace LMPlatform.UI.Controllers
     using LMPlatform.UI.ViewModels.AdministrationViewModels;
 
     using WebMatrix.WebData;
+	using Application.Infrastructure.CPManagement;
 
 
     public class ProfileController : Controller
 	{
+		[SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
+		private readonly LazyDependency<ICPManagementService> _cpManagementService = new LazyDependency<ICPManagementService>();
+
+		private ICPManagementService CpManagementService
+		{
+			get { return _cpManagementService.Value; }
+		}
+
         private IDpManagementService DpManagementService
         {
             get { return _diplomProjectManagementService.Value; }

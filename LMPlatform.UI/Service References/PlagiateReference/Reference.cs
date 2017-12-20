@@ -61,13 +61,18 @@ namespace LMPlatform.UI.PlagiateReference {
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public int termCount;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://soap.ws/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int mode;
+        
         public check() {
         }
         
-        public check(string[] docs, int threshold, int termCount) {
+        public check(string[] docs, int threshold, int termCount, int mode) {
             this.docs = docs;
             this.threshold = threshold;
             this.termCount = termCount;
+            this.mode = mode;
         }
     }
     
@@ -107,13 +112,18 @@ namespace LMPlatform.UI.PlagiateReference {
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public int termCount;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://soap.ws/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int mode;
+        
         public checkByDirectory() {
         }
         
-        public checkByDirectory(string[] folders, int threshold, int termCount) {
+        public checkByDirectory(string[] folders, int threshold, int termCount, int mode) {
             this.folders = folders;
             this.threshold = threshold;
             this.termCount = termCount;
+            this.mode = mode;
         }
     }
     
@@ -157,14 +167,19 @@ namespace LMPlatform.UI.PlagiateReference {
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public int termCount;
         
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://soap.ws/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int mode;
+        
         public checkBySingleDoc() {
         }
         
-        public checkBySingleDoc(string checkDoc, string[] folders, int threshold, int termCount) {
+        public checkBySingleDoc(string checkDoc, string[] folders, int threshold, int termCount, int mode) {
             this.checkDoc = checkDoc;
             this.folders = folders;
             this.threshold = threshold;
             this.termCount = termCount;
+            this.mode = mode;
         }
     }
     
@@ -218,11 +233,12 @@ namespace LMPlatform.UI.PlagiateReference {
             return base.Channel.check(request);
         }
         
-        public string check(string[] docs, int threshold, int termCount) {
+        public string check(string[] docs, int threshold, int termCount, int mode) {
             LMPlatform.UI.PlagiateReference.check inValue = new LMPlatform.UI.PlagiateReference.check();
             inValue.docs = docs;
             inValue.threshold = threshold;
             inValue.termCount = termCount;
+            inValue.mode = mode;
             LMPlatform.UI.PlagiateReference.checkResponse retVal = ((LMPlatform.UI.PlagiateReference.ISoapWS)(this)).check(inValue);
             return retVal.@return;
         }
@@ -232,11 +248,12 @@ namespace LMPlatform.UI.PlagiateReference {
             return base.Channel.checkAsync(request);
         }
         
-        public System.Threading.Tasks.Task<LMPlatform.UI.PlagiateReference.checkResponse> checkAsync(string[] docs, int threshold, int termCount) {
+        public System.Threading.Tasks.Task<LMPlatform.UI.PlagiateReference.checkResponse> checkAsync(string[] docs, int threshold, int termCount, int mode) {
             LMPlatform.UI.PlagiateReference.check inValue = new LMPlatform.UI.PlagiateReference.check();
             inValue.docs = docs;
             inValue.threshold = threshold;
             inValue.termCount = termCount;
+            inValue.mode = mode;
             return ((LMPlatform.UI.PlagiateReference.ISoapWS)(this)).checkAsync(inValue);
         }
         
@@ -245,11 +262,12 @@ namespace LMPlatform.UI.PlagiateReference {
             return base.Channel.checkByDirectory(request);
         }
         
-        public string checkByDirectory(string[] folders, int threshold, int termCount) {
+        public string checkByDirectory(string[] folders, int threshold, int termCount, int mode) {
             LMPlatform.UI.PlagiateReference.checkByDirectory inValue = new LMPlatform.UI.PlagiateReference.checkByDirectory();
             inValue.folders = folders;
             inValue.threshold = threshold;
             inValue.termCount = termCount;
+            inValue.mode = mode;
             LMPlatform.UI.PlagiateReference.checkByDirectoryResponse retVal = ((LMPlatform.UI.PlagiateReference.ISoapWS)(this)).checkByDirectory(inValue);
             return retVal.@return;
         }
@@ -259,11 +277,12 @@ namespace LMPlatform.UI.PlagiateReference {
             return base.Channel.checkByDirectoryAsync(request);
         }
         
-        public System.Threading.Tasks.Task<LMPlatform.UI.PlagiateReference.checkByDirectoryResponse> checkByDirectoryAsync(string[] folders, int threshold, int termCount) {
+        public System.Threading.Tasks.Task<LMPlatform.UI.PlagiateReference.checkByDirectoryResponse> checkByDirectoryAsync(string[] folders, int threshold, int termCount, int mode) {
             LMPlatform.UI.PlagiateReference.checkByDirectory inValue = new LMPlatform.UI.PlagiateReference.checkByDirectory();
             inValue.folders = folders;
             inValue.threshold = threshold;
             inValue.termCount = termCount;
+            inValue.mode = mode;
             return ((LMPlatform.UI.PlagiateReference.ISoapWS)(this)).checkByDirectoryAsync(inValue);
         }
         
@@ -272,12 +291,13 @@ namespace LMPlatform.UI.PlagiateReference {
             return base.Channel.checkBySingleDoc(request);
         }
         
-        public string checkBySingleDoc(string checkDoc, string[] folders, int threshold, int termCount) {
+        public string checkBySingleDoc(string checkDoc, string[] folders, int threshold, int termCount, int mode) {
             LMPlatform.UI.PlagiateReference.checkBySingleDoc inValue = new LMPlatform.UI.PlagiateReference.checkBySingleDoc();
             inValue.checkDoc = checkDoc;
             inValue.folders = folders;
             inValue.threshold = threshold;
             inValue.termCount = termCount;
+            inValue.mode = mode;
             LMPlatform.UI.PlagiateReference.checkBySingleDocResponse retVal = ((LMPlatform.UI.PlagiateReference.ISoapWS)(this)).checkBySingleDoc(inValue);
             return retVal.@return;
         }
@@ -287,12 +307,13 @@ namespace LMPlatform.UI.PlagiateReference {
             return base.Channel.checkBySingleDocAsync(request);
         }
         
-        public System.Threading.Tasks.Task<LMPlatform.UI.PlagiateReference.checkBySingleDocResponse> checkBySingleDocAsync(string checkDoc, string[] folders, int threshold, int termCount) {
+        public System.Threading.Tasks.Task<LMPlatform.UI.PlagiateReference.checkBySingleDocResponse> checkBySingleDocAsync(string checkDoc, string[] folders, int threshold, int termCount, int mode) {
             LMPlatform.UI.PlagiateReference.checkBySingleDoc inValue = new LMPlatform.UI.PlagiateReference.checkBySingleDoc();
             inValue.checkDoc = checkDoc;
             inValue.folders = folders;
             inValue.threshold = threshold;
             inValue.termCount = termCount;
+            inValue.mode = mode;
             return ((LMPlatform.UI.PlagiateReference.ISoapWS)(this)).checkBySingleDocAsync(inValue);
         }
     }

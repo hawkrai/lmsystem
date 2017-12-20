@@ -13,6 +13,7 @@
           <xs:element minOccurs="0" maxOccurs="unbounded" name="docs" type="xs:string" />
           <xs:element name="threshold" type="xs:int" />
           <xs:element name="termCount" type="xs:int" />
+          <xs:element name="mode" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="checkResponse">
@@ -25,6 +26,7 @@
           <xs:element minOccurs="0" maxOccurs="unbounded" name="folders" type="xs:string" />
           <xs:element name="threshold" type="xs:int" />
           <xs:element name="termCount" type="xs:int" />
+          <xs:element name="mode" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="checkByDirectoryResponse">
@@ -38,6 +40,7 @@
           <xs:element minOccurs="0" maxOccurs="unbounded" name="folders" type="xs:string" />
           <xs:element name="threshold" type="xs:int" />
           <xs:element name="termCount" type="xs:int" />
+          <xs:element name="mode" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="checkBySingleDocResponse">
@@ -111,7 +114,7 @@
   </wsdl:binding>
   <wsdl:service name="SoapWS">
     <wsdl:port name="SoapWSPort" binding="tns:SoapWSSoapBinding">
-      <soap:address location="http://localhost:8080/plagiate/services/soapws" />
+      <soap:address location="http://localhost:8880/plagiate/services/soapws" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

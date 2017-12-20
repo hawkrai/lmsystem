@@ -909,9 +909,10 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
 		$scope.resultPlagiatium = [];
 
-         $scope.checkPlagiarism = function (id, files) {
+         $scope.checkPlagiarism = function (id, files, userName) {
          	$scope.plagiat = {
-         		FileName: files.Attachments[0].Name
+         		FileName: files.Attachments[0].Name,
+         		UserName: userName
          	};
 
          	$('#dialogPlagiarism').modal();

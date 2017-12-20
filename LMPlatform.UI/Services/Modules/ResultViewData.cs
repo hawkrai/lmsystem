@@ -31,6 +31,9 @@ namespace LMPlatform.UI.Services.Modules
 
 		[DataMember]
 		public string subjectName { get; set; }
+
+		[DataMember]
+		public string groupName { get; set; }
 		
 	}
 }
