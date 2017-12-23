@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LMPlatform.UI.Services.Modules
 {
@@ -18,6 +19,19 @@ namespace LMPlatform.UI.Services.Modules
     }
 
 	[DataContract]
+	public class ResultPSubjectViewData
+	{
+		[DataMember]
+		public string Message { get; set; }
+
+		[DataMember]
+		public string Code { get; set; }
+
+		[DataMember]
+		public List<ResultPlagSubject> DataD { get; set; }
+	}
+
+	[DataContract]
 	public class ResultPlag
 	{
 		[DataMember]
@@ -35,5 +49,22 @@ namespace LMPlatform.UI.Services.Modules
 		[DataMember]
 		public string groupName { get; set; }
 		
+	}
+
+	[DataContract]
+	public class ResultPlagSubjectClu
+	{
+		[DataMember]
+		public ResultPlagSubject [] clusters { get; set; }
+	}
+
+	[DataContract]
+	public class ResultPlagSubject
+	{
+		[DataMember]
+		public string [] docs { get; set; }
+
+		[DataMember]
+		public List<ResultPlag> correctDocs { get; set; }
 	}
 }

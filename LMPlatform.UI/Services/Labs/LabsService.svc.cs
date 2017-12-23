@@ -736,6 +736,79 @@ namespace LMPlatform.UI.Services.Labs
 			}
 		}
 
+		public ResultPSubjectViewData CheckPlagiarismSubjects(string subjectId) 
+		{
+			try
+			{
+				var path = Guid.NewGuid().ToString("N");
+
+				var subjectName = this.SubjectManagementService.GetSubject(Int32.Parse(subjectId)).ShortName;
+
+				Directory.CreateDirectory(this.PlagiarismTempPath + path);
+								
+				var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived);
+
+				var filesPaths = usersFiles.Select(e => e.Attachments);
+
+				foreach (var filesPath in filesPaths)
+				{
+					foreach (var srcPath in Directory.GetFiles(this.FileUploadPath + filesPath))
+					{
+						File.Copy(srcPath, srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
+					}
+				}
+				
+				var service = new SoapWSClient();
+
+				var result = service.checkByDirectory(new string[] { this.PlagiarismTempPath + path }, 50, 10, 1);
+
+				ResultPlagSubjectClu data = Newtonsoft.Json.JsonConvert.DeserializeObject<ResultPlagSubjectClu>(result);
+
+				foreach (var resultPlagSubject in data.clusters.ToList())
+				{
+					resultPlagSubject.correctDocs = new List<ResultPlag>();
+					foreach (var doc in resultPlagSubject.docs)
+					{
+						var resultS = new ResultPlag();
+						var fileName = Path.GetFileName(doc);
+						var name = this.FilesManagementService.GetFileDisplayName(fileName);
+						resultS.subjectName = subjectName;
+						resultS.doc = name;
+						var pathName = this.FilesManagementService.GetPathName(fileName);
+
+						var userFileT = this.SubjectManagementService.GetUserLabFile(pathName);
+
+						var userId = userFileT.UserId;
+
+						var user = this.StudentManagementService.GetStudent(userId);
+
+						resultS.author = user.FullName;
+
+						resultS.groupName = user.Group.Name;
+						resultPlagSubject.correctDocs.Add(resultS);
+					}
+				}
+
+				Directory.Delete(this.PlagiarismTempPath + path, true);
+
+				return new ResultPSubjectViewData
+				{
+					DataD = data.clusters.ToList(),
+					Message = "Проверка успешно завершена",
+					Code = "200"
+				};
+			}
+			catch (Exception e)
+			{
+				return new ResultPSubjectViewData
+				{
+					Message = e.Message + "   " + e.ToString(),
+					Code = "500"
+				};
+			}
+		
+		}
+
 		public ResultViewData CheckPlagiarism(string userFileId, string subjectId)
 		{
 			try

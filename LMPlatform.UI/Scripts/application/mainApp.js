@@ -941,6 +941,33 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          	});
          };
 
+		$scope.checkPlagiarismSubject = function () {
+
+			$('#dialogPlagiarismSubject').modal();
+
+			$(".loadingPSubject").toggleClass('ng-hide', false);
+
+			$http({
+				method: 'POST',
+				url: $scope.UrlServiceLabs + "CheckPlagiarismSubjects",
+				data: {
+					subjectId: $scope.subjectId
+				},
+				headers: { 'Content-Type': 'application/json' }
+			}).success(function (data, status) {
+				if (data.Code != '200') {
+					alertify.error(data.Message);
+				} else {
+					alertify.success(data.Message);
+
+					$scope.resultPlagiatiumSybject = data.DataD;
+
+				}
+				$(".loadingPSubject").toggleClass('ng-hide', true);
+
+			});
+		};
+
         $scope.receivedLabFile = function (id, files) {
 			$http({
 				method: 'POST',

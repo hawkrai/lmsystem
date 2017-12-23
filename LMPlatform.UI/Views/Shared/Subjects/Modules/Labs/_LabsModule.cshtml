@@ -570,9 +570,12 @@
 						        <img src="~/Images/rar.png"/>
 					        </a>
 				        </td>
-				        <td style="margin-top: 5px">
-					        <a ng-click="reloadFiles()" class="fa fa-refresh fa-1x" style="margin-right: 10px; font-size: 27px; cursor: pointer" tooltip="Обновить данные"></a>
-				        </td>
+						<td style="margin-top: 5px">
+							<a ng-click="reloadFiles()" class="fa fa-refresh fa-1x" style="margin-right: 10px; font-size: 27px; cursor: pointer" tooltip="Обновить данные"></a>
+						</td>
+						<td>
+							<button class="btn btn-default btn-small" ng-click="checkPlagiarismSubject()" style="margin-right: 10px;">Проверить на плагиат</button>
+						</td>
 			        </tr>
 			        </tbody>
 		        </table>
@@ -740,8 +743,45 @@
         </tab>
     </tabset>
 
+	<div id="dialogPlagiarismSubject" class="modal">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Проверка на плагиат</h4>
+			</div>
+			<div class="modal-body">
+				<div>
+					<table class="table table-bordered table-responsive" ng-repeat="cluster in resultPlagiatiumSybject">
+						<thead>
+							<tr>
+								<th>Автор</th>
+								<th>Группа</th>
+								<th>Предмет</th>
+								<th>Файл</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in cluster.correctDocs">
+								<td>{{data.author}}</td>
+								<td>{{data.groupName}}</td>
+								<td>{{data.subjectName}}</td>
+								<td>{{data.doc}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="loadingPSubject ng-hide" style="margin-top: 170px;">
+					<span us-spinner="{radius:40, width:8, length: 16, opacity: 0, shadow: true, color: '#3c8dbc'}" spinner-key="spinner-1" spinner-start-active="true"></span>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+			</div>
+		</div>
+	</div>
+	
 
-	<div id="dialogPlagiarism" class="modal">
+<div id="dialogPlagiarism" class="modal">
 		<div class="modal-dialog panel panel-primary" style="padding: 0px">
 			<div class="panel-heading">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
