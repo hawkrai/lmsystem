@@ -13,6 +13,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
     {
         public class TestPassResultViewModel
         {
+
             public int StudentId { get; set; }
 
             public int TestId { get; set; }
@@ -51,6 +52,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             }
         }
 
+        public string SubGroup { get; set; }
+
         [DisplayName("Студент")]
         public string StudentName
         {
@@ -88,13 +91,14 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             };
         }
 
-        public static TestResultItemListViewModel FromStudent(Student student, IEnumerable<Test> tests)
+        public static TestResultItemListViewModel FromStudent(Student student, IEnumerable<Test> tests, IList<SubGroup> subGroups)
         {
             return new TestResultItemListViewModel
             {
                 StudentName = student.FullName,
                 StudentShortName = GetShortStudentName(student),
-                TestPassResults = student.User.TestPassResults.Select(x => TestPassResultViewModel.FromModel(x, tests.FirstOrDefault(y => y.Id == x.TestId))).ToArray()
+                TestPassResults = student.User.TestPassResults.Select(x => TestPassResultViewModel.FromModel(x, tests.FirstOrDefault(y => y.Id == x.TestId))).ToArray(),
+                SubGroup = subGroups.FirstOrDefault(x => x.SubjectStudents.Any(y => y.StudentId == student.Id))?.Name
             };
         }
 

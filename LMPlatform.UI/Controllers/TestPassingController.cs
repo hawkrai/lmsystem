@@ -29,6 +29,16 @@ namespace LMPlatform.UI.Controllers
             get { return _testQuestionPassingService.Value; }
         }
 
+        private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
+
+        public ISubjectManagementService SubjectManagementService
+        {
+            get
+            {
+                return subjectManagementService.Value;
+            }
+        }
+
         [Authorize, HttpGet]
         public ActionResult StudentsTesting(int subjectId)
         {
@@ -121,7 +131,9 @@ namespace LMPlatform.UI.Controllers
         {
             var tests = TestsManagementService.GetTestsForSubject(subjectId);
 
-            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(x => TestResultItemListViewModel.FromStudent(x, tests)).OrderBy(res => res.StudentName).ToArray();
+            IList<SubGroup> subGroups = this.SubjectManagementService.GetSubGroupsV2(subjectId, groupId);
+
+            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(x => TestResultItemListViewModel.FromStudent(x, tests, subGroups)).OrderBy(res => res.StudentName).ToArray();
             
             return Json(results, JsonRequestBehavior.AllowGet);
         }
@@ -153,7 +165,9 @@ namespace LMPlatform.UI.Controllers
         {
             var tests = TestsManagementService.GetTestsForSubject(subjectId);
 
-            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(x => TestResultItemListViewModel.FromStudent(x, tests)).OrderBy(res => res.StudentName).ToArray();
+            IList<SubGroup> subGroups = this.SubjectManagementService.GetSubGroupsV2(subjectId, groupId);
+
+            TestResultItemListViewModel[] results = TestPassingService.GetPassTestResults(groupId, subjectId).Select(x => TestResultItemListViewModel.FromStudent(x, tests, subGroups)).OrderBy(res => res.StudentName).ToArray();
 
             var data = new SLExcelData();
 
