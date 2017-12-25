@@ -22,6 +22,16 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
         $http({ method: "GET", url: kt.actions.results.getResults, dataType: 'json', params: { subjectId: $scope.subjectId, groupId: groupId} })
            .success(function (data) {
                $scope.results = data;
+               $scope.subgroupsResults = [];
+               if ($scope.results.some(x => x.SubGroup === "first")) {
+                   $scope.subgroupsResults[0] = $scope.results.filter(x => x.SubGroup == "first");
+               }
+               if ($scope.results.some(x => x.SubGroup === "second")) {
+                   $scope.subgroupsResults[1] = $scope.results.filter(x => x.SubGroup == "second");
+               }
+               if ($scope.results.some(x => x.SubGroup === "third")) {
+                   $scope.subgroupsResults[2] = $scope.results.filter(x => x.SubGroup == "third");
+               }
                $scope.drawChartBar();
            })
            .error(function (data, status, headers, config) {
@@ -37,30 +47,30 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
             .ToArray();
 
         $('#chartBarAverage').html("");
-        //var plotBar = $('#chartBarAverage').jqplot([lines], {
-        //    animate: !$.jqplot.use_excanvas,
-        //    title: 'Рейтинг студентов',
-        //    seriesColors: ['#007196', '#008cba'],
-        //    seriesDefaults: {
-        //        renderer: jQuery.jqplot.BarRenderer,
-        //        rendererOptions: {
-        //            varyBarColor: true,
-        //            showDataLabels: true,
-        //        }
-        //    },
-        //    axes: {
-        //        xaxis: {
-        //            renderer: $.jqplot.CategoryAxisRenderer,
-        //            tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-        //            tickOptions: {
-        //                angle: lines.length > 3 ? -90 : 0,
-        //            }
-        //        },
-        //        yaxis: {
-        //            tickOptions: { formatString: '%d&nbsp&nbsp&nbsp' }
-        //        }
-        //    }
-        //});
+        var plotBar = $('#chartBarAverage').jqplot([lines], {
+            animate: !$.jqplot.use_excanvas,
+            title: 'Рейтинг студентов',
+            seriesColors: ['#007196', '#008cba'],
+            seriesDefaults: {
+                renderer: jQuery.jqplot.BarRenderer,
+                rendererOptions: {
+                    varyBarColor: true,
+                    showDataLabels: true,
+                }
+            },
+            axes: {
+                xaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer,
+                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    tickOptions: {
+                        angle: lines.length > 3 ? -90 : 0,
+                    }
+                },
+                yaxis: {
+                    tickOptions: { formatString: '%d&nbsp&nbsp&nbsp' }
+                }
+            }
+        });
     };
 
     $scope.calcOverage = function (result, dontUseTestResult) {
@@ -112,38 +122,6 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
             Percent: Math.round(sum / count),
             Point: Math.round(percent / 10),
         };
-    };
-
-    $scope.calcAll = function () {
-        var count = 0;
-        var points = 0;
-        var percents = 0;
-        $.each($scope.results, function (key, value) {
-            var studentResult = value.TestPassResults;
-
-            var passed = Enumerable.From(studentResult).Where(function (item) {
-                return item.Points != null;
-            });
-
-            var passedPercent = Enumerable.From(studentResult).Where(function (item) {
-                return item.Percent != null;
-            });
-            
-            if (passed.Count() > 0) {
-
-                count += 1;
-                
-                points += passed.Sum(function (item) {
-                    return item.Points;
-                }) / passed.Count();
-
-                percents += passedPercent.Sum(function (item) {
-                    return item.Percent;
-                }) / passedPercent.Count();
-            }
-        });
-
-        return Math.round(points / count);// + " (" + Math.round(percents/count) + "%)";
     };
 
     $scope.resultExport = function() {
