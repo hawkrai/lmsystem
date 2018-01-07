@@ -750,31 +750,66 @@
 				<h4 class="modal-title" id="myModalLabel">Проверка на плагиат</h4>
 			</div>
 			<div class="modal-body">
+				<section style="margin-bottom: 20px;">
+					<div class="row margin-top-bottom-5">
+						<div style="display: inline-block; width: auto; padding-left: 15px; padding-right: 5px;">
+							<input type="radio" value="0" checked name="typePlagiarism" style="width: 15px; height: 15px;" class="correctnessIndicator">
+						</div>
+						<div style="display: inline-block;font-size: 16px;">
+							Векторный метод
+						</div>
+					</div>
+					<div class="row margin-top-bottom-5 answerContainer">						
+						<div style="display: inline-block; width: auto; padding-left: 15px; padding-right: 5px;">
+							<input type="radio" value="1" name="typePlagiarism" style="width: 15px; height: 15px;" class="correctnessIndicator">
+						</div>
+						<div style="display: inline-block;font-size: 16px;">
+							Метод шинглов
+						</div>
+					</div>
+					<div class="input-group number-spinner" style="width: 145px;">
+						<span class="input-group-btn data-dwn">
+							<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+						</span>
+						<input type="text" style="margin-bottom: 6px;" id="threshold" class="form-control text-center" value="50" min="50" max="100">
+						<span class="input-group-btn data-up">
+							<button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+						</span>
+					</div>
+				</section>
 				<div>
-					<table class="table table-bordered table-responsive" ng-repeat="cluster in resultPlagiatiumSybject">
-						<thead>
-							<tr>
-								<th>Автор</th>
-								<th>Группа</th>
-								<th>Предмет</th>
-								<th>Файл</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="data in cluster.correctDocs">
-								<td>{{data.author}}</td>
-								<td>{{data.groupName}}</td>
-								<td>{{data.subjectName}}</td>
-								<td>{{data.doc}}</td>
-							</tr>
-						</tbody>
-					</table>
+					<button class="btn btn-default btn-small" ng-click="loadPlagiarismSubject()" style="margin-right: 10px;">Проверить</button>
+				</div>
+				<div>
+					<div ng-repeat="cluster in resultPlagiatiumSybject">
+						<p>Кластер {{$index + 1}}</p>
+
+						<table class="table table-bordered table-responsive">
+							<thead>
+								<tr>
+									<th>Автор</th>
+									<th>Группа</th>
+									<th>Предмет</th>
+									<th>Файл</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="data in cluster.correctDocs">
+									<td>{{data.author}}</td>
+									<td>{{data.groupName}}</td>
+									<td>{{data.subjectName}}</td>
+									<td>{{data.doc}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 				<div class="loadingPSubject ng-hide" style="margin-top: 170px;">
 					<span us-spinner="{radius:40, width:8, length: 16, opacity: 0, shadow: true, color: '#3c8dbc'}" spinner-key="spinner-1" spinner-start-active="true"></span>
 				</div>
 			</div>
 			<div class="modal-footer">
+				<a href="#" class="btn btn-default btn-sm" id="exportButton" ng-click="exportPlagiarism()" data-dismiss="modal">Отчет</a>
 				<a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
 			</div>
 		</div>
@@ -1295,3 +1330,36 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(function() {
+    var action;
+    $(".number-spinner button").mousedown(function () {
+        btn = $(this);
+        input = btn.closest('.number-spinner').find('input');
+        btn.closest('.number-spinner').find('button').prop("disabled", false);
+
+    	if (btn.attr('data-dir') == 'up') {
+            action = setInterval(function(){
+                if ( input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max')) ) {
+                    input.val(parseInt(input.val())+1);
+                }else{
+                    btn.prop("disabled", true);
+                    clearInterval(action);
+                }
+            }, 50);
+    	} else {
+            action = setInterval(function(){
+                if ( input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min')) ) {
+                    input.val(parseInt(input.val())-1);
+                }else{
+                    btn.prop("disabled", true);
+                    clearInterval(action);
+                }
+            }, 50);
+    	}
+    }).mouseup(function(){
+        clearInterval(action);
+    });
+})
+</script>

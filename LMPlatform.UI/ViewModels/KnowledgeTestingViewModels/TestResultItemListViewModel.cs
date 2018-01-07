@@ -98,7 +98,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 StudentName = student.FullName,
                 StudentShortName = GetShortStudentName(student),
                 TestPassResults = student.User.TestPassResults.Select(x => TestPassResultViewModel.FromModel(x, tests.FirstOrDefault(y => y.Id == x.TestId))).ToArray(),
-                SubGroup = subGroups.FirstOrDefault(x => x.SubjectStudents.Any(y => y.StudentId == student.Id))?.Name
+                SubGroup = subGroups.FirstOrDefault(x => x.SubjectStudents.Any(y => y.StudentId == student.Id)) != null ? subGroups.FirstOrDefault(x => x.SubjectStudents.Any(y => y.StudentId == student.Id)).Name : ""
             };
         }
 

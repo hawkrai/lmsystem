@@ -736,7 +736,7 @@ namespace LMPlatform.UI.Services.Labs
 			}
 		}
 
-		public ResultPSubjectViewData CheckPlagiarismSubjects(string subjectId) 
+		public ResultPSubjectViewData CheckPlagiarismSubjects(string subjectId, string type, string threshold) 
 		{
 			try
 			{
@@ -760,7 +760,7 @@ namespace LMPlatform.UI.Services.Labs
 				
 				var service = new SoapWSClient();
 
-				var result = service.checkByDirectory(new string[] { this.PlagiarismTempPath + path }, 50, 10, 1);
+				var result = service.checkByDirectory(new string[] { this.PlagiarismTempPath + path }, int.Parse(threshold), 10, int.Parse(type));
 
 				ResultPlagSubjectClu data = Newtonsoft.Json.JsonConvert.DeserializeObject<ResultPlagSubjectClu>(result);
 

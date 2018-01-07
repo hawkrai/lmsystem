@@ -6,6 +6,17 @@ using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.UI.Services.Labs;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Linq;
+
+using Application.Infrastructure.FilesManagement;
+using Application.Infrastructure.StudentManagement;
+
+using LMPlatform.UI.PlagiateReference;
+using LMPlatform.UI.Services.Modules;
 
 namespace LMPlatform.UI.Controllers
 {
@@ -144,6 +155,141 @@ namespace LMPlatform.UI.Controllers
             Response.ContentEncoding = Encoding.UTF8;
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             Response.AddHeader("Content-Disposition", "attachment; filename=LabMarks.xlsx");
+            Response.BinaryWrite(file);
+            Response.Flush();
+            Response.End();
+        }
+
+		private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
+
+		public ISubjectManagementService SubjectManagementService
+		{
+			get
+			{
+				return subjectManagementService.Value;
+			}
+		}
+
+		public string PlagiarismUrl
+		{
+			get { return ConfigurationManager.AppSettings["PlagiarismUrl"]; }
+		}
+
+		public string PlagiarismTempPath
+		{
+			get { return ConfigurationManager.AppSettings["PlagiarismTempPath"]; }
+		}
+
+		public string FileUploadPath
+		{
+			get { return ConfigurationManager.AppSettings["FileUploadPath"]; }
+		}
+
+		private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
+
+		public IFilesManagementService FilesManagementService
+		{
+			get
+			{
+				return filesManagementService.Value;
+			}
+		}
+
+		private readonly LazyDependency<IStudentManagementService> studentManagementService = new LazyDependency<IStudentManagementService>();
+
+		public IStudentManagementService StudentManagementService
+		{
+			get
+			{
+				return studentManagementService.Value;
+			}
+		}
+
+		public void ExportPlagiarism(int subjectId, int type, int threshold)
+        {
+			var path = Guid.NewGuid().ToString("N");
+
+			var subjectName = this.SubjectManagementService.GetSubject(subjectId).ShortName;
+
+			Directory.CreateDirectory(this.PlagiarismTempPath + path);
+
+			var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, subjectId).Where(e => e.IsReceived);
+
+			var filesPaths = usersFiles.Select(e => e.Attachments);
+
+			foreach (var filesPath in filesPaths)
+			{
+				foreach (var srcPath in Directory.GetFiles(this.FileUploadPath + filesPath))
+				{
+					System.IO.File.Copy(srcPath, srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
+				}
+			}
+
+			var service = new SoapWSClient();
+
+			var result = service.checkByDirectory(new string[] { this.PlagiarismTempPath + path }, threshold, 10, type);
+
+			ResultPlagSubjectClu data = Newtonsoft.Json.JsonConvert.DeserializeObject<ResultPlagSubjectClu>(result);
+
+			foreach (var resultPlagSubject in data.clusters.ToList())
+			{
+				resultPlagSubject.correctDocs = new List<ResultPlag>();
+				foreach (var doc in resultPlagSubject.docs)
+				{
+					var resultS = new ResultPlag();
+					var fileName = Path.GetFileName(doc);
+					var name = this.FilesManagementService.GetFileDisplayName(fileName);
+					resultS.subjectName = subjectName;
+					resultS.doc = name;
+					var pathName = this.FilesManagementService.GetPathName(fileName);
+
+					var userFileT = this.SubjectManagementService.GetUserLabFile(pathName);
+
+					var userId = userFileT.UserId;
+
+					var user = this.StudentManagementService.GetStudent(userId);
+
+					resultS.author = user.FullName;
+
+					resultS.groupName = user.Group.Name;
+					resultPlagSubject.correctDocs.Add(resultS);
+				}
+			}
+
+			Directory.Delete(this.PlagiarismTempPath + path, true);
+
+			var dataE = new SLExcelData();
+			dataE.Headers.Add("");
+			dataE.Headers.Add("Автор");
+			dataE.Headers.Add("Группа");
+			dataE.Headers.Add("Предмет");
+			dataE.Headers.Add("Файл");
+			var i = 1;
+			foreach (var resultPlagSubject in data.clusters.ToList())
+			{
+				dataE.DataRows.Add(new List<string>() { "Кластер " + i });
+
+				var listRows = new List<List<string>>();
+
+				foreach (var correctDoc in resultPlagSubject.correctDocs)
+				{
+					var list = new List<string> { "", correctDoc.author, correctDoc.groupName, correctDoc.subjectName, correctDoc.doc };
+					listRows.Add(list);
+				}
+
+				dataE.DataRows.AddRange(listRows);
+
+				i += 1;
+			}
+
+			var file = (new SLExcelWriter()).GenerateExcel(dataE);
+
+            Response.Clear();
+            Response.Charset = "ru-ru";
+            Response.HeaderEncoding = Encoding.UTF8;
+            Response.ContentEncoding = Encoding.UTF8;
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+			Response.AddHeader("Content-Disposition", "attachment; filename=PlagiarismResults.xlsx");
             Response.BinaryWrite(file);
             Response.Flush();
             Response.End();

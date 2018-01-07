@@ -941,32 +941,41 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          	});
          };
 
-		$scope.checkPlagiarismSubject = function () {
+         $scope.checkPlagiarismSubject = function () {
+         	$scope.resultPlagiatiumSybject = [];
+         	$('#dialogPlagiarismSubject').modal();
+         	
+         };
 
-			$('#dialogPlagiarismSubject').modal();
+         $scope.loadPlagiarismSubject = function () {
+         	$(".loadingPSubject").toggleClass('ng-hide', false);
+         	$scope.resultPlagiatiumSybject = [];
+         	$http({
+         		method: 'POST',
+         		url: $scope.UrlServiceLabs + "CheckPlagiarismSubjects",
+         		data: {
+         			subjectId: $scope.subjectId,
+         			type: $("input[name=typePlagiarism]:checked").val(),
+         			threshold: $("#threshold").val()
+         		},
+         		headers: { 'Content-Type': 'application/json' }
+         	}).success(function (data, status) {
+         		if (data.Code != '200') {
+         			alertify.error(data.Message);
+         		} else {
+         			alertify.success(data.Message);
 
-			$(".loadingPSubject").toggleClass('ng-hide', false);
+         			$scope.resultPlagiatiumSybject = data.DataD;
 
-			$http({
-				method: 'POST',
-				url: $scope.UrlServiceLabs + "CheckPlagiarismSubjects",
-				data: {
-					subjectId: $scope.subjectId
-				},
-				headers: { 'Content-Type': 'application/json' }
-			}).success(function (data, status) {
-				if (data.Code != '200') {
-					alertify.error(data.Message);
-				} else {
-					alertify.success(data.Message);
+         		}
+         		$(".loadingPSubject").toggleClass('ng-hide', true);
 
-					$scope.resultPlagiatiumSybject = data.DataD;
+         	});
+         };
 
-				}
-				$(".loadingPSubject").toggleClass('ng-hide', true);
-
-			});
-		};
+         $scope.exportPlagiarism = function () {
+         	window.location.href = "/Statistic/ExportPlagiarism?subjectId=" + $scope.subjectId + "&type=" + $("input[name=typePlagiarism]:checked").val() + "&threshold=" + $("#threshold").val();
+         },
 
         $scope.receivedLabFile = function (id, files) {
 			$http({
