@@ -67,6 +67,12 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public string Login
+        {
+            get;
+            set;
+        }
+
         [DisplayName("Оценки")]
         public HtmlString Marks
         {
@@ -84,6 +90,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
         {
             return new TestResultItemListViewModel
             {
+                Login = student.User.UserName,
                 StudentName = student.FullName,
                 StudentShortName = GetShortStudentName(student),
                 Marks = marks,
@@ -95,6 +102,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
         {
             return new TestResultItemListViewModel
             {
+                Login = student.User.UserName,
                 StudentName = student.FullName,
                 StudentShortName = GetShortStudentName(student),
                 TestPassResults = student.User.TestPassResults.Select(x => TestPassResultViewModel.FromModel(x, tests.FirstOrDefault(y => y.Id == x.TestId))).ToArray(),
