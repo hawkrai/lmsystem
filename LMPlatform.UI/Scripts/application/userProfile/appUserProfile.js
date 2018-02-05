@@ -239,7 +239,7 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 		$scope.convertJSONDate = function (dateJson) {
 			var date = new Date(parseInt(dateJson.substr(6)));
 
-			return date.toLocaleDateString();
+			return moment(date).format("DD.MM.YYYY");
 		};
 
 		$scope.randomColor = function () {

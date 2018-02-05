@@ -1,8 +1,5 @@
 ﻿<style>
-	.lmsMainContainer {
-		padding: 30px;
-	}
-
+	
 		.lmsMainContainer .panel-title {
 			font-size: 23px;
 		}
@@ -134,8 +131,8 @@
     padding-top: 50px;
 }
 .circle-tile-number {
-    font-size: 26px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: bold;
     line-height: 1;
     padding: 5px 0 15px;
 }
@@ -238,6 +235,32 @@
 	 
 	}
 
+	.subjectLink {
+		font-size: 14px;
+		color: #777
+	}
+
+	.subjectLink:hover {
+		color: #000
+	}
+
+	.subjectNesLink {
+		font-size: 15px;
+		color: #777
+	}
+
+	.subjectNesLink:hover {
+		color: #000
+	}
+
+	.subjectStaticLink {
+		font-size: 15px;
+		color: #777
+	}
+
+	.subjectStaticLink:hover {
+		color: #000
+	}
 </style>
 
 <div class="lmsMainContainer">
@@ -261,14 +284,14 @@
 						</div>
 						<div class="col-md-6">
 							<div class="text-center">
-								<h4 style="color: #777; font-size: 15px; font-weight: 400">Список предметов</h4>
+								<h4 style="color: #222; font-size: 15px; font-weight: 400">Список предметов</h4>
 							</div>
-							<div style="color: #777; font-size: 15px; font-weight: 400">{{selectedDate}}</div>
+							<div style="margin-left:15px; color: #777; font-size: 15px; font-weight: 400">{{selectedDate}}</div>
 							<div style="height: 181px; overflow-y: auto; margin-top: 10px; margin-left: -10px;">
-								<ul class="subjectsContainer">
+								<ul class="subjectsContainer" style="margin-left: -30px;">
 									<li ng-repeat="data in selectedEvents">
 										<div class="circle" ng-style="{background : '{{data.color}}'}"></div>
-										<a style="font-weight: bold; font-size: 13px;" href="/Subject?subjectId={{data.subjectId}}">{{data.title}}</a>
+										<a class="subjectLink" href="/Subject?subjectId={{data.subjectId}}">{{data.title}}</a>
 									</li>
 									<li ng-if="selectedEvents.length == 0">Нет предметов на выбранную дату</li>
 								</ul>
@@ -289,7 +312,7 @@
 							<i class="fa fa-newspaper-o fa-1x icon"></i>
 						</div>
 						<div class="col-md-11 text-center lmsBColor">
-							<h1 class="panel-title" ng-click="" style="font-weight: 700;">Новости и объявления <span class="badge" style="background-color: #468847;">{{newsCount}}</span></h1>
+							<h1 class="panel-title" ng-click="" style="font-weight: 700;">Новости и объявления <span class="badge" style="color: gray; margin-top: -5px;background-color: #FFC300; position: absolute; margin-left: 2px;">{{newsCount}}</span></h1>
 						</div>
 					</div>
 				</div>
@@ -299,8 +322,9 @@
 						<a href="/Subject?subjectId={{lastNews.SubjectId}}" style="color: #72afd2; font-size: 13px;">{{convertJSONDate(lastNews.EditDate)}}, {{lastNews.Subject.Name}}</a>
 					</div>*@
 					<div class="newsBody" style="height:250px; overflow: auto;">
-						<div ng-repeat="news in lastNews" style="padding: 5px;">
-							<p style="margin-bottom: 0px;">{{news.Title}}</p><a href="/Subject?subjectId={{news.SubjectId}}" style="color: #72afd2; font-size: 12px;"> ({{convertJSONDate(news.EditDate)}}, {{news.Subject.Name}})</a>
+						<div ng-repeat="news in lastNews" style="padding: 5px;">							
+							<a href="/Subject?subjectId={{news.SubjectId}}" class="subjectNesLink" style="margin-left: 15px;">{{convertJSONDate(news.EditDate)}}, {{news.Subject.Name}}</a>
+							<p style="margin-bottom: 0px; color: #3c8dbc">{{news.Title}}</p>
 						</div>	
 					</div>
 					<div class="text-right">
@@ -335,7 +359,7 @@
 									</div>
 								</a>
 								<div class="circle-tile-content dark-blue" style="background-color: #f9f9f9; color: black;">
-									<span class="text-faded" style="color: #777;;">{{data.Name}}</span>
+									<a href="/Subject?subjectId={{data.Id}}" class="subjectStaticLink">{{data.Name}}</a>
 									<div class="circle-tile-number text-faded " ng-style="{color : '{{data.Color}}'}"></div>
 									<a class="circle-tile-footer" style="color: #777; background-color: #f4f4f4; font-size: 11px;" href="#">Больше деталей <i class="fa fa-chevron-circle-right"></i></a>
 								</div>
@@ -421,11 +445,11 @@
 						<div class="modal-body" style="padding: 0">
 							<div style="margin-top: -20px;">
 								<div class="bs-callout bs-callout-fill" ng-class="data.Disabled ? 'bs-callout-default' : 'bs-callout-info'" ng-repeat="data in news">
-									<h4 style="float: left; word-wrap: break-word; margin-right: 10px;font-weight: bold; color: black">{{data.Title}}</h4>
+									<h4 style="float: left; word-wrap: break-word; margin-right: 10px;font-weight: 400; color: #3c8dbc">{{data.Title}}</h4>
 									<div class="clear-fix"></div>
 									<div ng-bind-html="renderHtml(data.Body)">
 									</div>
-									<h5 style="color: #72afd2" class="text-info">{{convertJSONDate(data.EditDate)}}, {{data.Subject.Name}}</h5>
+									<a href="/Subject?subjectId={{data.SubjectId}}" class="subjectNesLink">{{convertJSONDate(data.EditDate)}}, {{data.Subject.Name}}</a>
 								</div>
 							</div>
 						</div>

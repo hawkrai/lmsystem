@@ -143,6 +143,10 @@
 		var index = 0;
 		foreach (var module in Model.Modules)
 		{
+			if (module.Name == "ЭУМК")
+   {
+	   break;
+   }
 			var id = "Modules_" + index + "__Checked";
 			<div class="col-md-6">
 				
@@ -191,3 +195,8 @@
 
     shared.initPlugins();
 </script>
+<style>
+	#editSubject .dropdown-menu {
+		position: relative;
+	}
+</style>

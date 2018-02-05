@@ -20,7 +20,8 @@ $(function () {
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
     	url: '/api/Upload',
-		autoUpload: true
+    	autoUpload: true,
+    	maxNumberOfFiles: window.maxNumberOfFiles || 20
     });
 
     // Enable iframe cross-domain access via redirect option:
