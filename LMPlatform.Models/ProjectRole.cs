@@ -10,6 +10,10 @@ namespace LMPlatform.Models
 {
     public class ProjectRole : ModelBase
     {
+        public const int Developer = 1;
+        public const int Tester = 2;
+        public const int Leader = 3;
+
         [DisplayName("Роль")]
         public string Name
         {

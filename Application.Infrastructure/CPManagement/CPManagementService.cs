@@ -11,6 +11,7 @@ using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 using System.Collections.Generic;
 using Application.Infrastructure.FilesManagement;
+using Application.Infrastructure.ProjectManagement;
 
 namespace Application.Infrastructure.CPManagement
 {
@@ -187,9 +188,14 @@ namespace Application.Infrastructure.CPManagement
 
             assignment.StudentId = studentId == 0 ? assignment.StudentId : studentId;
             assignment.ApproveDate = isLecturer ? (DateTime?)DateTime.Now : null;
-            var cp = Context.CourseProjects.FirstOrDefault(x => x.CourseProjectId == projectId);
+            var cp = Context.CourseProjects.FirstOrDefault(x => x.CourseProjectId == projectId);            
             cp.DateStart = isLecturer ? (DateTime?)DateTime.Now : null;
             Context.SaveChanges();
+
+            if (cp.Subject.IsNeededCopyToBts)
+            {
+                CreateBtsProject(cp, studentId);
+            }
         }
 
         public void DeleteAssignment(int userId, int id)
@@ -513,6 +519,30 @@ namespace Application.Infrastructure.CPManagement
             return list;
         }
 
+        private void CreateBtsProject(CourseProject courseProject, int developerId)
+        {            
+            int lecturerId = (int)courseProject.LecturerId;
+            var project = new Project();
+            project.CreatorId = lecturerId;
+            project.Title = courseProject.Theme;
+            project.DateOfChange = DateTime.Now;
+            ProjectManagementService.SaveProject(project);
+
+            ProjectManagementService.AssingRole(new ProjectUser
+            {
+                UserId = lecturerId,
+                ProjectId = project.Id,
+                ProjectRoleId = ProjectRole.Leader
+            });
+
+            ProjectManagementService.AssingRole(new ProjectUser
+            {
+                UserId = developerId,
+                ProjectId = project.Id,
+                ProjectRoleId = ProjectRole.Developer
+            });
+        }
+
         private string GetGuidFileName()
         {
             return string.Format("P{0}", Guid.NewGuid().ToString("N").ToUpper());
@@ -631,5 +661,12 @@ namespace Application.Infrastructure.CPManagement
             get { return _filesManagementService.Value; }
         }
 
+        private readonly LazyDependency<IProjectManagementService> _projectManagementService =
+            new LazyDependency<IProjectManagementService>();
+
+        public IProjectManagementService ProjectManagementService
+        {
+            get { return _projectManagementService.Value; }
+        }
     }
 }

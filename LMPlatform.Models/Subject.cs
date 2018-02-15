@@ -23,6 +23,8 @@ namespace LMPlatform.Models
 
         public bool IsArchive { get; set; }
 
+        public bool IsNeededCopyToBts { get; set; }
+
         public ICollection<SubjectGroup> SubjectGroups
         {
             get; 
