@@ -161,9 +161,9 @@ namespace LMPlatform.UI.Controllers
         }
 
         [Authorize, HttpGet]
-        public void GetResultsExcel(int groupId, int subjectId)
+        public void GetResultsExcel(int groupId, int subjectId, bool forSelfStudy)
         {
-            var tests = TestsManagementService.GetTestsForSubject(subjectId);
+            var tests = TestsManagementService.GetTestsForSubject(subjectId).Where(x => x.ForSelfStudy == forSelfStudy);
 
             IList<SubGroup> subGroups = this.SubjectManagementService.GetSubGroupsV2(subjectId, groupId);
 
@@ -181,7 +181,7 @@ namespace LMPlatform.UI.Controllers
                 if (result.TestPassResults.Count(e => e.Points != null) > 0)
                 {
                     var pointsSum = Math.Round((decimal)result.TestPassResults.Sum(e => e.Points).Value / result.TestPassResults.Count(e => e.Points != null), 0, MidpointRounding.AwayFromZero);
-                    var percentSum = Math.Round((decimal)result.TestPassResults.Sum(e => e.Percent).Value / result.TestPassResults.Count(e => e.Percent != null), 0);
+                    //var percentSum = Math.Round((decimal)result.TestPassResults.Sum(e => e.Percent).Value / result.TestPassResults.Count(e => e.Percent != null), 0);
                     //datas.Add(pointsSum + " (" + percentSum + "%)");
 
                     datas.Add(pointsSum.ToString());
