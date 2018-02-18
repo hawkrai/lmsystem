@@ -19,6 +19,7 @@ namespace LMPlatform.UI.Controllers
     using System.Configuration;
     using System.IO;
     using System.Web;
+    using System.Web.Http;
     using Application.Infrastructure.ConceptManagement;
     using LMPlatform.UI.Services.Modules.Concept;
 
@@ -113,6 +114,25 @@ namespace LMPlatform.UI.Controllers
                 return Json(new { ErrorMessage = e.Message });
             }
         }
+
+        [HttpPatch]
+        public JsonResult OrderQuestions([FromBody] Dictionary<string, int> newOrder)
+        {
+            try
+            {
+                foreach(var item in newOrder)
+                {
+                    var questionId = int.Parse(item.Key);
+                    QuestionsManagementService.ChangeQuestionNumber(questionId, item.Value);
+                }
+                return Json("Ok");
+            }
+            catch (Exception e)
+            {
+                return Json(new { ErrorMessage = e.Message });
+            }
+        }
+
 
         [HttpDelete]
         public JsonResult DeleteTest(int id)
@@ -212,7 +232,7 @@ namespace LMPlatform.UI.Controllers
         [HttpGet]
         public JsonResult GetQuestions(int testId)
         {
-            var questions = QuestionsManagementService.GetQuestionsForTest(testId).Select(QuestionItemListViewModel.FromQuestion).ToArray();
+            var questions = QuestionsManagementService.GetQuestionsForTest(testId).Select(QuestionItemListViewModel.FromQuestion).OrderBy(x => x.QuestionNumber).ToArray();
             return Json(questions, JsonRequestBehavior.AllowGet);
         }
 

@@ -17,5 +17,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         void CopyQuestionsToTest(int testId, int[] questionsIds);
 
         IEnumerable<Question> GetQuestionsForTest(int testId, string searchString = null);
+
+        void ChangeQuestionNumber(int questionId, int number);
     }
 }

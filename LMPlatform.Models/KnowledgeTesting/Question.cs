@@ -7,6 +7,12 @@ namespace LMPlatform.Models.KnowledgeTesting
 {
     public class Question : ModelBase, ICloneable
     {
+        public int? QuestionNumber
+        {
+            get;
+            set;
+        }
+
         public Test Test
         {
             get; 
