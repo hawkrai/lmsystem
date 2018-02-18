@@ -909,7 +909,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
 		$scope.resultPlagiatium = [];
 
-         $scope.checkPlagiarism = function (id, files, userName) {
+		$scope.checkPlagiarism = function (id, files, userName) {
+			$scope.userFileIdCheck = id;
          	$scope.plagiat = {
          		FileName: files.Attachments[0].Name,
          		UserName: userName
@@ -976,6 +977,10 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          $scope.exportPlagiarism = function () {
          	window.location.href = "/Statistic/ExportPlagiarism?subjectId=" + $scope.subjectId + "&type=" + $("input[name=typePlagiarism]:checked").val() + "&threshold=" + $("#threshold").val();
          },
+
+		$scope.exportPlagiarismStudent = function() {
+			window.location.href = "/Statistic/ExportPlagiarismStudent?userFileId=" + $scope.userFileIdCheck + "&subjectId=" + $scope.subjectId;
+		},
 
         $scope.receivedLabFile = function (id, files) {
 			$http({
@@ -1074,6 +1079,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          };
 
          $scope.addLabFiles = function () {
+			window.maxNumberOfFiles = 1;
              $scope.editFileSend.Comments = "";
              $scope.editFileSend.PathFile = "";
              $scope.editFileSend.Id = "0";

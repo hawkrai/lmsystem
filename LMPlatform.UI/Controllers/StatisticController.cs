@@ -294,5 +294,100 @@ namespace LMPlatform.UI.Controllers
             Response.Flush();
             Response.End();
         }
+
+		public void ExportPlagiarismStudent(string userFileId, string subjectId)
+        {
+			var path = Guid.NewGuid().ToString("N");
+
+			var subjectName = this.SubjectManagementService.GetSubject(Int32.Parse(subjectId)).ShortName;
+
+			Directory.CreateDirectory(this.PlagiarismTempPath + path);
+
+			var userFile = this.SubjectManagementService.GetUserLabFile(Int32.Parse(userFileId));
+
+			var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived && e.Id != userFile.Id);
+
+			var filesPaths = usersFiles.Select(e => e.Attachments);
+
+			foreach (var filesPath in filesPaths)
+			{
+				foreach (var srcPath in Directory.GetFiles(this.FileUploadPath + filesPath))
+				{
+					System.IO.File.Copy(srcPath, srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
+				}
+			}
+
+			string firstFileName =
+				Directory.GetFiles(this.FileUploadPath + userFile.Attachments)
+				.Select(fi => fi)
+				.FirstOrDefault();
+
+			var service = new SoapWSClient();
+
+			var result = service.checkBySingleDoc(firstFileName, new string[] { this.PlagiarismTempPath + path }, 70, 6, 1);
+
+			List<ResultPlag> data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ResultPlag>>(result);
+
+			foreach (var resultPlag in data)
+			{
+				var fileName = Path.GetFileName(resultPlag.doc);
+
+				var name = this.FilesManagementService.GetFileDisplayName(fileName);
+
+				resultPlag.doc = name;
+
+				resultPlag.subjectName = subjectName;
+
+				var pathName = this.FilesManagementService.GetPathName(fileName);
+
+				var userFileT = this.SubjectManagementService.GetUserLabFile(pathName);
+
+				var userId = userFileT.UserId;
+
+				var user = this.StudentManagementService.GetStudent(userId);
+
+				resultPlag.author = user.FullName;
+
+				resultPlag.groupName = user.Group.Name;
+			}
+
+			Directory.Delete(this.PlagiarismTempPath + path, true);
+
+			var dataE = new SLExcelData();
+			dataE.Headers.Add("");
+			dataE.Headers.Add("Процент схожести, %");
+			dataE.Headers.Add("Автор");
+			dataE.Headers.Add("Группа");
+			dataE.Headers.Add("Предмет");
+			dataE.Headers.Add("Файл");
+			var listRows = new List<List<string>>();
+			foreach (var resultPlagSubject in data)
+			{
+				var listRow = new List<string>()
+									{
+										"",
+										resultPlagSubject.coeff,
+										resultPlagSubject.author,
+										resultPlagSubject.groupName,
+										resultPlagSubject.subjectName,
+										resultPlagSubject.doc
+									};
+				listRows.Add(listRow);
+			}
+
+			dataE.DataRows.AddRange(listRows);
+
+			var file = (new SLExcelWriter()).GenerateExcel(dataE);
+
+            Response.Clear();
+            Response.Charset = "ru-ru";
+            Response.HeaderEncoding = Encoding.UTF8;
+            Response.ContentEncoding = Encoding.UTF8;
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+			Response.AddHeader("Content-Disposition", "attachment; filename=PlagiarismResults.xlsx");
+            Response.BinaryWrite(file);
+            Response.Flush();
+            Response.End();
+        }
 	}
 }

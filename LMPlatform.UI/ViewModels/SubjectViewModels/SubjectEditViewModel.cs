@@ -139,6 +139,8 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             set;
         }
 
+		public string Color { get; set; }
+
 		public List<int> SelectedGroups
 		{
 			get;
@@ -153,12 +155,14 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         public SubjectEditViewModel(int subjectId)
         {
             SubjectId = subjectId;
+			this.Color = "#ffffff";
             Title = SubjectId == 0 ? "Создание предмета" : "Редактирование предмета";
             Modules = ModulesManagementService.GetModules().Where(e => e.Visible).Select(e => new ModulesViewModel(e)).ToList();
 	        FillSubjectGroups();
             if (subjectId != 0)
             {
                 var subject = SubjectManagementService.GetSubject(subjectId);
+				this.Color = subject.Color;
                 SubjectId = subjectId;
                 ShortName = subject.ShortName;
                 DisplayName = subject.Name;
@@ -193,18 +197,14 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			}).ToList();
 	    }
 
-        public void Save(int userId)
-        {
-			Random rnd = new Random();
-			var random = rnd.Next(1, 4); 
-
-				
+        public void Save(int userId, string color)
+        {		
             var subject = new Subject
             {
                 Id = SubjectId,
                 Name = DisplayName,
                 ShortName = ShortName,
-				Color = random == 1 ? "#0074D9" : random == 2 ? "#FF4136" : random == 3 ? "#FFDC00" : "#85144b",
+				Color = color,
                 SubjectModules = new Collection<SubjectModule>(),
                 SubjectLecturers = new Collection<SubjectLecturer>()
             };
@@ -246,7 +246,12 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                 LecturerId = userId
             });
 
-			var selectedGroupdsOld = this.SubjectManagementService.GetSubject(new Query<Subject>(e => e.Id == this.SubjectId).Include(e => e.SubjectGroups)).SubjectGroups;
+			var selectedGroupdsOld = new List<SubjectGroup>();
+
+			if (this.SubjectId != 0)
+			{
+				selectedGroupdsOld = this.SubjectManagementService.GetSubject(new Query<Subject>(e => e.Id == this.SubjectId).Include(e => e.SubjectGroups)).SubjectGroups.ToList();
+			}	
 
 	        if (SelectedGroups != null)
 	        {
