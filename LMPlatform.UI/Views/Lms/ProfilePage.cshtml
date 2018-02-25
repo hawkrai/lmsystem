@@ -312,7 +312,7 @@
 							<i class="fa fa-newspaper-o fa-1x icon"></i>
 						</div>
 						<div class="col-md-11 text-center lmsBColor">
-							<h1 class="panel-title" ng-click="" style="font-weight: 700;">Новости и объявления <span class="badge" style="color: gray; margin-top: -5px;background-color: #FFC300; position: absolute; margin-left: 2px;">{{newsCount}}</span></h1>
+							<h1 class="panel-title" ng-click="" style="font-weight: 700;">Новости и объявления <span class="badge" style="color: white; margin-top: -5px;background-color: #FFC300; position: absolute; margin-left: 2px;">{{newsCount}}</span></h1>
 						</div>
 					</div>
 				</div>
@@ -324,7 +324,7 @@
 					<div class="newsBody" style="height:250px; overflow: auto;">
 						<div ng-repeat="news in lastNews" style="padding: 5px;">							
 							<a href="/Subject?subjectId={{news.SubjectId}}" class="subjectNesLink" style="margin-left: 15px;">{{convertJSONDate(news.EditDate)}}, {{news.Subject.Name}}</a>
-							<p style="margin-bottom: 0px; color: #3c8dbc">{{news.Title}}</p>
+							<p ng-click="newsDetails(news)" style="margin-bottom: 0px; color: #3c8dbc; cursor:pointer">{{news.Title}}</p>
 						</div>	
 					</div>
 					<div class="text-right">
@@ -455,6 +455,25 @@
 						</div>
 					</div>
 				</div>
+
+	<div id="dialogNews" class="modal">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">{{clickedNews.Title}}</h4>
+			</div>
+			<div class="modal-body" style="padding: 0">
+				<div style="margin-top: -20px;">
+					<div class="bs-callout bs-callout-fill" ng-class="clickedNews.Disabled ? 'bs-callout-default' : 'bs-callout-info'">
+						<div class="clear-fix"></div>
+						<div ng-bind-html="renderHtml(clickedNews.Body)">
+						</div>
+						<a href="/Subject?subjectId={{clickedNews.SubjectId}}" class="subjectNesLink">{{convertJSONDate(clickedNews.EditDate)}}, {{clickedNews.Subject.Name}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 				<style>
 					#myCalendar > .modal-dialog {

@@ -209,6 +209,11 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 			$('#dialogAllNews').modal();
 		};
 
+		$scope.newsDetails = function (news) {
+			$scope.clickedNews = news;
+			$('#dialogNews').modal();
+		};
+
 		$scope.showEvents = function () {
 			$('#myCalendar').on('shown.bs.modal', function () {
 				$(".fc-today-button").click();

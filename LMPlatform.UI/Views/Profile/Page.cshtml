@@ -128,10 +128,26 @@
                         <h1 class="user-name">{{loadProfileData.Name}}</h1>
                     </div>
                     <div class="user-status">
-                       <div class="user-skill">
-                            {{loadProfileData.Skill}}
-                        </div>
+						<div ng-if="loadProfileData.Skill" class="user-skill">
+							Должность: {{loadProfileData.Skill}}
+						</div>						
                     </div>
+					<div class="user-status">
+						<div ng-if="loadProfileData.Email" class="user-skill">
+							Почта: {{loadProfileData.Email}}
+						</div>
+					</div>
+					<div class="user-status">
+						<div ng-if="loadProfileData.Phone" class="user-skill">
+							Телефон: {{loadProfileData.Phone}}
+						</div>
+					</div>
+					<div class="user-status">
+						<div ng-if="loadProfileData.About" class="user-skill">
+							Обо мне: {{loadProfileData.About}}
+						</div>
+					</div>
+					
                     <div ng-if="loadProfileData.UserType == '2'" style="margin-top: 10px">
                         Группа - {{loadProfileData.Group}}
                     </div>

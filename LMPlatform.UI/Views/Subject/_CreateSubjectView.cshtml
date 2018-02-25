@@ -143,10 +143,11 @@
 		var index = 0;
 		foreach (var module in Model.Modules)
 		{
-			if (module.Name == "ЭУМК")
+			if (module.Name == "Методические материалы")
    {
-	   break;
+	   index = index + 0;
    }
+			else { 
 			var id = "Modules_" + index + "__Checked";
 			<div class="col-md-6">
 				
@@ -165,7 +166,7 @@
 			index++;
 			
 				}
-			</div>
+			</div>}
 		}
 				}
 			</div>
@@ -174,10 +175,10 @@
         </div>
 		<div>
 			<div>
-				<h3>Цветы</h3>
+				<h3>Цвет предмета</h3>
 			</div>
 			<div>
-				<input type="color" id="html5colorpicker" name="html5colorpicker" onchange="clickColor(0, -1, -1, 5)" value="@Model.Color" style="width:260px;height: 30px">
+				<input type="color" id="html5colorpicker" name="html5colorpicker" value="@Model.Color" style="width:260px;height: 30px">
 			</div>
 		</div>
         <div>

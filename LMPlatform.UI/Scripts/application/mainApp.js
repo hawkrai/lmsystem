@@ -1816,8 +1816,17 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 			$('#dialogmanagementDataSubThird').modal();
 		};
 
-         $scope.exposeMarkSubOne = function (mark, comment, date, labId, studentId, Id) {
-             $('#markInputOne').val(mark);
+         $scope.exposeMarkSubOne = function (mark, comment, date, labId, studentId, Id, studentIndex, markIndex) {
+
+         	if (mark) {
+         		$('#markInputOne').val(mark);
+         	}
+         	else {
+         		var cell = document.getElementById("markOne" + studentIndex + markIndex);
+         		var recomendedMark = cell.innerHTML;
+         		$('#markInputOne').attr("placeholder", recomendedMark);
+         	}
+             
              $('#commentInputOne').val(comment);
              if (date == '' || date == null) {
                  $('#dateInputOne').val($scope.getCurentDate());
@@ -1832,8 +1841,16 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              $('#dialogexposeMarkOne').modal();
          };
 
-         $scope.exposeMarkSubTwo = function (mark, comment, date, labId, studentId, Id) {
-             $('#markInputTwo').val(mark);
+         $scope.exposeMarkSubTwo = function (mark, comment, date, labId, studentId, Id, studentIndex, markIndex) {
+         	if (mark) {
+         		$('#markInputTwo').val(mark);
+         	}
+         	else {
+         		var cell = document.getElementById("markTwo" + studentIndex + markIndex);
+         		var recomendedMark = cell.innerHTML;
+         		$('#markInputTwo').attr("placeholder", recomendedMark);
+         	}
+
              $('#commentInputTwo').val(comment);
              if (date == '' || date == null) {
                  $('#dateInputTwo').val($scope.getCurentDate());
@@ -1848,8 +1865,16 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              $('#dialogexposeMarkTwo').modal();
          };
 
-         $scope.exposeMarkSubThird = function (mark, comment, date, labId, studentId, Id) {
-         	$('#markInputThird').val(mark);
+         $scope.exposeMarkSubThird = function (mark, comment, date, labId, studentId, Id, studentIndex, markIndex) {
+         	if (mark) {
+         		$('#markInputThird').val(mark);
+         	}
+         	else {
+         		var cell = document.getElementById("markThird" + studentIndex + markIndex);
+         		var recomendedMark = cell.innerHTML;
+         		$('#markInputThird').attr("placeholder", recomendedMark);
+         	}
+
          	$('#commentInputThird').val(comment);
          	if (date == '' || date == null) {
          		$('#dateInputThird').val($scope.getCurentDate());
@@ -2037,7 +2062,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
                                                          cell.innerHTML = valueRecomend.Mark;
-                                                         cell.style.color = '#c8bfbf';
+                                                         cell.style.color = '#d3d3d3';
                                                          cell.title = "Рекоммендуемая отметка"
                                                      }
                                                  })
@@ -2051,7 +2076,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
                                                          cell.innerHTML = valueRecomend.Mark;
-                                                         cell.style.color = '#c8bfbf';
+                                                         cell.style.color = '#d3d3d3';
                                                          cell.title = "Рекоммендуемая отметка"
                                                      }
                                                  })
@@ -2087,7 +2112,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
                                                          cell.innerHTML = valueRecomend.Mark;
-                                                         cell.style.color = '#c8bfbf';
+                                                         cell.style.color = '#d3d3d3';
                                                          cell.title = "Рекоммендуемая отметка"
                                                      }
                                                  })
@@ -2101,7 +2126,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
                                                          cell.innerHTML = valueRecomend.Mark;
-                                                         cell.style.color = '#c8bfbf';
+                                                         cell.style.color = '#d3d3d3';
                                                          cell.title = "Рекоммендуемая отметка"
                                                      }
                                                  })
@@ -2137,7 +2162,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          										$.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
          											if (valueRecomend.ScheduleProtectionId == dateId) {
          												cell.innerHTML = valueRecomend.Mark;
-         												cell.style.color = '#c8bfbf';
+         												cell.style.color = '#d3d3d3';
          												cell.title = "Рекоммендуемая отметка"
          											}
          										})
@@ -2151,7 +2176,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          										$.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
          											if (valueRecomend.ScheduleProtectionId == dateId) {
          												cell.innerHTML = valueRecomend.Mark;
-         												cell.style.color = '#c8bfbf';
+         												cell.style.color = '#d3d3d3';
          												cell.title = "Рекоммендуемая отметка"
          											}
          										})
