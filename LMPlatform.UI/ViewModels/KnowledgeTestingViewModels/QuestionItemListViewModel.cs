@@ -33,11 +33,17 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public int? QuestionNumber
+        {
+            get;
+            set;
+        }
+
         public static QuestionItemListViewModel FromQuestion(Question question, string htmlString)
         {
             var model = FromQuestion(question);
             model.Action = new HtmlString(htmlString);
-
+            model.QuestionNumber = question.QuestionNumber;
             return model;
         }
 
@@ -46,7 +52,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             return new QuestionItemListViewModel
             {
                 Id = question.Id,
-                Title = question.Title
+                Title = question.Title,
+                QuestionNumber = question.QuestionNumber
             };
         }
     }

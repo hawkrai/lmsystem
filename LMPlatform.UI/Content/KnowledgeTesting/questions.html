@@ -1,4 +1,8 @@
-﻿<h3>Вопросы</h3>
+﻿<head>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<h3>Вопросы</h3>
 <hr />
 <div class="row" data-ng-init="init()">
     <div class="col-lg-6">
@@ -7,7 +11,7 @@
     </div>
 
     <div class="input-group input-group-sm search-box" style="padding-right: 15px; float: right">
-        <span >Поиск&nbsp;</span>
+        <span>Поиск&nbsp;</span>
         <input data-ng-model="query" type="text" class="form-control" placeholder="Введите название вопроса">
     </div>
 </div>
@@ -17,22 +21,24 @@
 <div class="table-responsive">
     <table class="table table-hover table-bordered table-striped">
         <thead>
-            <tr>
+            <tr class="ui-state-default">
                 <th>№</th>
                 <th>Тема</th>
                 <th>Действие</th>
             </tr>
         </thead>
-        <tr data-ng-repeat="question in questions | filter:query">
-            <td width="30px">{{questions.indexOf(question) + 1}}</td>
-            <td>{{question.Title}}</td>
-            <td style="width: 100px;">
-                <div>
-                    <a data-toggle="tooltip" data-html="true" tooltip-html-unsafe="Редактировать<br /> вопрос" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(question.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
-                    <a data-toggle="tooltip" data-tooltip="Удалить вопрос" data-tooltip-placement="right" data-ng-click="onDeleteButtonClicked(question.Id, question.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-2x"></i></a>
-                </div>
-            </td>
-        </tr>
+        <tbody id="sortable">
+            <tr data-ng-repeat="question in questions | filter:query" class="ui-state-default">
+                <td width="30px" questionid="{{question.Id}}">{{questions.indexOf(question) + 1}}</td>
+                <td>{{question.Title}}</td>
+                <td style="width: 100px;">
+                    <div>
+                        <a data-toggle="tooltip" data-html="true" tooltip-html-unsafe="Редактировать<br /> вопрос" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(question.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Удалить вопрос" data-tooltip-placement="right" data-ng-click="onDeleteButtonClicked(question.Id, question.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-2x"></i></a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
     </table>
 </div>
 

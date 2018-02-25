@@ -60,7 +60,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Id = test.Id,
                 Title = test.Title,
                 Unlocked = test.Unlocked,
-                HasQuestions = test.Questions.Count > 0,
+                HasQuestions = test.Questions == null ? false : test.Questions.Count > 0,
                 ForSelfStudy = test.ForSelfStudy
             };
         }
