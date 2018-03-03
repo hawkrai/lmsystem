@@ -15,7 +15,7 @@ namespace Application.Infrastructure
 		{
 			//var zip = new ZipFile(Encoding.UTF8);
 			zip.AddDirectoryByName(userName);
-			foreach (var fileName in files))
+			foreach (var fileName in files)
 			{
 				if (File.Exists(path + fileName.PathName + "//" + fileName.FileName))
 				{
