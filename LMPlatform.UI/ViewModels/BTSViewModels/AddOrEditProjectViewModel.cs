@@ -10,23 +10,6 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.BTSViewModels
 {
-    //public class ProjectValidator : AbstractValidator<Project>
-    //{
-    //    public ProjectValidator()
-    //    {
-    //        RuleFor(x => x.Title).Must(BeUniqueTitle).WithMessage("Такой проект уже существует");
-    //    }
-    //    private bool BeUniqueTitle(string title)
-    //    {
-    //        var context = new ProjectManagementService().GetProjects();
-    //        if (context.SingleOrDefault(x => x.Title == title) == null)
-    //        {
-    //            return true;
-    //        }
-    //        return false;
-    //    }
-    //}
-    //[Validator(typeof(ProjectValidator))]
     public class AddOrEditProjectViewModel : Controller
     {
         private readonly LazyDependency<IProjectsRepository> _projectsRepository =
@@ -110,55 +93,17 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
                 DateOfChange = DateTime.Today
             };
 
-            //if (project.Id == 0)
-            //{
-            //    if (new ProjectManagementService().GetProjects().Count(e => e.Title == project.Title) != 0)
-            //    {
-            //    }
-            //}
-            //else
-            //{
-            //    if (
-            //        new ProjectManagementService().GetProjects()
-            //            .Count(e => e.Title == project.Title && e.Id != project.Id) != 0)
-            //    {
-            //    }
-            //    else
-            //    {
-                    ProjectManagementService.SaveProject(project);
+            ProjectManagementService.SaveProject(project);
 
-                    if (ProjectId == 0)
-                    {
-                        ProjectManagementService.AssingRole(new ProjectUser
-                        {
-                            UserId = creatorId,
-                            ProjectId = project.Id,
-                            ProjectRoleId = 3
-                        });
-                    }
-
-            //    }
-            //}
+            if (ProjectId == 0)
+            {
+                ProjectManagementService.AssingRole(new ProjectUser
+                {
+                    UserId = creatorId,
+                    ProjectId = project.Id,
+                    ProjectRoleId = 3
+                });
+            }
         }
-
-        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        //{
-        //    if (ProjectId == 0)
-        //    {
-        //        if (new ProjectManagementService().GetProjects().Count(e => e.Title == Title) != 0)
-        //        {
-        //            ModelState.AddModelError("Title", "Введите корректную тему проекта");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (
-        //            new ProjectManagementService().GetProjects()
-        //                .Count(e => e.Title == Title && e.Id != ProjectId) != 0)
-        //        {
-        //            yield return new ValidationResult("Введите корректную тему проекта");
-        //        }
-        //    }
-        //}
     }
 }
