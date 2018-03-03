@@ -119,19 +119,19 @@
           </div>
         }   
         <div class="col-md-10">
-            <div class="hpanel">
-                <div class="panel-heading">
-                    Информация
-                </div>
-                <div class="panel-body" style="display: block; height: 150px">
+            <div class="hpanel">                
+                <div class="panel-body" style="display: block; height: 196px">
                     <div>
                         <h1 class="user-name">{{loadProfileData.Name}}</h1>
                     </div>
-                    <div class="user-status">
-						<div ng-if="loadProfileData.Skill" class="user-skill">
-							Должность: {{loadProfileData.Skill}}
-						</div>						
-                    </div>
+					@if (User.IsInRole("lector"))
+					{
+						<div class="user-status">
+							<div ng-if="loadProfileData.Skill" class="user-skill">
+								Должность: {{loadProfileData.Skill}}
+							</div>
+						</div>
+					}                    
 					<div class="user-status">
 						<div ng-if="loadProfileData.Email" class="user-skill">
 							Почта: {{loadProfileData.Email}}
@@ -140,6 +140,11 @@
 					<div class="user-status">
 						<div ng-if="loadProfileData.Phone" class="user-skill">
 							Телефон: {{loadProfileData.Phone}}
+						</div>
+					</div>
+					<div class="user-status">
+						<div ng-if="loadProfileData.SkypeContact" class="user-skill">
+							Скайп: {{loadProfileData.SkypeContact}}
 						</div>
 					</div>
 					<div class="user-status">
@@ -467,7 +472,6 @@
 		flex-wrap: wrap;
 		overflow: hidden;
 		max-width: 100%;
-		font-weight: bold;
 	}
 </style>
 

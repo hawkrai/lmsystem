@@ -233,7 +233,7 @@ namespace LMPlatform.UI.Controllers
 
             foreach (var group in groups.Students)
             {
-                var model = SubjectManagementService.GetUserLabFiles(group.Id, subjectId);
+                var model = SubjectManagementService.GetUserLabFiles(group.Id, subjectId).Where(e => e.IsReceived);
 
                 var attachments = new List<Attachment>();
 
