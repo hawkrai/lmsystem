@@ -215,8 +215,8 @@
 
             $scope.navigationManager.setListPage();
 
-            $scope.changeBtsCheckbox = function (previousValue) {
-                projectService.setCreateBts(subjectId, !previousValue).success(function (data) {
+            $scope.changeBtsCheckbox = function (value) {
+                projectService.setCreateBts(subjectId, value).success(function (data) {
                     $scope.createBtsCheckbox = data.Subject.IsNeededCopyToBts;
                 });
             }
