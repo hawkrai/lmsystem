@@ -135,11 +135,14 @@ namespace Application.Infrastructure.UserManagement
                     ProjectManagementService.DeleteUserFromProject(id, projectId);
                 }
 
-                var acp = user.Student.AssignedCourseProjects.Select(e => e.CourseProjectId);
-                foreach (var acpId in acp)
-                {
-                    CPManagementService.DeleteUserFromAcpProject(id, acpId);
-                }
+	            if (user.Student != null)
+	            {
+					var acp = user.Student.AssignedCourseProjects.Select(e => e.CourseProjectId);
+					foreach (var acpId in acp)
+					{
+						CPManagementService.DeleteUserFromAcpProject(id, acpId);
+					}    
+	            }
 
                 CPManagementService.DeletePercenageAndVisitStatsForUser(id);
 

@@ -30,6 +30,10 @@
     </div>
 </div>
 <div style="margin-bottom: 15px"></div>
+<div>
+    <h4 style="margin-top: 20px;">Тесты для контроля знаний</h4>
+</div>
+<div style="margin-bottom: 15px"></div>
 <div class="table-responsive">
 	<table class="table table-hover table-bordered table-striped">
 		<thead>
@@ -39,20 +43,49 @@
 				<th>Действие</th>
 			</tr>
 		</thead>
-		<tr data-ng-repeat="test in tests | filter:query">
+		<tr data-ng-repeat="test in tests | filter:query | filter:{ForSelfStudy:false}">
 			<td width="30px">{{tests.indexOf(test) + 1}}</td>
 			<td>{{test.Title}}</td>
 			<td style="width: 220px;">
 				<div>
 					<a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
 					<a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
-					<a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
+					<a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
 					<a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
 					<a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
 				</div>
 			</td>
 		</tr>
 	</table>
+</div>
+<div style="margin-bottom: 15px"></div>
+<div>
+    <h4 style="margin-top: 20px;">Тесты для самоконтроля и ЭУМК</h4>
+</div>
+<div style="margin-bottom: 15px"></div>
+<div class="table-responsive">
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Тема</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tr data-ng-repeat="test in tests | filter:query | filter:{ForSelfStudy:true}">
+            <td width="30px">{{tests.indexOf(test) + 1}}</td>
+            <td>{{test.Title}}</td>
+            <td style="width: 220px;">
+                <div>
+                    <a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
+                    <a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
+                    <a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
+                    <a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
+                    <a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>
 
 <script>

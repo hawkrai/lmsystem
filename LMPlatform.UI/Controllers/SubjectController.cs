@@ -24,6 +24,7 @@ namespace LMPlatform.UI.Controllers
 
     using Application.Core;
     using Application.Infrastructure.FilesManagement;
+	using System;
 
     [Authorize(Roles = "student, lector")]
     public class SubjectController : BasicController 
@@ -168,7 +169,15 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public ActionResult SaveSubject(SubjectEditViewModel model)
         {
-            model.Save(WebSecurity.CurrentUserId);
+			var color = HttpContext.Request.Form["html5colorpicker"];
+
+			if (color == "#ffffff") {
+				Random rnd = new Random();
+				var random = rnd.Next(1, 4);  
+				color = random == 1 ? "#0074D9" : random == 2 ? "#FF4136" : random == 3 ? "#FFDC00" : "#85144b";
+			}
+
+            model.Save(WebSecurity.CurrentUserId, color);
             return null;
         }
 
@@ -224,7 +233,7 @@ namespace LMPlatform.UI.Controllers
 
             foreach (var group in groups.Students)
             {
-                var model = SubjectManagementService.GetUserLabFiles(group.Id, subjectId);
+                var model = SubjectManagementService.GetUserLabFiles(group.Id, subjectId).Where(e => e.IsReceived);
 
                 var attachments = new List<Attachment>();
 
@@ -309,10 +318,10 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveSubGroup(string subjectId, string groupId, string subGroupFirstIds, string subGroupSecondIds)
+        public ActionResult SaveSubGroup(string subjectId, string groupId, string subGroupFirstIds, string subGroupSecondIds, string subGroupThirdIds)
         {
             var model = new SubGroupEditingViewModel();
-            model.SaveSubGroups(int.Parse(subjectId), int.Parse(groupId), subGroupFirstIds, subGroupSecondIds);
+            model.SaveSubGroups(int.Parse(subjectId), int.Parse(groupId), subGroupFirstIds, subGroupSecondIds, subGroupThirdIds);
             return null;
         }
 

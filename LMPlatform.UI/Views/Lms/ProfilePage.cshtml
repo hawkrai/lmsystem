@@ -1,8 +1,5 @@
 ﻿<style>
-	.lmsMainContainer {
-		padding: 30px;
-	}
-
+	
 		.lmsMainContainer .panel-title {
 			font-size: 23px;
 		}
@@ -11,9 +8,9 @@
 			height: 300px;
 		}
 
-		.lmsMainContainer .statisticContainer {
+		/*.lmsMainContainer .statisticContainer {
 			height: 250px;
-		}
+		}*/
 
 		.lmsMainContainer .allNews {
 			width: 150px;
@@ -98,8 +95,7 @@
 	}
 
 	.lmsMainContainer .statisticContainer .circleContainer {
-		margin-left: 30%;
-		margin-top: 30px;
+		margin-left: 100px;
 	}
 
 	.lmsMainContainer .statisticContainer .subjectInfo {
@@ -114,6 +110,157 @@
 		color: #3c8dbc
 	}
 
+.circle-tile {
+    margin-bottom: 15px;
+    text-align: center;
+}
+.circle-tile-heading {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 100%;
+    color: #FFFFFF;
+    height: 80px;
+    margin: 0 auto -40px;
+    position: relative;
+    transition: all 0.3s ease-in-out 0s;
+    width: 80px;
+}
+.circle-tile-heading .fa {
+    line-height: 80px;
+}
+.circle-tile-content {
+    padding-top: 50px;
+}
+.circle-tile-number {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+    padding: 5px 0 15px;
+}
+.circle-tile-description {
+    text-transform: uppercase;
+}
+.circle-tile-footer {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    display: block;
+    padding: 5px;
+    transition: all 0.3s ease-in-out 0s;
+}
+.circle-tile-footer:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+}
+.circle-tile-heading.dark-blue:hover {
+    background-color: #2E4154;
+}
+.circle-tile-heading.green:hover {
+    background-color: #138F77;
+}
+.circle-tile-heading.orange:hover {
+    background-color: #DA8C10;
+}
+.circle-tile-heading.blue:hover {
+    background-color: #2473A6;
+}
+.circle-tile-heading.red:hover {
+    background-color: #CF4435;
+}
+.circle-tile-heading.purple:hover {
+    background-color: #7F3D9B;
+}
+.tile-img {
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.9);
+}
+
+.dark-blue {
+    background-color: #34495E;
+}
+.green {
+    background-color: #16A085;
+}
+.blue {
+    background-color: #2980B9;
+}
+.orange {
+    background-color: #F39C12;
+}
+.red {
+    background-color: #E74C3C;
+}
+.purple {
+    background-color: #8E44AD;
+}
+.dark-gray {
+    background-color: #7F8C8D;
+}
+.gray {
+    background-color: #95A5A6;
+}
+.light-gray {
+    background-color: #BDC3C7;
+}
+.yellow {
+    background-color: #F1C40F;
+}
+.text-dark-blue {
+    color: #34495E;
+}
+.text-green {
+    color: #16A085;
+}
+.text-blue {
+    color: #2980B9;
+}
+.text-orange {
+    color: #F39C12;
+}
+.text-red {
+    color: #E74C3C;
+}
+.text-purple {
+    color: #8E44AD;
+}
+.text-faded {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+	.circle {
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		float: left;
+		margin-top: 10px;
+		margin-right: 10px;
+	 
+	}
+
+	.subjectLink {
+		font-size: 14px;
+		color: #777
+	}
+
+	.subjectLink:hover {
+		color: #000
+	}
+
+	.subjectNesLink {
+		font-size: 15px;
+		color: #777
+	}
+
+	.subjectNesLink:hover {
+		color: #000
+	}
+
+	.subjectStaticLink {
+		font-size: 15px;
+		color: #777
+	}
+
+	.subjectStaticLink:hover {
+		color: #000
+	}
 </style>
 
 <div class="lmsMainContainer">
@@ -126,7 +273,7 @@
 							<i class="fa fa-calendar fa-1x icon"></i>
 						</div>
 						<div class="col-md-11 text-center lmsBColor">
-							<h1 class="panel-title">Расписание занятий</h1>
+							<h1 class="panel-title" style="font-weight: 700">Расписание занятий</h1>
 						</div>
 					</div>
 				</div>
@@ -137,20 +284,20 @@
 						</div>
 						<div class="col-md-6">
 							<div class="text-center">
-								<h4>Список предметов</h4>
+								<h4 style="color: #222; font-size: 15px; font-weight: 400">Список предметов</h4>
 							</div>
-							<div class="date-text">20.01.2017</div>
-							<div>
-								<ul class="subjectsContainer">
-									<li class="subjectColorRed">Надежность ПО</li>
-									<li class="subjectColorOrange">Модульное тестирование</li>
-									<li class="subjectColorGreen">Системное программирование</li>
-									<li class="subjectColorTeal">Базы данных</li>
-									<li class="subjectColorViolet">Алгоритмы и методы принятия решений</li>
+							<div style="margin-left:15px; color: #777; font-size: 15px; font-weight: 400">{{selectedDate}}</div>
+							<div style="height: 181px; overflow-y: auto; margin-top: 10px; margin-left: -10px;">
+								<ul class="subjectsContainer" style="margin-left: -30px;">
+									<li ng-repeat="data in selectedEvents">
+										<div class="circle" ng-style="{background : '{{data.color}}'}"></div>
+										<a class="subjectLink" href="/Subject?subjectId={{data.subjectId}}">{{data.title}}</a>
+									</li>
+									<li ng-if="selectedEvents.length == 0">Нет предметов на выбранную дату</li>
 								</ul>
 							</div>
 							<div class="text-right">
-								<a href="#">Подробное расписание</a>
+								<a href="#" class="allNews" ng-click="showEvents()"><i class="fa fa-navicon fa-1x icon"></i></a>
 							</div>
 						</div>
 					</div>
@@ -165,23 +312,23 @@
 							<i class="fa fa-newspaper-o fa-1x icon"></i>
 						</div>
 						<div class="col-md-11 text-center lmsBColor">
-							<h1 class="panel-title">Новости и объявления <span class="badge">42</span></h1>
+							<h1 class="panel-title" ng-click="" style="font-weight: 700;">Новости и объявления <span ng-click="showNews()" class="badge" style="cursor:pointer; color: white; margin-top: -5px;background-color: #FFC300; position: absolute; margin-left: 2px;">{{newsCount}}</span></h1>
 						</div>
 					</div>
 				</div>
 				<div class="panel-body newsContainer">
-					<div class="newsHeader text-center">
-						<a href="#">«РАБОТАТЬ НА РЕЗУЛЬТАТ!» - ТАКОВ ДЕВИЗ ПЕРВИЧНОЙ ОРГАНИЗАЦИИ РОО «БЕЛАЯ РУСЬ» БНТУ (11.03.2017)</a>
-					</div>
-					<div class="newsBody" style="height: 180px; overflow: auto;">
-						<p>
-							1 марта 2017 года в первичной организации РОО «Белая Русь» БНТУ прошло отчетно-выборное собрание.
-
-							На собрании присутствовали: первый проректор БНТУ Вершина Г.А., Депутат Палаты Представителей Национального собрания Республики Беларусь Шевцов Д.Е. и заместитель председателя Советской районной организации г. Минска РОО «Белая Русь» Никитина О.А., заместители деканов, представители центров, управлений, отделов и других структурных подразделений БНТУ, заведующие лабораториями, профессорско-преподавательский состав БНТУ.
-						</p>
+					@*<div class="newsHeader text-center">
+						<h4 style="color: #777; font-size: 15px; font-weight: 400" >{{lastNews.Title}}</h4>
+						<a href="/Subject?subjectId={{lastNews.SubjectId}}" style="color: #72afd2; font-size: 13px;">{{convertJSONDate(lastNews.EditDate)}}, {{lastNews.Subject.Name}}</a>
+					</div>*@
+					<div class="newsBody" style="height:250px; overflow: auto;">
+						<div ng-repeat="news in lastNews" style="padding: 5px;">							
+							<a href="/Subject?subjectId={{news.SubjectId}}" class="subjectNesLink" style="margin-left: 15px;">{{convertJSONDate(news.EditDate)}}, {{news.Subject.Name}}</a>
+							<p ng-click="newsDetails(news)" style="margin-bottom: 0px; color: #3c8dbc; cursor:pointer">{{news.Title}}</p>
+						</div>	
 					</div>
 					<div class="text-right">
-						<input type="button" class="btn btn-sm btn-default allNews" value="Все новости" />
+						<a href="#" class="allNews" ng-click="showNews()"><i class="fa fa-navicon fa-1x icon"></i></a>
 					</div>
 				</div>
 			</div>
@@ -196,87 +343,189 @@
 							<i class="fa fa-pie-chart fa-1x icon"></i>
 						</div>
 						<div class="col-md-11 text-center lmsBColor">
-							<h1 class="panel-title">Статистика по предметам</h1>
+							<h1 class="panel-title" style="font-weight: 700;">Статистика по предметам</h1>
 						</div>
 					</div>
 				</div>
 				<div class="panel-body statisticContainer">
 					<div class="row">
-						<div class="col-md-3 ">
-							<div class="text-center">
-								Завершенность курса
-							</div>
-							<div class="c100 p30 blue circleContainer">
-								<span>30%</span>
-								<div class="slice">
-									<div class="bar"></div>
-									<div class="fill"></div>
+
+						<div class="col-lg-2 col-sm-6" ng-repeat="data in subject">
+							<div class="circle-tile ">
+								<a href="#">
+									<div class="circle-tile-heading dark-blue" style="background-color: #f9f9f9;" >
+										@*<i class="fa fa-info fa-fw fa-3x" ng-style="{color : '{{data.Color}}'}"></i>*@
+										<div class="circle-tile-number text-faded " style="margin-top: 15px; font-weight: 100;" ng-style="{color : '{{data.Color}}'}">{{data.Completing}}%</div>
+									</div>
+								</a>
+								<div class="circle-tile-content dark-blue" style="background-color: #f9f9f9; color: black;">
+									<a href="/Subject?subjectId={{data.Id}}" class="subjectStaticLink">{{data.Name}}</a>
+									<div class="circle-tile-number text-faded " ng-style="{color : '{{data.Color}}'}"></div>
+									<a class="circle-tile-footer" style="color: #777; background-color: #f4f4f4; font-size: 11px;" href="#">Больше деталей <i class="fa fa-chevron-circle-right"></i></a>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-3">
-							<div>
-								<a href="#">Надежность программного обеспечения</a>
-							</div>
-							<div class="subjectInfo">
-								<p class="text-info">Защищено работа: 6 из 10</p>
-								<p class="text-info">Написано тестов: 2 из 4</p>
-								<p class="text-info">Рейтинг по предмету: 9</p>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="text-center">
-								Завершенность курса
-							</div>
-							<div class="c100 p70 blue circleContainer">
-								<span>70%</span>
-								<div class="slice">
-									<div class="bar"></div>
-									<div class="fill"></div>
+						@*<div class="col-md-7">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<div class="row">
+										<div class="col-md-1" style="width: 10px;">
+											<i class="fa fa-pie-chart fa-1x icon"></i>
+										</div>
+										<div class="col-md-11 text-center lmsBColor">
+											<h1 class="panel-title">Статистика по предметам</h1>
+										</div>
+									</div>
+								</div>
+								<div class="panel-body statisticContainer">
+									<div class="row">*@
+
+						@*<div class="col-md-12" ng-repeat="data in subject">
+								<div class="text-center">
+									 ({{data.Name}})
+								</div>
+								<div>Завершенность курса</div>
+								<div class="c100 p{{data.Completing}} blue circleContainer">
+									<span>{{data.Completing}}%</span>
+									<div class="slice">
+										<div class="bar"></div>
+										<div class="fill"></div>
+									</div>
+								</div>
+							</div>*@
+						@*<div class="col-md-3">
+								<div>
+									<a href="#">Надежность программного обеспечения</a>
+								</div>
+								<div class="subjectInfo">
+									<p class="text-info">Защищено работа: 6 из 10</p>
+									<p class="text-info">Написано тестов: 2 из 4</p>
+									<p class="text-info">Рейтинг по предмету: 9</p>
 								</div>
 							</div>
-						</div>
-						<div class="col-md-3">
-							<div>
-								<a href="#">Модульное тестирование</a>
+							<div class="col-md-3">
+								<div class="text-center">
+									Завершенность курса
+								</div>
+								<div class="c100 p70 blue circleContainer">
+									<span>70%</span>
+									<div class="slice">
+										<div class="bar"></div>
+										<div class="fill"></div>
+									</div>
+								</div>
 							</div>
-							<div class="subjectInfo">
-								<p class="text-info">Защищено работа: 6 из 10</p>
-								<p class="text-info">Написано тестов: 2 из 4</p>
-								<p class="text-info">Рейтинг по предмету: 9</p>
-							</div>
-						</div>
+							<div class="col-md-3">
+								<div>
+									<a href="#">Модульное тестирование</a>
+								</div>
+								<div class="subjectInfo">
+									<p class="text-info">Защищено работа: 6 из 10</p>
+									<p class="text-info">Написано тестов: 2 из 4</p>
+									<p class="text-info">Рейтинг по предмету: 9</p>
+								</div>
+							</div>*@
+						@*</div>
+									</div>
+								</div>
+							</div>*@
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<script type="text/javascript">
-	/**
- * Russian translation for bootstrap-datepicker
- * Victor Taranenko <darwin@snowdale.com>
- */
-	(function ($) {
-		$.fn.datepicker.dates['ru'] = {
-			days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
-			daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Суб"],
-			daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
-			months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-			monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
-			today: "Сегодня",
-			clear: "Очистить",
-			format: "dd.mm.yyyy",
-			weekStart: 1,
-			monthsTitle: 'Месяцы'
-		};
-	}(jQuery));
-	$(function () {
-		$('#datetimepicker').datepicker({
-			language: "ru",
-			todayHighlight: true
-		});
-	});
-</script>
+
+				<div id="dialogAllNews" class="modal">
+					<div class="modal-dialog panel panel-primary" style="padding: 0px">
+						<div class="panel-heading">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Все новости</h4>
+						</div>
+						<div class="modal-body" style="padding: 0">
+							<div style="margin-top: -20px;">
+								<div class="bs-callout bs-callout-fill" ng-class="data.Disabled ? 'bs-callout-default' : 'bs-callout-info'" ng-repeat="data in news">
+									<h4 style="float: left; word-wrap: break-word; margin-right: 10px;font-weight: 400; color: #3c8dbc">{{data.Title}}</h4>
+									<div class="clear-fix"></div>
+									<div ng-bind-html="renderHtml(data.Body)">
+									</div>
+									<a href="/Subject?subjectId={{data.SubjectId}}" class="subjectNesLink">{{convertJSONDate(data.EditDate)}}, {{data.Subject.Name}}</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+	<div id="dialogNews" class="modal">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">{{clickedNews.Title}}</h4>
+			</div>
+			<div class="modal-body" style="padding: 0">
+				<div style="margin-top: -20px;">
+					<div class="bs-callout bs-callout-fill" ng-class="clickedNews.Disabled ? 'bs-callout-default' : 'bs-callout-info'">
+						<div class="clear-fix"></div>
+						<div ng-bind-html="renderHtml(clickedNews.Body)">
+						</div>
+						<a href="/Subject?subjectId={{clickedNews.SubjectId}}" class="subjectNesLink">{{convertJSONDate(clickedNews.EditDate)}}, {{clickedNews.Subject.Name}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+				<style>
+					#myCalendar > .modal-dialog {
+						width: 100%;
+						height: 100%;
+						padding: 0;
+					}
+
+					#myCalendar > .modal-content {
+						height: 100%;
+						border-radius: 0;
+					}
+				</style>
+
+				<div ng-cloak class="modal fade" id="myCalendar" tabindex="-1" role="dialog" aria-labelledby="myCalendarLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="myCalendarLabel">Мой календарь</h4>
+							</div>
+							<div class="modal-body">
+								<div>
+									<div id='calendarEvents'></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					/**
+				 * Russian translation for bootstrap-datepicker
+				 * Victor Taranenko <darwin@snowdale.com>
+				 */
+					(function ($) {
+						$.fn.datepicker.dates['ru'] = {
+							days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+							daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Суб"],
+							daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+							months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+							monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+							today: "Сегодня",
+							clear: "Очистить",
+							format: "dd.mm.yyyy",
+							weekStart: 1,
+							monthsTitle: 'Месяцы'
+						};
+					}(jQuery));
+					$(function () {
+
+					});
+				</script>
+
+
 

@@ -104,13 +104,15 @@ namespace Application.Infrastructure.StudentManagement
 
 						var modelSecondSubGroup = subGroup.SubGroups.FirstOrDefault(e => e.Name == "second").SubjectStudents ?? new List<SubjectStudent>();
 
-						repositoriesContainer.SubGroupRepository.SaveStudents(subject.Id, subGroup.Id, first, modelSecondSubGroup.Select(e => e.StudentId).ToList());
+						var modelSecondThirdGroup = subGroup.SubGroups.FirstOrDefault(e => e.Name == "third").SubjectStudents ?? new List<SubjectStudent>();
+
+						repositoriesContainer.SubGroupRepository.SaveStudents(subject.Id, subGroup.Id, first, modelSecondSubGroup.Select(e => e.StudentId).ToList(), modelSecondThirdGroup.Select(e => e.StudentId).ToList());
 					}
 					else
 					{
 						var students = this.GetGroupStudents(student.GroupId).Where(e => e.Confirmed == null || e.Confirmed.Value);
 
-						repositoriesContainer.SubGroupRepository.CreateSubGroup(subject.Id, subGroup.Id, students.Select(e => e.Id).ToList(), new List<int>());
+						repositoriesContainer.SubGroupRepository.CreateSubGroup(subject.Id, subGroup.Id, students.Select(e => e.Id).ToList(), new List<int>(), new List<int>());
 						
 					}
 					

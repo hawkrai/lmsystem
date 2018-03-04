@@ -34,6 +34,14 @@ namespace Application.Infrastructure.FilesManagement
             }
         }
 
+		public string GetPathName(string guid)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return repositoriesContainer.AttachmentRepository.GetBy(new Query<Attachment>(e => e.FileName == guid)).PathName;
+			}
+		}
+
         public void SaveFiles(IEnumerable<Attachment> attachments, string folder = "")
         {
             foreach (var attach in attachments)

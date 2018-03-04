@@ -30,6 +30,9 @@ namespace LMPlatform.UI.Services.Modules.CoreModels
         [DataMember]
         public SubGroupsViewData SubGroupsTwo { get; set; }
 
+		[DataMember]
+		public SubGroupsViewData SubGroupsThird { get; set; }
+
         [DataMember]
         public List<LecturesMarkVisitingViewData> LecturesMarkVisiting { get; set; }
 

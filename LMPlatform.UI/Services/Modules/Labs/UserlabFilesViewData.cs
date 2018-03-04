@@ -17,6 +17,8 @@ namespace LMPlatform.UI.Services.Modules.Labs
         [DataMember]
         public string Date { get; set; }
         [DataMember]
-        public List<Attachment> Attachments { get; set; } 
+        public List<Attachment> Attachments { get; set; }
+		[DataMember]
+		public bool IsReceived { get; set; }
     }
 }

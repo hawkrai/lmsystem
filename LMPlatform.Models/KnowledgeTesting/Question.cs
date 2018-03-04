@@ -7,6 +7,12 @@ namespace LMPlatform.Models.KnowledgeTesting
 {
     public class Question : ModelBase, ICloneable
     {
+        public int? QuestionNumber
+        {
+            get;
+            set;
+        }
+
         public Test Test
         {
             get; 
@@ -37,6 +43,12 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+        public int? ConceptId
+        {
+            get;
+            set;
+        }
+
         public QuestionType QuestionType
         {
             get;
@@ -57,6 +69,7 @@ namespace LMPlatform.Models.KnowledgeTesting
             {
                 Title = Title,
                 Description = Description,
+                ConceptId = ConceptId,
                 ComlexityLevel = ComlexityLevel,
                 QuestionType = QuestionType,
                 Answers = Answers == null ? null : Answers.Select(answer => (Answer)answer.Clone()).ToList()

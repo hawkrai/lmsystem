@@ -42,7 +42,7 @@
       <HintPath>..\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -172,6 +172,8 @@
     <Compile Include="SubjectManagement\ISubjectManagementService.cs" />
     <Compile Include="SubjectManagement\ModulesManagementService.cs" />
     <Compile Include="SubjectManagement\SubjectManagementService.cs" />
+    <Compile Include="TestQuestionPassingManagement\ITestQuestionPassingService.cs" />
+    <Compile Include="TestQuestionPassingManagement\TestQuestionPassingService.cs" />
     <Compile Include="UserManagement\IUsersManagementService.cs" />
     <Compile Include="UserManagement\UsersManagementService.cs" />
     <Compile Include="UtilZip.cs" />

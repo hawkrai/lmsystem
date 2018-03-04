@@ -74,10 +74,12 @@
                     </li>
                 }
             }
+		<li class="divider"></li>
             @if (User.IsInRole("lector"))
             {
                 <li><a id="subGroups" class="linkNavbar" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-tab"></i>Разделение на подгруппы</a></li>
-            }
+				<li><a class="editSubjectAction" style="font-size: 14px; cursor: pointer"><i class="fa fa-gear" style="margin-right: 5px;"></i> Управление предметом</a></li>
+			}
             <li><a class="linkNavbar" href="@Url.Action("Subjects", "Subject")"><i class="fa fa-refresh fa-tab"></i>Сменить предмет</a></li>
             <li><a class="linkNavbar" href="@Url.Action("Index", "Lms")"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
 
@@ -99,8 +101,17 @@
 }
 <script type="text/javascript" src="~/Scripts/application/mainApp.js"></script>
 <script>
-    $(document).ready(function () {
-        $('li.navLink').first().click();
-        $('a.moduleLinks').first().click();
+	$(document).ready(function () {
+		$('li.navLink').first().click();
+		$('a.moduleLinks').first().click();
+	});
+
+    $('.editSubjectAction').handle("click", function () {
+    	var that = this;
+    	$.savingDialog("Редактирование предмета", "@Url.Action("EditSubject", "Subject",new {id = Model.SubjectId})", null, "primary", function (data) {
+    		alertify.success("Предмет успешно изменен");
+    		window.location.reload(true);
+    	});
+    	return false;
     });
 </script>

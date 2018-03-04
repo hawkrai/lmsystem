@@ -16,7 +16,7 @@ namespace LMPlatform.Data.Repositories
         {
         }
 
-        public void SaveStudents(int subjectId, int subjectGroupId, IList<int> firstInts, IList<int> secoInts)
+		public void SaveStudents(int subjectId, int subjectGroupId, IList<int> firstInts, IList<int> secoInts, IList<int> thirdInts)
         {
             try
             {
@@ -29,8 +29,14 @@ namespace LMPlatform.Data.Repositories
                         new Query<SubGroup>(e => e.SubjectGroupId == subjectGroupId && e.Name == "second").Include(
                             e => e.SubjectStudents.Select(x => x.Student)));
 
+				var modelThirdSubGroup =
+					GetBy(
+						new Query<SubGroup>(e => e.SubjectGroupId == subjectGroupId && e.Name == "third").Include(
+							e => e.SubjectStudents.Select(x => x.Student)));
+
                 var firstSubGorupStudent = modelFirstSubGroup.SubjectStudents.ToList();
                 var secondSubGorupStudent = modelSecondSubGroup.SubjectStudents.ToList();
+				var thirdSubGorupStudent = modelThirdSubGroup.SubjectStudents.ToList();
 
                 using (var context = new LmPlatformModelsContext())
                 {
@@ -49,6 +55,14 @@ namespace LMPlatform.Data.Repositories
                             context.Set<SubjectStudent>().Remove(context.Set<SubjectStudent>().FirstOrDefault(e => e.Id == subjectStudent.Id));
                         }
                     }
+
+					foreach (var subjectStudent in thirdSubGorupStudent)
+					{
+						if (!thirdInts.Any(e => e == subjectStudent.StudentId))
+						{
+							context.Set<SubjectStudent>().Remove(context.Set<SubjectStudent>().FirstOrDefault(e => e.Id == subjectStudent.Id));
+						}
+					}
 
                     context.SaveChanges();
 
@@ -72,11 +86,24 @@ namespace LMPlatform.Data.Repositories
                             context.Set<SubjectStudent>().Add(new SubjectStudent
                             {
                                 StudentId = student,
-                                SubGroupId = modelSecondSubGroup.Id,
+								SubGroupId = modelSecondSubGroup.Id,
                                 SubjectGroupId = subjectGroupId
                             });
                         }
                     }
+
+					foreach (var student in thirdInts)
+					{
+						if (!thirdSubGorupStudent.Any(e => e.StudentId == student))
+						{
+							context.Set<SubjectStudent>().Add(new SubjectStudent
+							{
+								StudentId = student,
+								SubGroupId = modelThirdSubGroup.Id,
+								SubjectGroupId = subjectGroupId
+							});
+						}
+					}
 
                     context.SaveChanges();
                 }
@@ -87,7 +114,7 @@ namespace LMPlatform.Data.Repositories
             }
         }
 
-        public void CreateSubGroup(int subjectId, int subjectGroupId, IList<int> firstInts, IList<int> secoInts)
+		public void CreateSubGroup(int subjectId, int subjectGroupId, IList<int> firstInts, IList<int> secoInts, IList<int> thirdInts)
         {
             var modelFirstSubGroup = new SubGroup
             {
@@ -101,10 +128,17 @@ namespace LMPlatform.Data.Repositories
                 SubjectGroupId = subjectGroupId
             };
 
+			var modelThirdSubGroup = new SubGroup
+			{
+				Name = "third",
+				SubjectGroupId = subjectGroupId
+			};
+
             using (var context = new LmPlatformModelsContext())
             {
                 Save(modelFirstSubGroup);
                 Save(modelSecondSubGroup);
+				Save(modelThirdSubGroup);
 
                 DataContext.SaveChanges();
 
@@ -123,10 +157,20 @@ namespace LMPlatform.Data.Repositories
                     context.Set<SubjectStudent>().Add(new SubjectStudent
                     {
                         StudentId = secoInt,
-                        SubGroupId = modelSecondSubGroup.Id,
+						SubGroupId = modelSecondSubGroup.Id,
                         SubjectGroupId = subjectGroupId
                     });
                 }
+
+				foreach (var third in thirdInts)
+				{
+					context.Set<SubjectStudent>().Add(new SubjectStudent
+					{
+						StudentId = third,
+						SubGroupId = modelThirdSubGroup.Id,
+						SubjectGroupId = subjectGroupId
+					});
+				}
 
                 context.SaveChanges();
             }

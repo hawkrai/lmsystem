@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -20,10 +21,19 @@ namespace LMPlatform.UI.Controllers
     using LMPlatform.UI.ViewModels.AdministrationViewModels;
 
     using WebMatrix.WebData;
+	using Application.Infrastructure.CPManagement;
 
 
     public class ProfileController : Controller
 	{
+		[SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
+		private readonly LazyDependency<ICPManagementService> _cpManagementService = new LazyDependency<ICPManagementService>();
+
+		private ICPManagementService CpManagementService
+		{
+			get { return _cpManagementService.Value; }
+		}
+
         private IDpManagementService DpManagementService
         {
             get { return _diplomProjectManagementService.Value; }
@@ -99,11 +109,21 @@ namespace LMPlatform.UI.Controllers
             var subjectService = new SubjectManagementService();
            
             var user = userService.GetUser(userLogin);
-            
-            var labsEvents =
-		        subjectService.GetLabEvents(user.Id)
-		            .Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start })
-		            .ToList();
+
+			var labsEvents = new List<ProfileCalendarViewModel>();
+
+			if (user.Lecturer == null)
+			{
+				labsEvents = subjectService.GetGroupsLabEvents(user.Student.GroupId, user.Id).Select(
+					e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start, subjectId = e.SubjectId }).ToList();
+			}
+			else
+			{
+				labsEvents =
+					subjectService.GetLabEvents(user.Id)
+								.Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start, subjectId = e.SubjectId })
+								.ToList();
+			}
 
             var lectEvents =
                 subjectService.GetLecturesEvents(user.Id)
@@ -147,7 +167,8 @@ namespace LMPlatform.UI.Controllers
                                                   Name = subject.Name,
                                                   Id = subject.Id,
                                                   ShortName = subject.ShortName,
-												  Completing = subjectService.GetSubjectCompleting(subject.Id)
+												  Color = subject.Color,
+												  Completing = subjectService.GetSubjectCompleting(subject.Id, user.Lecturer != null ? "L" : "S", user.Student)
                                               });
 	        }
 
@@ -172,7 +193,7 @@ namespace LMPlatform.UI.Controllers
             model.LastLogitData = user.AttendanceList.LastOrDefault().ToString("dd/MM/yyyy hh:mm:ss");
             if (user.Lecturer != null)
             {
-                model.Name = user.Lecturer.FirstName + " " + user.Lecturer.LastName;
+				model.Name = user.Lecturer.LastName + " " + user.Lecturer.FirstName + " " + user.Lecturer.MiddleName;
                 model.Skill = user.Lecturer.Skill;
             }
             else
@@ -273,6 +294,55 @@ namespace LMPlatform.UI.Controllers
 				return builder.ToString().ToLower();
 			else
 				return builder.ToString();
+		}
+
+		[HttpPost]
+		public ActionResult GetNews(string userLogin)
+		{
+			var service = new UsersManagementService();
+
+			var subjectService = new SubjectManagementService();
+
+			var user = service.GetUser(userLogin);
+
+			var news  = new List<SubjectNews>();
+
+			if (user.Lecturer != null)
+			{
+				news = subjectService.GetNewsByLector(user.Id);
+			}
+			else
+			{
+				news = subjectService.GetNewsByGroup(user.Student.GroupId);
+			}
+
+			return Json(news.OrderByDescending(e => e.EditDate).ToList());
+		}
+
+		[HttpPost]
+		public ActionResult GetMiniInfoCalendar(string userLogin)
+		{
+			var userService = new UsersManagementService();
+
+			var subjectService = new SubjectManagementService();
+
+			var user = userService.GetUser(userLogin);
+
+			var labsEvents =
+				subjectService.GetLabEvents(user.Id)
+					.Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start })
+					.ToList();
+
+			var lectEvents =
+				subjectService.GetLecturesEvents(user.Id)
+					.Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start })
+					.ToList();
+
+			return Json(new
+			{
+				Labs = labsEvents,
+				Lect = lectEvents
+			});
 		}
 	}
 }

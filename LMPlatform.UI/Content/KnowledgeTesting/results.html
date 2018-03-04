@@ -1,60 +1,134 @@
 ﻿<h3 data-ng-show="!groups || groups.length == 0">К предмету не подсоединено ни одной группы</h3>
-<div data-ng-repeat="group in groups" style="display: inline-table; margin-right: 10px">
-    <button data-ng-click="loadResults(group.Id)" data-ng-class="{'active': group.Id == gropId }" class="btn btn-primary btn-sm" style="width: 150px;">
-        {{group.Name}}
-    </button>
-</div>
-<div style="display: inline-table; margin-right: 10px">
-    <a class="btn btn-primary btn-sm" ng-click="resultExport()" tooltip="Загрузить документ Excel">
-        <i class="fa fa-download"></i>
-        <span>Excel</span>
-    </a>
-</div>
+<tabset>
+    <tab heading="Тесты для контроля знаний" select="selectTab(0)">
 
+        <div style="margin-bottom: 15px; margin-top: 15px;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="padding-right:15px">
+                            <select ng-model="selectedGroup" ng-options="group.Name for group in groups" ng-change="loadResults(selectedGroup.Id)" class="form-control"></select>
+                        </td>
+                        <td style="float:right">
+                            <button class="btn btn-default" ng-click="resultExport()" style="margin-right: 10px;" tooltip="Загрузить документ в Excel">
+                                <img src="/Images/ExcelDownload.png" />
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="input-group input-group-sm search-box" style="margin-bottom: 10px; float: right">
+            <span>Поиск&nbsp;</span>
+            <input data-ng-model="query" type="text" class="form-control" placeholder="Введите имя студента">
+        </div>
 
+        <div data-ng-repeat="subgroupResults in subgroupsResults">
+            <h4>Подгруппа {{subgroupsResults.indexOf(subgroupResults) + 1}}</h4>
 
-<div class="input-group input-group-sm search-box" style="margin-bottom: 10px; float: right">
-    <span>Поиск&nbsp;</span>
-    <input data-ng-model="query" type="text" class="form-control" placeholder="Введите имя студента">
-</div>
+            <div class="table-responsive" data-ng-show="subgroupResults.length > 0">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Студент</th>
+                            <th data-ng-repeat="res in subgroupResults[0].TestPassResults | filter:!forSelfStudyFilter">
+                                <div tooltip="{{res.TestName}}" tooltip-placement="right" style="width: 50px;">Тест {{subgroupResults[0].TestPassResults.indexOf(res) + 1}}</div>
+                            </th>
+                            <th>Средняя оценка</th>
+                        </tr>
+                    </thead>
+                    <tr data-ng-repeat="result in subgroupResults | filter:query">
+                        <td width="10px">{{subgroupResults.indexOf(result) + 1}}</td>
+                        <td width="300px"><a href="/Profile/Page/{{result.Login}}">{{result.StudentName}}</a></td>
+                        <td data-ng-repeat="mark in result.TestPassResults | filter:!forSelfStudyFilter">
+                            <div>
+                                <div data-ng-show="mark.Points != null" tooltip="Тест {{mark.TestName}} пройден на {{mark.Points}}" tooltip-placement="right">{{mark.Points}} ({{mark.Percent}}%)</div>
+                                <a data-ng-show="mark.Points == null" tooltip="Тест {{mark.TestName}} не пройден" tooltip-placement="right"><span class="fa fa-warning fa-1x"></span></a>
+                            </div>
+                        </td>
+                        <td>{{calcOverage(result)}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: right;">Средний процент за тест </td>
+                        <td data-ng-repeat="res in subgroupResults[0].TestPassResults | filter:!forSelfStudyFilter">
+                            {{calcTotal(subgroupResults, $index).Percent}}%
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </tab>
+    <tab heading="Тесты для самоконтроля и ЭУМК" select="selectTab(1)">
 
-<div class="table-responsive" data-ng-show="results.length > 0">
-    <table class="table table-hover table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>№</th>
-                <th>Студент</th>
-                <th data-ng-repeat="res in results[0].TestPassResults">
-                    <div tooltip="{{res.TestName}}" tooltip-placement="right" style="width: 50px;">Тест {{results[0].TestPassResults.indexOf(res) + 1}}</div>
-                </th>
-                <th>Средняя оценка</th>
-            </tr>
-        </thead>
-        <tr data-ng-repeat="result in results | filter:query">
-            <td width="10px">{{results.indexOf(result) + 1}}</td>
-            <td width="300px">{{result.StudentName}}</td>
-            <td data-ng-repeat="mark in result.TestPassResults">
-                <div>
-                    <div data-ng-show="mark.Points != null" tooltip="Тест {{mark.TestName}} пройден на {{mark.Points}}" tooltip-placement="right">{{mark.Points}} ({{mark.Percent}}%)</div>
-                    <a data-ng-show="mark.Points == null" tooltip="Тест {{mark.TestName}} не пройден" tooltip-placement="right"><span class="fa fa-warning fa-1x"></span></a>
-                </div>
-            </td>
-            <td>{{calcOverage(result)}}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td style="text-align: right;">Средний процент за тест </td>
-            <td data-ng-repeat="res in results[0].TestPassResults">
-              <!--  {{calcTotal(results, $index).Point}} -->
-                {{calcTotal(results, $index).Percent}}%
-            </td>
-            <td></td>
-        </tr>
-    </table>
-</div>
+        <div style="margin-bottom: 15px; margin-top: 15px;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="padding-right:15px">
+                            <select ng-model="selectedGroup" ng-options="group.Name for group in groups" ng-change="loadResults(selectedGroup.Id)" class="form-control"></select>
+                        </td>
+                        <td style="float:right">
+                            <button class="btn btn-default" ng-click="resultExport2()" style="margin-right: 10px;" tooltip="Загрузить документ в Excel">
+                                <img src="/Images/ExcelDownload.png" />
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="input-group input-group-sm search-box" style="margin-bottom: 10px; float: right">
+            <span>Поиск&nbsp;</span>
+            <input data-ng-model="query" type="text" class="form-control" placeholder="Введите имя студента">
+        </div>
+        <div data-ng-repeat="subgroupResults in subgroupsResults">
+            <h4>Подгруппа {{subgroupsResults.indexOf(subgroupResults) + 1}}</h4>
+            <div class="table-responsive" data-ng-show="subgroupResults.length > 0">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Студент</th>
+                            <th data-ng-repeat="res in subgroupResults[0].TestPassResults | filter:forSelfStudyFilter">
+                                <div tooltip="{{res.TestName}}" tooltip-placement="right" style="width: 50px;">Тест {{subgroupResults[0].TestPassResults.indexOf(res) + 1}}</div>
+                            </th>
+                            <th>Средняя оценка</th>
+                        </tr>
+                    </thead>
+                    <tr data-ng-repeat="result in subgroupResults | filter:query">
+                        <td width="10px">{{subgroupResults.indexOf(result) + 1}}</td>
+                        <td width="300px"><a href="/Profile/Page/{{result.Login}}">{{result.StudentName}}</a></td>
+                        <td data-ng-repeat="mark in result.TestPassResults | filter:forSelfStudyFilter">
+                            <div>
+                                <div data-ng-show="mark.Points != null" tooltip="Тест {{mark.TestName}} пройден на {{mark.Points}}" tooltip-placement="right">{{mark.Points}} ({{mark.Percent}}%)</div>
+                                <a data-ng-show="mark.Points == null" tooltip="Тест {{mark.TestName}} не пройден" tooltip-placement="right"><span class="fa fa-warning fa-1x"></span></a>
+                            </div>
+                        </td>
+                        <td>{{calcOverageForSelf(result)}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: right;">Средний процент за тест </td>
+                        <td data-ng-repeat="res in subgroupResults[0].TestPassResults | filter:forSelfStudyFilter">
+                            {{calcTotal(subgroupResults, $index).Percent}}%
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </tab>
+</tabset>
 <div class="row col-md-12">
     <div id="chartBarAverage" class="jqplot-target"></div>
 </div>
+<div class="row col-md-12">
+    <div id="chartBarAverage2" class="jqplot-target"></div>
+</div>
+
 
 <script>
     $("#headerMainPage").find("small").text("Результаты тестов");

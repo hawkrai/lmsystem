@@ -18,8 +18,8 @@ namespace LMPlatform.UI.Services
     public interface ICoreService
     {
         [OperationContract]
-        [WebInvoke(UriTemplate = "/GetGroups/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
-        GroupsResult GetGroups(string subjectId);
+		[WebInvoke(UriTemplate = "/GetGroups?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+        GroupsResult GetGroups(string subjectId, string groupId);
 
 		[OperationContract]
         [WebInvoke(UriTemplate = "/GetOnlyGroups/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]

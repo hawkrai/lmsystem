@@ -42,7 +42,7 @@ namespace Application.Infrastructure.SubjectManagement
 
 	    IList<SubGroup> GetSubGroups(int subjectId, int groupId);
 
-        void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts);
+		void SaveSubGroup(int subjectId, int groupId, IList<int> firstInts, IList<int> secoInts, IList<int> thirdInts);
 
         Lectures GetLectures(int id);
 
@@ -110,7 +110,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         List<Subject> GetSubjectsByStudent(int userId);
 
-	    decimal GetSubjectCompleting(int subjectId);
+		decimal GetSubjectCompleting(int subjectId, string user, Student student);
 
         int StudentAttendance(int userId);
 
@@ -125,5 +125,15 @@ namespace Application.Infrastructure.SubjectManagement
 	    IList<SubGroup> GetSubGroupsV2WithScheduleProtectionLabs(int subjectId, int groupId);
 
 		Subject GetSubject(IQuery<Subject> query);
-    }
+
+		List<SubjectNews> GetNewsByGroup(int id);
+
+		List<SubjectNews> GetNewsByLector(int id);
+
+		List<ProfileCalendarModel> GetGroupsLabEvents(int groupId, int userId);
+
+		void UpdateUserLabFile(string userFileId, bool isReceived);
+
+		UserLabFiles GetUserLabFile(string path);
+	}
 }

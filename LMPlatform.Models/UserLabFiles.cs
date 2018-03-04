@@ -15,5 +15,7 @@ namespace LMPlatform.Models
 		public int SubjectId { get; set; }
 
         public DateTime? Date { get; set; }
+
+		public bool IsReceived { get; set; }
     }
 }

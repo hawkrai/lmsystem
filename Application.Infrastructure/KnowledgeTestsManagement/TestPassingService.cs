@@ -260,6 +260,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
 				students = repositoriesContainer.StudentsRepository.GetAll(new Query<Student>(student => student.GroupId == groupId && (student.Confirmed == null || student.Confirmed.Value))
+                    .Include(student => student.User)
                     .Include(student => student.User.TestPassResults))
                     .ToList();
 
@@ -277,8 +278,13 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             var studentResults = students.Select(rawStudent => new Student
             {
-                Id = rawStudent.Id, FirstName = rawStudent.FirstName, LastName = rawStudent.LastName, MiddleName = rawStudent.MiddleName, User = new User
+                Id = rawStudent.Id,
+                FirstName = rawStudent.FirstName,
+                LastName = rawStudent.LastName,
+                MiddleName = rawStudent.MiddleName,
+                User = new User
                 {
+                    UserName = rawStudent.User.UserName,
                     TestPassResults = GetTestPassResultsForStudent(testIds, rawStudent)
                 }
             }).ToList();

@@ -27,5 +27,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         IEnumerable<Question> GetQuestionsFromAnotherTests(int testId, int currentUserId);
 
         void CheckForTestIsNotLocked(int testId);
-    }
+
+		void UnlockAllTestForGroup(int groupId);
+	}
 }

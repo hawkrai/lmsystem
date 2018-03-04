@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,7 @@ using LMPlatform.UI.Attributes;
 using Microsoft.Ajax.Utilities;
 using LMPlatform.Data.Infrastructure;
 using Application.Infrastructure.CPManagement;
+using Application.Infrastructure.KnowledgeTestsManagement;
 
 namespace LMPlatform.UI.ViewModels.SubjectViewModels
 {
@@ -36,6 +38,13 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 		private IStudentManagementService StudentManagementService
 		{
 			get { return _studentManagementService.Value; }
+		}
+
+		private readonly LazyDependency<ITestsManagementService> _testsManagementService = new LazyDependency<ITestsManagementService>();
+
+		private ITestsManagementService TestsManagementService
+		{
+			get { return _testsManagementService.Value; }
 		}
 
         private ICPManagementService CPManagementService
@@ -130,6 +139,8 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
             set;
         }
 
+		public string Color { get; set; }
+
 		public List<int> SelectedGroups
 		{
 			get;
@@ -144,12 +155,14 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
         public SubjectEditViewModel(int subjectId)
         {
             SubjectId = subjectId;
+			this.Color = "#ffffff";
             Title = SubjectId == 0 ? "Создание предмета" : "Редактирование предмета";
             Modules = ModulesManagementService.GetModules().Where(e => e.Visible).Select(e => new ModulesViewModel(e)).ToList();
 	        FillSubjectGroups();
             if (subjectId != 0)
             {
                 var subject = SubjectManagementService.GetSubject(subjectId);
+				this.Color = subject.Color;
                 SubjectId = subjectId;
                 ShortName = subject.ShortName;
                 DisplayName = subject.Name;
@@ -184,13 +197,14 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			}).ToList();
 	    }
 
-        public void Save(int userId)
-        {
+        public void Save(int userId, string color)
+        {		
             var subject = new Subject
             {
                 Id = SubjectId,
                 Name = DisplayName,
                 ShortName = ShortName,
+				Color = color,
                 SubjectModules = new Collection<SubjectModule>(),
                 SubjectLecturers = new Collection<SubjectLecturer>()
             };
@@ -232,6 +246,13 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
                 LecturerId = userId
             });
 
+			var selectedGroupdsOld = new List<SubjectGroup>();
+
+			if (this.SubjectId != 0)
+			{
+				selectedGroupdsOld = this.SubjectManagementService.GetSubject(new Query<Subject>(e => e.Id == this.SubjectId).Include(e => e.SubjectGroups)).SubjectGroups.ToList();
+			}	
+
 	        if (SelectedGroups != null)
 	        {
 				subject.SubjectGroups = SelectedGroups.Select(e => new SubjectGroup
@@ -244,6 +265,14 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 	        {
 				subject.SubjectGroups = new Collection<SubjectGroup>();    
 	        }
+
+			foreach (var subjectSubjectGroup in selectedGroupdsOld)
+			{
+				if (!subject.SubjectGroups.Any(e => e.GroupId == subjectSubjectGroup.GroupId))
+				{
+					this.TestsManagementService.UnlockAllTestForGroup(subjectSubjectGroup.GroupId);
+				}
+			}
 
             var acp = Context.AssignedCourseProjects.Include("Student").Where(x => x.CourseProject.SubjectId == subject.Id);
 
@@ -307,7 +336,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			    if (!subjectGroup.SubGroups.Any())
 			    {
 					var students = this.StudentManagementService.GetGroupStudents(subjectGroup.GroupId).Where(e => e.Confirmed == null || e.Confirmed.Value);
-					this.SubjectManagementService.SaveSubGroup(this.SubjectId, subjectGroup.GroupId, students.Select(e => e.Id).ToList(), new List<int>());
+					this.SubjectManagementService.SaveSubGroup(this.SubjectId, subjectGroup.GroupId, students.Select(e => e.Id).ToList(), new List<int>(), new List<int>());
 			    }
 		    }
 	    }

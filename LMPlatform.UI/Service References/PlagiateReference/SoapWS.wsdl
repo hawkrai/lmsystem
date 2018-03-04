@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://soap.ws/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="SoapWS" targetNamespace="http://soap.ws/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://soap.ws/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="check" type="tns:check" />
+      <xs:element name="checkByDirectory" type="tns:checkByDirectory" />
+      <xs:element name="checkByDirectoryResponse" type="tns:checkByDirectoryResponse" />
+      <xs:element name="checkBySingleDoc" type="tns:checkBySingleDoc" />
+      <xs:element name="checkBySingleDocResponse" type="tns:checkBySingleDocResponse" />
+      <xs:element name="checkResponse" type="tns:checkResponse" />
+      <xs:complexType name="check">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="docs" type="xs:string" />
+          <xs:element name="threshold" type="xs:int" />
+          <xs:element name="termCount" type="xs:int" />
+          <xs:element name="mode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="checkResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="checkByDirectory">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="folders" type="xs:string" />
+          <xs:element name="threshold" type="xs:int" />
+          <xs:element name="termCount" type="xs:int" />
+          <xs:element name="mode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="checkByDirectoryResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="checkBySingleDoc">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="checkDoc" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="folders" type="xs:string" />
+          <xs:element name="threshold" type="xs:int" />
+          <xs:element name="termCount" type="xs:int" />
+          <xs:element name="mode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="checkBySingleDocResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="checkResponse">
+    <wsdl:part name="parameters" element="tns:checkResponse" />
+  </wsdl:message>
+  <wsdl:message name="check">
+    <wsdl:part name="parameters" element="tns:check" />
+  </wsdl:message>
+  <wsdl:message name="checkByDirectory">
+    <wsdl:part name="parameters" element="tns:checkByDirectory" />
+  </wsdl:message>
+  <wsdl:message name="checkBySingleDoc">
+    <wsdl:part name="parameters" element="tns:checkBySingleDoc" />
+  </wsdl:message>
+  <wsdl:message name="checkByDirectoryResponse">
+    <wsdl:part name="parameters" element="tns:checkByDirectoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="checkBySingleDocResponse">
+    <wsdl:part name="parameters" element="tns:checkBySingleDocResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ISoapWS">
+    <wsdl:operation name="check">
+      <wsdl:input name="check" message="tns:check" />
+      <wsdl:output name="checkResponse" message="tns:checkResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkByDirectory">
+      <wsdl:input name="checkByDirectory" message="tns:checkByDirectory" />
+      <wsdl:output name="checkByDirectoryResponse" message="tns:checkByDirectoryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="checkBySingleDoc">
+      <wsdl:input name="checkBySingleDoc" message="tns:checkBySingleDoc" />
+      <wsdl:output name="checkBySingleDocResponse" message="tns:checkBySingleDocResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SoapWSSoapBinding" type="tns:ISoapWS">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="check">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="check">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="checkResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkByDirectory">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="checkByDirectory">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="checkByDirectoryResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkBySingleDoc">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="checkBySingleDoc">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="checkBySingleDocResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SoapWS">
+    <wsdl:port name="SoapWSPort" binding="tns:SoapWSSoapBinding">
+      <soap:address location="http://localhost:8880/plagiate/services/soapws" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
