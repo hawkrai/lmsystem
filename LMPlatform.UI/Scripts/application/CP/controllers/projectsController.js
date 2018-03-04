@@ -8,7 +8,6 @@
         'projectService',
         'ngTableParams',
         function ($scope, $timeout, $location, $modal, projectService, ngTableParams) {
-
             $scope.setTitle("Темы курсовых проектов (работ)");
 
             $scope.forms = {};
@@ -216,4 +215,17 @@
 
             $scope.navigationManager.setListPage();
 
+            $scope.changeBtsCheckbox = function (previousValue) {
+                projectService.setCreateBts(subjectId, !previousValue).success(function (data) {
+                    $scope.createBtsCheckbox = data.Subject.IsNeededCopyToBts;
+                });
+            }
+
+            function initSubject() {
+                projectService.getSubject(subjectId).success(function (data) {
+                    $scope.createBtsCheckbox = data.IsNeededCopyToBts;
+                });
+            }
+
+            initSubject();
         }])
