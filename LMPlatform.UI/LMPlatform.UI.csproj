@@ -529,6 +529,7 @@
     <Compile Include="Services\Modules\Practicals\ScheduleProtectionPracticalViewData.cs" />
     <Compile Include="Services\Modules\ResultViewData.cs" />
     <Compile Include="Services\Modules\SubjectResult.cs" />
+    <Compile Include="Services\Modules\SubjectsResult.cs" />
     <Compile Include="Services\News\INewsService.cs" />
     <Compile Include="Services\News\NewsService.svc.cs">
       <DependentUpon>NewsService.svc</DependentUpon>
@@ -545,6 +546,10 @@
     <Compile Include="Services\Search\SearchService.svc.cs">
       <DependentUpon>SearchService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\Subjects\SubjectsService.svc.cs">
+      <DependentUpon>SubjectsService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Subjects\ISubjectsService.cs" />
     <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\PersonalDataViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
@@ -1418,6 +1423,7 @@
     <Content Include="Services\Parental\ParentalService.svc" />
     <Content Include="Services\Practicals\PracticalService.svc" />
     <Content Include="Services\Search\SearchService.svc" />
+    <Content Include="Services\Subjects\SubjectsService.svc" />
     <Content Include="Templates\AdminLTE.css" />
     <Content Include="Templates\css\bootstrap-slider\slider.css" />
     <Content Include="Templates\css\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
