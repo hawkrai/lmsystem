@@ -54,7 +54,7 @@ namespace LMPlatform.UI.Services
 
 		[OperationContract]
 		[WebInvoke(UriTemplate = "/GetSubjectsByOwnerUser/", RequestFormat = WebMessageFormat.Json, Method = "GET")]
-	    SubjectResult GetSubjectsByOwnerUser();
+	    SubjectsResult GetSubjectsByOwnerUser();
 
 		[OperationContract]
 		[WebInvoke(UriTemplate = "/GetNoAdjointLectors/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]

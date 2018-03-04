@@ -182,13 +182,13 @@ namespace LMPlatform.UI.Services
 			}
 		}
 
-		public SubjectResult GetSubjectsByOwnerUser()
+		public SubjectsResult GetSubjectsByOwnerUser()
 		{
 			try
 			{
 				var subjects = this.SubjectManagementService.GetSubjectsByLectorOwner(this.CurrentUserId);
 
-				return new SubjectResult
+				return new SubjectsResult
 				{
 					Subjects = subjects.Select(e => new SubjectViewData { Id = e.Id, Name = e.Name }).ToList(),
 					Message = "Предметы успешно загружены",
@@ -197,7 +197,7 @@ namespace LMPlatform.UI.Services
 			}
 			catch (Exception ex)
 			{
-				return new SubjectResult()
+				return new SubjectsResult()
 				{
 					Message = ex.Message + "\n" + ex.StackTrace,
 					Code = "500"

@@ -14,6 +14,7 @@ angular
             var downloadTaskSheetUrl = "/Cp/GetTasksSheetDocument?courseProjectId=";
             var downloadTaskSheetHtmlUrl = "/Cp/GetTasksSheetHtml?courseProjectId=";
             var apiUrlNewses = '/api/CourseProjectNews/';
+            var updateSubjectUrl = 'Services/Subjects/SubjectsService.svc/Subjects';
 
             return {
                 getProjects: function (subjectId, params) {
@@ -169,5 +170,17 @@ angular
                 downloadTaskSheet: function (projectId) {
                     location.href = downloadTaskSheetUrl + projectId;
                 },
+                setCreateBts: function (subjrctId, isNeededCopyToBts) {
+                    return $http({
+                        method: 'PATCH',
+                        url: updateSubjectUrl,
+                        data: {
+                            subject: {
+                                Id: subjrctId,
+                                IsNeededCopyToBts: isNeededCopyToBts
+                            }
+                        }
+                    });
+                }
             };
         }]);

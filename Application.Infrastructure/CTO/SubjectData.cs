@@ -15,6 +15,8 @@ namespace Application.Infrastructure.CTO
 
         public string ShortName { get; set; }
 
+        public bool IsNeededCopyToBts { get; set; }
+
         public IEnumerable<Group> Groups { get; set; }
 
     }
