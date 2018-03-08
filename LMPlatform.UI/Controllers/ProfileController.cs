@@ -111,11 +111,17 @@ namespace LMPlatform.UI.Controllers
             var user = userService.GetUser(userLogin);
 
 			var labsEvents = new List<ProfileCalendarViewModel>();
+			var lectEvents = new List<ProfileCalendarViewModel>();
 
 			if (user.Lecturer == null)
 			{
 				labsEvents = subjectService.GetGroupsLabEvents(user.Student.GroupId, user.Id).Select(
 					e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start, subjectId = e.SubjectId }).ToList();
+
+				lectEvents =
+				subjectService.GetLecturesEvents(user.Student.GroupId, user.Id)
+					.Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start, subjectId = e.SubjectId })
+					.ToList();
 			}
 			else
 			{
@@ -123,12 +129,12 @@ namespace LMPlatform.UI.Controllers
 					subjectService.GetLabEvents(user.Id)
 								.Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start, subjectId = e.SubjectId })
 								.ToList();
-			}
 
-            var lectEvents =
-                subjectService.GetLecturesEvents(user.Id)
-                    .Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start })
-                    .ToList();
+				lectEvents =
+				subjectService.GetLecturesEvents(user.Id)
+					.Select(e => new ProfileCalendarViewModel() { color = e.Color, title = e.Title, start = e.Start, subjectId = e.SubjectId })
+					.ToList();
+			}            
 
 			return Json(new
 			                {
@@ -198,7 +204,7 @@ namespace LMPlatform.UI.Controllers
             }
             else
             {
-                model.Name = user.Student.FirstName + " " + user.Student.LastName;
+				model.Name = user.Student.LastName + " " + user.Student.FirstName + " " + user.Student.MiddleName;
                 var course = int.Parse(DateTime.Now.Year.ToString()) - int.Parse(user.Student.Group.StartYear);
                 if (DateTime.Now.Month >= 9)
                 {

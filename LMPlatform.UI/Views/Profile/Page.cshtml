@@ -124,14 +124,14 @@
                     <div>
                         <h1 class="user-name">{{loadProfileData.Name}}</h1>
                     </div>
-					@if (User.IsInRole("lector"))
-					{
-						<div class="user-status">
-							<div ng-if="loadProfileData.Skill" class="user-skill">
-								Должность: {{loadProfileData.Skill}}
-							</div>
+					<div ng-if="loadProfileData.UserType == '2'" style="margin-top: 10px">
+						Группа - {{loadProfileData.Group}}
+					</div>
+					<div ng-if="loadProfileData.UserType == '1'" class="user-status">
+						<div ng-if="loadProfileData.Skill" class="user-skill">
+							Должность: {{loadProfileData.Skill}}
 						</div>
-					}                    
+					</div>
 					<div class="user-status">
 						<div ng-if="loadProfileData.Email" class="user-skill">
 							Почта: {{loadProfileData.Email}}
@@ -152,10 +152,6 @@
 							Обо мне: {{loadProfileData.About}}
 						</div>
 					</div>
-					
-                    <div ng-if="loadProfileData.UserType == '2'" style="margin-top: 10px">
-                        Группа - {{loadProfileData.Group}}
-                    </div>
                 </div>
             </div>
 

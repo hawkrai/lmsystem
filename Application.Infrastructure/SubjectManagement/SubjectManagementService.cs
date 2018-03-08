@@ -991,6 +991,32 @@ namespace Application.Infrastructure.SubjectManagement
 			return model;
 		}
 
+		public List<ProfileCalendarModel> GetLecturesEvents(int groupId, int userId)
+		{
+			var model = new List<ProfileCalendarModel>();
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var subjects = repositoriesContainer.SubjectRepository.GetSubjects(groupId);
+
+				foreach (var subject in subjects)
+				{
+					var name = subject.ShortName;
+
+					foreach (var lecturesScheduleVisiting in subject.LecturesScheduleVisitings)
+					{
+						model.Add(new ProfileCalendarModel()
+						{
+							Start = lecturesScheduleVisiting.Date.ToString("yyyy-MM-dd"),
+							Title = string.Format("{0} -  Лекция", name),
+							Color = subject.Color
+						});
+					}
+				}
+			}
+
+			return model;
+		}
+
 		public List<Subject> GetSubjectsByLector(int userId)
 		{
 			List<Subject> model;

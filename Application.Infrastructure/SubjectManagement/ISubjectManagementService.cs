@@ -135,5 +135,7 @@ namespace Application.Infrastructure.SubjectManagement
 		void UpdateUserLabFile(string userFileId, bool isReceived);
 
 		UserLabFiles GetUserLabFile(string path);
+
+		List<ProfileCalendarModel> GetLecturesEvents(int groupId, int userId);
 	}
 }

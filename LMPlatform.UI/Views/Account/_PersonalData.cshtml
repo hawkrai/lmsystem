@@ -74,6 +74,16 @@
 				<div class="panel-title">Дополнительные данные</div>
 			</div>
 			<div class="panel-body">
+				@if (Roles.IsUserInRole("lector"))
+				{
+					<div>
+						@Html.LabelFor(m => m.Skill, new { @class = "control-label" })
+						<div>
+							@Html.TextBoxFor(m => m.Skill, new { @class = "form-control" })
+						</div>
+						<p></p>
+					</div>
+				}
 				<div>
 					@Html.LabelFor(m => m.Email, new {@class = "control-label"})
 					<div>
@@ -101,17 +111,7 @@
 						@Html.TextBoxFor(m => m.About, new {@class = "form-control"})
 					</div>
 					<p></p>
-				</div>
-				@if (Roles.IsUserInRole("lector"))
-				{
-					<div>
-					@Html.LabelFor(m => m.Skill, new {@class = "control-label"})
-					<div>
-						@Html.TextBoxFor(m => m.Skill, new { @class = "form-control" })
-					</div>
-					<p></p>
-				</div>
-				}
+				</div>				
 			</div>
 		</div>
 	</div>

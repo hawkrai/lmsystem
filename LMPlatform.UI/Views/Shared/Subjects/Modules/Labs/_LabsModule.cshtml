@@ -212,27 +212,27 @@
 
         <tab heading="Статистика посещения">
 
-            <div style="margin-bottom: 15px; margin-top: 15px; ">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td style="padding-right:15px">
-                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
-                            </td>
-                            <td style="float:right">
-	                            <button class="btn btn-default" ng-click="visitingLabsExport()" style="margin-right: 10px;" tooltip="Загрузить документ в Excel">
+            <div style="margin-top: -15px;">
+				<table style="float: left; margin-top: -10px;">
+					<tbody>
+						<tr>
+							<td style="padding-right:15px">
+								<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+							</td>
+							<td style="float:right">
+								<button class="btn btn-default" ng-click="visitingLabsExport()" style="margin-right: 10px;" tooltip="Загрузить документ в Excel">
 									<img src="~/Images/ExcelDownload.png" />
 								</button>
-                                @*<a ng-click="#" style="margin-right:10px;" tooltip="Построить график">
-                                    <img src="~/Images/graphik.png" />
-                                </a>
-                                <a ng-click="$('#print-table').printthis();" style="margin-right:20px;" tooltip="Печать таблицы">
-                                    <img src="~/Images/print.png" />
-                                </a>*@
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+								@*<a ng-click="#" style="margin-right:10px;" tooltip="Построить график">
+							<img src="~/Images/graphik.png" />
+						</a>
+						<a ng-click="$('#print-table').printthis();" style="margin-right:20px;" tooltip="Печать таблицы">
+							<img src="~/Images/print.png" />
+						</a>*@
+							</td>
+						</tr>
+					</tbody>
+				</table>
                 <h5 style="float:right"><i>Для редактирования сделайте двойной клик по дате либо ячейке</i></h5>
             </div>
 
@@ -378,14 +378,14 @@
 
         <tab heading="Результаты">
             <div style="margin-bottom: 15px; margin-top: 15px; ">
-                <table>
+                <table style="float: left; margin-top: -10px;">
                     <tbody>
                         <tr>
                             <td style="padding-right:15px">
                                 <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
                             </td>
                             <td style="margin-top:5px; float:right">
-	                            <button class="btn btn-default" ng-click="LabMarkExport()" style="margin-right: 10px;" tooltip="Загрузить документ в Excel">
+	                            <button class="btn btn-default" ng-click="LabMarkExport()" style="margin-right: 10px; margin-bottom: 5px;" tooltip="Загрузить документ в Excel">
 									<img src="~/Images/ExcelDownload.png" />
 								</button>
                                 @*<a ng-click="#" style="margin-right:10px;" tooltip="Построить график">
@@ -573,7 +573,7 @@
 							<a ng-click="checkPlagiarismSubject()" class="fa fa-eye fa-1x" style="margin-right: 10px; font-size: 27px; cursor: pointer;" tooltip="Проверка на плагиат всех работ"></a>
 						</td>
 						<td style="margin-top: 5px">
-							<a ng-click="reloadFiles()" class="fa fa-refresh fa-1x" style="margin-right: 10px; font-size: 27px; cursor: pointer; color:cadetblue" tooltip="Обновить данные"></a>
+							<a ng-click="reloadFiles()" class="fa fa-refresh fa-1x" style="margin-left: 5px; margin-right: 10px; font-size: 27px; cursor: pointer; color:cadetblue" tooltip="Обновить данные"></a>
 						</td>
 			        </tr>
 			        </tbody>
