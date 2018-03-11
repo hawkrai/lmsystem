@@ -1,4 +1,8 @@
-﻿<style>
+﻿<head>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<style>
 .upload-test-content {
   position: relative;
   height: 40px;
@@ -37,25 +41,27 @@
 <div class="table-responsive">
 	<table class="table table-hover table-bordered table-striped">
 		<thead>
-			<tr>
+			<tr class="ui-state-default">
 				<th>№</th>
 				<th>Тема</th>
 				<th>Действие</th>
 			</tr>
 		</thead>
-		<tr data-ng-repeat="test in tests | filter:query | filter:{ForSelfStudy:false}">
-			<td width="30px">{{tests.indexOf(test) + 1}}</td>
-			<td>{{test.Title}}</td>
-			<td style="width: 220px;">
-				<div>
-					<a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
-					<a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
-					<a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
-					<a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
-					<a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
-				</div>
-			</td>
-		</tr>
+        <tbody id="sortable">
+            <tr data-ng-repeat="test in tests | filter:query | filter:{ForSelfStudy:false}" class="ui-state-default">
+                <td testId="{{test.Id}}" width="30px">{{tests.indexOf(test) + 1}}</td>
+                <td>{{test.Title}}</td>
+                <td style="width: 220px;">
+                    <div>
+                        <a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
 	</table>
 </div>
 <div style="margin-bottom: 15px"></div>
@@ -66,25 +72,27 @@
 <div class="table-responsive">
     <table class="table table-hover table-bordered table-striped">
         <thead>
-            <tr>
+            <tr class="ui-state-default">
                 <th>№</th>
                 <th>Тема</th>
                 <th>Действие</th>
             </tr>
         </thead>
-        <tr data-ng-repeat="test in tests | filter:query | filter:{ForSelfStudy:true}">
-            <td width="30px">{{tests.indexOf(test) + 1}}</td>
-            <td>{{test.Title}}</td>
-            <td style="width: 220px;">
-                <div>
-                    <a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
-                    <a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
-                    <a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
-                    <a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
-                    <a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
-                </div>
-            </td>
-        </tr>
+        <tbody id="sortableForSelfStudy">
+            <tr data-ng-repeat="test in testsForSelfStudy | filter:query | filter:{ForSelfStudy:true}" class="ui-state-default">
+                <td testId="{{test.Id}}" width="30px">{{testsForSelfStudy.indexOf(test) + 1}}</td>
+                <td>{{test.Title}}</td>
+                <td style="width: 220px;">
+                    <div>
+                        <a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
     </table>
 </div>
 

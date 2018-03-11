@@ -22,6 +22,7 @@ namespace LMPlatform.UI.Controllers
     using System.Web.Http;
     using Application.Infrastructure.ConceptManagement;
     using LMPlatform.UI.Services.Modules.Concept;
+    using LMPlatform.UI.ViewModels.SubjectViewModels;
 
     [Authorize]
     public class TestsController : BasicController
@@ -86,7 +87,7 @@ namespace LMPlatform.UI.Controllers
         public JsonResult GetTests(int? subjectId)
         {
             var tests = TestsManagementService.GetTestsForSubject(subjectId);
-            var testViewModels = tests.Select(TestItemListViewModel.FromTest);
+            var testViewModels = tests.Select(TestItemListViewModel.FromTest).OrderBy(x => x.TestNumber);
 
             return Json(testViewModels, JsonRequestBehavior.AllowGet);
         }
@@ -124,6 +125,24 @@ namespace LMPlatform.UI.Controllers
                 {
                     var questionId = int.Parse(item.Key);
                     QuestionsManagementService.ChangeQuestionNumber(questionId, item.Value);
+                }
+                return Json("Ok");
+            }
+            catch (Exception e)
+            {
+                return Json(new { ErrorMessage = e.Message });
+            }
+        }
+
+        [HttpPatch]
+        public JsonResult OrderTests([FromBody] Dictionary<string, int> newOrder)
+        {
+            try
+            {
+                foreach (var item in newOrder)
+                {
+                    var testId = int.Parse(item.Key);
+                    QuestionsManagementService.ChangeTestNumber(testId, item.Value);
                 }
                 return Json("Ok");
             }
@@ -227,6 +246,15 @@ namespace LMPlatform.UI.Controllers
             return Json(subgroups, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Subjects(int subjectId)
+        {
+            List<SubjectViewModel> CourseProjectSubjects;
+            var s = SubjectsManagementService.GetUserSubjects(WebSecurity.CurrentUserId).Where(e => !e.IsArchive);
+            CourseProjectSubjects = s.Where(cs => ModulesManagementService.GetModules(cs.Id).Any(m => m.ModuleType == ModuleType.SmartTest))
+    .Select(e => new SubjectViewModel(e)).ToList();
+            return View(CourseProjectSubjects);
+        }
+
         #region Questions
 
         [HttpGet]
@@ -303,6 +331,14 @@ namespace LMPlatform.UI.Controllers
         }
 
         #region Dependencies
+
+        public IModulesManagementService ModulesManagementService
+        {
+            get
+            {
+                return ApplicationService<IModulesManagementService>();
+            }
+        }
 
         public ITestsManagementService TestsManagementService
         {

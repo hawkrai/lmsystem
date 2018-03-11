@@ -11,7 +11,7 @@
     <script src="/Scripts/ckeditor/ckeditor.js" type="text/javascript"></script>
     <script src="/Scripts/ng-ckeditor-1.0.1.js" type="text/javascript"></script>
     @Scripts.Render("~/bundles/knowledgeTesting")
-    @Styles.Render("~/Content/testingModule.css")   
+    @Styles.Render("~/Content/testingModule.css")
 
 
     @* Move to another file *@
@@ -53,26 +53,28 @@
 
 @section navleft
 {
-	
-		<li data-ng-controller="testsNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/tests')}"><a href="#/tests">Тесты</a></li>
-		<li data-ng-controller="testsNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/control')}"><a href="#/control">Контроль прохождения тестов</a></li>
-		<li data-ng-controller="testsNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/results')}"><a href="#/results">Результаты</a></li>
-	@*<li class="linkNavbar"><a href="@Url.Action("Index", "Tests", new {subjectId = Model.Id})"><i class="fa fa-1x fa-reply fa-tab"></i>&nbsp;К старой системе</a></li>*@
-		<li data-ng-controller="testsNavigationCtrl" class="linkNavbar"><a href="@Url.Action("Index", "Lms")"><i class="fa fa-reply fa-tab"></i>&nbsp;В главное меню</a></li>
+
+    <li data-ng-controller="testsNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/tests')}"><a href="#/tests">Тесты</a></li>
+    <li data-ng-controller="testsNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/control')}"><a href="#/control">Контроль прохождения тестов</a></li>
+    <li data-ng-controller="testsNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/results')}"><a href="#/results">Результаты</a></li>
+    <li data-ng-controller="testsCtrl"><a href="/Subject?subjectId={{subjectId}}" linkNavbar"><i class="fa fa-arrow-left"></i>В предмет</a></li>
+    <li data-ng-controller="testsCtrl"><a class="linkNavbar" href="/Tests/Subjects?subjectId={{subjectId}}"><i class="fa fa-refresh fa-tab"></i>Сменить предмет</a></li>
+    <li data-ng-controller="testsCtrl" class="linkNavbar"><a href="@Url.Action("Index", "Lms")"><i class="fa fa-reply fa-tab"></i>&nbsp;В главное меню</a></li>
 }
 
 @section bodyAttributes{ ng-app="knowledgeTestingApp" }
 
 @section headerTitle
 {
-	<h1>@Model.Name
-		<small></small>
-	</h1>
-	
+    <h1>
+        @Model.Name
+    <small></small>
+</h1>
+
 }
 
 @section body
 {
-	<div data-ng-view="" class="knowledge-testing"></div>
+    <div data-ng-view="" class="knowledge-testing"></div>
 }
 

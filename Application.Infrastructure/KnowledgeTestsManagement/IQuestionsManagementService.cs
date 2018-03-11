@@ -19,5 +19,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
         IEnumerable<Question> GetQuestionsForTest(int testId, string searchString = null);
 
         void ChangeQuestionNumber(int questionId, int number);
+
+        void ChangeTestNumber(int testId, int number);
     }
 }

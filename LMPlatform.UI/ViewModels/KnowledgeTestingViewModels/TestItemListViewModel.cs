@@ -27,6 +27,12 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public int? TestNumber
+        {
+            get;
+            set;
+        }
+
         public bool Unlocked
         {
             get; 
@@ -61,7 +67,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Title = test.Title,
                 Unlocked = test.Unlocked,
                 HasQuestions = test.Questions == null ? false : test.Questions.Count > 0,
-                ForSelfStudy = test.ForSelfStudy
+                ForSelfStudy = test.ForSelfStudy,
+                TestNumber = test.TestNumber
             };
         }
     }
