@@ -48,7 +48,6 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
 
         $('#chartBarAverage').html("");
         var plotBar = $('#chartBarAverage').jqplot([lines], {
-            animate: !$.jqplot.use_excanvas,
             title: 'Рейтинг студентов',
             seriesColors: ['#007196', '#008cba'],
             seriesDefaults: {
@@ -72,37 +71,36 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
             }
         });
 
-        var lines2 = Enumerable.From($scope.results)
-            .Where(function (item) { return $scope.calcOverageForSelf(item, true) != null; })
-            .OrderByDescending(function (item) { return $scope.calcOverageForSelf(item); })
-            .Select(function (item) { return [item.StudentShortName, $scope.calcOverageForSelf(item)]; })
-            .ToArray();
+        //var lines2 = Enumerable.From($scope.results)
+        //    .Where(function (item) { return $scope.calcOverageForSelf(item, true) != null; })
+        //    .OrderByDescending(function (item) { return $scope.calcOverageForSelf(item); })
+        //    .Select(function (item) { return [item.StudentShortName, $scope.calcOverageForSelf(item)]; })
+        //    .ToArray();
 
-        $('#chartBarAverage2').html("");
-        var plotBar = $('#chartBarAverage2').jqplot([lines2], {
-            animate: !$.jqplot.use_excanvas,
-            title: 'Рейтинг студентов (для самоконтроля)',
-            seriesColors: ['#007196', '#008cba'],
-            seriesDefaults: {
-                renderer: jQuery.jqplot.BarRenderer,
-                rendererOptions: {
-                    varyBarColor: true,
-                    showDataLabels: true,
-                }
-            },
-            axes: {
-                xaxis: {
-                    renderer: $.jqplot.CategoryAxisRenderer,
-                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-                    tickOptions: {
-                        angle: lines2.length > 3 ? -90 : 0,
-                    }
-                },
-                yaxis: {
-                    tickOptions: { formatString: '%d&nbsp&nbsp&nbsp' }
-                }
-            }
-        });
+        //$('#chartBarAverage2').html("");
+        //var plotBar = $('#chartBarAverage2').jqplot([lines2], {
+        //    title: 'Рейтинг студентов (для самоконтроля)',
+        //    seriesColors: ['#007196', '#008cba'],
+        //    seriesDefaults: {
+        //        renderer: jQuery.jqplot.BarRenderer,
+        //        rendererOptions: {
+        //            varyBarColor: true,
+        //            showDataLabels: true,
+        //        }
+        //    },
+        //    axes: {
+        //        xaxis: {
+        //            renderer: $.jqplot.CategoryAxisRenderer,
+        //            tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+        //            tickOptions: {
+        //                angle: lines2.length > 3 ? -90 : 0,
+        //            }
+        //        },
+        //        yaxis: {
+        //            tickOptions: { formatString: '%d&nbsp&nbsp&nbsp' }
+        //        }
+        //    }
+        //});
     };
 
     $scope.calcOverage = function (result, dontUseTestResult) {

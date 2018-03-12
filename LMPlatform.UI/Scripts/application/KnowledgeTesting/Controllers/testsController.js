@@ -1,6 +1,54 @@
 ﻿'use strict';
 knowledgeTestingApp.controller('testsCtrl', function ($scope, $http, $modal) {
 
+    $("#sortable").sortable({
+        update: function (event, ui) {
+            var newOrder = {};
+            $(this).children().each(function (index) {
+                $(this).find('td').first().html(index + 1);
+                var testId = $(this).find('td').first().attr("testId");
+                var testNumber = index + 1;
+                newOrder[testId] = testNumber;
+            });
+            $scope.orderTests(newOrder);
+        }
+    });
+    $("#sortableForSelfStudy").sortable({
+        update: function (event, ui) {
+            var newOrder = {};
+            $(this).children().each(function (index) {
+                $(this).find('td').first().html(index + 1);
+                var testId = $(this).find('td').first().attr("testId");
+                var testNumber = index + 1;
+                newOrder[testId] = testNumber;
+            });
+            $scope.orderTests(newOrder);
+        }
+    });
+
+    $scope.orderTests = function (newOrder) {
+
+        $.ajax({
+            url: "/Tests/OrderTests/",
+            type: "PATCH",
+            data: JSON.stringify({ newOrder: newOrder }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+            },
+        });
+    };
+
+    function gup(name, url) {
+        if (!url) url = location.href;
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regexS = "[\\?&]" + name + "=([^&#]*)";
+        var regex = new RegExp(regexS);
+        var results = regex.exec(url);
+        return results == null ? null : results[1];
+    }
+
     $scope.init = function() {
         $scope.loadTests();
     };
@@ -8,8 +56,9 @@ knowledgeTestingApp.controller('testsCtrl', function ($scope, $http, $modal) {
     $scope.onEditButtonClicked = function (testId) {
         loadTest(testId);
     };
-    
 
+    $scope.subjectId = gup("subjectId", window.location.href);
+    
     $scope.onUnlockButtonClicked = function (testId) {
         var modalInstance = $modal.open({
             scope: $scope,
@@ -66,8 +115,9 @@ knowledgeTestingApp.controller('testsCtrl', function ($scope, $http, $modal) {
         var subjectId = getUrlValue('subjectId');
 
         $http({ method: "GET", url: kt.actions.tests.getTests, dataType: 'json', params: { subjectId: subjectId } })
-            .success(function(data) {
-                $scope.tests = data;
+            .success(function (data) {
+                $scope.tests = data.filter(x => !x.ForSelfStudy);
+                $scope.testsForSelfStudy = data.filter(x => x.ForSelfStudy);
             })
             .error(function(data, status, headers, config) {
                 alertify.error("Во время получения данных произошла ошибка");

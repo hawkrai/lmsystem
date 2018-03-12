@@ -6,6 +6,12 @@ namespace LMPlatform.Models.KnowledgeTesting
 {
     public class Test : ModelBase
     {
+        public int? TestNumber
+        {
+            get;
+            set;
+        }
+
         public string Title
         {
             get;

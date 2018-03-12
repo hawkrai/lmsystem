@@ -34,6 +34,12 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
 
             public bool ForSelfStudy { get; set; }
 
+            public int? TestNumber
+            {
+                get;
+                set;
+            }
+
             public static TestPassResultViewModel FromModel(TestPassResult model, Test test)
             {
                 return new TestPassResultViewModel
@@ -47,7 +53,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                     Comment = model.Comment,
                     CalculationType = model.CalculationType,
                     TestName = model.TestName,
-                    ForSelfStudy = test != null ? test.ForSelfStudy : true
+                    ForSelfStudy = test != null ? test.ForSelfStudy : true,
+                    TestNumber = test.TestNumber
                 };
             }
         }
@@ -105,7 +112,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Login = student.User.UserName,
                 StudentName = student.FullName,
                 StudentShortName = GetShortStudentName(student),
-                TestPassResults = student.User.TestPassResults.Where(x => tests.Any(y => y.Id == x.TestId)).Select(x => TestPassResultViewModel.FromModel(x, tests.FirstOrDefault(y => y.Id == x.TestId))).ToArray(),
+                TestPassResults = student.User.TestPassResults.Where(x => tests.Any(y => y.Id == x.TestId)).Select(x => TestPassResultViewModel.FromModel(x, tests.FirstOrDefault(y => y.Id == x.TestId))).OrderBy(x => x.TestNumber).ToArray(),
                 SubGroup = subGroups.FirstOrDefault(x => x.SubjectStudents.Any(y => y.StudentId == student.Id)) != null ? subGroups.FirstOrDefault(x => x.SubjectStudents.Any(y => y.StudentId == student.Id)).Name : ""
             };
         }

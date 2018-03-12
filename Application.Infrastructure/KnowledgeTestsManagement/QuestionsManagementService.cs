@@ -46,6 +46,16 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
         }
 
+        public void ChangeTestNumber(int testId, int number)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var test = repositoriesContainer.TestsRepository.GetAll(new Query<Test>(x => x.Id == testId)).FirstOrDefault();
+                test.TestNumber = number;
+                repositoriesContainer.TestsRepository.Save(test);
+            }
+        }
+
         public Question SaveQuestion(Question question)
         {
             CheckForTestIsNotLocked(question.TestId);
