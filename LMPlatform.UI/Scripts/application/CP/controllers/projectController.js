@@ -42,6 +42,11 @@
                 .getGroups(subjectId)
                 .success(function (data, status, headers, config) {
                     $scope.groups = data;
+                    if ($scope.isNew) {
+                        $scope.project.SelectedGroupsIds = data.map(function (group) {
+                            return group.Id
+                        });
+                    }
                 });
 
             $scope.saveProject = function () {
