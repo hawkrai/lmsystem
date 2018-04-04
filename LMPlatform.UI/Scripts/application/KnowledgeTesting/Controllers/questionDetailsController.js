@@ -37,15 +37,31 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
     }
 
     $scope.treeNodeClicked = function (e) {
+        $scope.question.ConceptId = $(this).attr('id');
+        addEUMKConceptButton($(this).text());
+    }
+
+    function addEUMKConceptButton(name) {
         var removeControl = $("<i class='glyphicon glyphicon-remove' style='padding-left:5px;cursor:pointer' title='Удалить'></i>")
         var container = $(".concept-container");
         removeControl.on("click", function () {
             container.html("");
             $scope.question.ConceptId = null;
         });
-        $scope.question.ConceptId = $(this).attr('id');
-        container.html($(this).text());
+        container.html(name);
         removeControl.appendTo(container);
+    }
+
+    function findConceptById(data, index) {
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].Id == index) {
+                return data[i];
+            }
+            else if (data[i].Children != undefined && data[i].Children.length > 0) {
+                return findConceptById(data[i].Children, index);
+            }
+        }
+        return null;
     }
 
     $scope.buildChildNodes = function (child, rootRef) {
@@ -96,7 +112,8 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
 
     $http({ method: 'GET', url: kt.actions.questions.getConcepts, dataType: 'json', params: { subjectId: subjectId } })
         .success(function (data) {
-            $scope.initConceptTree(data)
+            $scope.concepts = data;
+            $scope.initConceptTree(data);
             $scope.loadQuestionData();
             $scope.forSelfStudy = getHashValue('forSelfStudy') == 'true';
         })
@@ -104,10 +121,14 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
             alertify.error('Во время получения данных произошла ошибка');
         });
 
+
     $scope.loadQuestionData = function () {
         $http({ method: 'GET', url: kt.actions.questions.getQuestion, dataType: 'json', params: { id: id } })
             .success(function (data) {
                 $scope.question = data;
+
+                var result = findConceptById($scope.concepts, $scope.question.ConceptId);
+                addEUMKConceptButton(result.Name);
             })
             .error(function (data, status, headers, config) {
                 alertify.error('Во время получения данных произошла ошибка');
