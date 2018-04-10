@@ -83,6 +83,38 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpGet]
+        public JsonResult GetNextQuestionJson(int testId, int questionNumber)
+        {
+            var result = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
+            if(result.Question == null)
+            {
+                foreach (var item in result.QuestionsStatuses)
+                {
+                    TestQuestionPassingService.SaveTestQuestionPassResults(new TestQuestionPassResults
+                    {
+                        StudentId = CurrentUserId,
+                        TestId = testId,
+                        QuestionNumber = item.Key,
+                        Result = (int)item.Value
+                    });
+                }
+            }
+            Question question = null;
+            if(result.Question != null)
+            {
+                question = result.Question.Clone() as Question;
+            }
+            return Json(new
+            {
+                Question = question,
+                Number = result.Number,
+                Seconds = result.Seconds,
+                SetTimeForAllTest = result.SetTimeForAllTest,
+                ForSelfStudy = result.ForSelfStudy
+        }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public PartialViewResult GetNextQuestion(int testId, int questionNumber)
         {
             if (questionNumber == 1 && TestsManagementService.GetTest(testId, true).Questions.Count == 0)
