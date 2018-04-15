@@ -1817,14 +1817,16 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 		};
 
          $scope.exposeMarkSubOne = function (mark, comment, date, labId, studentId, Id, studentIndex, markIndex) {
-
+         	$("#errorOneMark").hide();
          	if (mark) {
          		$('#markInputOne').val(mark);
+         		$('#markInputOneSpan').text("");
          	}
          	else {
          		var cell = document.getElementById("markOne" + studentIndex + markIndex);
          		var recomendedMark = cell.innerHTML;
-         		$('#markInputOne').attr("placeholder", recomendedMark);
+         		$('#markInputOneSpan').text("Рекомендованная оценка - " + recomendedMark);
+         		$('#markInputOne').val("");
          	}
              
              $('#commentInputOne').val(comment);
@@ -1842,13 +1844,16 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          };
 
          $scope.exposeMarkSubTwo = function (mark, comment, date, labId, studentId, Id, studentIndex, markIndex) {
+         	$("#errorTwoMark").hide();
          	if (mark) {
          		$('#markInputTwo').val(mark);
+         		$('#markInputTwoSpan').text("");
          	}
          	else {
          		var cell = document.getElementById("markTwo" + studentIndex + markIndex);
          		var recomendedMark = cell.innerHTML;
-         		$('#markInputTwo').attr("placeholder", recomendedMark);
+         		$('#markInputOne').val("");
+         		$('#markInputTwoSpan').text("Рекомендованная оценка - " + recomendedMark);
          	}
 
              $('#commentInputTwo').val(comment);
@@ -1866,13 +1871,17 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          };
 
          $scope.exposeMarkSubThird = function (mark, comment, date, labId, studentId, Id, studentIndex, markIndex) {
+         	$("#errorThirdMark").hide();
          	if (mark) {
          		$('#markInputThird').val(mark);
+         		$('#markInputThirdSpan').text("");
          	}
          	else {
          		var cell = document.getElementById("markThird" + studentIndex + markIndex);
          		var recomendedMark = cell.innerHTML;
-         		$('#markInputThird').attr("placeholder", recomendedMark);
+
+         		$('#markInputThirdSpan').text("Рекомендованная оценка - " + recomendedMark);
+         		$('#markInputOne').val("");
          	}
 
          	$('#commentInputThird').val(comment);
@@ -2387,7 +2396,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          };
 
          $scope.saveLabsMarksSubOne = function () {
-
+         	$("#errorOneMark").hide();
              var labId = document.getElementById('inputLabIdOne').value;
              var studentId = document.getElementById('inputStudentIdOne').value;
              var mark = document.getElementById('markInputOne').value;
@@ -2395,32 +2404,39 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var date = document.getElementById('dateInputOne').value;
              var Id = document.getElementById('inputIdOne').value;
 
-             $http({
-                 method: 'POST',
-                 url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
-                 data: {
-                     studentId: studentId,
-                     labId: labId,
-                     mark: mark,
-                     comment: comment,
-                     date: date,
-                     id: Id,
-                     students: $scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2,
-                 },
-                 headers: { 'Content-Type': 'application/json' }
-             }).success(function (data, status) {
-                 if (data.Code != '200') {
-                     alertify.error(data.Message);
-                 } else {
-                 	$scope.loadLabsV2();
-                     alertify.success(data.Message);
-                 }
-             });
+             var markF = parseInt(mark);
+             if (mark === "" || markF < 0 || markF > 10) {
+             	$("#errorOneMark").show();
+             }
+             else {
+             	$("#dialogexposeMarkOne").modal('hide');
+             	$http({
+             		method: 'POST',
+             		url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
+             		data: {
+             			studentId: studentId,
+             			labId: labId,
+             			mark: mark,
+             			comment: comment,
+             			date: date,
+             			id: Id,
+             			students: $scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2,
+             		},
+             		headers: { 'Content-Type': 'application/json' }
+             	}).success(function (data, status) {
+             		if (data.Code != '200') {
+             			alertify.error(data.Message);
+             		} else {
+             			$scope.loadLabsV2();
+             			alertify.success(data.Message);
+             		}
+             	});
+             }             
          };
 
 
          $scope.saveLabsMarksSubTwo = function () {
-
+         	$("#errorTwoMark").hide();
              var labId = document.getElementById('inputLabIdTwo').value;
              var studentId = document.getElementById('inputStudentIdTwo').value;
              var mark = document.getElementById('markInputTwo').value;
@@ -2428,30 +2444,38 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var date = document.getElementById('dateInputTwo').value;
              var Id = document.getElementById('inputIdTwo').value;
 
-             $http({
-                 method: 'POST',
-                 url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
-                 data: {
-                     studentId: studentId,
-                     labId: labId,
-                     mark: mark,
-                     comment: comment,
-                     date: date,
-                     id: Id,
-                     students: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2,
-                 },
-                 headers: { 'Content-Type': 'application/json' }
-             }).success(function (data, status) {
-                 if (data.Code != '200') {
-                     alertify.error(data.Message);
-                 } else {
-                 	$scope.loadLabsV2();
-                     alertify.success(data.Message);
-                 }
-             });
+             var markF = parseInt(mark);
+             if (mark === "" || markF < 0 || markF > 10) {
+             	$("#errorTwoMark").show();
+             }
+             else {
+             	$("#dialogexposeMarkTwo").modal('hide');
+             	$http({
+             		method: 'POST',
+             		url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
+             		data: {
+             			studentId: studentId,
+             			labId: labId,
+             			mark: mark,
+             			comment: comment,
+             			date: date,
+             			id: Id,
+             			students: $scope.groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2,
+             		},
+             		headers: { 'Content-Type': 'application/json' }
+             	}).success(function (data, status) {
+             		if (data.Code != '200') {
+             			alertify.error(data.Message);
+             		} else {
+             			$scope.loadLabsV2();
+             			alertify.success(data.Message);
+             		}
+             	});
+             }             
          };
 
          $scope.saveLabsMarksSubThird = function () {
+         	$("#errorThirdMark").hide();
 
          	var labId = document.getElementById('inputLabIdThird').value;
          	var studentId = document.getElementById('inputStudentIdThird').value;
@@ -2460,27 +2484,34 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          	var date = document.getElementById('dateInputThird').value;
          	var Id = document.getElementById('inputIdThird').value;
 
-         	$http({
-         		method: 'POST',
-         		url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
-         		data: {
-         			studentId: studentId,
-         			labId: labId,
-         			mark: mark,
-         			comment: comment,
-         			date: date,
-         			id: Id,
-         			students: $scope.groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2,
-         		},
-         		headers: { 'Content-Type': 'application/json' }
-         	}).success(function (data, status) {
-         		if (data.Code != '200') {
-         			alertify.error(data.Message);
-         		} else {
-         			$scope.loadLabsV2();
-         			alertify.success(data.Message);
-         		}
-         	});
+         	var markF = parseInt(mark);
+         	if (mark === "" || markF < 0 || markF > 10) {
+         		$("#errorThirdMark").show();
+         	}
+         	else {
+         		$("#dialogexposeMarkThird").modal('hide');
+         		$http({
+         			method: 'POST',
+         			url: $scope.UrlServiceLabs + "SaveStudentLabsMark",
+         			data: {
+         				studentId: studentId,
+         				labId: labId,
+         				mark: mark,
+         				comment: comment,
+         				date: date,
+         				id: Id,
+         				students: $scope.groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2,
+         			},
+         			headers: { 'Content-Type': 'application/json' }
+         		}).success(function (data, status) {
+         			if (data.Code != '200') {
+         				alertify.error(data.Message);
+         			} else {
+         				$scope.loadLabsV2();
+         				alertify.success(data.Message);
+         			}
+         		});
+         	}         	
          };
 
          $scope.deleteVisitingDate = function (idDate) {

@@ -15,12 +15,15 @@ namespace Application.Infrastructure
 		{
 			//var zip = new ZipFile(Encoding.UTF8);
 			zip.AddDirectoryByName(userName);
+			var i = 1;
 			foreach (var fileName in files)
 			{
+
 				if (File.Exists(path + fileName.PathName + "//" + fileName.FileName))
 				{
-					zip.AddFile(path + fileName.PathName + "//" + fileName.FileName, userName).FileName = "\\" + userName  + "\\" + fileName.Name;
-				}
+					zip.AddFile(path + fileName.PathName + "//" + fileName.FileName, userName).FileName = "\\" + userName  + "\\"+ i.ToString() + "." + fileName.Name;
+					i++;
+				}				
 			}
 
 			return zip;
