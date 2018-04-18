@@ -86,19 +86,19 @@ namespace LMPlatform.UI.Controllers
         public JsonResult GetNextQuestionJson(int testId, int questionNumber)
         {
             var result = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
-            if(result.Question == null)
-            {
-                foreach (var item in result.QuestionsStatuses)
-                {
-                    TestQuestionPassingService.SaveTestQuestionPassResults(new TestQuestionPassResults
-                    {
-                        StudentId = CurrentUserId,
-                        TestId = testId,
-                        QuestionNumber = item.Key,
-                        Result = (int)item.Value
-                    });
-                }
-            }
+            //if(result.Question == null)
+            //{
+            //    foreach (var item in result.QuestionsStatuses)
+            //    {
+            //        TestQuestionPassingService.SaveTestQuestionPassResults(new TestQuestionPassResults
+            //        {
+            //            StudentId = CurrentUserId,
+            //            TestId = testId,
+            //            QuestionNumber = item.Key,
+            //            Result = (int)item.Value
+            //        });
+            //    }
+            //}
             Question question = null;
             if(result.Question != null)
             {
@@ -129,16 +129,16 @@ namespace LMPlatform.UI.Controllers
             {
                 ViewBag.Mark = nextQuestion.Mark;
                 ViewBag.Percent = nextQuestion.Percent;
-                foreach(var item in nextQuestion.QuestionsStatuses)
-                {
-                    TestQuestionPassingService.SaveTestQuestionPassResults(new TestQuestionPassResults
-                    {
-                        StudentId = CurrentUserId,
-                        TestId = testId,
-                        QuestionNumber = item.Key,
-                        Result = (int)item.Value
-                    });
-                }
+                //foreach(var item in nextQuestion.QuestionsStatuses)
+                //{
+                //    TestQuestionPassingService.SaveTestQuestionPassResults(new TestQuestionPassResults
+                //    {
+                //        StudentId = CurrentUserId,
+                //        TestId = testId,
+                //        QuestionNumber = item.Key,
+                //        Result = (int)item.Value
+                //    });
+                //}
                 return PartialView("EndTest", nextQuestion.QuestionsStatuses);
             }
 
@@ -169,6 +169,28 @@ namespace LMPlatform.UI.Controllers
             
             return Json(results, JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize, HttpGet]
+        public JsonResult GetUserAnswers(int studentId, int testId)
+        {
+            IList<UserAnswerViewModel> result = new List<UserAnswerViewModel>();
+
+            var userAnswers = TestPassingService.GetAnswersForTest(testId, studentId);
+            foreach(var answer in userAnswers)
+            {
+                var test = TestsManagementService.GetTest(testId, true);
+                var question = test.Questions.First(x => x.Id == answer.QuestionId);
+                result.Add(new UserAnswerViewModel
+                {
+                    Points = answer.Points,
+                    QuestionTitle = question.Title,
+                    QuestionDescription = question.Description
+                });
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         [Authorize, HttpGet]
         public JsonResult GetControlItems(int subjectId)

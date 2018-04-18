@@ -23,6 +23,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         List<TestPassResult> GetStidentResults(int subjectId, int currentUserId);
 
+        List<AnswerOnTestQuestion> GetAnswersForTest(int testId, int userId);
+
         bool CheckForSubjectAvailableForStudent(int studentId, int subjectId);
 
         /// <summary>
