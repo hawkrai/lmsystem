@@ -15,6 +15,7 @@ using LMPlatform.Models;
 using Application.Infrastructure.WatchingTimeManagement;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.UI.Services.Modules;
+using Application.Infrastructure.KnowledgeTestsManagement;
 
 namespace LMPlatform.UI.Services.Concept
 {
@@ -29,6 +30,24 @@ namespace LMPlatform.UI.Services.Concept
         private readonly LazyDependency<IConceptManagementService> _conceptManagementService = new LazyDependency<IConceptManagementService>();
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
         private readonly LazyDependency<IWatchingTimeService> _watchingTimeService = new LazyDependency<IWatchingTimeService>();
+        private readonly LazyDependency<IQuestionsManagementService> _questionsManagementService = new LazyDependency<IQuestionsManagementService>();
+        private readonly LazyDependency<ITestPassingService> _testPassingService = new LazyDependency<ITestPassingService>();
+
+        public ITestPassingService TestPassingService
+        {
+            get
+            {
+                return _testPassingService.Value;
+            }
+        }
+
+        public IQuestionsManagementService QuestionsManagementService
+        {
+            get
+            {
+                return _questionsManagementService.Value;
+            }
+        }
 
         public IConceptManagementService ConceptManagementService
         {
@@ -325,6 +344,39 @@ namespace LMPlatform.UI.Services.Concept
                 Lecturer = new LectorViewData(lecturer, true),
                 Subject = new Modules.Parental.SubjectViewData(subj)
             };
+        }
+
+        public IList<ConceptResult> GetRecomendations(int rootConceptId)
+        {
+            IList<ConceptResult> result = new List<ConceptResult>();
+            try
+            {
+                var concepts = ConceptManagementService.GetTreeConceptByElementId(rootConceptId).GetAllChildren().Where(x => x.IsGroup);
+                foreach(var concept in concepts)
+                {
+                    var questions = QuestionsManagementService.GetQuestionsByConceptId(concept.Id);
+                    if(questions != null)
+                    {
+                        foreach (var question in questions)
+                        {
+                            var points = TestPassingService.GetPointsForQuestion(4473, question.Id);
+                            if(points == 0)
+                            {
+                                result.Add(new ConceptResult
+                                {
+                                    Concept = new ConceptViewData(concept)
+                                });
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return result;
         }
     }
 }

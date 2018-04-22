@@ -56,5 +56,9 @@ namespace LMPlatform.UI.Services.Concept
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConceptViews?conceptId={conceptId}&groupId={groupId}")]
         ConceptService.MonitoringData GetConceptViews(int conceptId, int groupId);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetRecomendations?rootConceptId={rootConceptId}")]
+        IList<ConceptResult> GetRecomendations(int rootConceptId);
     }
 }

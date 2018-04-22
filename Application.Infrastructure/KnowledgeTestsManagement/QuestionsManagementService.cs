@@ -28,8 +28,9 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                if (repositoriesContainer.TestsRepository.GetBy(testsQuery).TestUnlocks.Count > 0 ||
-                    repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetAll(answersQuery).Count() != 0)
+                if (!repositoriesContainer.TestsRepository.GetBy(testsQuery).ForSelfStudy &&
+                    (repositoriesContainer.TestsRepository.GetBy(testsQuery).TestUnlocks.Count > 0 ||
+                    repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetAll(answersQuery).Count() != 0))
                 {
                     throw new InvalidDataException("Тест не может быть изменён, т.к. доступен для прохождения");
                 }
@@ -236,6 +237,20 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 {
                     query.AddFilterClause(question => question.Title.Contains(searchString));
                 }
+
+                searchResults = repositoriesContainer.QuestionsRepository.GetAll(query).ToList();
+            }
+
+            return searchResults;
+        }
+
+        public IList<Question> GetQuestionsByConceptId(int conceptId)
+        {
+            IList<Question> searchResults;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<Question>();
+                query.AddFilterClause(question => question.ConceptId == conceptId);
 
                 searchResults = repositoriesContainer.QuestionsRepository.GetAll(query).ToList();
             }
