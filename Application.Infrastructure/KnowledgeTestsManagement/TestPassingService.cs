@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Application.Core.Data;
+using LMPlatform.Data.Repositories;
+using LMPlatform.Models;
+using LMPlatform.Models.KnowledgeTesting;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using Application.Core.Data;
-using LMPlatform.Data.Repositories;
-using LMPlatform.Models;
-using LMPlatform.Models.KnowledgeTesting;
 
 namespace Application.Infrastructure.KnowledgeTestsManagement
 {
@@ -301,6 +301,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 var t = tests.SingleOrDefault(test => test.Id == testId);
                 testPassResults.Add(new TestPassResult
                 {
+                    StudentId = rawStudent.Id,
                     TestId = testId,
                     TestName = t != null ? t.Title : "Тест", 
                     Points = GetPoints(rawStudent, testId),
@@ -370,6 +371,30 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Return records for current test or create
+        /// </summary>
+        public List<AnswerOnTestQuestion> GetAnswersForTest(int testId, int userId)
+        {
+            List<AnswerOnTestQuestion> testAnswers;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                IRepositoryBase<AnswerOnTestQuestion> repository = repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>();
+                testAnswers =
+                    repository.GetAll(
+                        new Query<AnswerOnTestQuestion>(
+                            testAnswer => testAnswer.TestId == testId && testAnswer.UserId == userId)).ToList();
+            }
+
+            if (!testAnswers.Any())
+            {
+                StartNewTest(testId, userId);
+                return GetAnswersForTest(testId, userId);
+            }
+
+            return testAnswers;
         }
 
         private void ProcessSequenceAnswer(List<Answer> answers, Question question, AnswerOnTestQuestion answerOntestQuestion)
@@ -623,30 +648,6 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
 
             return queston;
-        }
-
-        /// <summary>
-        /// Return records for current test or create
-        /// </summary>
-        private List<AnswerOnTestQuestion> GetAnswersForTest(int testId, int userId)
-        {
-            List<AnswerOnTestQuestion> testAnswers;
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                IRepositoryBase<AnswerOnTestQuestion> repository = repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>();
-                testAnswers =
-                    repository.GetAll(
-                        new Query<AnswerOnTestQuestion>(
-                            testAnswer => testAnswer.TestId == testId && testAnswer.UserId == userId)).ToList();
-            }
-
-            if (!testAnswers.Any())
-            {
-                StartNewTest(testId, userId);
-                return GetAnswersForTest(testId, userId);
-            }
-
-            return testAnswers;
         }
 
         /// <summary>

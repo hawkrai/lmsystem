@@ -1,29 +1,26 @@
-﻿using System;
+﻿using Application.Core;
+using Application.Infrastructure.CPManagement;
+using Application.Infrastructure.FoldersManagement;
+using Application.Infrastructure.GroupManagement;
+using Application.Infrastructure.KnowledgeTestsManagement;
+using Application.Infrastructure.MaterialsManagement;
+using Application.Infrastructure.StudentManagement;
+using Application.Infrastructure.SubjectManagement;
+using LMPlatform.Data.Infrastructure;
+using LMPlatform.Models;
+using LMPlatform.UI.Attributes;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Application.Core;
-using Application.Infrastructure.FoldersManagement;
-using Application.Infrastructure.GroupManagement;
-using Application.Infrastructure.MaterialsManagement;
-using Application.Infrastructure.StudentManagement;
-using Application.Infrastructure.SubjectManagement;
-using LMPlatform.Models;
-using LMPlatform.UI.Attributes;
-using Microsoft.Ajax.Utilities;
-using LMPlatform.Data.Infrastructure;
-using Application.Infrastructure.CPManagement;
-using Application.Infrastructure.KnowledgeTestsManagement;
 
 namespace LMPlatform.UI.ViewModels.SubjectViewModels
 {
-	using Application.Core.Data;
+    using Application.Core.Data;
 
-	public class SubjectEditViewModel
+    public class SubjectEditViewModel
     {
         private readonly LazyDependency<IModulesManagementService> _modulesManagementService = new LazyDependency<IModulesManagementService>();
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
@@ -251,7 +248,10 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			if (this.SubjectId != 0)
 			{
 				selectedGroupdsOld = this.SubjectManagementService.GetSubject(new Query<Subject>(e => e.Id == this.SubjectId).Include(e => e.SubjectGroups)).SubjectGroups.ToList();
-			}	
+			}
+
+            var oldGroupIds = selectedGroupdsOld.Select(x => x.GroupId);
+            UpdateNewAssignedGroups(Modules.Where(e => e.Checked == true), SelectedGroups.Where(e => !oldGroupIds.Contains(e)).ToList());
 
 	        if (SelectedGroups != null)
 	        {
@@ -340,5 +340,13 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			    }
 		    }
 	    }
+
+        private void UpdateNewAssignedGroups(IEnumerable<ModulesViewModel> modules, List<int> groupIds)
+        {
+            if(modules.Any(e => e.Type == ModuleType.YeManagment))
+            {
+                CPManagementService.SetSelectedGroupsToCourseProjects(SubjectId, groupIds);
+            }
+        }
     }
 }

@@ -230,8 +230,8 @@ namespace LMPlatform.UI.Controllers
             var zip = new ZipFile(Encoding.UTF8);
 
             var groups = SubjectManagementService.GetGroup(id);
-
-            foreach (var group in groups.Students)
+			var created = new List<string>();
+			foreach (var group in groups.Students.Where(e => (e.Confirmed == null || e.Confirmed.Value)))
             {
                 var model = SubjectManagementService.GetUserLabFiles(group.Id, subjectId).Where(e => e.IsReceived);
 
@@ -241,8 +241,11 @@ namespace LMPlatform.UI.Controllers
                 {
                     attachments.AddRange(FilesManagementService.GetAttachments(data.Attachments));
                 }
-
-                UtilZip.CreateZipFile(ConfigurationManager.AppSettings["FileUploadPath"], zip, attachments, group.FullName.Replace(" ", "_"));
+				if (!created.Any(e => e == group.FullName.Replace(" ", "_")))
+				{
+					UtilZip.CreateZipFile(ConfigurationManager.AppSettings["FileUploadPath"], zip, attachments, group.FullName.Replace(" ", "_"));
+					created.Add(group.FullName.Replace(" ", "_"));
+				}                
             }
 
             var memoryStream = new MemoryStream();

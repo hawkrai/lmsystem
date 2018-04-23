@@ -186,6 +186,26 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
         };
     };
 
+    $scope.loadAnswers = function (sId, tId) {
+        $http({ method: "GET", url: kt.actions.results.getUserAnswers, dataType: 'json', params: { studentId: sId, testId: tId } })
+            .success(function (data) {
+                var str = "";
+                for (var i = 0; i < data.length; i++) {
+                    str += "Title: " + data[i].QuestionTitle;
+                    str += "\n";
+                    str += "Description: " + data[i].QuestionDescription;
+                    str += "\n";
+                    str += "Points: " + data[i].Points;
+                    str += "\n";
+                    str += "\n";
+                }
+                alert(str);
+            })
+            .error(function (data, status, headers, config) {
+                alertify.error("Во время получения данных об ответах произошла ошибка");
+            });
+    };
+
     $scope.resultExport = function() {
         window.location.href = "/TestPassing/GetResultsExcel?groupId=" + $scope.gropId + "&subjectId=" + $scope.subjectId + "&forSelfStudy=false";
     };

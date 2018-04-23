@@ -212,7 +212,7 @@
 
         <tab heading="Статистика посещения">
 
-            <div style="margin-top: -15px;">
+            <div style="margin-top: 23px;">
 				<table style="float: left; margin-top: -10px;">
 					<tbody>
 						<tr>
@@ -235,8 +235,8 @@
 				</table>
                 <h5 style="float:right"><i>Для редактирования сделайте двойной клик по дате либо ячейке</i></h5>
             </div>
-
-            <form editable-form name="tableformVisitingSubOne">
+			<div class="clear-fix"></div>
+            <form editable-form name="tableformVisitingSubOne" style="margin-top: -26px;">
 
                 <div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
 					<div style="margin-top:35px">
@@ -377,50 +377,50 @@
         </tab>
 
         <tab heading="Результаты">
-            <div style="margin-bottom: 15px; margin-top: 15px; ">
-                <table style="float: left; margin-top: -10px;">
-                    <tbody>
-                        <tr>
-                            <td style="padding-right:15px">
-                                <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
-                            </td>
-                            <td style="margin-top:5px; float:right">
-	                            <button class="btn btn-default" ng-click="LabMarkExport()" style="margin-right: 10px; margin-bottom: 5px;" tooltip="Загрузить документ в Excel">
+			<div style="margin-top: 18px;">
+				<table style="float: left; margin-top: -10px;">
+					<tbody>
+						<tr>
+							<td style="padding-right:15px">
+								<select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+							</td>
+							<td style="margin-top:5px; float:right">
+								<button class="btn btn-default" ng-click="LabMarkExport()" style="margin-right: 10px; margin-bottom: 5px;" tooltip="Загрузить документ в Excel">
 									<img src="~/Images/ExcelDownload.png" />
 								</button>
-                                @*<a ng-click="#" style="margin-right:10px;" tooltip="Построить график">
-                                    <img src="~/Images/graphik.png" />
-                                </a>
-                                <a ng-click="$('#print-table').printthis();" style="margin-right:20px;" tooltip="Печать таблицы">
-                                    <img src="~/Images/print.png" />
-                                </a>*@
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h5 style="float:right"><i>Для редактирования сделайте двойной клик по ячейке</i></h5>
-            </div>
-
-            <form editable-form name="tableformLabsMarksSubOne">
-                <div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
-                    <div>
+								@*<a ng-click="#" style="margin-right:10px;" tooltip="Построить график">
+								<img src="~/Images/graphik.png" />
+							</a>
+							<a ng-click="$('#print-table').printthis();" style="margin-right:20px;" tooltip="Печать таблицы">
+								<img src="~/Images/print.png" />
+							</a>*@
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<h5 style="float:right"><i>Для редактирования сделайте двойной клик по ячейке</i></h5>
+			</div>
+			<div class="clear-fix"></div>
+			<form editable-form name="tableformLabsMarksSubOne" style="margin-top: -7px;">
+				<div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
+					<div>
 						<h4 style="margin-top:20px" ng-if="groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2.length > 0">Подгруппа 1</h4>
-                    </div>
-                </div>
-                <div style="width:100%">
-                    <table class="table table-bordered table-striped table-hoverT">
-                        <thead>
-                            <tr>
-                                <th style="text-align: center; vertical-align: middle">№</th>
-                                <th style="text-align: center; vertical-align: middle">Студент</th>
+					</div>
+				</div>
+				<div style="width:100%">
+					<table class="table table-bordered table-striped table-hoverT">
+						<thead>
+							<tr>
+								<th style="text-align: center; vertical-align: middle">№</th>
+								<th style="text-align: center; vertical-align: middle">Студент</th>
 								<th style="text-align: center; vertical-align: middle" ng-repeat="lab in groupWorkingData.selectedGroup.SubGroupsOne.LabsV2" title="{{lab.Theme}}">
 									{{lab.ShortName}}
 								</th>
-                                <th style="text-align: center; vertical-align: middle">Средний балл</th>
-                                <th style="text-align: center; vertical-align: middle">Средний балл за тесты</th>
-                                <th style="text-align: center; vertical-align: middle">Рейтинговая оценка</th>
-                            </tr>
-                        </thead>
+								<th style="text-align: center; vertical-align: middle">Средний балл</th>
+								<th style="text-align: center; vertical-align: middle">Средний балл за тесты</th>
+								<th style="text-align: center; vertical-align: middle">Рейтинговая оценка</th>
+							</tr>
+						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2" ng-init="studentIndex=$index">
 							<td style="width: 42px">{{studentIndex + 1}}</td>
 							<td style="width: auto"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
@@ -449,9 +449,9 @@
 							<td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
 							<td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
 						</tr>
-                    </table>
-                </div>
-            </form>
+					</table>
+				</div>
+			</form>
 
 
             @* ---------------------------------------------- *@
@@ -1086,7 +1086,8 @@
                 <label class="control-label">Выставьте отметку (от 0 до 10)</label>
             </div>
             <div>
-                <input id="markInputOne" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this, 'errorOneMark')" />
+                <input id="markInputOne" type="number" max="10" min="0" style="width:100%; margin-bottom: 0px;" onchange="angular.element(this).scope().NumberControl(this, 'errorOneMark')" />
+				<span id="markInputOneSpan" style="font-size: 11px; color: grey;"></span>
             </div>
             <div>
                 <label class="control-label">Дата выставления</label>
@@ -1117,7 +1118,7 @@
             <input id="inputIdOne" style="display:none" />
             <div class="modal-footer" style="padding-bottom:0px; padding-right:0px">
                 <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                <a class="btn btn-primary btn-sm" ng-click="saveLabsMarksSubOne()" data-dismiss="modal">Сохранить</a>
+                <a class="btn btn-primary btn-sm" ng-click="saveLabsMarksSubOne()">Сохранить</a>
             </div>
         </div>
     </div>
@@ -1135,7 +1136,8 @@
                 <label class="control-label">Выставьте отметку (от 0 до 10)</label>
             </div>
             <div>
-                <input id="markInputTwo" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this,'errorTwoMark')" />
+                <input id="markInputTwo" type="number" max="10" min="0" style="width:100%; margin-bottom: 0px;" onchange="angular.element(this).scope().NumberControl(this,'errorTwoMark')" />
+				<span id="markInputTwoSpan" style="font-size: 11px; color: grey;"></span>
             </div>
             <div>
                 <label class="control-label">Дата выставления</label>
@@ -1163,7 +1165,7 @@
             <input id="inputIdTwo" style="display:none" />
             <div class="modal-footer" style="padding-bottom:0px; padding-right:0px">
                 <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                <a class="btn btn-primary btn-sm" ng-click="saveLabsMarksSubTwo()" data-dismiss="modal">Сохранить</a>
+                <a class="btn btn-primary btn-sm" ng-click="saveLabsMarksSubTwo()">Сохранить</a>
             </div>
         </div>
     </div>
@@ -1181,7 +1183,8 @@
 				<label class="control-label">Выставьте отметку (от 0 до 10)</label>
 			</div>
 			<div>
-				<input id="markInputThird" type="number" max="10" min="0" style="width:100%" onchange="angular.element(this).scope().NumberControl(this, 'errorThirdMark')" />
+				<input id="markInputThird" type="number" max="10" min="0" style="width:100%; margin-bottom: 0px;" onchange="angular.element(this).scope().NumberControl(this, 'errorThirdMark')" />
+				<span id="markInputThirdSpan" style="font-size: 11px; color: grey;"></span>
 			</div>
 			<div>
 				<label class="control-label">Дата выставления</label>
@@ -1209,7 +1212,7 @@
 			<input id="inputIdThird" style="display:none" />
 			<div class="modal-footer" style="padding-bottom:0px; padding-right:0px">
 				<a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-				<a class="btn btn-primary btn-sm" ng-click="saveLabsMarksSubThird()" data-dismiss="modal">Сохранить</a>
+				<a class="btn btn-primary btn-sm" ng-click="saveLabsMarksSubThird()">Сохранить</a>
 			</div>
 		</div>
 	</div>

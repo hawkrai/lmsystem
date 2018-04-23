@@ -58,5 +58,7 @@ namespace Application.Infrastructure.CPManagement
 
         void SaveTaskSheet(int userId, TaskSheetData taskSheet);
 
+        void SetSelectedGroupsToCourseProjects(int subjectId, List<int> groupIds);
+
     }
 }

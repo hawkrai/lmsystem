@@ -520,6 +520,24 @@ namespace Application.Infrastructure.CPManagement
             return list;
         }
 
+        public void SetSelectedGroupsToCourseProjects(int subjectId, List<int> groupIds)
+        {
+            var projects = Context.CourseProjects.Where(e => e.SubjectId == subjectId).Include(x => x.CourseProjectGroups);
+            foreach (var project in projects)
+            {
+                foreach (int groupId in groupIds)
+                {
+                    CourseProjectGroup projectGroup = new CourseProjectGroup() {
+                        CourseProjectId = project.CourseProjectId,
+                        GroupId = groupId
+                    };
+                    project.CourseProjectGroups.Add(projectGroup);
+                }
+            }
+
+            Context.SaveChanges();
+        }
+
         private void CreateBtsProject(CourseProject courseProject, int developerId)
         {            
             int lecturerId = (int)courseProject.LecturerId;

@@ -583,6 +583,7 @@
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestResultItemListViewModel.cs" />
     <Compile Include="ViewModels\KnowledgeTestingViewModels\TestViewModel.cs" />
+    <Compile Include="ViewModels\KnowledgeTestingViewModels\UserAnswerViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\LmsViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModels\StudentViewModel.cs" />
     <Compile Include="ViewModels\LmsViewModels\ProfileCalendarViewModel.cs" />
