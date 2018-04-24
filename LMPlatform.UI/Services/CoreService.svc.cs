@@ -815,7 +815,7 @@ namespace LMPlatform.UI.Services
 
         public LectorResult GetLecturers()
         {
-            var lecturers = LecturerManagementService.GetLecturers().Select(e => new LectorViewData(e)).ToList();
+            var lecturers = LecturerManagementService.GetLecturers(e => e.LastName).Select(e => new LectorViewData(e)).ToList();
             return new LectorResult()
             {
                 Lectors = lecturers
