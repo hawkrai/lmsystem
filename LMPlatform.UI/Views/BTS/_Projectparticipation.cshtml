@@ -4,7 +4,7 @@
         
         <table ng-table="lecturerProjectsTableParams" class="table table-bordered table-striped table-condensed">
             <tr ng-repeat="project in $data">
-                <td data-title="'Проект'" sortable="'Title'"><a href="/BTS/ProjectManagement/{{project.ProjectId}}">{{project.Title}}</a></td>
+                <td data-title="'Проект'" sortable="'Title'"><a href="/BTS#/Projects/{{project.ProjectId}}">{{project.Title}}</a></td>
                 <td data-title="'Роль на проекте'">{{project.UserRole}}</td>
                 <td data-title="'Создатель проекта'">{{project.CreatorName}}</td>
             </tr>
@@ -18,7 +18,7 @@
                 <td data-title="'ФИО студента'">{{student.FullName}}</td>
                 <td data-title="'Проект'">
                     <div ng-repeat="participation in student.Participations">
-                        <a href="/BTS/ProjectManagement/{{participation.ProjectId}}">{{participation.Title}}</a>
+                        <a href="/BTS#/Projects/{{participation.ProjectId}}">{{participation.Title}}</a>
                     </div>
                 </td>
                 <td data-title="'Роль на проекте'">
