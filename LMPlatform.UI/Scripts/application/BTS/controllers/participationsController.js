@@ -17,11 +17,21 @@
                 setGroups();
             };
 
+            function selectLecturer() {
+                var lector = $scope.lecturers.find(function (e) {
+                    return e.LectorId === $scope.userId;
+                });
+                if (lector === undefined) {
+                    lector = $scope.lecturers[0];
+                }
+                $scope.selectedLecturer = lector;
+            }
+
             function setLecturers() {
                 participationsService.getLecturers().then(function (response) {
                     $scope.lecturers = response.data.Lectors;
                     if ($scope.lecturers.length !== 0) {
-                        $scope.selectedLecturer = $scope.lecturers[0];
+                        selectLecturer();
                         $scope.lecturerProjectsTableParams.reload();
                     }
                 });
