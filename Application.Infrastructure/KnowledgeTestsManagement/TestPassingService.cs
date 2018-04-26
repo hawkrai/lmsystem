@@ -397,6 +397,21 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             return testAnswers;
         }
 
+        public int? GetPointsForQuestion(int userId, int questionId)
+        {
+            int? result = null;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                IRepositoryBase<AnswerOnTestQuestion> repository = repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>();
+                result =
+                    repository.GetAll(
+                        new Query<AnswerOnTestQuestion>(
+                            testAnswer => testAnswer.QuestionId == questionId && testAnswer.UserId == userId))?.ToList()?.LastOrDefault()?.Points;
+            }
+
+            return result;
+        }
+
         private void ProcessSequenceAnswer(List<Answer> answers, Question question, AnswerOnTestQuestion answerOntestQuestion)
         {
             bool isCorrect = true;

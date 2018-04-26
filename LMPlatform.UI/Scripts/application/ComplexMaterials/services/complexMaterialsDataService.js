@@ -121,6 +121,14 @@
                         url: url + 'getTextMaterials',
                         data: data
                     });
+                },
+                getRecomendations: function (data) {
+                    var id = data.id;
+                    return $http({
+                        method: 'GET',
+                        url: url + 'GetRecomendations?rootConceptId=' + id,
+                        data: data
+                    });
                 }
             };
         }]);

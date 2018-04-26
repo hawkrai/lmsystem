@@ -27,6 +27,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         bool CheckForSubjectAvailableForStudent(int studentId, int subjectId);
 
+        int? GetPointsForQuestion(int userId, int questionId);
         /// <summary>
         /// Returns set of students and average marks for subject
         /// </summary>

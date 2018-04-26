@@ -8,6 +8,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
     {
         Question GetQuestion(int id);
 
+        IList<Question> GetQuestionsByConceptId(int conceptId);
+
         Question SaveQuestion(Question question);
 
         void DeleteQuestion(int id);

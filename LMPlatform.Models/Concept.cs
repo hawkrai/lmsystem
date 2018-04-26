@@ -89,5 +89,18 @@ namespace LMPlatform.Models
 
         public virtual Int32? LabId { get; set; }
 
+        public List<Concept> GetAllChildren()
+        {
+            var list = new List<Concept>();
+            if (this.Children != null)
+            {
+                foreach (var child in Children)
+                {
+                    list.AddRange(child.GetAllChildren());
+                }
+                list.AddRange(this.Children);
+            }
+            return list;
+        }
     }
 }

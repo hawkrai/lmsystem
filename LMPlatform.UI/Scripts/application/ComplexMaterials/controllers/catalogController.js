@@ -174,6 +174,10 @@
                 return $scope.parent == null;
             }
 
+            $scope.isShowRecomendationsButton = function () {
+                return $scope.parent != null;
+            }
+
             $scope.isShowAddFileButton = function () {
                 
                 return $scope.parent != null && $scope.parent.IsGroup && $scope.parent.ParentId != 0&& !$scope.isTestModule($scope.parent.Name);
@@ -443,6 +447,21 @@
             $scope.openMap = function () {
                 $scope.$parent.mapForItem = ($scope.selectedItem && $scope.selectedItem.ParentId == 0) ? $scope.selectedItem : $scope.parent;
                 $location.url("/Map?elementId=" + $scope.$parent.mapForItem.Id);
+            }
+
+            $scope.showRecomendations = function ($event) {
+                complexMaterialsDataService.getRecomendations({ id: rootConceptId }).success(function (data) {
+                    var str = "";
+                    for (var i = 0; i < data.length; i++) {
+                        str += data[i].Concept.Name;
+                        str += "\n";
+                    }
+                    alert(str);
+                }).error(function (e) {
+                    alertify.error(e);
+                }).finally(function () {
+
+                });
             }
 
             $scope.deleteConcept = function ($event) {
