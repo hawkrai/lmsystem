@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Application.Core.Data;
 using LMPlatform.Models;
+using System.Linq.Expressions;
+using System;
 
 namespace Application.Infrastructure.LecturerManagement
 {
@@ -8,7 +10,7 @@ namespace Application.Infrastructure.LecturerManagement
     {
         Lecturer GetLecturer(int userId);
 
-        List<Lecturer> GetLecturers();
+        List<Lecturer> GetLecturers(Expression<Func<Lecturer, string>> order = null);
 
         IPageableList<Lecturer> GetLecturersPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 

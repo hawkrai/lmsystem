@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Application.Core;
 using Application.Core.Data;
 using Application.Infrastructure.UserManagement;
@@ -58,11 +59,16 @@ namespace Application.Infrastructure.LecturerManagement
 		    return data;
 	    }
 
-        public List<Lecturer> GetLecturers()
+        public List<Lecturer> GetLecturers(Expression<Func<Lecturer, string>> orderBy = null)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                return repositoriesContainer.LecturerRepository.GetAll(new Query<Lecturer>().Include(e => e.SubjectLecturers).Include(e => e.User)).ToList();
+                var query = repositoriesContainer.LecturerRepository.GetAll(new Query<Lecturer>().Include(e => e.SubjectLecturers).Include(e => e.User));
+                if (orderBy != null)
+                {
+                    query = query.OrderBy(orderBy);
+                }
+                return query.ToList();
             }
         }
 

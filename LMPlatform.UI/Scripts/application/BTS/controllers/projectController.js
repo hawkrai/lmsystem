@@ -150,11 +150,24 @@
             }
 
             $scope.onClearProject = function () {
-                bootbox.confirm("Вы действительно хотите очистить проект (удалить участников, ошибки и комментарии)?", function (isConfirmed) {
-                    if (isConfirmed) {
-                        $.post("/BTS/ClearProject/" + $scope.project.Id, null, function () {
-                        });
-                        location.reload();
+                bootbox.confirm({
+                    title: 'Очистка проекта',
+                    message: 'Вы действительно хотите очистить проект (удалить участников, ошибки и комментарии)?',
+                    buttons: {
+                        'cancel': {
+                            label: 'Отмена',
+                            className: 'btn btn-default btn-sm'
+                        },
+                        'confirm': {
+                            label: 'Очистить',
+                            className: 'btn btn-primary btn-sm',
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.post("/BTS/ClearProject/" + $scope.project.Id, null, function () {});
+                            location.reload();
+                        }
                     }
                 });
             }

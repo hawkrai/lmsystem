@@ -17,19 +17,41 @@
                 setGroups();
             };
 
+            function selectLecturer() {
+                var lector = $scope.lecturers.find(function (e) {
+                    return e.LectorId === $scope.userId;
+                });
+                if (lector === undefined) {
+                    lector = $scope.lecturers[0];
+                }
+                $scope.selectedLecturer = lector;
+            }
+
             function setLecturers() {
                 participationsService.getLecturers().then(function (response) {
                     $scope.lecturers = response.data.Lectors;
                     if ($scope.lecturers.length !== 0) {
-                        $scope.selectedLecturer = $scope.lecturers[0];
+                        selectLecturer();
                         $scope.lecturerProjectsTableParams.reload();
                     }
                 });
             };
 
+            function sortGroups(groups) {
+                return groups.sort(function (a, b) {
+                    if (a.GroupName > b.GroupName) {
+                        return 1;
+                    }
+                    if (a.GroupName < b.GroupName) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            }
+
             function setGroups() {
                 participationsService.getGroups($scope.userId).then(function (response) {
-                    $scope.groups = response.data.Groups;
+                    $scope.groups = sortGroups(response.data.Groups);
                     if ($scope.groups.length !== 0) {
                         $scope.selectedGroup = $scope.groups[0];
                         $scope.studentsParticipationsTableParams.reload();

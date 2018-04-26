@@ -258,7 +258,7 @@ namespace Application.Infrastructure.ProjectManagement
                         new Query<ProjectUser>().AddFilterClause(u => u.ProjectId == projectId));
                 foreach (var projectUser in projectUserList)
                 {
-                    if (projectUser.Id != project.Id)
+                    if (projectUser.UserId != project.CreatorId)
                     {
                         repositoriesContainer.ProjectUsersRepository.DeleteProjectUser(projectUser);   
                     }

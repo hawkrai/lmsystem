@@ -373,7 +373,7 @@ namespace LMPlatform.UI.ViewModels.BTSViewModels
             {
                 Text = e.Title,
                 Value = e.Id.ToString(CultureInfo.InvariantCulture)
-            }).ToList();
+            }).OrderBy(e => e.Text).ToList();
         }
 
         public void Save(int reporterId, int projectId)

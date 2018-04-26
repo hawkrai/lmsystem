@@ -7,7 +7,7 @@
         <div>
             @Html.ValidationSummary("Ошибка!", new { @class = "alert alert-dismissable alert-danger" })
         </div>
-    
+
         @Html.AntiForgeryToken()
         
         @Html.HiddenFor(e => e.BugId)
