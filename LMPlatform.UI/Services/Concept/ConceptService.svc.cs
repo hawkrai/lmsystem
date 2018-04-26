@@ -359,7 +359,7 @@ namespace LMPlatform.UI.Services.Concept
                     {
                         foreach (var question in questions)
                         {
-                            var points = TestPassingService.GetPointsForQuestion(4473, question.Id);
+                            var points = TestPassingService.GetPointsForQuestion(WebSecurity.CurrentUserId, question.Id);
                             if(points == 0)
                             {
                                 result.Add(new ConceptResult
