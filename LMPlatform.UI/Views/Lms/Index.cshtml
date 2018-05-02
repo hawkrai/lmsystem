@@ -172,7 +172,7 @@
     }
 }
 
-<div ng-app="appUserProfile" ng-controller="ProfileController" id="testA" ng-cloak ng-init="init('@ViewData["userLogin"]', '@ViewData["isMyProfile"].ToString().ToLower()' )">
+<div ng-app="appUserProfile" ng-controller="ProfileController" id="testA" ng-init="init('@ViewData["userLogin"]', '@ViewData["isMyProfile"].ToString().ToLower()' )">
     @{
         Html.RenderPartial("../Lms/ProfilePage");
     }

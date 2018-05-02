@@ -263,7 +263,7 @@
 	}
 </style>
 
-<div class="lmsMainContainer">
+<div class="lmsMainContainer" style="display: none;">
 	<div class="row">
 		<div class="col-md-7">
 			<div class="panel panel-default">
@@ -318,14 +318,14 @@
 				</div>
 				<div class="panel-body newsContainer">
 					@*<div class="newsHeader text-center">
-						<h4 style="color: #777; font-size: 15px; font-weight: 400" >{{lastNews.Title}}</h4>
-						<a href="/Subject?subjectId={{lastNews.SubjectId}}" style="color: #72afd2; font-size: 13px;">{{convertJSONDate(lastNews.EditDate)}}, {{lastNews.Subject.Name}}</a>
-					</div>*@
+							<h4 style="color: #777; font-size: 15px; font-weight: 400" >{{lastNews.Title}}</h4>
+							<a href="/Subject?subjectId={{lastNews.SubjectId}}" style="color: #72afd2; font-size: 13px;">{{convertJSONDate(lastNews.EditDate)}}, {{lastNews.Subject.Name}}</a>
+						</div>*@
 					<div class="newsBody" style="height:250px; overflow: auto;">
-						<div ng-repeat="news in lastNews" style="padding: 5px;">							
+						<div ng-repeat="news in lastNews" style="padding: 5px;">
 							<a href="/Subject?subjectId={{news.SubjectId}}" class="subjectNesLink" style="margin-left: 15px;">{{convertJSONDate(news.EditDate)}}, {{news.Subject.Name}}</a>
 							<p ng-click="newsDetails(news)" style="margin-bottom: 0px; color: #3c8dbc; cursor:pointer">{{news.Title}}</p>
-						</div>	
+						</div>
 					</div>
 					<div class="text-right">
 						<a href="#" class="allNews" ng-click="showNews()"><i class="fa fa-navicon fa-1x icon"></i></a>
@@ -353,7 +353,7 @@
 						<div class="col-lg-2 col-sm-6" ng-repeat="data in subject">
 							<div class="circle-tile ">
 								<a href="#">
-									<div class="circle-tile-heading dark-blue" style="background-color: #f9f9f9;" >
+									<div class="circle-tile-heading dark-blue" style="background-color: #f9f9f9;">
 										@*<i class="fa fa-info fa-fw fa-3x" ng-style="{color : '{{data.Color}}'}"></i>*@
 										<div class="circle-tile-number text-faded " style="margin-top: 15px; font-weight: 100;" ng-style="{color : '{{data.Color}}'}">{{data.Completing}}%</div>
 									</div>
@@ -436,25 +436,25 @@
 	</div>
 
 
-				<div id="dialogAllNews" class="modal">
-					<div class="modal-dialog panel panel-primary" style="padding: 0px">
-						<div class="panel-heading">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 class="modal-title" id="myModalLabel">Все новости</h4>
+	<div id="dialogAllNews" class="modal">
+		<div class="modal-dialog panel panel-primary" style="padding: 0px">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Все новости</h4>
+			</div>
+			<div class="modal-body" style="padding: 0">
+				<div style="margin-top: -20px;">
+					<div class="bs-callout bs-callout-fill" ng-class="data.Disabled ? 'bs-callout-default' : 'bs-callout-info'" ng-repeat="data in news">
+						<h4 style="float: left; word-wrap: break-word; margin-right: 10px;font-weight: 400; color: #3c8dbc">{{data.Title}}</h4>
+						<div class="clear-fix"></div>
+						<div ng-bind-html="renderHtml(data.Body)">
 						</div>
-						<div class="modal-body" style="padding: 0">
-							<div style="margin-top: -20px;">
-								<div class="bs-callout bs-callout-fill" ng-class="data.Disabled ? 'bs-callout-default' : 'bs-callout-info'" ng-repeat="data in news">
-									<h4 style="float: left; word-wrap: break-word; margin-right: 10px;font-weight: 400; color: #3c8dbc">{{data.Title}}</h4>
-									<div class="clear-fix"></div>
-									<div ng-bind-html="renderHtml(data.Body)">
-									</div>
-									<a href="/Subject?subjectId={{data.SubjectId}}" class="subjectNesLink">{{convertJSONDate(data.EditDate)}}, {{data.Subject.Name}}</a>
-								</div>
-							</div>
-						</div>
+						<a href="/Subject?subjectId={{data.SubjectId}}" class="subjectNesLink">{{convertJSONDate(data.EditDate)}}, {{data.Subject.Name}}</a>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
 
 	<div id="dialogNews" class="modal">
 		<div class="modal-dialog panel panel-primary" style="padding: 0px">
@@ -475,57 +475,57 @@
 		</div>
 	</div>
 
-				<style>
-					#myCalendar > .modal-dialog {
-						width: 100%;
-						height: 100%;
-						padding: 0;
-					}
+	<style>
+		#myCalendar > .modal-dialog {
+			width: 100%;
+			height: 100%;
+			padding: 0;
+		}
 
-					#myCalendar > .modal-content {
-						height: 100%;
-						border-radius: 0;
-					}
-				</style>
+		#myCalendar > .modal-content {
+			height: 100%;
+			border-radius: 0;
+		}
+	</style>
 
-				<div ng-cloak class="modal fade" id="myCalendar" tabindex="-1" role="dialog" aria-labelledby="myCalendarLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								<h4 class="modal-title" id="myCalendarLabel">Мой календарь</h4>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div id='calendarEvents'></div>
-								</div>
-							</div>
-						</div>
+	<div ng-cloak class="modal fade" id="myCalendar" tabindex="-1" role="dialog" aria-labelledby="myCalendarLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myCalendarLabel">Мой календарь</h4>
+				</div>
+				<div class="modal-body">
+					<div>
+						<div id='calendarEvents'></div>
 					</div>
 				</div>
-				<script type="text/javascript">
-					/**
-				 * Russian translation for bootstrap-datepicker
-				 * Victor Taranenko <darwin@snowdale.com>
-				 */
-					(function ($) {
-						$.fn.datepicker.dates['ru'] = {
-							days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
-							daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Суб"],
-							daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
-							months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-							monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
-							today: "Сегодня",
-							clear: "Очистить",
-							format: "dd.mm.yyyy",
-							weekStart: 1,
-							monthsTitle: 'Месяцы'
-						};
-					}(jQuery));
-					$(function () {
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		/**
+	 * Russian translation for bootstrap-datepicker
+	 * Victor Taranenko <darwin@snowdale.com>
+	 */
+		(function ($) {
+			$.fn.datepicker.dates['ru'] = {
+				days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+				daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Суб"],
+				daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+				months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+				monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+				today: "Сегодня",
+				clear: "Очистить",
+				format: "dd.mm.yyyy",
+				weekStart: 1,
+				monthsTitle: 'Месяцы'
+			};
+		}(jQuery));
+		$(function () {
 
-					});
-				</script>
+		});
+	</script>
 
 
 

@@ -21,6 +21,7 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 
 		$scope.loading = false;
 		$scope.init = function (userLogin, isMyProfile) {
+
 			$scope.login = userLogin;
 			$scope.isMyProfile = isMyProfile === "true" ? true : false;
 
@@ -51,6 +52,7 @@ angular.module("appUserProfile.controllers", ["ui.bootstrap", "angularSpinner"])
 	            function () {
 	            	$scope.stopSpin();
 	            	$scope.loadCircle();
+	            	$(".lmsMainContainer").show();
 	            }, 100);
 		};
 

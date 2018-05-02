@@ -2405,7 +2405,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var Id = document.getElementById('inputIdOne').value;
 
              var markF = parseInt(mark);
-             if (mark === "" || markF < 0 || markF > 10) {
+             if (markF < 0 || markF > 10) {
              	$("#errorOneMark").show();
              }
              else {
@@ -2445,7 +2445,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              var Id = document.getElementById('inputIdTwo').value;
 
              var markF = parseInt(mark);
-             if (mark === "" || markF < 0 || markF > 10) {
+             if (markF < 0 || markF > 10) {
              	$("#errorTwoMark").show();
              }
              else {
@@ -2485,7 +2485,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          	var Id = document.getElementById('inputIdThird').value;
 
          	var markF = parseInt(mark);
-         	if (mark === "" || markF < 0 || markF > 10) {
+         	if (markF < 0 || markF > 10) {
          		$("#errorThirdMark").show();
          	}
          	else {

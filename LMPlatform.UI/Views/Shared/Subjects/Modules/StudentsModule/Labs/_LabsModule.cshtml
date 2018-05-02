@@ -17,11 +17,16 @@
              filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
          -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
 }
+
+		.content{
+			overflow-x: auto!important;
+			overflow-y: hidden!important;
+		}
     </style>
 
     <tabset>
 		<tab heading="Лабораторные работы">
-			<div class="table-responsive" style="margin-top: 10px;margin-bottom: 10px">
+			<div class="table-responsive" style="margin-top: 20px;margin-bottom: 10px">
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -53,7 +58,7 @@
 			</div>
 		</tab>
 		<tab heading="График защиты">
-			<table style="margin-bottom: 15px; margin-top: 15px; ">
+			<table style="margin-bottom: 15px; margin-top: 20px; ">
 				<tbody>
 					<tr>
 						<td>
@@ -153,7 +158,7 @@
 		</tab>
 		<tab heading="Статистика посещения">
 
-			<div style="margin-bottom: 15px; margin-top: 15px; ">
+			<div style="margin-bottom: 15px; margin-top: 20px; ">
 				<table>
 					<tbody>
 						<tr>
@@ -166,8 +171,8 @@
 			</div>
 
 			<form>
-				<div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
-					<div style="margin-top:35px">
+				<div id="navPanel" style="margin-bottom: 15px; margin-top: 20px;">
+					<div>
 						<h4 ng-if="groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2.length > 0">Подгруппа 1</h4>
 					</div>
 				</div>
@@ -250,7 +255,7 @@
 			</form>
 			
 			<form ng-if="groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2.length > 0">
-				<div style="margin-bottom: 15px; margin-top: 15px;">
+				<div style="margin-bottom: 15px; margin-top: 20px;">
 					<div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
 						<div>
 							<h4 style="margin-top:20px">Подгруппа 3</h4>
@@ -296,7 +301,7 @@
 
 		</tab>
 		<tab heading="Результаты">
-			<div style="margin-bottom: 15px; margin-top: 15px; ">
+			<div style="margin-bottom: 15px; margin-top: 20px; ">
 				<table>
 					<tbody>
 						<tr>
@@ -309,7 +314,7 @@
 			</div>
 
 			<form>
-				<div id="navPanel" style="margin-bottom: 15px; margin-top: 15px;">
+				<div id="navPanel" style="margin-bottom: 15px; margin-top: 20px;">
 					<div>
 						<h4 style="margin-top:20px" ng-if="groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2.length > 0">Подгруппа 1</h4>
 					</div>
@@ -457,7 +462,7 @@
 		</tab>
 		<tab heading="Защита работ">
 			<div>
-				<div style="margin-top: 10px;margin-bottom: 10px">
+				<div style="margin-top: 20px; margin-bottom: 10px">
 					<table class="table table-bordered table-responsive">
 						<thead>
 						    <tr>

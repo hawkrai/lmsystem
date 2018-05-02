@@ -403,10 +403,15 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 IRepositoryBase<AnswerOnTestQuestion> repository = repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>();
-                result =
-                    repository.GetAll(
-                        new Query<AnswerOnTestQuestion>(
-                            testAnswer => testAnswer.QuestionId == questionId && testAnswer.UserId == userId))?.ToList()?.LastOrDefault()?.Points;
+
+				var answerOnTestQuestion = repository.GetAll(
+						new Query<AnswerOnTestQuestion>(
+							testAnswer => testAnswer.QuestionId == questionId && testAnswer.UserId == userId)).ToList();
+
+				if(answerOnTestQuestion != null && answerOnTestQuestion.Any())
+				{
+					result = answerOnTestQuestion.LastOrDefault().Points;
+				}                
             }
 
             return result;
