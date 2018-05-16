@@ -58,6 +58,18 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public bool ForEUMK
+        {
+            get;
+            set;
+        }
+
+        public bool BeforeEUMK
+        {
+            get;
+            set;
+        }
+
         public int? TestNumber
         {
             get;
@@ -75,7 +87,9 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 SetTimeForAllTest = SetTimeForAllTest,
                 SubjectId = SubjectId,
                 CountOfQuestions = CountOfQuestions,
-                ForSelfStudy = ForSelfStudy,
+                ForSelfStudy = ForSelfStudy || ForEUMK || BeforeEUMK,
+                ForEUMK = ForEUMK,
+                BeforeEUMK = BeforeEUMK,
                 IsNecessary = IsNecessary,
                 TestNumber = TestNumber
             };
@@ -92,6 +106,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 TimeForCompleting = test.TimeForCompleting,
                 SetTimeForAllTest = test.SetTimeForAllTest,
                 ForSelfStudy = test.ForSelfStudy,
+                ForEUMK = test.ForEUMK,
+                BeforeEUMK = test.BeforeEUMK,
                 CountOfQuestions = test.CountOfQuestions,
                 IsNecessary = test.IsNecessary,
                 TestNumber = test.TestNumber

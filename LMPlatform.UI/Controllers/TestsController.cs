@@ -296,7 +296,30 @@ namespace LMPlatform.UI.Controllers
         {
             try
             {
+                var test = TestsManagementService.GetTest(questionViewModel.TestId, true);
+                if (test.ForEUMK)
+                {
+                    if (questionViewModel.ConceptId == null)
+                    {
+                        var questions = QuestionsManagementService.GetQuestionsForTest(questionViewModel.TestId).ToArray();
+                        if (questions.Length > 0)
+                        {
+                            questionViewModel.ConceptId = questions.First().ConceptId;
+                        }
+                    }
+                    else
+                    {
+                        foreach (var questionId in test.Questions.Select(x => x.Id))
+                        {
+                            var question = QuestionsManagementService.GetQuestion(questionId);
+                            question.ConceptId = questionViewModel.ConceptId;
+                            QuestionsManagementService.SaveQuestion(question);
+                        }
+                    }
+                }
+
                 var savedQuestion = QuestionsManagementService.SaveQuestion(questionViewModel.ToQuestion());
+
                 return Json(QuestionViewModel.FromQuestion(savedQuestion));
             }
             catch (Exception e)

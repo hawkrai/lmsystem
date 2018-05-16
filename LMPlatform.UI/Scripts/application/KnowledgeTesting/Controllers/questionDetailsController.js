@@ -1,6 +1,7 @@
 ﻿'use strict';
 knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, id, subjectId, $modalInstance) {
-    $scope.forSelfStudy = false;
+    $scope.BeforeEUMK = false;
+    $scope.ForEUMK = false;
     $scope.question = { QuestionType: 0 };
     $scope.types = [{ Id: 0, Name: 'С одним вариантом' }, { Id: 1, Name: 'С несколькими вариантами' }, { Id: 2, Name: 'Ввод с клавиатуры' }, { Id: 3, Name: 'Последовательность элементов' }];
 
@@ -115,7 +116,8 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
             $scope.concepts = data;
             $scope.initConceptTree(data);
             $scope.loadQuestionData();
-            $scope.forSelfStudy = getHashValue('forSelfStudy') == 'true';
+            $scope.BeforeEUMK = getHashValue('beforeEUMK') == 'true';
+            $scope.ForEUMK = getHashValue('forEUMK') == 'true';
         })
         .error(function (data, status, headers, config) {
             alertify.error('Во время получения данных произошла ошибка');
