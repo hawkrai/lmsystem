@@ -86,7 +86,7 @@
                     <div>
                         <a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
                         <a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
-                        <a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&beforeEUMK={{test.BeforeEUMK}}&forEUMK={{test.ForEUMK}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
                         <a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
                         <a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
                     </div>

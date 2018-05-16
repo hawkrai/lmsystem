@@ -60,6 +60,18 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+        public bool BeforeEUMK
+        {
+            get;
+            set;
+        }
+
+        public bool ForEUMK
+        {
+            get;
+            set;
+        }
+
         public bool Unlocked
         {
             get

@@ -51,6 +51,18 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+        public bool ForEUMK
+        {
+            get;
+            set;
+        }
+
+        public bool BeforeEUMK
+        {
+            get;
+            set;
+        }
+
         public static TestItemListViewModel FromTest(Test test, string htmlLinks)
         {
             var model = FromTest(test);
@@ -68,7 +80,9 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 Unlocked = test.Unlocked,
                 HasQuestions = test.Questions == null ? false : test.Questions.Count > 0,
                 ForSelfStudy = test.ForSelfStudy,
-                TestNumber = test.TestNumber
+                TestNumber = test.TestNumber,
+                ForEUMK = test.ForEUMK,
+                BeforeEUMK = test.BeforeEUMK
             };
         }
     }
