@@ -29,6 +29,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 if (!repositoriesContainer.TestsRepository.GetBy(testsQuery).ForSelfStudy &&
+                    !repositoriesContainer.TestsRepository.GetBy(testsQuery).ForEUMK &&
+                    !repositoriesContainer.TestsRepository.GetBy(testsQuery).BeforeEUMK &&
                     (repositoriesContainer.TestsRepository.GetBy(testsQuery).TestUnlocks.Count > 0 ||
                     repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetAll(answersQuery).Count() != 0))
                 {
