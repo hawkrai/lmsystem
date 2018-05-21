@@ -75,7 +75,7 @@ namespace Application.Infrastructure.FilesManagement
             }
         }
 
-        private void SaveFile(Attachment attachment, string folder)
+        public void SaveFile(Attachment attachment, string folder)
         {
             var targetDirectoty = Path.Combine(_storageRoot, folder);
             var tempFilePath = Path.Combine(_tempStorageRoot, attachment.FileName);

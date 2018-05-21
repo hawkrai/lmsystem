@@ -5,6 +5,8 @@ using Application.Infrastructure.ProjectManagement;
 using LMPlatform.UI.Services.Modules.BTS;
 using WebMatrix.WebData;
 using System.Web.Http;
+using System.IO;
+using LMPlatform.Models;
 
 namespace LMPlatform.UI.Services.BTS
 {
@@ -84,6 +86,18 @@ namespace LMPlatform.UI.Services.BTS
             {
                 Comments = comments
             };
+        }
+
+        public ProjectFileResult SaveFile(string id, ProjectFileViewData projectFile)
+        {
+            var attachment = new Attachment
+            {
+                Name = projectFile.Name,
+                FileName = projectFile.FileName,
+                AttachmentType = (AttachmentType)Enum.Parse(typeof(AttachmentType), projectFile.AttachmentType)
+            };
+            ProjectManagementService.SaveAttachment(int.Parse(id), attachment);
+            return new ProjectFileResult();
         }
     }
 }

@@ -51,5 +51,7 @@ namespace Application.Infrastructure.ProjectManagement
         string GetCreatorName(int id);
 
         void DeleteUserFromProject(int userId, int projectId);
+
+        bool SaveAttachment(int projectId, Attachment attachment);
     }
 }

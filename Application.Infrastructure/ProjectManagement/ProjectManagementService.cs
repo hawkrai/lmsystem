@@ -4,6 +4,8 @@ using Application.Core.Data;
 using Application.SearchEngine.SearchMethods;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
+using System;
+using Application.Infrastructure.FilesManagement;
 
 namespace Application.Infrastructure.ProjectManagement
 {
@@ -357,9 +359,30 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
+        public bool SaveAttachment(int projectId, Attachment attachment)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<Project>(e => e.Id == projectId);
+                var project = repositoriesContainer.ProjectsRepository.GetBy(query);
+
+                if (string.IsNullOrEmpty(project.Attachments))
+                {
+                    project.Attachments = GetGuidFileName();
+                }
+
+                FilesManagementService.SaveFile(attachment, project.Attachments);
+
+                attachment.PathName = project.Attachments;
+                repositoriesContainer.AttachmentRepository.Save(attachment);
+            }
+            return true;
+        }
+
         private readonly LazyDependency<IBugManagementService> _bugManagementService = new LazyDependency<IBugManagementService>();
         private readonly LazyDependency<IUsersManagementService> _userManagementService = new LazyDependency<IUsersManagementService>();
-
+        private readonly LazyDependency<IFilesManagementService> _filesManagementService = new LazyDependency<IFilesManagementService>();
+        
         public IBugManagementService BugManagementService
         {
             get { return _bugManagementService.Value; }
@@ -368,6 +391,16 @@ namespace Application.Infrastructure.ProjectManagement
         public IUsersManagementService UserManagementService
         {
             get { return _userManagementService.Value; }
+        }
+
+        public IFilesManagementService FilesManagementService
+        {
+            get { return _filesManagementService.Value; }
+        }
+
+        private string GetGuidFileName()
+        {
+            return string.Format("P{0}", Guid.NewGuid().ToString("N").ToUpper());
         }
     }
 }

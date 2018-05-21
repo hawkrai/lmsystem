@@ -68,6 +68,14 @@
             </tbody>
         </table>
 
+        <div class="file-input">
+            <span class="btn btn-success btn-sm fileinput-button">
+                <i class="icon-plus icon-white"></i>
+                <span>Добавить файл</span>
+                <input type="file" name="files[]" multiple="" class="upload" ng-model="files" on-choose-file="uploadFile">
+            </span>
+        </div>
+
         <div class="row" style="margin-top: 40px;">
             <div id="commentPanel" style="padding: 0 15px 0 15px">
                 <div>

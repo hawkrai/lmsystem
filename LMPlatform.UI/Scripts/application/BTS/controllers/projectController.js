@@ -1,5 +1,5 @@
 ﻿angular
-    .module('btsApp.ctrl.project', ['btsApp.directive.projectUser', 'btsApp.service.projects'])
+    .module('btsApp.ctrl.project', ['btsApp.directive.projectUser', 'btsApp.service.projects', 'btsApp.directive.onChooseFile'])
     .controller('projectCtrl', [
         '$scope',
         '$routeParams',
@@ -224,6 +224,12 @@
                     $scope.commentToSend = "";
                     setComments();
                 });
+            }
+
+            $scope.uploadFile = function (event) {
+                var file = event.target.files[0];
+                projectsService.uploadFile($routeParams.id, file);
+                event.target.value = "";
             }
 
             init();
