@@ -96,8 +96,25 @@ namespace LMPlatform.UI.Services.BTS
                 FileName = projectFile.FileName,
                 AttachmentType = (AttachmentType)Enum.Parse(typeof(AttachmentType), projectFile.AttachmentType)
             };
-            ProjectManagementService.SaveAttachment(int.Parse(id), attachment);
-            return new ProjectFileResult();
+            attachment = ProjectManagementService.SaveAttachment(int.Parse(id), attachment);
+            return new ProjectFileResult()
+            {
+                ProjectFile = new ProjectFileViewData(attachment)
+            };
+        }
+
+        public ProjectFilesResult GetAttachments(string id)
+        {
+            var attachments = ProjectManagementService.GetAttachments(int.Parse(id));
+            return new ProjectFilesResult()
+            {
+                ProjectFiles = attachments.Select(e => new ProjectFileViewData(e)).ToList()
+            };
+        }
+
+        public void DeleteAttachment(string id, string fileName)
+        {
+            ProjectManagementService.DeleteAttachment(int.Parse(id), fileName);
         }
     }
 }

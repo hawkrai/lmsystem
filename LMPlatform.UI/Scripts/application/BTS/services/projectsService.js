@@ -90,7 +90,7 @@
                     });
                 },
 
-                uploadFile: function (projectId, file) {
+                uploadFile: function (projectId, file, callback) {
                     var formData = new FormData();
                     formData.append('file', file);
                     return $http({
@@ -111,7 +111,23 @@
                                     FileName: response.data[0].GuidFileName,
                                 }
                             }
-                        }).then(function (response) { });
+                        }).then(callback);
+                    });
+                },
+
+                getFiles: function (projectId) {
+                    return $http({
+                        method: 'GET',
+                        url: serviceUrl + '/Projects/' + projectId + '/Attachments',
+                        headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+                    });
+                },
+
+                deleteFile: function (projectId, fileName) {
+                    return $http({
+                        method: 'DELETE',
+                        url: serviceUrl + '/Projects/' + projectId + '/Attachments/' + fileName,
+                        headers: { 'Content-Type': 'application/json; charset=UTF-8' }
                     });
                 }
             };

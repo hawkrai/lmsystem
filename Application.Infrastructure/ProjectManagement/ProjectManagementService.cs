@@ -359,7 +359,7 @@ namespace Application.Infrastructure.ProjectManagement
             }
         }
 
-        public bool SaveAttachment(int projectId, Attachment attachment)
+        public Attachment SaveAttachment(int projectId, Attachment attachment)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
@@ -375,6 +375,31 @@ namespace Application.Infrastructure.ProjectManagement
 
                 attachment.PathName = project.Attachments;
                 repositoriesContainer.AttachmentRepository.Save(attachment);
+            }
+            return attachment;
+        }
+
+        public List<Attachment> GetAttachments(int projectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<Project>(e => e.Id == projectId);
+                var project = repositoriesContainer.ProjectsRepository.GetBy(query);
+
+                return FilesManagementService.GetAttachments(project.Attachments).ToList();
+            }
+        }
+
+        public bool DeleteAttachment(int projectId, string fileName)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<Project>(e => e.Id == projectId);
+                var project = repositoriesContainer.ProjectsRepository.GetBy(query);
+
+                var attachment = repositoriesContainer.AttachmentRepository.GetBy(new Query<Attachment>(e => e.PathName == project.Attachments && e.FileName == fileName));
+
+                FilesManagementService.DeleteFileAttachment(attachment);
             }
             return true;
         }

@@ -52,6 +52,10 @@ namespace Application.Infrastructure.ProjectManagement
 
         void DeleteUserFromProject(int userId, int projectId);
 
-        bool SaveAttachment(int projectId, Attachment attachment);
+        Attachment SaveAttachment(int projectId, Attachment attachment);
+
+        List<Attachment> GetAttachments(int projectId);
+
+        bool DeleteAttachment(int projectId, string fileName);
     }
 }

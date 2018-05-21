@@ -467,6 +467,7 @@
     <Compile Include="Services\Lectures\LecturesService.svc.cs">
       <DependentUpon>LecturesService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\Modules\BTS\ProjectFilesResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectFileViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectFileResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectCommentsResult.cs" />

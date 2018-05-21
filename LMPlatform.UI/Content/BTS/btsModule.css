@@ -58,7 +58,9 @@ select {
 
 .file-input {
     position: relative;
+    margin-top: 20px;
 }
+
 .file-input input {
     position: absolute;
     top: 0;
@@ -70,4 +72,8 @@ select {
     direction: ltr;
     cursor: pointer;
     overflow: hidden;
+}
+
+.files-table {
+    margin-top: 10px;
 }
