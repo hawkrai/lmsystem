@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Application.Core.Data;
+using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 
 namespace Application.Infrastructure.KnowledgeTestsManagement

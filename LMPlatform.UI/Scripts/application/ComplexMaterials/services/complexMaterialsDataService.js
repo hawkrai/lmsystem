@@ -129,6 +129,14 @@
                         url: url + 'GetRecomendations?rootConceptId=' + id,
                         data: data
                     });
+                },
+                getRecomendations2: function (data) {
+                    var id = data.id;
+                    return $http({
+                        method: 'GET',
+                        url: "/Tests/" + 'GetRecomendations?subjectId=' + id,
+                        data: data
+                    });
                 }
             };
         }]);

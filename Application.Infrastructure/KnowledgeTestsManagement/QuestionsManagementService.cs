@@ -4,6 +4,7 @@ using System.Linq;
 using Application.Core.Data;
 using Application.Core.Extensions;
 using LMPlatform.Data.Repositories;
+using LMPlatform.Models;
 using LMPlatform.Models.KnowledgeTesting;
 
 namespace Application.Infrastructure.KnowledgeTestsManagement

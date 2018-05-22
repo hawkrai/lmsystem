@@ -105,6 +105,12 @@
                 }
             }
 
+            function loadRecomendations() {
+                complexMaterialsDataService.getRecomendations2({ id: subjectId }).success(function (data) {
+                    $scope.recomendations = data;
+                });
+            }
+
             function loadNavigationTree() {
                 if (parentId < 1) {
                     updateRootConceptList();
@@ -148,6 +154,8 @@
             $scope.stopSpin = function () {
                 $(".loading").toggleClass('ng-hide', true);
             };
+
+            loadRecomendations();
 
             loadNavigationTree();
 
@@ -430,6 +438,10 @@
                 else
                     $scope.openConceptInner(idFolder, currentFolder.Name, currentFolder.Container);
             };
+
+            $scope.openFolderConcept = function (folderId) {
+                location.href = "#/Catalog?parent=" + folderId;
+            }
 
             $scope.openFolderInner = function (folderId) {
                 updateCurrentCatalog(folderId);

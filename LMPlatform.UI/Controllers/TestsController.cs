@@ -92,6 +92,87 @@ namespace LMPlatform.UI.Controllers
             return Json(testViewModels, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetRecomendations(int subjectId)
+        {
+            var result = new List<object>();
+            var predTest = TestsManagementService.GetTestsForSubject(subjectId).FirstOrDefault(x => x.BeforeEUMK);
+            if (predTest != null)
+            {
+                var predTestResult = TestPassingService.GetStidentResults(subjectId, CurrentUserId).FirstOrDefault(x => x.TestId == predTest.Id);
+                if (predTestResult == null || predTestResult.Points == null)
+                {
+                    return Json(new object[]
+                    {
+                        new { IsTest = true, Id = predTest.Id, Text = "Пройдите предтест" }
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            var recommendedConcept = GetMaterialsRecomendations(predTest.Id).FirstOrDefault();
+
+            if(recommendedConcept != null && recommendedConcept.Concept != null)
+            {
+                var testIds = GetTestForEUMKConcept(recommendedConcept.Concept.Id);
+                if(testIds != null && testIds.Count() > 0)
+                {
+                    result.Add(new { IsTest = false, Id = recommendedConcept.Concept.Id, Text = "Рекомендуемый для прочтения материал" });
+                    foreach(var testId in testIds)
+                    {
+                        result.Add(new { IsTest = true, Id = testId, Text = "Пройдите тест!" });
+                    }
+                }
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        private IEnumerable<int> GetTestForEUMKConcept(int conceptId)
+        {
+            var testIds = QuestionsManagementService.GetQuestionsByConceptId(conceptId).Select(x => x.TestId).Distinct();
+
+            foreach(var testId in testIds)
+            {
+                var test = TestsManagementService.GetTest(testId);
+                if(test.ForEUMK)
+                {
+                    yield return test.Id;
+                }
+            }
+        }
+
+        private IList<ConceptResult> GetMaterialsRecomendations(int predTestId)
+        {
+            IList<ConceptResult> result = new List<ConceptResult>();
+            try
+            {
+                var test = TestsManagementService.GetTest(predTestId, true);
+                if (test.Questions != null)
+                {
+                    foreach(var question in test.Questions)
+                    {
+                        if (question.ConceptId.HasValue)
+                        {
+                            var points = TestPassingService.GetPointsForQuestion(WebSecurity.CurrentUserId, question.Id);
+                            if (points == 0 || points == null)
+                            {
+                                var concept = ConceptManagementService.GetById(question.ConceptId.Value);
+                                result.Add(new ConceptResult
+                                {
+                                    Concept = new ConceptViewData(concept)
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return result;
+        }
+
         [HttpGet]
         public JsonResult GetTest(int id)
         {
