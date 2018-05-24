@@ -386,6 +386,10 @@ namespace Application.Infrastructure.ProjectManagement
                 var query = new Query<Project>(e => e.Id == projectId);
                 var project = repositoriesContainer.ProjectsRepository.GetBy(query);
 
+                if (string.IsNullOrEmpty(project.Attachments))
+                {
+                    return new List<Attachment>();
+                }
                 return FilesManagementService.GetAttachments(project.Attachments).ToList();
             }
         }
