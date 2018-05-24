@@ -19,6 +19,8 @@ namespace LMPlatform.Models
 
         public User Creator { get; set; }
 
+        public string Attachments { get; set; }
+
         public ICollection<ProjectUser> ProjectUsers { get; set; }
         
         public ICollection<ProjectComment> ProjectComments { get; set; }

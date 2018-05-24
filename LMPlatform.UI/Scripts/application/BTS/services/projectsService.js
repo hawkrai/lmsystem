@@ -8,6 +8,7 @@
             var serviceUrl = '/Services/BTS/ProjectsService.svc';
             var projectUrl = '/Show';
             var projectsUrl = '/Index';
+            var uploadPath = '/api/Upload';
 
             function addSortableParams(params, orderBy) {
                 if (orderBy.length === 0)
@@ -86,6 +87,47 @@
                         data: {
                             comment: text
                         }
+                    });
+                },
+
+                uploadFile: function (projectId, file, callback) {
+                    var formData = new FormData();
+                    formData.append('file', file);
+                    return $http({
+                        method: 'POST',
+                        url: uploadPath,
+                        headers: { 'Content-Type': undefined },
+                        data: formData,
+                        transformRequest: angular.identity
+                    }).then(function (response) {
+                        $http({
+                            method: 'POST',
+                            url: serviceUrl + '/Projects/' + projectId + '/SaveFile',
+                            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+                            data: {
+                                projectFile: {
+                                    Name: response.data[0].Name,
+                                    AttachmentType: response.data[0].Type,
+                                    FileName: response.data[0].GuidFileName,
+                                }
+                            }
+                        }).then(callback);
+                    });
+                },
+
+                getFiles: function (projectId) {
+                    return $http({
+                        method: 'GET',
+                        url: serviceUrl + '/Projects/' + projectId + '/Attachments',
+                        headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+                    });
+                },
+
+                deleteFile: function (projectId, fileName) {
+                    return $http({
+                        method: 'DELETE',
+                        url: serviceUrl + '/Projects/' + projectId + '/Attachments/' + fileName,
+                        headers: { 'Content-Type': 'application/json; charset=UTF-8' }
                     });
                 }
             };

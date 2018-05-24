@@ -1,13 +1,16 @@
 ﻿angular
-    .module('btsApp.ctrl.project', ['btsApp.directive.projectUser', 'btsApp.service.projects'])
+    .module('btsApp.ctrl.project', ['btsApp.directive.projectUser', 'btsApp.service.projects', 'btsApp.directive.onChooseFile'])
     .controller('projectCtrl', [
         '$scope',
         '$routeParams',
         'projectsService',
         function ($scope, $routeParams, projectsService) {
+            var MAX_FILES = 10;
+
             $scope.project = {};
             $scope.comments = {};
             $scope.commentToSend = "";
+            $scope.files = [];
             
             var projectManagerRoleName = 'Руководитель проекта';
 
@@ -66,6 +69,12 @@
                 };
             }
 
+            function setFiles() {
+                projectsService.getFiles($routeParams.id).then(function (response) {
+                    $scope.files = response.data.ProjectFiles;
+                });
+            }
+
             function setProject() {
                 clearBugs();
                 projectsService.getProjectWithBugsAndMembers($routeParams.id).then(function (response) {
@@ -74,6 +83,7 @@
                     setBugs();
                     setComments();
                 });
+                setFiles();
             }
 
             function setBugs() {
@@ -236,6 +246,24 @@
                 projectsService.sendProjectComment($routeParams.id, $scope.commentToSend).then(function (response) {
                     $scope.commentToSend = "";
                     setComments();
+                });
+            };
+
+            $scope.uploadFile = function (event) {
+                var file = event.target.files[0];
+                projectsService.uploadFile($routeParams.id, file, function (response) {
+                    setFiles();
+                });
+                event.target.value = "";
+            };
+
+            $scope.isUploadable = function () {
+                return $scope.files.length < MAX_FILES;
+            };
+
+            $scope.deleteFile = function (file) {
+                projectsService.deleteFile($routeParams.id, file.FileName).then(function (response) {
+                    setFiles();
                 });
             }
 

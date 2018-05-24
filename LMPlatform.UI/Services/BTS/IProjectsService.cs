@@ -1,6 +1,7 @@
 ﻿using System.ServiceModel;
 using System.ServiceModel.Web;
 using LMPlatform.UI.Services.Modules.BTS;
+using System.IO;
 
 namespace LMPlatform.UI.Services.BTS
 {
@@ -26,5 +27,17 @@ namespace LMPlatform.UI.Services.BTS
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "/Projects/{id}/Bugs", ResponseFormat = WebMessageFormat.Json)]
         ProjectCommentsResult GetProjectComments(string id);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/Projects/{id}/SaveFile", BodyStyle = WebMessageBodyStyle.WrappedRequest, ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        ProjectFileResult SaveFile(string id, ProjectFileViewData projectFile);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "/Projects/{id}/Attachments", ResponseFormat = WebMessageFormat.Json)]
+        ProjectFilesResult GetAttachments(string id);
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "/Projects/{id}/Attachments/{fileName}", ResponseFormat = WebMessageFormat.Json)]
+        void DeleteAttachment(string id, string fileName);
     }
 }

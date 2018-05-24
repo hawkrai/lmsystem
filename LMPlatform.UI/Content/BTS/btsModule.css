@@ -55,3 +55,25 @@ select {
 #comments-panel {
     padding: 0px;
 }
+
+.file-input {
+    position: relative;
+    margin-top: 20px;
+}
+
+.file-input input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    border: solid transparent;
+    width: 115px;
+    opacity: 0;
+    direction: ltr;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.files-table {
+    margin-top: 10px;
+}

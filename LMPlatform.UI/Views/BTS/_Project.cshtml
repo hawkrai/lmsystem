@@ -68,6 +68,50 @@
             </tbody>
         </table>
 
+        <div class="file-input" ng-show="isUploadable()">
+            <span class="btn btn-success btn-sm fileinput-button">
+                <i class="icon-plus icon-white"></i>
+                <span>Добавить файл</span>
+                <input type="file" name="files[]" multiple="" class="upload" ng-model="files" on-choose-file="uploadFile">
+            </span>
+        </div>
+
+        <table class="table table-striped files-table">
+            <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery" ng-repeat="file in files">
+                <tr class="template-download fade in" id="8479">
+
+                    <td class="preview" style="width:50px">
+                        <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="{{file.Name}}" data-gallery="gallery" download="{{file.Name}}"><img src="/Content/mvcfileupload/img/generalFile.png"></a>
+                    </td>
+                    <td class="name">
+                        <a style="word-break: break-all;" href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="{{file.Name}}" title="{{file.Name}}" data-gallery="gallery" download="{{file.Name}}">{{file.Name}}</a>
+                    </td>
+                    <td class="guid" style="display:none"><span>{{file.FileName}}</span></td>
+                    <td class="type"><span>{{file.AttachmentType}}</span></td>
+                    <td class="type_data">
+
+                        <span style="color:#0072e6">Прикрепленный файл</span>
+
+                    </td>
+                    <td colspan="2"></td>
+
+                    <td style="text-align:right;">
+                        <a style="margin-right: 10px; cursor: pointer" class="delete" data-type="DELETE" title="{{file.Name}}" ng-click="deleteFile(file)"><i class="fa fa-times fa-2x" data-toggle="tooltip" data-placement="right" title="Удалить файл"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <ul class="dropdown-menu">
+                <li ng-repeat="file in files">
+                    <a href="api/Upload?filename={{file.PathName}}//{{file.FileName}}">
+                        {{file.Name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
         <div class="row" style="margin-top: 40px;">
             <div id="commentPanel" style="padding: 0 15px 0 15px">
                 <div>
