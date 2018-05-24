@@ -55,8 +55,8 @@ else
         margin-bottom: 0px;
         list-style: none;
         font-size: 11px;
-        border:none;
-        font-style:italic;
+        border: none;
+        font-style: italic;
     }
 
         .breadcrumbs > li {
@@ -76,12 +76,19 @@ else
         }
 </style>
 <section style=" margin-bottom:25px">
-    <ol class="breadcrumbs">
+    <ul class="breadcrumbs">
         <li ng-repeat="crumb in navigationService.getBreadcrumbs()">
             <a ng-click="goToBredCrumb($event)" data-idfolder="{{crumb.Id}}" class="link ng-scope">{{crumb.Name}}</a>
         </li>
-    </ol>
+    </ul>
 </section>
+<div style="min-height:66px; ">
+    <ol>
+        <li ng-repeat="recomendation in recomendations">
+            <a ng-click="recomendation.IsTest ? openTest(recomendation.Id) : openFolderConcept(recomendation.Id)"><b>{{recomendation.Text}}</b></a>
+        </li>
+    </ol>
+</div>
 <div id="buttonActionSection" style="min-height:36px; ">
     <a id="openSelectedItem" style="margin-right:30px;" ng-show="isShowOpenItemButton()" class="btn btn-success btn-sm" ng-click="openConcept()"><i style="margin-right:10px;" class="glyphicon glyphicon-play-circle"></i>Просмотреть</a>
     @if (User.IsInRole("lector"))

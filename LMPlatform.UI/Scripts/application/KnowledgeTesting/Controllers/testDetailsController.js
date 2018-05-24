@@ -12,7 +12,7 @@ knowledgeTestingApp.controller('testDetailsCtrl', function ($scope, $http, id, $
 
     $scope.saveTest = function () {
         $scope.test.SubjectId = getUrlValue('subjectId');
-        $scope.ForSelfStudy = $scope.test.IsForSelfStudy;
+        $scope.test.ForSelfStudy = $scope.test.IsForSelfStudy;
         $http({ method: "POST", url: kt.actions.tests.saveTest, dataType: 'json', params: $scope.test })
         .success(function (data) {
             if (data.ErrorMessage) {

@@ -345,38 +345,5 @@ namespace LMPlatform.UI.Services.Concept
                 Subject = new Modules.Parental.SubjectViewData(subj)
             };
         }
-
-        public IList<ConceptResult> GetRecomendations(int rootConceptId)
-        {
-            IList<ConceptResult> result = new List<ConceptResult>();
-            try
-            {
-                var concepts = ConceptManagementService.GetTreeConceptByElementId(rootConceptId).GetAllChildren().Where(x => x.IsGroup);
-                foreach(var concept in concepts)
-                {
-                    var questions = QuestionsManagementService.GetQuestionsByConceptId(concept.Id);
-                    if(questions != null)
-                    {
-                        foreach (var question in questions)
-                        {
-                            var points = TestPassingService.GetPointsForQuestion(WebSecurity.CurrentUserId, question.Id);
-                            if(points == 0)
-                            {
-                                result.Add(new ConceptResult
-                                {
-                                    Concept = new ConceptViewData(concept)
-                                });
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            return result;
-        }
     }
 }
