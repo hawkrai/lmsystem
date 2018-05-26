@@ -20,8 +20,6 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 			var testsQuery = new Query<Test>(test => test.Id == testId)
 				.Include(t => t.TestUnlocks);
 
-			var answersQuery = new Query<AnswerOnTestQuestion>(a => a.TestId == testId);
-
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 			{
 				var unlocks = repositoriesContainer.TestsRepository.GetBy(testsQuery).TestUnlocks;

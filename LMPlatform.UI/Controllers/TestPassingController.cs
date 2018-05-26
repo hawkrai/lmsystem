@@ -175,7 +175,7 @@ namespace LMPlatform.UI.Controllers
         {
             IList<UserAnswerViewModel> result = new List<UserAnswerViewModel>();
 
-            var userAnswers = TestPassingService.GetAnswersForTest(testId, studentId);
+            var userAnswers = TestPassingService.GetAnswersForEndedTest(testId, studentId);
             foreach(var answer in userAnswers)
             {
                 var test = TestsManagementService.GetTest(testId, true);
