@@ -25,6 +25,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
         List<AnswerOnTestQuestion> GetAnswersForTest(int testId, int userId);
 
+        List<AnswerOnTestQuestion> GetAnswersForEndedTest(int testId, int userId);
+
         bool CheckForSubjectAvailableForStudent(int studentId, int subjectId);
 
         int? GetPointsForQuestion(int userId, int questionId);

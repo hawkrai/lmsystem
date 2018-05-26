@@ -41,6 +41,12 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+        public bool TestEnded
+        {
+            get;
+            set;
+        }
+
         public DateTime? Time
         {
             get; 

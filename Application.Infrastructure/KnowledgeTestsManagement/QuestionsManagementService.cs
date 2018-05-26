@@ -25,7 +25,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             var testsQuery = new Query<Test>(test => test.Id == testId)
                 .Include(t => t.TestUnlocks);
 
-            var answersQuery = new Query<AnswerOnTestQuestion>(a => a.TestId == testId);
+            var answersQuery = new Query<AnswerOnTestQuestion>(a => a.TestId == testId && !a.TestEnded);
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {

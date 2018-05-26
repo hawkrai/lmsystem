@@ -385,13 +385,28 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 testAnswers =
                     repository.GetAll(
                         new Query<AnswerOnTestQuestion>(
-                            testAnswer => testAnswer.TestId == testId && testAnswer.UserId == userId)).ToList();
+                            testAnswer => testAnswer.TestId == testId && testAnswer.UserId == userId && !testAnswer.TestEnded)).ToList();
             }
 
             if (!testAnswers.Any())
             {
                 StartNewTest(testId, userId);
                 return GetAnswersForTest(testId, userId);
+            }
+
+            return testAnswers;
+        }
+
+        public List<AnswerOnTestQuestion> GetAnswersForEndedTest(int testId, int userId)
+        {
+            List<AnswerOnTestQuestion> testAnswers;
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                IRepositoryBase<AnswerOnTestQuestion> repository = repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>();
+                testAnswers =
+                    repository.GetAll(
+                        new Query<AnswerOnTestQuestion>(
+                            testAnswer => testAnswer.TestId == testId && testAnswer.UserId == userId && testAnswer.TestEnded)).ToList();
             }
 
             return testAnswers;
@@ -406,7 +421,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
 				var answerOnTestQuestion = repository.GetAll(
 						new Query<AnswerOnTestQuestion>(
-							testAnswer => testAnswer.QuestionId == questionId && testAnswer.UserId == userId)).ToList();
+							testAnswer => testAnswer.QuestionId == questionId && testAnswer.UserId == userId && !testAnswer.TestEnded)).ToList();
 
 				if(answerOnTestQuestion != null && answerOnTestQuestion.Any())
 				{
@@ -511,7 +526,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             {
                 answerOnTestQuestion =
                     repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetBy(
-                        new Query<AnswerOnTestQuestion>(answer => answer.UserId == userId && answer.TestId == testId && answer.Number == questionNumber));
+                        new Query<AnswerOnTestQuestion>(answer => answer.UserId == userId && answer.TestId == testId && answer.Number == questionNumber && !answer.TestEnded));
             }
 
             return answerOnTestQuestion;
@@ -571,7 +586,12 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             testPassResult.Percent = percent;
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().Delete(testAnswers);
+                foreach(var answer in testAnswers)
+                {
+                    answer.TestEnded = true;
+                    repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().Save(answer);
+                }
+
                 repositoriesContainer.RepositoryFor<TestPassResult>().Save(testPassResult);
 
                 var savedTestUnlock = repositoriesContainer.TestUnlocksRepository.GetAll(new
@@ -682,7 +702,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 testAnswers =
                     repository.GetAll(
                         new Query<AnswerOnTestQuestion>(
-                            testAnswer => testAnswer.TestId == testId && testAnswer.UserId == userId)).ToList();
+                            testAnswer => testAnswer.TestId == testId && testAnswer.UserId == userId && !testAnswer.TestEnded)).ToList();
             }
 
             if (!testAnswers.Any())
@@ -728,6 +748,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
+                var toDelete = repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetAll(new Query<AnswerOnTestQuestion>(x => x.TestId == testId && x.UserId == userId));
+                repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().Delete(toDelete);
                 repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().Save(answersTemplate);
                 repositoriesContainer.RepositoryFor<TestPassResult>().Save(testPassResult);
                 repositoriesContainer.ApplyChanges();
