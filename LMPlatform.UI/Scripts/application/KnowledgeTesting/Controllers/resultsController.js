@@ -191,17 +191,20 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
             .success(function (data) {
                 var str = "";
                 for (var i = 0; i < data.length; i++) {
-                    str += "Вопрос: " + data[i].QuestionTitle;
-                    if (data[i].QuestionDescription !== null) {
-                        str += "\n";
-                        str += data[i].QuestionDescription;
-                    }
+                    str += "Вопрос" + data[i].Number + ": " + data[i].QuestionTitle;
                     str += "\n";
+                    if (data[i].QuestionDescription !== null) {
+                        str += "Задание к вопросу: " + data[i].QuestionDescription;
+                        str += "\n";
+                    }
+                    str += "Ответ: " + data[i].AnswerString;
+                    str += "\n";
+
                     if (data[i].Points == 1) {
-                        str += "Ответ верный";
+                        str += "Верно";
                     }
                     else {
-                        str += "Ответ неверный";
+                        str += "Неверно";
                     }
                     str += "\n";
                     str += "\n";

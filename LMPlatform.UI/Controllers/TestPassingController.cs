@@ -184,9 +184,13 @@ namespace LMPlatform.UI.Controllers
                 {
                     Points = answer.Points,
                     QuestionTitle = question.Title,
-                    QuestionDescription = question.Description
+                    QuestionDescription = question.Description,
+                    AnswerString = answer.AnswerString,
+                    Number = answer.Number
                 });
             }
+
+            result = result.OrderBy(x => x.Number).ToList();
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

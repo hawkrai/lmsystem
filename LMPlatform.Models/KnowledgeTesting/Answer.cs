@@ -30,12 +30,6 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
-        public ICollection<AnswerOnTestQuestion> StudentAnswersOnTestQuestions
-        {
-            get; 
-            set;
-        }
-
         public object Clone()
         {
             return new Answer

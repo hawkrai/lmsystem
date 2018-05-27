@@ -23,12 +23,6 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
-        public int? AnswerId
-        {
-            get;
-            set;
-        }
-
         public int QuestionId
         {
             get;
@@ -47,6 +41,12 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+        public string AnswerString
+        {
+            get;
+            set;
+        }
+
         public DateTime? Time
         {
             get; 
@@ -54,12 +54,6 @@ namespace LMPlatform.Models.KnowledgeTesting
         }
 
         public User User
-        {
-            get;
-            set;
-        }
-
-        public Answer Answer
         {
             get;
             set;

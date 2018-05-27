@@ -517,9 +517,6 @@ namespace LMPlatform.Data.Infrastructure
             studentAnswerOnTestQuestionEntity.HasRequired(answer => answer.User)
                 .WithMany(user => user.UserAnswersOnTestQuestions)
                 .HasForeignKey(answer => answer.UserId);
-            studentAnswerOnTestQuestionEntity.HasOptional(answer => answer.Answer)
-                .WithMany()
-                .HasForeignKey(answer => answer.AnswerId);
 		}
 
         #endregion Protected Members
