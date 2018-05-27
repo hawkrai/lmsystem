@@ -1,27 +1,49 @@
 ﻿
-<div ng-init =" init()">
+<div ng-init=" init()">
     <div class="input-group input-group-sm search-box" style="margin-bottom: 10px;float: right;">
         <span>Поиск&nbsp;</span>
         <input data-ng-model="query" type="text" class="form-control" placeholder="Введите название теста">
     </div>
     <div style="height: 20px"></div>
 
-    <div class="table-responsive" data-ng-show="results.length > 0">
-        <table class="table table-hover table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>№</th>
-                    <th>Тест</th>
-                    <th>Оценка</th>
-                </tr>
-            </thead>
-            <tr data-ng-repeat="result in results | filter:query">
-                <td width="10px">{{results.indexOf(result) + 1}}</td>
-                <td width="300px">{{result.Title}}</td>
-                <td width="300px">{{result.Points}} ({{result.Percent}}%)</td>
-            </tr>
-        </table>
-    </div>
+    <tabset>
+        <tab heading="Тесты для контроля знаний">
+            <div class="table-responsive" data-ng-show="results.length > 0">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Тест</th>
+                            <th>Оценка</th>
+                        </tr>
+                    </thead>
+                    <tr data-ng-repeat="result in results | filter:query">
+                        <td width="10px">{{results.indexOf(result) + 1}}</td>
+                        <td width="300px">{{result.Title}}</td>
+                        <td width="300px">{{result.Points}} ({{result.Percent}}%)</td>
+                    </tr>
+                </table>
+            </div>
+        </tab>
+        <tab heading="Тесты для самоконтроля и ЭУМК">
+            <div class="table-responsive" data-ng-show="results.length > 0">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Тест</th>
+                            <th>Оценка</th>
+                        </tr>
+                    </thead>
+                    <tr data-ng-repeat="result in resultsForSelfStudy | filter:query">
+                        <td width="10px">{{results.indexOf(result) + 1}}</td>
+                        <td width="300px">{{result.Title}}</td>
+                        <td width="300px">{{result.Points}} ({{result.Percent}}%)</td>
+                    </tr>
+                </table>
+            </div>
+        </tab>
+    </tabset>
 
     <div class="row col-md-12">
         <div id="chartBarAverage" class="jqplot-target"></div>

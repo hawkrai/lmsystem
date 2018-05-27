@@ -76,7 +76,8 @@ namespace LMPlatform.UI.Controllers
                 {
                     Id = test.Id,
                     Title = test.Title,
-                    Description = test.Description
+                    Description = test.Description,
+                    ForSelfStudy = test.ForSelfStudy
                 });
             
             return Json(availableTests, JsonRequestBehavior.AllowGet);
@@ -148,11 +149,13 @@ namespace LMPlatform.UI.Controllers
         [Authorize, HttpGet]
         public JsonResult GetStudentResults(int subjectId)
         {
-            var results = TestPassingService.GetStidentResults(subjectId, CurrentUserId).GroupBy(g => g.TestName).Select(group => new
+            var results = TestPassingService.GetStidentResults(subjectId, CurrentUserId).GroupBy(g => g.TestName)
+                .Select(group => new
             {
                 Title = group.Key,
                 Points = group.Last().Points,
-                Percent = group.Last().Percent
+                Percent = group.Last().Percent,
+                ForSelfStudy = TestsManagementService.GetTest(group.Last().TestId).ForSelfStudy
             });
 
             return Json(results, JsonRequestBehavior.AllowGet);
