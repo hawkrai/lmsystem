@@ -1,5 +1,5 @@
 ﻿
-<div class="row" data-ng-init="init()">    
+<div class="row" data-ng-init="init()">
     <div class="input-group input-group-sm search-box" style="padding-right: 15px; float: right">
         <span>Поиск&nbsp;</span>
         <input data-ng-model="query" type="text" class="form-control" placeholder="Введите название теста">
@@ -7,6 +7,10 @@
 </div>
 
 <div style="height: 20px"></div>
+
+<div>
+    <h4 style="margin-top: 20px;">Тесты для контроля знаний</h4>
+</div>
 
 <div class="table-responsive">
     <table class="table table-hover table-bordered table-striped">
@@ -19,6 +23,31 @@
         </thead>
         <tr data-ng-repeat="test in tests | filter:query">
             <td width="30px">{{tests.indexOf(test) + 1}}</td>
+            <td>{{test.Title}}</td>
+            <td style="width: 20px;">
+                <div>
+                    <a data-toggle="tooltip" data-tooltip="Пройти тест" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <h4 style="margin-top: 20px;">Тесты для самоконтроля и ЭУМК</h4>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Тема</th>
+                <th>Действие&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+        </thead>
+        <tr data-ng-repeat="test in testsForSelfStudy | filter:query">
+            <td width="30px">{{testsForSelfStudy.indexOf(test) + 1}}</td>
             <td>{{test.Title}}</td>
             <td style="width: 20px;">
                 <div>

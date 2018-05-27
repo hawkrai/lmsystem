@@ -12,5 +12,9 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
         public string QuestionDescription { get; set; }
 
         public int Points { get; set; }
+
+        public string AnswerString { get; set; }
+
+        public int Number { get; set; }
     }
 }

@@ -450,6 +450,16 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             {
                 answerOntestQuestion.Points = question.ComlexityLevel;
             }
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                foreach (var userAnswerId in answers.Select(x => x.Id))
+                {
+                    var answer = GetAnswerById(userAnswerId);
+                    answerOntestQuestion.AnswerString += answer.Content;
+                    answerOntestQuestion.AnswerString += "\n";
+                }
+            }
         }
 
         private void ProcessTextAnswer(IEnumerable<Answer> userAnswers, Question question, AnswerOnTestQuestion answerOntestQuestion)
@@ -468,6 +478,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             {
                 answerOntestQuestion.Points = question.ComlexityLevel;
             }
+
+            answerOntestQuestion.AnswerString = userAnswers.Single().Content.ToLower();
         }
 
         private void ProcessManyVariantsAnswer(IEnumerable<Answer> userAnswers, Question question, AnswerOnTestQuestion answerOntestQuestion)
@@ -493,6 +505,16 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             {
                 answerOntestQuestion.Points = question.ComlexityLevel;
             }
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                foreach (var userAnswerId in userAnswers.Where(answer => answer.СorrectnessIndicator > 0).Select(x => x.Id))
+                {
+                    var answer = GetAnswerById(userAnswerId);
+                    answerOntestQuestion.AnswerString += answer.Content;
+                    answerOntestQuestion.AnswerString += "\n";
+                }
+            }
         }
 
         private void ProcessOneVariantAnswer(IEnumerable<Answer> userAnswers, Question question, AnswerOnTestQuestion answerOntestQuestion)
@@ -507,6 +529,12 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             if (correctAnswer.Id == userAnswers.Single(answer => answer.СorrectnessIndicator > 0).Id)
             {
                 answerOntestQuestion.Points = question.ComlexityLevel;
+            }
+
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var answer = GetAnswerById(userAnswers.FirstOrDefault(y => y.СorrectnessIndicator > 0).Id);
+                answerOntestQuestion.AnswerString = answer.Content;
             }
         }
 

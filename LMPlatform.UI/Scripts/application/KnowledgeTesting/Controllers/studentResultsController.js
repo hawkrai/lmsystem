@@ -5,7 +5,8 @@ studentsTestingApp.controller('studentResultsCtrl', function ($scope, $http) {
     $scope.init = function() {
         $http({ method: "GET", url: kt.actions.results.getResults, dataType: 'json', params: { subjectId: $scope.subjectId } })
             .success(function(data) {
-                $scope.results = data;
+                $scope.results = data.filter(x => !x.ForSelfStudy);
+                $scope.resultsForSelfStudy = data.filter(x => x.ForSelfStudy);
                 $scope.drawChartBar();
             })
             .error(function(data, status, headers, config) {
