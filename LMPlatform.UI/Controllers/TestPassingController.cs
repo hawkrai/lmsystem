@@ -84,6 +84,21 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpGet]
+        public JsonResult GetAvailableTestsForMobile(int subjectId, int userId)
+        {
+            var availableTests = TestPassingService.GetAvailableTestsForStudent(userId, subjectId)
+                .Select(test => new
+                {
+                    Id = test.Id,
+                    Title = test.Title,
+                    Description = test.Description,
+                    ForSelfStudy = test.ForSelfStudy
+                });
+
+            return Json(availableTests, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public JsonResult GetNextQuestionJson(int testId, int questionNumber)
         {
             var result = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
