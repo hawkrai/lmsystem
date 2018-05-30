@@ -196,7 +196,7 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2" ng-init="studentIndexOne=$index">
 							<td style="width: 20px">{{studentIndexOne + 1}}</td>
-							<td style="min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="min-width: 300px"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark" ng-init="markIndexOne=$index" ng-dblclick="exposeMarkVisitingOne(data.ScheduleProtectionLabId)">
 								<div style="text-align:center">
 									<div style="float:left; margin-left:10px;">
@@ -241,7 +241,7 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2" ng-init="studentIndexTwo=$index">
 							<td style="width: 20px">{{studentIndexTwo + 1}}</td>
-							<td style="min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="min-width: 300px"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark" ng-init="markIndexTwo=$index" ng-dblclick="exposeMarkVisitingTwo(data.ScheduleProtectionLabId)">
 								<div style="text-align:center">
 									<div style="float:left; margin-left:10px;">
@@ -282,7 +282,7 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2" ng-init="studentIndexThird=$index">
 							<td style="width: 20px">{{studentIndexThird + 1}}</td>
-							<td style="min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="min-width: 300px"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 50px; text-align: center" ng-repeat="data in student.LabVisitingMark" ng-init="markIndexThird=$index" ng-dblclick="exposeMarkVisitingThird(data.ScheduleProtectionLabId)">
 								<div style="text-align:center">
 									<div style="float:left; margin-left:10px;">
@@ -335,7 +335,7 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2" ng-init="studentIndex=$index">
 							<td style="width: 42px">{{studentIndex + 1}}</td>
-							<td style="width: auto"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="width: auto"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 60px; text-align: center" ng-repeat="mark in student.Marks"
 								ng-init="markIndex=$index" ng-dblclick="exposeMarkSubOne(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
 
@@ -386,7 +386,7 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2" ng-init="studentIndex=$index">
 							<td style="width: 42px">{{studentIndex + 1}}</td>
-							<td style="width: auto"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="width: auto"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 60px; text-align: center" ng-repeat="mark in student.Marks"
 								ng-init="markIndex=$index" ng-dblclick="exposeMarkSubTwo(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
 
@@ -432,7 +432,7 @@
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2" ng-init="studentIndex=$index">
 							<td style="width: 42px">{{studentIndex + 1}}</td>
-							<td style="width: auto"><a href="~/Profile/Page/{{student.Login}}">{{student.FullName}}</a></td>
+							<td style="width: auto"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 60px; text-align: center" ng-repeat="mark in student.Marks"
 								ng-init="markIndex=$index" ng-dblclick="exposeMarkSubThird(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
 

@@ -40,7 +40,7 @@
                     </thead>
                     <tr data-ng-repeat="result in subgroupResults | filter:query">
                         <td width="10px">{{subgroupResults.indexOf(result) + 1}}</td>
-                        <td width="300px"><a href="/Profile/Page/{{result.Login}}">{{result.StudentName}}</a></td>
+                        <td width="300px"><a href="/Profile/Page?userLogin={{result.Login}}">{{result.StudentName}}</a></td>
                         <td data-ng-repeat="mark in result.TestPassResults | filter:!forSelfStudyFilter">
                             <div>
                                 <div data-ng-show="mark.Points != null" tooltip="Тест {{mark.TestName}} пройден на {{mark.Points}}" tooltip-placement="right"><a ng-click="loadAnswers(mark.StudentId, mark.TestId)">{{mark.Points}} ({{mark.Percent}}%)</a></div>
@@ -100,7 +100,7 @@
                     </thead>
                     <tr data-ng-repeat="result in subgroupResults | filter:query">
                         <td width="10px">{{subgroupResults.indexOf(result) + 1}}</td>
-                        <td width="300px"><a href="/Profile/Page/{{result.Login}}">{{result.StudentName}}</a></td>
+                        <td width="300px"><a href="/Profile/Page?userLogin={{result.Login}}">{{result.StudentName}}</a></td>
                         <td data-ng-repeat="mark in result.TestPassResults | filter:forSelfStudyFilter">
                             <div>
                                 <div data-ng-show="mark.Points != null" tooltip="Тест {{mark.TestName}} пройден на {{mark.Points}}" tooltip-placement="right"><a ng-click="loadAnswers(mark.StudentId, mark.TestId)">{{mark.Points}} ({{mark.Percent}}%)</a></div>

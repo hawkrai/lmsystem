@@ -125,7 +125,7 @@
 								</thead>
 								<tr ng-repeat="student in groupWorkingData.selectedGroup.LecturesMarkVisiting">
 									<td style="width: 20px">{{$index + 1}}</td>
-									<td style="max-width: 300px; min-width: 300px"><a href="~/Profile/Page/{{student.Login}}">{{student.StudentName}}</a></td>
+									<td style="max-width: 300px; min-width: 300px"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.StudentName}}</a></td>
 
 									<td ng-repeat="data in student.Marks" style="text-align: center;">
 										<span editable-text="data.Mark" e-name="Mark" e-form="tableformVisiting">
