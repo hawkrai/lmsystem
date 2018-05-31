@@ -107,27 +107,27 @@ namespace LMPlatform.UI.Controllers
                     }, JsonRequestBehavior.AllowGet);
                 }
             }
-
-            var recommendedConcept = GetMaterialsRecomendations(predTest.Id).FirstOrDefault();
-
-            if(recommendedConcept != null && recommendedConcept.Concept != null)
+            foreach(var recommendedConcept in GetMaterialsRecomendations(predTest.Id))
             {
-                var testIds = GetTestForEUMKConcept(recommendedConcept.Concept.Id);
-                if(testIds != null && testIds.Count() > 0)
+                if (recommendedConcept != null && recommendedConcept.Concept != null)
                 {
-                    result.Add(new { IsTest = false, Id = recommendedConcept.Concept.Id, Text = "Рекомендуемый для прочтения материал" });
-                    foreach(var testId in testIds)
+                    var testIds = GetTestForEUMKConcept(recommendedConcept.Concept.Id, subjectId);
+                    if (testIds != null && testIds.Count() > 0)
                     {
-                        result.Add(new { IsTest = true, Id = testId, Text = "Пройдите тест!" });
+                        result.Add(new { IsTest = false, Id = recommendedConcept.Concept.Id, Text = "Рекомендуемый для прочтения материал" });
+                        foreach (var testId in testIds)
+                        {
+                            result.Add(new { IsTest = true, Id = testId, Text = "Пройдите тест!" });
+                        }
+                        return Json(result, JsonRequestBehavior.AllowGet);
                     }
                 }
-                return Json(result, JsonRequestBehavior.AllowGet);
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        private IEnumerable<int> GetTestForEUMKConcept(int conceptId)
+        private IEnumerable<int> GetTestForEUMKConcept(int conceptId, int subjectId)
         {
             var testIds = QuestionsManagementService.GetQuestionsByConceptId(conceptId).Select(x => x.TestId).Distinct();
 
@@ -136,7 +136,12 @@ namespace LMPlatform.UI.Controllers
                 var test = TestsManagementService.GetTest(testId);
                 if(test.ForEUMK)
                 {
-                    yield return test.Id;
+                    var testResult = TestPassingService.GetStidentResults(subjectId, CurrentUserId).FirstOrDefault(x => x.TestId == test.Id);
+
+                    if(testResult.Points < 10)
+                    {
+                        yield return test.Id;
+                    }
                 }
             }
         }
