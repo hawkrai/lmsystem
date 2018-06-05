@@ -99,22 +99,9 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetNextQuestionJson(int testId, int questionNumber)
+        public JsonResult GetNextQuestionJson(int testId, int questionNumber, int userId)
         {
-            var result = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
-            //if(result.Question == null)
-            //{
-            //    foreach (var item in result.QuestionsStatuses)
-            //    {
-            //        TestQuestionPassingService.SaveTestQuestionPassResults(new TestQuestionPassResults
-            //        {
-            //            StudentId = CurrentUserId,
-            //            TestId = testId,
-            //            QuestionNumber = item.Key,
-            //            Result = (int)item.Value
-            //        });
-            //    }
-            //}
+            var result = TestPassingService.GetNextQuestion(testId, userId, questionNumber);
             Question question = null;
             if(result.Question != null)
             {
@@ -232,6 +219,14 @@ namespace LMPlatform.UI.Controllers
         public JsonResult AnswerQuestionAndGetNext(IEnumerable<AnswerViewModel> answers, int testId, int questionNumber)
         {
             TestPassingService.MakeUserAnswer(answers != null && answers.Any() ? answers.Select(answerModel => answerModel.ToAnswer()) : null, CurrentUserId, testId, questionNumber);
+
+            return Json("Ok");
+        }
+
+        [HttpPost]
+        public JsonResult AnswerQuestionAndGetNextMobile(IEnumerable<AnswerViewModel> answers, int testId, int questionNumber, int userId)
+        {
+            TestPassingService.MakeUserAnswer(answers != null && answers.Any() ? answers.Select(answerModel => answerModel.ToAnswer()) : null, userId, testId, questionNumber);
 
             return Json("Ok");
         }
