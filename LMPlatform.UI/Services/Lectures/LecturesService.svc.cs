@@ -241,14 +241,6 @@ namespace LMPlatform.UI.Services.Lectures
                                                                                          StudentId = student.StudentId
                                                                                      }).ToList());   
                 }
-
-                //SubjectManagementService.SaveMarksCalendarData(students.Select(e => new LecturesVisitMark
-                //                                                                     {
-                //                                                                         Id = e.MarkId,
-                //                                                                         Mark = e.Mark,
-                //                                                                         LecturesScheduleVisitingId = int.Parse(dateId),
-                //                                                                         StudentId = e.StudentId
-                //                                                                     }).ToList());
                 return new ResultViewData()
                 {
                     Message = "Данные успешно добавлены",
@@ -264,6 +256,35 @@ namespace LMPlatform.UI.Services.Lectures
                 };
             }
         }
+
+		public ResultViewData SaveMarksCalendarDataSingle(int markId, string mark, int lecuresVisitId, int studentId)
+		{
+			try
+			{
+				SubjectManagementService.SaveMarksCalendarData(new List<LecturesVisitMark> { new LecturesVisitMark
+					{
+						Id = markId,
+						Mark = mark,
+						LecturesScheduleVisitingId = lecuresVisitId,
+						StudentId = studentId
+					}
+				});
+
+				return new ResultViewData()
+				{
+					Message = "Данные успешно добавлены",
+					Code = "200"
+				};
+			}
+			catch (Exception)
+			{
+				return new ResultViewData()
+				{
+					Message = "Произошла ошибка при добавлении данных",
+					Code = "500"
+				};
+			}
+		}
 
         public ResultViewData DeleteVisitingDate(string id)
         {

@@ -251,6 +251,28 @@ namespace LMPlatform.UI.Services.Labs
             }
         }
 
+		public ResultViewData SaveLabsVisitingDataSingle(int dateId, string mark, string comment, int studentsId, int id)
+		{
+			try
+			{
+				SubjectManagementService.SaveLabsVisitingData(new ScheduleProtectionLabMark(id, studentsId, comment, mark, dateId));
+
+				return new ResultViewData()
+				{
+					Message = "Данные успешно добавлены",
+					Code = "200"
+				};
+			}
+			catch (Exception)
+			{
+				return new ResultViewData()
+				{
+					Message = "Произошла ошибка при добавлении данных",
+					Code = "500"
+				};
+			}
+		}
+
         public ResultViewData SaveLabsVisitingData(int dateId, List<string> marks, List<string> comments, List<int> studentsId, List<int> Id, List<StudentsViewData> students)
         {
             try
