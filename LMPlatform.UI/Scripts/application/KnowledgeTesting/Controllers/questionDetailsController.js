@@ -54,15 +54,19 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
     }
 
     function findConceptById(data, index) {
+        var result = null;
         for (var i = 0; i < data.length; i++) {
             if (data[i].Id == index) {
-                return data[i];
+                result = data[i];
             }
             else if (data[i].Children != undefined && data[i].Children.length > 0) {
-                return findConceptById(data[i].Children, index);
+                result = findConceptById(data[i].Children, index);
+            }
+            if (result != null && result.Id == index) {
+                return result;
             }
         }
-        return null;
+        return result;
     }
 
     $scope.buildChildNodes = function (child, rootRef) {
