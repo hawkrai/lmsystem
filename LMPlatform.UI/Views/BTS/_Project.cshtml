@@ -43,6 +43,7 @@
             </div>
             <div class="col-md-5">
                 <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onClearProject()">Очистить проект</a>
+                <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onOpenMatrixForm()">Сгенерировать матрицу</a>
             </div>
         </div>
         <br />
@@ -199,6 +200,43 @@
                         <a type="button" class="btn btn-primary btn-sm" href="/BTS#/Projects/{{project.Id}}/Bugs">Перейти к ошибкам проекта</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="matrixForm" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Генерация матрицы</h4>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 40px;">
+                    <div class="btn-group">
+                        <button id="requirementsBtn" type="button" class="btn btn-default btn-sm dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+                            {{matrix.requirementsLabel}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="requirementsBtn">
+                            <li ng-repeat="file in files" ng-click="setMatrixRequirementsFile(file)"><a>{{file.Name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="btn-group">
+                        <button id="testsBtn" type="button" class="btn btn-default btn-sm dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+                            {{matrix.testsLabel}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="testsBtn">
+                            <li ng-repeat="file in files" ng-click="setMatrixTestsFile(file)"><a>{{file.Name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a href="#" class="btn btn-primary btn-sm" ng-click="saveNews()" id="saveNewsButton" data-dismiss="modal">Сгенерировать</a>
             </div>
         </div>
     </div>

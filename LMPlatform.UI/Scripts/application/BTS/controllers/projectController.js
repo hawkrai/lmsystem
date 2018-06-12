@@ -6,11 +6,19 @@
         'projectsService',
         function ($scope, $routeParams, projectsService) {
             var MAX_FILES = 10;
+            var MATRIX_REQUIREMENTS_LABEL = 'Файл требований';
+            var MATRIX_TEST_LABEL = 'Файл тестов';
 
             $scope.project = {};
             $scope.comments = {};
             $scope.commentToSend = "";
             $scope.files = [];
+            $scope.matrix = {
+                requirementsFile: null,
+                requirementsLabel: MATRIX_REQUIREMENTS_LABEL,
+                testsFile: null,
+                testsLabel: MATRIX_TEST_LABEL
+            };
             
             var projectManagerRoleName = 'Руководитель проекта';
 
@@ -266,6 +274,20 @@
                     setFiles();
                 });
             }
+
+            $scope.onOpenMatrixForm = function () {
+                $('#matrixForm').modal();
+            };
+
+            $scope.setMatrixRequirementsFile = function (file) {
+                $scope.matrix.requirementsFile = file;
+                $scope.matrix.requirementsLabel = file.Name;
+            };
+
+            $scope.setMatrixTestsFile = function (file) {
+                $scope.matrix.testsFile = file;
+                $scope.matrix.testsLabel = file.Name;
+            };
 
             init();
         }]);
