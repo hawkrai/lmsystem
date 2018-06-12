@@ -34,6 +34,7 @@ namespace LMPlatform.Models.KnowledgeTesting
         {
             return new Answer
             {
+                Id = Id,
                 Content = Content,
                 СorrectnessIndicator = СorrectnessIndicator
             };
