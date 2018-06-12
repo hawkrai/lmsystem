@@ -2,6 +2,7 @@
 using System.Linq;
 using Application.Core;
 using Application.Infrastructure.ProjectManagement;
+using Application.Infrastructure.BTS;
 using LMPlatform.UI.Services.Modules.BTS;
 using WebMatrix.WebData;
 using System.Web.Http;
@@ -13,16 +14,6 @@ namespace LMPlatform.UI.Services.BTS
     [Authorize(Roles = "student, lector")]
     public class ProjectsService : IProjectsService
     {
-        private readonly LazyDependency<IProjectManagementService> projectManagementService = new LazyDependency<IProjectManagementService>();
-
-        public IProjectManagementService ProjectManagementService
-        {
-            get
-            {
-                return projectManagementService.Value;
-            }
-        }
-
         public ProjectsResult Index(int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null)
         {
             var projects = ProjectManagementService.GetUserProjects(WebSecurity.CurrentUserId, pageSize, pageNumber, sortingPropertyName, desc, searchString)
@@ -115,6 +106,30 @@ namespace LMPlatform.UI.Services.BTS
         public void DeleteAttachment(string id, string fileName)
         {
             ProjectManagementService.DeleteAttachment(int.Parse(id), fileName);
+        }
+
+        public void GenerateMatrix(string id, ProjectMatrixViewData matrix)
+        {
+            MatrixManagmentService.Fillrequirements(int.Parse(id), matrix.RequirementsFileName);
+        }
+
+        private readonly LazyDependency<IProjectManagementService> projectManagementService = new LazyDependency<IProjectManagementService>();
+        private readonly LazyDependency<IMatrixManagmentService> matrixManagementService = new LazyDependency<IMatrixManagmentService>();
+
+        private IProjectManagementService ProjectManagementService
+        {
+            get
+            {
+                return projectManagementService.Value;
+            }
+        }
+
+        private IMatrixManagmentService MatrixManagmentService
+        {
+            get
+            {
+                return matrixManagementService.Value;
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Application.Core.Data;
+using LMPlatform.Models.BTS;
 
 namespace LMPlatform.Models
 {
@@ -26,5 +26,7 @@ namespace LMPlatform.Models
         public ICollection<ProjectComment> ProjectComments { get; set; }
 
         public ICollection<Bug> Bugs { get; set; }
+
+        public ICollection<ProjectMatrixRequirement> MatrixRequirements { get; set; }
     }
 }

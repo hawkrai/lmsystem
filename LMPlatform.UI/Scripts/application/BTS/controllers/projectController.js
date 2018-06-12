@@ -289,5 +289,12 @@
                 $scope.matrix.testsLabel = file.Name;
             };
 
+            $scope.generateMatrix = function () {
+                matrix = $scope.matrix;
+                projectsService.generateMatrix($routeParams.id, matrix.requirementsFile.FileName, matrix.testsFile.FileName).then(function (response) {
+                    
+                });
+            };
+
             init();
         }]);

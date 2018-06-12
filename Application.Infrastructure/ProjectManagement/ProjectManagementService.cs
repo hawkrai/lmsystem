@@ -6,6 +6,7 @@ using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 using System;
 using Application.Infrastructure.FilesManagement;
+using LMPlatform.Models.BTS;
 
 namespace Application.Infrastructure.ProjectManagement
 {
@@ -227,6 +228,16 @@ namespace Application.Infrastructure.ProjectManagement
             return project;
         }
 
+        public ProjectMatrixRequirement CreateMatrixRequirement(ProjectMatrixRequirement requirement)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.ProjectMatrixRequirementsRepository.Save(requirement);
+                repositoriesContainer.ApplyChanges();
+            }
+            return requirement;
+        }
+
         public void UpdateProject(Project project)
         {
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -391,6 +402,21 @@ namespace Application.Infrastructure.ProjectManagement
                     return new List<Attachment>();
                 }
                 return FilesManagementService.GetAttachments(project.Attachments).ToList();
+            }
+        }
+
+        public Attachment GetAttachment(int projectId, string fileName)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<Project>(e => e.Id == projectId);
+                var project = repositoriesContainer.ProjectsRepository.GetBy(query);
+
+                if (string.IsNullOrEmpty(project.Attachments))
+                {
+                    return null;
+                }
+                return FilesManagementService.GetAttachments(project.Attachments).First(e => e.FileName == fileName);
             }
         }
 

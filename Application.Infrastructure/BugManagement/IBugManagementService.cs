@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Core.Data;
+﻿using Application.Core.Data;
 using LMPlatform.Models;
+using System.Collections.Generic;
 
 namespace Application.Infrastructure.BugManagement
 {

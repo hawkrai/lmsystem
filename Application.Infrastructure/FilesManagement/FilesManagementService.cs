@@ -92,5 +92,10 @@ namespace Application.Infrastructure.FilesManagement
                 File.Delete(tempFilePath);
             }
         }
+
+        public string GetFullPath(Attachment attachment)
+        {
+            return _storageRoot + attachment.PathName + "//" + attachment.FileName;
+        }
     }
 }

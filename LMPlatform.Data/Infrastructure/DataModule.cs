@@ -21,7 +21,8 @@ namespace LMPlatform.Data.Infrastructure
             containerWrapper.Register<IMessageRepository, MessageRepository>();
             containerWrapper.Register<IDpContext, LmPlatformModelsContext>();
             containerWrapper.Register<ICpContext, LmPlatformModelsContext>();
-			return containerWrapper;
+            containerWrapper.Register<IProjectMatrixRequirementsRepository, ProjectMatrixRequirementsRepository>();
+            return containerWrapper;
 		}
 	}
 }

@@ -99,6 +99,7 @@
     <Compile Include="BTS\BugSeverity.cs" />
     <Compile Include="BTS\BugStatus.cs" />
     <Compile Include="BTS\BugSymptom.cs" />
+    <Compile Include="BTS\ProjectMatrixRequirement.cs" />
     <Compile Include="Bug.cs" />
     <Compile Include="BugLog.cs" />
     <Compile Include="Concept.cs" />

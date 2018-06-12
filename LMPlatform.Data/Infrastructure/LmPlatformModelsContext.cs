@@ -565,6 +565,12 @@ namespace LMPlatform.Data.Infrastructure
             set;
         }
 
+        public DbSet<ProjectMatrixRequirement> ProjectMatrixRequirements
+        {
+            get;
+            set;
+        }
+
         #endregion DataContext BTS
 
         #region Protected BTS
@@ -578,6 +584,7 @@ namespace LMPlatform.Data.Infrastructure
             modelBuilder.Entity<BugStatus>().Map(m => m.ToTable("BugStatuses"));
             modelBuilder.Entity<BugSeverity>().Map(m => m.ToTable("BugSeverities"));
             modelBuilder.Entity<BugSymptom>().Map(m => m.ToTable("BugSymptoms"));
+            modelBuilder.Entity<ProjectMatrixRequirement>().Map(m => m.ToTable("ProjectMatrixRequirements"));
 
             modelBuilder.Entity<Project>()
                  .HasRequired<User>(e => e.Creator)
@@ -650,6 +657,12 @@ namespace LMPlatform.Data.Infrastructure
                 .WithMany(e => e.DeveloperBugs)
                 .HasForeignKey(e => e.AssignedDeveloperId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ProjectMatrixRequirement>()
+                .HasRequired<Project>(e => e.Project)
+                .WithMany(e => e.MatrixRequirements)
+                .HasForeignKey(e => e.ProjectId)
+                .WillCascadeOnDelete(true);
         }
 
         #endregion Protected BTS
