@@ -77,3 +77,7 @@ select {
 .files-table {
     margin-top: 10px;
 }
+
+.requirement-covered {
+    background-color: #7ce876;
+}

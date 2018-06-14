@@ -44,6 +44,7 @@
             <div class="col-md-5">
                 <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onClearProject()">Очистить проект</a>
                 <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onOpenMatrixForm()">Сгенерировать матрицу</a>
+                <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onOpenGeneratedMatrix()">Открыть матрицу</a>
             </div>
         </div>
         <br />
@@ -237,6 +238,34 @@
             <div class="modal-footer">
                 <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
                 <a href="#" class="btn btn-primary btn-sm" ng-click="generateMatrix()" data-dismiss="modal">Сгенерировать</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="generatedMatrix" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Таблица покрытия</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Номер</th>
+                            <th scope="col">Название требования</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="requirement in requirements" ng-class="requirement.Covered ? 'requirement-covered' : ''">
+                            <td>{{requirement.Number}}</td>
+                            <td>{{requirement.Name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
             </div>
         </div>
     </div>

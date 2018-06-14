@@ -143,6 +143,14 @@
                             }
                         }
                     });
+                },
+
+                getMatrix: function (projectId) {
+                    return $http({
+                        method: 'GET',
+                        url: serviceUrl + '/Projects/' + projectId + '/Matrix',
+                        headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+                    });
                 }
             };
         }]);

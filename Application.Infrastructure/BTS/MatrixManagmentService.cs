@@ -1,21 +1,20 @@
-﻿using System;
+﻿using Application.Core;
+using Application.Core.Data;
+using Application.Infrastructure.FilesManagement;
+using Application.Infrastructure.ProjectManagement;
+using LMPlatform.Data.Repositories;
+using LMPlatform.Models.BTS;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Core;
-using Application.Infrastructure.ProjectManagement;
-using Application.Infrastructure.FilesManagement;
-using Word = Microsoft.Office.Interop.Word;
-using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
-using LMPlatform.Models.BTS;
+using System.Text.RegularExpressions;
+using Word = Microsoft.Office.Interop.Word;
 
 namespace Application.Infrastructure.BTS
 {
     public class MatrixManagmentService : IMatrixManagmentService
     {
-        private const string RequirementRegex = @"\s(R\s?\d[^\r\n]*)\s";
+        private const string RequirementRegex = @"\sR\s?(\d(\.\d)*)\.?\s*([^\r\n]*)\s";
 
         public void Fillrequirements(int projectId, string requirementsFileName)
         {
@@ -25,7 +24,7 @@ namespace Application.Infrastructure.BTS
             var document = app.Documents.Open(path);
 
             string requirementsText = document.Range().Text;
-            List<string> requirements = GetRequirements(requirementsText);
+            Dictionary<string, string> requirements = GetRequirements(requirementsText);
             CreateRequirements(requirements, projectId);
 
             document.Save();
@@ -34,26 +33,36 @@ namespace Application.Infrastructure.BTS
             Marshal.ReleaseComObject(app);
         }
 
-        private List<string> GetRequirements(string text)
+        public List<ProjectMatrixRequirement> GetRequirements(int projectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                var query = new Query<ProjectMatrixRequirement>(e => e.ProjectId == projectId);
+                return repositoriesContainer.ProjectMatrixRequirementsRepository.GetAll(query).ToList();
+            }
+        }
+
+        private Dictionary<string, string> GetRequirements(string text)
         {
             Regex regex = new Regex(RequirementRegex);
 
-            var result = new List<string>();
+            var result = new Dictionary<string, string>();
             foreach (Match match in regex.Matches(text))
             {
-                result.Add(match.Groups[1].Value);
+                result[match.Groups[1].Value] = match.Groups[3].Value;
             }
 
             return result;
         }
 
-        private void CreateRequirements(List<string> requirementNames, int projectId)
+        private void CreateRequirements(Dictionary<string, string> requirements, int projectId)
         {
-            foreach(var name in requirementNames)
+            foreach(var requirementPair in requirements)
             {
                 var requirement = new ProjectMatrixRequirement
                 {
-                    Name = name,
+                    Number = requirementPair.Key,
+                    Name = requirementPair.Value,
                     ProjectId = projectId
                 };
                 ProjectManagementService.CreateMatrixRequirement(requirement);

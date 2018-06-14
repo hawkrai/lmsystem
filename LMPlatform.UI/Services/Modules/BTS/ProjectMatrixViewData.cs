@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace LMPlatform.UI.Services.Modules.BTS
 {
@@ -10,5 +11,8 @@ namespace LMPlatform.UI.Services.Modules.BTS
 
         [DataMember]
         public string TestsFileName { get; set; }
+
+        [DataMember]
+        public List<ProjectMatrixRequirementViewData> Requirements { get; set; }
     }
 }

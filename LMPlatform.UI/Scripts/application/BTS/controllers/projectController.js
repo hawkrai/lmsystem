@@ -19,6 +19,7 @@
                 testsFile: null,
                 testsLabel: MATRIX_TEST_LABEL
             };
+            $scope.requirements = [];
             
             var projectManagerRoleName = 'Руководитель проекта';
 
@@ -273,10 +274,17 @@
                 projectsService.deleteFile($routeParams.id, file.FileName).then(function (response) {
                     setFiles();
                 });
-            }
+            };
 
             $scope.onOpenMatrixForm = function () {
                 $('#matrixForm').modal();
+            };
+
+            $scope.onOpenGeneratedMatrix = function () {
+                $('#generatedMatrix').modal();
+                projectsService.getMatrix($routeParams.id).then(function (response) {
+                    $scope.requirements = response.data.Project.Requirements;
+                });
             };
 
             $scope.setMatrixRequirementsFile = function (file) {
@@ -292,7 +300,7 @@
             $scope.generateMatrix = function () {
                 matrix = $scope.matrix;
                 projectsService.generateMatrix($routeParams.id, matrix.requirementsFile.FileName, matrix.testsFile.FileName).then(function (response) {
-                    
+                    $scope.onOpenGeneratedMatrix();
                 });
             };
 

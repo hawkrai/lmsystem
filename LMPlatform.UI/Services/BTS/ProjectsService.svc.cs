@@ -113,6 +113,18 @@ namespace LMPlatform.UI.Services.BTS
             MatrixManagmentService.Fillrequirements(int.Parse(id), matrix.RequirementsFileName);
         }
 
+        public ProjectMatrixResult GetMatrix(string id)
+        {
+            var requirements = MatrixManagmentService.GetRequirements(int.Parse(id)).Select(e => new ProjectMatrixRequirementViewData(e)).ToList();
+            return new ProjectMatrixResult()
+            {
+                Project = new ProjectMatrixViewData()
+                {
+                    Requirements = requirements
+                }
+            };
+        }
+
         private readonly LazyDependency<IProjectManagementService> projectManagementService = new LazyDependency<IProjectManagementService>();
         private readonly LazyDependency<IMatrixManagmentService> matrixManagementService = new LazyDependency<IMatrixManagmentService>();
 

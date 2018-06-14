@@ -25,8 +25,6 @@
                 SubjectId: null
             };
 
-            
-
             $scope.groups = [];
 
             if (!$scope.isNew) {

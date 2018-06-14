@@ -11,6 +11,7 @@ GO
 CREATE TABLE [dbo].[ProjectMatrixRequirements](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](max) NOT NULL,
+	[Number] [nvarchar](50) NOT NULL,
 	[Covered] [bit] NOT NULL,
 	[ProjectId] [int] NULL,
  CONSTRAINT [PK_ProjectMatrixRequirements] PRIMARY KEY CLUSTERED 

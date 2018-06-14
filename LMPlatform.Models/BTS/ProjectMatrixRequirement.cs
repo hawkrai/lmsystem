@@ -8,6 +8,8 @@ namespace LMPlatform.Models.BTS
     {
         public string Name { get; set; }
 
+        public string Number { get; set; }
+
         public bool Covered { get; set; }
 
         public Project Project { get; set; }
