@@ -697,6 +697,14 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             {
                 resultQuestion.Answers = resultQuestion.Answers.Take(1).ToList();
             }
+            else if(resultQuestion.QuestionType == QuestionType.SequenceAnswer)
+            {
+                var indicator = 0;
+                foreach(var answer in resultQuestion.Answers)
+                {
+                    answer.СorrectnessIndicator = indicator++;
+                }
+            }
 
             var random = new Random();
             resultQuestion.Answers = resultQuestion.Answers.OrderBy(a => random.Next()).ToList();

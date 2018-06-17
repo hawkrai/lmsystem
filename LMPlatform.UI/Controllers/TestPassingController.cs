@@ -175,7 +175,7 @@ namespace LMPlatform.UI.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize, HttpGet]
+        [HttpGet]
         public JsonResult GetUserAnswers(int studentId, int testId)
         {
             IList<UserAnswerViewModel> result = new List<UserAnswerViewModel>();
