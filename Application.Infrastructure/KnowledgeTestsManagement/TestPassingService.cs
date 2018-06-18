@@ -348,7 +348,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                     new Query<Test>(
                         test =>
                             test.SubjectId == subjectId &&
-                            test.TestUnlocks.Any(testUnlock => testUnlock.StudentId == studentId)))
+                            (test.TestUnlocks.Any(testUnlock => testUnlock.StudentId == studentId) || test.ForSelfStudy)))
                     .ToList();
             }
 
@@ -820,18 +820,26 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             bool isTestLockedForUser;
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                var userResult = repositoriesContainer.UsersRepository.GetBy(new Query<User>(user => user.Id == userId)
-                    .Include(user => user.Lecturer));
-                if (userResult.Lecturer != null)
+                var testObject = repositoriesContainer.TestsRepository.GetBy(new Query<Test>(test => test.Id == testId));
+                if (testObject != null && testObject.ForSelfStudy)
                 {
                     isTestLockedForUser = false;
                 }
                 else
                 {
-                    isTestLockedForUser = !repositoriesContainer.TestUnlocksRepository.GetAll(new Query<TestUnlock>()
-                        .AddFilterClause(testUnlock => testUnlock.StudentId == userId)
-                        .AddFilterClause(testUnlock => testUnlock.TestId == testId))
-                        .Any();
+                    var userResult = repositoriesContainer.UsersRepository.GetBy(new Query<User>(user => user.Id == userId)
+                        .Include(user => user.Lecturer));
+                    if (userResult.Lecturer != null)
+                    {
+                        isTestLockedForUser = false;
+                    }
+                    else
+                    {
+                        isTestLockedForUser = !repositoriesContainer.TestUnlocksRepository.GetAll(new Query<TestUnlock>()
+                            .AddFilterClause(testUnlock => testUnlock.StudentId == userId)
+                            .AddFilterClause(testUnlock => testUnlock.TestId == testId))
+                            .Any();
+                    }
                 }
             }
 
