@@ -138,7 +138,11 @@ namespace LMPlatform.UI.Controllers
                 {
                     var testResult = TestPassingService.GetStidentResults(subjectId, CurrentUserId).FirstOrDefault(x => x.TestId == test.Id);
 
-                    if(testResult.Points < 10)
+                    if (testResult == null)
+                    {
+                        yield return test.Id;
+                    }
+                    else if (testResult != null && testResult.Points < 10)
                     {
                         yield return test.Id;
                     }
