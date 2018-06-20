@@ -110,7 +110,9 @@ namespace LMPlatform.UI.Services.BTS
 
         public void GenerateMatrix(string id, ProjectMatrixViewData matrix)
         {
-            MatrixManagmentService.Fillrequirements(int.Parse(id), matrix.RequirementsFileName);
+            int projectId = int.Parse(id);
+            MatrixManagmentService.ClearRequirements(projectId);
+            MatrixManagmentService.FillRequirements(int.Parse(id), matrix.RequirementsFileName);
         }
 
         public ProjectMatrixResult GetMatrix(string id)

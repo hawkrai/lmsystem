@@ -5,8 +5,12 @@ namespace Application.Infrastructure.BTS
 {
     public interface IMatrixManagmentService
     {
-        void Fillrequirements(int projectId, string requirementsFileName);
+        void FillRequirements(int projectId, string requirementsFileName);
 
         List<ProjectMatrixRequirement> GetRequirements(int projectId);
+
+        void ClearRequirements(int projectId);
+
+        void FillRequirementsCoverage(int projectId, string requirementsFileName);
     }
 }

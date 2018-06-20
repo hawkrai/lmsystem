@@ -16,7 +16,7 @@ namespace Application.Infrastructure.BTS
     {
         private const string RequirementRegex = @"\sR\s?(\d(\.\d)*)\.?\s*([^\r\n]*)\s";
 
-        public void Fillrequirements(int projectId, string requirementsFileName)
+        public void FillRequirements(int projectId, string requirementsFileName)
         {
             var attachment = ProjectManagementService.GetAttachment(projectId, requirementsFileName);
             string path = FilesManagementService.GetFullPath(attachment);
@@ -31,6 +31,19 @@ namespace Application.Infrastructure.BTS
             document.Close();
             Marshal.ReleaseComObject(document);
             Marshal.ReleaseComObject(app);
+        }
+
+        public void ClearRequirements(int projectId)
+        {
+            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+            {
+                repositoriesContainer.ProjectMatrixRequirementsRepository.DeleteAll(projectId);
+            }
+        }
+
+        public void FillRequirementsCoverage(int projectId, string requirementsFileName)
+        {
+
         }
 
         public List<ProjectMatrixRequirement> GetRequirements(int projectId)
