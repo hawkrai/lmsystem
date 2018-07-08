@@ -112,7 +112,8 @@ namespace LMPlatform.UI.Services.BTS
         {
             int projectId = int.Parse(id);
             MatrixManagmentService.ClearRequirements(projectId);
-            MatrixManagmentService.FillRequirements(int.Parse(id), matrix.RequirementsFileName);
+            MatrixManagmentService.FillRequirements(projectId, matrix.RequirementsFileName);
+            MatrixManagmentService.FillRequirementsCoverage(projectId, matrix.TestsFileName);
         }
 
         public ProjectMatrixResult GetMatrix(string id)

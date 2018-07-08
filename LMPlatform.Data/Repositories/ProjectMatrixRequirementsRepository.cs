@@ -23,5 +23,15 @@ namespace LMPlatform.Data.Repositories
             }
             DataContext.SaveChanges();
         }
+
+        public void UpdateCoveredWhere(Query<ProjectMatrixRequirement> query)
+        {
+            var records = GetAll(query);
+            foreach (var record in records)
+            {
+                record.Covered = true;
+            }
+            DataContext.SaveChanges();
+        }
     }
 }

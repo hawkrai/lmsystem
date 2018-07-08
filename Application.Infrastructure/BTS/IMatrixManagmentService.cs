@@ -11,6 +11,6 @@ namespace Application.Infrastructure.BTS
 
         void ClearRequirements(int projectId);
 
-        void FillRequirementsCoverage(int projectId, string requirementsFileName);
+        void FillRequirementsCoverage(int projectId, string testsFileName);
     }
 }

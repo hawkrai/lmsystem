@@ -81,3 +81,11 @@ select {
 .requirement-covered {
     background-color: #7ce876;
 }
+
+.matrix__file-picker {
+    margin-bottom: 40px;
+}
+
+.matrix__errors-list {
+    color: red;
+}

@@ -42,9 +42,17 @@
                 </div>
             </div>
             <div class="col-md-5">
-                <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onClearProject()">Очистить проект</a>
-                <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onOpenMatrixForm()">Сгенерировать матрицу</a>
-                <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onOpenGeneratedMatrix()">Открыть матрицу</a>
+                <div class="dropdown" style="float: right">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Управление
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li><a ng-click="onClearProject()">Очистить проект</a></li>
+                        <li><a ng-click="onOpenMatrixForm()">Сгенерировать матрицу</a></li>
+                        <li><a ng-click="onOpenGeneratedMatrix()">Открыть матрицу</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <br />
@@ -212,9 +220,12 @@
                 <h4 class="modal-title" id="myModalLabel">Генерация матрицы</h4>
             </div>
             <div class="modal-body">
-                <div style="margin-bottom: 40px;">
-                    <div class="btn-group">
-                        <button id="requirementsBtn" type="button" class="btn btn-default btn-sm dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+                <div class="row matrix__file-picker">
+                    <div class="col-md-6">
+                        <span>Файл требований</span>
+                    </div>
+                    <div class="col-md-6">
+                        <button id="requirementsBtn" type="button" class="btn btn-default btn-sm dropdown-toggle matrix__action-button" data-hover="dropdown" data-toggle="dropdown">
                             {{matrix.requirementsLabel}}
                             <span class="caret"></span>
                         </button>
@@ -223,22 +234,34 @@
                         </ul>
                     </div>
                 </div>
-                <div>
-                    <div class="btn-group">
-                        <button id="testsBtn" type="button" class="btn btn-default btn-sm dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
-                            {{matrix.testsLabel}}
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="testsBtn">
-                            <li ng-repeat="file in files" ng-click="setMatrixTestsFile(file)"><a>{{file.Name}}</a></li>
-                        </ul>
+
+                <div class="row matrix__file-picker">
+                    <div class="col-md-6">
+                        <span>Файл тестов</span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="btn-group">
+                            <button id="testsBtn" type="button" class="btn btn-default btn-sm dropdown-toggle matrix__action-button" data-hover="dropdown" data-toggle="dropdown">
+                                {{matrix.testsLabel}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="testsBtn">
+                                <li ng-repeat="file in files" ng-click="setMatrixTestsFile(file)"><a>{{file.Name}}</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="row">
+                    <ul ng-repeat="error in matrixFormErrors" class="matrix__errors-list">
+                        <li>{{error}}</li>
+                    </ul>
+                </div>
+
             <div class="modal-footer">
-                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                <a href="#" class="btn btn-primary btn-sm" ng-click="generateMatrix()" data-dismiss="modal">Сгенерировать</a>
+                <a class="btn btn-default btn-sm matrix__action-button" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a class="btn btn-primary btn-sm matrix__action-button" ng-click="generateMatrix()" >Сгенерировать</a>
             </div>
+        </div>
         </div>
     </div>
 

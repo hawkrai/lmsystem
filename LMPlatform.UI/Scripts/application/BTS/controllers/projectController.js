@@ -8,6 +8,8 @@
             var MAX_FILES = 10;
             var MATRIX_REQUIREMENTS_LABEL = 'Файл требований';
             var MATRIX_TEST_LABEL = 'Файл тестов';
+            var MATRIX_REQUIREMENTS_FILE_ERROR = 'Выберите файл требований';
+            var MATRIX_TEST_FILE_ERROR = 'Выберите файл тестов';
 
             $scope.project = {};
             $scope.comments = {};
@@ -20,6 +22,7 @@
                 testsLabel: MATRIX_TEST_LABEL
             };
             $scope.requirements = [];
+            $scope.matrixFormErrors = [];
             
             var projectManagerRoleName = 'Руководитель проекта';
 
@@ -142,6 +145,26 @@
                     data: $scope.bugs.statuses,
                     formatter: function (x) { return x + "%" }
                 });
+            }
+
+            function isValidMetrixRequirements()
+            {
+                var matrix = $scope.matrix;
+                if (matrix.requirementsFile == null) {
+                    $scope.matrixFormErrors.push(MATRIX_REQUIREMENTS_FILE_ERROR);
+                }
+                if (matrix.testsFile == null) {
+                    $scope.matrixFormErrors.push(MATRIX_TEST_FILE_ERROR);
+                }
+                return $scope.matrixFormErrors.length == 0;
+            }
+
+            function onMatrixGenerating() {
+                $('.matrix__action-button').attr('disabled', '');
+            };
+
+            function onMatrixGenerated() {
+                $('.matrix__action-button').removeAttr("disabled");
             }
 
             $scope.isProjectManager = function () {
@@ -280,6 +303,10 @@
                 $('#matrixForm').modal();
             };
 
+            function closeMatrixForm() {
+                $('#matrixForm').modal('hide');
+            };
+
             $scope.onOpenGeneratedMatrix = function () {
                 $('#generatedMatrix').modal();
                 projectsService.getMatrix($routeParams.id).then(function (response) {
@@ -298,8 +325,15 @@
             };
 
             $scope.generateMatrix = function () {
+                $scope.matrixFormErrors = [];
+                if (!isValidMetrixRequirements()) {
+                    return;
+                }
                 matrix = $scope.matrix;
+                onMatrixGenerating();
                 projectsService.generateMatrix($routeParams.id, matrix.requirementsFile.FileName, matrix.testsFile.FileName).then(function (response) {
+                    onMatrixGenerated();
+                    closeMatrixForm();
                     $scope.onOpenGeneratedMatrix();
                 });
             };
