@@ -17,6 +17,7 @@ using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.TestQuestionPassingManagement;
 using Application.Infrastructure.UserManagement;
 using Application.Infrastructure.WatchingTimeManagement;
+using Application.Infrastructure.BTS;
 
 namespace Application.Infrastructure
 {
@@ -52,6 +53,7 @@ namespace Application.Infrastructure
             containerWrapper.Register<ICPManagementService, CPManagementService>();
             containerWrapper.Register<IWatchingTimeService, WatchingTimeService>();
             containerWrapper.Register<ITestQuestionPassingService, TestQuestionPassingService>();
+            containerWrapper.Register<IMatrixManagmentService, MatrixManagmentService>();
             return containerWrapper;
         }
     }

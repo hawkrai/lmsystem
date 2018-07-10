@@ -129,6 +129,28 @@
                         url: serviceUrl + '/Projects/' + projectId + '/Attachments/' + fileName,
                         headers: { 'Content-Type': 'application/json; charset=UTF-8' }
                     });
+                },
+
+                generateMatrix: function (projectId, reqirementsFileName, testsFileName) {
+                    return $http({
+                        method: 'POST',
+                        url: serviceUrl + '/Projects/' + projectId + '/GenerateMatrix',
+                        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+                        data: {
+                            projectMatrix: {
+                                RequirementsFileName: reqirementsFileName,
+                                TestsFileName: testsFileName
+                            }
+                        }
+                    });
+                },
+
+                getMatrix: function (projectId) {
+                    return $http({
+                        method: 'GET',
+                        url: serviceUrl + '/Projects/' + projectId + '/Matrix',
+                        headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+                    });
                 }
             };
         }]);

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Application.Core.Data;
+﻿using Application.Core.Data;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Application.Infrastructure.BugManagement
 {

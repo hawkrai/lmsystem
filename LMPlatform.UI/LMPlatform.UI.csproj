@@ -468,6 +468,8 @@
       <DependentUpon>LecturesService.svc</DependentUpon>
     </Compile>
     <Compile Include="Services\Modules\BTS\ProjectFilesResult.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectMatrixRequirementViewData.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectMatrixViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectFileViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectFileResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectCommentsResult.cs" />
@@ -476,6 +478,7 @@
     <Compile Include="Services\Modules\BTS\ProjectBugViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectCommentViewData.cs" />
     <Compile Include="Services\Modules\BTS\ProjectMemberViewData.cs" />
+    <Compile Include="Services\Modules\BTS\ProjectMatrixResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectsStudentsResult.cs" />
     <Compile Include="Services\Modules\BTS\ProjectsStudentViewData.cs" />

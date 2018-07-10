@@ -42,7 +42,17 @@
                 </div>
             </div>
             <div class="col-md-5">
-                <a class="btn btn-primary btn-sm" style="float: right;" ng-click="onClearProject()">Очистить проект</a>
+                <div class="dropdown" style="float: right">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Управление
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li><a ng-click="onClearProject()">Очистить проект</a></li>
+                        <li><a ng-click="onOpenMatrixForm()">Сгенерировать матрицу</a></li>
+                        <li><a ng-click="onOpenGeneratedMatrix()">Открыть матрицу</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <br />
@@ -199,6 +209,86 @@
                         <a type="button" class="btn btn-primary btn-sm" href="/BTS#/Projects/{{project.Id}}/Bugs">Перейти к ошибкам проекта</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="matrixForm" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Генерация матрицы</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row matrix__file-picker">
+                    <div class="col-md-6">
+                        <span>Файл требований</span>
+                    </div>
+                    <div class="col-md-6">
+                        <button id="requirementsBtn" type="button" class="btn btn-default btn-sm dropdown-toggle matrix__action-button" data-hover="dropdown" data-toggle="dropdown">
+                            {{matrix.requirementsLabel}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="requirementsBtn">
+                            <li ng-repeat="file in files" ng-click="setMatrixRequirementsFile(file)"><a>{{file.Name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row matrix__file-picker">
+                    <div class="col-md-6">
+                        <span>Файл тестов</span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="btn-group">
+                            <button id="testsBtn" type="button" class="btn btn-default btn-sm dropdown-toggle matrix__action-button" data-hover="dropdown" data-toggle="dropdown">
+                                {{matrix.testsLabel}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="testsBtn">
+                                <li ng-repeat="file in files" ng-click="setMatrixTestsFile(file)"><a>{{file.Name}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul ng-repeat="error in matrixFormErrors" class="matrix__errors-list">
+                        <li>{{error}}</li>
+                    </ul>
+                </div>
+
+            <div class="modal-footer">
+                <a class="btn btn-default btn-sm matrix__action-button" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <a class="btn btn-primary btn-sm matrix__action-button" ng-click="generateMatrix()" >Сгенерировать</a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div id="generatedMatrix" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Таблица покрытия</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Номер</th>
+                            <th scope="col">Название требования</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="requirement in requirements" ng-class="requirement.Covered ? 'requirement-covered' : ''">
+                            <td>{{requirement.Number}}</td>
+                            <td>{{requirement.Name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
             </div>
         </div>
     </div>

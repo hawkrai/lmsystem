@@ -65,6 +65,8 @@ namespace LMPlatform.Data.Repositories
 
         public IWatchingTimeRepository WatchingTimeRepository { get; set; }
 
+        public IProjectMatrixRequirementsRepository ProjectMatrixRequirementsRepository { get; set; }
+
         public void ApplyChanges()
         {
             _dataContext.SaveChanges();
@@ -104,6 +106,7 @@ namespace LMPlatform.Data.Repositories
             ConceptRepository = new ConceptRepository(_dataContext);
             WatchingTimeRepository = new WatchingTimeRepository(_dataContext);
             TestQuestionPassResultsRepository = new TestQuestionPassResultsRepository(_dataContext);
+            ProjectMatrixRequirementsRepository = new ProjectMatrixRequirementsRepository(_dataContext);
         }
     }
 }

@@ -39,5 +39,13 @@ namespace LMPlatform.UI.Services.BTS
         [OperationContract]
         [WebInvoke(Method = "DELETE", UriTemplate = "/Projects/{id}/Attachments/{fileName}", ResponseFormat = WebMessageFormat.Json)]
         void DeleteAttachment(string id, string fileName);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/Projects/{id}/GenerateMatrix", BodyStyle = WebMessageBodyStyle.WrappedRequest, ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        void GenerateMatrix(string id, ProjectMatrixViewData projectMatrix);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "/Projects/{id}/Matrix", ResponseFormat = WebMessageFormat.Json)]
+        ProjectMatrixResult GetMatrix(string id);
     }
 }

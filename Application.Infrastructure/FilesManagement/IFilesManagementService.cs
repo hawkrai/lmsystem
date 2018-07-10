@@ -17,5 +17,7 @@ namespace Application.Infrastructure.FilesManagement
 		string GetPathName(string guid);
 
         void SaveFile(Attachment attachment, string folder);
+
+        string GetFullPath(Attachment attachment);
     }
 }

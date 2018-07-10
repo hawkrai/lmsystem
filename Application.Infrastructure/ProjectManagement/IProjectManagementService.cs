@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Application.Core.Data;
 using LMPlatform.Models;
+using LMPlatform.Models.BTS;
 
 namespace Application.Infrastructure.ProjectManagement
 {
@@ -55,7 +56,10 @@ namespace Application.Infrastructure.ProjectManagement
         Attachment SaveAttachment(int projectId, Attachment attachment);
 
         List<Attachment> GetAttachments(int projectId);
+        Attachment GetAttachment(int projectId, string fileName);
 
         bool DeleteAttachment(int projectId, string fileName);
+
+        ProjectMatrixRequirement CreateMatrixRequirement(ProjectMatrixRequirement requirement);
     }
 }
