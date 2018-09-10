@@ -185,6 +185,7 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/application/KnowledgeTesting/Controllers/testUnlocksController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/questionDetailsController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/addFromAnotherTestController.js",
+				"~/Scripts/application/NeuralNetwork/neuralNetworkController.js",
                 "~/Scripts/application/KnowledgeTesting/kkcountdown.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/studentsTesting").Include(

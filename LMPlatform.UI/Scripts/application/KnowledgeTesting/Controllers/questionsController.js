@@ -76,6 +76,19 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
         });
     };
 
+    $scope.createNeuralNetwork = function () {
+    	var modalInstance = $modal.open({
+    		templateUrl: '/Content/NeuralNetwork/createNeuralNetwork.html',
+    		controller: 'createNeuralNetworkCtrl',
+    		scope: $scope,
+    		resolve: {
+    			data: function () {
+    				return $scope.questions;
+    			}
+    		}
+    	});
+    };
+
     $scope.orderQuestions = function (newOrder) {
 
         $.ajax({

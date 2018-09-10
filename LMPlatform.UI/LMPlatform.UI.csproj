@@ -373,6 +373,7 @@
     <Content Include="Content\KnowledgeTesting\addQuestionFromAnotherTest.html" />
     <Content Include="Content\KnowledgeTesting\content.html" />
     <Content Include="Content\materials.css" />
+    <Content Include="Content\NeuralNetwork\createNeuralNetwork.html" />
     <Content Include="Content\ng-table.min.css" />
     <Content Include="Content\select.css" />
     <Content Include="Images\book.png" />
@@ -860,6 +861,7 @@
     <Content Include="Scripts\application\BTS\bugDetails.js" />
     <Content Include="Scripts\application\BTS\chat.js" />
     <Content Include="Scripts\application\BTS\easyTooltip.js" />
+    <Content Include="Scripts\application\NeuralNetwork\neuralNetworkController.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\morris.js" />

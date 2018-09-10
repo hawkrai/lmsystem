@@ -33,11 +33,23 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+	    public int ComlexityLevel
+	    {
+		    get;
+		    set;
+	    }
+
         public int? QuestionNumber
         {
             get;
             set;
         }
+
+	    public int? ConceptId
+	    {
+		    get;
+		    set;
+	    }
 
         public static QuestionItemListViewModel FromQuestion(Question question, string htmlString)
         {
@@ -53,7 +65,9 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             {
                 Id = question.Id,
                 Title = question.Title,
-                QuestionNumber = question.QuestionNumber
+                QuestionNumber = question.QuestionNumber,
+				ComlexityLevel = question.ComlexityLevel,
+				ConceptId = question.ConceptId
             };
         }
     }

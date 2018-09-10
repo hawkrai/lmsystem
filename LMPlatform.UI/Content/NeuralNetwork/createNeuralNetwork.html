@@ -1,0 +1,38 @@
+﻿
+<div class="modal-header">
+	<a class="close" data-ng-click="closeDialog()">&times;</a>
+	<h4>Создание нейронной сети.</h4>
+</div>
+<div class="modal-body">
+	
+	<div class="part1" >
+		<div>Этап 1: Обучающая выборка</div>
+		<button class="btn btn-success btn-sm showQuestions" data-ng-click="showQuestions()">Показать</button>
+		<div class="questions">
+			<div class="row">
+
+			</div>
+		</div>
+		<div style="display: none" class="generateData ">
+			<button class="btn btn-success btn-sm" data-ng-click="generateData()">Сгенерировать</button>
+		</div>
+	</div>
+	<div class="part2" style="display: none">
+		<div>Этап 2: Обучение</div>
+		<div class="row">
+			<div class="col-md-8">
+				<table class="generatedDataTable table table-bordered">
+					<tbody id="testData"></tbody>
+				</table>
+			</div>
+			<div class="col-md-4">
+				<table class="topicDataTable table table-bordered">
+					<tbody id="topicData"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+
