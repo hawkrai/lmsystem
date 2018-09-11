@@ -24,25 +24,54 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 		var queestions = [];
 
 		var topics = [];
+		var topicsNum = [];
+		var currentTopic = $scope.questions[0].ConceptId;
+		var currentNumb = 0;
 		$.each($scope.questions, function (index, value) {
 			argumentsD.push([0, 1]);
 			queestions.push(value.Title);
 			
+			if (currentTopic === value.ConceptId) {
+				currentNumb += 1;
+			} else {
+				topicsNum.push(currentNumb);
+				currentTopic = value.ConceptId;
+				currentNumb += 1;
+			}
+
 			if ($.inArray(value.ConceptId, topics) === -1) {
 				topics.push(value.ConceptId);
 			}
 		});
+
+		topicsNum.push(currentNumb);
 
 		var cartesian = $scope.cartesian.apply(this, argumentsD);
 		cartesian.unshift(queestions);
 		$scope.drawTable(cartesian, "testData");
 
 		var dataForTopic = $scope.cartesian.apply(this, argumentsD);
-		var topicsValue = [];
 
+		$scope.savedDataAnswersValue = JSON.parse(JSON.stringify(dataForTopic));
+
+		var topicsValue = [];
 		$.each(dataForTopic, function (index, value) {
-			topicsValue.push([0, 0]);
+
+			var tValue = [];
+			var currentBorder = 0;
+			$.each(topicsNum, function (index, valueN) {
+				var sumValue = 0; 
+				for (currentBorder; currentBorder < valueN; currentBorder++) {
+					sumValue += value[currentBorder] * ($scope.questions[currentBorder].ComlexityLevel / 10);
+				}
+
+				tValue.push(sumValue < 0.7 ? 1 : 0);
+			});
+
+			topicsValue.push(tValue);
 		});
+
+		$scope.savedTopicsValue = JSON.parse(JSON.stringify(topicsValue));
 
 		topicsValue.unshift(topics);
 		$scope.drawTable(topicsValue, "topicData");
@@ -68,7 +97,7 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 		return r;
 	};
 
-	$scope.drawTable = function (testData, testDataH) {
+	$scope.drawTable = function(testData, testDataH) {
 		var tbody = document.getElementById(testDataH);
 		var headerNames = testData[0];
 		var columnCount = headerNames.length;
@@ -93,9 +122,54 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 			}
 
 		}
-	}
+	};
+
+	$scope.opacity = 0; //opacity of image
+	$scope.increase = 1; //increase opacity indicator
+	$scope.decrease = 0; //decrease opacity indicator
+
+	$scope.fade = function() {
+		if ($scope.opacity < 0.6 && $scope.increase)
+			$scope.opacity += 0.05;
+		else {
+			$scope.increase = 0;
+			$scope.decrease = 1;
+		}
+
+		if ($scope.opacity > 0.3 && $scope.decrease)
+			$scope.opacity -= 0.05;
+		else {
+			$scope.increase = 1;
+			$scope.decrease = 0;
+		}
+
+		document.getElementById("iconNN").style.opacity = $scope.opacity;
+	};
+
+	$scope.train = function() {
+		//$scope.savedDataAnswersValue
+		//$scope.savedTopicsValue
+		$(".nnContainer").show();
+		$scope.refreshIntervalId = setInterval(function () {
+			$scope.fade();
+		}, 100);
+
+		var data = [];
+
+		$.each($scope.savedDataAnswersValue, function (index, value) {
+			var temp = { input: value, output: $scope.savedTopicsValue[index] };
+			data.push(temp);
+		});
+
+		setTimeout(function () {
+			neuralNetworkV2.train(data, { log: true });
+			clearInterval($scope.refreshIntervalId);
+			$(".nnContainer").hide();
+		}, 100);
+	};
 
 	$scope.closeDialog = function () {
+		clearInterval($scope.refreshIntervalId);
 		$modalInstance.close();
 	};
 });
