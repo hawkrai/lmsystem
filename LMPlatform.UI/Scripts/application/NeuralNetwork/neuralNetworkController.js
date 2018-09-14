@@ -22,11 +22,15 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 		var argumentsD = [];
 
 		var queestions = [];
+		$scope.questions = _.sortBy($scope.questions, function (o) { return o.Id; });
+
+		$scope.questions = _.sortBy($scope.questions, function (o) { return o.ConceptId; });
 
 		var topics = [];
 		var topicsNum = [];
 		var currentTopic = $scope.questions[0].ConceptId;
 		var currentNumb = 0;
+
 		$.each($scope.questions, function (index, value) {
 			argumentsD.push([0, 1]);
 			queestions.push(value.Title);

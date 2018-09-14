@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using Application.Core.UI.Controllers;
+using Application.Infrastructure.ConceptManagement;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using Application.Infrastructure.SubjectManagement;
@@ -38,6 +40,11 @@ namespace LMPlatform.UI.Controllers
                 return subjectManagementService.Value;
             }
         }
+
+	    public IConceptManagementService ConceptManagementService
+	    {
+		    get { return ApplicationService<ConceptManagementService>(); }
+	    }
 
         [Authorize, HttpGet]
         public ActionResult StudentsTesting(int subjectId)
@@ -125,6 +132,7 @@ namespace LMPlatform.UI.Controllers
                 ViewBag.Message = "Тест не содержит ни одного вопроса";
                 return PartialView("Error");
             }
+	        var answers = TestPassingService.GetAnswersForTest(testId, CurrentUserId);
 
             NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
 
@@ -142,7 +150,40 @@ namespace LMPlatform.UI.Controllers
                 //        Result = (int)item.Value
                 //    });
                 //}
-                return PartialView("EndTest", nextQuestion.QuestionsStatuses);
+
+	            var questions = TestsManagementService.GetTest(testId, true);
+
+	            var themIds = questions.Questions.Where(e => e.ConceptId.HasValue).Select(e => (int)e.ConceptId).Distinct();
+
+				var thems = new List<string>();
+
+	            foreach (var themId in themIds.OrderBy(e => e))
+	            {
+		            var them = ConceptManagementService.GetById(themId);
+		            thems.Add(them.Name);
+	            }
+
+				var array = new List<int>();
+
+				foreach (var question in questions.Questions.OrderBy(e => e.Id).ThenBy(e => e.ConceptId))
+				{
+					var answer = answers.FirstOrDefault(e => e.QuestionId == question.Id);
+					int data = 0;
+
+					if (answer != null)
+					{
+						data = answer.Points > 0 ? 1 : 0;
+					}
+
+					array.Add(data);
+				}
+
+	            dynamic resuls = new ExpandoObject();
+	            resuls.Answers = array.ToArray();
+				resuls.QuestionsStatuses = nextQuestion.QuestionsStatuses;
+	            resuls.Thems = thems;
+
+				return PartialView("EndTest", resuls);
             }
 
             return PartialView("GetNextQuestion", nextQuestion);

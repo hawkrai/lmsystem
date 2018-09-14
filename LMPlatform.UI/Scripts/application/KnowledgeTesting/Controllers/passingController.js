@@ -146,7 +146,10 @@ var testPassing = {
         $('#questionContent').html(content);
         $('.progress-bar-clickable').on('click', $.proxy(this._onProgressBarClicked, this));
         $('#answerButton').on('click', $.proxy(this._onAnswerButtonClicked, this));
-        $('#sortable').sortable({ cursor: "move", containment: "parent" });
+        if ($('#sortable').sortable) {
+	        $('#sortable').sortable({ cursor: "move", containment: "parent" });
+        }
+       
         $('#buttonsPanel').height($('#answersPanel').height());
         this._nextQuestionNumber = new Number($('#currentQuestionNumber').val());
         this._currentQuestionType = $('#currentQuestionType').val();

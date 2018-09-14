@@ -1,23 +1,49 @@
 ﻿@using LMPlatform.Models.KnowledgeTesting
-@model Dictionary<int, PassedQuestionResult>
+@model dynamic
 
 <h3>Тест завершен</h3>
 <h4>Ваша оценка - @ViewBag.Mark (@ViewBag.Percent %)</h4>
 <div class="form-group">
-    @foreach (KeyValuePair<int, PassedQuestionResult> passResult in Model)
-    {
+	@foreach (KeyValuePair<int, PassedQuestionResult> passResult in Model.QuestionsStatuses)
+	{
 
-        string color = passResult.Value == PassedQuestionResult.Success
-            ? "rgb(143, 207, 118)"
-            : "rgb(250, 112, 112)";
+		string color = passResult.Value == PassedQuestionResult.Success
+			? "rgb(143, 207, 118)"
+			: "rgb(250, 112, 112)";
 
-        <div class="row">
-            <div class="col-lg-2">Вопрос № @passResult.Key</div>
-            <div class="col-lg-10" style="background-color: @color; height:20px"></div>
-        </div>
-    }
-    <div id="returnButtonContainer">
-        <h4><a id="returnButton" style="margin-right: 10px"><i class="fa fa-arrow-circle-left fa-1x"></i></a>Вернуться к ЭУМК</h4>
-    </div>
+		var passed = passResult.Value == PassedQuestionResult.Success ? 0 : 1;
 
+		<div class="row">
+			<div class="reultsAn" data-passed="@passed" data-key="@passResult.Key"></div>
+			<div class="col-lg-2">Вопрос № @passResult.Key</div>
+			<div class="col-lg-10" style="background-color: @color; height: 20px"></div>
+		</div>
+	}
+	<div id="returnButtonContainer">
+		<h4><a id="returnButton" style="margin-right: 10px"><i class="fa fa-arrow-circle-left fa-1x"></i></a>Вернуться к ЭУМК</h4>
+	</div>
+	<div class="nnResult"></div>
+	<div>
+		Темы для изучения:
+	</div>
+	<div class="learnT">
+	</div>
 </div>
+
+<script>
+	@{
+		var stringArray = @Html.Raw(Json.Encode(Model.Answers));
+		var thems = @Html.Raw(Json.Encode(Model.Thems)); 
+	}
+	console.log(@stringArray);
+	var result = neuralNetworkV2.run(@stringArray);
+	var themsJ = @thems;
+	var htmlData = "";
+	$.each(result, function (index, value) {
+		htmlData += value.toFixed(4) + " ";
+		var themS = "<p>" + themsJ[index] + "</p>";
+		$(".learnT").append(themS);
+	});
+
+	$(".nnResult").html(htmlData);
+</script>
