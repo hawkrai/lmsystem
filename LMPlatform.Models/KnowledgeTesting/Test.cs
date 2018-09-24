@@ -72,6 +72,8 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+	    public string Data { get; set; }
+
         public bool Unlocked
         {
             get

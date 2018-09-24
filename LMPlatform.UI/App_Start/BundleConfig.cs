@@ -202,6 +202,10 @@ namespace LMPlatform.UI.App_Start
                 "~/Scripts/jqplot/jqplot.pointLabels.min.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/passingController.js",
                 "~/Scripts/application/KnowledgeTesting/Controllers/studentResultsController.js",
+                "~/Scripts/application/NeuralNetwork/neuralNetworkController.js",
+                "~/Scripts/application/NeuralNetwork/normalization.js",
+                "~/Scripts/application/NeuralNetwork/underscore.js",
+                "~/Scripts/application/NeuralNetwork/neuron1.js",
                 "~/Scripts/application/KnowledgeTesting/kkcountdown.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/btsApp").Include(

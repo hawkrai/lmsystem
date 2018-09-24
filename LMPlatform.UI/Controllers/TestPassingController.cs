@@ -182,6 +182,7 @@ namespace LMPlatform.UI.Controllers
 	            resuls.Answers = array.ToArray();
 				resuls.QuestionsStatuses = nextQuestion.QuestionsStatuses;
 	            resuls.Thems = thems;
+	            resuls.NeuralData = questions.Data;
 
 				return PartialView("EndTest", resuls);
             }
@@ -203,6 +204,17 @@ namespace LMPlatform.UI.Controllers
 
             return Json(results, JsonRequestBehavior.AllowGet);
         }
+
+	    [HttpPost]
+		public JsonResult SaveNeuralNetwork(string data, int testId)
+	    {
+		    var test = this.TestsManagementService.GetTest(testId);
+		    test.Data = data;
+		    this.TestsManagementService.SaveTest(test, true);
+
+		    return Json("Ok");
+	    }
+	    
 
         [Authorize, HttpGet]
         public JsonResult GetResults(int groupId, int subjectId)

@@ -81,6 +81,7 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 		$scope.drawTable(topicsValue, "topicData");
 
 		$(".part2").show();
+		$(".saveNN").hide();
 	};
 
 	$scope.cartesian = function() {
@@ -169,8 +170,25 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 			neuralNetworkV2.train(data, { log: true });
 			clearInterval($scope.refreshIntervalId);
 			$(".nnContainer").hide();
+			$(".saveNN").show();
 		}, 100);
 	};
+
+	$scope.saveNN = function() {
+		var data = JSON.stringify(neuralNetworkV2.toJSON());
+		$.ajax({
+			url: '/TestPassing/SaveNeuralNetwork',
+			type: "POST",
+			data: JSON.stringify({ data: data, testId: getHashValue('testId')  }),
+			dataType: "text",
+			contentType: "application/json; charset=utf-8",
+			success: $.proxy(this._onSavedNN, this)
+		});
+	};
+
+	$scope._onSavedNN = function() {
+
+	},
 
 	$scope.closeDialog = function () {
 		clearInterval($scope.refreshIntervalId);

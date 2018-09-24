@@ -7,8 +7,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
     public interface ITestsManagementService
     {
         Test GetTest(int id, bool includeQuestions = false);
-        
-        Test SaveTest(Test test);
+
+		Test SaveTest(Test test, bool withountValidation = false);
 
         void DeleteTest(int id);
 

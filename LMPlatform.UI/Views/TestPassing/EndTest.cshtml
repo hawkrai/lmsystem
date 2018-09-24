@@ -22,27 +22,51 @@
 	<div id="returnButtonContainer">
 		<h4><a id="returnButton" style="margin-right: 10px"><i class="fa fa-arrow-circle-left fa-1x"></i></a>Вернуться к ЭУМК</h4>
 	</div>
-	<div class="nnResult"></div>
-	<div>
-		Темы для изучения:
-	</div>
+	
+	@*<div class="nnResult"></div>
+	
 	<div class="learnT">
+	</div>*@
+
+	<div class="panel panel-default" style="margin-top: 20px;">
+		<div class="panel-heading">Анализ ответов от обученной нейронной сети.</div>
+
+		<!-- Table -->
+		<table class="table learnT">
+			<thead>
+				<tr>
+					<th>Тема</th>
+					<th>Статус</th>
+					<th>Оценка сети</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
 	</div>
 </div>
 
 <script>
 	@{
 		var stringArray = @Html.Raw(Json.Encode(Model.Answers));
-		var thems = @Html.Raw(Json.Encode(Model.Thems)); 
+		var thems = @Html.Raw(Json.Encode(Model.Thems));
+		var dataNn = @Html.Raw(Json.Encode(@Model.NeuralData));
 	}
 	console.log(@stringArray);
+
+	neuralNetworkV2.fromJSON(JSON.parse(@dataNn));
+
 	var result = neuralNetworkV2.run(@stringArray);
 	var themsJ = @thems;
 	var htmlData = "";
 	$.each(result, function (index, value) {
 		htmlData += value.toFixed(4) + " ";
-		var themS = "<p>" + themsJ[index] + "</p>";
-		$(".learnT").append(themS);
+		if (parseFloat(value) > 0.7) {
+			var tr = '<tr class="danger"><th>' + themsJ[index] + '</th><td>Изучить</td><td>' + value.toFixed(4) + '</td></tr>';
+			$("table.learnT tbody").append(tr);
+		} else {
+			var trR = '<tr class="success"><th>' + themsJ[index] + '</th><td>Изучено</td><td>' + value.toFixed(4) + '</td></tr>';
+			$("table.learnT tbody").append(trR);
+		}
 	});
 
 	$(".nnResult").html(htmlData);

@@ -44,10 +44,14 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 			}
 		}
 
-		public Test SaveTest(Test test)
+		public Test SaveTest(Test test, bool withountValidation = false)
 		{
-			CheckForTestIsNotLocked(test.Id);
-			ValidateTest(test);
+			if (!withountValidation)
+			{
+				CheckForTestIsNotLocked(test.Id);
+				ValidateTest(test);
+			}
+			
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 			{
 				repositoriesContainer.TestsRepository.Save(test);
