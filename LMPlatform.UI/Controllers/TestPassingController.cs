@@ -132,6 +132,7 @@ namespace LMPlatform.UI.Controllers
                 ViewBag.Message = "Тест не содержит ни одного вопроса";
                 return PartialView("Error");
             }
+
 	        var answers = TestPassingService.GetAnswersForTest(testId, CurrentUserId);
 
             NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
@@ -183,6 +184,7 @@ namespace LMPlatform.UI.Controllers
 				resuls.QuestionsStatuses = nextQuestion.QuestionsStatuses;
 	            resuls.Thems = thems;
 	            resuls.NeuralData = questions.Data;
+				resuls.FoNN = questions.ForNN;
 
 				return PartialView("EndTest", resuls);
             }

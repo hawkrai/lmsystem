@@ -72,6 +72,12 @@ namespace LMPlatform.Models.KnowledgeTesting
             set;
         }
 
+	    public bool ForNN
+	    {
+		    get;
+		    set;
+	    }
+
 	    public string Data { get; set; }
 
         public bool Unlocked

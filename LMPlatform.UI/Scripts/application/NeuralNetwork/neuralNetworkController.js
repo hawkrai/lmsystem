@@ -5,12 +5,12 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 
 	$scope.questions = data;
 	$scope.context = $scope;
-
 	$scope.showQuestions = function () {
-		var container = $.find(".part1 .questions .row");
+		$($.find(".part1 .questions .row table")[0]).show();
+		var container = $.find(".part1 .questions .row table tbody");
 
 		$.each($scope.questions, function (index, value) {
-			var div = '<div class="col-md-4">' + value.Title + '</div> <div class="col-md-4"> Сложность ' + value.ComlexityLevel + '</div> <div> Тема ' + value.ConceptId + ' </div>';
+			var div = '<tr><td>' + value.Title + '</td> <td> + value.ComlexityLevel + </td> <td>' + value.ConceptId + ' </td></tr>';
 			$(container).append(div);
 		});
 
@@ -102,31 +102,33 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 		return r;
 	};
 
-	$scope.drawTable = function(testData, testDataH) {
-		var tbody = document.getElementById(testDataH);
-		var headerNames = testData[0];
-		var columnCount = headerNames.length;
-		////Add the header row.
-		//var row = tbody.insertRow(-1);
-		//for (var i = 0; i < columnCount; i++) {
-		//	var headerCell = document.createElement("TH");
-		//	headerCell.innerHTML = headerNames[i];
-		//	row.appendChild(headerCell);
+	$scope.drawTable = function (testData, testDataH) {
+		console.log(testData);
+
+		//var tbody = document.getElementById(testDataH);
+		//var headerNames = testData[0];
+		//var columnCount = headerNames.length;
+		//////Add the header row.
+		////var row = tbody.insertRow(-1);
+		////for (var i = 0; i < columnCount; i++) {
+		////	var headerCell = document.createElement("TH");
+		////	headerCell.innerHTML = headerNames[i];
+		////	row.appendChild(headerCell);
+		////}
+		//var tr, td;
+
+		//// loop through data source
+		//for (var i = 0; i < testData.length; i++) {
+		//	tr = tbody.insertRow(tbody.rows.length);
+		//	td = tr.insertCell(tr.cells.length);
+		//	td.setAttribute("align", "center");
+
+		//	for (var key in testData[i]) {
+		//		td.innerHTML = testData[i][key];
+		//		td = tr.insertCell(tr.cells.length);
+		//	}
+
 		//}
-		var tr, td;
-
-		// loop through data source
-		for (var i = 0; i < testData.length; i++) {
-			tr = tbody.insertRow(tbody.rows.length);
-			td = tr.insertCell(tr.cells.length);
-			td.setAttribute("align", "center");
-
-			for (var key in testData[i]) {
-				td.innerHTML = testData[i][key];
-				td = tr.insertCell(tr.cells.length);
-			}
-
-		}
 	};
 
 	$scope.opacity = 0; //opacity of image

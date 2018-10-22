@@ -2,6 +2,7 @@
 knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, id, subjectId, $modalInstance) {
     $scope.BeforeEUMK = false;
     $scope.ForEUMK = false;
+	$scope.ForNN = false;
     $scope.question = { QuestionType: 0 };
     $scope.types = [{ Id: 0, Name: 'С одним вариантом' }, { Id: 1, Name: 'С несколькими вариантами' }, { Id: 2, Name: 'Ввод с клавиатуры' }, { Id: 3, Name: 'Последовательность элементов' }];
 
@@ -122,6 +123,7 @@ knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, i
             $scope.loadQuestionData();
             $scope.BeforeEUMK = getHashValue('beforeEUMK') == 'true';
             $scope.ForEUMK = getHashValue('forEUMK') == 'true';
+		    $scope.ForNN = getHashValue('forNN') == 'true';
         })
         .error(function (data, status, headers, config) {
             alertify.error('Во время получения данных произошла ошибка');

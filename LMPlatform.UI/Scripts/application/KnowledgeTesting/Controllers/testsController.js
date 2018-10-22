@@ -1,30 +1,7 @@
 ﻿'use strict';
 knowledgeTestingApp.controller('testsCtrl', function ($scope, $http, $modal) {
 
-    $("#sortable").sortable({
-        update: function (event, ui) {
-            var newOrder = {};
-            $(this).children().each(function (index) {
-                $(this).find('td').first().html(index + 1);
-                var testId = $(this).find('td').first().attr("testId");
-                var testNumber = index + 1;
-                newOrder[testId] = testNumber;
-            });
-            $scope.orderTests(newOrder);
-        }
-    });
-    $("#sortableForSelfStudy").sortable({
-        update: function (event, ui) {
-            var newOrder = {};
-            $(this).children().each(function (index) {
-                $(this).find('td').first().html(index + 1);
-                var testId = $(this).find('td').first().attr("testId");
-                var testNumber = index + 1;
-                newOrder[testId] = testNumber;
-            });
-            $scope.orderTests(newOrder);
-        }
-    });
+    
 
     $scope.orderTests = function (newOrder) {
 
@@ -50,7 +27,31 @@ knowledgeTestingApp.controller('testsCtrl', function ($scope, $http, $modal) {
     }
 
     $scope.init = function() {
-        $scope.loadTests();
+    	$scope.loadTests();
+	    $("#sortable").sortable({
+		    update: function (event, ui) {
+			    var newOrder = {};
+			    $(this).children().each(function (index) {
+				    $(this).find('td').first().html(index + 1);
+				    var testId = $(this).find('td').first().attr("testId");
+				    var testNumber = index + 1;
+				    newOrder[testId] = testNumber;
+			    });
+			    $scope.orderTests(newOrder);
+		    }
+	    });
+	    $("#sortableForSelfStudy").sortable({
+		    update: function (event, ui) {
+			    var newOrder = {};
+			    $(this).children().each(function (index) {
+				    $(this).find('td').first().html(index + 1);
+				    var testId = $(this).find('td').first().attr("testId");
+				    var testNumber = index + 1;
+				    newOrder[testId] = testNumber;
+			    });
+			    $scope.orderTests(newOrder);
+		    }
+	    });
     };
 
     $scope.onEditButtonClicked = function (testId) {

@@ -27,47 +27,49 @@
 	
 	<div class="learnT">
 	</div>*@
+	@if (Model.FoNN) { 
+		<div class="panel panel-default" style="margin-top: 20px;">
+			<div class="panel-heading">Анализ ответов от обученной нейронной сети.</div>
 
-	<div class="panel panel-default" style="margin-top: 20px;">
-		<div class="panel-heading">Анализ ответов от обученной нейронной сети.</div>
-
-		<!-- Table -->
-		<table class="table learnT">
-			<thead>
+			<!-- Table -->
+			<table class="table learnT">
+				<thead>
 				<tr>
 					<th>Тема</th>
 					<th>Статус</th>
 					<th>Оценка сети</th>
 				</tr>
-			</thead>
-			<tbody></tbody>
-		</table>
-	</div>
-</div>
-
-<script>
-	@{
-		var stringArray = @Html.Raw(Json.Encode(Model.Answers));
-		var thems = @Html.Raw(Json.Encode(Model.Thems));
-		var dataNn = @Html.Raw(Json.Encode(@Model.NeuralData));
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
 	}
-	console.log(@stringArray);
+</div>
+	@if (Model.FoNN) { 
+		<script>
+			@{
+				var stringArray = @Html.Raw(Json.Encode(Model.Answers));
+				var thems = @Html.Raw(Json.Encode(Model.Thems));
+				var dataNn = @Html.Raw(Json.Encode(@Model.NeuralData));
+			}
+			console.log(@stringArray);
 
-	neuralNetworkV2.fromJSON(JSON.parse(@dataNn));
+			neuralNetworkV2.fromJSON(JSON.parse(@dataNn));
 
-	var result = neuralNetworkV2.run(@stringArray);
-	var themsJ = @thems;
-	var htmlData = "";
-	$.each(result, function (index, value) {
-		htmlData += value.toFixed(4) + " ";
-		if (parseFloat(value) > 0.7) {
-			var tr = '<tr class="danger"><th>' + themsJ[index] + '</th><td>Изучить</td><td>' + value.toFixed(4) + '</td></tr>';
-			$("table.learnT tbody").append(tr);
-		} else {
-			var trR = '<tr class="success"><th>' + themsJ[index] + '</th><td>Изучено</td><td>' + value.toFixed(4) + '</td></tr>';
-			$("table.learnT tbody").append(trR);
-		}
-	});
+			var result = neuralNetworkV2.run(@stringArray);
+			var themsJ = @thems;
+			var htmlData = "";
+			$.each(result, function (index, value) {
+				htmlData += value.toFixed(4) + " ";
+				if (parseFloat(value) > 0.7) {
+					var tr = '<tr class="danger"><th>' + themsJ[index] + '</th><td>Изучить</td><td>' + value.toFixed(4) + '</td></tr>';
+					$("table.learnT tbody").append(tr);
+				} else {
+					var trR = '<tr class="success"><th>' + themsJ[index] + '</th><td>Изучено</td><td>' + value.toFixed(4) + '</td></tr>';
+					$("table.learnT tbody").append(trR);
+				}
+			});
 
-	$(".nnResult").html(htmlData);
-</script>
+			$(".nnResult").html(htmlData);
+		</script>
+	}

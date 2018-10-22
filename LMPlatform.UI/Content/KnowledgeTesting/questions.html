@@ -9,7 +9,7 @@
         <a id="addNewTestButton" data-ng-click="onNewButtonClicked()" class="btn btn-primary btn-sm">Добавить вопрос</a>
         <a data-ng-click="addFromAnotherTestClicked()" class="btn btn-primary btn-sm">Добавить вопросы из другого теста</a>
 
-		<a data-ng-click="createNeuralNetwork()" class="btn btn-success btn-sm">Создание нейронной сети</a>
+		<a ng-show="ForNN" data-ng-click="createNeuralNetwork()" class="btn btn-success btn-sm">Создание нейронной сети</a>
     </div>
 
     <div class="input-group input-group-sm search-box" style="padding-right: 15px; float: right">

@@ -1,22 +1,23 @@
 ﻿'use strict';
 knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal) {
-
-    $("#sortable").sortable({
-        update: function (event, ui) {
-            var newOrder = {};
-            $(this).children().each(function (index) {
-                $(this).find('td').first().html(index + 1);
-                var questionId = $(this).find('td').first().attr("questionid");
-                var questionNumber = index + 1;
-                newOrder[questionId] = questionNumber;
-            });
-            $scope.orderQuestions(newOrder);
-        }
-    });
-
+ 
     $scope.init = function () {
-        $scope.testId = getHashValue('testId');
-        $scope.loadQuestions();
+    	$scope.testId = getHashValue('testId');
+    	$scope.ForNN = getHashValue('forNN');
+    	$scope.loadQuestions();
+
+	    $("#sortable").sortable({
+		    update: function (event, ui) {
+			    var newOrder = {};
+			    $(this).children().each(function (index) {
+				    $(this).find('td').first().html(index + 1);
+				    var questionId = $(this).find('td').first().attr("questionid");
+				    var questionNumber = index + 1;
+				    newOrder[questionId] = questionNumber;
+			    });
+			    $scope.orderQuestions(newOrder);
+		    }
+	    });
     };
 
     $scope.onNewButtonClicked = function() {

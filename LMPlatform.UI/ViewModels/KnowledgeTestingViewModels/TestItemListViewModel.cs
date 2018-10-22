@@ -63,6 +63,12 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+	    public bool ForNN
+	    {
+		    get;
+		    set;
+	    }
+
         public static TestItemListViewModel FromTest(Test test, string htmlLinks)
         {
             var model = FromTest(test);
@@ -82,7 +88,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 ForSelfStudy = test.ForSelfStudy,
                 TestNumber = test.TestNumber,
                 ForEUMK = test.ForEUMK,
-                BeforeEUMK = test.BeforeEUMK
+                BeforeEUMK = test.BeforeEUMK,
+				ForNN = test.ForNN
             };
         }
     }

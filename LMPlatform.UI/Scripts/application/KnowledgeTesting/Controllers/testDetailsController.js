@@ -4,7 +4,7 @@ knowledgeTestingApp.controller('testDetailsCtrl', function ($scope, $http, id, $
     $http({ method: 'GET', url: kt.actions.tests.getTest, dataType: 'json', params: { id: id } })
     .success(function (data) {
         $scope.test = data;
-        $scope.test.IsForSelfStudy = $scope.test.ForSelfStudy && !($scope.test.ForEUMK || $scope.test.BeforeEUMK);
+        $scope.test.IsForSelfStudy = $scope.test.ForSelfStudy && !($scope.test.ForEUMK || $scope.test.BeforeEUMK || $scope.test.ForNN);
     })
     .error(function (data, status, headers, config) {
         alertify.error('Во время получения данных произошла ошибка');

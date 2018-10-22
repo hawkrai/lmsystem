@@ -70,6 +70,12 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
             set;
         }
 
+	    public bool ForNN
+	    {
+		    get;
+		    set;
+	    }
+
         public int? TestNumber
         {
             get;
@@ -87,9 +93,10 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 SetTimeForAllTest = SetTimeForAllTest,
                 SubjectId = SubjectId,
                 CountOfQuestions = CountOfQuestions,
-                ForSelfStudy = ForSelfStudy || ForEUMK || BeforeEUMK,
+                ForSelfStudy = ForSelfStudy || ForEUMK || BeforeEUMK || ForNN,
                 ForEUMK = ForEUMK,
                 BeforeEUMK = BeforeEUMK,
+				ForNN = ForNN,
                 IsNecessary = IsNecessary,
                 TestNumber = TestNumber
             };
@@ -108,6 +115,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 ForSelfStudy = test.ForSelfStudy,
                 ForEUMK = test.ForEUMK,
                 BeforeEUMK = test.BeforeEUMK,
+				ForNN = test.ForNN,
                 CountOfQuestions = test.CountOfQuestions,
                 IsNecessary = test.IsNecessary,
                 TestNumber = test.TestNumber
