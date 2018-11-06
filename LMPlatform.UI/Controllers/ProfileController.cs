@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Application.Core.Data;
+using Application.Core.UI.Controllers;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Models;
@@ -24,7 +25,7 @@ namespace LMPlatform.UI.Controllers
 	using Application.Infrastructure.CPManagement;
 
 
-    public class ProfileController : Controller
+	public class ProfileController : BasicController
 	{
 		[SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
 		private readonly LazyDependency<ICPManagementService> _cpManagementService = new LazyDependency<ICPManagementService>();
@@ -48,30 +49,41 @@ namespace LMPlatform.UI.Controllers
 
         private readonly LazyDependency<IProjectManagementService> projectManagementService = new LazyDependency<IProjectManagementService>();
 
-        public ActionResult Page(string userName = "")
-        {
-            if (User.IsInRole("lector") || User.IsInRole("student"))
-            {
-                var model = new LmsViewModel(WebSecurity.CurrentUserId, User.IsInRole("lector"));
-                model.UserActivity = new UserActivityViewModel();
+		public IUsersManagementService UsersManagementService
+		{
+			get
+			{
+				return ApplicationService<IUsersManagementService>();
+			}
+		}
 
-                ViewBag.ShowDpSectionForUser = DpManagementService.ShowDpSectionForUser(WebSecurity.CurrentUserId);
+		public ActionResult Page(string userLogin = "")
+		{
+			if (User.IsInRole("lector"))
+			{
+				var user = this.UsersManagementService.GetUser(userLogin);
 
-                ViewData["userName"] = string.IsNullOrEmpty(userName) || WebSecurity.CurrentUserName == userName ? WebSecurity.CurrentUserName : userName;
+				var model = new LmsViewModel(user.Id, user.Lecturer != null);
 
-                return View(model);
-            }
-            else if (User.IsInRole("admin"))
- {
-                var model = new LmsViewModel(WebSecurity.GetUserId(userName), User.IsInRole("lector"));
-                model.UserActivity = new UserActivityViewModel();
-                ViewData["userName"] = string.IsNullOrEmpty(userName) || WebSecurity.CurrentUserName == userName ? WebSecurity.CurrentUserName : userName;
-                return View(model);
-            }
+				model.UserActivity = new UserActivityViewModel();
+
+				ViewBag.ShowDpSectionForUser = DpManagementService.ShowDpSectionForUser(WebSecurity.CurrentUserId);
+
+				ViewData["userName"] = string.IsNullOrEmpty(userLogin) || WebSecurity.CurrentUserName == userLogin ? WebSecurity.CurrentUserName : userLogin;
+
+				return View(model);
+			}
+			else if (User.IsInRole("admin"))
+			{
+				var model = new LmsViewModel(WebSecurity.GetUserId(userLogin), User.IsInRole("lector"));
+				model.UserActivity = new UserActivityViewModel();
+				ViewData["userName"] = string.IsNullOrEmpty(userLogin) || WebSecurity.CurrentUserName == userLogin ? WebSecurity.CurrentUserName : userLogin;
+				return View(model);
+			}
 
 
-            return RedirectToAction("Login", "Account");
-        }
+			return RedirectToAction("Login", "Account");
+		}
 
         [HttpPost]
         public ActionResult GetProfileStatistic(string userLogin)

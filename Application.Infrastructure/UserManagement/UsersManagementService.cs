@@ -1,5 +1,7 @@
 ﻿using System;
 using Application.Core.Data;
+using LMPlatform.Data.Infrastructure;
+using LMPlatform.Models.DP;
 using WebMatrix.WebData;
 
 namespace Application.Infrastructure.UserManagement
@@ -54,6 +56,13 @@ namespace Application.Infrastructure.UserManagement
                 return _projectManagementService.Value;
             }
         }
+
+	    private readonly LazyDependency<IDpContext> context = new LazyDependency<IDpContext>();
+
+	    private IDpContext Context
+	    {
+		    get { return context.Value; }
+	    }
 
         public User GetUser(string userName)
         {
@@ -141,11 +150,36 @@ namespace Application.Infrastructure.UserManagement
 					foreach (var acpId in acp)
 					{
 						CPManagementService.DeleteUserFromAcpProject(id, acpId);
-					}    
+					}
+
+		            var subjects = repositoriesContainer.RepositoryFor<SubjectStudent>()
+			            .GetAll(new Query<SubjectStudent>(e => e.StudentId == id));
+
+					foreach (var subjectS in subjects)
+		            {
+			            repositoriesContainer.RepositoryFor<SubjectStudent>().Delete(subjectS);
+		            }
+
+		            var diploms = Context.AssignedDiplomProjects.Where(e => e.StudentId == id).ToList();
+
+		            var diplomsRessList = Context.DiplomPercentagesResults.Where(e => e.StudentId == id).ToList();
+
+					foreach (var diplom in diploms)
+		            {
+						Context.AssignedDiplomProjects.Remove(diplom);
+			            Context.SaveChanges();
+		            }
+
+					foreach (var diplomsRes in diplomsRessList)
+		            {
+						Context.DiplomPercentagesResults.Remove(diplomsRes);
+			            Context.SaveChanges();
+		            }
 	            }
 
                 CPManagementService.DeletePercenageAndVisitStatsForUser(id);
 
+	            repositoriesContainer.ApplyChanges();
                 var result = AccountManagementService.DeleteAccount(user.UserName);
                 repositoriesContainer.ApplyChanges();
 
