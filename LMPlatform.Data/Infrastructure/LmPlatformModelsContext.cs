@@ -43,6 +43,8 @@ namespace LMPlatform.Data.Infrastructure
 
         public DbSet<ScoObjects> ScoObjects { get; set; }
 
+        public DbSet<TinCanObjects> TinCanObjects { get; set; }
+
         public IQueryable<Student> GetGraduateStudents()
         {
             return Students.Where(StudentIsGraduate);
@@ -235,6 +237,7 @@ namespace LMPlatform.Data.Infrastructure
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<Group>().Map(m => m.ToTable("Groups"));
             modelBuilder.Entity<ScoObjects>().Map(m => m.ToTable("ScoObjects"));
+            modelBuilder.Entity<TinCanObjects>().Map(m => m.ToTable("TinCanObjects"));
             modelBuilder.Entity<Subject>().Map(m => m.ToTable("Subjects"));
             modelBuilder.Entity<Module>().Map(m => m.ToTable("Modules"));
             modelBuilder.Entity<SubjectGroup>().Map(m => m.ToTable("SubjectGroups"));

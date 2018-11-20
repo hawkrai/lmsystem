@@ -159,6 +159,7 @@
     <Compile Include="ScheduleProtectionLabs.cs" />
     <Compile Include="ScheduleProtectionPractical.cs" />
     <Compile Include="ScheduleProtectionPracticalMark.cs" />
+    <Compile Include="TinCanObjects.cs" />
     <Compile Include="ScoObjects.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentGroupUser.cs" />

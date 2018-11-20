@@ -15,6 +15,8 @@ namespace LMPlatform.Data.Infrastructure
 
         DbSet<ScoObjects> ScoObjects { get; set; }
 
+        DbSet<TinCanObjects> TinCanObjects { get; set; }
+
         DbSet<User> Users { get; set; }
 
         DbSet<Student> Students { get; set; }
