@@ -340,6 +340,7 @@
     <Compile Include="Controllers\ParentalController.cs" />
     <Compile Include="ApiControllers\DP\TaskSheetController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\TinCanModController.cs" />
     <Compile Include="Controllers\ScormModController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
@@ -865,6 +866,9 @@
     <Content Include="Scripts\application\NeuralNetwork\neuron1.js" />
     <Content Include="Scripts\application\NeuralNetwork\normalization.js" />
     <Content Include="Scripts\application\NeuralNetwork\underscore.js" />
+    <Content Include="Scripts\application\tincan\app-tincan.js" />
+    <Content Include="Scripts\application\tincan\config.js" />
+    <Content Include="Scripts\application\tincan\tincan-controller.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\morris.js" />
@@ -1952,6 +1956,7 @@
     <Content Include="Views\BTS\_Project.cshtml" />
     <Content Include="Views\Chat\Chat.cshtml" />
     <None Include="Service References\PlagiateReference\SoapWS.wsdl" />
+    <Content Include="Views\TinCanMod\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

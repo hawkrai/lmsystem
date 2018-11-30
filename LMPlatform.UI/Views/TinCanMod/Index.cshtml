@@ -1,0 +1,141 @@
+﻿@using System.Collections.ObjectModel
+@using Application.Core.UI.HtmlHelpers
+@using LMPlatform.Models
+@model LMPlatform.UI.ViewModels.LmsViewModels.LmsViewModel
+
+@{
+    ViewBag.Title = "TinCanApi";
+    Layout = "~/Views/Shared/Layouts/_MainUsingNavLayout.cshtml";
+}
+
+@section scripts
+{
+    <script src="~/Scripts/application/tincan/config.js"></script>
+    <script type="text/javascript">
+        var lrsEndpoint = Config.endpoint;
+        var auth = 'Basic ' + Config.secret; // or Base64.encode(Config.authUser + ':' + Config.authPassword); for some LRS
+        var actor = Config.actor;
+    </script>
+    <script src="~/Scripts/application/tincan/app-tincan.js"></script>
+    <script src="~/Scripts/application/tincan/tincan-controller.js"></script>
+}
+
+@section headerTitle{
+    <h1>
+        TinCanApi
+        <small id="tinCanNameView">Просмотр TinCan объектов</small>
+    </h1>
+}
+<div ng-app="tincanApp">
+    <div ng-cloak ng-controller="TinCanController" ng-init="init()">
+        @section navleft
+{
+            <li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
+        }
+        @if (User.IsInRole("lector"))
+        {
+
+            <div ng-if="!viewTinCanClient" style="margin-bottom: 20px">
+                <div style="margin-bottom: 15px">
+                    <input type="button" tooltip="Открыть курс" tooltip-trigger="mouseenter" tooltip-placement="left" ng-click="openTinCan()" style="width: 180px" class="btn btn-sm btn-primary" value="Загрузить TinCan объект" />
+                    <input type="file" name="openTinCan" accept=".json,application/json" style="display: none;" onchange=" angular.element(this).scope().loadSco() " />
+                </div>
+
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>№</th>
+                        <th>Название курса</th>
+                        <th>Действие</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="object in statements">
+                        <td style="width: 40px">{{$index + 1}}</td>
+                        <td>{{object.Name}}</td>
+                        <td style="width: 135px">
+                            <a tooltip="Открыть курс" tooltip-placement="left" style="margin-right: 5px; cursor: pointer" ng-click="viewTinCan(object)"><i class="fa fa-1x fa-eye"></i></a>
+                            <a style="margin-right: 5px; cursor: pointer" ng-if="!object.Enabled" ng-click="lock(object)"><i tooltip="Открыть доступ" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-lock"></i></a>
+                            <a style="margin-right: 5px; cursor: pointer" ng-if="object.Enabled" ng-click="unlock(object)"><i tooltip="Закрыть доступ" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-unlock"></i></a>
+                            <a style="margin-right: 5px; cursor: pointer" ng-click="editTinCan(object)"><i tooltip="Редактрировать" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-edit fa-1x"></i></a>
+                            <a ng-click="deleteTinCan(object)" style="cursor: pointer"><i tooltip="Удалить" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-trash-o fa-1x"></i></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div ng-if="!viewTinCanClient" style="margin-bottom: 20px">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>№</th>
+                        <th>Название курса</th>
+                        <th>Действие</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="object in TinCanObjects | filter: { Enabled: true }">
+                        <td>{{object.Name}}</td>
+                        <td style="width: 5px;text-align: center">
+                            <a ng-click="viewTinCan(object)"><i tooltip="Открыть курс" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-eye"></i></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+
+        <div ng-if="viewTinCanClient">
+            <div>
+                <button class="btn btn-sm btn-primary" style="margin-bottom: 10px;  float: right;" ng-click="closeTinCan()">Закрыть</button>
+            </div>
+            <div style="float: left;width: 100%; height: 100%">
+                <iframe id="tin" width="100%" height="700px" ng-src="{{urlServiceCore}}"></iframe>
+            </div>
+
+        </div>
+
+        <div id="dialogLoadTinCan" class="modal">
+            <div class="modal-dialog panel panel-primary" style="padding: 0px">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Название курса</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="control-group" ng-class="requiredName ? 'has-error' : ''">
+                            <label class="control-label">Название курса</label>
+                            <input type="text" class="form-control" style="width: 545px" ng-model="nameLoadTinCan" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                    <button ng-click="loadTinCanEventClick()" class="btn btn-primary btn-sm">Загрузить</button>
+                </div>
+            </div>
+        </div>
+        <div id="dialogChangeTinCan" class="modal">
+            <div class="modal-dialog panel panel-primary" style="padding: 0px">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Название курса</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="control-group" ng-class="requiredName ? 'has-error' : ''">
+                            <label class="control-label">Название курса</label>
+                            <input type="text" class="form-control" style="width: 545px" ng-model="nameLoadTinCan" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                    <button ng-click="changeTinCanName()" class="btn btn-primary btn-sm">Изменить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
