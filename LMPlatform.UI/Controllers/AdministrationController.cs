@@ -460,11 +460,11 @@ namespace LMPlatform.UI.Controllers
                     return Json(new { resultMessage = string.Format("Не удалось удалить студента {0}", student.FullName) });
                 }
 
-                return Json(new { resultMessage = "Удаление невозможно. Студента не существует" });
+				return Json(new { resultMessage = "Удаление невозможно. Студента не существует", status = "500" });
             }
-            catch
+            catch(Exception ex)
             {
-                return Json(new { resultMessage = "Произошла ошибка при удалении" });
+				return Json(new { resultMessage = ex.Message, status = "500" });
             }
         }
 
@@ -487,11 +487,11 @@ namespace LMPlatform.UI.Controllers
                     return Json(new { resultMessage = string.Format("Не удалось удалить преподавателя {0}", lecturer.FullName) });
                 }
 
-                return Json(new { resultMessage = "Удаление невозможно. Преподавателя не существует" });
+				return Json(new { resultMessage = "Удаление невозможно. Преподавателя не существует", status = "500" });
             }
             catch
             {
-                return Json(new { resultMessage = "Произошла ошибка при удалении" });
+				return Json(new { resultMessage = "Произошла ошибка при удалении", status = "500" });
             }
         }
 
@@ -512,11 +512,11 @@ namespace LMPlatform.UI.Controllers
                     return Json(new { resultMessage = string.Format("Группа {0} удалена", group.Name) });
                 }
 
-                return Json(new { resultMessage = "Группы не существует" });
+				return Json(new { resultMessage = "Группы не существует", status = "500" });
             }
-            catch
+			catch (Exception ex)
             {
-                return Json(new { resultMessage = "Произошла ошибка при удалении" });
+				return Json(new { resultMessage = ex.Message, status = "500" });
             }
         }
 

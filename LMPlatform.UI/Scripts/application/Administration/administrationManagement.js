@@ -131,8 +131,11 @@ function initDeleteDialog(btnSelector, btnTooltipTitle) {
                 if (result) {
                     $.post(actionUrl, function (data) {
                         updateDataTable();
-                        if (data.resultMessage)
-                            alertify.success(data.resultMessage);
+                        if (data.resultMessage) {
+                        	alertify.success(data.resultMessage);
+                        } else if (data.status == "500") {
+                        	alertify.error(data.resultMessage);
+                        }
                     }).fail(function () {
                         alertify.error("Произошла ошибка");
                     });
