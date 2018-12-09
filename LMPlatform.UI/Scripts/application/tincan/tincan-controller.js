@@ -22,7 +22,7 @@
 			$("#tinCanNameView").text("Просмотр TinCan объектов");
         };
 
-        $scope.frameLoad = function (urlRes, ) {
+        $scope.frameLoad = function (urlRes) {
             $scope.urlServiceCore = "/LMPlatform.UI/" + urlRes + "?"
                 + "endpoint=" + $window.encodeURIComponent($scope.endpoint)
                 + "&auth=" + $window.encodeURIComponent($scope.auth)
@@ -98,6 +98,7 @@
                 },
             });
 			$scope.nameLoadTinCan = "";
+            $('#dialogLoadTinCan').modal('hide');
         };
 		$scope.loadTinCan = function () {
 			$scope.nameLoadTinCan = "";
@@ -139,15 +140,15 @@
 
         };
 
-        $scope.editSco = function (object) {
-            $scope.nameLoadSco = object.Name;
-            $scope.editScoObject = object;
-            $('#dialogChangeSco').modal();
+        $scope.editTinCan = function (object) {
+            $scope.nameLoadTinCan = object.Name;
+            $scope.editTinCanObject = object;
+            $('#dialogChangeTinCan').modal();
         };
 
-        $scope.changeScoName = function () {
+        $scope.changeTinCanName = function () {
 
-            if ($scope.nameLoadSco === null || $scope.nameLoadSco.length === 0) {
+            if ($scope.nameLoadTinCan === null || $scope.nameLoadTinCan.length === 0) {
                 $scope.requiredName = true;
                 return false;
             }
@@ -155,8 +156,8 @@
 
             var formData = new FormData();
 
-            formData.append("name", $scope.nameLoadSco);
-            formData.append("path", $scope.editScoObject.Path);
+            formData.append("name", $scope.nameLoadTinCan);
+            formData.append("path", $scope.editTinCanObject.Path);
             $.ajax({
                 url: "/LMPlatform.UI/TinCanMod/EditObject",
                 type: 'POST',
@@ -169,9 +170,9 @@
                     });
                 },
             });
-            $scope.editScoObject = null;
-            $scope.nameLoadSco = "";
-            $('#dialogChangeSco').modal('hide');
+            $scope.editTinCanObject = null;
+            $scope.nameLoadTinCan = "";
+            $('#dialogChangeTinCan').modal('hide');
         };
 
         $scope.lock = function (object) {
