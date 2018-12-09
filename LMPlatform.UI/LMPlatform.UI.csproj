@@ -1964,6 +1964,7 @@
     <Folder Include="Scripts\application\Monitoring\controllers\" />
     <Folder Include="Scripts\application\Monitoring\services\" />
     <Folder Include="Scripts\tinymce\plugins\App_LocalResources\" />
+    <Folder Include="TinCanFilePath\" />
     <Folder Include="UploadedFilesTemp\" />
     <Folder Include="UploadedFiles\" />
     <Folder Include="Views\Questions\" />
