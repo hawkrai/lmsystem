@@ -38,7 +38,7 @@
             <div ng-if="!viewTinCanClient" style="margin-bottom: 20px">
                 <div style="margin-bottom: 15px">
                     <input type="button" tooltip="Открыть курс" tooltip-trigger="mouseenter" tooltip-placement="left" ng-click="openTinCan()" style="width: 180px" class="btn btn-sm btn-primary" value="Загрузить TinCan объект" />
-                    <input type="file" name="openTinCan" accept=".json,application/json" style="display: none;" onchange=" angular.element(this).scope().loadSco() " />
+                    <input type="file" name="openTinCan" accept=".json,application/json" style="display: none;" onchange=" angular.element(this).scope().loadTinCan() " />
                 </div>
 
                 <table class="table table-bordered table-striped">
