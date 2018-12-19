@@ -38,7 +38,7 @@
             <div ng-if="!viewTinCanClient" style="margin-bottom: 20px">
                 <div style="margin-bottom: 15px">
                     <input type="button" tooltip="Открыть курс" tooltip-trigger="mouseenter" tooltip-placement="left" ng-click="openTinCan()" style="width: 180px" class="btn btn-sm btn-primary" value="Загрузить TinCan объект" />
-                    <input type="file" name="openTinCan" accept=".json,application/json" style="display: none;" onchange=" angular.element(this).scope().loadSco() " />
+                    <input type="file" name="openTinCan" accept=".json,application/json" style="display: none;" onchange=" angular.element(this).scope().loadTinCan() " />
                 </div>
 
                 <table class="table table-bordered table-striped">
@@ -46,7 +46,6 @@
                         <th>№</th>
                         <th>Название курса</th>
                         <th>Действие</th>
-                        <th></th>
                     </tr>
                     <tr ng-repeat="object in statements">
                         <td style="width: 40px">{{$index + 1}}</td>
@@ -67,12 +66,10 @@
             <div ng-if="!viewTinCanClient" style="margin-bottom: 20px">
                 <table class="table table-bordered">
                     <tr>
-                        <th>№</th>
                         <th>Название курса</th>
                         <th>Действие</th>
-                        <th></th>
                     </tr>
-                    <tr ng-repeat="object in TinCanObjects | filter: { Enabled: true }">
+                    <tr ng-repeat="object in statements | filter: { Enabled: true }">
                         <td>{{object.Name}}</td>
                         <td style="width: 5px;text-align: center">
                             <a ng-click="viewTinCan(object)"><i tooltip="Открыть курс" tooltip-trigger="mouseenter" tooltip-placement="left" class="fa fa-1x fa-eye"></i></a>
