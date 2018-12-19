@@ -23,7 +23,7 @@
         };
 
         $scope.frameLoad = function (urlRes) {
-            $scope.urlServiceCore = "/LMPlatform.UI/" + urlRes + "?"
+            $scope.urlServiceCore = "/" + urlRes + "?"
                 + "endpoint=" + $window.encodeURIComponent($scope.endpoint)
                 + "&auth=" + $window.encodeURIComponent($scope.auth)
                 + "&actor=" + $window.encodeURIComponent(JSON.stringify($scope.actor));
@@ -37,7 +37,7 @@
             
             $.ajax({
                 type: 'GET',
-				url: "/LMPlatform.UI/TinCanMod/ViewTinCan?id=" + object.Id,
+				url: "/TinCanMod/ViewTinCan?id=" + object.Id,
                 dataType: "json",
                 contentType: "application/json",
 
@@ -52,7 +52,7 @@
         $scope.loadObjects = function () {
             $.ajax({
                 type: 'GET',
-                url: "/LMPlatform.UI/TinCanMod/GetObjects",
+                url: "/TinCanMod/GetObjects",
                 dataType: "json",
                 contentType: "application/json",
 
@@ -81,7 +81,7 @@
 			formData.append("name", $scope.nameLoadTinCan);
 			formData.append("file", $.find('input[type=file][name=openTinCan]')[0].files[0]);
             $.ajax({
-                url: "/LMPlatform.UI/TinCanMod/LoadObject",
+                url: "/TinCanMod/LoadObject",
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -123,7 +123,7 @@
                         callback: function () {
                             $.ajax({
                                 type: 'GET',
-								url: "/LMPlatform.UI/TinCanMod/DeleteTinCan?id=" + object.Id,
+								url: "/TinCanMod/DeleteTinCan?id=" + object.Id,
                                 dataType: "json",
                                 contentType: "application/json",
                             }).success(function (data, status) {
@@ -159,7 +159,7 @@
             formData.append("name", $scope.nameLoadTinCan);
             formData.append("path", $scope.editTinCanObject.Path);
             $.ajax({
-                url: "/LMPlatform.UI/TinCanMod/EditObject",
+                url: "/TinCanMod/EditObject",
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -178,7 +178,7 @@
         $scope.lock = function (object) {
             $.ajax({
                 type: 'GET',
-                url: "/LMPlatform.UI/TinCanMod/UpdateObjects?enable=true&id=" + object.Id,
+                url: "/TinCanMod/UpdateObjects?enable=true&id=" + object.Id,
                 dataType: "json",
                 contentType: "application/json",
 
@@ -193,7 +193,7 @@
         $scope.unlock = function (object) {
             $.ajax({
                 type: 'GET',
-                url: "/LMPlatform.UI/TinCanMod/UpdateObjects?enable=false&id=" + object.Id,
+                url: "/TinCanMod/UpdateObjects?enable=false&id=" + object.Id,
                 dataType: "json",
                 contentType: "application/json",
 
