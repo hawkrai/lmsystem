@@ -92,7 +92,13 @@ namespace LMPlatform.Data.Repositories
                 .Include(e => e.Project.Creator.Lecturer)
                 .Include(e => e.Project.Creator.Student)
                 .Include(e => e.Project)
-                .Where(e => searchString == null ? true : e.Summary.Contains(searchString));
+                .Include(e => e.Reporter.Student)
+                .Where(e => searchString == null ? 
+                    true : 
+                    (e.Summary.Contains(searchString)) || 
+                      e.Project.Title.Contains(searchString) || 
+                      e.Reporter.Student.LastName.Contains(searchString)
+                );
         }
 
         private IQueryable<Bug> GetSortedBugsQuery(IQueryable<Bug> query, string sortingPropertyName, bool desc)

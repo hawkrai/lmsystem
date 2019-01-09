@@ -5,7 +5,6 @@
     </div>
     <div class="col-md-12" ng-if="!isProjectBugsPage">
         <h5>Отображаются ошибки всех проектов</h5>
-        <a class="btn btn-primary btn-sm" href="#/Projects">Выбрать проект</a>
     </div>
 </div>
 <hr />
@@ -30,6 +29,7 @@
         <td data-title="'Статус'" sortable="'Status'">{{bug.Status}}</td>
         <td data-title="'Назначенный разработчик'">{{bug.AssignedDeveloper}}</td>
         <td data-title="'Проект'" sortable="'ProjectTitle'">{{bug.ProjectTitle}}</td>
+        <td data-title="'Создатель'">{{bug.Reporter}}</td>
         <td data-title="'Дата последнего изменения'" sortable="'ModifyingDate'">{{bug.ModifyingDate}}</td>
         <td data-title="'Действие'" style="width: 83px;">
             <div name="bugGridActionsCol" ng-class="{hide : !isLector}" align="center">
