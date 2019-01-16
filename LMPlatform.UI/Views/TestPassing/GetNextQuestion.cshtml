@@ -12,7 +12,7 @@
     <div style="text-align: right">
         <span class="kkcountdown" data-seconds="@Model.Seconds"></span>
     </div>
-    <h3>Вопрос № @Model.Number</h3>
+    <h3>Вопрос № @Model.Number для теста - @ViewData["testName"]</h3>
     <div class="">
         <h2>@Model.Question.Title</h2>
     </div>
@@ -75,7 +75,7 @@
 
         </div>
     </div>
-    <div class="progress" style="padding: 0; height: 60px; border: none; position: fixed;bottom: 0;right: 20px;left: 325px;">
+    <div class="progress" style="padding: 0; height: 60px; border: none; position: fixed;bottom: 0;right: 20px;left: 325px;margin-left:-75px">
         @foreach (KeyValuePair<int, PassedQuestionResult> passResult in Model.QuestionsStatuses)
         {
             string progressBarClass = "progress-bar " + (Model.ForSelfStudy

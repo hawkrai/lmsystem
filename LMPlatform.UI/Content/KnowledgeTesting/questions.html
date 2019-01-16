@@ -2,46 +2,49 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
-<h3>Вопросы</h3>
-<hr />
-<div class="row" data-ng-init="init()">
-    <div class="col-lg-6">
-        <a id="addNewTestButton" data-ng-click="onNewButtonClicked()" class="btn btn-primary btn-sm">Добавить вопрос</a>
-        <a data-ng-click="addFromAnotherTestClicked()" class="btn btn-primary btn-sm">Добавить вопросы из другого теста</a>
+<div data-ng-init="init()">
+	<h3>Вопросы  <small>{{testName}}</small></h3>
+	
+	<hr />
+	<div class="row">
+		<div class="col-lg-6">
+			<a id="addNewTestButton" data-ng-click="onNewButtonClicked(questions.length + 1)" class="btn btn-primary btn-sm">Добавить вопрос</a>
+			<a data-ng-click="addFromAnotherTestClicked()" class="btn btn-primary btn-sm" style="background-color: cadetblue; border-color: cadetblue;">Добавить вопросы из другого теста</a>
 
-		<a ng-show="ForNN" data-ng-click="createNeuralNetwork()" class="btn btn-success btn-sm">Создание нейронной сети</a>
-    </div>
+			<a ng-show="ForNN" data-ng-click="createNeuralNetwork()" class="btn btn-success btn-sm">Создание нейронной сети</a>
+		</div>
 
-    <div class="input-group input-group-sm search-box" style="padding-right: 15px; float: right">
-        <span>Поиск&nbsp;</span>
-        <input data-ng-model="query" type="text" class="form-control" placeholder="Введите название вопроса">
-    </div>
+		<div class="input-group input-group-sm search-box" style="padding-right: 15px; float: right">
+			<span>Поиск&nbsp;</span>
+			<input data-ng-model="query" type="text" class="form-control" placeholder="Введите название вопроса">
+		</div>
+	</div>
+
+	<div style="height: 20px"></div>
+
+	<div class="table-responsive">
+		<table class="table table-hover table-bordered table-striped">
+			<thead>
+				<tr class="ui-state-default">
+					<th>№</th>
+					<th>Тема</th>
+					<th>Действие</th>
+				</tr>
+			</thead>
+			<tbody id="sortable">
+				<tr data-ng-repeat="question in questions | filter:query" class="ui-state-default">
+					<td width="30px" questionid="{{question.Id}}">{{questions.indexOf(question) + 1}}</td>
+					<td>{{question.Title}}</td>
+					<td style="width: 100px;">
+						<div>
+							<a data-toggle="tooltip" data-html="true" tooltip-html-unsafe="Редактировать<br /> вопрос" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(question.Id, questions.indexOf(question) + 1)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
+							<a data-toggle="tooltip" data-tooltip="Удалить вопрос" data-tooltip-placement="right" data-ng-click="onDeleteButtonClicked(question.Id, question.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-2x"></i></a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<h4><a data-ng-href="#/tests" style="margin-right: 10px"><i class="fa fa-arrow-circle-left fa-1x"></i></a>К тестам</h4>
 </div>
-
-<div style="height: 20px"></div>
-
-<div class="table-responsive">
-    <table class="table table-hover table-bordered table-striped">
-        <thead>
-            <tr class="ui-state-default">
-                <th>№</th>
-                <th>Тема</th>
-                <th>Действие</th>
-            </tr>
-        </thead>
-        <tbody id="sortable">
-            <tr data-ng-repeat="question in questions | filter:query" class="ui-state-default">
-                <td width="30px" questionid="{{question.Id}}">{{questions.indexOf(question) + 1}}</td>
-                <td>{{question.Title}}</td>
-                <td style="width: 100px;">
-                    <div>
-                        <a data-toggle="tooltip" data-html="true" tooltip-html-unsafe="Редактировать<br /> вопрос" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(question.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
-                        <a data-toggle="tooltip" data-tooltip="Удалить вопрос" data-tooltip-placement="right" data-ng-click="onDeleteButtonClicked(question.Id, question.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-2x"></i></a>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<h4><a data-ng-href="#/tests" style="margin-right: 10px"><i class="fa fa-arrow-circle-left fa-1x"></i></a>К тестам</h4>

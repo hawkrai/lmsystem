@@ -19,13 +19,17 @@
   position: fixed;
   left: -1000px;
 }
+.resButton {
+    background-color: chocolate!important;
+    border-color: chocolate!important;
+}
 </style>
 
 <div class="row" data-ng-init="init()">
     <div class="col-lg-3">
         <a id="addNewTestButton" data-ng-click="onNewButtonClicked()" class="btn btn-primary btn-sm">Добавить тест</a>
         
-         <a id="a1" data-ng-click="onUploadImage()" class="btn btn-primary btn-sm">Ресурсы</a>
+         <a id="a1" data-ng-click="onUploadImage()" class="btn btn-primary btn-sm resButton">Ресурсы</a>
     </div>
     
     <div class="input-group input-group-sm search-box" style="padding-right: 15px; float: right">
