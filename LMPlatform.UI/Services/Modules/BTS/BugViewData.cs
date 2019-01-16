@@ -28,6 +28,9 @@ namespace LMPlatform.UI.Services.Modules.BTS
         [DataMember]
         public string ModifyingDate { get; set; }
 
+        [DataMember]
+        public string Reporter { get; set; }
+
         public BugViewData(Bug bug)
         {
             Id = bug.Id;
@@ -37,6 +40,7 @@ namespace LMPlatform.UI.Services.Modules.BTS
             AssignedDeveloper = GetAssignedDeveloper(bug);
             ProjectTitle = bug.Project.Title;
             ModifyingDate = bug.ModifyingDate.ToShortDateString();
+            Reporter = bug.Reporter.FullName;
         }
 
         private string GetAssignedDeveloper(Bug bug)
