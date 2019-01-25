@@ -137,7 +137,7 @@ namespace LMPlatform.UI.Controllers
 
             NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
 			var testName = TestsManagementService.GetTest(testId, false).Title;
-
+			ViewData["testName"] = testName;
             if (nextQuestion.Question == null)
             {
                 ViewBag.Mark = nextQuestion.Mark;
@@ -189,8 +189,6 @@ namespace LMPlatform.UI.Controllers
 
 				return PartialView("EndTest", resuls);
             }
-
-			ViewData["testName"] = testName;
 
             return PartialView("GetNextQuestion", nextQuestion);
         }

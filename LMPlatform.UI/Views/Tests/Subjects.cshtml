@@ -10,10 +10,10 @@
     {
         <li><a href="@Url.Action("KnowledgeTesting", "Tests", new { subjectId = subject.SubjectId })" style="font-size: 14px">@subject.DisplayName</a></li>
     }
-    <li><a href="@Url.Action("Subjects","Subject")" style="font-size: 14px"><i class="fa fa-gears fa-1x"></i>  Все предметы</a></li>
+    <li><a href="@Url.Action("Subjects","Subject")" style="font-size: 14px"><i class="fa fa-gears fa-1x" style="margin-right: 10px"></i>  Все предметы</a></li>
     @if (User.IsInRole("lector"))
     {
-        <li><a href="@Url.Action("Management","Subject")" style="font-size: 14px;"><i class="fa fa-gear fa-1x"></i>  Управление предметами</a></li>
+        <li><a href="@Url.Action("Management","Subject")" style="font-size: 14px;"><i class="fa fa-gear fa-1x" style="margin-right: 10px"></i>  Управление предметами</a></li>
     }
 }
 

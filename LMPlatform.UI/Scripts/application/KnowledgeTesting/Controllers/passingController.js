@@ -48,8 +48,11 @@ var testPassing = {
     },
 
     _onDescriptionLoaded: function(data) {
-        $('#title').text(data.Title);
-        $('#description').text(data.Description);
+    	$('#title').text(data.Title);
+    	if (data.Description) {
+    		$('#description').text(data.Description);
+    	}
+        
     },
 
     _onNextButtonClicked: function () {
