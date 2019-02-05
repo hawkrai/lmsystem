@@ -130,7 +130,7 @@ namespace LMPlatform.UI.Controllers
             if (SubjectManagementService.IsWorkingSubject(WebSecurity.CurrentUserId, subjectId))
             {
                 var model = new SubjectWorkingViewModel(subjectId);
-                return View(model);    
+                return View(model);
             }
             else if (User.IsInRole("student"))
             {

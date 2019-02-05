@@ -307,5 +307,27 @@ namespace LMPlatform.UI.Services.Lectures
                 };
             }
         }
+
+		public ResultViewData DeleteVisitingDates(List<string> dateIds)
+		{
+			try
+			{
+				dateIds.ForEach(e => SubjectManagementService.DeleteLectionVisitingDate(int.Parse(e)));
+
+				return new ResultViewData()
+				{
+					Message = "Даты успешно удалены",
+					Code = "200"
+				};
+			}
+			catch (Exception)
+			{
+				return new ResultViewData()
+				{
+					Message = "Произошла ошибка при удалении дат",
+					Code = "500"
+				};
+			}
+		}
     }
 }

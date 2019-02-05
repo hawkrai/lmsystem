@@ -46,6 +46,10 @@ namespace LMPlatform.UI.Services.Lectures
         ResultViewData SaveMarksCalendarData(List<LecturesMarkVisitingViewData> lecturesMarks);
 
 		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/DeleteVisitingDates")]
+		ResultViewData DeleteVisitingDates(List<string> dateIds);
+
+		[OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveMarksCalendarDataSingle")]
 		ResultViewData SaveMarksCalendarDataSingle(int markId, string mark, int lecuresVisitId, int studentId);
 

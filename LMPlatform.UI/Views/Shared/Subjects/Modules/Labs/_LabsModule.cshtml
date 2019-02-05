@@ -445,9 +445,12 @@
 
 							</td>
 
-							<td style="width: 50px; text-align: center; color: red"><b>{{student.LabsMarkTotal}}</b></td>
+							<td style="width: 50px; text-align: center; color: red" ng-if="checkSubTotal(student.Marks)"><b>{{student.LabsMarkTotal}}</b></td>
+							<td style="width: 50px; text-align: center; color: #F89496" title="{{setTitleSubTotal(student.Marks)}}" ng-if="!checkSubTotal(student.Marks)"><b>{{student.LabsMarkTotal}}</b></td>
 							<td style="width: 50px; text-align: center; color: blue"><b>{{student.TestMark}}</b></td>
-							<td style="width: 50px; text-align: center; color: green"><b>{{$parent.ratingMark(student)}}</b></td>
+							<td style="width: 50px; text-align: center; color: green" ng-if="checkSubTotal(student.Marks) && $parent.ratingMark(student) >= 7"><b>{{$parent.ratingMark(student)}}</b></td>
+							<td style="width: 50px; text-align: center; color: #8BE4A8" title="Предварительная рейтинговая оценка" ng-if="!checkSubTotal(student.Marks)"><b>{{$parent.ratingMark(student)}}</b></td>
+							<td style="width: 50px; text-align: center; color: red" ng-if="checkSubTotal(student.Marks) && $parent.ratingMark(student) < 7"><b>{{$parent.ratingMark(student)}}</b></td>
 						</tr>
 					</table>
 				</div>
