@@ -477,6 +477,11 @@ namespace LMPlatform.UI.Controllers
 
                 if (lecturer != null)
                 {
+					if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Any())
+					{
+						return Json(new { resultMessage = "Удаление невозможно. Преподаватель связан с предметами", status = "500" });
+					}
+
                     var result = LecturerManagementService.DeleteLecturer(id);
 
                     if (result)
@@ -484,7 +489,7 @@ namespace LMPlatform.UI.Controllers
                         return Json(new { resultMessage = string.Format("Преподаватель {0} удален", lecturer.FullName) });
                     }
 
-                    return Json(new { resultMessage = string.Format("Не удалось удалить преподавателя {0}", lecturer.FullName) });
+					return Json(new { resultMessage = string.Format("Не удалось удалить преподавателя {0}", lecturer.FullName), status = "500" });
                 }
 
 				return Json(new { resultMessage = "Удаление невозможно. Преподавателя не существует", status = "500" });
