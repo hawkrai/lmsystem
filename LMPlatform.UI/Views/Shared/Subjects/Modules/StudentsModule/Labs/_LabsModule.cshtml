@@ -48,7 +48,7 @@
 					                      Файлы
 					                      <span class="caret"></span>
 					                  </button>
-					            <ul class="dropdown-menu" role="menu" >
+					            <ul class="dropdown-menu" role="menu" style="position: relative">
 					                <li ng-repeat="file in data.Attachments"><a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a></li>
 					            </ul>
 					        </div>
