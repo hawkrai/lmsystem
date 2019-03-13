@@ -982,7 +982,8 @@ namespace Application.Infrastructure.SubjectManagement
 						{
 							Start = lecturesScheduleVisiting.Date.ToString("yyyy-MM-dd"),
 							Title = string.Format("{0} -  Лекция", name),
-							Color = subject.Color
+							Color = subject.Color,
+							SubjectId = subject.Id,
 						});
 					}
 				}
@@ -1008,7 +1009,8 @@ namespace Application.Infrastructure.SubjectManagement
 						{
 							Start = lecturesScheduleVisiting.Date.ToString("yyyy-MM-dd"),
 							Title = string.Format("{0} -  Лекция", name),
-							Color = subject.Color
+							Color = subject.Color,
+							SubjectId = subject.Id,
 						});
 					}
 				}

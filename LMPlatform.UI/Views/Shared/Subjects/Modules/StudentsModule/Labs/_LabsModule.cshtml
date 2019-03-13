@@ -38,17 +38,17 @@
 						</tr>
 					</thead>
 					<tr ng-repeat="data in labs">
-						<td>{{data.Order}}</td>
+						<td style="width: 20px;">{{data.Order}}</td>
 						<td style="max-width: 400px;word-wrap: break-word;">{{data.Theme}}</td>
 						<td>{{data.ShortName}}</td>
 						<td>{{data.Duration}}</td>
-					    <td style="width: 90px;">
-					        <div class="btn-group pull-right">
+					    <td style="width: 90px;height: 55px;">
+					        <div class="btn-group pull-right" style="position:absolute">
 					            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
 					                      Файлы
 					                      <span class="caret"></span>
 					                  </button>
-					            <ul class="dropdown-menu" role="menu" style="position: relative">
+					            <ul class="dropdown-menu" role="menu">
 					                <li ng-repeat="file in data.Attachments"><a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a></li>
 					            </ul>
 					        </div>
@@ -334,7 +334,7 @@
 							</tr>
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2" ng-init="studentIndex=$index">
-							<td style="width: 42px">{{studentIndex + 1}}</td>
+							<td style="width: 20px">{{studentIndex + 1}}</td>
 							<td style="width: auto"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 60px; text-align: center" ng-repeat="mark in student.Marks"
 								ng-init="markIndex=$index" ng-dblclick="exposeMarkSubOne(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
@@ -385,7 +385,7 @@
 						</tr>
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsTwo.StudentsV2" ng-init="studentIndex=$index">
-							<td style="width: 42px">{{studentIndex + 1}}</td>
+							<td style="width: 20px">{{studentIndex + 1}}</td>
 							<td style="width: auto"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 60px; text-align: center" ng-repeat="mark in student.Marks"
 								ng-init="markIndex=$index" ng-dblclick="exposeMarkSubTwo(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
@@ -431,7 +431,7 @@
 							</tr>
 						</thead>
 						<tr ng-repeat="student in groupWorkingData.selectedGroup.SubGroupsThird.StudentsV2" ng-init="studentIndex=$index">
-							<td style="width: 42px">{{studentIndex + 1}}</td>
+							<td style="width: 20px">{{studentIndex + 1}}</td>
 							<td style="width: auto"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.FullName}}</a></td>
 							<td style="width: 60px; text-align: center" ng-repeat="mark in student.Marks"
 								ng-init="markIndex=$index" ng-dblclick="exposeMarkSubThird(mark.Mark, mark.Comment, mark.Date, mark.LabId, mark.StudentId, mark.StudentLabMarkId)">
