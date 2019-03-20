@@ -349,12 +349,12 @@ namespace LMPlatform.UI.Controllers
 
 	    public ActionResult IsAvailableSubjectName(string name, string id)
 	    {
-		    return Json(!SubjectManagementService.IsSubjectName(name, id),JsonRequestBehavior.AllowGet);
+		    return Json(!SubjectManagementService.IsSubjectName(name, id, WebSecurity.CurrentUserId),JsonRequestBehavior.AllowGet);
 	    }
 
 		public ActionResult IsAvailableSubjectShortName(string name, string id)
 		{
-			return Json(!SubjectManagementService.IsSubjectShortName(name, id), JsonRequestBehavior.AllowGet);
+			return Json(!SubjectManagementService.IsSubjectShortName(name, id, WebSecurity.CurrentUserId), JsonRequestBehavior.AllowGet);
 		}
 
 	    public ActionResult JoinLector()

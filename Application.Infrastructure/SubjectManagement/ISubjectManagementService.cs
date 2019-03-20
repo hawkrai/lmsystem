@@ -96,9 +96,9 @@ namespace Application.Infrastructure.SubjectManagement
 
 		void DeleteUserLabFile(int id);
 
-	    bool IsSubjectName(string name, string id);
+	    bool IsSubjectName(string name, string id, int userId);
 
-	    bool IsSubjectShortName(string name, string id);
+		bool IsSubjectShortName(string name, string id, int userId);
 
 	    void DisableNews(int subjectId, bool disable);
 

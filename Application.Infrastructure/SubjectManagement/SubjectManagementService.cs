@@ -864,19 +864,19 @@ namespace Application.Infrastructure.SubjectManagement
 			return string.Format("P{0}", Guid.NewGuid().ToString("N").ToUpper());
 		}
 
-		public bool IsSubjectName(string name, string id)
+		public bool IsSubjectName(string name, string id, int userId)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 			{
-				return repositoriesContainer.SubjectRepository.IsSubjectName(name, id);
+				return repositoriesContainer.SubjectRepository.IsSubjectName(name, id, userId);
 			}
 		}
 
-		public bool IsSubjectShortName(string name, string id)
+		public bool IsSubjectShortName(string name, string id, int userId)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 			{
-				return repositoriesContainer.SubjectRepository.IsSubjectShortName(name, id);
+				return repositoriesContainer.SubjectRepository.IsSubjectShortName(name, id, userId);
 			}
 		}
 
