@@ -37,7 +37,7 @@ studentsTestingApp.controller('studentResultsCtrl', function ($scope, $http) {
             		renderer: $.jqplot.CategoryAxisRenderer,
             		tickRenderer: $.jqplot.CanvasAxisTickRenderer,
             		tickOptions: {
-            			angle: -90,
+            			angle: -20,
             		}
             	},
             	yaxis: {
