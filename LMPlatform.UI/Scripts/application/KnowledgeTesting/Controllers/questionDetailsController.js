@@ -1,8 +1,10 @@
 ﻿'use strict';
-knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, id, subjectId, $modalInstance) {
+knowledgeTestingApp.controller('questionDetailsCtrl', function ($scope, $http, id, subjectId, testName, testNumber, $modalInstance) {
     $scope.BeforeEUMK = false;
     $scope.ForEUMK = false;
-	$scope.ForNN = false;
+    $scope.ForNN = false;
+    $scope.testName = testName;
+    $scope.testNumber = testNumber;
     $scope.question = { QuestionType: 0 };
     $scope.types = [{ Id: 0, Name: 'С одним вариантом' }, { Id: 1, Name: 'С несколькими вариантами' }, { Id: 2, Name: 'Ввод с клавиатуры' }, { Id: 3, Name: 'Последовательность элементов' }];
 

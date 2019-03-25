@@ -49,7 +49,7 @@
 </style>
 <div class="modal-header">
     <a class="close" data-ng-click="closeDialog()">&times;</a>
-    <h4>{{question.Title ? question.Title : 'Новый вопрос'}}</h4>
+    <h4>Вопрос №{{testNumber}} для теста - <small>{{testName}}</small></h4>
 </div>
 <div class="modal-body">
     <form data-ng-submit='saveQuestion()' name="questionDetailsForm">
@@ -154,7 +154,7 @@
         
 
         <div class="modal-footer" style="margin: 0; padding: 15px 0px;">
-            <a data-ng-click="closeDialog()" class="btn btn-primary btn-sm">Отмена</a>
+			<a data-ng-click="closeDialog()" class="btn btn-default btn-sm">Отмена</a>
             <button type="submit" id="saveButton" class="btn btn-primary btn-sm">Сохранить</button>
         </div>
     </form>

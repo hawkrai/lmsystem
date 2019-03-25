@@ -29,7 +29,8 @@
 
 	        setTimeout(
 	            function () {
-	                $scope.stopSpin();
+	            	$scope.stopSpin();
+	            	$(".appProfilePage").show();
 	            }, 100);
 	    };
 

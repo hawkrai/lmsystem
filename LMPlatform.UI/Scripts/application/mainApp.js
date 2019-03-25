@@ -850,6 +850,41 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             });
         };
 
+        $scope.deleteAllDates = function () {
+        	bootbox.dialog({
+        		message: "Вы действительно хотите удалить даты и все связанные с ними данные?",
+        		title: "Удаление даты",
+        		buttons: {
+        			danger: {
+        				label: "Отмена",
+        				className: "btn-default btn-sm",
+        				callback: function () {
+
+        				}
+        			},
+        			success: {
+        				label: "Удалить",
+        				className: "btn-primary btn-sm",
+        				callback: function () {
+        					$http({
+        						method: 'POST',
+        						url: $scope.UrlServiceLectures + "DeleteVisitingDates",
+        						data: { dateIds: $scope.lecturesCalendar.map(function (a) { return a.Id; }) },
+        						headers: { 'Content-Type': 'application/json' }
+        					}).success(function (data, status) {
+        						if (data.Code != '200') {
+        							alertify.error(data.Message);
+        						} else {
+        							alertify.success(data.Message);
+        							$scope.loadCalendar();
+        							$scope.loadLecturesMarkVisiting();
+        						}
+        					});
+        				}
+        			}
+        		}
+        	});
+        };
 
         //$scope.setBarChart = function () {
         //    $.jqplot('barchart', [$scope.barvalues], {
@@ -1966,6 +2001,20 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              elem.value = index;
          };
 
+         $scope.checkSubTotal = function (marks) {
+         	var coutLabs = marks.length;
+         	var countMarks = $scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2[0].Marks.filter(function (a) { return a.Mark !== ""; }).length;
+         	return (coutLabs - countMarks) === 0;
+			
+         };
+
+         $scope.setTitleSubTotal = function (marks) {
+         	var coutLabs = marks.length;
+         	var countMarks = $scope.groupWorkingData.selectedGroup.SubGroupsOne.StudentsV2[0].Marks.filter(function (a) { return a.Mark !== ""; }).length;
+         	return "Защищено " + countMarks + " работ из " + coutLabs;
+
+         };
+
          $scope.visitingMarkTwo = function (studentId, name, index) {
              var id = name + index;
              var elem = document.getElementById(id);
@@ -2071,7 +2120,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
                                                          cell.innerHTML = valueRecomend.Mark;
-                                                         cell.style.color = '#d3d3d3';
+                                                         cell.style.color = '#e6e6e6';
                                                          cell.title = "Рекоммендуемая отметка"
                                                      }
                                                  })
@@ -2085,7 +2134,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
                                                          cell.innerHTML = valueRecomend.Mark;
-                                                         cell.style.color = '#d3d3d3';
+                                                         cell.style.color = '#e6e6e6';
                                                          cell.title = "Рекоммендуемая отметка"
                                                      }
                                                  })
@@ -2121,7 +2170,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
                                                          cell.innerHTML = valueRecomend.Mark;
-                                                         cell.style.color = '#d3d3d3';
+                                                         cell.style.color = '#e6e6e6';
                                                          cell.title = "Рекоммендуемая отметка"
                                                      }
                                                  })
@@ -2135,7 +2184,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                                                  $.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
                                                      if (valueRecomend.ScheduleProtectionId == dateId) {
                                                          cell.innerHTML = valueRecomend.Mark;
-                                                         cell.style.color = '#d3d3d3';
+                                                         cell.style.color = '#e6e6e6';
                                                          cell.title = "Рекоммендуемая отметка"
                                                      }
                                                  })
@@ -2171,7 +2220,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          										$.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
          											if (valueRecomend.ScheduleProtectionId == dateId) {
          												cell.innerHTML = valueRecomend.Mark;
-         												cell.style.color = '#d3d3d3';
+         												cell.style.color = '#e6e6e6';
          												cell.title = "Рекоммендуемая отметка"
          											}
          										})
@@ -2185,7 +2234,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
          										$.each(valueLabs.ScheduleProtectionLabsRecomend, function (key, valueRecomend) {
          											if (valueRecomend.ScheduleProtectionId == dateId) {
          												cell.innerHTML = valueRecomend.Mark;
-         												cell.style.color = '#d3d3d3';
+         												cell.style.color = '#e6e6e6';
          												cell.title = "Рекоммендуемая отметка"
          											}
          										})

@@ -3,6 +3,24 @@
     <h4>Доступность теста</h4>
 </div>
 <div class="modal-body">
+<style>
+.loading {
+    display: block;
+    position: absolute;
+    /* z-index: 100; */
+    background-image: url(http://loadinggif.com/images/image-selection/3.gif);
+    /* background-color: #757575; */
+    opacity: 0.6;
+    background-repeat: no-repeat;
+    /* background-position: center; */
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    margin-left: 274px;
+    margin-top: 80px;
+		}
+</style>
     <div class="row">
         <div class="col-md-6 ">
             <span style='display: table-cell; text-align: right; width: 20px'>Группы&nbsp;</span>
@@ -13,21 +31,23 @@
             <input data-ng-model="query" type="text" class="form-control input-sm" style="margin: 0" placeholder="Введите фамилию, имя">
         </div>
     </div>
-    <div style="height: 10px"></div>
+    <div style="height: 20px"></div>
     
-    <h5 ng-hide="subGroups.length > 0">В предмете не определено ни одной подгруппы</h5>
+	<div class="loading" ng-hide="subGroups.length > 0">
+		<span us-spinner="{radius:40, width:8, length: 16, opacity: 0, shadow: true, color: '#3c8dbc'}" spinner-key="spinner-1" spinner-start-active="true"></span>
+	</div>
 
     <div data-ng-repeat="subGroup in subGroups">
-        <div class="row" >
-            <div class="col-lg-4">
-                <h5>Подгруппа&nbsp;{{$index + 1}}</h5>
-            </div>
-            <div class="col-lg-2"></div>
-            <div class="col-lg-6">
-                <a id="unlockAllStudents" ng-click="lockAll(subGroup, true)" class="btn btn-primary btn-xs">Открыть для всех</a>
-                <a id="lockAllStudents" ng-click="lockAll(subGroup, false)" class="btn btn-primary btn-xs">Закрыть для всех</a>
-            </div>
-        </div>
+		<div class="row" ng-if="subGroup.Students.length > 0">
+			<div class="col-lg-4">
+				<h5>Подгруппа&nbsp;{{$index + 1}}</h5>
+			</div>
+			<div class="col-lg-2"></div>
+			<div class="col-lg-6">
+				<a id="unlockAllStudents" ng-click="lockAll(subGroup, true)" class="btn btn-success btn-xs">Открыть для всех</a>
+				<a id="lockAllStudents" ng-click="lockAll(subGroup, false)" class="btn btn-danger btn-xs">Закрыть для всех</a>
+			</div>
+		</div>
 
         <div class="table-responsive">
             <table class="table table-hover table-striped">

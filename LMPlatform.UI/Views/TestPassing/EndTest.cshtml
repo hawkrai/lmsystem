@@ -1,7 +1,7 @@
 ﻿@using LMPlatform.Models.KnowledgeTesting
 @model dynamic
 
-<h3>Тест завершен</h3>
+<h3>Тест - @ViewData["testName"] - завершен</h3>
 <h4>Ваша оценка - @ViewBag.Mark (@ViewBag.Percent %)</h4>
 <div class="form-group">
 	@foreach (KeyValuePair<int, PassedQuestionResult> passResult in Model.QuestionsStatuses)

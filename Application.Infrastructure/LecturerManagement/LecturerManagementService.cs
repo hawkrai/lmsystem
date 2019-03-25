@@ -75,7 +75,7 @@ namespace Application.Infrastructure.LecturerManagement
         public IPageableList<Lecturer> GetLecturersPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
             var query = new PageableQuery<Lecturer>(pageInfo);
-            query.Include(l => l.SubjectLecturers).Include(e => e.User);
+            query.Include(l => l.SubjectLecturers.Select(t => t.Subject)).Include(e => e.User);
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {

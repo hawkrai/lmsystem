@@ -136,7 +136,8 @@ namespace LMPlatform.UI.Controllers
 	        var answers = TestPassingService.GetAnswersForTest(testId, CurrentUserId);
 
             NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
-
+			var testName = TestsManagementService.GetTest(testId, false).Title;
+			ViewData["testName"] = testName;
             if (nextQuestion.Question == null)
             {
                 ViewBag.Mark = nextQuestion.Mark;

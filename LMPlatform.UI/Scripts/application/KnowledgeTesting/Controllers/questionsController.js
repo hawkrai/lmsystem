@@ -4,7 +4,16 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
     $scope.init = function () {
     	$scope.testId = getHashValue('testId');
     	$scope.ForNN = getHashValue('forNN');
-    	$scope.loadQuestions();
+
+    	$http({ method: 'GET', url: kt.actions.tests.getTest, dataType: 'json', params: { id: $scope.testId } })
+		.success(function (data) {
+			$scope.test = data;
+			$scope.loadQuestions();
+			$scope.testName = $scope.test.Title;
+		})
+		.error(function (data, status, headers, config) {
+			alertify.error('Во время получения данных произошла ошибка');
+		});
 
 	    $("#sortable").sortable({
 		    update: function (event, ui) {
@@ -20,12 +29,12 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
 	    });
     };
 
-    $scope.onNewButtonClicked = function() {
-        loadQuestion(0);
+    $scope.onNewButtonClicked = function (number) {
+    	loadQuestion(0, number);
     };
 
-    $scope.onEditButtonClicked = function (questionId) {
-        loadQuestion(questionId);
+    $scope.onEditButtonClicked = function (questionId, number) {
+    	loadQuestion(questionId, number);
     };
 
     $scope.onDeleteButtonClicked = function (questionId, questionName) {
@@ -39,7 +48,7 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
             buttons: {
                 'cancel': {
                     label: 'Отмена',
-                    className: 'btn btn-primary btn-sm'
+                    className: 'btn btn-default btn-sm'
                 },
                 'confirm': {
                     label: 'Удалить',
@@ -116,7 +125,7 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
             });
     };
 
-    function loadQuestion(questionId) {
+    function loadQuestion(questionId, number) {
         var subjectId = getUrlValue("subjectId");
         var modalInstance = $modal.open({
             templateUrl: '/Content/KnowledgeTesting/questionDetails.html',
@@ -129,6 +138,12 @@ knowledgeTestingApp.controller('questionsCtrl', function ($scope, $http, $modal)
                 subjectId: function () {
                     return subjectId;
                 },
+                testName: function () {
+                	return $scope.testName
+                },
+                testNumber: function () {
+                	return number;
+                }
             }
         });
     }

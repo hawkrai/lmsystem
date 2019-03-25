@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Application.Core;
@@ -78,65 +78,65 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             }
         }
 
-        [StringLength(50, ErrorMessage = "Имя не может иметь размер больше 50 символов")]
+        [StringLength(50, ErrorMessage = "РРјСЏ РЅРµ РјРѕР¶РµС‚ РёРјРµС‚СЊ СЂР°Р·РјРµСЂ Р±РѕР»СЊС€Рµ 50 СЃРёРјРІРѕР»РѕРІ")]
         [DataType(DataType.Text)]
-        [Display(Name = "Имя")]
-        [Required(ErrorMessage = "Поле Имя обязательно для заполнения")]
+        [Display(Name = "РРјСЏ")]
+        [Required(ErrorMessage = "РџРѕР»Рµ РРјСЏ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ")]
         public string Name
         {
             get;
             set;
         }
 
-        [StringLength(50, ErrorMessage = "Фамилия не может иметь размер больше 50 символов")]
+        [StringLength(50, ErrorMessage = "Р¤Р°РјРёР»РёСЏ РЅРµ РјРѕР¶РµС‚ РёРјРµС‚СЊ СЂР°Р·РјРµСЂ Р±РѕР»СЊС€Рµ 50 СЃРёРјРІРѕР»РѕРІ")]
         [DataType(DataType.Text)]
-        [Display(Name = "Фамилия")]
-        [Required(ErrorMessage = "Поле Фамилия обязательно для заполнения")]
+        [Display(Name = "Р¤Р°РјРёР»РёСЏ")]
+        [Required(ErrorMessage = "РџРѕР»Рµ Р¤Р°РјРёР»РёСЏ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ")]
         public string Surname
         {
             get;
             set;
         }
 
-        [StringLength(50, ErrorMessage = "Отчество не может иметь размер больше 50 символов")]
+        [StringLength(50, ErrorMessage = "РћС‚С‡РµСЃС‚РІРѕ РЅРµ РјРѕР¶РµС‚ РёРјРµС‚СЊ СЂР°Р·РјРµСЂ Р±РѕР»СЊС€Рµ 50 СЃРёРјРІРѕР»РѕРІ")]
         [DataType(DataType.Text)]
-        [Display(Name = "Отчество")]
+        [Display(Name = "РћС‚С‡РµСЃС‚РІРѕ")]
         public string Patronymic
         {
             get;
             set;
         }
 
-        [Display(Name = "Секретарь")]
+        [Display(Name = "РЎРµРєСЂРµС‚Р°СЂСЊ")]
         public bool IsSecretary { get; set; }
 
-        [Display(Name = "Руководитель дипломных проектов")]
+        [Display(Name = "Р СѓРєРѕРІРѕРґРёС‚РµР»СЊ РґРёРїР»РѕРјРЅС‹С… РїСЂРѕРµРєС‚РѕРІ")]
         public bool IsLecturerHasGraduateStudents { get; set; }
 
-        [Required(ErrorMessage = "Поле Логин обязательно для заполнения")]
-        [Display(Name = "Логин")]
+        [Required(ErrorMessage = "РџРѕР»Рµ Р›РѕРіРёРЅ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ")]
+        [Display(Name = "Р›РѕРіРёРЅ")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Поле Пароль обязательно для заполнения")]
-        [StringLength(100, ErrorMessage = "{0} должно быть не менее {2} символов.", MinimumLength = 6)]
+        [Required(ErrorMessage = "РџРѕР»Рµ РџР°СЂРѕР»СЊ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ")]
+        [StringLength(100, ErrorMessage = "{0} РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РЅРµ РјРµРЅРµРµ {2} СЃРёРјРІРѕР»РѕРІ.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "РџР°СЂРѕР»СЊ")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Подтверждение пароля")]
-		[Required(ErrorMessage = "Поле Подтверждение пароля обязательно для заполнения")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Пароль и подтвержденный пароль не совпадают.")]
+        [Display(Name = "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РїР°СЂРѕР»СЏ")]
+		[Required(ErrorMessage = "РџРѕР»Рµ РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РїР°СЂРѕР»СЏ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "РџР°СЂРѕР»СЊ Рё РїРѕРґС‚РІРµСЂР¶РґРµРЅРЅС‹Р№ РїР°СЂРѕР»СЊ РЅРµ СЃРѕРІРїР°РґР°СЋС‚.")]
         public string ConfirmPassword { get; set; }
 
-        [Display(Name = "Группа")]
+        [Display(Name = "Р“СЂСѓРїРїР°")]
         public string Group
         {
             get;
             set;
         }
 
-		[Display(Name = "Код доступа")]
+		[Display(Name = "РљРѕРґ РґРѕСЃС‚СѓРїР°")]
 		public string Code
 		{
 			get;
