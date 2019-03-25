@@ -1,6 +1,6 @@
 ﻿<div class="row">
     <div class="col-md-12">
-        <div class="actions-field">
+        <div class="actions-field" ng-hide="!isLector">
             <a class="btn btn-primary btn-sm" ng-click="onAddProject()">Добавить проект</a>
         </div>
         <div class="search-field">
@@ -18,7 +18,7 @@
         <td data-title="'Создатель'" sortable="'CreatorName'">{{project.CreatorName}}</td>
         <td data-title="'Кол-во участников проекта'" sortable="'UserQuentity'">{{project.UserQuentity}}</td>
         <td data-title="'Действие'" class="project-actions-column">
-            <div name="projectGridActionsCol" ng-class="{hide : !isLector}" class="table-actions">
+            <div name="projectGridActionsCol" ng-hide="!isLector" class="table-actions">
                 <a ng-click="onEditProject(project.Id)"><i class="editProject fa fa-edit fa-1x"></i></a>
                 <a ng-click="onDeleteProject(project.Id)"><span class="deleteButton fa fa-trash-o fa-1x" /></a>
             </div>
