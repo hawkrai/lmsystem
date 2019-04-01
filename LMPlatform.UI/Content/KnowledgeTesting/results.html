@@ -33,7 +33,7 @@
                             <th>№</th>
                             <th>Студент</th>
                             <th data-ng-repeat="res in subgroupResults[0].TestPassResults | filter:!forSelfStudyFilter">
-                                <div tooltip="{{res.TestName}}" tooltip-placement="right" style="width: 50px;">Тест {{subgroupResults[0].TestPassResults.indexOf(res) + 1}}</div>
+                                <div tooltip="{{res.TestName}}" tooltip-placement="right" style="width: 50px;">Тест {{getFilteredTestsNumber(0, subgroupResults, res)}}</div>
                             </th>
                             <th>Средняя оценка</th>
                         </tr>
@@ -93,7 +93,7 @@
                             <th>№</th>
                             <th>Студент</th>
                             <th data-ng-repeat="res in subgroupResults[0].TestPassResults | filter:forSelfStudyFilter">
-                                <div tooltip="{{res.TestName}}" tooltip-placement="right" style="width: 50px;">Тест {{subgroupResults[0].TestPassResults.indexOf(res) + 1}}</div>
+                                <div tooltip="{{res.TestName}}" tooltip-placement="right" style="width: 50px;">Тест {{getFilteredTestsNumber(1, subgroupResults, res)}}</div>
                             </th>
                             <th>Средняя оценка</th>
                         </tr>
