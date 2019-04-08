@@ -477,7 +477,14 @@ namespace LMPlatform.UI.Controllers
 
                 if (lecturer != null)
                 {
-					if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Any())
+					if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Any() && lecturer.SubjectLecturers.All(e => e.Subject.IsArchive))
+					{
+						foreach (var lecturerSubjectLecturer in lecturer.SubjectLecturers)
+						{
+							LecturerManagementService.DisjoinOwnerLector(lecturerSubjectLecturer.SubjectId, id);	
+						}
+					}
+					else if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Any() && lecturer.SubjectLecturers.Any(e => !e.Subject.IsArchive))
 					{
 						return Json(new { resultMessage = "Удаление невозможно. Преподаватель связан с предметами", status = "500" });
 					}
