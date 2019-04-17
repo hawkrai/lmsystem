@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using Application.Core.Data;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Models.DP;
@@ -66,12 +69,36 @@ namespace Application.Infrastructure.UserManagement
 
         public User GetUser(string userName)
         {
-            if (IsExistsUser(userName))
-            {
-                return UsersRepository.GetAll(new Query<User>()
-                    .Include(u => u.Student).Include(e => e.Student.Group).Include(u => u.Lecturer).Include(u => u.Membership.Roles))
-                    .Single(e => e.UserName == userName);
-            }
+	        try
+	        {
+				if (IsExistsUser(userName))
+				{
+					return UsersRepository.GetAll(new Query<User>()
+							.Include(u => u.Student).Include(e => e.Student.Group).Include(u => u.Lecturer).Include(u => u.Membership.Roles))
+						.Single(e => e.UserName == userName);
+				}
+	        }
+	        catch (ReflectionTypeLoadException ex)
+	        {
+		        StringBuilder sb = new StringBuilder();
+		        foreach (Exception exSub in ex.LoaderExceptions)
+		        {
+			        sb.AppendLine(exSub.Message);
+			        FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+			        if (exFileNotFound != null)
+			        {
+				        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+				        {
+					        sb.AppendLine("Fusion Log:");
+					        sb.AppendLine(exFileNotFound.FusionLog);
+				        }
+			        }
+			        sb.AppendLine();
+		        }
+		        string errorMessage = sb.ToString();
+		        throw new Exception(errorMessage);
+	        }
+            
 
             return null;
         }

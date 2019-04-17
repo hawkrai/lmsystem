@@ -1179,6 +1179,7 @@
     <Content Include="Scripts\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Scripts\ckeditor\samples\sample_posteddata.php" />
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
+    <None Include="Properties\PublishProfiles\LMSHOSTER.pubxml" />
     <None Include="Properties\PublishProfiles\lmsPlatform - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\lmsPlatform - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\lmsPlatform.pubxml" />
@@ -1949,9 +1950,6 @@
     <Content Include="Views\ComplexMaterial\_OpenViewsForm.cshtml" />
     <Content Include="Views\ComplexMaterial\MonitoringStudentInfo.cshtml" />
     <Content Include="Views\ComplexMaterial\MonitoringStudents.cshtml" />
-    <Content Include="Views\Monitoring\Index.cshtml" />
-    <Content Include="Views\Monitoring\StudentInfo.cshtml" />
-    <Content Include="Views\Monitoring\Students.cshtml" />
     <Content Include="Views\Lms\ProfilePage.cshtml" />
     <Content Include="Views\BTS\_Project.cshtml" />
     <Content Include="Views\Chat\Chat.cshtml" />
