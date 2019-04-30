@@ -325,16 +325,16 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
 
                 $scope.statData.forEach(function (subject) {
 	                if (Enumerable.From(subject.students).Where(function(x) { return x.Id == student.Id; }).Select()
-		                .ToArray() >
+		                .ToArray().length >
 		                0) {
 		                var subStudent = Enumerable.From(subject.students).First(function(x) {
 			                return x.Id == student.Id;
 		                });
 		                var avgMark = (student.TestMark > 0 && student.LabMark > 0)
-			                ? (student.TestMark + student.LabMark) / 2
+			                ? ((student.TestMark + student.LabMark) / 2).toFixed(1)
 			                : ((student.TestMark == 0 && student.LabMark > 0) ||
 				                (student.TestMark > 0 && student.LabMark == 0)
-				                ? (student.TestMark + student.LabMark)
+				                ? (student.TestMark + student.LabMark).toFixed(1)
 				                : '-');
 
 		                var statSubjectObj = {
@@ -385,7 +385,7 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
                 PractMark: student.PractMark,
                 LabsCount: student.LabsCount,
                 PractsCount: student.PractsCount,
-				TestMark: student.TestMark
+                TestMark: student.TestMark
             };
         }
 
