@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <tr data-ng-repeat="result in resultsForSelfStudy | filter:query">
-                        <td width="10px">{{resultsForSelfStudy.indexOf(result) + 1}}</td>
+                        <td width="10px">{{results.indexOf(result) + 1}}</td>
                         <td width="300px">{{result.Title}}</td>
                         <td width="300px">{{result.Points}} ({{result.Percent}}%)</td>
                     </tr>

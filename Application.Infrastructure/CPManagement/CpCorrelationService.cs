@@ -49,10 +49,10 @@ namespace Application.Infrastructure.CPManagement
             {
                 var user = Context.Users.Include(x => x.Lecturer).Single(x => x.Id == userId);
                 var isSecretary = user.Lecturer != null && user.Lecturer.IsSecretary;
-               /* if (isSecretary)
+                if (isSecretary)
                 {
                     groups = groups.Where(x => !x.SecretaryId.HasValue || x.SecretaryId == userId);
-                }*/
+                }
             }
 
             return groups.OrderBy(x => x.Name).Select(x => new Correlation

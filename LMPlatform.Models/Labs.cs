@@ -48,6 +48,6 @@
             set;
         }
 
-        public ICollection<StudentLabMark> StudentLabMarks { get; set; } 
+       public ICollection<StudentLabMark> StudentLabMarks { get; set; } 
     }
 }

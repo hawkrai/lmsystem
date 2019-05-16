@@ -15,8 +15,8 @@ namespace LMPlatform.UI.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                //return RedirectToAction("Login", "Account");
-				return RedirectToAction("Index", "Main");
+                return RedirectToAction("Login", "Account");
+                
             }
 
             if (User.IsInRole("admin"))
@@ -25,7 +25,8 @@ namespace LMPlatform.UI.Controllers
             }
 
 			if (User.IsInRole("student"))
-			{
+
+            {
 				var repository = new RepositoryBase<LmPlatformModelsContext, Student>(new LmPlatformModelsContext());
 				var student = repository.GetBy(new PageableQuery<Student>(e => e.User.UserName == User.Identity.Name).Include(e => e.User));
 

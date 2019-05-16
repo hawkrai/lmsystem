@@ -130,11 +130,11 @@ function initDeleteDialog(btnSelector, btnTooltipTitle) {
             callback: function (result) {
                 if (result) {
                     $.post(actionUrl, function (data) {
-                    	updateDataTable();
-                    	if (data.status == "500" && data.resultMessage) {
-                    		alertify.error(data.resultMessage);
-                    	} else if (data.resultMessage) {
+                        updateDataTable();
+                        if (data.resultMessage) {
                         	alertify.success(data.resultMessage);
+                        } else if (data.status == "500") {
+                        	alertify.error(data.resultMessage);
                         }
                     }).fail(function () {
                         alertify.error("Произошла ошибка");

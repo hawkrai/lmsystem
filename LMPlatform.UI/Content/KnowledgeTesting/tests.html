@@ -52,25 +52,25 @@
 			</tr>
 		</thead>
         <tbody id="sortable">
-			<tr data-ng-repeat="test in tests | filter:query | filter:{ForSelfStudy:false, BeforeEUMK: false, ForEUMK: false, ForNN: false }" class="ui-state-default">
-				<td testid="{{test.Id}}" width="30px">{{tests.indexOf(test) + 1}}</td>
-				<td>{{test.Title}}</td>
-				<td style="width: 220px;">
-					<div>
-						<a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}&beforeEUMK={{test.BeforeEUMK}}&forEUMK={{test.ForEUMK}}&forNN={{test.ForNN}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
-					</div>
-				</td>
-			</tr>
+            <tr data-ng-repeat="test in tests | filter:query | filter:{ForSelfStudy:false}" class="ui-state-default">
+                <td testId="{{test.Id}}" width="30px">{{tests.indexOf(test) + 1}}</td>
+                <td>{{test.Title}}</td>
+                <td style="width: 220px;">
+                    <div>
+                        <a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
+                    </div>
+                </td>
+            </tr>
         </tbody>
 	</table>
 </div>
 <div style="margin-bottom: 15px"></div>
 <div>
-    <h4 style="margin-top: 20px;">Тесты для самоконтроля</h4>
+    <h4 style="margin-top: 20px;">Тесты для самоконтроля и ЭУМК</h4>
 </div>
 <div style="margin-bottom: 15px"></div>
 <div class="table-responsive">
@@ -83,118 +83,21 @@
             </tr>
         </thead>
         <tbody id="sortableForSelfStudy">
-			<tr data-ng-repeat="test in tests | filter:query | filter:{ForSelfStudy:true}" class="ui-state-default">
-				<td testid="{{test.Id}}" width="30px">{{testsForSelfStudy.indexOf(test) + 1}}</td>
-				<td>{{test.Title}}</td>
-				<td style="width: 220px;">
-					<div>
-						<a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}&beforeEUMK={{test.BeforeEUMK}}&forEUMK={{test.ForEUMK}}&forNN={{test.ForNN}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
-					</div>
-				</td>
-			</tr>
+            <tr data-ng-repeat="test in testsForSelfStudy | filter:query | filter:{ForSelfStudy:true}" class="ui-state-default">
+                <td testId="{{test.Id}}" width="30px">{{testsForSelfStudy.indexOf(test) + 1}}</td>
+                <td>{{test.Title}}</td>
+                <td style="width: 220px;">
+                    <div>
+                        <a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
+						<a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&beforeEUMK={{test.BeforeEUMK}}&forEUMK={{test.ForEUMK}}&forNN={{test.ForNN}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
+                        <a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
-</div>
-
-<div style="margin-bottom: 15px"></div>
-<div>
-	<h4 style="margin-top: 20px;">Предтест для обучения в ЭУМК </h4>
-</div>
-<div style="margin-bottom: 15px"></div>
-<div class="table-responsive">
-	<table class="table table-hover table-bordered table-striped">
-		<thead>
-			<tr class="ui-state-default">
-				<th>№</th>
-				<th>Тема</th>
-				<th>Действие</th>
-			</tr>
-		</thead>
-		<tbody id="sortableForSelfStudy">
-			<tr data-ng-repeat="test in tests | filter:query | filter:{BeforeEUMK:true}" class="ui-state-default">
-				<td testid="{{test.Id}}" width="30px">{{testsForSelfStudy.indexOf(test) + 1}}</td>
-				<td>{{test.Title}}</td>
-				<td style="width: 220px;">
-					<div>
-						<a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}&beforeEUMK={{test.BeforeEUMK}}&forEUMK={{test.ForEUMK}}&forNN={{test.ForNN}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div style="margin-bottom: 15px"></div>
-<div>
-	<h4 style="margin-top: 20px;">Тест для обучения в ЭУМК </h4>
-</div>
-<div style="margin-bottom: 15px"></div>
-<div class="table-responsive">
-	<table class="table table-hover table-bordered table-striped">
-		<thead>
-			<tr class="ui-state-default">
-				<th>№</th>
-				<th>Тема</th>
-				<th>Действие</th>
-			</tr>
-		</thead>
-		<tbody id="sortableForSelfStudy">
-			<tr data-ng-repeat="test in tests | filter:query | filter:{ForEUMK:true}" class="ui-state-default">
-				<td testid="{{test.Id}}" width="30px">{{testsForSelfStudy.indexOf(test) + 1}}</td>
-				<td>{{test.Title}}</td>
-				<td style="width: 220px;">
-					<div>
-						<a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}&beforeEUMK={{test.BeforeEUMK}}&forEUMK={{test.ForEUMK}}&forNN={{test.ForNN}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-
-<div style="margin-bottom: 15px"></div>
-<div>
-	<h4 style="margin-top: 20px;">Тест для обучения с искусственной нейронной сетью  </h4>
-</div>
-<div style="margin-bottom: 15px"></div>
-<div class="table-responsive">
-	<table class="table table-hover table-bordered table-striped">
-		<thead>
-			<tr class="ui-state-default">
-				<th>№</th>
-				<th>Тема</th>
-				<th>Действие</th>
-			</tr>
-		</thead>
-		<tbody id="sortableForSelfStudy">
-			<tr data-ng-repeat="test in tests | filter:query | filter:{ForNN:true}" class="ui-state-default">
-				<td testid="{{test.Id}}" width="30px">{{testsForSelfStudy.indexOf(test) + 1}}</td>
-				<td>{{test.Title}}</td>
-				<td style="width: 220px;">
-					<div>
-						<a data-toggle="tooltip" data-tooltip="Редактировать тест" data-tooltip-placement="left" data-ng-click="onEditButtonClicked(test.Id)" style="margin-right: 10px"><i class="fa fa-edit fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Удалить тест" data-tooltip-placement="left" data-ng-click="onDeleteButtonClicked(test.Id, test.Title)" style="margin-right: 10px"><i class="fa fa-trash-o fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Перейти к вопросам" data-tooltip-placement="left" data-ng-href="#/questions?testId={{test.Id}}&forSelfStudy={{test.ForSelfStudy}}&beforeEUMK={{test.BeforeEUMK}}&forEUMK={{test.ForEUMK}}&forNN={{test.ForNN}}" style="margin-right: 10px"><i class="fa fa-question fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Пройти тест" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
-						<a data-toggle="tooltip" data-tooltip="Доступность теста" data-ng-show="test.HasQuestions" data-tooltip-placement="right" data-ng-click="onUnlockButtonClicked(test.Id, test.Title)"><i class="fa fa-1x" ng-class="{'fa-unlock': test.Unlocked, 'fa-lock': !test.Unlocked}"></i></a>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
 </div>
 
 <script>

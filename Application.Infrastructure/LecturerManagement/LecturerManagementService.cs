@@ -19,7 +19,7 @@ namespace Application.Infrastructure.LecturerManagement
             {
                 return repositoriesContainer.LecturerRepository.GetBy(
                     new Query<Lecturer>(e => e.Id == userId)
-                    .Include(e => e.SubjectLecturers.Select(x => x.Subject))
+                    .Include(e => e.SubjectLecturers)
                     .Include(e => e.User)
                     .Include(e => e.SecretaryGroups));
             }
@@ -75,7 +75,7 @@ namespace Application.Infrastructure.LecturerManagement
         public IPageableList<Lecturer> GetLecturersPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
             var query = new PageableQuery<Lecturer>(pageInfo);
-            query.Include(l => l.SubjectLecturers.Select(t => t.Subject)).Include(e => e.User);
+            query.Include(l => l.SubjectLecturers).Include(e => e.User);
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
@@ -132,13 +132,15 @@ namespace Application.Infrastructure.LecturerManagement
 
                 if (lecturer != null && lecturer.SubjectLecturers != null)
                 {
-                    var subjects = lecturer.SubjectLecturers.ToList();
-                    repositoriesContainer.RepositoryFor<SubjectLecturer>().Delete(subjects);
-                    repositoriesContainer.ApplyChanges();
+                    //var subjects = lecturer.SubjectLecturers.ToList();
+                    //repositoriesContainer.RepositoryFor<SubjectLecturer>().Delete(subjects);
+                    //repositoriesContainer.ApplyChanges();
+                    repositoriesContainer.LecturerRepository.DeleteLecturer(lecturer);
                 }
+                
             }
             new LecturerSearchMethod().DeleteIndex(id);
-            return UserManagementService.DeleteUser(id);
+            return true;//UserManagementService.DeleteUser(id);
         }
 
         private readonly LazyDependency<IUsersManagementService> _userManagementService =
@@ -175,7 +177,7 @@ namespace Application.Infrastructure.LecturerManagement
 			}
 	    }
 
-	    public void DisjoinLector(int subjectId, int lectorId, int? owner)
+	    public void DisjoinLector(int subjectId, int lectorId, int owner)
 	    {
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 			{
@@ -186,19 +188,6 @@ namespace Application.Infrastructure.LecturerManagement
 				repositoriesContainer.RepositoryFor<SubjectLecturer>().Delete(relation);
 				repositoriesContainer.ApplyChanges();
 			}
-	    }
-
-	    public void DisjoinOwnerLector(int subjectId, int lectorId)
-	    {
-		    using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-		    {
-			    var relation =
-				    repositoriesContainer.RepositoryFor<SubjectLecturer>().GetBy(
-					    new Query<SubjectLecturer>(e => e.Owner.HasValue == false && e.LecturerId == lectorId && e.SubjectId == subjectId));
-
-			    repositoriesContainer.RepositoryFor<SubjectLecturer>().Delete(relation);
-			    repositoriesContainer.ApplyChanges();
-		    }
 	    }
 
     }

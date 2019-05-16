@@ -1,0 +1,141 @@
+﻿@{
+    var userRole = User.IsInRole("student") ? 1 : 0;
+}
+
+<div ng-controller="uploadFileCtrl" ng-init="init('@userRole','@WebSecurity.CurrentUserId')">
+    <div ng-show="user.IsStudent">
+        <div style="margin-top: 20px; margin-bottom: 10px">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>Файл</th>
+                        <th>Комментарий</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="files in labFilesUser" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : files.IsReturned ? {'background-color': '#FFFF99'} : {}">
+                        <td>
+                            <div ng-repeat="file in files.Attachments" >
+                                <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
+                            </div>
+                        </td>
+                        <td>{{files.Comments}}</td>
+                        <td style="width: 90px;">
+                            <div ng-if="!files.IsReceived && !files.IsReturned">
+                                <a style="margin-right: 10px" ng-click="editLabFiles(files)"><i class="fa fa-edit fa-1x"></i></a>
+                                <a ng-click="deleteUserFile(files)"><i class="fa fa-trash-o fa-1x"></i></a>
+                            </div>
+                            <div ng-if="files.IsReceived">
+                                Принято
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <input ng-show="labFilesUser.length == 0 || (labFilesUser.length > 0 && !labFilesUser.some(!files.IsReturned))" class="btn btn-sm btn-primary fileinput-button" type="button" ng-click="addLabFiles()" style="width: 200px" value="Добавить работу" />
+    </div>
+    <div id="dialogAddFiles" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">На защиту Курсовой работы(проекта)</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="control-group">
+                        <label class="control-label">Комментарий</label>
+                        <textarea class="form-control" style="max-width: 545px; width: 545px;" ng-model="editFileSend.Comments"></textarea>
+                    </div>
+
+                </div>
+
+                <div>
+                    <label class="control-label">
+                        Прикрепленный материал (Можно добавить только один файл)
+                    </label>
+                    <div id="labsFile">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
+                <button type="button" ng-click="user.IsStudent ? saveLabFiles(userId): saveLabFiles(studentId)" class="btn btn-primary btn-sm">Отправить работу</button>
+            </div>
+        </div>
+    </div>
+
+    @*////////////////////////Lecturer part//////////////////////////*@
+    <div ng-show="user.IsLecturer">
+        <div style="margin-bottom: 15px; margin-top: 15px;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="padding-right: 15px">
+                            <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                        </td>
+                        <td style="margin-top: 5px">
+                            <a ng-click="saveZip()" class="fa fa-download fa-1x" style="margin-right: 15px; color: #6B8E23" tooltip="Скачать архивом">
+                            </a>
+                        </td>
+                        <td>
+                            <a ng-click="checkPlagiarismSubject()" class="fa fa-eye fa-1x" style="margin-right: 10px; font-size: 27px; cursor: pointer;" tooltip="Проверка на плагиат всех работ"></a>
+                        </td>
+                        <td style="margin-top: 5px">
+                            <a ng-click="reloadFiles()" class="fa fa-refresh fa-1x" style="margin-left: 5px; margin-right: 10px; font-size: 27px; cursor: pointer; color:cadetblue" tooltip="Обновить данные"></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top: 10px; margin-bottom: 10px">
+            <accordion>
+                <accordion-group ng-repeat="data in groupWorkingData.selectedGroup.StudentsFiles">
+                    <accordion-heading>
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" class="collapsed" style="float: left">{{data.FullName}}</a>
+                        </h4>
+                        <div class="clear-fix"></div>
+                    </accordion-heading>
+                    <div>
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Файлы</th>
+                                    <th>Комментарий</th>
+                                    <th>Дата</th>
+                                    <th>Действие</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="files in data.FileLabs" ng-style="files.IsReceived ? {'background-color': '#EFFFF8'} : files.IsReturned ? {'background-color': '#FFFF99'} : {}">
+
+                                    <td>
+                                        <div ng-repeat="file in files.Attachments">
+                                            <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
+                                        </div>
+                                    </td>
+                                    <td>{{files.Comments}}</td>
+                                    <td>{{files.Date}}</td>
+                                    <td style="width: 100px; text-align: center">
+                                        <div ng-if="files.IsReceived && !files.IsReturned">
+                                            <a class="fa fa-thumbs-o-down fa-1x" ng-click="cancelReceivedLabFile(files.Id, files)" tooltip="Отклонить работу"></a>
+                                            <a ng-if="files.Attachments[0].Name.indexOf('docx') !== -1 || files.Attachments[0].Name.indexOf('doc') !== -1" ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px;" tooltip="Проверить на плагиат"></a>
+                                        </div>
+                                        <div ng-if="!files.IsReceived && !files.IsReturned">
+                                            <a class="fa fa-thumbs-o-up fa-1x" ng-click="receivedLabFile(files.Id, files)" tooltip="Принять работу"></a>
+                                            <a class="fa fa-arrow-right fa-1x" style="padding-left: 8px" ng-click="returnFile(files.Id, files, data.StudentId)" tooltip="Вернуть работоу"></a>
+                                            <a ng-if="files.Attachments[0].Name.indexOf('docx') !== -1 || files.Attachments[0].Name.indexOf('doc') !== -1" ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px;" tooltip="Проверить на плагиат"></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+
+</div>

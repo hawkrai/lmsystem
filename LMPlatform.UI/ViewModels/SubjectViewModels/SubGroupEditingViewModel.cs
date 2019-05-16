@@ -164,7 +164,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 			    
                 foreach (var student in groups.FirstOrDefault(e => e.Id == groupId).Students)
                 {
-	                if (student.Confirmed == null || student.Confirmed.Value)
+	                //if (student.Confirmed == null || student.Confirmed.Value)
 	                {
 		                var studentId = student.Id.ToString(CultureInfo.InvariantCulture);
 
@@ -172,7 +172,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 
 						if (!SubGroupsFirstList.Any() && !SubGroupsTwoList.Any() && !SubGroupsThirdList.Any())
 						{
-							StudentGroupList.Add(new SelectListItem
+						    SubGroupsFirstList.Add(new SelectListItem
 							{
 								Selected = false,
 								Text = student.FullName,
