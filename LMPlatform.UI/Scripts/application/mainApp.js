@@ -19,6 +19,10 @@
                 templateUrl: 'Subject/Practicals',
                 controller: 'PracticalsController'
             })
+            .when('/Repo', {
+                templateUrl: 'Subject/Repo',
+                controller: 'RepoController'
+            })
             .when('/SubjectAttachments', {
                 templateUrl: 'Subject/SubjectAttachments',
                 controller: 'SubjectAttachmentsController'
@@ -62,9 +66,9 @@ app.directive('showonhoverparent',
 
 angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular', 'angularSpinner'])
     .controller('MainCtrl', function ($rootScope, $scope, $sce, usSpinnerService) {
-        $scope.renderHtml = function (htmlCode) {
-            return $sce.trustAsHtml(htmlCode);
-        };
+        //$scope.renderHtml = function (htmlCode) {
+        //    return $sce.trustAsHtml(htmlCode);
+        //};
         
         //$scope.today = function () {
         //	$scope.dt = new Date();
@@ -241,7 +245,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             var dataAsString = JSON.stringify(data);
             return dataAsString;
         };
-    }).controller('NewsController', function ($scope, $http) {
+    })
+    .controller('NewsController', function ($scope, $http) {
 
         $scope.news = [];
         $scope.UrlServiceNews = '/Services/News/NewsService.svc/';
@@ -904,9 +909,12 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         //};
 
     })
-     .controller('LabsController', function ($scope, $http, $filter) {
+    .controller('LabsController', function ($scope, $http, $filter) {
 
          $scope.labs = [];
+
+        $scope.studentId;
+        $scope.IsRet = false;
 
          $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
 
@@ -1031,7 +1039,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 				} else {
 					//$scope.$apply(function () {
 					//$scope.reloadFiles();
-					files.IsReceived = true;
+                    files.IsReceived = true;
+				    files.IsReturned = false;
 					//});
 					alertify.success(data.Message);
 				}
@@ -1155,35 +1164,63 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              $('#dialogAddFiles').modal();
          };
 
-         $scope.saveLabFiles = function () {
-             if ($scope.editFileSend.Comments == null || $scope.editFileSend.Comments.length == 0 || JSON.parse($scope.getLecturesFileAttachments()).length == 0) {
-                 bootbox.alert("Необходимо заполнить поля и прикрепить файлы.");
-                 return false;
-             }
+        $scope.saveLabFiles = function (id) {
 
-             $http({
-                 method: 'POST',
-                 url: $scope.UrlServiceLabs + "SendFile",
-                 data: {
-                     subjectId: $scope.subjectId,
-                     userId: $scope.userId,
-                     id: $scope.editFileSend.Id,
-                     comments: $scope.editFileSend.Comments,
-                     pathFile: $scope.editFileSend.PathFile,
-                     attachments: $scope.getLecturesFileAttachments()
-                 },
-                 headers: { 'Content-Type': 'application/json' }
-             }).success(function (data, status) {
-                 if (data.Code != '200') {
-                     alertify.error(data.Message);
-                 } else {
-                     $scope.loadFilesLabUser();
-                     alertify.success(data.Message);
-                 }
-                 $("#dialogAddFiles").modal('hide');
-             });
-         };
+            if ($scope.userRole == "0" && ($scope.editFileSend.Comments == null || $scope.editFileSend.Comments.length == 0 || JSON.parse($scope.getLecturesFileAttachments()).length == 0)) {
+                bootbox.alert("Необходимо заполнить поля и прикрепить файлы.");
+                return false;
+            }
+            if ($scope.userRole == "1" && JSON.parse($scope.getLecturesFileAttachments()).length == 0) {
+                bootbox.alert("Необходимо прикрепить файлы.");
+                return false;
+            }
+            if (typeof id === 'undefined')
+                id = $scope.userId;
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLabs + "SendFile",
+                data: {
+                    subjectId: $scope.subjectId,
+                    userId: id,
+                    id: $scope.editFileSend.Id,
+                    comments: $scope.editFileSend.Comments,
+                    pathFile: $scope.editFileSend.PathFile,
+                    attachments: $scope.getLecturesFileAttachments(),
+                    isCp: false,
+                    isRet: $scope.IsRet
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                    $scope.IsRet = false;
+                } else {
+                    $scope.loadFilesLabUser();
+                    alertify.success(data.Message);
+                }
+                $("#dialogAddFiles").modal('hide');
+            });
+        };
 
+        $scope.returnFile = function (Id, file, studentId) {
+            $scope.studentId = studentId;
+            $scope.IsRet = true;
+            file.IsReturned = true;
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLabs + "DeleteUserFile",
+                data: { id: Id },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    alertify.success(data.Message);
+                    $scope.labFilesUser.splice($scope.labFilesUser.indexOf(file), 1);
+                    $scope.addLabFiles();
+                }
+            });
+        }
          $scope.loadLabs = function () {
              $.ajax({
                  type: 'GET',
@@ -2618,7 +2655,366 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
              //}).success(function (data, status) {
              //});
          };
-     })
+    })
+    .controller('RepoController', function ($scope, $http, $filter) {
+
+        $scope.Title = 'Репозиторий лабораторных работ';
+
+        $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
+
+        $scope.selectedGroupChange = function (groupId, subGroupId) {
+            if (groupId != null) {
+                $scope.groupWorkingData.selectedGroupId = groupId;
+                $scope.groupWorkingData.selectedSubGroupId = 0;
+            }
+            if (subGroupId != null) {
+                $scope.groupWorkingData.selectedSubGroupId = subGroupId;
+            }
+
+            $scope.groupWorkingData.selectedGroup = null;
+            $.each($scope.groups, function (index, value) {
+                if (value.GroupId == $scope.groupWorkingData.selectedGroupId) {
+                    $scope.groupWorkingData.selectedGroup = value;
+                    return;
+                }
+            });
+
+            if ($scope.groupWorkingData.selectedSubGroupId == 0) {
+                if ($scope.groupWorkingData.selectedGroup.SubGroupsOne != null) {
+                    $scope.groupWorkingData.selectedSubGroupId = $scope.groupWorkingData.selectedGroup.SubGroupsOne.SubGroupId;
+                }
+                else if ($scope.groupWorkingData.selectedGroup.SubGroupsTwo != null) {
+                    $scope.groupWorkingData.selectedSubGroupId = $scope.groupWorkingData.selectedGroup.SubGroupsTwo.SubGroupId;
+                }
+            }
+
+            if ($scope.groupWorkingData.selectedGroup.SubGroupsOne != null && $scope.groupWorkingData.selectedGroup.SubGroupsTwo != null) {
+                $scope.subGroups = [$scope.groupWorkingData.selectedGroup.SubGroupsOne, $scope.groupWorkingData.selectedGroup.SubGroupsTwo];
+            } else {
+                $scope.subGroups = [];
+            }
+
+            $scope.groupWorkingData.selectedSubGroup = null;
+            if ($scope.groupWorkingData.selectedSubGroupId != 0)
+
+                if ($scope.subGroups[0] != null && $scope.groupWorkingData.selectedSubGroupId == $scope.subGroups[0].SubGroupId) {
+                    $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[0];
+                } else if ($scope.subGroups[1] != null && $scope.groupWorkingData.selectedSubGroupId == $scope.subGroups[1].SubGroupId) {
+                    $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[1];
+                }
+        };
+
+        $scope.editFileSend = {
+            Comments: "",
+            PathFile: "",
+            Id: 0
+        };
+
+        $scope.labFilesUser = [];
+
+
+        $scope.groups = [];
+        $scope.subGroups = [];
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        var subjectId = getParameterByName("subjectId");
+
+        $scope.userRole = 0;
+        $scope.userId = 0;
+        $scope.subjectId = 0;
+        $scope.init = function (userRole, userId) {
+            $scope.subjectId = subjectId;
+            $scope.userRole = userRole;
+            $scope.userId = userId;
+            $scope.loadExGroups();
+            bootbox.setDefaults({
+                locale: "ru"
+            });
+            $scope.labs = [];
+            $scope.loadLabs();
+           
+            if ($scope.groups.length > 0) {
+                $scope.reload();
+            }
+        };
+
+        $scope.resultPlagiatium = [];
+
+        $scope.getLecturesFileAttachments = function () {
+            var itemAttachmentsTable = $('#fileupload').find('table').find('tbody tr');
+            var data = $.map(itemAttachmentsTable, function (e) {
+                var newObject = null;
+                if (e.className === "template-download fade in") {
+                    if (e.id === "-1") {
+                        newObject = { Id: 0, Title: "", Name: $(e).find('td a').text(), AttachmentType: $(e).find('td.type').text(), FileName: $(e).find('td.guid').text() };
+                    } else {
+                        newObject = { Id: e.id, Title: "", Name: $(e).find('td a').text(), AttachmentType: $(e).find('td.type').text(), FileName: $(e).find('td.guid').text() };
+                    }
+                }
+                return newObject;
+            });
+            var dataAsString = JSON.stringify(data);
+            return dataAsString;
+        };
+
+
+
+        $scope.reload = function () {
+            $scope.startSpin();
+            // performance issue
+            $scope.loadLabsV2();
+            $scope.loadFilesV2();
+        };
+
+        $scope.$on('groupLoaded', function (event, arg) {
+            $scope.reload();
+        });
+
+        $scope.loadFilesLabUser = function () {
+            $http({
+                method: 'POST',
+                url: $scope.UrlServiceLabs + "GetFilesLab",
+                data: {
+                    userId: '1',
+                    subjectId: $scope.subjectId,
+                    isCoursPrj: false
+                },
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.labFilesUser = data.UserLabFiles;
+                    alertify.success(data.Message);
+                }
+            });
+        };
+
+        $scope.loadExGroups = function () {
+            $.ajax({
+                type: 'GET',
+                url: "/Services/CoreService.svc/GetGroupsV3/" + $scope.subjectId,
+                dataType: "json",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.$apply(function () {
+                        $scope.groups = data.Groups;
+
+                        if ($scope.groupWorkingData.selectedGroupId == 0) {
+                            if ($scope.groups[0].SubGroupsOne != null) {
+                                $scope.selectedGroupChange($scope.groups[0].GroupId, $scope.groups[0].SubGroupsOne.SubGroupId);
+                            }
+                            else if ($scope.groups[0].SubGroupsTwo != null) {
+                                $scope.selectedGroupChange($scope.groups[0].GroupId, $scope.groups[0].SubGroupsTwo.SubGroupId);
+                            } else {
+                                $scope.selectedGroupChange($scope.groups[0].GroupId, null);
+                            }
+
+                        } else if ($scope.groupWorkingData.selectedSubGroupId == 0) {
+                            if ($scope.groupWorkingData.selectedGroup.SubGroupsOne != null) {
+                                $scope.selectedGroupChange(null, $scope.groupWorkingData.selectedGroup.SubGroupsOne.SubGroupId);
+                            }
+                            else if ($scope.groupWorkingData.selectedGroup.SubGroupsTwo != null) {
+                                $scope.selectedGroupChange(null, $scope.groupWorkingData.selectedGroup.SubGroupsTwo.SubGroupId);
+                            } else {
+                                $scope.selectedGroupChange(null, null);
+                            }
+                        } else {
+                            $scope.selectedGroupChange(null, null);
+                        }
+
+                        $scope.$broadcast('groupLoaded', '');
+                    });
+                }
+            });
+        };
+
+        $scope.loadLabs = function () {
+            $.ajax({
+                type: 'GET',
+                url: $scope.UrlServiceLabs + "GetLabs/" + $scope.subjectId,
+                dataType: "json",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.$apply(function () {
+                        $scope.labs = data.Labs;
+                    });
+                }
+            });
+        };
+
+
+        $scope.changeGroups = function (selectedGroup) {
+            if (selectedGroup.SubGroupsOne != null) {
+                $scope.selectedGroupChange(selectedGroup.GroupId, selectedGroup.SubGroupsOne.SubGroupId);
+            }
+            else if (selectedGroup.SubGroupsTwo != null) {
+                $scope.selectedGroupChange(selectedGroup.GroupId, selectedGroup.SubGroupsTwo.SubGroupId);
+            } else {
+                $scope.selectedGroupChange(selectedGroup.GroupId, null);
+            }
+            $scope.startSpin();
+            // performance issue
+            $scope.loadLabsV2();
+            $scope.loadFilesV2();
+            // end performance issue
+
+        };
+
+        $scope.reloadFiles = function () {
+            $scope.startSpin();
+            $scope.loadFilesV2();
+        };
+
+        $scope.loadFilesV2 = function () {
+
+            $.ajax({
+                type: 'GET',
+                url: $scope.UrlServiceLabs + "GetFilesV2?subjectId=" + $scope.subjectId + "&groupId=" + $scope.groupWorkingData.selectedGroupId + "&isCp=false",
+                dataType: "json",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.groupWorkingData.selectedGroup.StudentsFiles = data.Students;
+                }
+                $scope.stopSpin();
+            });
+        };
+
+        $scope.loadLabsV2 = function () {
+
+            $.ajax({
+                type: 'GET',
+                url: $scope.UrlServiceLabs + "GetLabsV2?subjectId=" + $scope.subjectId + "&groupId=" + $scope.groupWorkingData.selectedGroupId,
+                dataType: "json",
+                contentType: "application/json",
+
+            }).success(function (data, status) {
+                if (data.Code != '200') {
+                    alertify.error(data.Message);
+                } else {
+                    $scope.$apply(function () {
+                        $scope.groupWorkingData.selectedGroup.SubGroupsOne.LabsV2 = $filter("filter")(data.Labs, function (r) {
+                            return r.SubGroup === 1;
+                        });
+                        $scope.groupWorkingData.selectedGroup.SubGroupsTwo.LabsV2 = $filter("filter")(data.Labs, function (r) {
+                            return r.SubGroup === 2;
+                        });
+
+                        $scope.groupWorkingData.selectedGroup.SubGroupsThird.LabsV2 = $filter("filter")(data.Labs, function (r) {
+                            return r.SubGroup === 3;
+                        });
+
+                        $scope.groupWorkingData.selectedGroup.SubGroupsOne.ScheduleProtectionLabsV2 = $filter("filter")(data.ScheduleProtectionLabs, function (r) {
+                            return r.SubGroup === 1;
+                        });
+                        $scope.groupWorkingData.selectedGroup.SubGroupsTwo.ScheduleProtectionLabsV2 = $filter("filter")(data.ScheduleProtectionLabs, function (r) {
+                            return r.SubGroup === 2;
+                        });
+
+                        $scope.groupWorkingData.selectedGroup.SubGroupsThird.ScheduleProtectionLabsV2 = $filter("filter")(data.ScheduleProtectionLabs, function (r) {
+                            return r.SubGroup === 3;
+                        });
+                    });
+                }
+            });
+        };
+
+
+
+        $scope.commentImage = function (comment, studentIndex, markIndex, name) {
+            var id = name + studentIndex + markIndex;
+            var elem = document.getElementById(id);
+
+            if (elem !== null) {
+                if (comment != "" & comment != null) {
+                    elem.style.display = 'block';
+                    elem.title = comment;
+                }
+                else {
+                    elem.style.display = 'none';
+                    elem.title = null;
+                }
+            }
+        };
+
+        $scope.NumberControl = function (object, errorName) {
+            var error = document.getElementById(errorName);
+            if (object.value === "") {
+                object.value = "";
+                error.style.display = 'none';
+            } else {
+                if (parseInt(object.value) < object.min) {
+                    object.value = object.min;
+                    error.style.display = 'block';
+                } else {
+                    if (parseInt(object.value) > object.max) {
+                        object.value = object.max;
+                        error.style.display = 'block';
+                    }
+                    else { error.style.display = 'none'; }
+                }
+            }
+        };
+
+        $scope.getCurentDate = function () {
+            var dt = new Date();
+            var month = dt.getMonth() + 1;
+            if (month < 10) month = '0' + month;
+            var day = dt.getDate();
+            if (day < 10) day = '0' + day;
+            var year = dt.getFullYear();
+            return day + '.' + month + '.' + year;
+        };
+
+        $scope.StrToDate = function (Dat) {
+            var year = Number(Dat.split(".")[2])
+            var month = Number(Dat.split(".")[1])
+            var day = Number(Dat.split(".")[0])
+            var dat = new Date(year, month, day)
+            return dat
+        };
+
+        $scope.saveZip = function () {
+            document.location.href = "/Subject/GetZipLabs?id=" + $scope.groupWorkingData.selectedGroup.GroupId + "&subjectId=" + $scope.subjectId;
+            //$.ajax({
+            //	type: 'GET',
+            //	url: "/Subject/GetZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId,
+            //	contentType: "application/zip",
+            //}).success(function (data, status) {
+            //});
+        };
+
+        $scope.getZip = function (userId) {
+            var subGroupId = $scope.groupWorkingData.selectedSubGroup.SubGroupId;
+            document.location.href = "/Subject/GetStudentZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId + "&userId=" + userId;
+            //$.ajax({
+            //	type: 'GET',
+            //	url: "/Subject/GetZipLabs?id=" + subGroupId + "&subjectId=" + $scope.subjectId,
+            //	contentType: "application/zip",
+            //}).success(function (data, status) {
+            //});
+        };
+
+    
+    })
     .controller('PracticalsController', function ($scope, $http) {
 
         $scope.practicals = [];
@@ -2925,7 +3321,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             });
         };
     })
-.controller('SubjectAttachmentsController', function ($scope, $http) {
+    .controller('SubjectAttachmentsController', function ($scope, $http) {
     $scope.init = function () {
         $.ajax({
             type: 'GET',

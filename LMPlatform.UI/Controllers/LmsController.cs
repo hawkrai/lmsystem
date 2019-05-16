@@ -25,7 +25,7 @@ namespace LMPlatform.UI.Controllers
     {
 		public ActionResult Index(string userLogin = "")
         {
-            if (User.IsInRole("lector") || User.IsInRole("student"))
+           if (User.IsInRole("lector") || User.IsInRole("student"))
             {
                 var model = new LmsViewModel(WebSecurity.CurrentUserId, User.IsInRole("lector"));
                 model.UserActivity = new UserActivityViewModel();
@@ -37,7 +37,7 @@ namespace LMPlatform.UI.Controllers
 	            ViewData["isMyProfile"] = isMyProfile;
 				ViewData["userLogin"] = string.IsNullOrEmpty(userLogin) || WebSecurity.CurrentUserName == userLogin ? WebSecurity.CurrentUserName : userLogin;
 
-				ViewData["UnconfirmedStudents"] = this.StudentManagementService.CountUnconfirmedStudents(WebSecurity.CurrentUserId) > 0;
+                ViewData["UnconfirmedStudents"] = this.StudentManagementService.CountUnconfirmedStudents(WebSecurity.CurrentUserId) > 0;
 
                 return View(model);    
             }

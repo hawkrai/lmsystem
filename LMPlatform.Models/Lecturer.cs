@@ -88,7 +88,8 @@ namespace LMPlatform.Models
             set;
         }
 
-		public string Skill { get; set; }
+        public bool IsActive { get; set; }
+        public string Skill { get; set; }
 
         public bool IsSecretary { get; set; }
 

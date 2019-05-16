@@ -39,26 +39,6 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
            });
     };
 
-    $scope.getFilteredTestsNumber = function(type, subgroupResults, res) {
-    	var testsFiltered = [];
-    	switch (type) {
-    		case 0:
-    			testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForSelfStudy == false)
-    			break;
-    		case 1:
-    			testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForSelfStudy == true)
-    			break;
-    		case 2:
-    			break;
-    		case 3:
-    			break;
-    		case 4:
-    			break;
-    	}
-
-    	return testsFiltered.indexOf(res) + 1;
-    };
-
     $scope.drawChartBar = function() {
         var lines = Enumerable.From($scope.results)
             .Where(function (item) { return $scope.calcOverage(item, true) != null; })

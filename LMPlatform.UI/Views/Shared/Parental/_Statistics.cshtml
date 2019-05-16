@@ -85,9 +85,9 @@
                     <td ng-if="student.LabMark <= 0">-</td>
 					<td ng-if="student.TestMark > 0">{{student.TestMark.toString().replace(".", ",")}}</td>
 					<td ng-if="student.TestMark <= 0">-</td>
-					<td ng-if="student.TestMark > 0 && student.LabMark > 0">{{((student.TestMark + student.LabMark)/2) | number:1}}</td>
+					<td ng-if="student.TestMark > 0 && student.LabMark > 0">{{((student.TestMark + student.LabMark)/2).toString().replace(".", ",")}}</td>
 					<td ng-if="(student.TestMark == 0 && student.LabMark > 0) || (student.TestMark > 0 && student.LabMark == 0)">
-						{{(student.TestMark + student.LabMark) | number:1}}
+						{{(student.TestMark + student.LabMark)}}
 					</td>
 					<td ng-if="student.TestMark == 0 && student.LabMark==0">-</td>
                 </tr>

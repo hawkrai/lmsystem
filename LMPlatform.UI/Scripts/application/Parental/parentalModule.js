@@ -145,10 +145,7 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
         if (data.SubGroupsOne.Students.length) {
             data.SubGroupsOne.Students.forEach(
                 function (element, index) {
-                	
-		                statObj.students[index] = getStudentStat(element, data);
-
-                    
+                    statObj.students[index] = getStudentStat(element, data);
                 });
         }
 
@@ -156,10 +153,7 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
             var length = statObj.students.length;
             data.SubGroupsTwo.Students.forEach(
                 function (element, index) {
-	                
-		                statObj.students[length + index] = getStudentStat(element, data);
-
-                    
+                    statObj.students[length + index] = getStudentStat(element, data);
                 });
         }
 
@@ -252,50 +246,38 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
 			PractHoursView: true
         };
 
-	    if (Enumerable.From(data.Students).Where(function(x) { return x.StudentId == subGroupStudent.StudentId; })
-		    .Select().ToArray().length >
-		    0) {
-		    var studentObj = Enumerable.From(data.Students).First(function(x) {
-			    return x.StudentId == subGroupStudent.StudentId;
-		    });
+        var studentObj = Enumerable.From(data.Students).First(function (x) { return x.StudentId == subGroupStudent.StudentId; });
 
-		    var lecVisit = Enumerable.From(data.LecturesMarkVisiting).First(function(x) {
-			    return x.StudentId == subGroupStudent.StudentId;
-		    }).Marks;
-		    var lecVisitArray = Enumerable.From(lecVisit).Select(function(x) { return x.Mark; }).ToArray();
+        var lecVisit = Enumerable.From(data.LecturesMarkVisiting).First(function (x) { return x.StudentId == subGroupStudent.StudentId; }).Marks;
+        var lecVisitArray = Enumerable.From(lecVisit).Select(function (x) { return x.Mark; }).ToArray();
 
-		    var pracVisitArray = Enumerable.From(studentObj.PracticalVisitingMark)
-			    .Select(function(x) { return x.Mark; }).ToArray();
-		    var pracMarkArray = Enumerable.From(studentObj.StudentPracticalMarks).Select(function(x) { return x.Mark; })
-			    .ToArray();
+        var pracVisitArray = Enumerable.From(studentObj.PracticalVisitingMark).Select(function (x) { return x.Mark; }).ToArray();
+        var pracMarkArray = Enumerable.From(studentObj.StudentPracticalMarks).Select(function (x) { return x.Mark; }).ToArray();
 
-		    var labVisitArray = Enumerable.From(subGroupStudent.LabVisitingMark).Select(function(x) { return x.Mark; })
-			    .ToArray();
-		    var labMarkArray = Enumerable.From(subGroupStudent.StudentLabMarks).Select(function(x) { return x.Mark; })
-			    .ToArray();
+        var labVisitArray = Enumerable.From(subGroupStudent.LabVisitingMark).Select(function (x) { return x.Mark; }).ToArray();
+        var labMarkArray = Enumerable.From(subGroupStudent.StudentLabMarks).Select(function (x) { return x.Mark; }).ToArray();
 
-		    var lecVisitResult = markArrayProc(lecVisitArray);
-		    var practVisitResult = markArrayProc(pracVisitArray);
-		    var labVisitResult = markArrayProc(labVisitArray);
+        var lecVisitResult = markArrayProc(lecVisitArray);
+        var practVisitResult = markArrayProc(pracVisitArray);
+        var labVisitResult = markArrayProc(labVisitArray);
 
-		    studentStat.LecHours = lecVisitResult.sum; //<= 0 ? "-" : lecVisitResult.sum;
-		    studentStat.PractHours = practVisitResult.sum; //<= 0 ? "-" : practVisitResult.sum;
-		    studentStat.LabHours = labVisitResult.sum; //<= 0 ? "-" : labVisitResult.sum;
-		    studentStat.TotalHours = lecVisitResult.sum + practVisitResult.sum + labVisitResult.sum;
+		studentStat.LecHours = lecVisitResult.sum; //<= 0 ? "-" : lecVisitResult.sum;
+        studentStat.PractHours = practVisitResult.sum; //<= 0 ? "-" : practVisitResult.sum;
+        studentStat.LabHours = labVisitResult.sum; //<= 0 ? "-" : labVisitResult.sum;
+        studentStat.TotalHours = lecVisitResult.sum + practVisitResult.sum + labVisitResult.sum;
 
-		    var labMarkResult = markArrayProc(labMarkArray);
-		    var practMarkResult = markArrayProc(pracMarkArray);
+        var labMarkResult = markArrayProc(labMarkArray);
+        var practMarkResult = markArrayProc(pracMarkArray);
 
-		    studentStat.LabMark = labMarkResult.avg;
-		    studentStat.PractMark = practMarkResult.avg;
-		    studentStat.LabsCount = labMarkResult.pos;
-		    studentStat.PractsCount = practMarkResult.pos;
-		    studentStat.TestMark = parseFloat(studentObj.TestMark || 0);
+        studentStat.LabMark = labMarkResult.avg;
+        studentStat.PractMark = practMarkResult.avg;
+        studentStat.LabsCount = labMarkResult.pos;
+        studentStat.PractsCount = practMarkResult.pos;
+        studentStat.TestMark = parseFloat(studentObj.TestMark || 0);
 
-		    studentStat.PractHoursView = pracVisitArray.length > 0;
-	    }
+		studentStat.PractHoursView = pracVisitArray.length > 0;
 
-	    return studentStat;
+        return studentStat;
     };
 
     var getTotalStat = function () {
@@ -324,29 +306,20 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
                 var statStudentObj = { studentName: student.Name, studentId: student.Id, subjectsStat: [] };
 
                 $scope.statData.forEach(function (subject) {
-	                if (Enumerable.From(subject.students).Where(function(x) { return x.Id == student.Id; }).Select()
-		                .ToArray().length >
-		                0) {
-		                var subStudent = Enumerable.From(subject.students).First(function(x) {
-			                return x.Id == student.Id;
-		                });
-		                var avgMark = (student.TestMark > 0 && student.LabMark > 0)
-			                ? ((student.TestMark + student.LabMark) / 2).toFixed(1)
-			                : ((student.TestMark == 0 && student.LabMark > 0) ||
-				                (student.TestMark > 0 && student.LabMark == 0)
-				                ? (student.TestMark + student.LabMark).toFixed(1)
-				                : '-');
+                    var subStudent = Enumerable.From(subject.students).First(function (x) { return x.Id == student.Id; });
+                    var avgMark = (student.TestMark > 0 && student.LabMark > 0) ? (student.TestMark + student.LabMark) / 2 :
+                        ((student.TestMark == 0 && student.LabMark > 0) || (student.TestMark > 0 && student.LabMark == 0) ?
+                         (student.TestMark + student.LabMark) : '-');
 
-		                var statSubjectObj = {
-			                SubjectName: subject.subjectName,
-			                SubjectFullName: subject.subjectFullName,
-			                SubjectId: subject.subjectId,
-			                TotalHours: subStudent.TotalHours,
-			                AvgMark: avgMark
-		                };
+                    var statSubjectObj = {
+                        SubjectName: subject.subjectName,
+                        SubjectFullName: subject.subjectFullName,
+                        SubjectId: subject.subjectId,
+                        TotalHours: subStudent.TotalHours,
+                        AvgMark: avgMark
+                    };
 
-		                statStudentObj.subjectsStat.push(statSubjectObj);
-	                }
+                    statStudentObj.subjectsStat.push(statSubjectObj);
                 });
 
                 allSubjectsResult.push(statStudentObj);
@@ -385,7 +358,7 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
                 PractMark: student.PractMark,
                 LabsCount: student.LabsCount,
                 PractsCount: student.PractsCount,
-                TestMark: student.TestMark
+				TestMark: student.TestMark
             };
         }
 

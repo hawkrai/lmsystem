@@ -104,26 +104,26 @@
 }
 }
 
-<div ng-app="appProfilePage" ng-controller="PageController" ng-init="init('@ViewData["userName"]')" ng-cloak class="appProfilePage" style="display:none">
-	<div class="row">
-		@if (User.IsInRole("admin"))
-		{
-			<div class="col-md-3">
-				<img src="{{loadProfileData.Avatar}}" width="300px" />
-			</div>
-		}
-		else
-		{
-			<div class="col-md-2">
-				<img src="{{loadProfileData.Avatar}}" width="300px" />
-			</div>
-		}
-		<div class="col-md-10">
-			<div class="hpanel">
-				<div class="panel-body" style="display: block; height: 196px">
-					<div>
-						<h1 class="user-name">{{loadProfileData.Name}}</h1>
-					</div>
+<div ng-app="appProfilePage" ng-controller="PageController" ng-init="init('@ViewData["userName"]')" ng-cloak>
+    <div class="row">
+ @if (User.IsInRole("admin"))
+        {
+           <div class="col-md-3">
+             <img src="{{loadProfileData.Avatar}}" width="300px"/>
+          </div>
+        }
+        else
+        {
+           <div class="col-md-2">
+             <img src="{{loadProfileData.Avatar}}" width="300px"/>
+          </div>
+        }   
+        <div class="col-md-10">
+            <div class="hpanel">                
+                <div class="panel-body" style="display: block; height: 196px">
+                    <div>
+                        <h1 class="user-name">{{loadProfileData.Name}}</h1>
+                    </div>
 					<div ng-if="loadProfileData.UserType == '2'" style="margin-top: 10px">
 						Группа - {{loadProfileData.Group}}
 					</div>
@@ -152,132 +152,129 @@
 							Обо мне: {{loadProfileData.About}}
 						</div>
 					</div>
-				</div>
-			</div>
+                </div>
+            </div>
 
-		</div>
-	</div>
-	@*<div class="row">
-			<div class="col-md-12">
-				<div class="hpanel">
-					<div class="panel-heading">
-						Статистика
-					</div>
-					<div class="panel-body" style="display: block;">
-						<div class="col-md-2">
-							<div class="c100 p70 green">
-								<span>70%</span>
-								<div class="slice">
-									<div class="bar"></div>
-									<div class="fill"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-2">
-							<div class="c100 p50 green">
-								<span>50%</span>
-								<div class="slice">
-									<div class="bar"></div>
-									<div class="fill"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-2">
-							<div class="c100 p14 green">
-								<span>14%</span>
-								<div class="slice">
-									<div class="bar"></div>
-									<div class="fill"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-2">
-							<div class="c100 p49 green">
-								<span>49%</span>
-								<div class="slice">
-									<div class="bar"></div>
-									<div class="fill"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>*@
-	<div class="row">
-		<div class="col-md-6">
-			<div class="hpanel">
-				<div class="panel-heading">
-					Предметы
-				</div>
-				<div class="panel-body" style="display: block; height: 300px; overflow-y: auto;">
-					<div class="table-responsive project-list">
-						<table class="table table-striped">
-							<thead>
-								<tr>
+        </div>
+    </div>
+    @*<div class="row">
+        <div class="col-md-12">
+            <div class="hpanel">
+                <div class="panel-heading">
+                    Статистика
+                </div>
+                <div class="panel-body" style="display: block;">
+                    <div class="col-md-2">
+                        <div class="c100 p70 green">
+                            <span>70%</span>
+                            <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="c100 p50 green">
+                            <span>50%</span>
+                            <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="c100 p14 green">
+                            <span>14%</span>
+                            <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="c100 p49 green">
+                            <span>49%</span>
+                            <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <div class="row">
+        <div class="col-md-6">
+            <div class="hpanel">
+                <div class="panel-heading">
+                    Предметы
+                </div>
+                <div class="panel-body" style="display: block; height: 300px; overflow-y: auto;">
+                    <div class="table-responsive project-list">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
 
-									<th>Предмет</th>
-									<th>Завершенность</th>
-									<th>%</th>
-									<th>Активность</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="data in subject">
-									<td>{{data.Name}}</td>
-									<td>
-										<span class="pie" style="display: none;">1/5</span><svg class="peity" height="16" width="16"><path d="M 8 0 A 8 8 0 0 1 15.60845213036123 5.52786404500042 L 8 8" fill="#62cb31"></path><path d="M 15.60845213036123 5.52786404500042 A 8 8 0 1 1 7.999999999999998 0 L 8 8" fill="#edf0f5"></path></svg>
-									</td>
-									<td><strong>{{data.Completing}}%</strong></td>
-									<td><a href=""><i class="fa fa-check text-success"></i></a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="panel-footer" style="display: block;">
-					Текущие предметы пользователя
-				</div>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="hpanel">
-				<div class="panel-heading">
-					Проекты
-				</div>
-				<div class="panel-body" style="display: block; height: 300px; overflow-y: auto;">
-					<div class="table-responsive project-list">
-						<table class="table table-striped">
-							<thead>
-								<tr>
+                                    <th>Предмет</th>
+                                    <th>Завершенность</th>
+                                    <th>%</th>
+                                    <th>Активность</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in subject">
+                                    <td>{{data.Name}}</td>
+                                    <td>
+                                        <span class="pie" style="display: none;">1/5</span><svg class="peity" height="16" width="16"><path d="M 8 0 A 8 8 0 0 1 15.60845213036123 5.52786404500042 L 8 8" fill="#62cb31"></path><path d="M 15.60845213036123 5.52786404500042 A 8 8 0 1 1 7.999999999999998 0 L 8 8" fill="#edf0f5"></path></svg>
+                                    </td>
+                                    <td><strong>{{data.Completing}}%</strong></td>
+                                    <td><a href=""><i class="fa fa-check text-success"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer" style="display: block;">
+                    Текущие предметы пользователя
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="hpanel">
+                <div class="panel-heading">
+                    Проекты
+                </div>
+                <div class="panel-body" style="display: block; height: 300px; overflow-y: auto;">
+                    <div class="table-responsive project-list">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
 
-									<th>Проект</th>
-									<th>Активность</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="data in projects">
-									<td>{{data.Name}}</td>
-									<td><a href=""><i class="fa fa-check text-success"></i></a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="panel-footer" style="display: block;">
-					Текущие проекты пользователя
-				</div>
-			</div>
+                                    <th>Проект</th>
+                                    <th>Активность</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in projects">
+                                    <td>{{data.Name}}</td>
+                                    <td><a href=""><i class="fa fa-check text-success"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer" style="display: block;">
+                    Текущие проекты пользователя
+                </div>
+            </div>
 
-		</div>
-	</div>
-	<div class="loading">
-		<span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
-	</div>
+        </div>
+    </div>
+    <div class="loading">
+        <span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
+    </div>
 </div>
-
-
-
 
 
 <style>

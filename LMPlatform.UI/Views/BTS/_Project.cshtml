@@ -28,9 +28,9 @@
         <hr style="margin-bottom: 5px" />
 
         <h4>Участники проекта</h4>
-        <div class="row">
+        <div class="row" ng-show="isProjectManager()">
             <div class="col-md-7">
-                <div class="dropdown" ng-show="isProjectManager()">
+                <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         Добавить
                         <span class="caret"></span>
@@ -48,7 +48,7 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <li ng-show="isProjectManager()"><a ng-click="onClearProject()">Очистить проект</a></li>
+                        <li><a ng-click="onClearProject()">Очистить проект</a></li>
                         <li><a ng-click="onOpenMatrixForm()">Сгенерировать матрицу</a></li>
                         <li><a ng-click="onOpenGeneratedMatrix()">Открыть матрицу</a></li>
                     </ul>

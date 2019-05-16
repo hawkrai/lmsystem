@@ -2,7 +2,7 @@
     <tr style="border:none">
         <td style="border:none" width="90px">
             <div style="float:left; min-width:90px;">
-                <div style="width:auto;height:100%">
+                <div style="width:110px;height:100%">
                     <ui-select on-select="selectGroups($item)" ng-model="group.Id" theme="bootstrap">
                         <ui-select-match placeholder="Группа">{{group.Name}}</ui-select-match>
                         <ui-select-choices repeat="item.id as item in groups | filter: $select.search">

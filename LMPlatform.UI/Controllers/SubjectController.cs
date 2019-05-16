@@ -78,6 +78,10 @@ namespace LMPlatform.UI.Controllers
             return this.PartialView("Subjects/Modules/Labs/_LabsModule");
         }
 
+        public ActionResult Repo()
+        {
+           return this.PartialView("Subjects/Modules/Repo/_RepoModule");
+        }
         public ActionResult Practicals()
         {
             if (User.IsInRole("student"))
@@ -316,7 +320,6 @@ namespace LMPlatform.UI.Controllers
         public ActionResult SubGroupsChangeGroup(string subjectId, string groupId)
         {
             var model = new SubjectWorkingViewModel(int.Parse(subjectId));
-            
             return PartialView("_SubGroupsEditTemplate", model.SubGroup(int.Parse(groupId)));
         }
 
@@ -349,12 +352,12 @@ namespace LMPlatform.UI.Controllers
 
 	    public ActionResult IsAvailableSubjectName(string name, string id)
 	    {
-		    return Json(!SubjectManagementService.IsSubjectName(name, id, WebSecurity.CurrentUserId),JsonRequestBehavior.AllowGet);
+		    return Json(!SubjectManagementService.IsSubjectName(name, id),JsonRequestBehavior.AllowGet);
 	    }
 
 		public ActionResult IsAvailableSubjectShortName(string name, string id)
 		{
-			return Json(!SubjectManagementService.IsSubjectShortName(name, id, WebSecurity.CurrentUserId), JsonRequestBehavior.AllowGet);
+			return Json(!SubjectManagementService.IsSubjectShortName(name, id), JsonRequestBehavior.AllowGet);
 		}
 
 	    public ActionResult JoinLector()

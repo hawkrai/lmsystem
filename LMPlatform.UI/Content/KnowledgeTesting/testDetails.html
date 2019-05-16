@@ -34,21 +34,11 @@
 
                 </div>
             </div>
-			<div>
-				<div>
-					<div class="checkbox">
-						<label>
-							<input type="radio" name="testType" ng-value="0" data-ng-model="testType">
-							Предназначен для контроля знаний
-						</label>
-					</div>
-				</div>
-			</div>
             <div>
                 <div>
                     <div class="checkbox">
                         <label>
-							<input type="radio" name="testType" ng-value="1" data-ng-model="testType">
+                            <input type="checkbox" data-ng-model="test.IsForSelfStudy">
                             Предназначен для самоконтроля
                         </label>
                     </div>
@@ -58,7 +48,7 @@
                 <div>
                     <div class="checkbox">
                         <label>
-							<input type="radio" name="testType" ng-value="2" data-ng-model="testType">
+                            <input type="checkbox" data-ng-model="test.BeforeEUMK">
                             Предтест к ЭУМК
                         </label>
                     </div>
@@ -68,7 +58,7 @@
 		        <div>
 			        <div class="checkbox">
 				        <label>
-							<input type="radio" name="testType" ng-value="3" data-ng-model="testType">
+					        <input type="checkbox" data-ng-model="test.ForEUMK">
 					        Предназначен для ЭУМК
 				        </label>
 			        </div>
@@ -78,7 +68,7 @@
 		        <div>
 			        <div class="checkbox">
 				        <label>
-							<input type="radio" name="testType" ng-value="4" data-ng-model="testType">
+					        <input type="checkbox" data-ng-model="test.ForNN">
 					        Тест ИНС
 				        </label>
 			        </div>

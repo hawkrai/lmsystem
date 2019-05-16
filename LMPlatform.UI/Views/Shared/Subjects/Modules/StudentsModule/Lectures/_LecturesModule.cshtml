@@ -65,13 +65,13 @@
                                  <tr>
                                      <th style="text-align: center;vertical-align: middle">№</th>
                                      <th style="text-align: center; vertical-align: middle;width: 300px">Студент</th>
-                                     <th ng-repeat="data in lecturesCalendar" style="height: 80px;width: 10px;padding-bottom: 45px;padding-left: 15px;">
-                                         <div class="box_rotate" style="position:absolute">{{data.Date}}</div>
+                                     <th ng-repeat="data in lecturesCalendar" style="height: 80px;width: 10px;padding: 0px;margin: 0px;padding-bottom: 30px;">
+                                         <div class="box_rotate">{{data.Date}}</div>
                                      </th>
                                  </tr>
                              </thead>
                         <tr ng-repeat="student in groupWorkingData.selectedGroup.LecturesMarkVisiting">
-                            <td style="width: 20px">{{$index + 1}}</td>
+                            <td style="width: 42px">{{$index + 1}}</td>
                             <td style="max-width: 300px;min-width: 300px"><a href="~/Profile/Page?userLogin={{student.Login}}">{{student.StudentName}}</a></td>
                             <td ng-repeat="data in student.Marks" style="text-align: center">{{data.Mark}}</td>
                         </tr>  

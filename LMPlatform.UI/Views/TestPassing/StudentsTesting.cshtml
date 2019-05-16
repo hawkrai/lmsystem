@@ -28,11 +28,9 @@
 
 @section navleft
 {
-    <li data-ng-controller="testPasssingNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/studentTests')}"><a href="#/tests">Тесты</a></li>
-		<li data-ng-controller="testPasssingNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/results')}"><a href="#/results">Результаты</a></li>
-<li data-ng-controller="studentResultsCtrl"><a href="/Subject?subjectId={{subjectId}}" linknavbar"><i class="fa fa-arrow-left"></i>В предмет</a></li>
-<li data-ng-controller="studentResultsCtrl"><a class="linkNavbar" href="/Tests/Subjects?subjectId={{subjectId}}"><i class="fa fa-refresh fa-tab"></i>Сменить предмет</a></li>
-<li data-ng-controller="studentResultsCtrl" class="linkNavbar"><a href="@Url.Action("Index", "Lms")"><i class="fa fa-reply fa-tab"></i>&nbsp;В главное меню</a></li>
+    <li data-ng-controller="testPasssingNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/studentTests')}"><a href="#/tests"><i class="fa fa-pencil-square-o"></i>&nbsp; Тесты</a></li>
+		<li data-ng-controller="testPasssingNavigationCtrl" class="linkNavbar" data-ng-class="{'active':isActive('/results')}"><a href="#/results"><i class="fa fa-tasks"></i>&nbsp; Результаты</a></li>
+		<li data-ng-controller="testPasssingNavigationCtrl" class="linkNavbar"><a href="@Url.Action("Index", "Lms")"><i class="fa fa-reply"></i>&nbsp;В главное меню</a></li>
    
 }
 
