@@ -175,7 +175,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 	            foreach (var group in Groups)
 	            {
 		            var groupId = int.Parse(group.Value);
-		            if (subject.SubjectGroups.Any(e => e.GroupId == groupId))
+		            if (subject.SubjectGroups.Any(e => e.GroupId == groupId && e.IsActiveOnCurrentGroup))
 		            {
 			            SelectedGroups.Add(groupId);
 		            }
@@ -250,15 +250,17 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 				selectedGroupdsOld = this.SubjectManagementService.GetSubject(new Query<Subject>(e => e.Id == this.SubjectId).Include(e => e.SubjectGroups)).SubjectGroups.ToList();
 			}
 
-            var oldGroupIds = selectedGroupdsOld.Select(x => x.GroupId);            
+            var oldGroupIds = selectedGroupdsOld.Select(x => x.GroupId);
+            UpdateNewAssignedGroups(Modules.Where(e => e.Checked == true), SelectedGroups.Where(e => !oldGroupIds.Contains(e)).ToList());
 
 	        if (SelectedGroups != null)
 	        {
-				UpdateNewAssignedGroups(Modules.Where(e => e.Checked == true), SelectedGroups.Where(e => !oldGroupIds.Contains(e)).ToList());
 				subject.SubjectGroups = SelectedGroups.Select(e => new SubjectGroup
 				{
 					GroupId = e,
-					SubjectId = SubjectId
+					SubjectId = SubjectId,
+                    IsActiveOnCurrentGroup = true
+                    
 				}).ToList();    
 	        }
 	        else
@@ -271,6 +273,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 				if (!subject.SubjectGroups.Any(e => e.GroupId == subjectSubjectGroup.GroupId))
 				{
 					this.TestsManagementService.UnlockAllTestForGroup(subjectSubjectGroup.GroupId);
+				    
 				}
 			}
 
