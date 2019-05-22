@@ -11,6 +11,8 @@
         'cpApp.ctrl.percentages',
         'cpApp.ctrl.percentage',
         'cpApp.ctrl.percentageResults',
+        'cpApp.ctrl.upfile',
+        'cpApp.ctrl.getRepo',
         'cpApp.ctrl.visitStats',
         'textAngular',
         'cpApp.ctrl.taskSheet',
@@ -50,6 +52,16 @@
         $routeProvider.when('/VisitStats', {
             templateUrl: '/Cp/VisitStats',
             controller: 'visitStatsCtrl'
+        });
+
+        $routeProvider.when('/UploadProject', {
+            templateUrl: '/Cp/UploadProject',
+            controller: 'uploadFileCtrl'
+        });
+
+        $routeProvider.when('/GetCpRepo', {
+            templateUrl: '/Cp/GetCpRepo',
+            controller: 'getRepoCtrl'
         });
 
         $routeProvider.otherwise({

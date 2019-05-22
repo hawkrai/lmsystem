@@ -23,9 +23,12 @@
     <li ng-class="{active:isActive('/News')}" class="navLink"><a href="#/News" class="linkNavbar">Объявления</a></li>
     <li ng-class="{active:isActive('/Projects')}" class="navLink"><a href="#/Projects" class="linkNavbar">Темы курсовых проектов (работ)</a></li>
     <li ng-class="{active:isActive('/TaskSheet')}" class="navLink"><a href="#/TaskSheet" class="linkNavbar">Лист задания</a></li>
-    <li ng-class="{active:isActive('/Percentages')}" class="navLink"><a href="#/Percentages" class="linkNavbar">График процентовки</a></li>
+    <li ng-class="{active:isActive('/Percentage')}" class="navLink"><a href="#/Percentage" class="linkNavbar">График процентовки</a></li>
     <li ng-class="{active:isActive('/PercentageResults')}" class="navLink"><a href="#/PercentageResults" class="linkNavbar">Результаты процентовки</a></li>
     <li ng-class="{active:isActive('/VisitStats')}" class="navLink"><a href="#/VisitStats" class="linkNavbar">Статистика посещения консультаций</a></li>
+    <li ng-class="{active:isActive('/UploadProject')}" class="navLink"><a href="#/UploadProject" class="linkNavbar">Защита курсового проекта(работы)</a></li>
+    <li ng-show="user.IsLecturer" ng-class="{active:isActive('/GetCpRepo')}" class="navLink"><a href="#/GetCpRepo" class="linkNavbar">Репозиторий курсовых работ</a></li>
+
     <li class="divider"></li>
     <li><a href="/Subject?subjectId={{subject.Id}}" linkNavbar"><i class="fa fa-arrow-left"></i>В предмет</a></li>
     <li><a class="linkNavbar" href="/Cp/Subjects?subjectId={{subject.Id}}"><i class="fa fa-refresh fa-tab"></i>Сменить предмет</a></li>

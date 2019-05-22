@@ -47,11 +47,9 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                   Login = lecturer.User.UserName,
                   HtmlLinks = new HtmlString(htmlLinks),
                   LastLogin = lecturer.User.LastLogin.HasValue ? lecturer.User.LastLogin.ToString() : "-",
-                  Subjects = (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Count > 0)
-                                ? lecturer.SubjectLecturers.Count.ToString()
-				  Subjects = (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Count > 0 && lecturer.SubjectLecturers.Any(e => !e.Subject.IsArchive))
+                  Subjects = (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Count > 0 && lecturer.SubjectLecturers.Any(e => !e.Subject.IsArchive))
                                 ? lecturer.SubjectLecturers.Count(e => !e.Subject.IsArchive).ToString()
-                                : "-",
+                                : "-"
               };
         }
     }
