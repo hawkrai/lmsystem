@@ -20,8 +20,5 @@ namespace LMPlatform.UI.Services.Modules.Labs
         public List<Attachment> Attachments { get; set; }
 		[DataMember]
 		public bool IsReceived { get; set; }
-        [DataMember]
-        public bool IsReturned { get; set; }
-        public bool IsCoursProject { get; set; }
     }
 }

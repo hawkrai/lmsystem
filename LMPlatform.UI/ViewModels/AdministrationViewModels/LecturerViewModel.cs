@@ -25,9 +25,6 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         [DisplayName("Предметы")]
         public string Subjects { get; set; }
 
-        [DisplayName("Статус")]
-        public string IsActive { get; set; }
-
         private string FirstName { get; set; }
 
         private string LastName { get; set; }
@@ -49,10 +46,11 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                   MiddleName = lecturer.MiddleName,
                   Login = lecturer.User.UserName,
                   HtmlLinks = new HtmlString(htmlLinks),
-                  IsActive = lecturer.IsActive ? "" : "Удален",
                   LastLogin = lecturer.User.LastLogin.HasValue ? lecturer.User.LastLogin.ToString() : "-",
                   Subjects = (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Count > 0)
                                 ? lecturer.SubjectLecturers.Count.ToString()
+				  Subjects = (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Count > 0 && lecturer.SubjectLecturers.Any(e => !e.Subject.IsArchive))
+                                ? lecturer.SubjectLecturers.Count(e => !e.Subject.IsArchive).ToString()
                                 : "-",
               };
         }

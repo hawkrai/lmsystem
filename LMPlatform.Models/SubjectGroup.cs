@@ -29,12 +29,6 @@ namespace LMPlatform.Models
             set;
         }
 
-        public bool IsActiveOnCurrentGroup
-        {
-            get;
-            set;
-        }
-
         public ICollection<SubGroup> SubGroups
         {
             get;

@@ -17,7 +17,5 @@ namespace LMPlatform.Models
         public DateTime? Date { get; set; }
 
 		public bool IsReceived { get; set; }
-        public bool IsReturned { get; set; }
-        public bool IsCoursProject { get; set; }
     }
 }
