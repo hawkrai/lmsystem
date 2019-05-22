@@ -473,6 +473,7 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="files in labFilesUser" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : {}">
+							<tr ng-repeat="files in labFilesUser" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : files.IsReturned ? {'background-color': '#E4A935'} : {}">
 								<td>
 									<div ng-repeat="file in files.Attachments">
 										<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
@@ -522,6 +523,7 @@
             <div class="modal-footer">
                 <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
                 <button type="button" ng-click="saveLabFiles()" class="btn btn-primary btn-sm">Отправить работу</button>
+                <button type="button"ng-click="user.IsStudent ? saveLabFiles(@WebSecurity.CurrentUserId): saveLabFiles(studentId)" class="btn btn-primary btn-sm">Отправить работу</button>
             </div>
         </div>
     </div>

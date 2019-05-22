@@ -170,6 +170,7 @@ namespace LMPlatform.Data.Repositories
 				if (newValue.SubjectGroups.All(e => e.GroupId != subjectGroup.GroupId))
 				{
 					dataContext.Set<SubjectGroup>().Remove(subjectGroup);
+				    subjectGroup.IsActiveOnCurrentGroup = false; //dataContext.Set<SubjectGroup>().Remove(subjectGroup);
 				}
 			}
 
