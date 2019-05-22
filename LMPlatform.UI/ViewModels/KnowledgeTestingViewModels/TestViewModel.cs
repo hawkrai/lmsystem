@@ -93,7 +93,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                 SetTimeForAllTest = SetTimeForAllTest,
                 SubjectId = SubjectId,
                 CountOfQuestions = CountOfQuestions,
-                ForSelfStudy = ForSelfStudy || ForEUMK || BeforeEUMK || ForNN,
+                ForSelfStudy = ForSelfStudy,
                 ForEUMK = ForEUMK,
                 BeforeEUMK = BeforeEUMK,
 				ForNN = ForNN,

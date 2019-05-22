@@ -3,8 +3,10 @@ knowledgeTestingApp.controller('testDetailsCtrl', function ($scope, $http, id, $
 
     $http({ method: 'GET', url: kt.actions.tests.getTest, dataType: 'json', params: { id: id } })
     .success(function (data) {
-        $scope.test = data;
-        $scope.test.IsForSelfStudy = $scope.test.ForSelfStudy && !($scope.test.ForEUMK || $scope.test.BeforeEUMK || $scope.test.ForNN);
+    	$scope.test = data;
+    	$scope.testType = 0;
+
+    	$scope.testType = $scope.test.ForSelfStudy === true ? 1 : $scope.test.BeforeEUMK ? 2 : $scope.test.ForEUMK ? 3 : $scope.test.ForNN ? 4 : 0;
     })
     .error(function (data, status, headers, config) {
         alertify.error('Во время получения данных произошла ошибка');
@@ -12,7 +14,12 @@ knowledgeTestingApp.controller('testDetailsCtrl', function ($scope, $http, id, $
 
     $scope.saveTest = function () {
         $scope.test.SubjectId = getUrlValue('subjectId');
-        $scope.test.ForSelfStudy = $scope.test.IsForSelfStudy;
+		
+        $scope.test.ForSelfStudy = $scope.testType === 1 ? true : false;
+        $scope.test.BeforeEUMK = $scope.testType === 2 ? true : false;
+        $scope.test.ForEUMK = $scope.testType === 3 ? true : false;
+        $scope.test.ForNN = $scope.testType === 4 ? true : false;
+
         $http({ method: "POST", url: kt.actions.tests.saveTest, dataType: 'json', params: $scope.test })
         .success(function (data) {
             if (data.ErrorMessage) {

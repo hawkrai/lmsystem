@@ -23,23 +23,23 @@ studentsTestingApp.controller('studentResultsCtrl', function ($scope, $http) {
 
         $('#chartBarAverage').html("");
         var plotBar = $('#chartBarAverage').jqplot([lines], {
-            animate: !$.jqplot.use_excanvas,
             title: 'Пройденные тесты',
             seriesColors: ['#007196', '#008cba'],
             seriesDefaults: {
-                renderer: jQuery.jqplot.BarRenderer,
-                rendererOptions: {
-                    varyBarColor: true,
-                    showDataLabels: true,
-                }
+            	renderer: $.jqplot.BarRenderer,
+            	rendererOptions: {
+            		varyBarColor: true,
+            		showDataLabels: true,
+            	}
             },
             axes: {
-                xaxis: {
-                    renderer: $.jqplot.CategoryAxisRenderer
-                },
-                yaxis: {
-                    tickOptions: { formatString: '%d&nbsp&nbsp&nbsp' }
-                }
+            	xaxis: {
+            		renderer: $.jqplot.CategoryAxisRenderer,
+            		tickRenderer: $.jqplot.CanvasAxisTickRenderer	
+            	},
+            	yaxis: {
+            		tickOptions: { formatString: '%d&nbsp&nbsp&nbsp' }
+            	}
             }
         });
     };

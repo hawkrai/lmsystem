@@ -67,12 +67,12 @@ namespace LMPlatform.Data.Repositories
 			return news;
 		}
 
-		public bool IsSubjectName(string name, string id)
+		public bool IsSubjectName(string name, string id, int userId)
 		{
 			using (var context = new LmPlatformModelsContext())
 			{
 				var idN = int.Parse(id);
-				if (context.Set<Subject>().Any(e => e.Name == name && !e.IsArchive && e.Id != idN))
+				if (context.Set<Subject>().Include(e => e.SubjectLecturers).Any(e => e.Name == name && !e.IsArchive && e.Id != idN && e.SubjectLecturers.Any(x => x.LecturerId == userId)))
 				{
 					return true;
 				}
@@ -81,12 +81,12 @@ namespace LMPlatform.Data.Repositories
 			return false;
 		}
 
-		public bool IsSubjectShortName(string name, string id)
+		public bool IsSubjectShortName(string name, string id, int userId)
 		{
 			using (var context = new LmPlatformModelsContext())
 			{
 				var idN = int.Parse(id);
-				if (context.Set<Subject>().Any(e => e.ShortName == name && !e.IsArchive && e.Id != idN))
+				if (context.Set<Subject>().Include(e => e.SubjectLecturers).Any(e => e.ShortName == name && !e.IsArchive && e.Id != idN && e.SubjectLecturers.Any(x => x.LecturerId == userId)))
 				{
 					return true;
 				}
@@ -169,15 +169,14 @@ namespace LMPlatform.Data.Repositories
 			{
 				if (newValue.SubjectGroups.All(e => e.GroupId != subjectGroup.GroupId))
 				{
-				    subjectGroup.IsActiveOnCurrentGroup = false; //dataContext.Set<SubjectGroup>().Remove(subjectGroup);
+					dataContext.Set<SubjectGroup>().Remove(subjectGroup);
 				}
 			}
-		    
-            if (newValue.SubjectGroups != null)
+
+			if (newValue.SubjectGroups != null)
 			{
-                foreach (var subjectGroup in newValue.SubjectGroups)
-                {
-                    subjectGroup.IsActiveOnCurrentGroup = true;
+				foreach (var subjectGroup in newValue.SubjectGroups)
+				{
 					if (subjectGroups.All(e => e.GroupId != subjectGroup.GroupId))
 					{
 						dataContext.Set<SubjectGroup>().Add(subjectGroup);

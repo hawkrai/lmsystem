@@ -29,8 +29,8 @@ namespace LMPlatform.UI.Services.Labs
 		StudentsMarksResult GetMarksV2(int subjectId, int groupId);
 
 		[OperationContract]
-		[WebInvoke(UriTemplate = "/GetFilesV2?subjectId={subjectId}&groupId={groupId}&IsCp={isCp}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
-		StudentsMarksResult GetFilesV2(int subjectId, int groupId, bool isCp);
+		[WebInvoke(UriTemplate = "/GetFilesV2?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+		StudentsMarksResult GetFilesV2(int subjectId, int groupId);
 		
 		[OperationContract]
 		[WebInvoke(UriTemplate = "/GetLabsV2?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
@@ -66,11 +66,11 @@ namespace LMPlatform.UI.Services.Labs
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetFilesLab")]
-        UserLabFilesResult GetFilesLab(string userId, string subjectId, bool isCoursPrj);
+        UserLabFilesResult GetFilesLab(string userId, string subjectId);
 
 	    [OperationContract]
 	    [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SendFile")]
-	    ResultViewData SendFile(string subjectId, string userId, string id, string comments, string pathFile, string attachments, bool isCp, bool isRet);
+	    ResultViewData SendFile(string subjectId, string userId, string id, string comments, string pathFile, string attachments);
 
 	    [OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/DeleteUserFile")]

@@ -45,13 +45,13 @@ namespace LMPlatform.UI.Controllers
                 UsersManagementService.UpdateLastLoginDate(model.UserName); 
 
                 result = _RedirectToLocal(returnUrl);
-        }
+            }
             else
             {
                 ModelState.AddModelError(string.Empty, "Имя пользователя или пароль не являются корректными");
 
                 result = View(model);
-    }
+            }
 
             return result;
         }

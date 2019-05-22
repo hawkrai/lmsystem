@@ -28,6 +28,8 @@ namespace Application.Infrastructure.LecturerManagement
 
 	    List<Lecturer> GetJoinedLector(int subjectId, int owner);
 
-	    void DisjoinLector(int subjectId, int lectorId, int owner);
+	    void DisjoinLector(int subjectId, int lectorId, int? owner);
+
+	    void DisjoinOwnerLector(int subjectId, int lectorId);
     }
 }

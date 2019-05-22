@@ -11,8 +11,5 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
     public interface ILecturerRepository : IRepositoryBase<Lecturer>
     {
         void SaveLecturer(Lecturer lecturer);
-        void DeleteLecturer(Lecturer lecturer);
-
-        
     }
 }

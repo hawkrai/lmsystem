@@ -59,7 +59,7 @@ namespace LMPlatform.UI.Controllers
 
 		public ActionResult Page(string userLogin = "")
 		{
-			if (User.IsInRole("lector"))
+			if (User.IsInRole("lector") || User.IsInRole("student"))
 			{
 				var user = this.UsersManagementService.GetUser(userLogin);
 

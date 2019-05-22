@@ -386,8 +386,7 @@
 			});
 		},
 
-        _adjustMaxNumberOfFiles: function (operand) {
-            this.options.maxNumberOfFiles = 1;
+		_adjustMaxNumberOfFiles: function (operand) {
 			if (typeof this.options.maxNumberOfFiles === 'number') {
 				this.options.maxNumberOfFiles += operand;
 				if (this.options.maxNumberOfFiles < 1) {

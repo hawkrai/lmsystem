@@ -34,6 +34,10 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
 
             public bool ForSelfStudy { get; set; }
 
+	        public bool ForNN { get; set; }
+
+			public bool ForEUMK { get; set; }
+
             public int? TestNumber
             {
                 get;
@@ -54,6 +58,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                     CalculationType = model.CalculationType,
                     TestName = model.TestName,
                     ForSelfStudy = test != null ? test.ForSelfStudy : true,
+	                ForNN = test != null ? test.ForNN : false,
+	                ForEUMK = test != null ? test.ForEUMK : true,
                     TestNumber = test.TestNumber
                 };
             }

@@ -22,83 +22,82 @@
 @{
     var userRole = User.IsInRole("student") ? 1 : 0;
 
-<div ng-app="mainApp" ng-controller="MainCtrl" ng-init="init('@Model.SubjectId','@userRole', '@WebSecurity.CurrentUserId')">
-    @section navleft
+    <div ng-app="mainApp" ng-controller="MainCtrl" ng-init="init('@Model.SubjectId','@userRole', '@WebSecurity.CurrentUserId')">
+        @section navleft
 		{
-        @foreach (var module in Model.Modules.Where(e => e.Type != ModuleType.Results && e.Type != ModuleType.StatisticsVisits && e.Type != ModuleType.ScheduleProtection).GroupBy(x => x.ModuleId).Select(y => y.First()).ToList())
-        {
-            if (module.Type == ModuleType.SmartTest)
+            @foreach (var module in Model.Modules.Where(e => e.Type != ModuleType.Results && e.Type != ModuleType.StatisticsVisits && e.Type != ModuleType.ScheduleProtection).GroupBy(x => x.ModuleId).Select(y => y.First()).ToList())
             {
-                <li class="navLink">
-                    @if (userRole == 1)
-                    {
-                        <a class="moduleLinks linkNavbar" href="@Url.Action("StudentsTesting", "TestPassing", new { subjectId = Model.SubjectId })">@module.Name</a>
-                    }
-                    else
-                    {
-                        <a class="moduleLinks linkNavbar" href="@Url.Action("KnowledgeTesting", "Tests", new { subjectId = Model.SubjectId })">@module.Name</a>
-                    }
-                </li>
-            }
+                if (module.Type == ModuleType.SmartTest)
+                {
+                    <li class="navLink">
+                        @if (userRole == 1)
+                        {
+                            <a class="moduleLinks linkNavbar" href="@Url.Action("StudentsTesting", "TestPassing", new { subjectId = Model.SubjectId })">@module.Name</a>
+                        }
+                        else
+                        {
+                            <a class="moduleLinks linkNavbar" href="@Url.Action("KnowledgeTesting", "Tests", new { subjectId = Model.SubjectId })">@module.Name</a>
+                        }
+                    </li>
+                }
+                
+                else if (module.Type == ModuleType.Dsm)
+                {
 
-            else if (module.Type == ModuleType.Dsm)
-            {
+                    <li class="navLink">
+                        <a href="@Url.Action("Index","Materials", new { subjectId = Model.SubjectId })">
+                            <i class="fa fa-book fa-tab"></i>
+                            <span>Методические материалы</span>
+                        </a>
+                    </li>
+                }
+                else if (module.Type == ModuleType.YeManagment)
+                {
 
-                <li class="navLink">
-                    <a href="@Url.Action("Index","Materials", new { subjectId = Model.SubjectId })">
-                        <i class="fa fa-book fa-tab"></i>
-                        <span>Методические материалы</span>
-                    </a>
-                </li>
+                    <li class="navLink">
+                        <a class="moduleLinks linkNavbar" href="@Url.Action("Index","CP", new { subjectId = Model.SubjectId })">
+                            Курсовой проект (работа)
+                        </a>
+                    </li>
+                }
+                else if (module.Type == ModuleType.ComplexMaterial)
+                {
+                    <li class="navLink">
+                        <a class="moduleLinks linkNavbar" href="@Url.Action("Index","ComplexMaterial", new { subjectId = Model.SubjectId })"><span>ЭУМК</span></a>
+                    </li>
+                    
+                }
+                else
+                {
+                    <li class="navLink">
+                        <a class="moduleLinks linkNavbar" href="#@module.Type">@module.Name</a>
+                    </li>
+                }
             }
-            else if (module.Type == ModuleType.YeManagment)
+		<li class="divider"></li>
+            @if (User.IsInRole("lector"))
             {
+                <li><a id="subGroups" class="linkNavbar" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-tab"></i>Разделение на подгруппы</a></li>
+				<li><a class="editSubjectAction" style="font-size: 14px; cursor: pointer"><i class="fa fa-gear" style="margin-right: 5px; font-size: 18px;"></i> Управление предметом</a></li>
+			}
+            <li><a class="linkNavbar" href="@Url.Action("Subjects", "Subject")"><i class="fa fa-refresh fa-tab"></i>Сменить предмет</a></li>
+            <li><a class="linkNavbar" href="@Url.Action("Index", "Lms")"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
 
-                <li class="navLink">
-                    <a class="moduleLinks linkNavbar" href="@Url.Action("Index","CP", new { subjectId = Model.SubjectId })">
-                        Курсовой проект (работа)
-                    </a>
-                </li>
-            }
-            else if (module.Type == ModuleType.ComplexMaterial)
-            {
-                <li class="navLink">
-                    <a class="moduleLinks linkNavbar" href="@Url.Action("Index","ComplexMaterial", new { subjectId = Model.SubjectId })"><span>ЭУМК</span></a>
-                </li>
-
-            }
-            else
-            {
-                <li class="navLink">
-                    <a class="moduleLinks linkNavbar" href="#@module.Type">@module.Name</a>
-                </li>
-            }
         }
-        <li class="divider"></li>
-        @if (User.IsInRole("lector"))
-        {
-            <li><a class="linkNavbar" href="#/Repo"><i class="fa fa-download fa-tab"></i>Репозиторий лабораторных работ</a></li>
-            <li><a id="subGroups" class="linkNavbar" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-tab"></i>Разделение на подгруппы</a></li>
-            <li><a class="editSubjectAction" style="font-size: 14px; cursor: pointer"><i class="fa fa-gear" style="margin-right: 5px; font-size: 18px;"></i> Управление предметом</a></li>
-        }
-        <li><a class="linkNavbar" href="@Url.Action("Subjects", "Subject")"><i class="fa fa-refresh fa-tab"></i>Сменить предмет</a></li>
-        <li><a class="linkNavbar" href="@Url.Action("Index", "Lms")"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
 
-    }
-
-    @section headerTitle
+        @section headerTitle
 		{
-        @*<h1>
+            <h1>
                 @Model.SubjectName
-                <small id="nameMin">Преподаватель - <a href="~/Profile/Page/@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.User.UserName">@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.FullName</a></small>
-            </h1>*@
-    }
+                <small id="nameMin">Преподаватель - <a href="~/Profile/Page?userLogin=@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.User.UserName">@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.FullName</a></small>
+            </h1>
+        }
 
-    <input type="hidden" ng-click="loadGroups()" id="loadGroups" />
-    <div class="conteinerModule" data-subjectid="@Model.SubjectId"></div>
+        <input type="hidden" ng-click="loadGroups()" id="loadGroups" />
+        <div class="conteinerModule" data-subjectid="@Model.SubjectId"></div>
 
-    <div ng-view></div>
-</div>
+        <div ng-view></div>
+    </div>
 }
 <script type="text/javascript" src="~/Scripts/application/mainApp.js"></script>
 <script>
