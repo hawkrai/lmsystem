@@ -18,7 +18,7 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class AdministrationController : BasicController
     {
         public ActionResult Index()
