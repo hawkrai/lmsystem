@@ -15,7 +15,7 @@ namespace Application.Infrastructure.AccountManagement
 
 			try
 			{
-				result = WebSecurity.Login(login, password, remembeMe);
+			    result = WebSecurity.Login(login, password, remembeMe);
 			}
 			catch (ArgumentException exception)
 			{

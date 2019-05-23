@@ -410,6 +410,7 @@
     <Content Include="Scripts\application\ComplexMaterials\services\navigationService.js" />
     <Content Include="Scripts\application\ComplexMaterials\services\complexMaterialsDataService.js" />
     <Content Include="Scripts\application\ComplexMaterials\WatchingTimer.js" />
+    <Content Include="Scripts\application\CP\controllers\getRepoController.js" />
     <Content Include="Scripts\application\CP\controllers\homeController.js" />
     <Content Include="Scripts\application\CP\controllers\newsController.js" />
     <Content Include="Scripts\application\CP\controllers\percentageController.js" />
@@ -419,6 +420,7 @@
     <Content Include="Scripts\application\CP\controllers\projectsController.js" />
     <Content Include="Scripts\application\CP\controllers\studentsController.js" />
     <Content Include="Scripts\application\CP\controllers\taskSheetController.js" />
+    <Content Include="Scripts\application\CP\controllers\uploadFileController.js" />
     <Content Include="Scripts\application\CP\controllers\visitStatsController.js" />
     <Content Include="Scripts\application\CP\cpModule.js" />
     <Content Include="Scripts\application\CP\services\projectService.js" />
@@ -1955,6 +1957,9 @@
     <Content Include="Views\Chat\Chat.cshtml" />
     <None Include="Service References\PlagiateReference\SoapWS.wsdl" />
     <Content Include="Views\TinCanMod\Index.cshtml" />
+    <Content Include="Views\CP\GetCpRepo.cshtml" />
+    <Content Include="Views\CP\UploadProject.cshtml" />
+    <Content Include="Views\Shared\Subjects\Modules\Repo\_RepoModule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

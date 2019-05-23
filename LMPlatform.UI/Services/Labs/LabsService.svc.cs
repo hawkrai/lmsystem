@@ -364,7 +364,7 @@ namespace LMPlatform.UI.Services.Labs
             }
         }
 
-        public UserLabFilesResult GetFilesLab(string userId, string subjectId)
+        public UserLabFilesResult GetFilesLab(string userId, string subjectId,bool isCoursPrj = false)
         {
             try
             {
@@ -376,9 +376,11 @@ namespace LMPlatform.UI.Services.Labs
 					Id = e.Id,
 					PathFile = e.Attachments,
 					IsReceived = e.IsReceived,
+	                IsReturned = e.IsReturned,
+	                IsCoursProject = e.IsCoursProject,
                     Date = e.Date != null ? e.Date.Value.ToString("dd.MM.yyyy HH:mm") : string.Empty,
 		            Attachments = FilesManagementService.GetAttachments(e.Attachments).ToList()
-	            }).ToList();
+	            }).Where(x => x.IsCoursProject == isCoursPrj).ToList();
                 return new UserLabFilesResult()
                 {
 					UserLabFiles = model,
@@ -396,7 +398,7 @@ namespace LMPlatform.UI.Services.Labs
             }
         }
 
-		public ResultViewData SendFile(string subjectId, string userId, string id, string comments, string pathFile, string attachments)
+		public ResultViewData SendFile(string subjectId, string userId, string id, string comments, string pathFile, string attachments, bool isCp = false, bool isRet = false)
 		{
 			try
 			{
@@ -409,8 +411,11 @@ namespace LMPlatform.UI.Services.Labs
 					UserId = int.Parse(userId),
 					Comments = comments,
 					Attachments = pathFile,
-					Id = int.Parse(id)
-				}, attachmentsModel);
+					Id = int.Parse(id),
+				    IsCoursProject = isCp,
+				    IsReceived = false,
+				    IsReturned = isRet
+                }, attachmentsModel);
 
 				return new ResultViewData()
 				{
@@ -512,7 +517,7 @@ namespace LMPlatform.UI.Services.Labs
 			}
 		}
 
-		public StudentsMarksResult GetFilesV2(int subjectId, int groupId)
+		public StudentsMarksResult GetFilesV2(int subjectId, int groupId, bool isCp)
 		{
 			try
 			{
@@ -533,8 +538,10 @@ namespace LMPlatform.UI.Services.Labs
 								Id = t.Id,
 								PathFile = t.Attachments,
 								IsReceived = t.IsReceived,
-								Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList()
-							}).ToList();
+							    IsReturned = t.IsReturned,
+							    IsCoursProject = t.IsCoursProject,
+                                Attachments = FilesManagementService.GetAttachments(t.Attachments).ToList()
+							}).Where(x => x.IsCoursProject == isCp).ToList();
 					students.Add(new StudentMark
 						             {
 										 FullName = student.FullName,
@@ -831,7 +838,7 @@ namespace LMPlatform.UI.Services.Labs
 		
 		}
 
-		public ResultViewData CheckPlagiarism(string userFileId, string subjectId)
+		public ResultViewData CheckPlagiarism(string userFileId, string subjectId, bool isCp = false)
 		{
 			try
 			{
@@ -843,7 +850,7 @@ namespace LMPlatform.UI.Services.Labs
 
 				var userFile = this.SubjectManagementService.GetUserLabFile(Int32.Parse(userFileId));
 
-				var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived && e.Id != userFile.Id);
+				var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived && e.Id != userFile.Id && e.IsCoursProject == isCp);
 
 				var filesPaths = usersFiles.Select(e => e.Attachments);
 

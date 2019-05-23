@@ -46,6 +46,11 @@
 					"data": aoData,
 					"success": fnCallback
 				});
+            },
+			"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+			    if (aData[5] == "Удален") {
+			        $('td', nRow).css('background-color', '#FDC1C1');
+			    }
 			},
 			"fnDrawCallback": function () {
 				$(".dataTables_wrapper").css("margin-bottom", 50);

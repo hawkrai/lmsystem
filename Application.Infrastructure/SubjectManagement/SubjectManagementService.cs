@@ -347,11 +347,11 @@ namespace Application.Infrastructure.SubjectManagement
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 			{
 				var subjects =
-					repositoriesContainer.RepositoryFor<SubjectGroup>().GetAll(new Query<SubjectGroup>(e => e.GroupId == id)).Select(
+					repositoriesContainer.RepositoryFor<SubjectGroup>().GetAll(new Query<SubjectGroup>(e => e.GroupId == id && e.IsActiveOnCurrentGroup)).Select(
 						e => e.SubjectId).ToList();
 
 				var subjectsData =
-					repositoriesContainer.RepositoryFor<SubjectGroup>().GetAll(new Query<SubjectGroup>(e => e.GroupId == id).Include(e => e.Subject)).ToList();
+					repositoriesContainer.RepositoryFor<SubjectGroup>().GetAll(new Query<SubjectGroup>(e => e.GroupId == id && e.IsActiveOnCurrentGroup).Include(e => e.Subject)).ToList();
 
 				var news =
 					repositoriesContainer.RepositoryFor<SubjectNews>().GetAll(

@@ -79,7 +79,14 @@ namespace LMPlatform.UI.Controllers
         {
             return PartialView();
         }
-
+        public ActionResult UploadProject()
+        {
+            return PartialView();
+        }
+        public ActionResult GetCpRepo()
+        {
+            return PartialView();
+        }
         public ActionResult Subjects(int subjectId)
         {
             List<SubjectViewModel> CourseProjectSubjects;
