@@ -788,22 +788,6 @@
             </div>
 
         </tab>
-                                    <div ng-if="!files.IsReceived">
-                                        <a class="fa fa-thumbs-o-up fa-1x" ng-click="receivedLabFile(files.Id, files)" tooltip="Принять работу"></a>
-                                        <a class="fa fa-arrow-right fa-1x" style="padding-left: 8px" ng-click="returnFile(files.Id, files, data.StudentId)" tooltip="Вернуть работоу"></a>
-                                        <a ng-if="files.Attachments[0].Name.indexOf('docx') !== -1 || files.Attachments[0].Name.indexOf('doc') !== -1" ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px;" tooltip="Проверить на плагиат"></a>
-                                    </div>
-                                        <div ng-if="!files.IsReceived">
-                                            <a class="fa fa-thumbs-o-up fa-1x" ng-click="receivedLabFile(files.Id, files)" tooltip="Принять работу"></a>
-                                            <a class="fa fa-arrow-right fa-1x" style="padding-left: 8px" ng-click="returnFile(files.Id, files, data.StudentId)" tooltip="Вернуть работоу"></a>
-
-                                            <a ng-if="files.Attachments[0].Name.indexOf('docx') !== -1 || files.Attachments[0].Name.indexOf('doc') !== -1" ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px;" tooltip="Проверить на плагиат"></a>
-                                        </div>
-                                        <div ng-if="!files.IsReceived">
-                                            <a class="fa fa-thumbs-o-up fa-1x" ng-click="receivedLabFile(files.Id, files)" tooltip="Принять работу"></a>
-                                            <a class="fa fa-arrow-right fa-1x" style="padding-left: 8px" ng-click="returnFile(files.Id, files, data.StudentId)" tooltip="Вернуть работоу"></a>
-                                            <a ng-if="files.Attachments[0].Name.indexOf('docx') !== -1 || files.Attachments[0].Name.indexOf('doc') !== -1" ng-click="checkPlagiarism(files.Id, files, data.FullName)" class="fa fa-eye fa-1x" style="cursor: pointer; margin-left: 5px;" tooltip="Проверить на плагиат"></a>
-                                        </div>
     </tabset>
 
     <div id="dialogPlagiarismSubject" class="modal">

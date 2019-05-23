@@ -544,8 +544,8 @@ namespace LMPlatform.UI.Services.Labs
 							}).Where(x => x.IsCoursProject == isCp).ToList();
 					students.Add(new StudentMark
 						             {
-                                         StudentId = student.Id,
-										 FullName = student.FullName,
+						                 StudentId = student.Id,
+                                         FullName = student.FullName,
 										 SubGroup = subGroups.FirstOrDefault(x => x.Name == "first").SubjectStudents.Any(x => x.StudentId == student.Id) ? 1 : subGroups.FirstOrDefault(x => x.Name == "second").SubjectStudents.Any(x => x.StudentId == student.Id) ? 2 : subGroups.FirstOrDefault(x => x.Name == "third").SubjectStudents.Any(x => x.StudentId == student.Id) ? 3 : 4,
 										 FileLabs = files
 						             });
