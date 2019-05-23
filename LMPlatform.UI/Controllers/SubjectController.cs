@@ -77,7 +77,10 @@ namespace LMPlatform.UI.Controllers
 
             return this.PartialView("Subjects/Modules/Labs/_LabsModule");
         }
-
+        public ActionResult Repo()
+        {
+            return this.PartialView("Subjects/Modules/Repo/_RepoModule");
+        }
         public ActionResult Practicals()
         {
             if (User.IsInRole("student"))

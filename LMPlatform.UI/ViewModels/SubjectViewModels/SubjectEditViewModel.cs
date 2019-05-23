@@ -175,7 +175,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 	            foreach (var group in Groups)
 	            {
 		            var groupId = int.Parse(group.Value);
-		            if (subject.SubjectGroups.Any(e => e.GroupId == groupId))
+		            if (subject.SubjectGroups.Any(e => e.GroupId == groupId && e.IsActiveOnCurrentGroup))
 		            {
 			            SelectedGroups.Add(groupId);
 		            }
@@ -258,8 +258,9 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 				subject.SubjectGroups = SelectedGroups.Select(e => new SubjectGroup
 				{
 					GroupId = e,
-					SubjectId = SubjectId
-				}).ToList();    
+					SubjectId = SubjectId,
+				    IsActiveOnCurrentGroup = true
+                }).ToList();    
 	        }
 	        else
 	        {

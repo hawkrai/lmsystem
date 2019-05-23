@@ -31,7 +31,7 @@ namespace LMPlatform.Data.Repositories
 											.Include(e => e.Subject.SubjectGroups.Select(x => x.SubGroups.Select(v => v.SubjectStudents)))
                         .Include(e => e.Subject.SubjectLecturers.Select(x => x.Lecturer))
 						 .Include(e => e.Subject.LecturesScheduleVisitings)
-							.Where(e => e.GroupId == groupId).ToList();
+							.Where(e => e.GroupId == groupId && e.IsActiveOnCurrentGroup).ToList();
 					return subjectGroup.Select(e => e.Subject).ToList();
 				}
 
@@ -169,15 +169,16 @@ namespace LMPlatform.Data.Repositories
 			{
 				if (newValue.SubjectGroups.All(e => e.GroupId != subjectGroup.GroupId))
 				{
-					dataContext.Set<SubjectGroup>().Remove(subjectGroup);
-				}
+				    subjectGroup.IsActiveOnCurrentGroup = false;
+                }
 			}
 
 			if (newValue.SubjectGroups != null)
 			{
 				foreach (var subjectGroup in newValue.SubjectGroups)
 				{
-					if (subjectGroups.All(e => e.GroupId != subjectGroup.GroupId))
+				    subjectGroup.IsActiveOnCurrentGroup = true;
+                    if (subjectGroups.All(e => e.GroupId != subjectGroup.GroupId))
 					{
 						dataContext.Set<SubjectGroup>().Add(subjectGroup);
 					}

@@ -570,7 +570,7 @@ ViewBag.Profile = "/Administration/Profile";
             ViewBag.StatActionLink = "/Administration/Attendance";
             var lecturers = LecturerManagementService.GetLecturersPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
  this.SetupSettings(dataTableParam);
-            return DataTableExtensions.GetResults(lecturers.Items.Select(l => LecturerViewModel.FormLecturers(l, PartialViewToString("_EditGlyphLinks", l.Id))), dataTableParam, lecturers.TotalCount);
+            return DataTableExtensions.GetResults(lecturers.Items.Select(l => LecturerViewModel.FormLecturers(l, PartialViewToString("_EditGlyphLinks", l.Id, l.IsActive))), dataTableParam, lecturers.TotalCount);
         }
 
         [HttpPost]

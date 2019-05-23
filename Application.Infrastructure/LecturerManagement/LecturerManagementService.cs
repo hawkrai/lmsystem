@@ -132,13 +132,14 @@ namespace Application.Infrastructure.LecturerManagement
 
                 if (lecturer != null && lecturer.SubjectLecturers != null)
                 {
-                    var subjects = lecturer.SubjectLecturers.ToList();
-                    repositoriesContainer.RepositoryFor<SubjectLecturer>().Delete(subjects);
-                    repositoriesContainer.ApplyChanges();
+                    //var subjects = lecturer.SubjectLecturers.ToList();
+                    //repositoriesContainer.RepositoryFor<SubjectLecturer>().Delete(subjects);
+                    //repositoriesContainer.ApplyChanges();
+                    repositoriesContainer.LecturerRepository.DeleteLecturer(lecturer);
                 }
             }
             new LecturerSearchMethod().DeleteIndex(id);
-            return UserManagementService.DeleteUser(id);
+            return true;//UserManagementService.DeleteUser(id);
         }
 
         private readonly LazyDependency<IUsersManagementService> _userManagementService =
