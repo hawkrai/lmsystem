@@ -32,8 +32,6 @@ namespace LMPlatform.UI.Services
 		[WebInvoke(UriTemplate = "/GetGroupsV2/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
 		GroupsResult GetGroupsV2(string subjectId);
 
-        [WebInvoke(UriTemplate = "/GetGroupsV3/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
-        GroupsResult GetGroupsV3(string subjectId);
 
         [OperationContract]
 		[WebInvoke(UriTemplate = "/GetLecturesMarkVisitingV2?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]

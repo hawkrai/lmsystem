@@ -94,10 +94,19 @@
                 <small id="nameMin">Преподаватель - <a href="~/Profile/Page?userLogin=@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.User.UserName">@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.FullName</a></small>
             </h1>
         }
+        <h1>
+            @Model.SubjectName
+            <small id="nameMin">Преподаватель - <a href="~/Profile/Page?userLogin=@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.User.UserName">@Model.Subject.SubjectLecturers.FirstOrDefault().Lecturer.FullName</a></small>
+        </h1>
+    }
 
+    <input type="hidden" ng-click="loadGroups()" id="loadGroups" />
+    <div class="conteinerModule" data-subjectid="@Model.SubjectId"></div>
 
         <div ng-view></div>
     </div>
+    <div ng-view></div>
+</div>
 }
 <script type="text/javascript" src="~/Scripts/application/mainApp.js"></script>
 <script>

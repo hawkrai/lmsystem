@@ -473,6 +473,7 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="files in labFilesUser" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : files.IsReturned ? {'background-color': '#E4A935'} : {}">
+						<tr ng-repeat="files in labFilesUser" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : files.IsReturned ? {'background-color': '#E4A935'} : {}">
 								<td>
 									<div ng-repeat="file in files.Attachments">
 										<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
