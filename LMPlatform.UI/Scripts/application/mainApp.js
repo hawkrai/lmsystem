@@ -66,9 +66,9 @@ app.directive('showonhoverparent',
 
 angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular', 'angularSpinner'])
     .controller('MainCtrl', function ($rootScope, $scope, $sce, usSpinnerService) {
-        $scope.renderHtml = function (htmlCode) {
-            return $sce.trustAsHtml(htmlCode);
-        };
+        //$scope.renderHtml = function (htmlCode) {
+        //    return $sce.trustAsHtml(htmlCode);
+        //};
         
         //$scope.today = function () {
         //	$scope.dt = new Date();
@@ -245,7 +245,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             var dataAsString = JSON.stringify(data);
             return dataAsString;
         };
-    }).controller('NewsController', function ($scope, $http) {
+    })
+    .controller('NewsController', function ($scope, $http) {
 
         $scope.news = [];
         $scope.UrlServiceNews = '/Services/News/NewsService.svc/';
@@ -3314,7 +3315,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             });
         };
     })
-.controller('SubjectAttachmentsController', function ($scope, $http) {
+    .controller('SubjectAttachmentsController', function ($scope, $http) {
     $scope.init = function () {
         $.ajax({
             type: 'GET',

@@ -406,7 +406,7 @@ namespace LMPlatform.UI.Services
 
 				return new GroupsResult
                 {
-					Groups = groupsViewData.OrderBy(e => e.GroupName).ToList(),
+					Groups = groupsViewData,
                     Message = "Группы успешно загружены",
                     Code = "200"
                 };
