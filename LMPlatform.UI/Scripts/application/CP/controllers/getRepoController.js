@@ -5,6 +5,12 @@
 
         $scope.labs = [];
 
+        $scope.groupWorkingData = {
+            selectedSubGroup: null,
+            selectedGroup: null,
+            selectedGroupId: 0,
+            selectedSubGroupId: 0
+        };
         
         $scope.studentId = 0;
 

@@ -28,19 +28,24 @@
                 <div>
                     <table class="table table-bordered table-responsive">
                         <thead>
-                            <tr>
-                                <th>Файлы</th>
-                            </tr>
+                        <tr>
+                            <th>Файлы</th>
+                            <th>Комментарии</th>
+                            <th>Дата</th>
+
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="files in data.FileLabs">
+                        <tr ng-show="files.IsReceived" ng-repeat="files in data.FileLabs" ng-style="{'background-color': '#befbc2'}">
+                            <td>
+                                <div ng-repeat="file in files.Attachments">
+                                    <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
+                                </div>
+                            </td>
+                            <td>{{files.Comments}}</td>
+                            <td>{{files.Date}}</td>
 
-                                <td ng-show="files.IsReceived">
-                                    <div ng-repeat="file in files.Attachments">
-                                        <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
-                                    </div>
-                                </td>
-                            </tr>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

@@ -1204,8 +1204,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
         $scope.returnFile = function (Id, file, studentId) {
             $scope.studentId = studentId;
-            $scope.IsRet = true;
-            file.IsReturned = true;
+            $scope.addLabFiles();
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLabs + "DeleteUserFile",
@@ -1217,7 +1216,9 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 } else {
                     alertify.success(data.Message);
                     $scope.labFilesUser.splice($scope.labFilesUser.indexOf(file), 1);
-                    $scope.addLabFiles();
+                    $scope.IsRet = true;
+                    file.IsReturned = true;
+                    
                 }
             });
         }
@@ -2656,48 +2657,14 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
         $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
 
-        $scope.selectedGroupChange = function (groupId, subGroupId) {
-            if (groupId != null) {
-                $scope.groupWorkingData.selectedGroupId = groupId;
-                $scope.groupWorkingData.selectedSubGroupId = 0;
-            }
-            if (subGroupId != null) {
-                $scope.groupWorkingData.selectedSubGroupId = subGroupId;
-            }
-
-            $scope.groupWorkingData.selectedGroup = null;
-            $.each($scope.groups, function (index, value) {
-                if (value.GroupId == $scope.groupWorkingData.selectedGroupId) {
-                    $scope.groupWorkingData.selectedGroup = value;
-                    return;
-                }
-            });
-
-            if ($scope.groupWorkingData.selectedSubGroupId == 0) {
-                if ($scope.groupWorkingData.selectedGroup.SubGroupsOne != null) {
-                    $scope.groupWorkingData.selectedSubGroupId = $scope.groupWorkingData.selectedGroup.SubGroupsOne.SubGroupId;
-                }
-                else if ($scope.groupWorkingData.selectedGroup.SubGroupsTwo != null) {
-                    $scope.groupWorkingData.selectedSubGroupId = $scope.groupWorkingData.selectedGroup.SubGroupsTwo.SubGroupId;
-                }
-            }
-
-            if ($scope.groupWorkingData.selectedGroup.SubGroupsOne != null && $scope.groupWorkingData.selectedGroup.SubGroupsTwo != null) {
-                $scope.subGroups = [$scope.groupWorkingData.selectedGroup.SubGroupsOne, $scope.groupWorkingData.selectedGroup.SubGroupsTwo];
-            } else {
-                $scope.subGroups = [];
-            }
-
-            $scope.groupWorkingData.selectedSubGroup = null;
-            if ($scope.groupWorkingData.selectedSubGroupId != 0)
-
-                if ($scope.subGroups[0] != null && $scope.groupWorkingData.selectedSubGroupId == $scope.subGroups[0].SubGroupId) {
-                    $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[0];
-                } else if ($scope.subGroups[1] != null && $scope.groupWorkingData.selectedSubGroupId == $scope.subGroups[1].SubGroupId) {
-                    $scope.groupWorkingData.selectedSubGroup = $scope.subGroups[1];
-                }
+        $scope.groupWorkingData = {
+            selectedSubGroup: null,
+            selectedGroup: null,
+            selectedGroupId: 0,
+            selectedSubGroupId: 0
         };
 
+        
         $scope.editFileSend = {
             Comments: "",
             PathFile: "",
@@ -2722,20 +2689,16 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         $scope.userRole = 0;
         $scope.userId = 0;
         $scope.subjectId = 0;
-        $scope.init = function (userRole, userId) {
+        $scope.initRepo = function (userRole, userId) {
             $scope.subjectId = subjectId;
+            $scope.loadExGroups();
             $scope.userRole = userRole;
             $scope.userId = userId;
-            $scope.loadExGroups();
+            
             bootbox.setDefaults({
                 locale: "ru"
             });
-            $scope.labs = [];
-            $scope.loadLabs();
-
-            if ($scope.groups.length > 0) {
-                $scope.reload();
-            }
+            
         };
 
         $scope.resultPlagiatium = [];
@@ -2758,17 +2721,6 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
 
-
-        $scope.reload = function () {
-            $scope.startSpin();
-            // performance issue
-            $scope.loadLabsV2();
-            $scope.loadFilesV2();
-        };
-
-        $scope.$on('groupLoaded', function (event, arg) {
-            $scope.reload();
-        });
 
         $scope.loadFilesLabUser = function () {
             $http({
@@ -2803,69 +2755,37 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 } else {
                     $scope.$apply(function () {
                         $scope.groups = data.Groups;
-
+                        
                         if ($scope.groupWorkingData.selectedGroupId == 0) {
-                            if ($scope.groups[0].SubGroupsOne != null) {
-                                $scope.selectedGroupChange($scope.groups[0].GroupId, $scope.groups[0].SubGroupsOne.SubGroupId);
-                            }
-                            else if ($scope.groups[0].SubGroupsTwo != null) {
-                                $scope.selectedGroupChange($scope.groups[0].GroupId, $scope.groups[0].SubGroupsTwo.SubGroupId);
-                            } else {
-                                $scope.selectedGroupChange($scope.groups[0].GroupId, null);
-                            }
-
-                        } else if ($scope.groupWorkingData.selectedSubGroupId == 0) {
-                            if ($scope.groupWorkingData.selectedGroup.SubGroupsOne != null) {
-                                $scope.selectedGroupChange(null, $scope.groupWorkingData.selectedGroup.SubGroupsOne.SubGroupId);
-                            }
-                            else if ($scope.groupWorkingData.selectedGroup.SubGroupsTwo != null) {
-                                $scope.selectedGroupChange(null, $scope.groupWorkingData.selectedGroup.SubGroupsTwo.SubGroupId);
-                            } else {
-                                $scope.selectedGroupChange(null, null);
-                            }
-                        } else {
-                            $scope.selectedGroupChange(null, null);
+                            $scope.changeGroups($scope.groups[0]);
                         }
-
-                        $scope.$broadcast('groupLoaded', '');
+                        
                     });
                 }
             });
         };
 
-        $scope.loadLabs = function () {
-            $.ajax({
-                type: 'GET',
-                url: $scope.UrlServiceLabs + "GetLabs/" + $scope.subjectId,
-                dataType: "json",
-                contentType: "application/json",
-
-            }).success(function (data, status) {
-                if (data.Code != '200') {
-                    alertify.error(data.Message);
-                } else {
-                    $scope.$apply(function () {
-                        $scope.labs = data.Labs;
-                    });
-                }
-            });
-        };
+        
 
 
         $scope.changeGroups = function (selectedGroup) {
-            if (selectedGroup.SubGroupsOne != null) {
-                $scope.selectedGroupChange(selectedGroup.GroupId, selectedGroup.SubGroupsOne.SubGroupId);
-            }
-            else if (selectedGroup.SubGroupsTwo != null) {
-                $scope.selectedGroupChange(selectedGroup.GroupId, selectedGroup.SubGroupsTwo.SubGroupId);
-            } else {
-                $scope.selectedGroupChange(selectedGroup.GroupId, null);
-            }
+            
+            $scope.groupWorkingData.selectedGroupId = selectedGroup.GroupId;
+              
+            $scope.groupWorkingData.selectedGroup = null;
+            $.each($scope.groups, function (index, value) {
+                if (value.GroupId == $scope.groupWorkingData.selectedGroupId) {
+                    $scope.groupWorkingData.selectedGroup = value;
+                    return;
+                }
+            });
+            
             $scope.startSpin();
-            // performance issue
-            $scope.loadLabsV2();
+            
             $scope.loadFilesV2();
-            // end performance issue
+            $scope.loadLabsV2();
+            $scope.reloadFiles();
+
 
         };
 

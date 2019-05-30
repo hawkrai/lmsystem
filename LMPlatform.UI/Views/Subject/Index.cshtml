@@ -22,11 +22,13 @@
 @{
     var userRole = User.IsInRole("student") ? 1 : 0;
 
+
 <div ng-app="mainApp" ng-controller="MainCtrl" ng-init="init('@Model.SubjectId','@userRole', '@WebSecurity.CurrentUserId')">
     @section navleft
 		{
         @foreach (var module in Model.Modules.Where(e => e.Type != ModuleType.Results && e.Type != ModuleType.StatisticsVisits && e.Type != ModuleType.ScheduleProtection).GroupBy(x => x.ModuleId).Select(y => y.First()).ToList())
         {
+
             if (module.Type == ModuleType.SmartTest)
             {
                 <li class="navLink">
@@ -41,6 +43,7 @@
                 </li>
             }
 
+
             else if (module.Type == ModuleType.Dsm)
             {
 
@@ -51,6 +54,7 @@
                     </a>
                 </li>
             }
+
             else if (module.Type == ModuleType.YeManagment)
             {
 
@@ -67,17 +71,27 @@
                 </li>
 
             }
+
             else
             {
                 <li class="navLink">
                     <a class="moduleLinks linkNavbar" href="#@module.Type">@module.Name</a>
                 </li>
             }
+
+            if (module.Type == ModuleType.Labs && userRole == 0)
+            {
+                <li class="navLink">
+                    <a class="linkNavbar" href="#/Repo">
+                        <span>Репозиторий лабораторных работ</span>
+                    </a>
+                </li>
+            }
+
         }
         <li class="divider"></li>
         @if (User.IsInRole("lector"))
         {
-            <li><a class="linkNavbar" href="#/Repo"><i class="fa fa-download fa-tab"></i>Репозиторий лабораторных работ</a></li>
             <li><a id="subGroups" class="linkNavbar" href="@Url.Action("SubGroups", "Subject", new { subjectId = Model.SubjectId })"><i class="fa fa-users fa-tab"></i>Разделение на подгруппы</a></li>
             <li><a class="editSubjectAction" style="font-size: 14px; cursor: pointer"><i class="fa fa-gear" style="margin-right: 5px; font-size: 18px;"></i> Управление предметом</a></li>
         }

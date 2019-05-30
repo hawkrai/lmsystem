@@ -34,7 +34,7 @@
                 </tbody>
             </table>
         </div>
-        <input ng-show="labFilesUser.length == 0 || (labFilesUser.length > 0 && !labFilesUser.some(!files.IsReturned))" class="btn btn-sm btn-primary fileinput-button" type="button" ng-click="addLabFiles()" style="width: 200px" value="Добавить работу" />
+        <input ng-show="labFilesUser.length == 0 || (labFilesUser.length > 0 && !labFilesUser.some(isReturned))" class="btn btn-sm btn-primary fileinput-button" type="button" ng-click="addLabFiles()" style="width: 200px" value="Добавить работу" />
     </div>
     <div id="dialogAddFiles" class="modal">
         <div class="modal-dialog panel panel-primary" style="padding: 0px">

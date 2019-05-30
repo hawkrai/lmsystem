@@ -6,8 +6,15 @@
         $scope.labs = [];
 
         $scope.IsRet = false;
+        $scope.JustFlag = false;
         $scope.studentId = 0;
 
+        $scope.groupWorkingData = {
+            selectedSubGroup: null,
+            selectedGroup: null,
+            selectedGroupId: 0,
+            selectedSubGroupId: 0
+        };
         $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
 
         $scope.startSpin = function () {
@@ -48,6 +55,7 @@
                 if (data.Code != '200') {
                     alertify.error(data.Message);
                     $scope.IsRet = false;
+                    $scope.JustFlag = true;
                 } else {
                     $scope.loadFilesLabUser();
                     alertify.success(data.Message);
@@ -192,6 +200,10 @@
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
                 results = regex.exec(location.search);
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        $scope.isReturned = function (element) {
+            return !element.IsReturned;
         }
 
         var subjectId = getParameterByName("subjectId");
@@ -388,8 +400,7 @@
 
         $scope.returnFile = function (Id, file, studentId) {
             $scope.studentId = studentId;
-            $scope.IsRet = true;
-            file.IsReturned = true;
+            $scope.addLabFiles();
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLabs + "DeleteUserFile",
@@ -401,7 +412,10 @@
                 } else {
                     alertify.success(data.Message);
                     $scope.labFilesUser.splice($scope.labFilesUser.indexOf(file), 1);
-                    $scope.addLabFiles();
+                    $scope.IsRet = true;
+                    file.IsReturned = true;
+                   
+                    
                 }
             });
         }
@@ -427,6 +441,8 @@
             });
 
             $('#dialogAddFiles').modal();
+            
+            
 
         };
 
