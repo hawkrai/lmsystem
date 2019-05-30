@@ -1,5 +1,5 @@
 ﻿
-<div ng-controller="RepoController" ng-init="init('0','@WebSecurity.CurrentUserId')">
+<div ng-controller="RepoController" ng-init="initRepo('0','@WebSecurity.CurrentUserId')">
     <h1 ng-cloak>{{subject.Name}} <small>{{Title}}</small></h1>
     <div style="margin-bottom: 15px; margin-top: 15px;">
         <table>
@@ -31,16 +31,21 @@
                         <thead>
                             <tr>
                                 <th>Файлы</th>
+                                <th>Комментарии</th>
+                                <th>Дата</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="files in data.FileLabs">
-
-                                <td ng-show="files.IsReceived">
+                            <tr ng-show="files.IsReceived" ng-repeat="files in data.FileLabs" ng-style="{'background-color': '#befbc2'}">
+                                <td>
                                     <div ng-repeat="file in files.Attachments">
                                         <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
                                     </div>
                                 </td>
+                                <td>{{files.Comments}}</td>
+                                <td>{{files.Date}}</td>
+
                             </tr>
                         </tbody>
                     </table>

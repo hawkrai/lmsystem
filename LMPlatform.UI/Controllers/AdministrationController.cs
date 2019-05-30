@@ -14,11 +14,12 @@ using LMPlatform.UI.ViewModels;
 using LMPlatform.UI.ViewModels.AccountViewModels;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using Mvc.JQuery.Datatables;
+using Org.BouncyCastle.Asn1.Ocsp;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class AdministrationController : BasicController
     {
         public ActionResult Index()
@@ -484,10 +485,10 @@ namespace LMPlatform.UI.Controllers
 							LecturerManagementService.DisjoinOwnerLector(lecturerSubjectLecturer.SubjectId, id);	
 						}
 					}
-					else if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Any() && lecturer.SubjectLecturers.Any(e => !e.Subject.IsArchive))
-					{
-						return Json(new { resultMessage = "Удаление невозможно. Преподаватель связан с предметами", status = "500" });
-					}
+					//else if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Any() && lecturer.SubjectLecturers.Any(e => !e.Subject.IsArchive))
+					//{
+					//	return Json(new { resultMessage = "Удаление невозможно. Преподаватель связан с предметами", status = "500" });
+					//}
 
                     var result = LecturerManagementService.DeleteLecturer(id);
 
