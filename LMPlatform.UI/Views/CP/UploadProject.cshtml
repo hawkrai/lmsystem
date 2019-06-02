@@ -61,7 +61,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                <button type="button" ng-click="user.IsStudent ? saveLabFiles(userId): saveLabFiles(studentId)" class="btn btn-primary btn-sm">Отправить работу</button>
+                <button type="button" ng-click="user.IsStudent ? saveLabFiles(userId): replaceLabFiles(studentId)" class="btn btn-primary btn-sm">Отправить работу</button>
             </div>
         </div>
     </div>
@@ -73,7 +73,7 @@
                 <tbody>
                     <tr>
                         <td style="padding-right: 15px">
-                            <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                            <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="loadFilesV2(groupWorkingData.selectedGroup)" class="form-control"></select>
                         </td>
                         <td style="margin-top: 5px">
                             <a ng-click="saveZip()" class="fa fa-download fa-1x" style="margin-right: 15px; color: #6B8E23" tooltip="Скачать архивом">
@@ -83,7 +83,7 @@
                             <a ng-click="checkPlagiarismSubject()" class="fa fa-eye fa-1x" style="margin-right: 10px; font-size: 27px; cursor: pointer;" tooltip="Проверка на плагиат всех работ"></a>
                         </td>
                         <td style="margin-top: 5px">
-                            <a ng-click="reloadFiles()" class="fa fa-refresh fa-1x" style="margin-left: 5px; margin-right: 10px; font-size: 27px; cursor: pointer; color:cadetblue" tooltip="Обновить данные"></a>
+                            <a ng-click="reloadFiles(groupWorkingData.selectedGroup)" class="fa fa-refresh fa-1x" style="margin-left: 5px; margin-right: 10px; font-size: 27px; cursor: pointer; color:cadetblue" tooltip="Обновить данные"></a>
                         </td>
                     </tr>
                 </tbody>

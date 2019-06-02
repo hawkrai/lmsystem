@@ -66,14 +66,14 @@ app.directive('showonhoverparent',
 
 angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular', 'angularSpinner'])
     .controller('MainCtrl', function ($rootScope, $scope, $sce, usSpinnerService) {
-        //$scope.renderHtml = function (htmlCode) {
-        //    return $sce.trustAsHtml(htmlCode);
-        //};
+        $scope.renderHtml = function (htmlCode) {
+            return $sce.trustAsHtml(htmlCode);
+        };
         
-        //$scope.today = function () {
-        //	$scope.dt = new Date();
-        //};
-        //$scope.today();
+        $scope.today = function () {
+        	$scope.dt = new Date();
+        };
+        $scope.today();
 
         $scope.clear = function () {
         	$scope.dt = null;
@@ -124,12 +124,12 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
         $scope.startSpin = function () {
         	$(".loading").toggleClass('ng-hide', false);
-        	//usSpinnerService.spin('spinner-1');
+        	usSpinnerService.spin('spinner-1');
         };
 
         $scope.stopSpin = function () {
         	$(".loading").toggleClass('ng-hide', true);
-        	//usSpinnerService.stop('spinner-1');
+        	usSpinnerService.stop('spinner-1');
         };
 
         $scope.selectedGroupChange = function (groupId, subGroupId) {
@@ -913,7 +913,9 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
         $scope.labs = [];
 
-        $scope.studentId;
+        $scope.studentId = 0;
+        $scope.fileId = 0;
+        $scope.file = null;
         $scope.IsRet = false;
 
         $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
@@ -1021,11 +1023,11 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             window.location.href = "/Statistic/ExportPlagiarism?subjectId=" + $scope.subjectId + "&type=" + $("input[name=typePlagiarism]:checked").val() + "&threshold=" + $("#threshold").val();
         },
 
-            $scope.exportPlagiarismStudent = function () {
+        $scope.exportPlagiarismStudent = function () {
                 window.location.href = "/Statistic/ExportPlagiarismStudent?userFileId=" + $scope.userFileIdCheck + "&subjectId=" + $scope.subjectId;
             },
 
-            $scope.receivedLabFile = function (id, files) {
+        $scope.receivedLabFile = function (id, files) {
                 $http({
                     method: 'POST',
                     url: $scope.UrlServiceLabs + "ReceivedLabFile",
@@ -1166,11 +1168,11 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
         $scope.saveLabFiles = function (id) {
 
-            if ($scope.userRole == "0" && ($scope.editFileSend.Comments == null || $scope.editFileSend.Comments.length == 0 || JSON.parse($scope.getLecturesFileAttachments()).length == 0)) {
+            if ($scope.userRole == "1" && ($scope.editFileSend.Comments == null || $scope.editFileSend.Comments.length == 0 || JSON.parse($scope.getLecturesFileAttachments()).length == 0)) {
                 bootbox.alert("Необходимо заполнить поля и прикрепить файлы.");
                 return false;
             }
-            if ($scope.userRole == "1" && JSON.parse($scope.getLecturesFileAttachments()).length == 0) {
+            if ($scope.userRole == "0" && JSON.parse($scope.getLecturesFileAttachments()).length == 0) {
                 bootbox.alert("Необходимо прикрепить файлы.");
                 return false;
             }
@@ -1202,26 +1204,33 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             });
         };
 
-        $scope.returnFile = function (Id, file, studentId) {
-            $scope.studentId = studentId;
-            $scope.addLabFiles();
+        $scope.replaceLabFiles = function (userId) {
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLabs + "DeleteUserFile",
-                data: { id: Id },
+                data: { id: $scope.fileId },
                 headers: { 'Content-Type': 'application/json' }
             }).success(function (data, status) {
                 if (data.Code != '200') {
                     alertify.error(data.Message);
                 } else {
-                    alertify.success(data.Message);
-                    $scope.labFilesUser.splice($scope.labFilesUser.indexOf(file), 1);
+                    alertify.success("Работа возвращена");
+                    $scope.labFilesUser.splice($scope.labFilesUser.indexOf($scope.file), 1);
                     $scope.IsRet = true;
-                    file.IsReturned = true;
-                    
+                    $scope.file.IsReturned = true;
+                    $scope.saveLabFiles(userId);
+
                 }
             });
-        }
+        };
+
+        $scope.returnFile = function (id, file, studentId) {
+            $scope.fileId = id;
+            $scope.file = file;
+            $scope.studentId = studentId;
+            $scope.addLabFiles();
+        };
+
         $scope.loadLabs = function () {
             $.ajax({
                 type: 'GET',
@@ -2757,7 +2766,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                         $scope.groups = data.Groups;
                         
                         if ($scope.groupWorkingData.selectedGroupId == 0) {
-                            $scope.changeGroups($scope.groups[0]);
+                            $scope.loadFilesV2($scope.groups[0]);
                         }
                         
                     });
@@ -2771,7 +2780,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         $scope.changeGroups = function (selectedGroup) {
             
             $scope.groupWorkingData.selectedGroupId = selectedGroup.GroupId;
-              
+            $scope.startSpin();
+
             $scope.groupWorkingData.selectedGroup = null;
             $.each($scope.groups, function (index, value) {
                 if (value.GroupId == $scope.groupWorkingData.selectedGroupId) {
@@ -2780,11 +2790,12 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 }
             });
             
-            $scope.startSpin();
-            
-            $scope.loadFilesV2();
-            $scope.loadLabsV2();
-            $scope.reloadFiles();
+           
+
+            //$scope.startSpin();
+            //$scope.loadFilesV2();
+
+            //$scope.reloadFiles();
 
 
         };
@@ -2794,11 +2805,11 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $scope.loadFilesV2();
         };
 
-        $scope.loadFilesV2 = function () {
+        $scope.loadFilesV2 = function (groupId) {
 
             $.ajax({
                 type: 'GET',
-                url: $scope.UrlServiceLabs + "GetFilesV2?subjectId=" + $scope.subjectId + "&groupId=" + $scope.groupWorkingData.selectedGroupId + "&isCp=false",
+                url: $scope.UrlServiceLabs + "GetFilesV2?subjectId=" + $scope.subjectId + "&groupId=" + groupId.GroupId + "&isCp=false",
                 dataType: "json",
                 contentType: "application/json",
 
@@ -2806,10 +2817,16 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 if (data.Code != '200') {
                     alertify.error(data.Message);
                 } else {
-                    $scope.groupWorkingData.selectedGroup.StudentsFiles = data.Students;
+                    $scope.$apply(function() {
+                         $scope.groupWorkingData.selectedGroup.StudentsFiles = data.Students;
+                    });
+
                 }
                 $scope.stopSpin();
-            });
+                });
+            $scope.changeGroups(groupId);
+            
+            
         };
 
         $scope.loadLabsV2 = function () {
