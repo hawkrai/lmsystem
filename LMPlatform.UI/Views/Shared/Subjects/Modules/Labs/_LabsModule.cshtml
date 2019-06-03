@@ -570,12 +570,12 @@
                 <div class="modal-dialog panel panel-primary" style="padding: 0px">
                     <div class="panel-heading">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">На защиту лабораторной работы</h4>
+                        <h4 class="modal-title" id="myModalLabel">Загрузить исправленный вариант работы</h4>
                     </div>
                     <div class="modal-body">
                         <div>
                             <div class="control-group">
-                                <label class="control-label">Комментарий (Например, Лабораторная работа №1)</label>
+                                <label class="control-label">Комментарий (необязательно)</label>
                                 <textarea class="form-control" style="max-width: 545px; width: 545px;" ng-model="editFileSend.Comments"></textarea>
                             </div>
 
@@ -591,7 +591,7 @@
                     </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                        <button type="button" ng-click="saveLabFiles(studentId)" class="btn btn-primary btn-sm">Отправить работу</button>
+                        <button type="button" ng-click="replaceLabFiles(studentId)" class="btn btn-primary btn-sm">Отправить работу</button>
                     </div>
                 </div>
             </div>

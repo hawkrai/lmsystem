@@ -472,7 +472,7 @@
 						    </tr>
 						</thead>
 						<tbody>
-						<tr ng-repeat="files in labFilesUser" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : files.IsReturned ? {'background-color': '#E4A935'} : {}">
+						<tr ng-repeat="files in labFilesUser" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : files.IsReturned ? {'background-color': '#FFFF99'} : {}">
 
 								<td>
 									<div ng-repeat="file in files.Attachments">
@@ -522,7 +522,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Отмена</a>
-                <button type="button"ng-click="user.IsStudent ? saveLabFiles(@WebSecurity.CurrentUserId): saveLabFiles(studentId)" class="btn btn-primary btn-sm">Отправить работу</button>
+                <button type="button"ng-click="saveLabFiles(userId)" class="btn btn-primary btn-sm">Отправить работу</button>
 
             </div>
         </div>

@@ -1,12 +1,15 @@
 ﻿
 <div ng-controller="RepoController" ng-init="initRepo('0','@WebSecurity.CurrentUserId')">
-    <h1 ng-cloak>{{subject.Name}} <small>{{Title}}</small></h1>
+    <h1 ng-cloak>{{subject.Name}}</h1>
+
+    <h4 style="margin-top: 20px;">{{Title}}</h4>
+
     <div style="margin-bottom: 15px; margin-top: 15px;">
         <table>
             <tbody>
                 <tr>
                     <td style="padding-right: 15px">
-                        <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="changeGroups(groupWorkingData.selectedGroup)" class="form-control"></select>
+                        <select ng-model="groupWorkingData.selectedGroup" ng-options="group.GroupName for group in groups" ng-change="loadFilesV2(groupWorkingData.selectedGroup)" class="form-control"></select>
                     </td>
                     <td style="margin-top: 5px">
                         <a ng-click="saveZip()" class="fa fa-download fa-1x" style="margin-right: 15px; color: #6B8E23" tooltip="Скачать архивом">
