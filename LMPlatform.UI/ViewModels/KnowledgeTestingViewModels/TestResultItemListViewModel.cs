@@ -38,6 +38,8 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
 
 			public bool ForEUMK { get; set; }
 
+			public bool BeforeEUMK { get; set; }
+
             public int? TestNumber
             {
                 get;
@@ -60,6 +62,7 @@ namespace LMPlatform.UI.ViewModels.KnowledgeTestingViewModels
                     ForSelfStudy = test != null ? test.ForSelfStudy : true,
 	                ForNN = test != null ? test.ForNN : false,
 	                ForEUMK = test != null ? test.ForEUMK : true,
+					BeforeEUMK = test != null ? test.BeforeEUMK : true,
                     TestNumber = test.TestNumber
                 };
             }

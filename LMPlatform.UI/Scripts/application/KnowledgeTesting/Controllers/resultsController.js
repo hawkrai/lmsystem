@@ -43,14 +43,16 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
     	var testsFiltered = [];
     	switch (type) {
     		case 0:
-    			testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForSelfStudy == false)
+    			testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForSelfStudy == false && x.ForEUMK == false && x.BeforeEUMK == false && x.ForNN == false);
     			break;
     		case 1:
-    			testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForSelfStudy == true)
+			    testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForSelfStudy == true);
     			break;
     		case 2:
+			    testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForNN == true);
     			break;
     		case 3:
+    			testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForEUMK == true && x.BeforeEUMK == true);
     			break;
     		case 4:
     			break;
@@ -132,11 +134,11 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
         }
 
         var passed = Enumerable.From(results).Where(function (item) {
-             return item.Points != null && !item.ForSelfStudy;
+        	return item.Points != null && !item.ForSelfStudy && !item.ForNN && !item.ForEUMK && !item.BeforeEUMK;
         });
 
         var passedPercent = Enumerable.From(results).Where(function (item) {
-            return item.Percent != null;
+        	return item.Percent != null && !item.ForSelfStudy && !item.ForNN && !item.ForEUMK && !item.BeforeEUMK;
         });
 
         if (passed.Count() > 0) {
@@ -168,7 +170,7 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
         });
 
         var passedPercent = Enumerable.From(results).Where(function (item) {
-            return item.Percent != null;
+        	return item.Percent != null && item.ForSelfStudy;
         });
 
         if (passed.Count() > 0) {
@@ -187,24 +189,182 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
         }
     };
 
-    $scope.calcTotal = function(result, index) {
+    $scope.calcOverageForNN = function (result, dontUseTestResult) {
+		var results = result.TestPassResults;
+		var empty = dontUseTestResult ? null : 'Студент не прошел ни одного теста';
+
+		if (results.length == 0) {
+			return empty;
+		}
+
+		var passed = Enumerable.From(results).Where(function (item) {
+			return item.Points != null && item.ForNN;
+		});
+
+		var passedPercent = Enumerable.From(results).Where(function (item) {
+			return item.Percent != null && item.ForNN;
+		});
+
+		if (passed.Count() > 0) {
+
+			var markSum = passed.Sum(function (item) {
+				return item.Points;
+			}) / passed.Count();
+
+			var percentSum = passedPercent.Sum(function (item) {
+				return item.Percent;
+			}) / passedPercent.Count();
+
+			return Math.round(markSum);// + " (" + Math.round(percentSum) + "%)";
+		} else {
+			return empty;
+		}
+	};
+
+    $scope.filterEUMK = function(item) {
+	    return item.BeforeEUMK || item.BeforeEUMK;
+    }
+
+    $scope.calcOverageForEUMK = function (result, dontUseTestResult) {
+		var results = result.TestPassResults;
+		var empty = dontUseTestResult ? null : 'Студент не прошел ни одного теста';
+
+		if (results.length == 0) {
+			return empty;
+		}
+
+		var passed = Enumerable.From(results).Where(function (item) {
+			return item.Points != null && (item.BeforeEUMK || item.BeforeEUMK);
+		});
+
+		var passedPercent = Enumerable.From(results).Where(function (item) {
+			return item.Percent != null && (item.BeforeEUMK || item.BeforeEUMK);
+		});
+
+		if (passed.Count() > 0) {
+
+			var markSum = passed.Sum(function (item) {
+				return item.Points;
+			}) / passed.Count();
+
+			var percentSum = passedPercent.Sum(function (item) {
+				return item.Percent;
+			}) / passedPercent.Count();
+
+			return Math.round(markSum);// + " (" + Math.round(percentSum) + "%)";
+		} else {
+			return empty;
+		}
+	};
+
+	$scope.calcTotal = function(result, index) {
         var sum = 0;
         var count = 0;
-        
-        $.each(result, function (key, value) {
-            if (value.TestPassResults[index].Points != null) {
-                count = count + 1;
-                sum = sum + value.TestPassResults[index].Percent;
-            }
+	    $.each(result, function (key, value) {
+	    	var data = Enumerable.From(value.TestPassResults).Where(function (item) {
+	    		return !item.ForSelfStudy && !item.ForNN && !item.ForEUMK && !item.BeforeEUMK;
+	    	});
+
+	    	if (data && data.Count() > 0) {
+	    		if (data.ElementAt(index).Points != null) {
+				    count = count + 1;
+				    sum = sum + data.ElementAt(index).Points;
+			    }
+		    }
+        	
         });
 
-        var percent = Math.round(sum / count);
+		var percent = 0;
 
-        return {
-            Percent: Math.round(sum / count),
-            Point: Math.round(percent / 10),
-        };
-    };
+		if (count != 0 && sum != 0) {
+			percent = Math.round((sum / count) * 10);
+		}
+	    
+		return {
+			Percent: percent
+		};
+	};
+
+	$scope.calcTotalForSelfStudy = function(result, index) {
+		var sum = 0;
+		var count = 0;
+		$.each(result, function (key, value) {
+			var data = Enumerable.From(value.TestPassResults).Where(function (item) {
+				return item.ForSelfStudy;
+			});
+
+			if (data && data.Count() > 0) {
+				if (data.ElementAt(index).Points != null) {
+					count = count + 1;
+					sum = sum + data.ElementAt(index).Points;
+				}
+			}
+		});
+
+		var percent = 0;
+
+		if (count != 0 && sum != 0) {
+			percent = Math.round((sum / count) * 10);
+		}
+	    
+		return {
+			Percent: percent
+		};
+	};
+
+	$scope.calcTotalForNN = function(result, index) {
+		var sum = 0;
+		var count = 0;
+		$.each(result, function (key, value) {
+			var data = Enumerable.From(value.TestPassResults).Where(function (item) {
+				return item.ForNN;
+			});
+
+			if (data && data.Count() > 0) {
+				if (data.ElementAt(index).Points != null) {
+					count = count + 1;
+					sum = sum + data.ElementAt(index).Points;
+				}
+			}
+		});
+
+		var percent = 0;
+
+		if (count != 0 && sum != 0) {
+			percent = Math.round((sum / count) * 10);
+		}
+	    
+		return {
+			Percent: percent
+		};
+	};
+
+	$scope.calcTotalForEUMK = function(result, index) {
+		var sum = 0;
+		var count = 0;
+		$.each(result, function (key, value) {
+			var data = Enumerable.From(value.TestPassResults).Where(function (item) {
+				return item.BeforeEUMK || item.ForEUMK;
+			});
+
+			if (data && data.Count() > 0) {
+				if (data.ElementAt(index).Points != null) {
+					count = count + 1;
+					sum = sum + data.ElementAt(index).Points;
+				}
+			}
+		});
+
+		var percent = 0;
+
+		if (count != 0 && sum != 0) {
+			percent = Math.round((sum / count) * 10);
+		}
+	    
+		return {
+			Percent: percent
+		};
+	};
 
     $scope.loadAnswers = function (sId, tId) {
         $http({ method: "GET", url: kt.actions.results.getUserAnswers, dataType: 'json', params: { studentId: sId, testId: tId } })
