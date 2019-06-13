@@ -214,9 +214,9 @@
                 });
                 //$scope.labs = [];
                 //$scope.loadLabs();
-                //if ($scope.userRole == "1") {
-                //    $scope.loadFilesLabUser();
-                //};
+                if ($scope.userRole == "1") {
+                    $scope.loadFilesLabUser();
+                };
 
                 //if ($scope.groups.length > 0) {
                 //    $scope.reload();
