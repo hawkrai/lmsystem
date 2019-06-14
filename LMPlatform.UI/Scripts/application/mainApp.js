@@ -1258,7 +1258,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $scope.editLabsData.Id = 0;
             $scope.editLabsData.Order = 0;
 
-            $("#labsFile").empty();
+            $("#attachedFiles").empty();
 
             $.ajax({
                 type: 'GET',
@@ -1267,7 +1267,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
             }).success(function (data, status) {
                 $scope.$apply(function () {
-                    $("#labsFile").append(data);
+                    $("#attachedFiles").append(data);
                 });
             });
 
@@ -1283,7 +1283,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $scope.editLabsData.Id = lab.LabId;
             $scope.editLabsData.Order = lab.Order;
 
-            $("#labsFile").empty();
+            $("#attachedFiles").empty();
 
             $.ajax({
                 type: 'GET',
@@ -1292,7 +1292,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
             }).success(function (data, status) {
                 $scope.$apply(function () {
-                    $("#labsFile").append(data);
+                    $("#attachedFiles").append(data);
                 });
             });
             $('#dialogAddLabs').modal();

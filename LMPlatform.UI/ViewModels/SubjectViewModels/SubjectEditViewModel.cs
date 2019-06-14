@@ -272,6 +272,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 				if (!subject.SubjectGroups.Any(e => e.GroupId == subjectSubjectGroup.GroupId))
 				{
 					this.TestsManagementService.UnlockAllTestForGroup(subjectSubjectGroup.GroupId);
+                    this.SubjectManagementService.DeleteNonReceivedUserFiles(subjectSubjectGroup.GroupId);
 				}
 			}
 

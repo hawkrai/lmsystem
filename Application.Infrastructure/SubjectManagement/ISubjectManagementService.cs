@@ -34,6 +34,8 @@ namespace Application.Infrastructure.SubjectManagement
 
         void DeleteLabs(int id);
 
+        void DeleteNonReceivedUserFiles(int groupId);
+
         void DeletePracticals(int id);
 
         bool IsWorkingSubject(int userId, int subjectId);

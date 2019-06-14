@@ -177,8 +177,13 @@ namespace LMPlatform.Data.Repositories
 			{
 				foreach (var subjectGroup in newValue.SubjectGroups)
 				{
-				    subjectGroup.IsActiveOnCurrentGroup = true;
-                    if (subjectGroups.All(e => e.GroupId != subjectGroup.GroupId))
+				    var oldSubjectGroup = dataContext.Set<SubjectGroup>().FirstOrDefault(e =>
+				        e.SubjectId == subjectGroup.SubjectId && e.GroupId == subjectGroup.GroupId);
+				    if (oldSubjectGroup != null)
+				    {
+				        oldSubjectGroup.IsActiveOnCurrentGroup = true;
+				    }
+				    else if (subjectGroups.All(e => e.GroupId != subjectGroup.GroupId))
 					{
 						dataContext.Set<SubjectGroup>().Add(subjectGroup);
 					}
