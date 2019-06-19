@@ -833,20 +833,20 @@
 
                         <table class="table table-bordered table-responsive">
                             <thead>
-                                <tr>
-                                    <th>Автор</th>
-                                    <th>Группа</th>
-                                    <th>Предмет</th>
-                                    <th>Файл</th>
-                                </tr>
+                            <tr>
+                                <th>Автор</th>
+                                <th>Группа</th>
+                                <th>Предмет</th>
+                                <th>Файл</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="data in cluster.correctDocs">
-                                    <td>{{data.author}}</td>
-                                    <td>{{data.groupName}}</td>
-                                    <td>{{data.subjectName}}</td>
-                                    <td>{{data.doc}}</td>
-                                </tr>
+                            <tr ng-repeat="data in cluster.correctDocs">
+                                <td>{{data.author}}</td>
+                                <td>{{data.groupName}}</td>
+                                <td>{{data.subjectName}}</td>
+                                <td>{{data.doc}}</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -900,7 +900,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="loadingP ng-hide" style="margin-top: 170px;">
+                <div class="loadingP" style="margin-top: 170px;">
                     <span us-spinner="{radius:40, width:8, length: 16, opacity: 0, shadow: true, color: '#3c8dbc'}" spinner-key="spinner-1" spinner-start-active="true"></span>
                 </div>
             </div>

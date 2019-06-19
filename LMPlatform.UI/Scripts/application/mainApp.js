@@ -909,7 +909,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         //};
 
     })
-    .controller('LabsController', function ($scope, $http, $filter) {
+    .controller('LabsController', function ($scope, $http, $filter, usSpinnerService) {
 
         $scope.labs = [];
 
@@ -964,6 +964,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $('#dialogPlagiarism').modal();
 
             $(".loadingP").toggleClass('ng-hide', false);
+            usSpinnerService.spin('spinner-1');
 
             $http({
                 method: 'POST',
@@ -982,6 +983,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                     $scope.resultPlagiatium = data.DataD;
 
                 }
+                usSpinnerService.stop('spinner-1');
                 $(".loadingP").toggleClass('ng-hide', true);
 
             });
@@ -995,6 +997,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
         $scope.loadPlagiarismSubject = function () {
             $(".loadingPSubject").toggleClass('ng-hide', false);
+            usSpinnerService.spin('spinner-1');
             $scope.resultPlagiatiumSybject = [];
             $http({
                 method: 'POST',
@@ -1014,6 +1017,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                     $scope.resultPlagiatiumSybject = data.DataD;
 
                 }
+                usSpinnerService.stop('spinner-1');
                 $(".loadingPSubject").toggleClass('ng-hide', true);
 
             });
