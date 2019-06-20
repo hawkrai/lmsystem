@@ -909,7 +909,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         //};
 
     })
-    .controller('LabsController', function ($scope, $http, $filter) {
+    .controller('LabsController', function ($scope, $http, $filter, usSpinnerService) {
 
         $scope.labs = [];
 
@@ -964,6 +964,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $('#dialogPlagiarism').modal();
 
             $(".loadingP").toggleClass('ng-hide', false);
+            usSpinnerService.spin('spinner-1');
 
             $http({
                 method: 'POST',
@@ -982,6 +983,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                     $scope.resultPlagiatium = data.DataD;
 
                 }
+                usSpinnerService.stop('spinner-1');
                 $(".loadingP").toggleClass('ng-hide', true);
 
             });
@@ -995,6 +997,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
         $scope.loadPlagiarismSubject = function () {
             $(".loadingPSubject").toggleClass('ng-hide', false);
+            usSpinnerService.spin('spinner-1');
             $scope.resultPlagiatiumSybject = [];
             $http({
                 method: 'POST',
@@ -1014,6 +1017,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                     $scope.resultPlagiatiumSybject = data.DataD;
 
                 }
+                usSpinnerService.stop('spinner-1');
                 $(".loadingPSubject").toggleClass('ng-hide', true);
 
             });
@@ -1258,7 +1262,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $scope.editLabsData.Id = 0;
             $scope.editLabsData.Order = 0;
 
-            $("#labsFile").empty();
+            $("#attachedFiles").empty();
 
             $.ajax({
                 type: 'GET',
@@ -1267,7 +1271,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
             }).success(function (data, status) {
                 $scope.$apply(function () {
-                    $("#labsFile").append(data);
+                    $("#attachedFiles").append(data);
                 });
             });
 
@@ -1283,7 +1287,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             $scope.editLabsData.Id = lab.LabId;
             $scope.editLabsData.Order = lab.Order;
 
-            $("#labsFile").empty();
+            $("#attachedFiles").empty();
 
             $.ajax({
                 type: 'GET',
@@ -1292,7 +1296,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
             }).success(function (data, status) {
                 $scope.$apply(function () {
-                    $("#labsFile").append(data);
+                    $("#attachedFiles").append(data);
                 });
             });
             $('#dialogAddLabs').modal();

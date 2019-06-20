@@ -1,6 +1,6 @@
 ﻿angular.module('cpApp.ctrl.upfile', ['ui.bootstrap', 'xeditable', 'textAngular', 'angularSpinner'])
     .controller('uploadFileCtrl',
-        function($scope, $http, $filter) {
+    function ($scope, $http, $filter, usSpinnerService) {
 
             $scope.setTitle('Защита курсового проекта(работы)');
 
@@ -22,12 +22,12 @@
 
             $scope.startSpin = function() {
                 $(".loading").toggleClass('ng-hide', false);
-                //usSpinnerService.spin('spinner-1');
+                usSpinnerService.spin('spinner-1');
             };
 
             $scope.stopSpin = function() {
                 $(".loading").toggleClass('ng-hide', true);
-                //usSpinnerService.stop('spinner-1');
+                usSpinnerService.stop('spinner-1');
             };
             $scope.saveLabFiles = function(id) {
 
@@ -214,9 +214,9 @@
                 });
                 //$scope.labs = [];
                 //$scope.loadLabs();
-                //if ($scope.userRole == "1") {
-                //    $scope.loadFilesLabUser();
-                //};
+                if ($scope.userRole == "1") {
+                    $scope.loadFilesLabUser();
+                };
 
                 //if ($scope.groups.length > 0) {
                 //    $scope.reload();
@@ -265,7 +265,7 @@
                 $('#dialogPlagiarism').modal();
 
                 $(".loadingP").toggleClass('ng-hide', false);
-
+                usSpinnerService.spin('spinner-1');
                 $http({
                     method: 'POST',
                     url: $scope.UrlServiceLabs + "CheckPlagiarism",
@@ -284,6 +284,7 @@
                         $scope.resultPlagiatium = data.DataD;
 
                     }
+                    usSpinnerService.stop('spinner-1');
                     $(".loadingP").toggleClass('ng-hide', true);
 
                 });
@@ -297,6 +298,7 @@
 
             $scope.loadPlagiarismSubject = function() {
                 $(".loadingPSubject").toggleClass('ng-hide', false);
+                usSpinnerService.spin('spinner-1');
                 $scope.resultPlagiatiumSybject = [];
                 $http({
                     method: 'POST',
@@ -316,6 +318,7 @@
                         $scope.resultPlagiatiumSybject = data.DataD;
 
                     }
+                    usSpinnerService.stop('spinner-1');
                     $(".loadingPSubject").toggleClass('ng-hide', true);
 
                 });

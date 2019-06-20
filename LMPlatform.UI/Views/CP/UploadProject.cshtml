@@ -65,6 +65,126 @@
             </div>
         </div>
     </div>
+    <div id="dialogPlagiarismSubject" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Проверка на плагиат</h4>
+            </div>
+            <div class="modal-body">
+                <section style="margin-bottom: 20px;">
+                    <div class="row margin-top-bottom-5">
+                        <div style="display: inline-block; width: auto; padding-left: 15px; padding-right: 5px;">
+                            <input type="radio" value="0" checked name="typePlagiarism" style="width: 15px; height: 15px;" class="correctnessIndicator">
+                        </div>
+                        <div style="display: inline-block;font-size: 16px;">
+                            Векторный метод
+                        </div>
+                    </div>
+                    <div class="row margin-top-bottom-5 answerContainer">
+                        <div style="display: inline-block; width: auto; padding-left: 15px; padding-right: 5px;">
+                            <input type="radio" value="1" name="typePlagiarism" style="width: 15px; height: 15px;" class="correctnessIndicator">
+                        </div>
+                        <div style="display: inline-block;font-size: 16px;">
+                            Метод шинглов
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px">
+                        Процент схожести, %
+                    </div>
+                    <div class="input-group number-spinner" style="width: 145px;">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                        </span>
+                        <input type="text" style="margin-bottom: 6px;" id="threshold" class="form-control text-center" value="50" min="50" max="100">
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+                        </span>
+                    </div>
+                </section>
+                <div>
+                    <div ng-repeat="cluster in resultPlagiatiumSybject">
+                        <p>Кластер {{$index + 1}}</p>
+
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Автор</th>
+                                    <th>Группа</th>
+                                    <th>Предмет</th>
+                                    <th>Файл</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in cluster.correctDocs">
+                                    <td>{{data.author}}</td>
+                                    <td>{{data.groupName}}</td>
+                                    <td>{{data.subjectName}}</td>
+                                    <td>{{data.doc}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="loadingPSubject ng-hide" style="margin-top: 170px;">
+                    <span us-spinner="{radius:40, width:8, length: 16, opacity: 0, shadow: true, color: '#3c8dbc'}" spinner-key="spinner-1" spinner-start-active="true"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary btn-sm" ng-click="loadPlagiarismSubject()">Проверить</a>
+                <a class="btn btn-default btn-sm" id="exportButton" style="background-color: #ddd;" ng-click="exportPlagiarism()">Отчет</a>
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="dialogPlagiarism" class="modal">
+        <div class="modal-dialog panel panel-primary" style="padding: 0px">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Проверка на плагиат</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div style="text-align: center" class="control-group">
+                        {{plagiat.FileName}} - {{plagiat.UserName}}, группа - {{groupWorkingData.selectedGroup.GroupName}}
+                    </div>
+                </div>
+                <div>
+                    <table class="table table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Процент схожести, %</th>
+                                <th>Автор</th>
+                                <th>Группа</th>
+                                <th>Предмет</th>
+                                <th>Файл</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in resultPlagiatium">
+                                <td style="text-align: center;">{{data.coeff}}</td>
+                                <td>{{data.author}}</td>
+                                <td>{{data.groupName}}</td>
+                                <td>{{data.subjectName}}</td>
+                                <td>{{data.doc}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="loadingP ng-hide" style="margin-top: 170px;">
+                    <span us-spinner="{radius:40, width:8, length: 16, opacity: 0, shadow: true, color: '#3c8dbc'}" spinner-key="spinner-1" spinner-start-active="true"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default btn-sm" style="background-color: #ddd;" ng-click="exportPlagiarismStudent()">Отчет</a>
+                <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
+            </div>
+        </div>
+    </div>
 
     @*////////////////////////Lecturer part//////////////////////////*@
     <div ng-show="user.IsLecturer">

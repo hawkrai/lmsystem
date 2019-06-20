@@ -6,8 +6,10 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Application.Core.Data;
 using Application.Core.UI.Controllers;
+using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Data.Infrastructure;
+using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using WebMatrix.WebData;
@@ -41,10 +43,20 @@ namespace LMPlatform.UI.Controllers
                 {
                     result = RedirectToAction("Management");                
                 }
-				
-                UsersManagementService.UpdateLastLoginDate(model.UserName); 
+                
+                if (!IsLecturerActive(model.UserName))
+                {
+                    ModelState.AddModelError(string.Empty, "Данныe имя пользователя и пароль больше не действительны");
+                    model.LogOut();
+                    result = View(model);
+                }
 
-                result = _RedirectToLocal(returnUrl);
+                else
+                {
+                    UsersManagementService.UpdateLastLoginDate(model.UserName);
+
+                    result = _RedirectToLocal(returnUrl);
+                }
             }
             else
             {
@@ -287,6 +299,21 @@ namespace LMPlatform.UI.Controllers
             {
                 return ApplicationService<IUsersManagementService>();
             }
+        }
+
+        public ILecturerManagementService LecturerManagementService
+        {
+            get
+            {
+                return ApplicationService<ILecturerManagementService>();
+            }
+        }
+
+        private bool IsLecturerActive(string userName)
+        {
+            var userId = UsersManagementService.GetUser(userName).Id;
+            var lecturer = LecturerManagementService.GetLecturer(userId);
+            return lecturer?.IsActive ?? true;
         }
     }
 }

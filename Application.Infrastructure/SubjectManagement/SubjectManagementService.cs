@@ -334,6 +334,7 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
+
 		public SubjectNews GetNews(int id, int subjecttId)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
@@ -818,7 +819,24 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
-		public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, Int32 userId)
+	    public void DeleteNonReceivedUserFiles(int groupId)
+	    {
+	        using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+	        {
+	            var studentsIds = repositoriesContainer.RepositoryFor<Student>()
+	                .GetAll(new Query<Student>(e => e.GroupId == groupId)).Select(x => x.User.Id).ToList();
+
+	            foreach (var studentId in studentsIds)
+	            {
+	                var model = repositoriesContainer.RepositoryFor<UserLabFiles>().GetAll(new Query<UserLabFiles>(e => e.UserId == studentId && !e.IsReceived));
+	                repositoriesContainer.RepositoryFor<UserLabFiles>().Delete(model);
+                }
+
+	            repositoriesContainer.ApplyChanges();
+	        }
+        }
+
+	    public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, Int32 userId)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 			{
