@@ -52,8 +52,11 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
 			    testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForNN == true);
     			break;
     		case 3:
-    			testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForEUMK == true && x.BeforeEUMK == true);
+    			testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.ForEUMK == true);
     			break;
+		    case 4:
+			    testsFiltered = subgroupResults[0].TestPassResults.filter(x => x.BeforeEUMK == true);
+			    break;
     		case 4:
     			break;
     	}
@@ -208,7 +211,7 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
 		if (passed.Count() > 0) {
 
 			var markSum = passed.Sum(function (item) {
-				return item.Points;
+				return item.Points;getFilteredTestsNumber
 			}) / passed.Count();
 
 			var percentSum = passedPercent.Sum(function (item) {
@@ -221,10 +224,6 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
 		}
 	};
 
-    $scope.filterEUMK = function(item) {
-	    return item.BeforeEUMK || item.BeforeEUMK;
-    }
-
     $scope.calcOverageForEUMK = function (result, dontUseTestResult) {
 		var results = result.TestPassResults;
 		var empty = dontUseTestResult ? null : 'Студент не прошел ни одного теста';
@@ -234,11 +233,43 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
 		}
 
 		var passed = Enumerable.From(results).Where(function (item) {
-			return item.Points != null && (item.BeforeEUMK || item.BeforeEUMK);
+			return item.Points != null && item.ForEUMK;
 		});
 
 		var passedPercent = Enumerable.From(results).Where(function (item) {
-			return item.Percent != null && (item.BeforeEUMK || item.BeforeEUMK);
+			return item.Percent != null && item.ForEUMK;
+		});
+
+		if (passed.Count() > 0) {
+
+			var markSum = passed.Sum(function (item) {
+				return item.Points;
+			}) / passed.Count();
+
+			var percentSum = passedPercent.Sum(function (item) {
+				return item.Percent;
+			}) / passedPercent.Count();
+
+			return Math.round(markSum);// + " (" + Math.round(percentSum) + "%)";
+		} else {
+			return empty;
+		}
+    };
+
+    $scope.calcOverageBeforeEUMK = function (result, dontUseTestResult) {
+		var results = result.TestPassResults;
+		var empty = dontUseTestResult ? null : 'Студент не прошел ни одного теста';
+
+		if (results.length == 0) {
+			return empty;
+		}
+
+		var passed = Enumerable.From(results).Where(function (item) {
+			return item.Points != null && item.BeforeEUMK;
+		});
+
+		var passedPercent = Enumerable.From(results).Where(function (item) {
+			return item.Percent != null && item.BeforeEUMK;
 		});
 
 		if (passed.Count() > 0) {
@@ -344,7 +375,34 @@ knowledgeTestingApp.controller('resultsCtrl', function ($scope, $http) {
 		var count = 0;
 		$.each(result, function (key, value) {
 			var data = Enumerable.From(value.TestPassResults).Where(function (item) {
-				return item.BeforeEUMK || item.ForEUMK;
+				return item.ForEUMK;
+			});
+
+			if (data && data.Count() > 0) {
+				if (data.ElementAt(index).Points != null) {
+					count = count + 1;
+					sum = sum + data.ElementAt(index).Points;
+				}
+			}
+		});
+
+		var percent = 0;
+
+		if (count != 0 && sum != 0) {
+			percent = Math.round((sum / count) * 10);
+		}
+	    
+		return {
+			Percent: percent
+		};
+	};
+
+	$scope.calcTotalBeforeEUMK = function(result, index) {
+		var sum = 0;
+		var count = 0;
+		$.each(result, function (key, value) {
+			var data = Enumerable.From(value.TestPassResults).Where(function (item) {
+				return item.BeforeEUMK;
 			});
 
 			if (data && data.Count() > 0) {
