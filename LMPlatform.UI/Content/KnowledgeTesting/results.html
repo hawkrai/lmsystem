@@ -33,7 +33,7 @@
                             <th>№</th>
                             <th>Студент</th>
 							<th data-ng-repeat="res in subgroupResults[0].TestPassResults | filter:{ForSelfStudy:false, ForEUMK: false, ForNN: false, BeforeEUMK:false } track by $index">
-								<div tooltip="{{res.TestName}}" tooltip-placement="right" style="width: 50px;">Тест {{$index + )}}</div>
+								<div tooltip="{{res.TestName}}" tooltip-placement="right" style="width: 50px;">Тест {{$index + 1}}</div>
 							</th>
                             <th>Средняя оценка</th>
                         </tr>

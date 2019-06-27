@@ -52,8 +52,8 @@
 			</tr>
 		</thead>
         <tbody id="sortable">
-			<tr data-ng-repeat="test in tests | filter:query | filter:{ForSelfStudy:false, BeforeEUMK: false, ForEUMK: false, ForNN: false }" class="ui-state-default">
-				<td testid="{{test.Id}}" width="30px">{{tests.indexOf(test) + 1}}</td>
+			<tr data-ng-repeat="test in tests | filter:query | filter:{ForSelfStudy:false, BeforeEUMK: false, ForEUMK: false, ForNN: false } track by $index" class="ui-state-default">
+				<td testid="{{test.Id}}" width="30px">{{$index + 1}}</td>
 				<td>{{test.Title}}</td>
 				<td style="width: 220px;">
 					<div>
