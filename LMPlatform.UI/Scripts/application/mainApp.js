@@ -2666,8 +2666,6 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
     })
     .controller('RepoController', function ($scope, $http, $filter) {
 
-        $scope.Title = 'Репозиторий лабораторных работ';
-
         $scope.UrlServiceLabs = '/Services/Labs/LabsService.svc/';
 
         $scope.groupWorkingData = {

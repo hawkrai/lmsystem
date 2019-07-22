@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-show="files.IsReceived" ng-repeat="files in data.FileLabs" ng-style="{'background-color': '#befbc2'}">
+                            <tr ng-show="files.IsReceived" ng-repeat="files in data.FileLabs" ng-style="{'background-color': '#EFFFF8'}">
                                 <td>
                                     <div ng-repeat="file in files.Attachments">
                                         <a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
