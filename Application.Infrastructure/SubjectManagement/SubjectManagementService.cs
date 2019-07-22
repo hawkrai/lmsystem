@@ -828,7 +828,8 @@ namespace Application.Infrastructure.SubjectManagement
 
 	            foreach (var studentId in studentsIds)
 	            {
-	                var model = repositoriesContainer.RepositoryFor<UserLabFiles>().GetAll(new Query<UserLabFiles>(e => e.UserId == studentId && !e.IsReceived));
+	                var model = repositoriesContainer.RepositoryFor<UserLabFiles>().
+	                    GetAll(new Query<UserLabFiles>(e => e.UserId == studentId && !e.IsReceived));
 	                repositoriesContainer.RepositoryFor<UserLabFiles>().Delete(model);
                 }
 
