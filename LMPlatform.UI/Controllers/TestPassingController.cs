@@ -84,7 +84,8 @@ namespace LMPlatform.UI.Controllers
                     Id = test.Id,
                     Title = test.Title,
                     Description = test.Description,
-                    ForSelfStudy = test.ForSelfStudy
+                    ForSelfStudy = test.ForSelfStudy,
+	                ForNN = test.ForNN
                 });
             
             return Json(availableTests, JsonRequestBehavior.AllowGet);
@@ -202,7 +203,10 @@ namespace LMPlatform.UI.Controllers
                 Title = group.Key,
                 Points = group.Last().Points,
                 Percent = group.Last().Percent,
-                ForSelfStudy = TestsManagementService.GetTest(group.Last().TestId).ForSelfStudy
+                ForSelfStudy = TestsManagementService.GetTest(group.Last().TestId).ForSelfStudy,
+				ForNN = TestsManagementService.GetTest(group.Last().TestId).ForNN,
+	            BeforeEUMK = TestsManagementService.GetTest(group.Last().TestId).BeforeEUMK,
+	            ForEUMK = TestsManagementService.GetTest(group.Last().TestId).ForEUMK
             });
 
             return Json(results, JsonRequestBehavior.AllowGet);

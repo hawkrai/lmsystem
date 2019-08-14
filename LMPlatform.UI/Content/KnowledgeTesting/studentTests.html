@@ -34,28 +34,53 @@
 </div>
 
 <div>
-    <h4 style="margin-top: 20px;">Тесты для самоконтроля и ЭУМК</h4>
+    <h4 style="margin-top: 20px;">Тесты для самоконтроля</h4>
 </div>
 
 <div class="table-responsive">
-    <table class="table table-hover table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>№</th>
-                <th>Тема</th>
-                <th>Действие&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-            </tr>
-        </thead>
-        <tr data-ng-repeat="test in testsForSelfStudy | filter:query">
-            <td width="30px">{{testsForSelfStudy.indexOf(test) + 1}}</td>
-            <td>{{test.Title}}</td>
-            <td style="width: 20px;">
-                <div>
-                    <a data-toggle="tooltip" data-tooltip="Пройти тест" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
-                </div>
-            </td>
-        </tr>
-    </table>
+	<table class="table table-hover table-bordered table-striped">
+		<thead>
+		<tr>
+			<th>№</th>
+			<th>Тема</th>
+			<th>Действие&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+		</tr>
+		</thead>
+		<tr data-ng-repeat="test in testsForSelfStudy | filter:query">
+			<td width="30px">{{testsForSelfStudy.indexOf(test) + 1}}</td>
+			<td>{{test.Title}}</td>
+			<td style="width: 20px;">
+				<div>
+					<a data-toggle="tooltip" data-tooltip="Пройти тест" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div>
+	<h4 style="margin-top: 20px;">Тесты для обучения с искусственной нейронной сетью</h4>
+</div>
+
+<div class="table-responsive">
+	<table class="table table-hover table-bordered table-striped">
+		<thead>
+		<tr>
+			<th>№</th>
+			<th>Тема</th>
+			<th>Действие&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+		</tr>
+		</thead>
+		<tr data-ng-repeat="test in testsForNN | filter:query">
+			<td width="30px">{{testsForNN.indexOf(test) + 1}}</td>
+			<td>{{test.Title}}</td>
+			<td style="width: 20px;">
+				<div>
+					<a data-toggle="tooltip" data-tooltip="Пройти тест" data-tooltip-placement="right" data-ng-href="#/passing?testId={{test.Id}}" style="margin-right: 10px"><i class="fa fa-rocket fa-1x"></i></a>
+				</div>
+			</td>
+		</tr>
+	</table>
 </div>
 
 <script>
