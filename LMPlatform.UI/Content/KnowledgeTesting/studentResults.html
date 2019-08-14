@@ -27,14 +27,14 @@
 		</tab>
 
 		<tab heading="Тесты для самоконтроля">
-			<div class="table-responsive" data-ng-show="results.length > 0">
+			<div class="table-responsive" data-ng-show="resultsForSelfStudy.length > 0">
 				<table class="table table-hover table-bordered table-striped">
 					<thead>
-					<tr>
-						<th>№</th>
-						<th>Тест</th>
-						<th>Оценка</th>
-					</tr>
+						<tr>
+							<th>№</th>
+							<th>Тест</th>
+							<th>Оценка</th>
+						</tr>
 					</thead>
 					<tr data-ng-repeat="result in resultsForSelfStudy | filter:query">
 						<td width="10px">{{resultsForSelfStudy.indexOf(result) + 1}}</td>
@@ -45,14 +45,14 @@
 			</div>
 		</tab>
 		<tab heading="Тесты для обучения с искусственной нейронной сетью">
-			<div class="table-responsive" data-ng-show="results.length > 0">
+			<div class="table-responsive" data-ng-show="resultsForNN.length > 0">
 				<table class="table table-hover table-bordered table-striped">
 					<thead>
-					<tr>
-						<th>№</th>
-						<th>Тест</th>
-						<th>Оценка</th>
-					</tr>
+						<tr>
+							<th>№</th>
+							<th>Тест</th>
+							<th>Оценка</th>
+						</tr>
 					</thead>
 					<tr data-ng-repeat="result in resultsForNN | filter:query">
 						<td width="10px">{{resultsForNN.indexOf(result) + 1}}</td>
