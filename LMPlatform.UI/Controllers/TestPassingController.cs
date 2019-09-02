@@ -128,70 +128,80 @@ namespace LMPlatform.UI.Controllers
         [HttpGet]
         public PartialViewResult GetNextQuestion(int testId, int questionNumber)
         {
-            if (questionNumber == 1 && TestsManagementService.GetTest(testId, true).Questions.Count == 0)
-            {
-                ViewBag.Message = "Тест не содержит ни одного вопроса";
-                return PartialView("Error");
-            }
+	        try
+	        {
+		        if (questionNumber == 1 && TestsManagementService.GetTest(testId, true).Questions.Count == 0)
+		        {
+			        ViewBag.Message = "Тест не содержит ни одного вопроса";
+			        return PartialView("Error");
+		        }
 
-	        var answers = TestPassingService.GetAnswersForTest(testId, CurrentUserId);
+		        var answers = TestPassingService.GetAnswersForTest(testId, CurrentUserId);
 
-            NextQuestionResult nextQuestion = TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
-			var testName = TestsManagementService.GetTest(testId, false).Title;
-			ViewData["testName"] = testName;
-            if (nextQuestion.Question == null)
-            {
-                ViewBag.Mark = nextQuestion.Mark;
-                ViewBag.Percent = nextQuestion.Percent;
-                //foreach(var item in nextQuestion.QuestionsStatuses)
-                //{
-                //    TestQuestionPassingService.SaveTestQuestionPassResults(new TestQuestionPassResults
-                //    {
-                //        StudentId = CurrentUserId,
-                //        TestId = testId,
-                //        QuestionNumber = item.Key,
-                //        Result = (int)item.Value
-                //    });
-                //}
+		        NextQuestionResult nextQuestion =
+			        TestPassingService.GetNextQuestion(testId, CurrentUserId, questionNumber);
+		        var testName = TestsManagementService.GetTest(testId, false).Title;
+		        ViewData["testName"] = testName;
+		        if (nextQuestion.Question == null)
+		        {
+			        ViewBag.Mark = nextQuestion.Mark;
+			        ViewBag.Percent = nextQuestion.Percent;
+			        //foreach(var item in nextQuestion.QuestionsStatuses)
+			        //{
+			        //    TestQuestionPassingService.SaveTestQuestionPassResults(new TestQuestionPassResults
+			        //    {
+			        //        StudentId = CurrentUserId,
+			        //        TestId = testId,
+			        //        QuestionNumber = item.Key,
+			        //        Result = (int)item.Value
+			        //    });
+			        //}
 
-	            var questions = TestsManagementService.GetTest(testId, true);
+			        var questions = TestsManagementService.GetTest(testId, true);
 
-	            var themIds = questions.Questions.Where(e => e.ConceptId.HasValue).Select(e => (int)e.ConceptId).Distinct();
+			        var themIds = questions.Questions.Where(e => e.ConceptId.HasValue).Select(e => (int) e.ConceptId)
+				        .Distinct();
 
-				var thems = new List<string>();
+			        var thems = new List<string>();
 
-	            foreach (var themId in themIds.OrderBy(e => e))
-	            {
-		            var them = ConceptManagementService.GetById(themId);
-		            thems.Add(them.Name);
-	            }
+			        foreach (var themId in themIds.OrderBy(e => e))
+			        {
+				        var them = ConceptManagementService.GetById(themId);
+				        thems.Add(them.Name);
+			        }
 
-				var array = new List<int>();
+			        var array = new List<int>();
 
-				foreach (var question in questions.Questions.OrderBy(e => e.Id).ThenBy(e => e.ConceptId))
-				{
-					var answer = answers.FirstOrDefault(e => e.QuestionId == question.Id);
-					int data = 0;
+			        foreach (var question in questions.Questions.OrderBy(e => e.Id).ThenBy(e => e.ConceptId))
+			        {
+				        var answer = answers.FirstOrDefault(e => e.QuestionId == question.Id);
+				        int data = 0;
 
-					if (answer != null)
-					{
-						data = answer.Points > 0 ? 1 : 0;
-					}
+				        if (answer != null)
+				        {
+					        data = answer.Points > 0 ? 1 : 0;
+				        }
 
-					array.Add(data);
-				}
+				        array.Add(data);
+			        }
 
-	            dynamic resuls = new ExpandoObject();
-	            resuls.Answers = array.ToArray();
-				resuls.QuestionsStatuses = nextQuestion.QuestionsStatuses;
-	            resuls.Thems = thems;
-	            resuls.NeuralData = questions.Data;
-				resuls.FoNN = questions.ForNN;
+			        dynamic resuls = new ExpandoObject();
+			        resuls.Answers = array.ToArray();
+			        resuls.QuestionsStatuses = nextQuestion.QuestionsStatuses;
+			        resuls.Thems = thems;
+			        resuls.NeuralData = questions.Data;
+			        resuls.FoNN = questions.ForNN;
 
-				return PartialView("EndTest", resuls);
-            }
+			        return PartialView("EndTest", resuls);
+		        }
 
-            return PartialView("GetNextQuestion", nextQuestion);
+		        return PartialView("GetNextQuestion", nextQuestion);
+	        }
+	        catch (Exception ex)
+	        {
+				ViewBag.Message = ex.StackTrace;
+				return PartialView("Error", ex.StackTrace);
+	        }
         }
 
         [Authorize, HttpGet]

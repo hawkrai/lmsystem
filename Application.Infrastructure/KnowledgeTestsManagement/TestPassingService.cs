@@ -820,7 +820,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var testObject = repositoriesContainer.TestsRepository.GetBy(new Query<Test>(test => test.Id == testId));
-                if (testObject != null && testObject.ForSelfStudy)
+                if (testObject != null && (testObject.ForSelfStudy || testObject.BeforeEUMK))
                 {
                     isTestLockedForUser = false;
                 }
