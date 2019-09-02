@@ -20,10 +20,18 @@
 <div>
     @foreach (var subject in Model)
     {
-        <div class="col-lg-3 col-md-4 col-xs-6 thumbnail">
-            <a class="thumbnail" href="@Url.Action("KnowledgeTesting", "Tests", new { subjectId = subject.SubjectId })"><img class="img-responsive" src="~/Content/images/image_subject.png"></a>
-            <p style="text-align: center" class="text-info">@subject.DisplayName</p>
-        </div>
+	    <div class="col-lg-3 col-md-4 col-xs-6 thumbnail">
+		    @if (User.IsInRole("lector"))
+		    {
+			    <a class="thumbnail" href="@Url.Action("KnowledgeTesting", "Tests", new {subjectId = subject.SubjectId})"><img class="img-responsive" src="~/Content/images/image_subject.png"></a>
+		    }
+			
+		    @if (User.IsInRole("student"))
+		    {
+			    <a class="thumbnail" href="@Url.Action("StudentsTesting", "TestPassing", new {subjectId = subject.SubjectId})"><img class="img-responsive" src="~/Content/images/image_subject.png"></a>
+		    }
+		    <p style="text-align: center" class="text-info">@subject.DisplayName</p>
+	    </div>
     }
     <div class="clear-fix"></div>
 </div>
