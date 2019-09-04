@@ -1974,6 +1974,8 @@
     <Content Include="Views\CP\GetCpRepo.cshtml" />
     <Content Include="Views\CP\UploadProject.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Repo\_RepoModule.cshtml" />
+    <Content Include="Views\Tests\Subjects.cshtml" />
+    <Content Include="Views\Tests\_AnswerTemplates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

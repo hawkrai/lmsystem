@@ -162,12 +162,12 @@ namespace LMPlatform.UI.Controllers
 			        var themIds = questions.Questions.Where(e => e.ConceptId.HasValue).Select(e => (int) e.ConceptId)
 				        .Distinct();
 
-			        var thems = new List<string>();
+			        var thems = new List<object>();
 
 			        foreach (var themId in themIds.OrderBy(e => e))
 			        {
 				        var them = ConceptManagementService.GetById(themId);
-				        thems.Add(them.Name);
+				        thems.Add(new { name = them.Name, id = them.Id });
 			        }
 
 			        var array = new List<int>();
