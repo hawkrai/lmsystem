@@ -195,7 +195,8 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 LastName = Surname,
                 MiddleName = Patronymic,
                 IsSecretary = IsSecretary,
-                IsLecturerHasGraduateStudents = IsLecturerHasGraduateStudents
+                IsLecturerHasGraduateStudents = IsLecturerHasGraduateStudents,
+				IsActive = true
             });
             lecturer.User = user;
             new LecturerSearchMethod().AddToIndex(lecturer);
