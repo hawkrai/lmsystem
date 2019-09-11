@@ -4,16 +4,19 @@ using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.UserManagement;
+using LMPlatform.UI.ViewModels.AccountViewModels;
+using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace LMPlatform.UI.ApiControllers
 {
-	[System.Web.Http.RoutePrefix("[controller]")]
+	[RoutePrefix("[controller]")]
     public class AdminController : ApiController
     {
 		#region Dependencies
@@ -32,16 +35,61 @@ namespace LMPlatform.UI.ApiControllers
 
 		#region TODO
 
-		//public ActionResult Index()
-		//{
-		//	var activityModel = new UserActivityViewModel();
-		//	return View(activityModel);
-		//}
+		[HttpGet]
+		public HttpResponseMessage UserActivity()
+		{
+			try
+			{
+				var activityModel = new UserActivityViewModel();
 
-		//public ActionResult Students()
-		//{
-		//	return View();
-		//}
+				return new HttpResponseMessage(HttpStatusCode.OK)
+				{
+					Content = new ObjectContent<UserActivityViewModel>(activityModel, new JsonMediaTypeFormatter())
+				};
+			}
+			catch (Exception e)
+			{
+				return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+				{
+					Content = new StringContent(e.Message)
+				};
+			}
+		}
+
+		[HttpGet]
+		public HttpResponseMessage Students()
+		{
+			try
+			{
+				var students = StudentManagementService.Value
+					.GetStudents()
+					.Select(s =>
+						new
+						{
+							s.Confirmed,
+							s.Email,
+							s.FirstName,
+							s.FullName,
+							s.GroupId,
+							s.LastName,
+							s.MiddleName,
+							s.Id,
+							s.IsNew
+						});
+
+				return new HttpResponseMessage(HttpStatusCode.OK)
+				{
+					Content = new ObjectContent(students.GetType(), students, new JsonMediaTypeFormatter())
+				};
+			}
+			catch (Exception e)
+			{
+				return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+				{
+					Content = new StringContent(e.Message)
+				};
+			}
+		}
 
 		//public ActionResult EditStudent(int id)
 		//{
@@ -131,24 +179,27 @@ namespace LMPlatform.UI.ApiControllers
 		//	return PartialView("_AddProfessorView", model);
 		//}
 
-		//[System.Web.Mvc.HttpPost]
-		//public ActionResult AddProfessor(RegisterViewModel model)
-		//{
-		//	if (ModelState.IsValid)
-		//	{
-		//		try
-		//		{
-		//			model.RegistrationUser(new[] { "lector" });
-		//		}
-		//		catch (MembershipCreateUserException e)
-		//		{
-		//			ModelState.AddModelError(string.Empty, e.StatusCode.ToString());
-		//			return View(model);
-		//		}
-		//	}
+		[HttpPost]
+		public HttpResponseMessage AddProfessor(RegisterViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					model.RegistrationUser(new[] { "lector" });
+					return new HttpResponseMessage(HttpStatusCode.OK);
+				}
+				catch (MembershipCreateUserException e)
+				{
+					return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+					{
+						Content = new ObjectContent<string>(e.StatusCode.ToString(), new JsonMediaTypeFormatter())
+					};
+				}
+			}
 
-		//	return null;
-		//}
+			return new HttpResponseMessage(HttpStatusCode.BadRequest);
+		}
 
 		//public ActionResult EditProfessor(int id)
 		//{
@@ -277,24 +328,24 @@ namespace LMPlatform.UI.ApiControllers
 		//	return RedirectToAction("Index");
 		//}
 
-		//[System.Web.Mvc.HttpPost]
-		//public ActionResult EditGroup(GroupViewModel model, int id)
-		//{
-		//	if (ModelState.IsValid)
-		//	{
-		//		try
-		//		{
-		//			model.ModifyGroup();
-		//			ViewBag.ResultSuccess = true;
-		//		}
-		//		catch
-		//		{
-		//			ModelState.AddModelError(string.Empty, string.Empty);
-		//		}
-		//	}
+		[HttpPost]
+		public HttpResponseMessage EditGroup(GroupViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					model.ModifyGroup();
+					return new HttpResponseMessage(HttpStatusCode.OK);
+				}
+				catch
+				{
+					return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+				}
+			}
 
-		//	return null;
-		//}
+			return new HttpResponseMessage(HttpStatusCode.BadRequest);
+		}
 
 		//[System.Web.Mvc.HttpPost]
 		//public ActionResult EditGroupAjax(GroupViewModel model)
@@ -332,7 +383,7 @@ namespace LMPlatform.UI.ApiControllers
 		//	return View();
 		//}
 
-		[System.Web.Http.HttpGet]
+		[HttpGet]
 		public HttpResponseMessage Groups()
 		{
 			try
@@ -361,7 +412,7 @@ namespace LMPlatform.UI.ApiControllers
 			}
 		}
 
-		[System.Web.Http.HttpGet]
+		[HttpGet]
 		public HttpResponseMessage ListOfStudents([FromUri] int id)
 		{
 			try
@@ -593,7 +644,7 @@ namespace LMPlatform.UI.ApiControllers
 		//	}
 		//}
 
-		[System.Web.Http.HttpGet]
+		[HttpGet]
 		public HttpResponseMessage Attendance(int id)
 		{
 			var user = UsersManagementService.Value.GetUser(id);
