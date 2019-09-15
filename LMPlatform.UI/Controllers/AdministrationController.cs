@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
@@ -10,6 +13,8 @@ using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.UserManagement;
+using AutoMapper;
+using LMPlatform.UI.MappingModels;
 using LMPlatform.UI.ViewModels;
 using LMPlatform.UI.ViewModels.AccountViewModels;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
@@ -550,7 +555,7 @@ namespace LMPlatform.UI.Controllers
         public DataTablesResult<StudentViewModel> GetCollectionStudents(DataTablesParam dataTableParam)
         {
             var searchString = dataTableParam.GetSearchString();
-ViewBag.Profile = "/Administration/Profile";
+	        ViewBag.Profile = "/Administration/Profile";
             ViewBag.ListOfSubject = "/Administration/ListOfSubject";
             ViewBag.EditActionLink = "/Administration/EditStudent";
             ViewBag.DeleteActionLink = "/Administration/DeleteStudent";
@@ -570,7 +575,7 @@ ViewBag.Profile = "/Administration/Profile";
             ViewBag.DeleteActionLink = "/Administration/DeleteLecturer";
             ViewBag.StatActionLink = "/Administration/Attendance";
             var lecturers = LecturerManagementService.GetLecturersPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
- this.SetupSettings(dataTableParam);
+			this.SetupSettings(dataTableParam);
             return DataTableExtensions.GetResults(lecturers.Items.Select(l => LecturerViewModel.FormLecturers(l, PartialViewToString("_EditGlyphLinks", l.Id, l.IsActive))), dataTableParam, lecturers.TotalCount);
         }
 
@@ -585,6 +590,7 @@ ViewBag.Profile = "/Administration/Profile";
             this.SetupSettings(dataTableParam);
             return DataTableExtensions.GetResults(groups.Items.Select(g => GroupViewModel.FormGroup(g, PartialViewToString("_EditGlyphLinks", g.Id))), dataTableParam, groups.TotalCount);
         }
+
 	    private void SetupSettings(DataTablesParam dataTableParam)
 	    {
 			var n = 20;
@@ -602,47 +608,66 @@ ViewBag.Profile = "/Administration/Profile";
 		    
 	    }
 
-        #region Dependencies
+		#region Json actions
 
-        public IStudentManagementService StudentManagementService
-        {
-            get
-            {
-                return ApplicationService<IStudentManagementService>();
-            }
-        }
+		[HttpGet]
+		public JsonResult UserActivityJson()
+		{
+			var activityModel = new UserActivityViewModel();
 
-public ISubjectManagementService SubjectManagementService
-        {
-            get
-            {
-                return ApplicationService<ISubjectManagementService>();
-            }
-        }
+			var serialized = activityModel.UserActivityJson;
 
-        public IGroupManagementService GroupManagementService
-        {
-            get
-            {
-                return ApplicationService<IGroupManagementService>();
-            }
-        }
+			var jsonSerializer = new JavaScriptSerializer();
 
-        public ILecturerManagementService LecturerManagementService
-        {
-            get
-            {
-                return ApplicationService<ILecturerManagementService>();
-            }
-        }
+			var deserialized = jsonSerializer.DeserializeObject(serialized);
+			
+			return Json(deserialized, JsonRequestBehavior.AllowGet);
+		}
 
-        public IUsersManagementService UsersManagementService
-        {
-            get
-            {
-                return ApplicationService<IUsersManagementService>();
-            }
-        }
-        #endregion
+		[HttpGet]
+		public ActionResult StudentsJson()
+		{
+			var students = StudentManagementService.GetStudents();
+
+			var result = Mapper.Map<IEnumerable<StudentSimpleModel>>(students);
+
+			return Json(result, JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public ActionResult GetStudentJson(int id)
+		{
+			var student = StudentManagementService.GetStudent(id);
+
+			if (student != null)
+			{
+				var model = Mapper.Map<StudentSimpleModel>(student);
+
+				return Json(model, JsonRequestBehavior.AllowGet);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		#endregion
+
+		#region Dependencies
+
+		public IStudentManagementService StudentManagementService => ApplicationService<IStudentManagementService>();
+
+		public ISubjectManagementService SubjectManagementService => ApplicationService<ISubjectManagementService>();
+
+		public IGroupManagementService GroupManagementService => ApplicationService<IGroupManagementService>();
+
+		public ILecturerManagementService LecturerManagementService => ApplicationService<ILecturerManagementService>();
+
+		public IUsersManagementService UsersManagementService => ApplicationService<IUsersManagementService>();
+
+		#endregion
+
+		private static ActionResult StatusCode(HttpStatusCode statusCode)
+		{
+			return new HttpStatusCodeResult(statusCode);
+		}
     }
 }
