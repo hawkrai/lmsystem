@@ -649,6 +649,30 @@ namespace LMPlatform.UI.Controllers
 			return StatusCode(HttpStatusCode.BadRequest);
 		}
 
+		[HttpPost]
+		public ActionResult SaveStudentJson(ModifyStudentViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var user = UsersManagementService.GetUser(model.Id);
+
+					if (user != null)
+					{
+						model.ModifyStudent();
+						return StatusCode(HttpStatusCode.OK);
+					}
+				}
+				catch
+				{
+					return StatusCode(HttpStatusCode.InternalServerError);
+				}
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
 		#endregion
 
 		#region Dependencies
