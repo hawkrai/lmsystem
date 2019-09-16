@@ -673,6 +673,65 @@ namespace LMPlatform.UI.Controllers
 			return StatusCode(HttpStatusCode.BadRequest);
 		}
 
+		[HttpPost]
+		public ActionResult AddProfessorJson(RegisterViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
+
+					if (user == null)
+					{
+						model.RegistrationUser(new[] { "lector" });
+						return StatusCode(HttpStatusCode.OK);
+					}
+				}
+				catch
+				{
+					return StatusCode(HttpStatusCode.InternalServerError);
+				}
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpGet]
+		public ActionResult GetProfessorJson(int id)
+		{
+			var lecturer = LecturerManagementService.GetLecturer(id);
+
+			if (lecturer != null)
+			{
+				var model = new ModifyLecturerViewModel(lecturer);
+				return Json(model);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpPost]
+		public ActionResult SaveProfessorJson(ModifyLecturerViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					model.ModifyLecturer();
+
+					return StatusCode(HttpStatusCode.OK);
+				}
+				catch
+				{
+					return StatusCode(HttpStatusCode.InternalServerError);
+				}
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+		
+
 		#endregion
 
 		#region Dependencies
@@ -689,9 +748,9 @@ namespace LMPlatform.UI.Controllers
 
 		#endregion
 
-		private static ActionResult StatusCode(HttpStatusCode statusCode)
+		private static ActionResult StatusCode(HttpStatusCode statusCode, string description = null)
 		{
-			return new HttpStatusCodeResult(statusCode);
+			return new HttpStatusCodeResult(statusCode, description);
 		}
     }
 }
