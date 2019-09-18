@@ -25,37 +25,13 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         private readonly LazyDependency<IGroupManagementService> _groupManagementService = new LazyDependency<IGroupManagementService>();
         private readonly LazyDependency<ICorrelationService> _correlationService = new LazyDependency<ICorrelationService>();
 
-        public ILecturerManagementService LecturerManagementService
-        {
-            get
-            {
-                return _lecturerManagementService.Value;
-            }
-        }
+        private ILecturerManagementService LecturerManagementService => _lecturerManagementService.Value;
 
-        public ISubjectManagementService SubjectManagementService
-        {
-            get
-            {
-                return _subjectManagementService.Value;
-            }
-        }
+        private ISubjectManagementService SubjectManagementService => _subjectManagementService.Value;
 
-        public IGroupManagementService GroupManagementService
-        {
-            get
-            {
-                return _groupManagementService.Value;
-            }
-        }
+        private IGroupManagementService GroupManagementService => _groupManagementService.Value;
 
-        public ICorrelationService CorrelationService
-        {
-            get
-            {
-                return _correlationService.Value;
-            }
-        }
+        private ICorrelationService CorrelationService => _correlationService.Value;
 
         public int LecturerId { get; set; }
 
@@ -95,7 +71,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 IsLecturerHasGraduateStudents = lecturer.IsLecturerHasGraduateStudents;
 
                 var groups = CorrelationService.GetCorrelation("Group", lecturer.Id);
-	            if (lecturer.SecretaryGroups != null)
+                if (lecturer.SecretaryGroups != null)
 	            {
 					Groups = new MultiSelectList(groups, "Id", "Name", lecturer.SecretaryGroups.Select(x => x.Id).ToList());   
 	            }
