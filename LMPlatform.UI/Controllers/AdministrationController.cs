@@ -14,11 +14,11 @@ using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.UserManagement;
 using AutoMapper;
-using LMPlatform.UI.MappingModels;
+using iTextSharp.text.pdf.parser.clipper;
 using LMPlatform.UI.ViewModels;
 using LMPlatform.UI.ViewModels.AccountViewModels;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
-using LMPlatform.UI.ViewModels.BTSViewModels;
+using LMPlatform.UI.ViewModels.LmsViewModels;
 using Mvc.JQuery.Datatables;
 using Org.BouncyCastle.Asn1.Ocsp;
 using WebMatrix.WebData;
@@ -843,41 +843,26 @@ namespace LMPlatform.UI.Controllers
 			}
 		}
 
-		#region Todo
-		
-		[HttpGet]
-		private ActionResult GetProfileJson(int id)
-		{
-			var login = UsersManagementService.GetUser(id);
-
-			if (login != null)
-			{
-				//var model =  StudentViewModel.FromStudent();
-				return Redirect($"/Profile/Page/{login.UserName}");
-			}
-
-			return RedirectToAction("Index");
-		}
-		
 		[HttpPost]
-		private ActionResult ResetPasswordJson(ResetPasswordViewModel model)
+		public ActionResult ResetPasswordJson(ResetPasswordViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
 				var resetResult = model.ResetPassword();
-				ViewBag.ResultSuccess = resetResult;
 
 				if (!resetResult)
 				{
-					ModelState.AddModelError(string.Empty, "Пароль не был сброшен");
+					return StatusCode(HttpStatusCode.Conflict, "Password hasn't been reseted.");
 				}
+
+				return StatusCode(HttpStatusCode.OK);
 			}
 
-			return View(model);
+			return StatusCode(HttpStatusCode.BadRequest, "Invalid model.");
 		}
 
 		[HttpDelete]
-		private ActionResult DeleteUserJson(int id)
+		public ActionResult DeleteUserJson(int id)
 		{
 			try
 			{
@@ -888,7 +873,7 @@ namespace LMPlatform.UI.Controllers
 					return StatusCode(HttpStatusCode.OK);
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
 			}
@@ -896,8 +881,23 @@ namespace LMPlatform.UI.Controllers
 			return StatusCode(HttpStatusCode.BadRequest);
 		}
 
+		[HttpGet]
+		public ActionResult AttendanceJson(int id)
+		{
+			var user = UsersManagementService.GetUser(id);
+
+			if (user?.Attendance != null)
+			{
+				var data = user.AttendanceList.GroupBy(e => e.Date).Select(d => new { day = d.Key.ToString("d"), count = d.Count() });
+
+				return JsonResponse(new { resultMessage = user.FullName, attendance = data });
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
 		[HttpPost]
-		private JsonResult DeleteStudentJson(int id)
+		public ActionResult DeleteStudentJson(int id)
 		{
 			try
 			{
@@ -906,25 +906,25 @@ namespace LMPlatform.UI.Controllers
 				if (student != null)
 				{
 					var result = StudentManagementService.DeleteStudent(id);
-				
+
 					if (result)
 					{
-						return Json(new { resultMessage = $"Студент {student.FullName} удален"});
+						return StatusCode(HttpStatusCode.OK);
 					}
-				
-					return Json(new { resultMessage = $"Не удалось удалить студента {student.FullName}"});
+
+					return StatusCode(HttpStatusCode.Conflict);
 				}
 
-				return Json(new { resultMessage = "Удаление невозможно. Студента не существует", status = "500" });
+				return StatusCode(HttpStatusCode.BadRequest);
 			}
 			catch (Exception ex)
 			{
-				return Json(new { resultMessage = ex.Message, status = "500" });
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
 			}
 		}
 
 		[HttpPost]
-		private JsonResult DeleteLecturerJson(int id)
+		public ActionResult DeleteLecturerJson(int id)
 		{
 			try
 			{
@@ -939,31 +939,27 @@ namespace LMPlatform.UI.Controllers
 							LecturerManagementService.DisjoinOwnerLector(lecturerSubjectLecturer.SubjectId, id);
 						}
 					}
-					//else if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Any() && lecturer.SubjectLecturers.Any(e => !e.Subject.IsArchive))
-					//{
-					//	return Json(new { resultMessage = "Удаление невозможно. Преподаватель связан с предметами", status = "500" });
-					//}
 
 					var result = LecturerManagementService.DeleteLecturer(id);
 
 					if (result)
 					{
-						return Json(new { resultMessage = string.Format("Преподаватель {0} удален", lecturer.FullName) });
+						return StatusCode(HttpStatusCode.OK);
 					}
 
-					return Json(new { resultMessage = string.Format("Не удалось удалить преподавателя {0}", lecturer.FullName), status = "500" });
+					return StatusCode(HttpStatusCode.Conflict);
 				}
 
-				return Json(new { resultMessage = "Удаление невозможно. Преподавателя не существует", status = "500" });
+				return StatusCode(HttpStatusCode.BadRequest);
 			}
-			catch
+			catch (Exception ex)
 			{
-				return Json(new { resultMessage = "Произошла ошибка при удалении", status = "500" });
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
 			}
 		}
 
 		[HttpPost]
-		private JsonResult DeleteGroupJson(int id)
+		public ActionResult DeleteGroupJson(int id)
 		{
 			try
 			{
@@ -972,35 +968,20 @@ namespace LMPlatform.UI.Controllers
 				{
 					if (group.Students != null && group.Students.Count > 0)
 					{
-						return Json(new { resultMessage = "Группа содержит студентов и не может быть удалена" });
+						return StatusCode(HttpStatusCode.Conflict);
 					}
 
 					GroupManagementService.DeleteGroup(id);
-					return Json(new { resultMessage = string.Format("Группа {0} удалена", group.Name) });
+					return StatusCode(HttpStatusCode.OK);
 				}
 
-				return Json(new { resultMessage = "Группы не существует", status = "500" });
+				return StatusCode(HttpStatusCode.BadRequest);
 			}
 			catch (Exception ex)
 			{
-				return Json(new { resultMessage = ex.Message, status = "500" });
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
 			}
 		}
-
-		private JsonResult AttendanceJson(int id)
-		{
-			var user = UsersManagementService.GetUser(id);
-
-			if (user != null && user.Attendance != null)
-			{
-				var data = user.AttendanceList.GroupBy(e => e.Date).Select(d => new { day = d.Key.ToString("d"), count = d.Count() });
-				return Json(new { resultMessage = user.FullName, attendance = data }, JsonRequestBehavior.AllowGet);
-			}
-
-			return Json(new { resultMessage = "Нет данных", data = "[]" }, JsonRequestBehavior.AllowGet);
-		}
-
-		#endregion
 
 		#endregion
 
@@ -1015,6 +996,8 @@ namespace LMPlatform.UI.Controllers
 		public ILecturerManagementService LecturerManagementService => ApplicationService<ILecturerManagementService>();
 
 		public IUsersManagementService UsersManagementService => ApplicationService<IUsersManagementService>();
+
+		public IDpManagementService DpManagementService => ApplicationService<IDpManagementService>();
 
 		#endregion
 

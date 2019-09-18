@@ -17,7 +17,7 @@ namespace LMPlatform.UI
         {
             SimpleMembershipInitializer.Initialize();
             AreaRegistration.RegisterAllAreas();
-			MappingConfig.Initialize();
+			//MappingConfig.Initialize();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

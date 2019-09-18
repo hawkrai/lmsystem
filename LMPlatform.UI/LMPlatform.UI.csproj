@@ -337,7 +337,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\GetPagedListParamsModelBinder.cs" />
-    <Compile Include="App_Start\MappingConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -375,7 +374,6 @@
     </Compile>
     <Compile Include="Helpers\TaskScheduler\TaskScheduler.cs" />
     <Compile Include="Helpers\TaskScheduler\Tasks\SearchTask.cs" />
-    <Compile Include="MappingModels\StudentSimpleModel.cs" />
     <Compile Include="Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1987,6 +1985,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="MappingModels\" />
     <Folder Include="SCORM\" />
     <Folder Include="Scripts\application\Monitoring\controllers\" />
     <Folder Include="Scripts\application\Monitoring\services\" />
