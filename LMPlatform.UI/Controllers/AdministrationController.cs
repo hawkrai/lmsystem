@@ -18,6 +18,7 @@ using LMPlatform.UI.MappingModels;
 using LMPlatform.UI.ViewModels;
 using LMPlatform.UI.ViewModels.AccountViewModels;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
+using LMPlatform.UI.ViewModels.BTSViewModels;
 using Mvc.JQuery.Datatables;
 using Org.BouncyCastle.Asn1.Ocsp;
 using WebMatrix.WebData;
@@ -611,7 +612,7 @@ namespace LMPlatform.UI.Controllers
 		#region Json actions
 
 		[HttpGet]
-		public JsonResult UserActivityJson()
+		public ActionResult UserActivityJson()
 		{
 			var activityModel = new UserActivityViewModel();
 
@@ -621,17 +622,17 @@ namespace LMPlatform.UI.Controllers
 
 			var deserialized = jsonSerializer.DeserializeObject(serialized);
 			
-			return Json(deserialized, JsonRequestBehavior.AllowGet);
+			return JsonResponse(deserialized);
 		}
 
 		[HttpGet]
 		public ActionResult StudentsJson()
 		{
 			var students = StudentManagementService.GetStudents();
+			
+			var result = students.Select(s => new ModifyStudentViewModel(s){Avatar = null});
 
-			var result = Mapper.Map<IEnumerable<StudentSimpleModel>>(students);
-
-			return Json(result, JsonRequestBehavior.AllowGet);
+			return JsonResponse(result);
 		}
 
 		[HttpGet]
@@ -641,9 +642,9 @@ namespace LMPlatform.UI.Controllers
 
 			if (student != null)
 			{
-				var model = Mapper.Map<StudentSimpleModel>(student);
+				var model = new ModifyStudentViewModel(student);
 
-				return Json(model, JsonRequestBehavior.AllowGet);
+				return JsonResponse(model);
 			}
 
 			return StatusCode(HttpStatusCode.BadRequest);
@@ -705,7 +706,7 @@ namespace LMPlatform.UI.Controllers
 			if (lecturer != null)
 			{
 				var model = new ModifyLecturerViewModel(lecturer);
-				return Json(model);
+				return JsonResponse(model);
 			}
 
 			return StatusCode(HttpStatusCode.BadRequest);
@@ -730,7 +731,276 @@ namespace LMPlatform.UI.Controllers
 
 			return StatusCode(HttpStatusCode.BadRequest);
 		}
+
+		[HttpPost]
+		public ActionResult AddGroupJson(GroupViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					if (!model.CheckGroupName())
+					{
+						return StatusCode(HttpStatusCode.BadRequest, "Группа с таким именем уже существует.");
+					}
+					else
+					{
+						model.AddGroup();
+						return StatusCode(HttpStatusCode.OK);
+					}
+				}
+				catch (MembershipCreateUserException e)
+				{
+					return StatusCode(HttpStatusCode.InternalServerError, e.Message);
+				}
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest, "Невалидная модель.");
+		}
+
+		[HttpGet]
+		public ActionResult GetGroupJson(int id)
+		{
+			var group = GroupManagementService.GetGroup(id);
+
+			if (group != null)
+			{
+				var model = new GroupViewModel(group);
+				return JsonResponse(model);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpPost]
+		public ActionResult SaveGroupJson(GroupViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					model.ModifyGroup();
+					return StatusCode(HttpStatusCode.OK);
+				}
+				catch (Exception ex)
+				{
+					return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+				}
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest, "Невалидная модель.");
+		}
+
+		[HttpGet]
+		public ActionResult GetProfessorsJson()
+		{
+			var lecturers = LecturerManagementService.GetLecturers();
+
+			var responseModel = lecturers.Select(l => LecturerViewModel.FormLecturers(l, null));
+
+			return JsonResponse(responseModel);
+		}
+
+		[HttpGet]
+		public ActionResult GetGroupsJson()
+		{
+			var groups = GroupManagementService.GetGroups();
+
+			var responseModel = groups.Select(l => GroupViewModel.FormGroup(l, null));
+
+			return JsonResponse(responseModel);
+		}
+
+		[HttpGet]
+		public ActionResult GetSubjectsJson(int id)
+		{
+			var subjects = SubjectManagementService.GetSubjectsByStudent(id).OrderBy(subject => subject.Name).ToList();
+			var student = StudentManagementService.GetStudent(id);
+
+			if (subjects.Count > 0)
+			{
+				var model = ListSubjectViewModel.FormSubjects(subjects, student.FullName);
+				return JsonResponse(model);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpGet]
+		public ActionResult GetResetPasswordModelJson(int id)
+		{
+			try
+			{
+				var user = UsersManagementService.GetUser(id);
+
+				var resetPassModel = new ResetPasswordViewModel(user);
+
+				return JsonResponse(resetPassModel);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+			}
+		}
+
+		#region Todo
 		
+		[HttpGet]
+		private ActionResult GetProfileJson(int id)
+		{
+			var login = UsersManagementService.GetUser(id);
+
+			if (login != null)
+			{
+				//var model =  StudentViewModel.FromStudent();
+				return Redirect($"/Profile/Page/{login.UserName}");
+			}
+
+			return RedirectToAction("Index");
+		}
+		
+		[HttpPost]
+		private ActionResult ResetPasswordJson(ResetPasswordViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var resetResult = model.ResetPassword();
+				ViewBag.ResultSuccess = resetResult;
+
+				if (!resetResult)
+				{
+					ModelState.AddModelError(string.Empty, "Пароль не был сброшен");
+				}
+			}
+
+			return View(model);
+		}
+
+		[HttpDelete]
+		private ActionResult DeleteUserJson(int id)
+		{
+			try
+			{
+				var deleted = UsersManagementService.DeleteUser(id);
+
+				if (deleted)
+				{
+					return StatusCode(HttpStatusCode.OK);
+				}
+			}
+			catch(Exception ex)
+			{
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpPost]
+		private JsonResult DeleteStudentJson(int id)
+		{
+			try
+			{
+				var student = StudentManagementService.GetStudent(id);
+
+				if (student != null)
+				{
+					var result = StudentManagementService.DeleteStudent(id);
+				
+					if (result)
+					{
+						return Json(new { resultMessage = $"Студент {student.FullName} удален"});
+					}
+				
+					return Json(new { resultMessage = $"Не удалось удалить студента {student.FullName}"});
+				}
+
+				return Json(new { resultMessage = "Удаление невозможно. Студента не существует", status = "500" });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { resultMessage = ex.Message, status = "500" });
+			}
+		}
+
+		[HttpPost]
+		private JsonResult DeleteLecturerJson(int id)
+		{
+			try
+			{
+				var lecturer = LecturerManagementService.GetLecturer(id);
+
+				if (lecturer != null)
+				{
+					if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Any() && lecturer.SubjectLecturers.All(e => e.Subject.IsArchive))
+					{
+						foreach (var lecturerSubjectLecturer in lecturer.SubjectLecturers)
+						{
+							LecturerManagementService.DisjoinOwnerLector(lecturerSubjectLecturer.SubjectId, id);
+						}
+					}
+					//else if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Any() && lecturer.SubjectLecturers.Any(e => !e.Subject.IsArchive))
+					//{
+					//	return Json(new { resultMessage = "Удаление невозможно. Преподаватель связан с предметами", status = "500" });
+					//}
+
+					var result = LecturerManagementService.DeleteLecturer(id);
+
+					if (result)
+					{
+						return Json(new { resultMessage = string.Format("Преподаватель {0} удален", lecturer.FullName) });
+					}
+
+					return Json(new { resultMessage = string.Format("Не удалось удалить преподавателя {0}", lecturer.FullName), status = "500" });
+				}
+
+				return Json(new { resultMessage = "Удаление невозможно. Преподавателя не существует", status = "500" });
+			}
+			catch
+			{
+				return Json(new { resultMessage = "Произошла ошибка при удалении", status = "500" });
+			}
+		}
+
+		[HttpPost]
+		private JsonResult DeleteGroupJson(int id)
+		{
+			try
+			{
+				var group = GroupManagementService.GetGroup(id);
+				if (group != null)
+				{
+					if (group.Students != null && group.Students.Count > 0)
+					{
+						return Json(new { resultMessage = "Группа содержит студентов и не может быть удалена" });
+					}
+
+					GroupManagementService.DeleteGroup(id);
+					return Json(new { resultMessage = string.Format("Группа {0} удалена", group.Name) });
+				}
+
+				return Json(new { resultMessage = "Группы не существует", status = "500" });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { resultMessage = ex.Message, status = "500" });
+			}
+		}
+
+		private JsonResult AttendanceJson(int id)
+		{
+			var user = UsersManagementService.GetUser(id);
+
+			if (user != null && user.Attendance != null)
+			{
+				var data = user.AttendanceList.GroupBy(e => e.Date).Select(d => new { day = d.Key.ToString("d"), count = d.Count() });
+				return Json(new { resultMessage = user.FullName, attendance = data }, JsonRequestBehavior.AllowGet);
+			}
+
+			return Json(new { resultMessage = "Нет данных", data = "[]" }, JsonRequestBehavior.AllowGet);
+		}
+
+		#endregion
 
 		#endregion
 
@@ -751,6 +1021,16 @@ namespace LMPlatform.UI.Controllers
 		private static ActionResult StatusCode(HttpStatusCode statusCode, string description = null)
 		{
 			return new HttpStatusCodeResult(statusCode, description);
+		}
+
+		private static ActionResult JsonResponse<T>(T obj)
+		{
+			return new JsonResult
+			{
+				Data = obj,
+				MaxJsonLength = int.MaxValue,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
 		}
     }
 }
