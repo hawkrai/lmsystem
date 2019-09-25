@@ -468,26 +468,31 @@
 						    <tr>
 						        <th>Файлы</th>
 						        <th>Комментарий</th>
+                                <th>Дата</th>
 						        <th>Действие</th>
 						    </tr>
 						</thead>
 						<tbody>
-						<tr ng-repeat="files in labFilesUser" ng-style="files.IsReceived ? {'background-color': '#befbc2'} : files.IsReturned ? {'background-color': '#FFFF99'} : {}">
+						<tr ng-repeat="files in labFilesUser" ng-style="files.IsReceived ? {'background-color': '#EFFFF8'} : files.IsReturned ? {'background-color': '#FFFF99'} : {}">
 
 								<td>
 									<div ng-repeat="file in files.Attachments">
 										<a href="/api/Upload?filename={{file.PathName}}//{{file.FileName}}" title="file.Name" download="file.Name">{{file.Name}}</a>
 									</div>
 								</td>
-								<td>{{files.Comments}}</td>
+						        <td>{{files.Comments}}</td>
+						        <td>{{files.Date}}</td>
 								<td style="width: 90px;">
 									<div ng-if="!files.IsReceived && !files.IsReturned">
 										<a style="margin-right: 10px" ng-click="editLabFiles(files)"><i class="fa fa-edit fa-1x"></i></a>
 										<a ng-click="deleteUserFile(files)"><i class="fa fa-trash-o fa-1x"></i></a>
 									</div>
-									<div ng-if="files.IsReceived">
-										Принято
-									</div>
+								    <div ng-if="files.IsReceived">
+								        Принято
+								    </div>
+								    <div ng-if="files.IsReturned">
+								        Исправить
+								    </div>
 								</td>
 							</tr>
 						</tbody>

@@ -55,6 +55,14 @@
                 </li>
             }
 
+
+            else if (module.Type == ModuleType.ComplexMaterial)
+            {
+                <li class="navLink">
+                    <a class="moduleLinks linkNavbar" href="@Url.Action("Index","ComplexMaterial", new { subjectId = Model.SubjectId })"><span>ЭУМК</span></a>
+                </li>
+
+            }
             else if (module.Type == ModuleType.YeManagment)
             {
 
@@ -64,14 +72,6 @@
                     </a>
                 </li>
             }
-            else if (module.Type == ModuleType.ComplexMaterial)
-            {
-                <li class="navLink">
-                    <a class="moduleLinks linkNavbar" href="@Url.Action("Index","ComplexMaterial", new { subjectId = Model.SubjectId })"><span>ЭУМК</span></a>
-                </li>
-
-            }
-
             else
             {
                 <li class="navLink">
@@ -79,7 +79,7 @@
                 </li>
             }
 
-            
+
 
         }
         <li class="divider"></li>
