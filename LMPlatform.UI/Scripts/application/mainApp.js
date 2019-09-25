@@ -1209,6 +1209,10 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.replaceLabFiles = function (userId) {
+            if ($scope.userRole == "0" && JSON.parse($scope.getLecturesFileAttachments()).length == 0) {
+                bootbox.alert("Необходимо прикрепить файлы.");
+                return false;
+            }
             $http({
                 method: 'POST',
                 url: $scope.UrlServiceLabs + "DeleteUserFile",
