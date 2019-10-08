@@ -62,10 +62,10 @@
 			$.each(result, function (index, value) {
 				htmlData += value.toFixed(4) + " ";
 				if (parseFloat(value) > 0.7) {
-					var tr = '<tr class="danger"><th>' + themsJ[index] + '</th><td>Изучить</td><td>' + value.toFixed(4) + '</td></tr>';
+					var tr = '<tr class="danger"><th><a href="/ComplexMaterial?subjectId=3#/Catalog?parent=' + themsJ[index].id + '">' + themsJ[index].name + '</a></th><td>Изучить</td><td>' + value.toFixed(4) + '</td></tr>';
 					$("table.learnT tbody").append(tr);
 				} else {
-					var trR = '<tr class="success"><th>' + themsJ[index] + '</th><td>Изучено</td><td>' + value.toFixed(4) + '</td></tr>';
+					var trR = '<tr class="success"><th><a href="/ComplexMaterial?subjectId=3#/Catalog?parent=' + themsJ[index].id + '">' + themsJ[index].name + '</a></th><td>Изучено</td><td>' + value.toFixed(4) + '</td></tr>';
 					$("table.learnT tbody").append(trR);
 				}
 			});

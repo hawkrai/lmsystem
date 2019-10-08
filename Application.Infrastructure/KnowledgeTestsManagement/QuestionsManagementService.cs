@@ -29,11 +29,11 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
-                if (!repositoriesContainer.TestsRepository.GetBy(testsQuery).ForSelfStudy &&
-                    !repositoriesContainer.TestsRepository.GetBy(testsQuery).ForEUMK &&
-                    !repositoriesContainer.TestsRepository.GetBy(testsQuery).BeforeEUMK &&
-                    (repositoriesContainer.TestsRepository.GetBy(testsQuery).TestUnlocks.Count > 0 ||
-                    repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetAll(answersQuery).Count() != 0))
+	            var test = repositoriesContainer.TestsRepository.GetBy(testsQuery);
+				if (!test.ForSelfStudy &&
+					!test.ForEUMK &&
+					!test.BeforeEUMK &&
+					test.TestUnlocks.Count > 0)
                 {
                     throw new InvalidDataException("Тест не может быть изменён, т.к. доступен для прохождения");
                 }
