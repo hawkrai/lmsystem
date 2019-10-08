@@ -305,7 +305,7 @@ namespace LMPlatform.UI.Controllers
         public JsonResult GetGroups(int subjectId)
         {
             Subject subject = SubjectsManagementService.GetSubject(subjectId);
-            int[] groupIds = subject.SubjectGroups.Select(subjectGroup => subjectGroup.GroupId).ToArray();
+            int[] groupIds = subject.SubjectGroups.Where(x => x.IsActiveOnCurrentGroup).Select(subjectGroup => subjectGroup.GroupId).ToArray();
             var groups = GroupManagementService.GetGroups(new Query<Group>(group => groupIds.Contains(group.Id)))
                 .Select(group => new
                 {

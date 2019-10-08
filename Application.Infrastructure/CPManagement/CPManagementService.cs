@@ -489,7 +489,7 @@ namespace Application.Infrastructure.CPManagement
 
         public List<Correlation> GetGroups(int subjectId)
         {
-            var groups = Context.Groups.Where(s => s.SubjectGroups.Any(d => d.SubjectId == subjectId));
+            var groups = Context.Groups.Where(s => s.SubjectGroups.Any(d => d.SubjectId == subjectId && d.IsActiveOnCurrentGroup));
 
 
             return groups.OrderBy(x => x.Name).Select(x => new Correlation
