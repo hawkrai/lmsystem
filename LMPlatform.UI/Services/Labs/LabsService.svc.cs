@@ -13,6 +13,9 @@ using LMPlatform.UI.PlagiateReference;
 using LMPlatform.UI.Services.Modules;
 using LMPlatform.UI.Services.Modules.Labs;
 using LMPlatform.UI.Services.Modules.Lectures;
+using LMPlatform.PlagiarismNet;
+using LMPlatform.PlagiarismNet.Controllers;
+using LMPlatform.PlagiarismNet.XMLDocs;
 using Newtonsoft.Json;
 
 namespace LMPlatform.UI.Services.Labs
@@ -787,17 +790,22 @@ namespace LMPlatform.UI.Services.Labs
 						File.Copy(srcPath, srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
 					}
 				}
-				
-				var service = new SoapWSClient();
 
-				var result = service.checkByDirectory(new string[] { this.PlagiarismTempPath + path }, int.Parse(threshold), 10, int.Parse(type));
+				var plagiarismController = new PlagiarismController();
+				var result = plagiarismController.CheckByDirectory(new []{ PlagiarismTempPath + path }.ToList(), int.Parse(threshold), 10, int.Parse(type));
 
-				ResultPlagSubjectClu data = Newtonsoft.Json.JsonConvert.DeserializeObject<ResultPlagSubjectClu>(result);
-
-				foreach (var resultPlagSubject in data.clusters.ToList())
+				var data = new ResultPlagSubjectClu
 				{
-					resultPlagSubject.correctDocs = new List<ResultPlag>();
-					foreach (var doc in resultPlagSubject.docs)
+					clusters = new ResultPlagSubject[result.Count]
+				};
+
+				for (int i = 0; i < result.Count; ++i)
+				{
+					data.clusters[i] = new ResultPlagSubject
+					{
+						correctDocs = new List<ResultPlag>()
+					};
+					foreach (var doc in result[i].Docs)
 					{
 						var resultS = new ResultPlag();
 						var fileName = Path.GetFileName(doc);
@@ -815,12 +823,10 @@ namespace LMPlatform.UI.Services.Labs
 						resultS.author = user.FullName;
 
 						resultS.groupName = user.Group.Name;
-						resultPlagSubject.correctDocs.Add(resultS);
+						data.clusters[i].correctDocs.Add(resultS);
 					}
 				}
-
-				Directory.Delete(this.PlagiarismTempPath + path, true);
-
+				
 				return new ResultPSubjectViewData
 				{
 					DataD = data.clusters.ToList(),
@@ -864,40 +870,43 @@ namespace LMPlatform.UI.Services.Labs
 				}
 
 				string firstFileName =
-					Directory.GetFiles(this.FileUploadPath + userFile.Attachments)
+					Directory.GetFiles(FileUploadPath + userFile.Attachments)
 					.Select(fi => fi)
 					.FirstOrDefault();
 
-				var service = new SoapWSClient();
+				var plagiarismController = new PlagiarismController();
+				var result = plagiarismController.CheckBySingleDoc(firstFileName, new[] { PlagiarismTempPath + path }.ToList(), 10, 10);
 
-				var result = service.checkBySingleDoc(firstFileName, new string[] { this.PlagiarismTempPath + path }, 70, 6, 1);
+				var data = new List<ResultPlag>();
 
-				List<ResultPlag> data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ResultPlag>>(result);
-
-				foreach (var resultPlag in data)
+				foreach (var res in result)
 				{
-					var fileName = Path.GetFileName(resultPlag.doc);
+					var resPlag = new ResultPlag();
 
-					var name = this.FilesManagementService.GetFileDisplayName(fileName);
+					var fileName = Path.GetFileName(res.Doc);
 
-					resultPlag.doc = name;
+					var name = FilesManagementService.GetFileDisplayName(fileName);
 
-					resultPlag.subjectName = subjectName;
+					resPlag.doc = name;
 
-					var pathName = this.FilesManagementService.GetPathName(fileName);
+					resPlag.subjectName = subjectName;
 
-					var userFileT = this.SubjectManagementService.GetUserLabFile(pathName);
+					resPlag.coeff = res.Coeff.ToString();
+
+					var pathName = FilesManagementService.GetPathName(fileName);
+
+					var userFileT = SubjectManagementService.GetUserLabFile(pathName);
 
 					var userId = userFileT.UserId;
 
-					var user = this.StudentManagementService.GetStudent(userId);
+					var user = StudentManagementService.GetStudent(userId);
 
-					resultPlag.author = user.FullName;
+					resPlag.author = user.FullName;
 
-					resultPlag.groupName = user.Group.Name;
+					resPlag.groupName = user.Group.Name;
+
+					data.Add(resPlag);
 				}
-
-				Directory.Delete(this.PlagiarismTempPath + path, true);
 
 				return new ResultViewData
 				{

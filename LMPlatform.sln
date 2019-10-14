@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{61B0B4CA-EBCD-4162-9879-097581F36570}"
 EndProject
@@ -37,6 +37,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCORMHost", "SCORMHost\SCORMHost.csproj", "{AF044690-7C7E-41B2-ADF0-C0536711ABA0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.SearchEngine", "Application.SearchEngine\Application.SearchEngine.csproj", "{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMPlatform.PlagiarismNet", "LMPlatform.PlagiarismNet\LMPlatform.PlagiarismNet.csproj", "{944DAB30-537B-4A0C-8EB5-DE2CE5A94208}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,6 +120,14 @@ Global
 		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Installer|Any CPU.Build.0 = Release|Any CPU
 		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{944DAB30-537B-4A0C-8EB5-DE2CE5A94208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{944DAB30-537B-4A0C-8EB5-DE2CE5A94208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{944DAB30-537B-4A0C-8EB5-DE2CE5A94208}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{944DAB30-537B-4A0C-8EB5-DE2CE5A94208}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{944DAB30-537B-4A0C-8EB5-DE2CE5A94208}.Installer|Any CPU.ActiveCfg = Release|Any CPU
+		{944DAB30-537B-4A0C-8EB5-DE2CE5A94208}.Installer|Any CPU.Build.0 = Release|Any CPU
+		{944DAB30-537B-4A0C-8EB5-DE2CE5A94208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{944DAB30-537B-4A0C-8EB5-DE2CE5A94208}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -132,5 +142,9 @@ Global
 		{34B7781C-4F90-4B10-9E10-B22A93FA953E} = {20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}
 		{AF044690-7C7E-41B2-ADF0-C0536711ABA0} = {723B37D6-045D-4924-B712-D37E24B5A7C7}
 		{8371CB8F-CC57-426F-A9D5-0B2AB3BC64E7} = {20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}
+		{944DAB30-537B-4A0C-8EB5-DE2CE5A94208} = {20A4C0EC-6261-4F20-A847-2B30F6BCDF1B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DD7BE0DF-E2A6-4895-AFEB-D916BE9754EA}
 	EndGlobalSection
 EndGlobal

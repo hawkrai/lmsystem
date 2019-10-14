@@ -8,7 +8,7 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4A14D03A-FEF8-4D42-8F7C-C8B71B2965A6}</ProjectGuid>
-    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LMPlatform.UI</RootNamespace>
@@ -2012,6 +2012,10 @@
     <ProjectReference Include="..\LMPlatform.Models\LMPlatform.Models.csproj">
       <Project>{498FCA3E-909B-4830-9B55-0A8847E38B7A}</Project>
       <Name>LMPlatform.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LMPlatform.PlagiarismNet\LMPlatform.PlagiarismNet.csproj">
+      <Project>{944dab30-537b-4a0c-8eb5-de2ce5a94208}</Project>
+      <Name>LMPlatform.PlagiarismNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\SCORMHost\SCORMHost.csproj">
       <Project>{AF044690-7C7E-41B2-ADF0-C0536711ABA0}</Project>
