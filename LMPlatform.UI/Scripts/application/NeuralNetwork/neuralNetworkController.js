@@ -10,7 +10,7 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 		var container = $.find(".part1 .questions .row table tbody");
 
 		$.each($scope.questions, function (index, value) {
-			var div = '<tr><td>' + value.Title + '</td> <td> + value.ComlexityLevel + </td> <td>' + value.ConceptId + ' </td></tr>';
+			var div = '<tr><td>' + value.Title + '</td> <td>' + value.ComlexityLevel + '</td> <td>' + value.ConceptId + ' </td></tr>';
 			$(container).append(div);
 		});
 

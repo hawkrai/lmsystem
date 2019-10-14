@@ -347,8 +347,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
                 availableTests = repositoriesContainer.TestsRepository.GetAll(
                     new Query<Test>(
                         test =>
-                            test.SubjectId == subjectId &&
-                            (test.TestUnlocks.Any(testUnlock => testUnlock.StudentId == studentId) || test.ForSelfStudy)))
+                            test.SubjectId == subjectId && (((test.ForNN || (!test.ForEUMK && !test.BeforeEUMK && !test.ForSelfStudy)) && test.TestUnlocks.Any(testUnlock => testUnlock.StudentId == studentId)) || test.ForSelfStudy)))
                     .ToList();
             }
 
@@ -821,7 +820,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
             {
                 var testObject = repositoriesContainer.TestsRepository.GetBy(new Query<Test>(test => test.Id == testId));
-                if (testObject != null && testObject.ForSelfStudy)
+                if (testObject != null && (testObject.ForSelfStudy || testObject.BeforeEUMK))
                 {
                     isTestLockedForUser = false;
                 }

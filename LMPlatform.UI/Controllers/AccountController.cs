@@ -313,7 +313,7 @@ namespace LMPlatform.UI.Controllers
         {
             var userId = UsersManagementService.GetUser(userName).Id;
             var lecturer = LecturerManagementService.GetLecturer(userId);
-            return lecturer?.IsActive ?? true;
+            return lecturer != null ? lecturer.IsActive : true;
         }
     }
 }

@@ -1,54 +1,73 @@
 ﻿
 <div ng-init=" init()">
-    <div class="input-group input-group-sm search-box" style="margin-bottom: 10px;float: right;">
-        <span>Поиск&nbsp;</span>
-        <input data-ng-model="query" type="text" class="form-control" placeholder="Введите название теста">
-    </div>
-    <div style="height: 20px"></div>
+	<div class="input-group input-group-sm search-box" style="margin-bottom: 10px;float: right;">
+		<span>Поиск&nbsp;</span>
+		<input data-ng-model="query" type="text" class="form-control" placeholder="Введите название теста">
+	</div>
+	<div style="height: 20px"></div>
 
-    <tabset>
-        <tab heading="Тесты для контроля знаний">
-            <div class="table-responsive" data-ng-show="results.length > 0">
-                <table class="table table-hover table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>№</th>
-                            <th>Тест</th>
-                            <th>Оценка</th>
-                        </tr>
-                    </thead>
-                    <tr data-ng-repeat="result in results | filter:query">
-                        <td width="10px">{{results.indexOf(result) + 1}}</td>
-                        <td width="300px">{{result.Title}}</td>
-                        <td width="300px">{{result.Points}} ({{result.Percent}}%)</td>
-                    </tr>
-                </table>
-            </div>
-        </tab>
-        <tab heading="Тесты для самоконтроля и ЭУМК">
-            <div class="table-responsive" data-ng-show="results.length > 0">
-                <table class="table table-hover table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>№</th>
-                            <th>Тест</th>
-                            <th>Оценка</th>
-                        </tr>
-                    </thead>
-                    <tr data-ng-repeat="result in resultsForSelfStudy | filter:query">
-                        <td width="10px">{{resultsForSelfStudy.indexOf(result) + 1}}</td>
-                        <td width="300px">{{result.Title}}</td>
-                        <td width="300px">{{result.Points}} ({{result.Percent}}%)</td>
-                    </tr>
-                </table>
-            </div>
-        </tab>
-    </tabset>
+	<tabset>
+		<tab heading="Тесты для контроля знаний">
+			<div class="table-responsive" data-ng-show="results.length > 0">
+				<table class="table table-hover table-bordered table-striped">
+					<thead>
+					<tr>
+						<th>№</th>
+						<th>Тест</th>
+						<th>Оценка</th>
+					</tr>
+					</thead>
+					<tr data-ng-repeat="result in results | filter:query">
+						<td width="10px">{{results.indexOf(result) + 1}}</td>
+						<td width="300px">{{result.Title}}</td>
+						<td width="300px">{{result.Points}} ({{result.Percent}}%)</td>
+					</tr>
+				</table>
+			</div>
+		</tab>
 
-    <div class="row col-md-12">
-        <div id="chartBarAverage" class="jqplot-target"></div>
-    </div>
+		<tab heading="Тесты для самоконтроля">
+			<div class="table-responsive" data-ng-show="resultsForSelfStudy.length > 0">
+				<table class="table table-hover table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>№</th>
+							<th>Тест</th>
+							<th>Оценка</th>
+						</tr>
+					</thead>
+					<tr data-ng-repeat="result in resultsForSelfStudy | filter:query">
+						<td width="10px">{{resultsForSelfStudy.indexOf(result) + 1}}</td>
+						<td width="300px">{{result.Title}}</td>
+						<td width="300px">{{result.Points}} ({{result.Percent}}%)</td>
+					</tr>
+				</table>
+			</div>
+		</tab>
+		<tab heading="Тесты для обучения с искусственной нейронной сетью">
+			<div class="table-responsive" data-ng-show="resultsForNN.length > 0">
+				<table class="table table-hover table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>№</th>
+							<th>Тест</th>
+							<th>Оценка</th>
+						</tr>
+					</thead>
+					<tr data-ng-repeat="result in resultsForNN | filter:query">
+						<td width="10px">{{resultsForNN.indexOf(result) + 1}}</td>
+						<td width="300px">{{result.Title}}</td>
+						<td width="300px">{{result.Points}} ({{result.Percent}}%)</td>
+					</tr>
+				</table>
+			</div>
+		</tab>
+	</tabset>
 </div>
+<div class="row col-md-12">
+	<div id="chartBarAverage" class="jqplot-target"></div>
+</div>
+
 
 <script>
     $("#headerMainPage").find("small").text("Результаты тестов");

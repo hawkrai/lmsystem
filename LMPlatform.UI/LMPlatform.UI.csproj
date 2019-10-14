@@ -112,6 +112,7 @@
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
       <HintPath>..\packages\CodeContracts.Unofficial.1.0.0.0\lib\Net35\Microsoft.Contracts.dll</HintPath>
     </Reference>
@@ -1973,6 +1974,8 @@
     <Content Include="Views\CP\GetCpRepo.cshtml" />
     <Content Include="Views\CP\UploadProject.cshtml" />
     <Content Include="Views\Shared\Subjects\Modules\Repo\_RepoModule.cshtml" />
+    <Content Include="Views\Tests\Subjects.cshtml" />
+    <Content Include="Views\Tests\_AnswerTemplates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
