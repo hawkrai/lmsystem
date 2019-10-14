@@ -2016,6 +2016,10 @@
       <Project>{498FCA3E-909B-4830-9B55-0A8847E38B7A}</Project>
       <Name>LMPlatform.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LMPlatform.PlagiarismNet\LMPlatform.PlagiarismNet.csproj">
+      <Project>{944dab30-537b-4a0c-8eb5-de2ce5a94208}</Project>
+      <Name>LMPlatform.PlagiarismNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SCORMHost\SCORMHost.csproj">
       <Project>{AF044690-7C7E-41B2-ADF0-C0536711ABA0}</Project>
       <Name>SCORMHost</Name>
