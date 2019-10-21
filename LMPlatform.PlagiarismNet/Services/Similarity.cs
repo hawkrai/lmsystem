@@ -142,7 +142,12 @@ namespace LMPlatform.PlagiarismNet.Services
                 List<string> resTerms = resultMap.Keys.Count() <= termCount ? 
                     new List<string>(resultMap.Keys) : new List<string>(resultMap.Keys).GetRange(0, termCount);
 
-                doc2term.Add(docIndex, resTerms);
+	            if (!doc2term.ContainsKey(docIndex))
+	            {
+		            doc2term.Add(docIndex, resTerms);
+				}
+
+	           
             }
 
             return doc2term;

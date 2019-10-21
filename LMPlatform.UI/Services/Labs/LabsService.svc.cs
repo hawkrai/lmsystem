@@ -785,9 +785,13 @@ namespace LMPlatform.UI.Services.Labs
 
 				foreach (var filesPath in filesPaths)
 				{
-					foreach (var srcPath in Directory.GetFiles(this.FileUploadPath + filesPath))
+					if (Directory.Exists(this.FileUploadPath + filesPath))
 					{
-						File.Copy(srcPath, srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
+						foreach (var srcPath in Directory.GetFiles(this.FileUploadPath + filesPath))
+						{
+							File.Copy(srcPath,
+								srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
+						}
 					}
 				}
 
