@@ -117,8 +117,11 @@ namespace LMPlatform.PlagiarismNet.Services
 	                startIndex++;
                 }
 
-                doc2term.Add(docIndex, shingles);
-            }
+				if (!doc2term.ContainsKey(docIndex))
+				{
+					doc2term.Add(docIndex, shingles);
+				}
+			}
 
             return doc2term;
         }
