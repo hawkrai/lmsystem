@@ -90,37 +90,39 @@ namespace LMPlatform.PlagiarismNet.Services
             foreach (var doc in docs)
             {
                 string docIndex = doc.DocIndex;
+	            //terms.RemoveAll(x => stopList.Contains(x));
+				List<string> terms = ClusteringFactory.GetMyStem().Parse(doc.Path);
+	            List<long> shingles = new List<long>();
+				if (terms.Count != 0)
+	            {
+		            int startIndex = 0;
+		            while (true)
+		            {
+			            if ((startIndex + shingleLength) > terms.Count)
+			            {
+				            shingleLength = terms.Count - startIndex;
+				            endflag = true;
+			            }
 
-                List<string> terms = ClusteringFactory.GetMyStem().Parse(doc.Path);
+			            string shingle = string.Join(" ", terms.GetRange(startIndex, shingleLength));
 
-                //terms.RemoveAll(x => stopList.Contains(x));
-                List<long> shingles = new List<long>();
+			            var hashValue = crc.ComputeHash(Encoding.UTF8.GetBytes(shingle));
+			            int res = BitConverter.ToInt32(hashValue.Hash, 0);
+			            long shing = Convert.ToInt64(int.MaxValue) + Math.Abs(int.MinValue + Math.Abs(res));
 
-                int startIndex = 0;
-                while(true) 
-                {
-	                if ((startIndex + shingleLength) > terms.Count)
-	                {
-		                shingleLength = terms.Count - startIndex;
-		                endflag = true;
-	                }
+			            shingles.Add(shing);
+			            if (endflag) break;
 
-	                string shingle = string.Join(" ", terms.GetRange(startIndex, shingleLength));
-                    
-	                var hashValue = crc.ComputeHash(Encoding.UTF8.GetBytes(shingle));
-	                int res = BitConverter.ToInt32(hashValue.Hash, 0);
-					long shing = Convert.ToInt64(int.MaxValue) + Math.Abs(int.MinValue - res);
-
-	                shingles.Add(shing);
-	                if (endflag) break;
-					
-	                startIndex++;
-                }
+			            startIndex++;
+		            }
+		            
+				}
 
 				if (!doc2term.ContainsKey(docIndex))
 				{
 					doc2term.Add(docIndex, shingles);
 				}
+
 			}
 
             return doc2term;
