@@ -706,7 +706,8 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             }
 
             var random = new Random();
-            resultQuestion.Answers = resultQuestion.Answers.OrderBy(a => random.Next()).ToList();
+            
+	        resultQuestion.Answers = resultQuestion.Answers.OrderBy(a => random.Next()).ToList();
             
             return new Tuple<Question, int, int>(resultQuestion, nextQuestionNumber, 0);
         }
@@ -755,9 +756,17 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
             int questionsCount = test.CountOfQuestions > test.Questions.Count
                 ? test.Questions.Count
                 : test.CountOfQuestions;
+	        IEnumerable<Question> includedQuestions = null;
 
-            var random = new Random(DateTime.Now.Millisecond);
-            IEnumerable<Question> includedQuestions = test.Questions.OrderBy(t => random.Next()).Take(questionsCount);
+			if (test.ForNN)
+	        {
+				includedQuestions = test.Questions.OrderBy(t => t.ConceptId).ThenBy(a => a.Id).ToList();
+	        }
+	        else
+	        {
+				var random = new Random(DateTime.Now.Millisecond);
+		        includedQuestions = test.Questions.OrderBy(t => random.Next()).Take(questionsCount);
+	        }
 
             var answersTemplate = new List<AnswerOnTestQuestion>();
 

@@ -22,10 +22,8 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 		var argumentsD = [];
 
 		var queestions = [];
-		$scope.questions = _.sortBy($scope.questions, function (o) { return o.Id; });
 
-		$scope.questions = _.sortBy($scope.questions, function (o) { return o.ConceptId; });
-
+		$scope.questions = _.chain($scope.questions).sortBy("ConceptId").reverse().filter(_.property('Id')).value();
 		var topics = [];
 		var topicsNum = [];
 		var currentTopic = $scope.questions[0].ConceptId;
@@ -34,7 +32,6 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 		$.each($scope.questions, function (index, value) {
 			argumentsD.push([0, 1]);
 			queestions.push(value.Title);
-			
 			if (currentTopic === value.ConceptId) {
 				currentNumb += 1;
 			} else {
@@ -42,25 +39,18 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 				currentTopic = value.ConceptId;
 				currentNumb += 1;
 			}
-
 			if ($.inArray(value.ConceptId, topics) === -1) {
 				topics.push(value.ConceptId);
 			}
 		});
-
 		topicsNum.push(currentNumb);
-
 		var cartesian = $scope.cartesian.apply(this, argumentsD);
 		cartesian.unshift(queestions);
 		$scope.drawTable(cartesian, "testData");
-
 		var dataForTopic = $scope.cartesian.apply(this, argumentsD);
-
 		$scope.savedDataAnswersValue = JSON.parse(JSON.stringify(dataForTopic));
-
 		var topicsValue = [];
 		$.each(dataForTopic, function (index, value) {
-
 			var tValue = [];
 			var currentBorder = 0;
 			$.each(topicsNum, function (index, valueN) {
@@ -68,15 +58,11 @@ knowledgeTestingApp.controller('createNeuralNetworkCtrl', function ($scope, $htt
 				for (currentBorder; currentBorder < valueN; currentBorder++) {
 					sumValue += value[currentBorder] * ($scope.questions[currentBorder].ComlexityLevel / 10);
 				}
-
 				tValue.push(sumValue < 0.7 ? 1 : 0);
 			});
-
 			topicsValue.push(tValue);
 		});
-
 		$scope.savedTopicsValue = JSON.parse(JSON.stringify(topicsValue));
-
 		topicsValue.unshift(topics);
 		$scope.drawTable(topicsValue, "topicData");
 

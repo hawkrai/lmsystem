@@ -159,7 +159,7 @@ namespace LMPlatform.UI.Controllers
 
 			        var questions = TestsManagementService.GetTest(testId, true);
 
-			        var themIds = questions.Questions.Where(e => e.ConceptId.HasValue).Select(e => (int) e.ConceptId)
+					var themIds = questions.Questions.OrderBy(e => e.ConceptId).ThenBy(e => e.Id).Where(e => e.ConceptId.HasValue).Select(e => (int)e.ConceptId)
 				        .Distinct();
 
 			        var thems = new List<object>();
@@ -172,7 +172,7 @@ namespace LMPlatform.UI.Controllers
 
 			        var array = new List<int>();
 
-			        foreach (var question in questions.Questions.OrderBy(e => e.Id).ThenBy(e => e.ConceptId))
+					foreach (var question in questions.Questions.OrderBy(e => e.ConceptId).ThenBy(e => e.Id))
 			        {
 				        var answer = answers.FirstOrDefault(e => e.QuestionId == question.Id);
 				        int data = 0;
