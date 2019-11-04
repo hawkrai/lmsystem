@@ -200,7 +200,52 @@ namespace LMPlatform.UI.Services.Concept
             }
         }
 
-        public ConceptResult GetConcepts(String parentId)
+		public ConceptResult GetRootConceptsMobile(string subjectId, string userId, string identityKey)
+		{
+			//try
+			//{
+				if (identityKey != "7e13f363-2f00-497e-828e-49e82d8b4223"){
+					throw new UnauthorizedAccessException();
+				}
+
+				var subject = 0;
+				var valid = Int32.TryParse(subjectId, out subject);
+				if (!int.TryParse(userId, out var authorId))
+				{
+					throw new ArgumentException();
+				}
+
+				var user = UsersManagementService.GetUser(authorId);
+
+				var concepts = user.Lecturer != null ?
+					ConceptManagementService.GetRootElements(authorId) : (valid ?
+					ConceptManagementService.GetRootElementsBySubject(subject).Where(c => c.Published) : new List<LMPlatform.Models.Concept>());
+
+				if (valid)
+					concepts = concepts.Where(c => c.SubjectId == subject);
+				var subj = SubjectManagementService.GetSubject(subject);
+
+
+				return new ConceptResult
+				{
+					Concepts = concepts.Select(c => new ConceptViewData(c)).ToList(),
+					Message = SuccessMessage,
+					SubjectName = subj.Name,
+					Code = SuccessCode
+				};
+			//}
+			//catch (Exception ex)
+			//{
+
+			//	return new ConceptResult
+			//	{
+			//		Message = ex.Message,
+			//		Code = ServerErrorCode
+			//	};
+			//}
+		}
+
+		public ConceptResult GetConcepts(String parentId)
         {
             try
             {
