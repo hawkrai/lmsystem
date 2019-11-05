@@ -37,42 +37,48 @@ namespace LMPlatform.PlagiarismNet.Services
                 //сравнение с другими документами
                 for (int j = 0; j < docs.Count(); j++)
                 {
+
                     //ид документа
                     var doc2 = docs[j];
 
-                    //схожесть одинаковых документов можно не считать. всегда = 100
-                    if (row.Doc.Equals(doc2))
-                    {
-                        //сам с собой можно не считать. всегда 100
-                        row.Similarity.Add(doc2, 100);
-                        continue;
-                    }
-                    //уже считали раньше
-                    if (doc2similarity.ContainsKey(GetUniqueKey(i, j)))
-                    {
-                        row.Similarity.Add(doc2, doc2similarity[GetUniqueKey(i, j)]);
-                        continue;
-                    }
+	                if (!row.Similarity.ContainsKey(doc2))
+	                {
+		                //схожесть одинаковых документов можно не считать. всегда = 100
+		                if (row.Doc.Equals(doc2))
+		                {
+			                //сам с собой можно не считать. всегда 100
+			                row.Similarity.Add(doc2, 100);
+			                continue;
+		                }
 
-                    //набор шинглов для документа, с которым сравниваем
-                    var shingles2 = doc2Terms[doc2.DocIndex];
-                    var same = 0;
-                    for (int k = 0; k < shingles1.Count(); k++)
-                    {
-                        for (int l = 0; l < shingles2.Count(); l++)
-                        {
-                            if (shingles1[k].Equals(shingles2[l]))
-                                same++;
-                        }
-                    }
-                    double s = same * 2;
-                    double count = shingles1.Count() + shingles2.Count();
-                    double res = s / count;
-                    int coeff = (int)Math.Round(res * 100);
-					//добавляем в матрицу
-	                doc2similarity.Add(GetUniqueKey(i, j), coeff);
+		                //уже считали раньше
+		                if (doc2similarity.ContainsKey(GetUniqueKey(i, j)))
+		                {
+			                row.Similarity.Add(doc2, doc2similarity[GetUniqueKey(i, j)]);
+			                continue;
+		                }
 
-					row.Similarity.Add(doc2, coeff);
+		                //набор шинглов для документа, с которым сравниваем
+		                var shingles2 = doc2Terms[doc2.DocIndex];
+		                var same = 0;
+		                for (int k = 0; k < shingles1.Count(); k++)
+		                {
+			                for (int l = 0; l < shingles2.Count(); l++)
+			                {
+				                if (shingles1[k].Equals(shingles2[l]))
+					                same++;
+			                }
+		                }
+
+		                double s = same * 2;
+		                double count = shingles1.Count() + shingles2.Count();
+		                double res = s / count;
+		                int coeff = (int) Math.Round(res * 100);
+		                //добавляем в матрицу
+		                doc2similarity.Add(GetUniqueKey(i, j), coeff);
+
+		                row.Similarity.Add(doc2, coeff);
+	                }
                 }
                 rows.Add(row);
             }
