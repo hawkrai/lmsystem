@@ -38,11 +38,14 @@
 					</div>
 					<p></p>
 				</div>
-				<div>
-					@Html.LabelFor(m => m.UserName)
-					<br/>
-					@Html.DisplayTextFor(m => m.UserName)
-				</div>
+			    <div>
+			        @Html.LabelFor(m => m.UserName)
+			        <br/>
+			        @Html.DisplayTextFor(m => m.UserName)
+			    </div>
+			    <div style="display: none">
+			        @Html.DisplayTextFor(m => m.IsActive)
+			    </div>
 			</div>
 		</div>
 		<div align="center">
