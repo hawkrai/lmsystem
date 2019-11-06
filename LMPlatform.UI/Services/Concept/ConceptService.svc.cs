@@ -210,7 +210,8 @@ namespace LMPlatform.UI.Services.Concept
 
 				var subject = 0;
 				var valid = Int32.TryParse(subjectId, out subject);
-				if (!int.TryParse(userId, out var authorId))
+				var authorId = 0;
+				if (!int.TryParse(userId, out authorId))
 				{
 					throw new ArgumentException();
 				}
