@@ -202,8 +202,8 @@ namespace LMPlatform.UI.Services.Concept
 
 		public ConceptResult GetRootConceptsMobile(string subjectId, string userId, string identityKey)
 		{
-			//try
-			//{
+			try
+			{
 				if (identityKey != "7e13f363-2f00-497e-828e-49e82d8b4223"){
 					throw new UnauthorizedAccessException();
 				}
@@ -233,16 +233,15 @@ namespace LMPlatform.UI.Services.Concept
 					SubjectName = subj.Name,
 					Code = SuccessCode
 				};
-			//}
-			//catch (Exception ex)
-			//{
-
-			//	return new ConceptResult
-			//	{
-			//		Message = ex.Message,
-			//		Code = ServerErrorCode
-			//	};
-			//}
+			}
+			catch (Exception ex)
+			{
+			return new ConceptResult
+				{
+					Message = ex.Message,
+					Code = ServerErrorCode
+				};
+			}
 		}
 
 		public ConceptResult GetConcepts(String parentId)
