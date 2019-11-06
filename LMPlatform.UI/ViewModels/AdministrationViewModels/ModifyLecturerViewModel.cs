@@ -93,6 +93,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
                 IsSecretary = lecturer.IsSecretary;
                 IsLecturerHasGraduateStudents = lecturer.IsLecturerHasGraduateStudents;
+	            IsActive = lecturer.IsActive;
 
                 var groups = CorrelationService.GetCorrelation("Group", lecturer.Id);
 	            if (lecturer.SecretaryGroups != null)
@@ -150,7 +151,9 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         [Display(Name = "Для выбора группы секретаря нажмите левой кнопкой мыши по соответствующему элементу в левом списке:")]
         public List<int> SelectedGroupIds { get; set; }
 
-        public MultiSelectList Groups { get; set; }
+	    public bool IsActive { get; set; }
+
+	    public MultiSelectList Groups { get; set; }
 
         [Display(Name = "Руководитель дипломных проектов")]
         public bool IsLecturerHasGraduateStudents { get; set; }
@@ -191,6 +194,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                 IsSecretary = IsSecretary,
                 IsLecturerHasGraduateStudents = IsLecturerHasGraduateStudents,
                 SecretaryGroups = selectedGroups,
+				IsActive = IsActive,
 				User = new User()
 				{
 					Id = LecturerId,

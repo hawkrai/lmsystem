@@ -170,7 +170,8 @@ namespace LMPlatform.UI.Controllers
 							        IsLecturerHasGraduateStudents = model.IsLecturerHasGraduateStudents,
 							        IsSecretary = model.IsSecretary,
 							        Skill = model.Skill,
-							        User =
+							        IsActive = model.IsActive,
+									User =
 								        new User
 									        {
 										        UserName = model.UserName,
