@@ -79,6 +79,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 		public string Skill { get; set; }
 
 		public bool IsSecretary { get; set; }
+		public bool IsActive { get; set; }
 
 		public bool IsLecturerHasGraduateStudents { get; set; }
 
@@ -98,6 +99,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 				SkypeContact = user.User.SkypeContact;
 				Phone = user.User.Phone;
 				Email = user.User.Email;
+	            IsActive = user.IsActive;
 	            IsLecturerHasGraduateStudents = user.IsLecturerHasGraduateStudents;
             }
             else if (StudentManagementService.GetStudent(WebSecurity.CurrentUserId) != null)
