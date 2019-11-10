@@ -94,7 +94,15 @@ namespace LMPlatform.UI.Services.Modules.Concept
             set;
         }
 
-        [DataMember]
+
+		[DataMember]
+		public string FilePath
+		{
+			get;
+			set;
+		}
+
+		[DataMember]
         public int ParentId { get; set; }
 
         [DataMember]

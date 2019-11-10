@@ -16,6 +16,7 @@ using Application.Infrastructure.WatchingTimeManagement;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.UI.Services.Modules;
 using Application.Infrastructure.KnowledgeTestsManagement;
+using System.Threading.Tasks;
 
 namespace LMPlatform.UI.Services.Concept
 {
@@ -324,7 +325,48 @@ namespace LMPlatform.UI.Services.Concept
             }
         }
 
-        public AttachViewData GetNextConceptData(String elementId)
+		private void PopulateFilePath(ConceptViewData children)
+		{
+			if (children.Children != null && children.Children.Any())
+			{
+				foreach(var data in children.Children)	
+				{
+					PopulateFilePath(data);
+				}
+			}
+
+			if(children.HasData)
+			{
+				var attach = FilesManagementService.GetAttachments(children.Container).FirstOrDefault();
+				if (attach != null)
+				{
+					var uploadFolder = "UploadedFiles";
+					children.FilePath = string.Format("/{0}/{1}/{2}", uploadFolder, attach.PathName, attach.FileName);
+				}
+			}
+		}
+
+		public ConceptViewData GetConceptTreeMobile(String elementId)
+		{
+			try
+			{
+				var parentId = Int32.Parse(elementId);
+
+				var tree = ConceptManagementService.GetTreeConceptByElementId(parentId);
+
+				var dataTree = new ConceptViewData(tree, true);
+
+				PopulateFilePath(dataTree);
+
+				return dataTree;
+			}
+			catch (Exception ex)
+			{
+				return null;
+			}
+		}
+
+		public AttachViewData GetNextConceptData(String elementId)
         {
             var id = Int32.Parse(elementId);
             var concept = ConceptManagementService.GetByIdFixed(id);
