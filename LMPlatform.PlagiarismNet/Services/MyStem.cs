@@ -34,14 +34,11 @@ namespace LMPlatform.PlagiarismNet.Services
 
 			List<string> terms = new List<string>();
 			
-			;
-
-
 			try
 			{
 				terms.AddRange(PopulateTermsList(GetText(Path.GetFullPath(fileName))));
 			}
-			catch (IOException var4)
+			catch (Exception var4)
 			{
 
 				Console.WriteLine(var4.StackTrace);
