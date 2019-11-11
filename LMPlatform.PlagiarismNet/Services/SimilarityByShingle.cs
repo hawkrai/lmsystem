@@ -114,7 +114,7 @@ namespace LMPlatform.PlagiarismNet.Services
 
 			            var hashValue = crc.ComputeHash(Encoding.UTF8.GetBytes(shingle));
 			            int res = BitConverter.ToInt32(hashValue.Hash, 0);
-			            long shing = Convert.ToInt64(int.MaxValue) + Math.Abs(int.MinValue + Math.Abs(res));
+			            long shing = Convert.ToInt64(int.MaxValue) + Math.Abs(Convert.ToInt64(int.MinValue + Math.Abs(res)));
 
 			            shingles.Add(shing);
 			            if (endflag) break;
