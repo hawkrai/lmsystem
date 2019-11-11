@@ -53,36 +53,40 @@ namespace LMPlatform.PlagiarismNet.Services
                 {
                     //ид документа
                     Doc doc2 = docs[j];
-                    //набор термов для документа, с которым сравниваем
-                    List<String> terms2 = doc2Terms[doc2.DocIndex];
-                    //схожесть одинаковых документов можно не считать. всегда = 100
-                    if (row.Doc.Equals(doc2))
-                    {
-                        //сам с собой можно не считать. всегда 100
-                        row.Similarity.Add(doc2, 100);
-                        continue;
-                    }
-                    //уже считали раньше
-                    if (doc2Similarity.ContainsKey(GetUniqueKey(i, j)))
-                    {
-                        row.Similarity.Add(doc2, doc2Similarity[GetUniqueKey(i, j)]);
-                        continue;
-                    }
-                    int[] arrY = new int[termCount];
-                    //если i-е слово из N - списка присутствует в документе,
-                    //то значением i - го элемента образа документа считается 1, в противном случае — 0.
-                    foreach (var term in terms)
-                        arrY[terms.IndexOf(term)] = terms2.Contains(term) ? 1 : 0;
-                    if (arrY.Length < termCount)
-                    {
-                        for (int k = arrY.Length; k < termCount; k++)
-                            arrY[k] = 0;
-                    }
-                    //считаем коэффициент схожести
-                    int coeff = GetSimilarityCoefficient(arrX, arrY);
-                    //добавляем в матрицу
-                    row.Similarity.Add(doc2, coeff);
-                    doc2Similarity.Add(GetUniqueKey(i, j), coeff);
+	                if (!row.Similarity.ContainsKey(doc2))
+	                {
+		                //набор термов для документа, с которым сравниваем
+		                List<String> terms2 = doc2Terms[doc2.DocIndex];
+		                //схожесть одинаковых документов можно не считать. всегда = 100
+		                if (row.Doc.Equals(doc2))
+		                {
+			                //сам с собой можно не считать. всегда 100
+			                row.Similarity.Add(doc2, 100);
+			                continue;
+		                }
+		                //уже считали раньше
+		                if (doc2Similarity.ContainsKey(GetUniqueKey(i, j)))
+		                {
+			                row.Similarity.Add(doc2, doc2Similarity[GetUniqueKey(i, j)]);
+			                continue;
+		                }
+		                int[] arrY = new int[termCount];
+		                //если i-е слово из N - списка присутствует в документе,
+		                //то значением i - го элемента образа документа считается 1, в противном случае — 0.
+		                foreach (var term in terms)
+			                arrY[terms.IndexOf(term)] = terms2.Contains(term) ? 1 : 0;
+		                if (arrY.Length < termCount)
+		                {
+			                for (int k = arrY.Length; k < termCount; k++)
+				                arrY[k] = 0;
+		                }
+		                //считаем коэффициент схожести
+		                int coeff = GetSimilarityCoefficient(arrX, arrY);
+		                //добавляем в матрицу
+		                row.Similarity.Add(doc2, coeff);
+		                doc2Similarity.Add(GetUniqueKey(i, j), coeff);
+					}
+	                
                 }
                 rows.Add(row);
             }
