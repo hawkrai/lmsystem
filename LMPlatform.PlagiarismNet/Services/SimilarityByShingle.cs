@@ -113,7 +113,7 @@ namespace LMPlatform.PlagiarismNet.Services
 			            string shingle = string.Join(" ", terms.GetRange(startIndex, shingleLength));
 
 			            var hashValue = crc.ComputeHash(Encoding.UTF8.GetBytes(shingle));
-			            int res = BitConverter.ToInt32(hashValue.Hash, 0);
+			            long res = Convert.ToInt64(BitConverter.ToInt32(hashValue.Hash, 0));
 			            long shing = Convert.ToInt64(int.MaxValue) + Math.Abs(Convert.ToInt64(int.MinValue + Math.Abs(res)));
 
 			            shingles.Add(shing);
