@@ -51,7 +51,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
                   HtmlLinks = new HtmlString(htmlLinks),
                   IsActive = lecturer.IsActive ? "" : "Удален",
                   LastLogin = lecturer.User.LastLogin.HasValue ? lecturer.User.LastLogin.ToString() : "-",
-				  Subjects = (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Count > 0 && lecturer.SubjectLecturers.Any(e => !e.Subject.IsArchive))
+				  Subjects = (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Count > 0 && lecturer.SubjectLecturers.Where(e => e.Subject != null).Any(e => !e.Subject.IsArchive))
                                 ? lecturer.SubjectLecturers.Count(e => !e.Subject.IsArchive).ToString()
                                 : "-",
               };
