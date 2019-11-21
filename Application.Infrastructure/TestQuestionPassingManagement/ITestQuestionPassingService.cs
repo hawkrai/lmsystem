@@ -9,6 +9,8 @@ namespace Application.Infrastructure.TestQuestionPassingManagement
 {
     public interface ITestQuestionPassingService
     {
-        void SaveTestQuestionPassResults(TestQuestionPassResults item);
+	    List<AnswerOnTestQuestion> GetAll();
+
+		void SaveTestQuestionPassResults(TestQuestionPassResults item);
     }
 }

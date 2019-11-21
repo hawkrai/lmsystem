@@ -2,9 +2,11 @@
 using LMPlatform.Models.KnowledgeTesting;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Core.Data;
 
 namespace Application.Infrastructure.TestQuestionPassingManagement
 {
@@ -21,5 +23,15 @@ namespace Application.Infrastructure.TestQuestionPassingManagement
                 repositoriesContainer.ApplyChanges();
             }
         }
-    }
+
+        public List<AnswerOnTestQuestion> GetAll()
+        {
+	        using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+	        {
+		        var data = repositoriesContainer.RepositoryFor<AnswerOnTestQuestion>().GetAll();
+
+		        return data.ToList();
+	        }
+        }
+	}
 }

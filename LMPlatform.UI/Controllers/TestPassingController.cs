@@ -301,6 +301,29 @@ namespace LMPlatform.UI.Controllers
             return Json("Ok");
         }
 
+		[HttpGet]
+        public JsonResult GetQuestionsInfo()
+        {
+	        var questions = TestsManagementService.GetQuestions();
+			
+	        var questionsLevel = questions.ToDictionary(e => e.Id, t => t.ComlexityLevel);
+
+			var answers = TestQuestionPassingService.GetAll();
+
+			var level = 0;
+	        var groups = answers.GroupBy(e => e.QuestionId).Select(e => new 
+	        {
+		        idQuestion = e.Key,
+		        complexity = questionsLevel.TryGetValue(e.Key, out level) ? level : 0,
+		        weight = 1,
+		        rightAnswers = e.Count(x => x.Points > 0),
+		        wrongAnswers = e.Count(x => x.Points == 0)
+			});
+	        
+
+			return Json(groups, JsonRequestBehavior.AllowGet);
+		}
+
         [Authorize, HttpGet]
         public void GetResultsExcel(int groupId, int subjectId, bool forSelfStudy)
         {
