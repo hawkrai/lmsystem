@@ -14,7 +14,7 @@
 		$scope.loadGroups = function() {
 			$.ajax({
 				type: 'GET',
-				url: "/Services/CoreService.svc/GetAllGroupsLite",
+				url: "/Services/CoreService.svc/GetAllGroupsLite/",
 				dataType: "json",
 				contentType: "application/json"
 
