@@ -128,7 +128,39 @@ namespace LMPlatform.UI.Controllers
                        };
         }
 
-        public ActionResult Index(int subjectId)
+		public ActionResult GetFileSubjectJson(string subjectId)
+		{
+			var lectures = new List<Attachment>();
+			foreach (var att in SubjectManagementService.GetLecturesAttachments(int.Parse(subjectId)))
+			{
+				lectures.AddRange(FilesManagementService.GetAttachments(att).ToList());
+			}
+
+			var labs = new List<Attachment>();
+			foreach (var att in SubjectManagementService.GetLabsAttachments(int.Parse(subjectId)))
+			{
+				lectures.AddRange(FilesManagementService.GetAttachments(att).ToList());
+			}
+
+			var practicals = new List<Attachment>();
+			foreach (var att in SubjectManagementService.GetPracticalsAttachments(int.Parse(subjectId)))
+			{
+				lectures.AddRange(FilesManagementService.GetAttachments(att).ToList());
+			}
+
+			return new JsonResult()
+			{
+				Data = new
+				{
+					Lectures = lectures,
+					Labs = labs,
+					Practicals = practicals
+				},
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
+
+		public ActionResult Index(int subjectId)
         {
             if (SubjectManagementService.IsWorkingSubject(WebSecurity.CurrentUserId, subjectId))
             {
