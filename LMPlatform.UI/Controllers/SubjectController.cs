@@ -128,6 +128,7 @@ namespace LMPlatform.UI.Controllers
                        };
         }
 
+		[AllowAnonymous]
 		public ActionResult GetFileSubjectJson(string subjectId)
 		{
 			var lectures = new List<Attachment>();
