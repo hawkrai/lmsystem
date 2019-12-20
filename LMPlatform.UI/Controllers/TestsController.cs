@@ -128,7 +128,7 @@ namespace LMPlatform.UI.Controllers
         }
 
 		[AllowAnonymous]
-		public JsonResult GetRecomendations(int subjectId, int userId)
+		public JsonResult GetRecomendationsMobile(int subjectId, int userId)
 		{
 			var result = new List<object>();
 			var predTest = TestsManagementService.GetTestsForSubject(subjectId).FirstOrDefault(x => x.BeforeEUMK);
@@ -198,7 +198,7 @@ namespace LMPlatform.UI.Controllers
                     {
                         if (question.ConceptId.HasValue)
                         {
-                            var points = TestPassingService.GetPointsForQuestion(userId == 0 ? WebSecurity.CurrentUserId : userId, question.Id);
+                            var points = TestPassingService.GetPointsForQuestion(userId == 0 ? CurrentUserId : userId, question.Id);
                             if (points == 0 || points == null)
                             {
                                 var concept = ConceptManagementService.GetById(question.ConceptId.Value);
