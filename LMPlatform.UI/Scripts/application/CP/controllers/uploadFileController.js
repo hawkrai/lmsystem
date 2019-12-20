@@ -306,7 +306,8 @@
                     data: {
                         subjectId: $scope.subjectId,
                         type: $("input[name=typePlagiarism]:checked").val(),
-                        threshold: $("#threshold").val()
+                        threshold: $("#threshold").val(),
+                        isCp: true
                     },
                     headers: { 'Content-Type': 'application/json' }
                 }).success(function(data, status) {
