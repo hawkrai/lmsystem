@@ -8,7 +8,7 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
     {
         List<Folders> GetFoldersByPID(int id);
 
-        List<Folders> GetFoldersByPIDandSubId(int pid, int subjectId);
+        List<Folders> GetFoldersByPIDandSubId(int pid, int idSubjectModule);
 
         Folders FolderRootBySubjectModuleId(int id);
 
@@ -16,7 +16,7 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
 
         int GetPidById(int id);
 
-        Folders CreateFolderByPID(int id, int idsubjectmodule);
+        Folders CreateFolderByPID(int id, int idSubjectModule);
 
         void CreateRootFolder(int idsubjectmodule, string name);
 

@@ -12,50 +12,26 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
         private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
         private readonly LazyDependency<ILecturerManagementService> _lecturerManagementService = new LazyDependency<ILecturerManagementService>();
 
-        public IStudentManagementService StudentManagementService
-        {
-            get
-            {
-                return _studentManagementService.Value;
-            }
-        }
+        private IStudentManagementService StudentManagementService => _studentManagementService.Value;
 
-        public ILecturerManagementService LecturerManagementService
-        {
-            get
-            {
-                return _lecturerManagementService.Value;
-            }
-        }
+        private ILecturerManagementService LecturerManagementService => _lecturerManagementService.Value;
 
         [StringLength(50, ErrorMessage = "Имя не может иметь размер больше 50 символов")]
-		[Required(ErrorMessage = "Поле Имя обязательно для заполнения")]
+        [Required(ErrorMessage = "Поле Имя обязательно для заполнения")]
         [DataType(DataType.Text)]
         [Display(Name = "Имя")]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         [StringLength(50, ErrorMessage = "Фамилия не может иметь размер больше 50 символов")]
         [DataType(DataType.Text)]
-		[Required(ErrorMessage = "Поле Фамилия обязательно для заполнения")]
+        [Required(ErrorMessage = "Поле Фамилия обязательно для заполнения")]
         [Display(Name = "Фамилия")]
-        public string Surname
-        {
-            get;
-            set;
-        }
+        public string Surname { get; set; }
 
         [StringLength(50, ErrorMessage = "Отчество не может иметь размер больше 50 символов")]
         [DataType(DataType.Text)]
         [Display(Name = "Отчество")]
-        public string Patronymic
-        {
-            get;
-            set;
-        }
+        public string Patronymic { get; set; }
 
         [Required(ErrorMessage = "Поле Логин обязательно для заполнения")]
         [Display(Name = "Логин")]
@@ -79,6 +55,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 		public string Skill { get; set; }
 
 		public bool IsSecretary { get; set; }
+
 		public bool IsActive { get; set; }
 
 		public bool IsLecturerHasGraduateStudents { get; set; }

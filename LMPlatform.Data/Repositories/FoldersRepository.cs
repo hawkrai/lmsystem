@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Application.Core.Data;
 using LMPlatform.Data.Infrastructure;
@@ -15,14 +14,12 @@ namespace LMPlatform.Data.Repositories
         {  
         }
 
-        public List<Folders> GetFoldersByPIDandSubId(int pid, int idsubjectmodule)
+        public List<Folders> GetFoldersByPIDandSubId(int pid, int idSubjectModule)
         {
-            using (var context = new LmPlatformModelsContext())
-            {
-                SubjectModule subjectmodule = context.Set<SubjectModule>().FirstOrDefault(e => e.Id == idsubjectmodule);
-                var folders = context.Set<Folders>().Where(e => e.Pid == pid && e.SubjectModule.Id == subjectmodule.Id).ToList();
-                return folders;
-            }
+	        using var context = new LmPlatformModelsContext();
+	        var subjectModule = context.Set<SubjectModule>().FirstOrDefault(e => e.Id == idSubjectModule);
+	        var folders = context.Set<Folders>().Where(e => e.Pid == pid && e.SubjectModule.Id == subjectModule.Id).ToList();
+	        return folders;
         }
 
         public List<Folders> GetFoldersByPID(int pid)
@@ -45,40 +42,34 @@ namespace LMPlatform.Data.Repositories
 
         public Folders GetFolderByPID(int id)
         {
-            using (var context = new LmPlatformModelsContext())
-            {
-                Folders folder = context.Set<Folders>().FirstOrDefault(e => e.Id == id);
-                return folder;
-            }
+	        using var context = new LmPlatformModelsContext();
+	        var folder = context.Set<Folders>().FirstOrDefault(e => e.Id == id);
+	        return folder;
         }
 
         public int GetPidById(int id)
         {
-            using (var context = new LmPlatformModelsContext())
-            {
-                var folder = context.Set<Folders>().FirstOrDefault(e => e.Id == id);
-                return folder.Pid;
-            }
+	        using var context = new LmPlatformModelsContext();
+	        var folder = context.Set<Folders>().FirstOrDefault(e => e.Id == id);
+	        return folder.Pid;
         }
 
-        public Folders CreateFolderByPID(int pid, int idsubjectmodule)
+        public Folders CreateFolderByPID(int pid, int idSubjectModule)
         {
-            using (var context = new LmPlatformModelsContext())
-            {
-                SubjectModule subjectmodule = context.Set<SubjectModule>().FirstOrDefault(e => e.Id == idsubjectmodule);
+	        using var context = new LmPlatformModelsContext();
+	        var subjectModule = context.Set<SubjectModule>().FirstOrDefault(e => e.Id == idSubjectModule);
 
-                Folders folder = new Folders
-                {
-                    Name = "Новая папка",
-                    Pid = pid,
-                    SubjectModule = subjectmodule
-                };
+	        var folder = new Folders
+	        {
+		        Name = "Новая папка",
+		        Pid = pid,
+		        SubjectModule = subjectModule
+	        };
                
-                context.Set<Folders>().Add(folder);
-                context.SaveChanges();
+	        context.Set<Folders>().Add(folder);
+	        context.SaveChanges();
 
-                return folder;
-            }
+	        return folder;
         }
 
         public void CreateRootFolder(int idsubjectmodule, string name)
@@ -101,24 +92,18 @@ namespace LMPlatform.Data.Repositories
 
         public void DeleteFolderByID(int id)
         {
-            using (var context = new LmPlatformModelsContext())
-            {
-                var model = context.Set<Folders>().FirstOrDefault(e => e.Id == id);
-                context.Delete(model);
-
-                context.SaveChanges();
-            }            
+	        using var context = new LmPlatformModelsContext();
+	        var model = context.Set<Folders>().FirstOrDefault(e => e.Id == id);
+	        context.Delete(model);
+            context.SaveChanges();
         }
 
         public void RenameFolderByID(int id, string name)
         {
-            using (var context = new LmPlatformModelsContext())
-            {
-                var model = context.Set<Folders>().FirstOrDefault(e => e.Id == id);
-                model.Name = name;
-
-                context.SaveChanges();
-            }
+	        using var context = new LmPlatformModelsContext();
+	        var model = context.Set<Folders>().FirstOrDefault(e => e.Id == id);
+	        model.Name = name;
+            context.SaveChanges();
         }
     }
 }
