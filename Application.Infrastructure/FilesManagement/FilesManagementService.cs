@@ -60,12 +60,9 @@ namespace Application.Infrastructure.FilesManagement
         public void DeleteFileAttachment(Attachment attachment)
         {
             var filePath = _storageRoot + attachment.PathName + "//" + attachment.FileName;
-
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                repositoriesContainer.AttachmentRepository.Delete(attachment);
-                repositoriesContainer.ApplyChanges();
-            }
+            using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+            repositoriesContainer.AttachmentRepository.Delete(attachment);
+            repositoriesContainer.ApplyChanges();
 
             if (File.Exists(filePath))
             {
@@ -84,11 +81,9 @@ namespace Application.Infrastructure.FilesManagement
                 Directory.CreateDirectory(targetDirectoty);
             }
 
-            if (File.Exists(tempFilePath))
-            {
-                File.Copy(tempFilePath, targetFilePath, true);
-                File.Delete(tempFilePath);
-            }
+            if (!File.Exists(tempFilePath)) return;
+            File.Copy(tempFilePath, targetFilePath, true);
+            File.Delete(tempFilePath);
         }
 
         public string GetFullPath(Attachment attachment)
