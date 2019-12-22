@@ -13,11 +13,11 @@ namespace Application.Infrastructure.GroupManagement
     {
         public Group GetGroup(int groupId)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId).Include(e => e.Students.Select(x => x.LecturesVisitMarks))
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.GroupsRepository.GetBy(
+		        new Query<Group>(e => e.Id == groupId)
+					.Include(e => e.Students.Select(x => x.LecturesVisitMarks))
 					.Include(e => e.Students.Select(x => x.User)));
-            }
         }
 
         public List<Group> GetGroups(IQuery<Group> query = null)

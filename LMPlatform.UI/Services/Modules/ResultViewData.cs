@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace LMPlatform.UI.Services.Modules
 {
-    using System.Runtime.Serialization;
+	[DataContract]
+	public class ResultViewData
+	{
+		[DataMember]
+		public string Message { get; set; }
 
-    [DataContract]
-    public class ResultViewData
-    {
-        [DataMember]
-        public string Message { get; set; }
-
-        [DataMember]
-        public string Code { get; set; }
+		[DataMember]
+		public string Code { get; set; }
 
 		[DataMember]
 		public List<ResultPlag> DataD { get; set; }
-    }
+	}
 
 	[DataContract]
 	public class ResultPSubjectViewData

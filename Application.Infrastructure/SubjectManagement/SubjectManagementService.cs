@@ -74,26 +74,23 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public Subject GetSubject(int id)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				return repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == id)
-					.Include(e => e.SubjectModules.Select(x => x.Module))
-					.Include(e => e.SubjectNewses)
-					.Include(e => e.Lectures)
-					.Include(e => e.Labs)
-					.Include(e => e.SubjectLecturers.Select(x => x.Lecturer.User))
-					.Include(e => e.Practicals)
-					.Include(e => e.LecturesScheduleVisitings)
-					.Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(v => v.ScheduleProtectionLabs))));
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			return repositoriesContainer.SubjectRepository
+				.GetBy(new Query<Subject>(e => e.Id == id)
+				.Include(e => e.SubjectModules.Select(x => x.Module))
+				.Include(e => e.SubjectNewses)
+				.Include(e => e.Lectures)
+				.Include(e => e.Labs)
+				.Include(e => e.SubjectLecturers.Select(x => x.Lecturer.User))
+				.Include(e => e.Practicals)
+				.Include(e => e.LecturesScheduleVisitings)
+				.Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(v => v.ScheduleProtectionLabs))));
 		}
 
 		public Subject GetSubject(IQuery<Subject> query)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				return repositoriesContainer.SubjectRepository.GetBy(query);
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			return repositoriesContainer.SubjectRepository.GetBy(query);
 		}
 
 		public List<Labs> GetLabsV2(int subjectId)
@@ -175,28 +172,26 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public void DeleteLectionVisitingDate(int id)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			var dateModelmarks =
+				repositoriesContainer.RepositoryFor<LecturesVisitMark>()
+					.GetAll(new Query<LecturesVisitMark>(e => e.LecturesScheduleVisitingId == id))
+					.ToList();
+
+			foreach (var lecturesVisitMark in dateModelmarks)
 			{
-				var dateModelmarks =
-					repositoriesContainer.RepositoryFor<LecturesVisitMark>()
-						.GetAll(new Query<LecturesVisitMark>(e => e.LecturesScheduleVisitingId == id))
-						.ToList();
-
-				foreach (var lecturesVisitMark in dateModelmarks)
-				{
-					repositoriesContainer.RepositoryFor<LecturesVisitMark>().Delete(lecturesVisitMark);
-				}
-
-				repositoriesContainer.ApplyChanges();
-
-				var dateModel =
-					repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>()
-						.GetBy(new Query<LecturesScheduleVisiting>(e => e.Id == id));
-
-				repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>().Delete(dateModel);
-
-				repositoriesContainer.ApplyChanges();
+				repositoriesContainer.RepositoryFor<LecturesVisitMark>().Delete(lecturesVisitMark);
 			}
+
+			repositoriesContainer.ApplyChanges();
+
+			var dateModel =
+				repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>()
+					.GetBy(new Query<LecturesScheduleVisiting>(e => e.Id == id));
+
+			repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>().Delete(dateModel);
+
+			repositoriesContainer.ApplyChanges();
 		}
 
 		public void DeletePracticalsVisitingDate(int id)
@@ -617,35 +612,28 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public void SaveDateLectures(int subjectId, DateTime date)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>().Save(new LecturesScheduleVisiting
 			{
-				repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>().Save(new LecturesScheduleVisiting
-																						 {
-																							 Date = date,
-																							 SubjectId = subjectId
-																						 });
-				repositoriesContainer.ApplyChanges();
-			}
+				Date = date,
+				SubjectId = subjectId
+			});
+			repositoriesContainer.ApplyChanges();
 		}
 
 		public List<LecturesScheduleVisiting> GetScheduleVisitings(Query<LecturesScheduleVisiting> query)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				return
-					repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>()
-						.GetAll(query.Include(e => e.LecturesVisitMarks.Select(x => x.Student.User)))
-						.ToList();
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			return repositoriesContainer.RepositoryFor<LecturesScheduleVisiting>()
+					.GetAll(query)
+					.ToList();
 		}
 
 		public void SaveMarksCalendarData(List<LecturesVisitMark> lecturesVisitMarks)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.RepositoryFor<LecturesVisitMark>().Save(lecturesVisitMarks);
-				repositoriesContainer.ApplyChanges();
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			repositoriesContainer.RepositoryFor<LecturesVisitMark>().Save(lecturesVisitMarks);
+			repositoriesContainer.ApplyChanges();
 		}
 
 		public void SaveScheduleProtectionLabsDate(int subGroupId, DateTime date)
@@ -837,43 +825,42 @@ namespace Application.Infrastructure.SubjectManagement
 	        }
         }
 
-	    public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, Int32 userId)
+	    public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, int userId)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+
+			if (!string.IsNullOrEmpty(lectures.Attachments))
 			{
-				if (!string.IsNullOrEmpty(lectures.Attachments))
+				var deleteFiles =
+					repositoriesContainer.AttachmentRepository.GetAll(
+						new Query<Attachment>(e => e.PathName == lectures.Attachments)).ToList().Where(e => attachments.All(x => x.Id != e.Id)).ToList();
+
+				foreach (var attachment in deleteFiles)
 				{
-					var deleteFiles =
-						repositoriesContainer.AttachmentRepository.GetAll(
-							new Query<Attachment>(e => e.PathName == lectures.Attachments)).ToList().Where(e => attachments.All(x => x.Id != e.Id)).ToList();
-
-					foreach (var attachment in deleteFiles)
-					{
-						FilesManagementService.DeleteFileAttachment(attachment);
-					}
+					FilesManagementService.DeleteFileAttachment(attachment);
 				}
-				else
-				{
-					lectures.Attachments = GetGuidFileName();
-				}
-
-				FilesManagementService.SaveFiles(attachments.Where(e => e.Id == 0), lectures.Attachments);
-
-				foreach (var attachment in attachments)
-				{
-					if (attachment.Id == 0)
-					{
-						attachment.PathName = lectures.Attachments;
-						repositoriesContainer.AttachmentRepository.Save(attachment);
-					}
-				}
-
-				repositoriesContainer.LecturesRepository.Save(lectures);
-				repositoriesContainer.ApplyChanges();
-
-				if (lectures.IsNew && lectures.Subject.SubjectModules.Any(s => s.Module.ModuleType == ModuleType.Lectures))
-					ConceptManagementService.AttachFolderToLectSection(lectures.Theme, userId, lectures.SubjectId);
 			}
+			else
+			{
+				lectures.Attachments = GetGuidFileName();
+			}
+
+			FilesManagementService.SaveFiles(attachments.Where(e => e.Id == 0), lectures.Attachments);
+
+			foreach (var attachment in attachments)
+			{
+				if (attachment.Id == 0)
+				{
+					attachment.PathName = lectures.Attachments;
+					repositoriesContainer.AttachmentRepository.Save(attachment);
+				}
+			}
+
+			repositoriesContainer.LecturesRepository.Save(lectures);
+			repositoriesContainer.ApplyChanges();
+
+			if (lectures.IsNew && lectures.Subject.SubjectModules.Any(s => s.Module.ModuleType == ModuleType.Lectures))
+				ConceptManagementService.AttachFolderToLectSection(lectures.Theme, userId, lectures.SubjectId);
 
 			return lectures;
 		}

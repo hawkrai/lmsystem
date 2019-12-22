@@ -1,8 +1,8 @@
-﻿namespace LMPlatform.UI.Services.Modules.Lectures
-{
-    using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
-    using LMPlatform.Models;
+namespace LMPlatform.UI.Services.Modules.Lectures
+{
+    using Models;
 
     [DataContract]
     public class CalendarViewData

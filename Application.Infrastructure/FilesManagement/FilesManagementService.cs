@@ -52,11 +52,9 @@ namespace Application.Infrastructure.FilesManagement
 
         public IList<Attachment> GetAttachments(string path)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return string.IsNullOrEmpty(path) ? repositoriesContainer.AttachmentRepository.GetAll().ToList() 
-                    : repositoriesContainer.AttachmentRepository.GetAll(new Query<Attachment>(e => e.PathName == path)).ToList();
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return string.IsNullOrEmpty(path) ? repositoriesContainer.AttachmentRepository.GetAll().ToList() 
+		        : repositoriesContainer.AttachmentRepository.GetAll(new Query<Attachment>(e => e.PathName == path)).ToList();
         }
 
         public void DeleteFileAttachment(Attachment attachment)
