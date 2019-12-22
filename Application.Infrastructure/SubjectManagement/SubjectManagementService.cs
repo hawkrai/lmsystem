@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
 using System.Linq;
-using System.Xml.Linq;
 using Application.Core;
 using Application.Core.Data;
-using Application.Core.Extensions;
 using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.Data.Repositories;
-using LMPlatform.Data.Repositories.RepositoryContracts;
 using LMPlatform.Models;
 using Application.Infrastructure.ConceptManagement;
 
 namespace Application.Infrastructure.SubjectManagement
 {
-	using Application.Infrastructure.Models;
+	using Models;
 
 	public class SubjectManagementService : ISubjectManagementService
 	{
@@ -25,26 +20,13 @@ namespace Application.Infrastructure.SubjectManagement
 		private readonly LazyDependency<IFilesManagementService> _filesManagementService =
 			new LazyDependency<IFilesManagementService>();
 
-		public IFilesManagementService FilesManagementService
-		{
-			get { return _filesManagementService.Value; }
-		}
+		public IFilesManagementService FilesManagementService => _filesManagementService.Value;
 
-		public IStudentManagementService StudentManagementService
-		{
-			get
-			{
-				return _studentManagementService.Value;
-			}
-		}
+		public IStudentManagementService StudentManagementService => _studentManagementService.Value;
 
 		private readonly LazyDependency<IConceptManagementService> _conceptManagementService = new LazyDependency<IConceptManagementService>();
 
-
-		public IConceptManagementService ConceptManagementService
-		{
-			get { return _conceptManagementService.Value; }
-		}
+		public IConceptManagementService ConceptManagementService => _conceptManagementService.Value;
 
 		public List<Subject> GetUserSubjects(int userId)
 		{
@@ -120,13 +102,9 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public Subject SaveSubject(Subject subject)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.SubjectRepository.Save(subject);
-
-				repositoriesContainer.ApplyChanges();
-			}
-
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			repositoriesContainer.SubjectRepository.Save(subject);
+			repositoriesContainer.ApplyChanges();
 			return subject;
 		}
 

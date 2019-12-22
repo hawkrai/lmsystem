@@ -5,8 +5,7 @@ using LMPlatform.Models;
 namespace Application.Infrastructure.SubjectManagement
 {
     using System;
-
-    using Application.Infrastructure.Models;
+    using Models;
 
     public interface ISubjectManagementService
     {
@@ -48,9 +47,9 @@ namespace Application.Infrastructure.SubjectManagement
 
         Lectures GetLectures(int id);
 
-        Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, Int32 userId);
+        Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, int userId);
 
-        Labs SaveLabs(Labs labs, IList<Attachment> attachments, Int32 userId);
+        Labs SaveLabs(Labs labs, IList<Attachment> attachments, int userId);
 
 		UserLabFiles SaveUserLabFiles(UserLabFiles userLabFiles, IList<Attachment> attachments);
 
@@ -58,7 +57,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         Practical GetPractical(int id);
 
-        Practical SavePractical(Practical practical, IList<Attachment> attachments, Int32 userId);
+        Practical SavePractical(Practical practical, IList<Attachment> attachments, int userId);
 
         void SaveDateLectures(int subjectId, DateTime date);
 
