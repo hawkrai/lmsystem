@@ -13,19 +13,15 @@ namespace Application.Infrastructure.BugManagement
         public List<Bug> GetUserBugs(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
         {
             searchString = ValidateSearchString(searchString);
-            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.BugsRepository.GetUserBugs(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
-            }
+            using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+            return repositoriesContainer.BugsRepository.GetUserBugs(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
         }
 
         public int GetUserBugsCount(int userId, string searchString)
         {
             searchString = ValidateSearchString(searchString);
-            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.BugsRepository.GetUserBugsCount(userId, searchString);
-            }
+            using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+            return repositoriesContainer.BugsRepository.GetUserBugsCount(userId, searchString);
         }
 
         public List<Bug> GetProjectBugs(int projectId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
@@ -40,10 +36,8 @@ namespace Application.Infrastructure.BugManagement
         public int GetProjectBugsCount(int projectId, string searchString)
         {
             searchString = ValidateSearchString(searchString);
-            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.BugsRepository.GetProjectBugsCount(projectId, searchString);
-            }
+            using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+            return repositoriesContainer.BugsRepository.GetProjectBugsCount(projectId, searchString);
         }
 
         public Bug GetBug(int bugId)
