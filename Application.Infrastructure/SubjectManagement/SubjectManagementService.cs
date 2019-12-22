@@ -132,22 +132,16 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public SubjectNews SaveNews(SubjectNews news)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.SubjectRepository.SaveNews(news);
-
-				repositoriesContainer.ApplyChanges();
-			}
-
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			repositoriesContainer.SubjectRepository.SaveNews(news);
+			repositoriesContainer.ApplyChanges();
 			return news;
 		}
 
 		public void DeleteNews(SubjectNews news)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.SubjectRepository.DeleteNews(news);
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			repositoriesContainer.SubjectRepository.DeleteNews(news);
 		}
 
 		public void DeleteLection(Lectures lectures)
@@ -328,14 +322,14 @@ namespace Application.Infrastructure.SubjectManagement
 				return subjectlect.Any();
 			}
 		}
-
-
-		public SubjectNews GetNews(int id, int subjecttId)
+		
+		public SubjectNews GetNews(int id, int subjectId)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				return repositoriesContainer.SubjectRepository.GetBy(new Query<Subject>(e => e.Id == subjecttId).Include(e => e.SubjectNewses)).SubjectNewses.FirstOrDefault(e => e.Id == id);
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			return repositoriesContainer.SubjectRepository
+				.GetBy(new Query<Subject>(e => e.Id == subjectId).Include(e => e.SubjectNewses))
+				.SubjectNewses
+				.FirstOrDefault(e => e.Id == id);
 		}
 
 		public List<SubjectNews> GetNewsByGroup(int id)
@@ -888,10 +882,8 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public void DisableNews(int subjectId, bool disable)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.SubjectRepository.DisableNews(subjectId, disable);
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			repositoriesContainer.SubjectRepository.DisableNews(subjectId, disable);
 		}
 
 		public List<ProfileCalendarModel> GetLabEvents(int userId)

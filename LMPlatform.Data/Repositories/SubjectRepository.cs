@@ -50,20 +50,17 @@ namespace LMPlatform.Data.Repositories
 
 		public SubjectNews SaveNews(SubjectNews news)
 		{
-			using (var context = new LmPlatformModelsContext())
+			using var context = new LmPlatformModelsContext();
+			if (news.Id != 0)
 			{
-				if (news.Id != 0)
-				{
-					context.Update(news);
-				}
-				else
-				{
-					context.Add(news);
-				}
-
-				context.SaveChanges();
+				context.Update(news);
+			}
+			else
+			{
+				context.Add(news);
 			}
 
+			context.SaveChanges();
 			return news;
 		}
 
@@ -97,13 +94,10 @@ namespace LMPlatform.Data.Repositories
 
 		public void DeleteNews(SubjectNews news)
 		{
-			using (var context = new LmPlatformModelsContext())
-			{
-				var model = context.Set<SubjectNews>().FirstOrDefault(e => e.Id == news.Id);
-				context.Delete(model);
-
-				context.SaveChanges();
-			}
+			using var context = new LmPlatformModelsContext();
+			var model = context.Set<SubjectNews>().FirstOrDefault(e => e.Id == news.Id);
+			context.Delete(model);
+			context.SaveChanges();
 		}
 
 		public void DeleteLection(Lectures lectures)
@@ -197,19 +191,16 @@ namespace LMPlatform.Data.Repositories
 
 		public void DisableNews(int subjectId, bool disable)
 		{
-			using (var context = new LmPlatformModelsContext())
+			using var context = new LmPlatformModelsContext();
+			var models = context.Set<SubjectNews>().Where(e => e.SubjectId == subjectId);
+
+			foreach (var subjectNewse in models)
 			{
-				var models = context.Set<SubjectNews>().Where(e => e.SubjectId == subjectId);
-
-				foreach (var subjectNewse in models)
-				{
-					subjectNewse.Disabled = disable;
-				}
-
-				context.Update<SubjectNews, LmPlatformModelsContext>(models);
-
-				context.SaveChanges();
+				subjectNewse.Disabled = disable;
 			}
+
+			context.Update(models);
+			context.SaveChanges();
 		}
 	}
 }

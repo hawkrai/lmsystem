@@ -40,7 +40,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         bool IsWorkingSubject(int userId, int subjectId);
 
-        SubjectNews GetNews(int id, int subjecttId);
+        SubjectNews GetNews(int id, int subjectId);
 
 	    IList<SubGroup> GetSubGroups(int subjectId, int groupId);
 
