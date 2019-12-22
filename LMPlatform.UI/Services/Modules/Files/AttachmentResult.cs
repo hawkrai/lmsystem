@@ -1,11 +1,10 @@
-﻿namespace LMPlatform.UI.Services.Modules.Messages
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using LMPlatform.Models;
+
+namespace LMPlatform.UI.Services.Modules.Files
 {
-    using System.Collections.Generic;
-    using System.Runtime.Serialization;
-
-    using LMPlatform.Models;
-
-    [DataContract]
+	[DataContract]
     public class AttachmentResult : ResultViewData
     {
         [DataMember]
