@@ -769,7 +769,7 @@ namespace LMPlatform.UI.Services.Labs
 			}
 		}
 
-		public ResultPSubjectViewData CheckPlagiarismSubjects(string subjectId, string type, string threshold) 
+		public ResultPSubjectViewData CheckPlagiarismSubjects(string subjectId, string type, string threshold, bool isCp = false) 
 		{
 			try
 			{
@@ -779,7 +779,7 @@ namespace LMPlatform.UI.Services.Labs
 
 				Directory.CreateDirectory(this.PlagiarismTempPath + path);
 								
-				var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived);
+				var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived && e.IsCoursProject == isCp);
 
 				var filesPaths = usersFiles.Select(e => e.Attachments);
 
