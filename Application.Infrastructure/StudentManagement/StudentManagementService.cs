@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Application.Core;
 using Application.Core.Data;
-using Application.Infrastructure.BugManagement;
-using Application.Infrastructure.MessageManagement;
-using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
@@ -15,12 +11,12 @@ namespace Application.Infrastructure.StudentManagement
 {
     public class StudentManagementService : IStudentManagementService
     {
-        public Student GetStudent(int userId)
+        public Student GetStudent(int userId, bool lite = false)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.StudentsRepository.GetBy(new Query<Student>(e => e.Id == userId).Include(e => e.Group).Include(e => e.User));
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        var student = lite ? repositoriesContainer.StudentsRepository.GetBy(new Query<Student>(s => s.Id == userId)) 
+		        : repositoriesContainer.StudentsRepository.GetBy(new Query<Student>(e => e.Id == userId).Include(e => e.Group).Include(e => e.User));
+	        return student;
         }
 
         public IEnumerable<Student> GetGroupStudents(int groupId)
@@ -34,12 +30,10 @@ namespace Application.Infrastructure.StudentManagement
             }
         }
 
-        public IEnumerable<Student> GetStudents()
+        public IEnumerable<Student> GetStudents(IQuery<Student> query = null)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.StudentsRepository.GetAll(new Query<Student>().Include(e => e.Group).Include(e => e.User)).ToList();
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.StudentsRepository.GetAll(query ?? new Query<Student>().Include(e => e.Group).Include(e => e.User)).ToList();
         }
 
         public IPageableList<Student> GetStudentsPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
