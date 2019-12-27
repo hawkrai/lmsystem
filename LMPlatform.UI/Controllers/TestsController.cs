@@ -112,9 +112,9 @@ namespace LMPlatform.UI.Controllers
                 if (recommendedConcept != null && recommendedConcept.Concept != null)
                 {
                     var testIds = GetTestForEUMKConcept(recommendedConcept.Concept.Id, subjectId, 0);
-                    if (testIds != null && testIds.Count() > 0)
+					result.Add(new { IsTest = false, Id = recommendedConcept.Concept.Id, Text = "Рекомендуемый для прочтения материал" });
+					if (testIds != null && testIds.Count() > 0)
                     {
-                        result.Add(new { IsTest = false, Id = recommendedConcept.Concept.Id, Text = "Рекомендуемый для прочтения материал" });
                         foreach (var testId in testIds)
                         {
                             result.Add(new { IsTest = true, Id = testId, Text = "Пройдите тест!" });

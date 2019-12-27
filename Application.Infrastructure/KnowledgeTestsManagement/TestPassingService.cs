@@ -420,7 +420,7 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 
 				var answerOnTestQuestion = repository.GetAll(
 						new Query<AnswerOnTestQuestion>(
-							testAnswer => testAnswer.QuestionId == questionId && testAnswer.UserId == userId && !testAnswer.TestEnded)).ToList();
+							testAnswer => testAnswer.QuestionId == questionId && testAnswer.UserId == userId)).ToList();
 
 				if(answerOnTestQuestion != null && answerOnTestQuestion.Any())
 				{
