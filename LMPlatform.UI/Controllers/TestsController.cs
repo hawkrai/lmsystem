@@ -112,15 +112,18 @@ namespace LMPlatform.UI.Controllers
                 if (recommendedConcept != null && recommendedConcept.Concept != null)
                 {
                     var testIds = GetTestForEUMKConcept(recommendedConcept.Concept.Id, subjectId, 0);
-					result.Add(new { IsTest = false, Id = recommendedConcept.Concept.Id, Text = "Рекомендуемый для прочтения материал" });
-					if (testIds != null && testIds.Count() > 0)
-                    {
-                        foreach (var testId in testIds)
-                        {
-                            result.Add(new { IsTest = true, Id = testId, Text = "Пройдите тест!" });
-                        }
-                        return Json(result, JsonRequestBehavior.AllowGet);
-                    }
+					if (testIds != null && testIds.Any())
+					{
+						result.Add(new { IsTest = false, Id = recommendedConcept.Concept.Id, Text = "Рекомендуемый для прочтения материал" });
+						if (testIds != null && testIds.Count() > 0)
+						{
+							foreach (var testId in testIds)
+							{
+								result.Add(new { IsTest = true, Id = testId, Text = "Пройдите тест!" });
+							}
+							return Json(result, JsonRequestBehavior.AllowGet);
+						}
+					}					
                 }
             }
 
@@ -178,7 +181,7 @@ namespace LMPlatform.UI.Controllers
                     {
                         yield return test.Id;
                     }
-                    else if (testResult != null && testResult.Points < 10)
+                    else if (testResult != null && (testResult.Points == null || testResult.Points < 10))
                     {
                         yield return test.Id;
                     }
