@@ -170,8 +170,8 @@
                         <tbody>
                             <tr ng-repeat="data in resultPlagiatium">
                                 <td style="text-align: center;">{{data.coeff}}</td>
-                                <td>{{data.author}}</td>
-                                <td>{{data.groupName}}</td>
+                                <td sortable="'author'">{{data.author}}</td>
+                                <td sortable="'groupName'">{{data.groupName}}</td>
                                 <td>{{data.subjectName}}</td>
                                 <td>{{data.doc}}</td>
                             </tr>

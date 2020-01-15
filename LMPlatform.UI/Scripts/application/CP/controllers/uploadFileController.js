@@ -2,7 +2,7 @@
     .controller('uploadFileCtrl',
     function ($scope, $http, $filter, usSpinnerService) {
 
-            $scope.setTitle('Защита курсового проекта(работы)');
+            $scope.setTitle('Защита курсового проекта (работы)');
 
             $scope.labs = [];
 

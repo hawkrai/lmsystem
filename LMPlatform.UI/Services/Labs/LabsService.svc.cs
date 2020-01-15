@@ -914,7 +914,7 @@ namespace LMPlatform.UI.Services.Labs
 
 				return new ResultViewData
 				{
-					DataD = data.ToList(),
+					DataD = data.OrderByDescending(x => int.Parse(x.coeff)).ToList(),
 					Message = "Проверка успешно завершена",
 					Code = "200"
 				};
