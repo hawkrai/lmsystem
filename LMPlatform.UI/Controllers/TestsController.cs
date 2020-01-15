@@ -32,10 +32,15 @@ namespace LMPlatform.UI.Controllers
             get { return ConfigurationManager.AppSettings["TestContentPath"]; }
         }
 
-        [Authorize, HttpGet]
+        [Authorize(Roles = "lector"), HttpGet]
         public ActionResult KnowledgeTesting(int subjectId)
         {
-            Subject subject = SubjectsManagementService.GetSubject(subjectId);
+            if (!User.IsInRole("lector"))
+            {
+                return PartialView("Error");
+            }
+
+            var subject = SubjectsManagementService.GetSubject(subjectId);
             return View("KnowledgeTesting", subject);
         }
 

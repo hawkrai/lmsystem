@@ -406,9 +406,15 @@
             }
 
             $scope.openTest = function (id) {
-                var returnUrl = encodeURIComponent($location.absUrl());
-                var url = '/Tests/KnowledgeTesting?subjectId=' + subjectId + '#/passing?testId=' + id + '&return=' + returnUrl;
-                $window.open(url, '_blank')
+				var returnUrl = encodeURIComponent($location.absUrl());
+				var url = '/Tests/KnowledgeTesting?subjectId=' + subjectId + '#/passing?testId=' + id + '&return=' + returnUrl;
+
+				if ($scope.user === "student")
+				{
+					url = '/TestPassing/StudentsTesting?subjectId=' + subjectId + '#/passing?testId=' + id + '&return=' + returnUrl;
+				}
+
+				$window.open(url, '_blank');
             }
 
             $scope.openConcept = function (id) {
