@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Web;
+using System.Web.Caching;
 using Application.Core;
 using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.SubjectManagement;
@@ -773,13 +776,14 @@ namespace LMPlatform.UI.Services.Labs
 		{
 			try
 			{
+				ClearCache();
 				var path = Guid.NewGuid().ToString("N");
 
-				var subjectName = this.SubjectManagementService.GetSubject(Int32.Parse(subjectId)).ShortName;
+				var subjectName = this.SubjectManagementService.GetSubject(int.Parse(subjectId)).ShortName;
 
 				Directory.CreateDirectory(this.PlagiarismTempPath + path);
 								
-				var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived && e.IsCoursProject == isCp);
+				var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, int.Parse(subjectId)).Where(e => e.IsReceived && e.IsCoursProject == isCp);
 
 				var filesPaths = usersFiles.Select(e => e.Attachments);
 
@@ -853,6 +857,8 @@ namespace LMPlatform.UI.Services.Labs
 		{
 			try
 			{
+				ClearCache();
+
 				var path = Guid.NewGuid().ToString("N");
 
 				var subjectName = this.SubjectManagementService.GetSubject(Int32.Parse(subjectId)).ShortName;
@@ -928,5 +934,39 @@ namespace LMPlatform.UI.Services.Labs
 				};
 			}
 		}
-    }
+
+		private static void ClearCache()
+		{
+			foreach (DictionaryEntry entry_loopVariable in HttpContext.Current.Cache)
+			{
+				var entry = entry_loopVariable;
+				HttpContext.Current.Cache.Remove(entry.Key.ToString());
+			}
+
+			IDictionaryEnumerator enumerator = HttpContext.Current.Cache.GetEnumerator();
+
+			while (enumerator.MoveNext())
+			{
+				HttpContext.Current.Cache.Remove(enumerator.Key.ToString());
+			}
+			HttpContext.Current.Response.ClearHeaders();
+			HttpContext.Current.Response.Expires = 0;
+			HttpContext.Current.Response.CacheControl = "no-cache";
+			HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.ServerAndNoCache);
+			HttpContext.Current.Response.Cache.SetNoStore();
+			HttpContext.Current.Response.Buffer = true;
+			HttpContext.Current.Response.ExpiresAbsolute = DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0));
+			HttpContext.Current.Response.AppendHeader("Pragma", "no-cache");
+			HttpContext.Current.Response.AppendHeader("", "");
+			HttpContext.Current.Response.AppendHeader("Cache-Control", "no-cache"); //HTTP 1.1
+			HttpContext.Current.Response.AppendHeader("Cache-Control", "private"); // HTTP 1.1
+			HttpContext.Current.Response.AppendHeader("Cache-Control", "no-store"); // HTTP 1.1
+			HttpContext.Current.Response.AppendHeader("Cache-Control", "must-revalidate"); // HTTP 1.1
+			HttpContext.Current.Response.AppendHeader("Cache-Control", "max-stale=0"); // HTTP 1.1
+			HttpContext.Current.Response.AppendHeader("Cache-Control", "post-check=0"); // HTTP 1.1
+			HttpContext.Current.Response.AppendHeader("Cache-Control", "pre-check=0"); // HTTP 1.1
+			HttpContext.Current.Response.AppendHeader("Pragma", "no-cache"); // HTTP 1.1
+			HttpContext.Current.Response.AppendHeader("Keep-Alive", "timeout=3, max=993"); // HTTP 1.1
+		}
+	}
 }

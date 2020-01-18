@@ -996,6 +996,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.loadPlagiarismSubject = function () {
+            $('.number-spinner').find('button').prop("disabled", true);
             $(".loadingPSubject").toggleClass('ng-hide', false);
             usSpinnerService.spin('spinner-1');
             $scope.resultPlagiatiumSybject = [];
@@ -1019,7 +1020,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 }
                 usSpinnerService.stop('spinner-1');
                 $(".loadingPSubject").toggleClass('ng-hide', true);
-
+                $('.number-spinner').find('button').prop("disabled", false);
             });
         };
 
