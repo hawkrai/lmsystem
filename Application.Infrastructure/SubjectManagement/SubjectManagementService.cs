@@ -48,10 +48,14 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public List<Subject> GetGroupSubjects(int groupId)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				return repositoriesContainer.SubjectRepository.GetSubjects(groupId: groupId).Where(e => !e.IsArchive).ToList();
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			return repositoriesContainer.SubjectRepository.GetSubjects(groupId: groupId).Where(e => !e.IsArchive).ToList();
+		}
+
+		public List<Subject> GetGroupSubjectsLite(int groupId)
+		{
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			return repositoriesContainer.SubjectRepository.GetSubjectsLite(groupId).Where(e => !e.IsArchive).ToList();
 		}
 
 		public Subject GetSubject(int id)
@@ -392,22 +396,20 @@ namespace Application.Infrastructure.SubjectManagement
 						
 				return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
 			}
-        }
+		}
 
-        public IList<SubGroup> GetSubGroupsV3(int subjectId, int groupId)
-        {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                var subjectGroup =
-                    repositoriesContainer.SubjectRepository.GetBy(
-                        new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId))
-                        .Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.User)))));
+		public IList<SubGroup> GetSubGroupsV3(int subjectId, int groupId)
+		{
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			var subjectGroup =
+				repositoriesContainer.SubjectRepository
+					.GetBy(new Query<Subject>(e => e.Id == subjectId && e.SubjectGroups.Any(x => x.GroupId == groupId))
+						.Include(e => e.SubjectGroups.Select(x => x.SubGroups.Select(c => c.SubjectStudents.Select(t => t.Student.User)))));
 
-                return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
-            }
-        }
+			return subjectGroup.SubjectGroups.First(e => e.GroupId == groupId).SubGroups.ToList();
+		}
 
-        public IList<SubGroup> GetSubGroupsV2WithScheduleProtectionLabs(int subjectId, int groupId)
+		public IList<SubGroup> GetSubGroupsV2WithScheduleProtectionLabs(int subjectId, int groupId)
 		{
 			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 			{
@@ -641,33 +643,33 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
-        public Group GetGroup(int groupId)
-        {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return
-                    repositoriesContainer.RepositoryFor<Group>().GetBy(new Query<Group>(e => e.Id == groupId)
-                    .Include(e => e.Students.Select(x => x.ScheduleProtectionLabMarks)));
-            }
-        }
+		public Group GetGroup(int groupId)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				return
+					repositoriesContainer.RepositoryFor<Group>().GetBy(new Query<Group>(e => e.Id == groupId)
+					.Include(e => e.Students.Select(x => x.ScheduleProtectionLabMarks)));
+			}
+		}
 
-        public void SaveLabsVisitingData(ScheduleProtectionLabMark protectionLabMarks)
-        {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                repositoriesContainer.RepositoryFor<ScheduleProtectionLabMark>().Save(protectionLabMarks);
-                repositoriesContainer.ApplyChanges();
-            }
-        }
+		public void SaveLabsVisitingData(ScheduleProtectionLabMark protectionLabMarks)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				repositoriesContainer.RepositoryFor<ScheduleProtectionLabMark>().Save(protectionLabMarks);
+				repositoriesContainer.ApplyChanges();
+			}
+		}
 
-        public void SaveStudentLabsMark(StudentLabMark studentLabMark)
-        {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                repositoriesContainer.RepositoryFor<StudentLabMark>().Save(studentLabMark);
-                repositoriesContainer.ApplyChanges();
-            }
-        }
+		public void SaveStudentLabsMark(StudentLabMark studentLabMark)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				repositoriesContainer.RepositoryFor<StudentLabMark>().Save(studentLabMark);
+				repositoriesContainer.ApplyChanges();
+			}
+		}
 
 		public void SavePracticalVisitingData(List<ScheduleProtectionPracticalMark> protectionPracticalMarks)
 		{
@@ -779,25 +781,25 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
-	    public void DeleteNonReceivedUserFiles(int groupId)
-	    {
-	        using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-	        {
-	            var studentsIds = repositoriesContainer.RepositoryFor<Student>()
-	                .GetAll(new Query<Student>(e => e.GroupId == groupId)).Select(x => x.User.Id).ToList();
+		public void DeleteNonReceivedUserFiles(int groupId)
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var studentsIds = repositoriesContainer.RepositoryFor<Student>()
+					.GetAll(new Query<Student>(e => e.GroupId == groupId)).Select(x => x.User.Id).ToList();
 
-	            foreach (var studentId in studentsIds)
-	            {
-	                var model = repositoriesContainer.RepositoryFor<UserLabFiles>().
-	                    GetAll(new Query<UserLabFiles>(e => e.UserId == studentId && !e.IsReceived));
-	                repositoriesContainer.RepositoryFor<UserLabFiles>().Delete(model);
-                }
+				foreach (var studentId in studentsIds)
+				{
+					var model = repositoriesContainer.RepositoryFor<UserLabFiles>().
+						GetAll(new Query<UserLabFiles>(e => e.UserId == studentId && !e.IsReceived));
+					repositoriesContainer.RepositoryFor<UserLabFiles>().Delete(model);
+				}
 
-	            repositoriesContainer.ApplyChanges();
-	        }
-        }
+				repositoriesContainer.ApplyChanges();
+			}
+		}
 
-	    public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, int userId)
+		public Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, int userId)
 		{
 			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
 
@@ -1009,16 +1011,14 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public List<Subject> GetSubjectsByLectorOwner(int userId)
 		{
-			List<Subject> model;
-
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				model = repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(new Query<SubjectLecturer>(e => e.LecturerId == userId && e.Owner == null).Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
-					.Include(e => e.Subject.LecturesScheduleVisitings)
-					.Include(e => e.Subject.Labs)
-					.Include(e => e.Subject.SubjectGroups.Select(x => x.SubGroups.Select(t => t.ScheduleProtectionLabs)))).Select(e => e.Subject).Where(e => !e.IsArchive).ToList();
-				return model;
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			var model = repositoriesContainer.RepositoryFor<SubjectLecturer>()
+			.GetAll(new Query<SubjectLecturer>(e => e.LecturerId == userId && e.Owner == null)
+			.Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
+			.Include(e => e.Subject.LecturesScheduleVisitings)
+			.Include(e => e.Subject.Labs)
+			.Include(e => e.Subject.SubjectGroups.Select(x => x.SubGroups.Select(t => t.ScheduleProtectionLabs)))).Select(e => e.Subject).Where(e => !e.IsArchive).ToList();
+			return model;
 		}
 
 		public List<Subject> GetSubjectsByStudent(int userId)
@@ -1063,53 +1063,53 @@ namespace Application.Infrastructure.SubjectManagement
 			return count;
 		}
 
-        public int StudentAttendance(int userId)
+		public int StudentAttendance(int userId)
 		{
 			int count = 0;
 
-            //using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            //{
-            //    var user =
-            //        repositoriesContainer.StudentsRepository.GetBy(
-            //            new Query<Student>(e => e.Id == userId).Include(
-            //                e => e.ScheduleProtectionLabMarks.Select(x => x.ScheduleProtectionLab)));
+			//using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			//{
+			//    var user =
+			//        repositoriesContainer.StudentsRepository.GetBy(
+			//            new Query<Student>(e => e.Id == userId).Include(
+			//                e => e.ScheduleProtectionLabMarks.Select(x => x.ScheduleProtectionLab)));
 
-            //    var hours = 0;
+			//    var hours = 0;
 
-            //    foreach (var scheduleProtectionLabMark in user.ScheduleProtectionLabMarks)
-            //    {
-            //        if (!string.IsNullOrEmpty(scheduleProtectionLabMark.Mark))
-            //        {
-            //            //hours   
-            //        }   
-            //    }
+			//    foreach (var scheduleProtectionLabMark in user.ScheduleProtectionLabMarks)
+			//    {
+			//        if (!string.IsNullOrEmpty(scheduleProtectionLabMark.Mark))
+			//        {
+			//            //hours   
+			//        }   
+			//    }
 
-            //    if (isDate)
-            //    {
-            //        var numberDates = dates.Count;
-            //        dates.Sort((a, b) => a.CompareTo(b));
-            //        var nowDate = DateTime.Now.Date;
+			//    if (isDate)
+			//    {
+			//        var numberDates = dates.Count;
+			//        dates.Sort((a, b) => a.CompareTo(b));
+			//        var nowDate = DateTime.Now.Date;
 
-            //        var countDone = 0;
+			//        var countDone = 0;
 
-            //        foreach (var dateTime in dates)
-            //        {
-            //            if (nowDate > dateTime)
-            //            {
-            //                countDone += 1;
-            //            }
-            //        }
+			//        foreach (var dateTime in dates)
+			//        {
+			//            if (nowDate > dateTime)
+			//            {
+			//                countDone += 1;
+			//            }
+			//        }
 
-            //        count = Math.Round(((decimal)countDone / numberDates) * 100, 0);
-            //    }
-            //}
+			//        count = Math.Round(((decimal)countDone / numberDates) * 100, 0);
+			//    }
+			//}
 
 			return count;
 		}
 
-        public decimal GetSubjectCompleting(int subjectId, string user, Student student)
-        {
-            decimal count = 0;
+		public decimal GetSubjectCompleting(int subjectId, string user, Student student)
+		{
+			decimal count = 0;
 
 			if (user == "S")
 			{
@@ -1176,9 +1176,9 @@ namespace Application.Infrastructure.SubjectManagement
 				}
 			}
 
-            
+			
 
-            return count;
-        }
+			return count;
+		}
 	}
 }
