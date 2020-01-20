@@ -8,7 +8,16 @@
 {
     @foreach (var subject in Model)
     {
-        <li><a href="@Url.Action("KnowledgeTesting", "Tests", new { subjectId = subject.SubjectId })" style="font-size: 14px">@subject.DisplayName</a></li>
+	    if (User.IsInRole("student"))
+	    {
+			   <li><a href="@Url.Action("StudentsTesting", "TestPassing", new { subjectId = subject.SubjectId })" style="font-size: 14px">@subject.DisplayName</a></li>
+	    }
+
+	    if (User.IsInRole("lector"))
+	    {
+		   <li><a href="@Url.Action("KnowledgeTesting", "Tests", new { subjectId = subject.SubjectId })" style="font-size: 14px">@subject.DisplayName</a></li>
+	    }
+        
     }
     <li><a href="@Url.Action("Subjects","Subject")" style="font-size: 14px"><i class="fa fa-gears fa-1x" style="margin-right: 10px"></i>  Все предметы</a></li>
     @if (User.IsInRole("lector"))

@@ -29,7 +29,11 @@ namespace LMPlatform.UI.Services.Concept
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetRootConcepts")]
         ConceptResult GetRootConcepts(String subjectId);
 
-        [OperationContract]
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetRootConceptsMobile")]
+		ConceptResult GetRootConceptsMobile(string subjectId, string userId, string identityKey);
+
+		[OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConceptTitleInfo?subjectId={subjectId}")]
         ConceptPageTitleData GetConceptTitleInfo(String subjectId);
 
@@ -41,7 +45,12 @@ namespace LMPlatform.UI.Services.Concept
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConceptTree?elementId={elementId}")]
         ConceptViewData GetConceptTree(String elementId);
 
-        [OperationContract]
+		[OperationContract]
+		[WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConceptTreeMobile?elementId={elementId}")]
+		ConceptViewData GetConceptTreeMobile(String elementId);
+
+
+		[OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Remove")]
         ConceptResult Remove(String id);
 

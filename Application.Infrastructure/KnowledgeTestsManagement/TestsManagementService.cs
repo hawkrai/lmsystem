@@ -126,6 +126,15 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 			return searchResults;
 		}
 
+		public List<Question> GetQuestions()
+		{
+			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			{
+				var data = repositoriesContainer.QuestionsRepository.GetAll();
+				return data.ToList();
+			}
+		}
+
 		public IEnumerable<TestUnlockInfo> GetTestUnlocksForTest(int groupId, int testId, string searchString = null)
 		{
 			IEnumerable<Student> studentResults;

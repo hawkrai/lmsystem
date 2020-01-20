@@ -159,7 +159,7 @@ namespace LMPlatform.UI.Controllers
 
 			        var questions = TestsManagementService.GetTest(testId, true);
 
-			        var themIds = questions.Questions.Where(e => e.ConceptId.HasValue).Select(e => (int) e.ConceptId)
+					var themIds = questions.Questions.OrderBy(e => e.ConceptId).ThenBy(e => e.Id).Where(e => e.ConceptId.HasValue).Select(e => (int)e.ConceptId)
 				        .Distinct();
 
 			        var thems = new List<object>();
@@ -172,7 +172,7 @@ namespace LMPlatform.UI.Controllers
 
 			        var array = new List<int>();
 
-			        foreach (var question in questions.Questions.OrderBy(e => e.Id).ThenBy(e => e.ConceptId))
+					foreach (var question in questions.Questions.OrderBy(e => e.ConceptId).ThenBy(e => e.Id))
 			        {
 				        var answer = answers.FirstOrDefault(e => e.QuestionId == question.Id);
 				        int data = 0;
@@ -300,6 +300,29 @@ namespace LMPlatform.UI.Controllers
 
             return Json("Ok");
         }
+
+		[HttpGet]
+        public JsonResult GetQuestionsInfo()
+        {
+	        var questions = TestsManagementService.GetQuestions();
+			
+	        var questionsLevel = questions.ToDictionary(e => e.Id, t => t.ComlexityLevel);
+
+			var answers = TestQuestionPassingService.GetAll();
+
+			var level = 0;
+	        var groups = answers.GroupBy(e => e.QuestionId).Select(e => new 
+	        {
+		        idQuestion = e.Key,
+		        complexity = questionsLevel.TryGetValue(e.Key, out level) ? level : 0,
+		        weight = 1,
+		        rightAnswers = e.Count(x => x.Points > 0),
+		        wrongAnswers = e.Count(x => x.Points == 0)
+			});
+	        
+
+			return Json(groups, JsonRequestBehavior.AllowGet);
+		}
 
         [Authorize, HttpGet]
         public void GetResultsExcel(int groupId, int subjectId, bool forSelfStudy)

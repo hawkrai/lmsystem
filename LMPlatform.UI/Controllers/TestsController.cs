@@ -32,10 +32,15 @@ namespace LMPlatform.UI.Controllers
             get { return ConfigurationManager.AppSettings["TestContentPath"]; }
         }
 
-        [Authorize, HttpGet]
+        [Authorize(Roles = "lector"), HttpGet]
         public ActionResult KnowledgeTesting(int subjectId)
         {
-            Subject subject = SubjectsManagementService.GetSubject(subjectId);
+            if (!User.IsInRole("lector"))
+            {
+                return PartialView("Error");
+            }
+
+            var subject = SubjectsManagementService.GetSubject(subjectId);
             return View("KnowledgeTesting", subject);
         }
 
@@ -107,27 +112,66 @@ namespace LMPlatform.UI.Controllers
                     }, JsonRequestBehavior.AllowGet);
                 }
             }
-            foreach(var recommendedConcept in GetMaterialsRecomendations(predTest.Id))
+            foreach(var recommendedConcept in GetMaterialsRecomendations(predTest.Id, 0))
             {
                 if (recommendedConcept != null && recommendedConcept.Concept != null)
                 {
-                    var testIds = GetTestForEUMKConcept(recommendedConcept.Concept.Id, subjectId);
-                    if (testIds != null && testIds.Count() > 0)
-                    {
-                        result.Add(new { IsTest = false, Id = recommendedConcept.Concept.Id, Text = "Рекомендуемый для прочтения материал" });
-                        foreach (var testId in testIds)
-                        {
-                            result.Add(new { IsTest = true, Id = testId, Text = "Пройдите тест!" });
-                        }
-                        return Json(result, JsonRequestBehavior.AllowGet);
-                    }
+                    var testIds = GetTestForEUMKConcept(recommendedConcept.Concept.Id, subjectId, 0);
+					if (testIds != null && testIds.Any())
+					{
+						result.Add(new { IsTest = false, Id = recommendedConcept.Concept.Id, Text = "Рекомендуемый для прочтения материал" });
+						if (testIds != null && testIds.Count() > 0)
+						{
+							foreach (var testId in testIds)
+							{
+								result.Add(new { IsTest = true, Id = testId, Text = "Пройдите тест!" });
+							}
+							return Json(result, JsonRequestBehavior.AllowGet);
+						}
+					}					
                 }
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        private IEnumerable<int> GetTestForEUMKConcept(int conceptId, int subjectId)
+		[AllowAnonymous]
+		public JsonResult GetRecomendationsMobile(int subjectId, int userId)
+		{
+			var result = new List<object>();
+			var predTest = TestsManagementService.GetTestsForSubject(subjectId).FirstOrDefault(x => x.BeforeEUMK);
+			if (predTest != null)
+			{
+				var predTestResult = TestPassingService.GetStidentResults(subjectId, userId).FirstOrDefault(x => x.TestId == predTest.Id);
+				if (predTestResult == null || predTestResult.Points == null)
+				{
+					return Json(new object[]
+					{
+						new { IsTest = true, Id = predTest.Id, Text = "Пройдите предтест" }
+					}, JsonRequestBehavior.AllowGet);
+				}
+			}
+			foreach (var recommendedConcept in GetMaterialsRecomendations(predTest.Id, userId))
+			{
+				if (recommendedConcept != null && recommendedConcept.Concept != null)
+				{
+					var testIds = GetTestForEUMKConcept(recommendedConcept.Concept.Id, subjectId, userId);
+					if (testIds != null && testIds.Count() > 0)
+					{
+						result.Add(new { IsTest = false, Id = recommendedConcept.Concept.Id, Text = "Рекомендуемый для прочтения материал" });
+						foreach (var testId in testIds)
+						{
+							result.Add(new { IsTest = true, Id = testId, Text = "Пройдите тест!" });
+						}
+						return Json(result, JsonRequestBehavior.AllowGet);
+					}
+				}
+			}
+
+			return Json(result, JsonRequestBehavior.AllowGet);
+		}
+
+		private IEnumerable<int> GetTestForEUMKConcept(int conceptId, int subjectId, int userId)
         {
             var testIds = QuestionsManagementService.GetQuestionsByConceptId(conceptId).Select(x => x.TestId).Distinct();
 
@@ -136,13 +180,13 @@ namespace LMPlatform.UI.Controllers
                 var test = TestsManagementService.GetTest(testId);
                 if(test.ForEUMK)
                 {
-                    var testResult = TestPassingService.GetStidentResults(subjectId, CurrentUserId).FirstOrDefault(x => x.TestId == test.Id);
+                    var testResult = TestPassingService.GetStidentResults(subjectId, userId == 0 ? CurrentUserId : userId).FirstOrDefault(x => x.TestId == test.Id);
 
                     if (testResult == null)
                     {
                         yield return test.Id;
                     }
-                    else if (testResult != null && testResult.Points < 10)
+                    else if (testResult != null && (testResult.Points == null || testResult.Points < 10))
                     {
                         yield return test.Id;
                     }
@@ -150,7 +194,7 @@ namespace LMPlatform.UI.Controllers
             }
         }
 
-        private IList<ConceptResult> GetMaterialsRecomendations(int predTestId)
+        private IList<ConceptResult> GetMaterialsRecomendations(int predTestId, int userId)
         {
             IList<ConceptResult> result = new List<ConceptResult>();
             try
@@ -162,7 +206,7 @@ namespace LMPlatform.UI.Controllers
                     {
                         if (question.ConceptId.HasValue)
                         {
-                            var points = TestPassingService.GetPointsForQuestion(WebSecurity.CurrentUserId, question.Id);
+                            var points = TestPassingService.GetPointsForQuestion(userId == 0 ? CurrentUserId : userId, question.Id);
                             if (points == 0 || points == null)
                             {
                                 var concept = ConceptManagementService.GetById(question.ConceptId.Value);

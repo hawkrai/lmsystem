@@ -84,7 +84,7 @@ namespace LMPlatform.Models.KnowledgeTesting
         {
             get
             {
-                return ForSelfStudy || (TestUnlocks != null && TestUnlocks.Any());
+                return ForSelfStudy || ForEUMK || (TestUnlocks != null && TestUnlocks.Any());
             }
         }
 

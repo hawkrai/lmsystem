@@ -16,6 +16,7 @@ using Application.Infrastructure.WatchingTimeManagement;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.UI.Services.Modules;
 using Application.Infrastructure.KnowledgeTestsManagement;
+using System.Threading.Tasks;
 
 namespace LMPlatform.UI.Services.Concept
 {
@@ -200,7 +201,52 @@ namespace LMPlatform.UI.Services.Concept
             }
         }
 
-        public ConceptResult GetConcepts(String parentId)
+		public ConceptResult GetRootConceptsMobile(string subjectId, string userId, string identityKey)
+		{
+			try
+			{
+				if (identityKey != "7e13f363-2f00-497e-828e-49e82d8b4223"){
+					throw new UnauthorizedAccessException();
+				}
+
+				var subject = 0;
+				var valid = Int32.TryParse(subjectId, out subject);
+				var authorId = 0;
+				if (!int.TryParse(userId, out authorId))
+				{
+					throw new ArgumentException();
+				}
+
+				var user = UsersManagementService.GetUser(authorId);
+
+				var concepts = user.Lecturer != null ?
+					ConceptManagementService.GetRootElements(authorId) : (valid ?
+					ConceptManagementService.GetRootElementsBySubject(subject).Where(c => c.Published) : new List<LMPlatform.Models.Concept>());
+
+				if (valid)
+					concepts = concepts.Where(c => c.SubjectId == subject);
+				var subj = SubjectManagementService.GetSubject(subject);
+
+
+				return new ConceptResult
+				{
+					Concepts = concepts.Select(c => new ConceptViewData(c)).ToList(),
+					Message = SuccessMessage,
+					SubjectName = subj.Name,
+					Code = SuccessCode
+				};
+			}
+			catch (Exception ex)
+			{
+			return new ConceptResult
+				{
+					Message = ex.Message,
+					Code = ServerErrorCode
+				};
+			}
+		}
+
+		public ConceptResult GetConcepts(String parentId)
         {
             try
             {
@@ -279,7 +325,48 @@ namespace LMPlatform.UI.Services.Concept
             }
         }
 
-        public AttachViewData GetNextConceptData(String elementId)
+		private void PopulateFilePath(ConceptViewData children)
+		{
+			if (children.Children != null && children.Children.Any())
+			{
+				foreach(var data in children.Children)	
+				{
+					PopulateFilePath(data);
+				}
+			}
+
+			if(children.HasData)
+			{
+				var attach = FilesManagementService.GetAttachments(children.Container).FirstOrDefault();
+				if (attach != null)
+				{
+					var uploadFolder = "UploadedFiles";
+					children.FilePath = string.Format("/{0}/{1}/{2}", uploadFolder, attach.PathName, attach.FileName);
+				}
+			}
+		}
+
+		public ConceptViewData GetConceptTreeMobile(String elementId)
+		{
+			try
+			{
+				var parentId = Int32.Parse(elementId);
+
+				var tree = ConceptManagementService.GetTreeConceptByElementId(parentId);
+
+				var dataTree = new ConceptViewData(tree, true);
+
+				PopulateFilePath(dataTree);
+
+				return dataTree;
+			}
+			catch (Exception ex)
+			{
+				return null;
+			}
+		}
+
+		public AttachViewData GetNextConceptData(String elementId)
         {
             var id = Int32.Parse(elementId);
             var concept = ConceptManagementService.GetByIdFixed(id);
