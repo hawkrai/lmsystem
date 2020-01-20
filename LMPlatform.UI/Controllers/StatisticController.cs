@@ -14,7 +14,7 @@ using System.Linq;
 
 using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.StudentManagement;
-
+using LMPlatform.PlagiarismNet.Controllers;
 using LMPlatform.UI.PlagiateReference;
 using LMPlatform.UI.Services.Modules;
 
@@ -225,11 +225,13 @@ namespace LMPlatform.UI.Controllers
 				}
 			}
 
-			var service = new SoapWSClient();
+			var plagiarismController = new PlagiarismController();
+			var result = plagiarismController.CheckByDirectory(new[] { PlagiarismTempPath + path }.ToList(), threshold, 10, type);
 
-			var result = service.checkByDirectory(new string[] { this.PlagiarismTempPath + path }, threshold, 10, type);
-
-			ResultPlagSubjectClu data = Newtonsoft.Json.JsonConvert.DeserializeObject<ResultPlagSubjectClu>(result);
+			var data = new ResultPlagSubjectClu
+			{
+				clusters = new ResultPlagSubject[result.Count]
+			};
 
 			foreach (var resultPlagSubject in data.clusters.ToList())
 			{

@@ -296,7 +296,8 @@
 
             };
 
-            $scope.loadPlagiarismSubject = function() {
+            $scope.loadPlagiarismSubject = function () {
+                $('.number-spinner').find('button').prop("disabled", true);
                 $(".loadingPSubject").toggleClass('ng-hide', false);
                 usSpinnerService.spin('spinner-1');
                 $scope.resultPlagiatiumSybject = [];
@@ -321,7 +322,7 @@
                     }
                     usSpinnerService.stop('spinner-1');
                     $(".loadingPSubject").toggleClass('ng-hide', true);
-
+                    $('.number-spinner').find('button').prop("disabled", false);
                 });
             };
 
