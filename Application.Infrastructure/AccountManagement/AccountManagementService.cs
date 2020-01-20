@@ -45,20 +45,25 @@ namespace Application.Infrastructure.AccountManagement
 			return WebSecurity.ChangePassword(userName, oldPassword, newPassword);
 		}
 
-        public bool DeleteAccount(string login)
-	    {
-           var result = ((SimpleMembershipProvider)Membership.Provider).DeleteAccount(login);
+		public bool DeleteAccount(string login)
+		{
+			((SimpleMembershipProvider) Membership.Provider).DeleteAccount(login);
+			return Membership.Provider.DeleteUser(login, true);
+		}
+		//   public bool DeleteAccount(string login)
+		//{
+		//      var result = ((SimpleMembershipProvider)Membership.Provider).DeleteAccount(login);
 
-            try
-            {
-                result = Membership.Provider.DeleteUser(login, true);
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+		//       try
+		//       {
+		//           result = Membership.Provider.DeleteUser(login, true);
+		//       }
+		//       catch (Exception e)
+		//       {
+		//           return false;
+		//       }
 
-            return result;
-	    }
+		//       return result;
+		//}
 	}
 }
