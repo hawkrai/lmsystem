@@ -458,7 +458,7 @@ namespace LMPlatform.UI.Controllers
                         return Json(new { resultMessage = string.Format("Студент {0} удален", student.FullName) });
                     }
 
-                    return Json(new { resultMessage = string.Format("Не удалось удалить студента {0}", student.FullName) });
+                    return Json(new { status = "500", resultMessage = string.Format("Не удалось удалить студента {0}", student.FullName) });
                 }
 
 				return Json(new { resultMessage = "Удаление невозможно. Студента не существует", status = "500" });
