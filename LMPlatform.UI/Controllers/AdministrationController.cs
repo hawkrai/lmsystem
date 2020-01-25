@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
@@ -10,9 +13,12 @@ using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.UserManagement;
+using AutoMapper;
+using iTextSharp.text.pdf.parser.clipper;
 using LMPlatform.UI.ViewModels;
 using LMPlatform.UI.ViewModels.AccountViewModels;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
+using LMPlatform.UI.ViewModels.LmsViewModels;
 using Mvc.JQuery.Datatables;
 using Org.BouncyCastle.Asn1.Ocsp;
 using WebMatrix.WebData;
@@ -550,7 +556,7 @@ namespace LMPlatform.UI.Controllers
         public DataTablesResult<StudentViewModel> GetCollectionStudents(DataTablesParam dataTableParam)
         {
             var searchString = dataTableParam.GetSearchString();
-ViewBag.Profile = "/Administration/Profile";
+	        ViewBag.Profile = "/Administration/Profile";
             ViewBag.ListOfSubject = "/Administration/ListOfSubject";
             ViewBag.EditActionLink = "/Administration/EditStudent";
             ViewBag.DeleteActionLink = "/Administration/DeleteStudent";
@@ -570,7 +576,7 @@ ViewBag.Profile = "/Administration/Profile";
             ViewBag.DeleteActionLink = "/Administration/DeleteLecturer";
             ViewBag.StatActionLink = "/Administration/Attendance";
             var lecturers = LecturerManagementService.GetLecturersPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
- this.SetupSettings(dataTableParam);
+			this.SetupSettings(dataTableParam);
             return DataTableExtensions.GetResults(lecturers.Items.Select(l => LecturerViewModel.FormLecturers(l, PartialViewToString("_EditGlyphLinks", l.Id, l.IsActive))), dataTableParam, lecturers.TotalCount);
         }
 
@@ -585,6 +591,7 @@ ViewBag.Profile = "/Administration/Profile";
             this.SetupSettings(dataTableParam);
             return DataTableExtensions.GetResults(groups.Items.Select(g => GroupViewModel.FormGroup(g, PartialViewToString("_EditGlyphLinks", g.Id))), dataTableParam, groups.TotalCount);
         }
+
 	    private void SetupSettings(DataTablesParam dataTableParam)
 	    {
 			var n = 20;
@@ -602,47 +609,411 @@ ViewBag.Profile = "/Administration/Profile";
 		    
 	    }
 
-        #region Dependencies
+		#region Json actions
 
-        public IStudentManagementService StudentManagementService
-        {
-            get
-            {
-                return ApplicationService<IStudentManagementService>();
-            }
-        }
+		[HttpGet]
+		public ActionResult UserActivityJson()
+		{
+			var activityModel = new UserActivityViewModel();
 
-public ISubjectManagementService SubjectManagementService
-        {
-            get
-            {
-                return ApplicationService<ISubjectManagementService>();
-            }
-        }
+			var serialized = activityModel.UserActivityJson;
 
-        public IGroupManagementService GroupManagementService
-        {
-            get
-            {
-                return ApplicationService<IGroupManagementService>();
-            }
-        }
+			var jsonSerializer = new JavaScriptSerializer();
 
-        public ILecturerManagementService LecturerManagementService
-        {
-            get
-            {
-                return ApplicationService<ILecturerManagementService>();
-            }
-        }
+			var deserialized = jsonSerializer.DeserializeObject(serialized);
+			
+			return JsonResponse(deserialized);
+		}
 
-        public IUsersManagementService UsersManagementService
-        {
-            get
-            {
-                return ApplicationService<IUsersManagementService>();
-            }
-        }
-        #endregion
+		[HttpGet]
+		public ActionResult StudentsJson()
+		{
+			var students = StudentManagementService.GetStudents();
+			
+			var result = students.Select(s => new ModifyStudentViewModel(s){Avatar = null});
+
+			return JsonResponse(result);
+		}
+
+		[HttpGet]
+		public ActionResult GetStudentJson(int id)
+		{
+			var student = StudentManagementService.GetStudent(id);
+
+			if (student != null)
+			{
+				var model = new ModifyStudentViewModel(student);
+
+				return JsonResponse(model);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpPost]
+		public ActionResult SaveStudentJson(ModifyStudentViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var user = UsersManagementService.GetUser(model.Id);
+
+					if (user != null)
+					{
+						model.ModifyStudent();
+						return StatusCode(HttpStatusCode.OK);
+					}
+				}
+				catch
+				{
+					return StatusCode(HttpStatusCode.InternalServerError);
+				}
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpPost]
+		public ActionResult AddProfessorJson(RegisterViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
+
+					if (user == null)
+					{
+						model.RegistrationUser(new[] { "lector" });
+						return StatusCode(HttpStatusCode.OK);
+					}
+				}
+				catch
+				{
+					return StatusCode(HttpStatusCode.InternalServerError);
+				}
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpGet]
+		public ActionResult GetProfessorJson(int id)
+		{
+			var lecturer = LecturerManagementService.GetLecturer(id);
+
+			if (lecturer != null)
+			{
+				var model = new ModifyLecturerViewModel(lecturer);
+				return JsonResponse(model);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpPost]
+		public ActionResult SaveProfessorJson(ModifyLecturerViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					model.ModifyLecturer();
+
+					return StatusCode(HttpStatusCode.OK);
+				}
+				catch
+				{
+					return StatusCode(HttpStatusCode.InternalServerError);
+				}
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpPost]
+		public ActionResult AddGroupJson(GroupViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					if (!model.CheckGroupName())
+					{
+						return StatusCode(HttpStatusCode.BadRequest, "Группа с таким именем уже существует.");
+					}
+					else
+					{
+						model.AddGroup();
+						return StatusCode(HttpStatusCode.OK);
+					}
+				}
+				catch (MembershipCreateUserException e)
+				{
+					return StatusCode(HttpStatusCode.InternalServerError, e.Message);
+				}
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest, "Невалидная модель.");
+		}
+
+		[HttpGet]
+		public ActionResult GetGroupJson(int id)
+		{
+			var group = GroupManagementService.GetGroup(id);
+
+			if (group != null)
+			{
+				var model = new GroupViewModel(group);
+				return JsonResponse(model);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpPost]
+		public ActionResult SaveGroupJson(GroupViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					model.ModifyGroup();
+					return StatusCode(HttpStatusCode.OK);
+				}
+				catch (Exception ex)
+				{
+					return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+				}
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest, "Невалидная модель.");
+		}
+
+		[HttpGet]
+		public ActionResult GetProfessorsJson()
+		{
+			var lecturers = LecturerManagementService.GetLecturers();
+
+			var responseModel = lecturers.Select(l => LecturerViewModel.FormLecturers(l, null));
+
+			return JsonResponse(responseModel);
+		}
+
+		[HttpGet]
+		public ActionResult GetGroupsJson()
+		{
+			var groups = GroupManagementService.GetGroups();
+
+			var responseModel = groups.Select(l => GroupViewModel.FormGroup(l, null));
+
+			return JsonResponse(responseModel);
+		}
+
+		[HttpGet]
+		public ActionResult GetSubjectsJson(int id)
+		{
+			var subjects = SubjectManagementService.GetSubjectsByStudent(id).OrderBy(subject => subject.Name).ToList();
+			var student = StudentManagementService.GetStudent(id);
+
+			if (subjects.Count > 0)
+			{
+				var model = ListSubjectViewModel.FormSubjects(subjects, student.FullName);
+				return JsonResponse(model);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpGet]
+		public ActionResult GetResetPasswordModelJson(int id)
+		{
+			try
+			{
+				var user = UsersManagementService.GetUser(id);
+
+				var resetPassModel = new ResetPasswordViewModel(user);
+
+				return JsonResponse(resetPassModel);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+			}
+		}
+
+		[HttpPost]
+		public ActionResult ResetPasswordJson(ResetPasswordViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var resetResult = model.ResetPassword();
+
+				if (!resetResult)
+				{
+					return StatusCode(HttpStatusCode.Conflict, "Password hasn't been reseted.");
+				}
+
+				return StatusCode(HttpStatusCode.OK);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest, "Invalid model.");
+		}
+
+		[HttpDelete]
+		public ActionResult DeleteUserJson(int id)
+		{
+			try
+			{
+				var deleted = UsersManagementService.DeleteUser(id);
+
+				if (deleted)
+				{
+					return StatusCode(HttpStatusCode.OK);
+				}
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpGet]
+		public ActionResult AttendanceJson(int id)
+		{
+			var user = UsersManagementService.GetUser(id);
+
+			if (user?.Attendance != null)
+			{
+				var data = user.AttendanceList.GroupBy(e => e.Date).Select(d => new { day = d.Key.ToString("d"), count = d.Count() });
+
+				return JsonResponse(new { resultMessage = user.FullName, attendance = data });
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
+		[HttpPost]
+		public ActionResult DeleteStudentJson(int id)
+		{
+			try
+			{
+				var student = StudentManagementService.GetStudent(id);
+
+				if (student != null)
+				{
+					var result = StudentManagementService.DeleteStudent(id);
+
+					if (result)
+					{
+						return StatusCode(HttpStatusCode.OK);
+					}
+
+					return StatusCode(HttpStatusCode.Conflict);
+				}
+
+				return StatusCode(HttpStatusCode.BadRequest);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+			}
+		}
+
+		[HttpPost]
+		public ActionResult DeleteLecturerJson(int id)
+		{
+			try
+			{
+				var lecturer = LecturerManagementService.GetLecturer(id);
+
+				if (lecturer != null)
+				{
+					if (lecturer.SubjectLecturers != null && lecturer.SubjectLecturers.Any() && lecturer.SubjectLecturers.All(e => e.Subject.IsArchive))
+					{
+						foreach (var lecturerSubjectLecturer in lecturer.SubjectLecturers)
+						{
+							LecturerManagementService.DisjoinOwnerLector(lecturerSubjectLecturer.SubjectId, id);
+						}
+					}
+
+					var result = LecturerManagementService.DeleteLecturer(id);
+
+					if (result)
+					{
+						return StatusCode(HttpStatusCode.OK);
+					}
+
+					return StatusCode(HttpStatusCode.Conflict);
+				}
+
+				return StatusCode(HttpStatusCode.BadRequest);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+			}
+		}
+
+		[HttpPost]
+		public ActionResult DeleteGroupJson(int id)
+		{
+			try
+			{
+				var group = GroupManagementService.GetGroup(id);
+				if (group != null)
+				{
+					if (group.Students != null && group.Students.Count > 0)
+					{
+						return StatusCode(HttpStatusCode.Conflict);
+					}
+
+					GroupManagementService.DeleteGroup(id);
+					return StatusCode(HttpStatusCode.OK);
+				}
+
+				return StatusCode(HttpStatusCode.BadRequest);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+			}
+		}
+
+		#endregion
+
+		#region Dependencies
+
+		public IStudentManagementService StudentManagementService => ApplicationService<IStudentManagementService>();
+
+		public ISubjectManagementService SubjectManagementService => ApplicationService<ISubjectManagementService>();
+
+		public IGroupManagementService GroupManagementService => ApplicationService<IGroupManagementService>();
+
+		public ILecturerManagementService LecturerManagementService => ApplicationService<ILecturerManagementService>();
+
+		public IUsersManagementService UsersManagementService => ApplicationService<IUsersManagementService>();
+
+		public IDpManagementService DpManagementService => ApplicationService<IDpManagementService>();
+
+		#endregion
+
+		private static ActionResult StatusCode(HttpStatusCode statusCode, string description = null)
+		{
+			return new HttpStatusCodeResult(statusCode, description);
+		}
+
+		private static ActionResult JsonResponse<T>(T obj)
+		{
+			return new JsonResult
+			{
+				Data = obj,
+				MaxJsonLength = int.MaxValue,
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet
+			};
+		}
     }
 }

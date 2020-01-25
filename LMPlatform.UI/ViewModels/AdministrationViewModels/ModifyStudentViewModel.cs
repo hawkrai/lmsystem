@@ -12,27 +12,15 @@ using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 {
-    [PasswordRequiredIfResetAttribute]
+    [PasswordRequiredIfReset]
     public class ModifyStudentViewModel
     {
         private readonly LazyDependency<IGroupManagementService> _groupManagementService = new LazyDependency<IGroupManagementService>();
         private readonly LazyDependency<IStudentManagementService> _studentManagementService = new LazyDependency<IStudentManagementService>();
 
-        public IStudentManagementService StudentManagementService
-        {
-            get
-            {
-                return _studentManagementService.Value;
-            }
-        }
+        private IStudentManagementService StudentManagementService => _studentManagementService.Value;
 
-        public IGroupManagementService GroupManagementService
-        {
-            get
-            {
-                return _groupManagementService.Value;
-            }
-        }
+        private IGroupManagementService GroupManagementService => _groupManagementService.Value;
 
         public ModifyStudentViewModel()
         {
@@ -42,14 +30,9 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         {
             if (student != null)
             {
-                if (student.GroupId == 0)
-                {
-                    Group = StudentManagementService.GetStudent(student.Id).GroupId.ToString(CultureInfo.InvariantCulture);
-                }
-                else
-                {
-                    Group = student.GroupId.ToString(CultureInfo.InvariantCulture);
-                }
+                Group = student.GroupId == 0 ? 
+	                StudentManagementService.GetStudent(student.Id).GroupId.ToString(CultureInfo.InvariantCulture) 
+	                : student.GroupId.ToString(CultureInfo.InvariantCulture);
 
                 Id = student.Id;
                 Name = student.FirstName;
@@ -110,10 +93,13 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         [Editable(false)]
         public int Id { get; set; }
 
-        public string FullName
-        {
-            get { return string.Format("{0} {1} ({2})", Name, Surname, UserName); }
-        }
+        public string FullName => $"{Name} {Surname} ({UserName})";
+
+		public string SkypeContact { get; set; }
+
+		public string Phone { get; set; }
+
+		public string About { get; set; }
 
         public IList<SelectListItem> GetGroups()
         {
@@ -129,16 +115,18 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         public void ModifyStudent()
         {
             var groupId = int.Parse(Group);
-            StudentManagementService.UpdateStudent(new Student
-              {
-                  Id = Id,
-                  FirstName = Name,
-                  LastName = Surname,
-                  MiddleName = Patronymic,
-                  Email = Email,
+
+            StudentManagementService.UpdateStudent(
+	            new Student
+				{
+				  Id = Id,
+				  FirstName = Name,
+				  LastName = Surname,
+				  MiddleName = Patronymic,
+				  Email = Email,
 				  Confirmed = true,
-                  GroupId = groupId,
-                  Group = GroupManagementService.GetGroup(groupId),
+				  GroupId = groupId,
+				  Group = GroupManagementService.GetGroup(groupId),
 				  User = new User()
 				  {
 					  Avatar = Avatar,
@@ -149,16 +137,10 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 					  Email = Email,
 					  Id = Id
 				  }
-              });
+				});
         }
 
-		public string SkypeContact { get; set; }
-
-		public string Phone { get; set; }
-
-		public string About { get; set; }
-
-        public bool ResetPassword()
+		public bool ResetPassword()
         {
             var token = WebSecurity.GeneratePasswordResetToken(UserName, 1);
             var result = WebSecurity.ResetPassword(token, Password);

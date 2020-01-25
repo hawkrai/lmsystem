@@ -19,13 +19,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
     {
         private readonly LazyDependency<IGroupManagementService> _groupManagementService = new LazyDependency<IGroupManagementService>();
 
-        private IGroupManagementService GroupManagementService
-        {
-            get
-            {
-                return _groupManagementService.Value;
-            }
-        }
+        private IGroupManagementService GroupManagementService => _groupManagementService.Value;
 
         [DisplayName("Номер")]
         [MaxLength(10, ErrorMessage = "Длина поля Номер группы не должна превышать 10 символов")]
