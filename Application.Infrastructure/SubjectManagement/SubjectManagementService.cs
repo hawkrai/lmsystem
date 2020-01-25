@@ -172,28 +172,26 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public void DeletePracticalsVisitingDate(int id)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			var dateModelmarks =
+				repositoriesContainer.RepositoryFor<ScheduleProtectionPracticalMark>()
+					.GetAll(new Query<ScheduleProtectionPracticalMark>(e => e.ScheduleProtectionPracticalId == id))
+					.ToList();
+
+			foreach (var practicalVisitMark in dateModelmarks)
 			{
-				var dateModelmarks =
-					repositoriesContainer.RepositoryFor<ScheduleProtectionPracticalMark>()
-						.GetAll(new Query<ScheduleProtectionPracticalMark>(e => e.ScheduleProtectionPracticalId == id))
-						.ToList();
-
-				foreach (var practicalVisitMark in dateModelmarks)
-				{
-					repositoriesContainer.RepositoryFor<ScheduleProtectionPracticalMark>().Delete(practicalVisitMark);
-				}
-
-				repositoriesContainer.ApplyChanges();
-
-				var dateModel =
-					repositoriesContainer.RepositoryFor<ScheduleProtectionPractical>()
-						.GetBy(new Query<ScheduleProtectionPractical>(e => e.Id == id));
-
-				repositoriesContainer.RepositoryFor<ScheduleProtectionPractical>().Delete(dateModel);
-
-				repositoriesContainer.ApplyChanges();
+				repositoriesContainer.RepositoryFor<ScheduleProtectionPracticalMark>().Delete(practicalVisitMark);
 			}
+
+			repositoriesContainer.ApplyChanges();
+
+			var dateModel =
+				repositoriesContainer.RepositoryFor<ScheduleProtectionPractical>()
+					.GetBy(new Query<ScheduleProtectionPractical>(e => e.Id == id));
+
+			repositoriesContainer.RepositoryFor<ScheduleProtectionPractical>().Delete(dateModel);
+
+			repositoriesContainer.ApplyChanges();
 		}
 
 		public void DeleteLabsVisitingDate(int id)
@@ -259,37 +257,35 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public void DeletePracticals(int id)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			var practicals =
+				repositoriesContainer.PracticalRepository.GetBy(
+					new Query<Practical>(e => e.Id == id).Include(e => e.StudentPracticalMarks));
+
+			var deleteFiles =
+				repositoriesContainer.AttachmentRepository.GetAll(
+					new Query<Attachment>(e => e.PathName == practicals.Attachments)).ToList();
+
+			var studentPracticalsMarks =
+				repositoriesContainer.RepositoryFor<StudentPracticalMark>()
+					.GetAll(new Query<StudentPracticalMark>(e => e.PracticalId == id))
+					.ToList();
+
+			foreach (var attachment in deleteFiles)
 			{
-				var practicals =
-					repositoriesContainer.PracticalRepository.GetBy(
-						new Query<Practical>(e => e.Id == id).Include(e => e.StudentPracticalMarks));
-
-				var deleteFiles =
-						repositoriesContainer.AttachmentRepository.GetAll(
-							new Query<Attachment>(e => e.PathName == practicals.Attachments)).ToList();
-
-				var studentPracticalsMarks =
-					repositoriesContainer.RepositoryFor<StudentPracticalMark>()
-						.GetAll(new Query<StudentPracticalMark>(e => e.PracticalId == id))
-						.ToList();
-
-				foreach (var attachment in deleteFiles)
-				{
-					FilesManagementService.DeleteFileAttachment(attachment);
-				}
-
-				foreach (var mark in studentPracticalsMarks)
-				{
-					repositoriesContainer.RepositoryFor<StudentPracticalMark>().Delete(mark);
-				}
-
-				repositoriesContainer.ApplyChanges();
-
-				repositoriesContainer.PracticalRepository.Delete(practicals);
-
-				repositoriesContainer.ApplyChanges();
+				FilesManagementService.DeleteFileAttachment(attachment);
 			}
+
+			foreach (var mark in studentPracticalsMarks)
+			{
+				repositoriesContainer.RepositoryFor<StudentPracticalMark>().Delete(mark);
+			}
+
+			repositoriesContainer.ApplyChanges();
+
+			repositoriesContainer.PracticalRepository.Delete(practicals);
+
+			repositoriesContainer.ApplyChanges();
 		}
 
 		public bool IsWorkingSubject(int userId, int subjectId)
@@ -543,43 +539,41 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
-		public Practical SavePractical(Practical practical, IList<Attachment> attachments, Int32 userId)
+		public Practical SavePractical(Practical practical, IList<Attachment> attachments, int userId)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			if (!string.IsNullOrEmpty(practical.Attachments))
 			{
-				if (!string.IsNullOrEmpty(practical.Attachments))
+				var deleteFiles =
+					repositoriesContainer.AttachmentRepository.GetAll(
+						new Query<Attachment>(e => e.PathName == practical.Attachments)).ToList().Where(e => attachments.All(x => x.Id != e.Id)).ToList();
+
+				foreach (var attachment in deleteFiles)
 				{
-					var deleteFiles =
-						repositoriesContainer.AttachmentRepository.GetAll(
-							new Query<Attachment>(e => e.PathName == practical.Attachments)).ToList().Where(e => attachments.All(x => x.Id != e.Id)).ToList();
-
-					foreach (var attachment in deleteFiles)
-					{
-						FilesManagementService.DeleteFileAttachment(attachment);
-					}
+					FilesManagementService.DeleteFileAttachment(attachment);
 				}
-				else
-				{
-					practical.Attachments = GetGuidFileName();
-				}
-
-				FilesManagementService.SaveFiles(attachments.Where(e => e.Id == 0), practical.Attachments);
-
-				foreach (var attachment in attachments)
-				{
-					if (attachment.Id == 0)
-					{
-						attachment.PathName = practical.Attachments;
-						repositoriesContainer.AttachmentRepository.Save(attachment);
-					}
-				}
-
-				repositoriesContainer.PracticalRepository.Save(practical);
-				repositoriesContainer.ApplyChanges();
-
-				if (practical.IsNew && practical.Subject.SubjectModules.Any(m => m.Module.ModuleType == ModuleType.Practical))
-					ConceptManagementService.AttachFolderToLabSection(practical.Theme, userId, practical.SubjectId);
 			}
+			else
+			{
+				practical.Attachments = GetGuidFileName();
+			}
+
+			FilesManagementService.SaveFiles(attachments.Where(e => e.Id == 0), practical.Attachments);
+
+			foreach (var attachment in attachments)
+			{
+				if (attachment.Id == 0)
+				{
+					attachment.PathName = practical.Attachments;
+					repositoriesContainer.AttachmentRepository.Save(attachment);
+				}
+			}
+
+			repositoriesContainer.PracticalRepository.Save(practical);
+			repositoriesContainer.ApplyChanges();
+
+			if (practical.IsNew && practical.Subject.SubjectModules.Any(m => m.Module.ModuleType == ModuleType.Practical))
+				ConceptManagementService.AttachFolderToLabSection(practical.Theme, userId, practical.SubjectId);
 
 			return practical;
 		}
@@ -626,11 +620,9 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public void SaveScheduleProtectionPracticalDate(ScheduleProtectionPractical scheduleProtectionPractical)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.RepositoryFor<ScheduleProtectionPractical>().Save(scheduleProtectionPractical);
-				repositoriesContainer.ApplyChanges();
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			repositoriesContainer.RepositoryFor<ScheduleProtectionPractical>().Save(scheduleProtectionPractical);
+			repositoriesContainer.ApplyChanges();
 		}
 
 		public SubGroup GetSubGroup(int subGroupId)
@@ -673,20 +665,16 @@ namespace Application.Infrastructure.SubjectManagement
 
 		public void SavePracticalVisitingData(List<ScheduleProtectionPracticalMark> protectionPracticalMarks)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.RepositoryFor<ScheduleProtectionPracticalMark>().Save(protectionPracticalMarks);
-				repositoriesContainer.ApplyChanges();
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			repositoriesContainer.RepositoryFor<ScheduleProtectionPracticalMark>().Save(protectionPracticalMarks);
+			repositoriesContainer.ApplyChanges();
 		}
 
 		public void SavePracticalMarks(List<StudentPracticalMark> studentPracticalMarks)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.RepositoryFor<StudentPracticalMark>().Save(studentPracticalMarks);
-				repositoriesContainer.ApplyChanges();
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			repositoriesContainer.RepositoryFor<StudentPracticalMark>().Save(studentPracticalMarks);
+			repositoriesContainer.ApplyChanges();
 		}
 
 		public List<string> GetLecturesAttachments(int subjectId)
