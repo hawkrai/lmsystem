@@ -136,7 +136,21 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             set;
         }
 
-		[Display(Name = "Код доступа")]
+        [Display(Name = "Ответ")]
+        public string Answer
+        {
+            get;
+            set;
+        }
+
+        [Display(Name = "Выберите секретный вопрос")]
+        public string QuestionId
+        {
+            get;
+            set;
+        }
+
+        [Display(Name = "Код доступа")]
 		public string Code
 		{
 			get;
@@ -152,6 +166,30 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
                 Text = v.Name,
                 Value = v.Id.ToString(CultureInfo.InvariantCulture)
             }).OrderBy(e => e.Text).ToList();
+        }
+
+        public IList<SelectListItem> GetSecretQuestions()
+        {
+            var items = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text = "Девичья фамилия матери?",
+                    Value = "1"
+                },
+                new SelectListItem
+                {
+                    Text = "Кличка любимого животного?",
+                    Value = "2"
+                },
+                new SelectListItem
+                {
+                    Text = "Ваше хобби?",
+                    Value = "3"
+                }
+            };
+
+            return items;
         }
 
         public void RegistrationUser(IList<string> roles)
@@ -171,6 +209,8 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
         private void SaveStudent()
         {
             var user = UsersManagementService.GetUser(UserName);
+            user.Answer = Answer;
+            user.QuestionId = int.TryParse(QuestionId, out var id) ? id : (int?) null;
             var student = StudentManagementService.Save(new Student
             {
                 Id = user.Id,
@@ -182,6 +222,7 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
             });
             student.User = user;
             student.Group = GroupManagementService.GetGroup(student.GroupId);
+            UsersManagementService.UpdateUser(user);
             new StudentSearchMethod().AddToIndex(student);
         }
 

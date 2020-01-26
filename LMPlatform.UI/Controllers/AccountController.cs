@@ -153,6 +153,35 @@ namespace LMPlatform.UI.Controllers
 			
 			return Json(false);
         }
+
+        [HttpGet]
+        public JsonResult ResetPassword(string userName, string password)
+        {
+            var token = WebSecurity.GeneratePasswordResetToken(userName, 1);
+            var isReset = WebSecurity.ResetPassword(token, password);
+            
+            return Json(isReset ? "OK" : "Неполучилось изменить пароль.", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult VerifySecretQuestion(string userName, string questionId, string answer)
+        {
+            var user = UsersManagementService.GetUser(userName);
+
+            if (user == null)
+            {
+                return Json("Пользователь не найден!", JsonRequestBehavior.AllowGet);
+            }
+
+            if (user.QuestionId != int.Parse(questionId) || !string.Equals(user.Answer.ToLower(), answer.ToLower(),
+                    StringComparison.Ordinal))
+            {
+                return Json("Введен неверный секретный ответ", JsonRequestBehavior.AllowGet);
+            }
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
 		public JsonResult UpdatePerconalData(PersonalDataViewModel model, string avatar)
         {
