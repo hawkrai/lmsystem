@@ -11,7 +11,7 @@ namespace Application.Infrastructure.StudentManagement
 {
     public class StudentManagementService : IStudentManagementService
     {
-        public Student GetStudent(int userId, bool lite = false)
+	    public Student GetStudent(int userId, bool lite = false)
         {
 	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
 	        var student = lite ? repositoriesContainer.StudentsRepository.GetBy(new Query<Student>(s => s.Id == userId)) 
@@ -71,21 +71,18 @@ namespace Application.Infrastructure.StudentManagement
             return student;
         }
 
-
-		private void UpdateSubGroup(LmPlatformRepositoriesContainer repositoriesContainer, Student student)
+        private void UpdateSubGroup(LmPlatformRepositoriesContainer repositoriesContainer, Student student)
 	    {
-			var subjectGroup = 
-				repositoriesContainer.RepositoryFor<SubjectGroup>().GetAll(
-					new Query<SubjectGroup>(e => e.GroupId == student.GroupId).Include(
-						e => e.Subject.SubjectGroups.Select(x => x.SubGroups))
+			var subjectGroup = repositoriesContainer.RepositoryFor<SubjectGroup>().GetAll(
+					new Query<SubjectGroup>(e => e.GroupId == student.GroupId)
+						.Include(e => e.Subject.SubjectGroups.Select(x => x.SubGroups))
 						.Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))).ToList();
 
 			foreach (var subject in subjectGroup.Select(e => e.Subject).ToList())
 			{
 				var subGroup = subject.SubjectGroups.FirstOrDefault(e => e.GroupId == student.GroupId);
 
-				if (
-					!subGroup.SubjectStudents.Any(
+				if (!subGroup.SubjectStudents.Any(
 						e => e.StudentId == student.Id))
 				{
 					if (subGroup.SubGroups != null && subGroup.SubGroups.Any())
@@ -117,22 +114,20 @@ namespace Application.Infrastructure.StudentManagement
 
         public void UpdateStudent(Student student)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                repositoriesContainer.StudentsRepository.Save(student);
-	            var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>(e => e.Id == student.User.Id));
-	            user.UserName = student.User.UserName;
-	            user.Avatar = student.User.Avatar;
-				user.About = student.User.About;
-				user.SkypeContact = student.User.SkypeContact;
-				user.Phone = student.User.Phone;
-				user.Email = student.User.Email;
-				repositoriesContainer.UsersRepository.Save(user);
-                repositoriesContainer.ApplyChanges();
-                new StudentSearchMethod().UpdateIndex(student);
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        repositoriesContainer.StudentsRepository.Save(student);
+	        var user = repositoriesContainer.UsersRepository.GetBy(new Query<User>(e => e.Id == student.User.Id));
+	        user.UserName = student.User.UserName;
+	        user.Avatar = student.User.Avatar;
+	        user.About = student.User.About;
+	        user.SkypeContact = student.User.SkypeContact;
+	        user.Phone = student.User.Phone;
+	        user.Email = student.User.Email;
+	        repositoriesContainer.UsersRepository.Save(user);
+	        repositoriesContainer.ApplyChanges();
+	        new StudentSearchMethod().UpdateIndex(student);
 
-				this.UpdateSubGroup(repositoriesContainer, student);
-            }
+	        this.UpdateSubGroup(repositoriesContainer, student);
         }
 
         public bool DeleteStudent(int id)
@@ -166,36 +161,34 @@ namespace Application.Infrastructure.StudentManagement
 
 	    public void СonfirmationStudent(int studentId)
 	    {
-		    using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+		    using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+		    var student = this.GetStudent(studentId);
+
+		    student.Confirmed = true;
+
+		    this.UpdateStudent(student);
+
+		    var subjects = repositoriesContainer.SubjectRepository.GetSubjects(student.GroupId).Where(e => !e.IsArchive);
+
+		    foreach (var subject in subjects)
 		    {
-				var student = this.GetStudent(studentId);
-
-				student.Confirmed = true;
-
-				this.UpdateStudent(student);
-
-				var subjects = repositoriesContainer.SubjectRepository.GetSubjects(student.GroupId).Where(e => !e.IsArchive);
-
-			    foreach (var subject in subjects)
+			    if (!subject.SubjectGroups.Any(e => e.SubjectStudents.Any(x => x.StudentId == student.Id)))
 			    {
-				    if (!subject.SubjectGroups.Any(e => e.SubjectStudents.Any(x => x.StudentId == student.Id)))
+				    var firstOrDefault = subject.SubjectGroups.FirstOrDefault(e => e.GroupId == student.GroupId);
+				    if (firstOrDefault != null)
 				    {
-						var firstOrDefault = subject.SubjectGroups.FirstOrDefault(e => e.GroupId == student.GroupId);
-						if (firstOrDefault != null)
-						{
-							var subjectGroupId = firstOrDefault.Id;
+					    var subjectGroupId = firstOrDefault.Id;
 
-							var modelFirstSubGroup = repositoriesContainer.SubGroupRepository.GetBy(new Query<SubGroup>(e => e.SubjectGroupId == subjectGroupId && e.Name == "first"));
+					    var modelFirstSubGroup = repositoriesContainer.SubGroupRepository.GetBy(new Query<SubGroup>(e => e.SubjectGroupId == subjectGroupId && e.Name == "first"));
 
-							var subjectStudent = new SubjectStudent
-							{
-								StudentId = studentId,
-								SubGroupId = modelFirstSubGroup.Id,
-								SubjectGroupId = subjectGroupId
-							};
-							repositoriesContainer.RepositoryFor<SubjectStudent>().Save(subjectStudent);
-							repositoriesContainer.ApplyChanges();
-						}
+					    var subjectStudent = new SubjectStudent
+					    {
+						    StudentId = studentId,
+						    SubGroupId = modelFirstSubGroup.Id,
+						    SubjectGroupId = subjectGroupId
+					    };
+					    repositoriesContainer.RepositoryFor<SubjectStudent>().Save(subjectStudent);
+					    repositoriesContainer.ApplyChanges();
 				    }
 			    }
 		    }
@@ -203,29 +196,27 @@ namespace Application.Infrastructure.StudentManagement
 
 		public void UnConfirmationStudent(int studentId)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			var student = this.GetStudent(studentId);
+
+			student.Confirmed = false;
+
+			this.UpdateStudent(student);
+
+			var subjects = repositoriesContainer.SubjectRepository.GetSubjects(student.GroupId).Where(e => !e.IsArchive);
+
+			foreach (var subject in subjects)
 			{
-				var student = this.GetStudent(studentId);
-
-				student.Confirmed = false;
-
-				this.UpdateStudent(student);
-
-				var subjects = repositoriesContainer.SubjectRepository.GetSubjects(student.GroupId).Where(e => !e.IsArchive);
-
-				foreach (var subject in subjects)
+				if (subject.SubjectGroups.Any(e => e.SubjectStudents.Any(x => x.StudentId == student.Id)))
 				{
-					if (subject.SubjectGroups.Any(e => e.SubjectStudents.Any(x => x.StudentId == student.Id)))
+					var firstOrDefault = subject.SubjectGroups.FirstOrDefault(e => e.GroupId == student.GroupId);
+
+					if (firstOrDefault != null)
 					{
-						var firstOrDefault = subject.SubjectGroups.FirstOrDefault(e => e.GroupId == student.GroupId);
+						var subjectStudent = firstOrDefault.SubjectStudents.FirstOrDefault(e => e.StudentId == studentId);
 
-						if (firstOrDefault != null)
-						{
-							var subjectStudent = firstOrDefault.SubjectStudents.FirstOrDefault(e => e.StudentId == studentId);
-
-							repositoriesContainer.RepositoryFor<SubjectStudent>().Delete(subjectStudent);
-							repositoriesContainer.ApplyChanges();
-						}
+						repositoriesContainer.RepositoryFor<SubjectStudent>().Delete(subjectStudent);
+						repositoriesContainer.ApplyChanges();
 					}
 				}
 			}

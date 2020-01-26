@@ -1,95 +1,109 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Text;
 using LMPlatform.UI.Services.Modules;
 using LMPlatform.UI.Services.Modules.Labs;
-using LMPlatform.UI.Services.Modules.Lectures;
 
 namespace LMPlatform.UI.Services.Labs
 {
-    using LMPlatform.UI.Services.Modules.CoreModels;
+    using Modules.CoreModels;
 
     [ServiceContract]
     public interface ILabsService
     {
+        // OK
         [OperationContract]
         [WebInvoke(UriTemplate = "/GetLabs/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
         LabsResult GetLabs(string subjectId);
 
+        // OK
 		[OperationContract]
 		[WebInvoke(UriTemplate = "/GetMarks?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
 		StudentsMarksResult GetMarks(int subjectId, int groupId);
 
+		// OK
 		[OperationContract]
 		[WebInvoke(UriTemplate = "/GetMarksV2?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
 		StudentsMarksResult GetMarksV2(int subjectId, int groupId);
 
+		// OK
         [OperationContract]
         [WebInvoke(UriTemplate = "/GetFilesV2?subjectId={subjectId}&groupId={groupId}&IsCp={isCp}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
         StudentsMarksResult GetFilesV2(int subjectId, int groupId, bool isCp);
 
+        // OK
         [OperationContract]
 		[WebInvoke(UriTemplate = "/GetLabsV2?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
-		LabsResult GetLabsV2(string subjectId, int groupId);
+		LabsResult GetLabsV2(int subjectId, int groupId);
 
+		// OK
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Save")]
-        ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string shortName, string pathFile, string attachments);
+        ResultViewData Save(int subjectId, int id, string theme, int duration, int order, string shortName, string pathFile, string attachments);
 
+        // OK
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Delete")]
-        ResultViewData Delete(string id, string subjectId);
+        ResultViewData Delete(int id, int subjectId);
 
+        // OK
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveScheduleProtectionDate")]
-        ResultViewData SaveScheduleProtectionDate(string subGroupId, string date);
-        
+        ResultViewData SaveScheduleProtectionDate(int subGroupId, string date);
+
+        // OK
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveLabsVisitingData")]
         ResultViewData SaveLabsVisitingData(int dateId, List<string> marks, List<string> comments, List<int> studentsId, List<int> Id, List<StudentsViewData> students);
 
-		[OperationContract]
+        // OK
+        [OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveLabsVisitingDataSingle")]
 		ResultViewData SaveLabsVisitingDataSingle(int dateId, string mark, string comment, int studentsId, int id);
 
+		// OK
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveStudentLabsMark")]
         ResultViewData SaveStudentLabsMark(int studentId, int labId, string mark, string comment, string date, int id, List<StudentsViewData> students);
 
+        // OK
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/DeleteVisitingDate")]
-        ResultViewData DeleteVisitingDate(string id);
+        ResultViewData DeleteVisitingDate(int id);
 
+        // OK
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetFilesLab")]
-        UserLabFilesResult GetFilesLab(string userId, string subjectId, bool isCoursPrj);
+        UserLabFilesResult GetFilesLab(int userId, int subjectId, bool isCoursPrj);
 
+        // OK
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SendFile")]
-        ResultViewData SendFile(string subjectId, string userId, string id, string comments, string pathFile, string attachments, bool isCp, bool isRet);
+        ResultViewData SendFile(int subjectId, int userId, int id, string comments, string pathFile, string attachments, bool isCp, bool isRet);
 
+        // OK
         [OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/DeleteUserFile")]
-	    ResultViewData DeleteUserFile(string id);
+	    ResultViewData DeleteUserFile(int id);
 
+		// OK
 		[OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/ReceivedLabFile")]
-		ResultViewData ReceivedLabFile(string userFileId);
+		ResultViewData ReceivedLabFile(int userFileId);
 
-		[OperationContract]
+		// OK
+        [OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/CancelReceivedLabFile")]
-		ResultViewData CancelReceivedLabFile(string userFileId);
+		ResultViewData CancelReceivedLabFile(int userFileId);
 
+		// OK
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/CheckPlagiarism")]
-        ResultViewData CheckPlagiarism(string userFileId, string subjectId, bool isCp);
+        ResultViewData CheckPlagiarism(int userFileId, int subjectId, bool isCp);
 
+        // OK
         [OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/CheckPlagiarismSubjects")]
-		ResultPSubjectViewData CheckPlagiarismSubjects(string subjectId, string type, string threshold);
-    }
+		ResultPSubjectViewData CheckPlagiarismSubjects(int subjectId, int type, int threshold);
+	}
 }

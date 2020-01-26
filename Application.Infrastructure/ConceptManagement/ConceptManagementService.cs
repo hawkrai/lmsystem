@@ -440,20 +440,20 @@ namespace Application.Infrastructure.ConceptManagement
 
         private void AttachFolderToSection(string folderName, int userId, int subjectId, string sectionName)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                var parent = repositoriesContainer.ConceptRepository.GetBy(
-                    new Query<Concept>()
-                    .AddFilterClause(f => f.SubjectId == subjectId)
-                    .AddFilterClause(f => f.UserId == userId)
-                    .AddFilterClause(f => string.Compare(f.Name.Trim(), sectionName.Trim(), true) == 0)
-                    .Include(c => c.Author)
-                    .Include(c => c.Subject));
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        var parent = repositoriesContainer.ConceptRepository.GetBy(
+		        new Query<Concept>()
+			        .AddFilterClause(f => f.SubjectId == subjectId)
+			        .AddFilterClause(f => f.UserId == userId)
+			        .AddFilterClause(f => string.Compare(f.Name.Trim(), sectionName.Trim(), true) == 0)
+			        .Include(c => c.Author)
+			        .Include(c => c.Subject));
 
-                var concept = new Concept(folderName, parent.Author, parent.Subject, true, false);
-                concept.ParentId = parent.Id;
-                repositoriesContainer.ConceptRepository.Save(concept);
-            }
+	        var concept = new Concept(folderName, parent.Author, parent.Subject, true, false)
+	        {
+				ParentId = parent.Id
+	        };
+	        repositoriesContainer.ConceptRepository.Save(concept);
         }
 
         public void AttachFolderToLectSection(string folderName, int userId, int subjectId)

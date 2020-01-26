@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using Application.Core;
-
 using Application.Core.Data;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
@@ -16,30 +13,16 @@ namespace Application.Infrastructure.FilesManagement
         private readonly string _storageRoot = ConfigurationManager.AppSettings["FileUploadPath"];
         private readonly string _tempStorageRoot = ConfigurationManager.AppSettings["FileUploadPathTemp"];
 
-        private readonly LazyDependency<IRepositoryBase<Attachment>> _attachmentsRepository = new LazyDependency<IRepositoryBase<Attachment>>();
-
-        public IRepositoryBase<Attachment> AttachmentsRepository
-        {
-            get
-            {
-                return _attachmentsRepository.Value;
-            }
-        }
-
         public string GetFileDisplayName(string guid)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.AttachmentRepository.GetBy(new Query<Attachment>(e => e.FileName == guid)).Name;
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.AttachmentRepository.GetBy(new Query<Attachment>(e => e.FileName == guid)).Name;
         }
 
 		public string GetPathName(string guid)
 		{
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				return repositoriesContainer.AttachmentRepository.GetBy(new Query<Attachment>(e => e.FileName == guid)).PathName;
-			}
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			return repositoriesContainer.AttachmentRepository.GetBy(new Query<Attachment>(e => e.FileName == guid)).PathName;
 		}
 
         public void SaveFiles(IEnumerable<Attachment> attachments, string folder = "")

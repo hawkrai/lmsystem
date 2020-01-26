@@ -135,7 +135,7 @@ namespace Application.Infrastructure.SubjectManagement
 
 		List<ProfileCalendarModel> GetGroupsLabEvents(int groupId, int userId);
 
-		void UpdateUserLabFile(string userFileId, bool isReceived);
+		void UpdateUserLabFile(int userFileId, bool isReceived);
 
 		UserLabFiles GetUserLabFile(string path);
 

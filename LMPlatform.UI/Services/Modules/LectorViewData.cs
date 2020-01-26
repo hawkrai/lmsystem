@@ -1,11 +1,14 @@
-﻿namespace LMPlatform.UI.Services.Modules
+﻿using System.Runtime.Serialization;
+
+namespace LMPlatform.UI.Services.Modules
 {
-	using System.Runtime.Serialization;
     using Models;
 
-
+    /// <summary>
+    /// Simple <see cref="Lecturer"/> if second constructor param is false else with <see cref="User"/> prop included.
+    /// </summary>
     [DataContract]
-	public class LectorViewData
+    public class LectorViewData
 	{
 		[DataMember]
 		public int LectorId { get; set; }
