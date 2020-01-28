@@ -1,18 +1,10 @@
 ﻿using System.Globalization;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace LMPlatform.UI.Services.Modules.Messages
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.Serialization;
-    using System.ServiceModel.Description;
-
-    using Application.Core;
-    using Application.Infrastructure.FilesManagement;
-    using Application.Infrastructure.MessageManagement;
-
-    using LMPlatform.Models;
+	using Models;
 
     [DataContract]
     public class DisplayMessageViewData : MessagesViewData
