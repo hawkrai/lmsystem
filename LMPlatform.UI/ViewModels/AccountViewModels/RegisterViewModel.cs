@@ -210,7 +210,8 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
         {
             var user = UsersManagementService.GetUser(UserName);
             user.Answer = Answer;
-            user.QuestionId = int.TryParse(QuestionId, out var id) ? id : (int?) null;
+            int id;
+            user.QuestionId = int.TryParse(QuestionId, out id) ? id : (int?) null;
             var student = StudentManagementService.Save(new Student
             {
                 Id = user.Id,
