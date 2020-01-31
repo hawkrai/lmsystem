@@ -18,7 +18,7 @@
     	$scope.loadSubjects = function () {
     		$.ajax({
     			type: 'GET',
-    			url: "/Services/CoreService.svc/GetSubjectsByOwnerUser",
+    			url: "/Services/CoreService.svc/GetSubjectsByOwnerUser/",
     			dataType: "json",
     			contentType: "application/json"
 
