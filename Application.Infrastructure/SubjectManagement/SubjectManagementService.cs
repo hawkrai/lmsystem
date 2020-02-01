@@ -967,15 +967,25 @@ namespace Application.Infrastructure.SubjectManagement
 			return model;
 		}
 
-		public List<Subject> GetSubjectsByLectorOwner(int userId)
+		public List<Subject> GetSubjectsByLectorOwner(int userId, bool lite = false)
 		{
+			IQuery<SubjectLecturer> query = new Query<SubjectLecturer>(e => e.LecturerId == userId && e.Owner == null);
+			if (!lite)
+			{
+				query = query
+					.Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
+					.Include(e => e.Subject.LecturesScheduleVisitings)
+					.Include(e => e.Subject.Labs)
+					.Include(
+						e => e.Subject.SubjectGroups
+							.Select(x => x.SubGroups.Select(t => t.ScheduleProtectionLabs)));
+			}
 			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
 			var model = repositoriesContainer.RepositoryFor<SubjectLecturer>()
-			.GetAll(new Query<SubjectLecturer>(e => e.LecturerId == userId && e.Owner == null)
-			.Include(e => e.Subject.SubjectGroups.Select(x => x.SubjectStudents))
-			.Include(e => e.Subject.LecturesScheduleVisitings)
-			.Include(e => e.Subject.Labs)
-			.Include(e => e.Subject.SubjectGroups.Select(x => x.SubGroups.Select(t => t.ScheduleProtectionLabs)))).Select(e => e.Subject).Where(e => !e.IsArchive).ToList();
+				.GetAll(query)
+				.Select(e => e.Subject)
+				.Where(e => !e.IsArchive)
+				.ToList();
 			return model;
 		}
 

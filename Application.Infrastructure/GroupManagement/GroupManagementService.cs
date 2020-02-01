@@ -380,7 +380,10 @@ namespace Application.Infrastructure.GroupManagement
 	    public List<Group> GetLecturesGroups(int id)
 	    {
 		    using var repositoriesContainer = new LmPlatformRepositoriesContainer();
-		    var subjects = repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(new Query<SubjectLecturer>(e => e.LecturerId == id).Include(e => e.Subject.SubjectGroups.Select(x => x.Group)));
+		    var subjects = repositoriesContainer.RepositoryFor<SubjectLecturer>()
+			    .GetAll(new Query<SubjectLecturer>(e => e.LecturerId == id)
+				    .Include(e => e.Subject.SubjectGroups
+					    .Select(x => x.Group)));
 
 		    var groups = new List<Group>();
 
