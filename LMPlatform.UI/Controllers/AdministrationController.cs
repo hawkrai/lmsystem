@@ -72,14 +72,16 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
-                    var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
-                    if (user == null || user.Id == model.Id)
-                    {
-                        model.ModifyStudent();
-                        return Json(new { resultMessage = "Студент сохранен" });
-                    }
+                    //var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
+                    //if (user == null || user.Id == model.Id)
+                    //{
+                    //    model.ModifyStudent();
+                    //    return Json(new { resultMessage = "Студент сохранен" });
+                    //}
 
-                    ModelState.AddModelError(string.Empty, "Пользователь с таким именем уже существует");
+                    //ModelState.AddModelError(string.Empty, "Пользователь с таким именем уже существует");
+                    model.ModifyStudent();
+                    return Json(new { resultMessage = "Студент сохранен" }); 
                 }
                 catch
                 {
@@ -103,14 +105,17 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
-                    var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
-                    if (user == null)
-                    {
-                        model.RegistrationUser(new[] { "lector" });
-                        return Json(new { resultMessage = "Преподаватель сохранен" });
-                    }
+                    //var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
+                    //if (user == null)
+                    //{
+                    //    model.RegistrationUser(new[] { "lector" });
+                    //    return Json(new { resultMessage = "Преподаватель сохранен" });
+                    //}
 
-                    ModelState.AddModelError(string.Empty, "Пользователь с таким именем уже существует");
+                    //ModelState.AddModelError(string.Empty, "Пользователь с таким именем уже существует");
+
+                    model.RegistrationUser(new[] { "lector" });
+                    return Json(new { resultMessage = "Преподаватель сохранен" });
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -179,14 +184,16 @@ namespace LMPlatform.UI.Controllers
             {
                 try
                 {
-                    var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
-                    if (user == null || user.Id == model.LecturerId)
-                    {
-                        model.ModifyLecturer();
-                        return this.Json(new { resultMessage = "Преподаватель сохранен" });
-                    }
+                    //var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
+                    //if (user == null || user.Id == model.LecturerId)
+                    //{
+                    //    model.ModifyLecturer();
+                    //    return this.Json(new { resultMessage = "Преподаватель сохранен" });
+                    //}
 
-                    ModelState.AddModelError(string.Empty, "Пользователь с таким именем уже существует");
+                    //ModelState.AddModelError(string.Empty, "Пользователь с таким именем уже существует");
+                    model.ModifyLecturer();
+                    return this.Json(new { resultMessage = "Преподаватель сохранен" });
                 }
                 catch
                 {

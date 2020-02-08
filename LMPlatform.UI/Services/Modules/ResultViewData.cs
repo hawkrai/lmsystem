@@ -48,6 +48,12 @@ namespace LMPlatform.UI.Services.Modules
 
 		[DataMember]
 		public string groupName { get; set; }
+
+		[DataMember]
+		public string DocFileName { get; set; }
+
+		[DataMember]
+		public string DocPathName { get; set; }
 		
 	}
 
