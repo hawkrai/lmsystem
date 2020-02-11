@@ -170,10 +170,10 @@
                         <tbody>
                             <tr ng-repeat="data in resultPlagiatium">
                                 <td style="text-align: center;">{{data.coeff}}</td>
-                                <td sortable="'author'">{{data.author}}</td>
+                                <td sortable="'author'">{{data.author}}</td>W
                                 <td sortable="'groupName'">{{data.groupName}}</td>
                                 <td>{{data.subjectName}}</td>
-                                <td>{{data.doc}}</td>
+                                <td><a href="/api/Upload?filename={{data.DocPathName}}//{{data.DocFileName}}" title="data.doc" download="data.doc">{{data.doc}}</a></td>
                             </tr>
                         </tbody>
                     </table>

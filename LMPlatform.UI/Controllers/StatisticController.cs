@@ -233,10 +233,13 @@ namespace LMPlatform.UI.Controllers
 				clusters = new ResultPlagSubject[result.Count]
 			};
 
-			foreach (var resultPlagSubject in data.clusters.ToList())
+			for (int j = 0; j < result.Count; ++j)
 			{
-				resultPlagSubject.correctDocs = new List<ResultPlag>();
-				foreach (var doc in resultPlagSubject.docs)
+				data.clusters[j] = new ResultPlagSubject
+				{
+					correctDocs = new List<ResultPlag>()
+				};
+				foreach (var doc in result[j].Docs)
 				{
 					var resultS = new ResultPlag();
 					var fileName = Path.GetFileName(doc);
@@ -254,7 +257,7 @@ namespace LMPlatform.UI.Controllers
 					resultS.author = user.FullName;
 
 					resultS.groupName = user.Group.Name;
-					resultPlagSubject.correctDocs.Add(resultS);
+					data.clusters[j].correctDocs.Add(resultS);
 				}
 			}
 
@@ -324,35 +327,41 @@ namespace LMPlatform.UI.Controllers
 				.Select(fi => fi)
 				.FirstOrDefault();
 
-			var service = new SoapWSClient();
+			var plagiarismController = new PlagiarismController();
+			var result = plagiarismController.CheckBySingleDoc(firstFileName, new[] { PlagiarismTempPath + path }.ToList(), 10, 10);
 
-			var result = service.checkBySingleDoc(firstFileName, new string[] { this.PlagiarismTempPath + path }, 70, 6, 1);
+			var data = new List<ResultPlag>();
 
-			List<ResultPlag> data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ResultPlag>>(result);
-
-			foreach (var resultPlag in data)
+			foreach (var res in result)
 			{
-				var fileName = Path.GetFileName(resultPlag.doc);
+				var resPlag = new ResultPlag();
 
-				var name = this.FilesManagementService.GetFileDisplayName(fileName);
+				var fileName = Path.GetFileName(res.Doc);
 
-				resultPlag.doc = name;
+				var name = FilesManagementService.GetFileDisplayName(fileName);
 
-				resultPlag.subjectName = subjectName;
+				resPlag.doc = name;
 
-				var pathName = this.FilesManagementService.GetPathName(fileName);
+				resPlag.subjectName = subjectName;
 
-				var userFileT = this.SubjectManagementService.GetUserLabFile(pathName);
+				resPlag.coeff = res.Coeff.ToString();
+
+				var pathName = FilesManagementService.GetPathName(fileName);
+
+				var userFileT = SubjectManagementService.GetUserLabFile(pathName);
 
 				var userId = userFileT.UserId;
 
-				var user = this.StudentManagementService.GetStudent(userId);
+				var user = StudentManagementService.GetStudent(userId);
 
-				resultPlag.author = user.FullName;
+				resPlag.author = user.FullName;
 
-				resultPlag.groupName = user.Group.Name;
+				resPlag.groupName = user.Group.Name;
+
+				data.Add(resPlag);
 			}
 
+			
 			Directory.Delete(this.PlagiarismTempPath + path, true);
 
 			var dataE = new SLExcelData();
