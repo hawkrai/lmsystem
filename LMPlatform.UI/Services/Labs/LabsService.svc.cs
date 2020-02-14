@@ -895,6 +895,8 @@ namespace LMPlatform.UI.Services.Labs
 
 					var fileName = Path.GetFileName(res.Doc);
 
+					resPlag.DocFileName = fileName;
+
 					var name = FilesManagementService.GetFileDisplayName(fileName);
 
 					resPlag.doc = name;
@@ -904,6 +906,8 @@ namespace LMPlatform.UI.Services.Labs
 					resPlag.coeff = res.Coeff.ToString();
 
 					var pathName = FilesManagementService.GetPathName(fileName);
+
+					resPlag.DocPathName = pathName;
 
 					var userFileT = SubjectManagementService.GetUserLabFile(pathName);
 
