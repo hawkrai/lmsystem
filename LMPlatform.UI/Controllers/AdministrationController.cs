@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -556,15 +557,23 @@ namespace LMPlatform.UI.Controllers
         [HttpPost]
         public DataTablesResult<StudentViewModel> GetCollectionStudents(DataTablesParam dataTableParam)
         {
-            var searchString = dataTableParam.GetSearchString();
-ViewBag.Profile = "/Administration/Profile";
-            ViewBag.ListOfSubject = "/Administration/ListOfSubject";
-            ViewBag.EditActionLink = "/Administration/EditStudent";
-            ViewBag.DeleteActionLink = "/Administration/DeleteStudent";
-            ViewBag.StatActionLink = "/Administration/Attendance";
-            var students = StudentManagementService.GetStudentsPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
-            this.SetupSettings(dataTableParam);
-            return DataTableExtensions.GetResults(students.Items.Select(s => StudentViewModel.FromStudent(s, PartialViewToString("_EditGlyphLinks", s.Id))), dataTableParam, students.TotalCount);
+            try
+            {
+                var searchString = dataTableParam.GetSearchString();
+                ViewBag.Profile = "/Administration/Profile";
+                ViewBag.ListOfSubject = "/Administration/ListOfSubject";
+                ViewBag.EditActionLink = "/Administration/EditStudent";
+                ViewBag.DeleteActionLink = "/Administration/DeleteStudent";
+                ViewBag.StatActionLink = "/Administration/Attendance";
+                var students = StudentManagementService.GetStudentsPageable(pageInfo: dataTableParam.ToPageInfo(), searchString: searchString);
+                this.SetupSettings(dataTableParam);
+                return DataTableExtensions.GetResults(students.Items.Select(s => StudentViewModel.FromStudent(s, PartialViewToString("_EditGlyphLinks", s.Id))), dataTableParam, students.TotalCount);
+            }
+            catch (Exception e)
+            {
+                return DataTableExtensions.GetResults(new List<StudentViewModel>{new StudentViewModel {Login = e.StackTrace}}, dataTableParam, 1); 
+                throw;
+            }
         }
 
         [HttpPost]
