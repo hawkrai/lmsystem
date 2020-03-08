@@ -264,6 +264,8 @@
 
                 $('#dialogPlagiarism').modal();
 
+                $("#exportButton").toggleClass('ng-hide', true);
+
                 $(".loadingP").toggleClass('ng-hide', false);
                 usSpinnerService.spin('spinner-1');
                 $http({
@@ -286,6 +288,7 @@
                     }
                     usSpinnerService.stop('spinner-1');
                     $(".loadingP").toggleClass('ng-hide', true);
+                    $("#exportButton").toggleClass('ng-hide', false);
 
                 });
             };
@@ -293,7 +296,7 @@
             $scope.checkPlagiarismSubject = function() {
                 $scope.resultPlagiatiumSybject = [];
                 $('#dialogPlagiarismSubject').modal();
-
+                $("#exportButton").toggleClass('ng-hide', true);
             };
 
             $scope.loadPlagiarismSubject = function () {
@@ -323,6 +326,7 @@
                     usSpinnerService.stop('spinner-1');
                     $(".loadingPSubject").toggleClass('ng-hide', true);
                     $('.number-spinner').find('button').prop("disabled", false);
+                    $("#exportButton").toggleClass('ng-hide', false);
                 });
             };
 

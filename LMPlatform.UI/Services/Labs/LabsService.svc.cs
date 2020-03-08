@@ -787,6 +787,17 @@ namespace LMPlatform.UI.Services.Labs
 
 				var filesPaths = usersFiles.Select(e => e.Attachments);
 
+				var key = 0;
+
+				if (filesPaths.Count() == 0)
+				{
+					return new ResultPSubjectViewData
+					{
+						Message = "Отсутствуют принятые работы для проверки на плагиат",
+						Code = "200"
+					};
+				}
+
 				foreach (var filesPath in filesPaths)
 				{
 					if (Directory.Exists(this.FileUploadPath + filesPath))
@@ -797,6 +808,7 @@ namespace LMPlatform.UI.Services.Labs
 								srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
 						}
 					}
+					key += filesPath.GetHashCode();
 				}
 
 				var plagiarismController = new PlagiarismController();
@@ -816,11 +828,20 @@ namespace LMPlatform.UI.Services.Labs
 					foreach (var doc in result[i].Docs)
 					{
 						var resultS = new ResultPlag();
+						
 						var fileName = Path.GetFileName(doc);
+
+						resultS.DocFileName = fileName;
+
 						var name = this.FilesManagementService.GetFileDisplayName(fileName);
+						
 						resultS.subjectName = subjectName;
+						
 						resultS.doc = name;
+						
 						var pathName = this.FilesManagementService.GetPathName(fileName);
+
+						resultS.DocPathName = pathName;
 
 						var userFileT = this.SubjectManagementService.GetUserLabFile(pathName);
 
@@ -831,9 +852,12 @@ namespace LMPlatform.UI.Services.Labs
 						resultS.author = user.FullName;
 
 						resultS.groupName = user.Group.Name;
+						
 						data.clusters[i].correctDocs.Add(resultS);
 					}
+					data.clusters[i].correctDocs.OrderBy(x => x.groupName).ThenBy(x => x.author);
 				}
+				HttpContext.Current.Session.Add(key.ToString(), data.clusters.ToList());
 				
 				return new ResultPSubjectViewData
 				{
@@ -863,6 +887,8 @@ namespace LMPlatform.UI.Services.Labs
 
 				var subjectName = this.SubjectManagementService.GetSubject(Int32.Parse(subjectId)).ShortName;
 
+				var key = 0;
+
 				Directory.CreateDirectory(this.PlagiarismTempPath + path);
 
 				var userFile = this.SubjectManagementService.GetUserLabFile(Int32.Parse(userFileId));
@@ -871,12 +897,23 @@ namespace LMPlatform.UI.Services.Labs
 
 				var filesPaths = usersFiles.Select(e => e.Attachments);
 
+				if (filesPaths.Count() == 0) 
+				{
+					return new ResultViewData
+					{
+						Message = "Отсутствуют принятые работы для проверки на плагиат",
+						Code = "200"
+					};
+				}
+
 				foreach (var filesPath in filesPaths)
 				{
 					foreach (var srcPath in Directory.GetFiles(this.FileUploadPath + filesPath))
 					{
 						File.Copy(srcPath, srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
 					}
+
+					key += filesPath.GetHashCode();
 				}
 
 				string firstFileName =
@@ -921,6 +958,8 @@ namespace LMPlatform.UI.Services.Labs
 
 					data.Add(resPlag);
 				}
+
+				HttpContext.Current.Session.Add(key.ToString(), data.ToList());
 
 				return new ResultViewData
 				{

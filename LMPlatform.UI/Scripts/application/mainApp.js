@@ -963,6 +963,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
             $('#dialogPlagiarism').modal();
 
+            $("#exportButton").toggleClass('ng-hide', true);
             $(".loadingP").toggleClass('ng-hide', false);
             usSpinnerService.spin('spinner-1');
 
@@ -985,6 +986,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 }
                 usSpinnerService.stop('spinner-1');
                 $(".loadingP").toggleClass('ng-hide', true);
+                $("#exportButton").toggleClass('ng-hide', false);
 
             });
         };
@@ -992,6 +994,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         $scope.checkPlagiarismSubject = function () {
             $scope.resultPlagiatiumSybject = [];
             $('#dialogPlagiarismSubject').modal();
+            $("#exportButton").toggleClass('ng-hide', true);
 
         };
 
@@ -1020,12 +1023,13 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                 }
                 usSpinnerService.stop('spinner-1');
                 $(".loadingPSubject").toggleClass('ng-hide', true);
+                $("#exportButton").toggleClass('ng-hide', false);
                 $('.number-spinner').find('button').prop("disabled", false);
             });
         };
 
         $scope.exportPlagiarism = function () {
-            window.location.href = "/Statistic/ExportPlagiarism?subjectId=" + $scope.subjectId + "&type=" + $("input[name=typePlagiarism]:checked").val() + "&threshold=" + $("#threshold").val();
+           window.location.href = "/Statistic/ExportPlagiarism?subjectId=" + $scope.subjectId + "&type=" + $("input[name=typePlagiarism]:checked").val() + "&threshold=" + $("#threshold").val();
         },
 
         $scope.exportPlagiarismStudent = function () {
