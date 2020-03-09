@@ -207,61 +207,24 @@ namespace LMPlatform.UI.Controllers
 
 		public void ExportPlagiarism(int subjectId, int type, int threshold)
         {
-			var path = Guid.NewGuid().ToString("N");
-
-			var subjectName = this.SubjectManagementService.GetSubject(subjectId).ShortName;
-
-			Directory.CreateDirectory(this.PlagiarismTempPath + path);
-
+			
 			var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, subjectId).Where(e => e.IsReceived);
 
 			var filesPaths = usersFiles.Select(e => e.Attachments);
 
+			var key = 0;
+
 			foreach (var filesPath in filesPaths)
 			{
-				foreach (var srcPath in Directory.GetFiles(this.FileUploadPath + filesPath))
-				{
-					System.IO.File.Copy(srcPath, srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
-				}
+				key += filesPath.GetHashCode();
 			}
 
-			var plagiarismController = new PlagiarismController();
-			var result = plagiarismController.CheckByDirectory(new[] { PlagiarismTempPath + path }.ToList(), threshold, 10, type);
-
+			var sessionData = Session[key.ToString()] as IEnumerable<ResultPlagSubject>;
+			
 			var data = new ResultPlagSubjectClu
 			{
-				clusters = new ResultPlagSubject[result.Count]
+				clusters = sessionData.ToArray()
 			};
-
-			for (int j = 0; j < result.Count; ++j)
-			{
-				data.clusters[j] = new ResultPlagSubject
-				{
-					correctDocs = new List<ResultPlag>()
-				};
-				foreach (var doc in result[j].Docs)
-				{
-					var resultS = new ResultPlag();
-					var fileName = Path.GetFileName(doc);
-					var name = this.FilesManagementService.GetFileDisplayName(fileName);
-					resultS.subjectName = subjectName;
-					resultS.doc = name;
-					var pathName = this.FilesManagementService.GetPathName(fileName);
-
-					var userFileT = this.SubjectManagementService.GetUserLabFile(pathName);
-
-					var userId = userFileT.UserId;
-
-					var user = this.StudentManagementService.GetStudent(userId);
-
-					resultS.author = user.FullName;
-
-					resultS.groupName = user.Group.Name;
-					data.clusters[j].correctDocs.Add(resultS);
-				}
-			}
-
-			Directory.Delete(this.PlagiarismTempPath + path, true);
 
 			var dataE = new SLExcelData();
 			dataE.Headers.Add("");
@@ -302,67 +265,20 @@ namespace LMPlatform.UI.Controllers
 
 		public void ExportPlagiarismStudent(string userFileId, string subjectId)
         {
-			var path = Guid.NewGuid().ToString("N");
-
-			var subjectName = this.SubjectManagementService.GetSubject(Int32.Parse(subjectId)).ShortName;
-
-			Directory.CreateDirectory(this.PlagiarismTempPath + path);
-
 			var userFile = this.SubjectManagementService.GetUserLabFile(Int32.Parse(userFileId));
 
 			var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived && e.Id != userFile.Id);
 
 			var filesPaths = usersFiles.Select(e => e.Attachments);
 
+			var key = 0;
+
 			foreach (var filesPath in filesPaths)
 			{
-				foreach (var srcPath in Directory.GetFiles(this.FileUploadPath + filesPath))
-				{
-					System.IO.File.Copy(srcPath, srcPath.Replace(this.FileUploadPath + filesPath, this.PlagiarismTempPath + path), true);
-				}
-			}
+				key += filesPath.GetHashCode();
+			}			
 
-			string firstFileName =
-				Directory.GetFiles(this.FileUploadPath + userFile.Attachments)
-				.Select(fi => fi)
-				.FirstOrDefault();
-
-			var plagiarismController = new PlagiarismController();
-			var result = plagiarismController.CheckBySingleDoc(firstFileName, new[] { PlagiarismTempPath + path }.ToList(), 10, 10);
-
-			var data = new List<ResultPlag>();
-
-			foreach (var res in result)
-			{
-				var resPlag = new ResultPlag();
-
-				var fileName = Path.GetFileName(res.Doc);
-
-				var name = FilesManagementService.GetFileDisplayName(fileName);
-
-				resPlag.doc = name;
-
-				resPlag.subjectName = subjectName;
-
-				resPlag.coeff = res.Coeff.ToString();
-
-				var pathName = FilesManagementService.GetPathName(fileName);
-
-				var userFileT = SubjectManagementService.GetUserLabFile(pathName);
-
-				var userId = userFileT.UserId;
-
-				var user = StudentManagementService.GetStudent(userId);
-
-				resPlag.author = user.FullName;
-
-				resPlag.groupName = user.Group.Name;
-
-				data.Add(resPlag);
-			}
-
-			
-			Directory.Delete(this.PlagiarismTempPath + path, true);
+			var data = Session[key.ToString()] as IEnumerable<ResultPlag>;
 
 			var dataE = new SLExcelData();
 			dataE.Headers.Add("");
