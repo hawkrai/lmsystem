@@ -205,10 +205,10 @@ namespace LMPlatform.UI.Controllers
 			}
 		}
 
-		public void ExportPlagiarism(int subjectId, int type, int threshold)
+		public void ExportPlagiarism(int subjectId, bool isCp = false)
         {
 			
-			var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, subjectId).Where(e => e.IsReceived);
+			var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, subjectId).Where(e => e.IsReceived && e.IsCoursProject == isCp);
 
 			var filesPaths = usersFiles.Select(e => e.Attachments);
 
@@ -263,11 +263,11 @@ namespace LMPlatform.UI.Controllers
             Response.End();
         }
 
-		public void ExportPlagiarismStudent(string userFileId, string subjectId)
+		public void ExportPlagiarismStudent(string userFileId, string subjectId, bool isCp = false)
         {
 			var userFile = this.SubjectManagementService.GetUserLabFile(Int32.Parse(userFileId));
 
-			var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived && e.Id != userFile.Id);
+			var usersFiles = this.SubjectManagementService.GetUserLabFiles(0, Int32.Parse(subjectId)).Where(e => e.IsReceived && e.Id != userFile.Id && e.IsCoursProject == isCp);
 
 			var filesPaths = usersFiles.Select(e => e.Attachments);
 

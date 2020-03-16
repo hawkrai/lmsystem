@@ -333,16 +333,14 @@
             $scope.exportPlagiarism = function() {
                     window.location.href = "/Statistic/ExportPlagiarism?subjectId=" +
                         $scope.subjectId +
-                        "&type=" +
-                        $("input[name=typePlagiarism]:checked").val() +
-                        "&threshold=" +
-                        $("#threshold").val();
+                        "&isCp=true";
                 },
             $scope.exportPlagiarismStudent = function() {
                     window.location.href = "/Statistic/ExportPlagiarismStudent?userFileId=" +
                         $scope.userFileIdCheck +
                         "&subjectId=" +
-                        $scope.subjectId;
+                        $scope.subjectId + 
+                        "&isCp=true";
                 },
             $scope.receivedLabFile = function(id, files) {
                     $http({

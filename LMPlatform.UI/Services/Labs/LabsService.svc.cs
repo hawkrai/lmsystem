@@ -777,6 +777,7 @@ namespace LMPlatform.UI.Services.Labs
 			try
 			{
 				ClearCache();
+
 				var path = Guid.NewGuid().ToString("N");
 
 				var subjectName = this.SubjectManagementService.GetSubject(int.Parse(subjectId)).ShortName;
@@ -821,10 +822,10 @@ namespace LMPlatform.UI.Services.Labs
 
 				for (int i = 0; i < result.Count; ++i)
 				{
-					data.clusters[i] = new ResultPlagSubject
-					{
-						correctDocs = new List<ResultPlag>()
-					};
+					data.clusters[i] = new ResultPlagSubject();
+
+					var correctDocs = new List<ResultPlag>();
+
 					foreach (var doc in result[i].Docs)
 					{
 						var resultS = new ResultPlag();
@@ -852,10 +853,10 @@ namespace LMPlatform.UI.Services.Labs
 						resultS.author = user.FullName;
 
 						resultS.groupName = user.Group.Name;
-						
-						data.clusters[i].correctDocs.Add(resultS);
+
+						correctDocs.Add(resultS);
 					}
-					data.clusters[i].correctDocs.OrderBy(x => x.groupName).ThenBy(x => x.author);
+					data.clusters[i].correctDocs = correctDocs.OrderBy(x => x.groupName).ThenBy(x => x.author).ToList();
 				}
 				HttpContext.Current.Session.Add(key.ToString(), data.clusters.ToList());
 				

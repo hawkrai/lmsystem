@@ -170,7 +170,7 @@
                         <tbody>
                             <tr ng-repeat="data in resultPlagiatium">
                                 <td style="text-align: center;">{{data.coeff}}</td>
-                                <td sortable="'author'">{{data.author}}</td>W
+                                <td sortable="'author'">{{data.author}}</td>
                                 <td sortable="'groupName'">{{data.groupName}}</td>
                                 <td>{{data.subjectName}}</td>
                                 <td><a href="/api/Upload?filename={{data.DocPathName}}//{{data.DocFileName}}" title="data.doc" download="data.doc">{{data.doc}}</a></td>
@@ -183,7 +183,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-default btn-sm ng-hide" style="background-color: #ddd;" ng-click="exportPlagiarismStudent()">Отчет</a>
+                <a class="btn btn-default btn-sm ng-hide" id="exportButton" style="background-color: #ddd;" ng-click="exportPlagiarismStudent()">Отчет</a>
                 <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
             </div>
         </div>
