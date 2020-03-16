@@ -263,7 +263,7 @@
                 };
 
                 $('#dialogPlagiarism').modal();
-
+                $("#table_plagiarism_singleDoc").toggleClass('ng-hide', true);
                 $("#exportButton").toggleClass('ng-hide', true);
 
                 $(".loadingP").toggleClass('ng-hide', false);
@@ -284,6 +284,8 @@
                         alertify.success(data.Message);
 
                         $scope.resultPlagiatium = data.DataD;
+
+                        $("#table_plagiarism_singleDoc").toggleClass('ng-hide', false);
 
                     }
                     usSpinnerService.stop('spinner-1');

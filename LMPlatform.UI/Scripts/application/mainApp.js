@@ -962,7 +962,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
             };
 
             $('#dialogPlagiarism').modal();
-
+            $("#table_plagiarism_singleDoc").toggleClass('ng-hide', true);
             $("#exportButton").toggleClass('ng-hide', true);
             $(".loadingP").toggleClass('ng-hide', false);
             usSpinnerService.spin('spinner-1');
@@ -980,9 +980,8 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
                     alertify.error(data.Message);
                 } else {
                     alertify.success(data.Message);
-
                     $scope.resultPlagiatium = data.DataD;
-
+                    $("#table_plagiarism_singleDoc").toggleClass('ng-hide', false);
                 }
                 usSpinnerService.stop('spinner-1');
                 $(".loadingP").toggleClass('ng-hide', true);
