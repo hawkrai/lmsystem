@@ -901,12 +901,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="data in cluster.correctDocs">
-                                <td>{{data.author}}</td>
-                                <td>{{data.groupName}}</td>
-                                <td>{{data.subjectName}}</td>
-                                <td>{{data.doc}}</td>
-                            </tr>
+                                <tr ng-repeat="data in cluster.correctDocs">
+                                    <td>{{data.author}}</td>
+                                    <td>{{data.groupName}}</td>
+                                    <td>{{data.subjectName}}</td>
+                                    <td><a href="/api/Upload?filename={{data.DocPathName}}//{{data.DocFileName}}" title="data.doc" download="data.doc">{{data.doc}}</a></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -917,7 +917,7 @@
             </div>
             <div class="modal-footer">
                 <a class="btn btn-primary btn-sm" ng-click="loadPlagiarismSubject()">Проверить</a>
-                <a class="btn btn-default btn-sm" id="exportButton" style="background-color: #ddd;" ng-click="exportPlagiarism()">Отчет</a>
+                <a class="btn btn-default btn-sm ng-hide" id="exportButton" style="background-color: #ddd;" ng-click="exportPlagiarism()">Отчет</a>
                 <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
             </div>
         </div>
@@ -937,7 +937,7 @@
                     </div>
                 </div>
                 <div>
-                    <table class="table table-bordered table-responsive">
+                    <table class="table table-bordered table-responsive ng-hide" id="table_plagiarism_singleDoc">
                         <thead>
                             <tr>
                                 <th>Процент схожести, %</th>
@@ -965,7 +965,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-default btn-sm" style="background-color: #ddd;" ng-click="exportPlagiarismStudent()">Отчет</a>
+                <a class="btn btn-default btn-sm ng-hide" id="exportButton" style="background-color: #ddd;" ng-click="exportPlagiarismStudent()">Отчет</a>
                 <a href="#" class="btn btn-default btn-sm" id="cancelButton" data-dismiss="modal">Закрыть</a>
             </div>
         </div>
