@@ -131,7 +131,7 @@ namespace LMPlatform.UI.Controllers
                     Data = new
                     {
                         Message = "Произошла ошибка при сохранении новости",
-                        Error = e.InnerException
+                        Error = e.InnerException.Message
                     }
                 };
             }
