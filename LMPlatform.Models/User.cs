@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Application.Core.Data;
 using LMPlatform.Models.KnowledgeTesting;
+using Newtonsoft.Json;
 
 namespace LMPlatform.Models
 {
-	using Newtonsoft.Json;
-
 	public class User : ModelBase
 	{
 		public virtual ICollection<Concept> Concept { get; set; }
@@ -65,7 +64,7 @@ namespace LMPlatform.Models
 			{
 				if (Student != null)
 					return Student.FullName.Trim(' ');
-				else if (Lecturer != null) return Lecturer.FullName.Trim(' ');
+				if (Lecturer != null) return Lecturer.FullName.Trim(' ');
 
 				return UserName;
 			}
