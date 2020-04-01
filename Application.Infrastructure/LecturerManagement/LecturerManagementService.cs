@@ -59,18 +59,18 @@ namespace Application.Infrastructure.LecturerManagement
 		    return data;
 	    }
 
-        public List<Lecturer> GetLecturers(Expression<Func<Lecturer, string>> orderBy = null)
+        public List<Lecturer> GetLecturers(Expression<Func<Lecturer, string>> orderBy = null, bool lite = false)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                var query = repositoriesContainer.LecturerRepository.GetAll(new Query<Lecturer>().Include(e => e.SubjectLecturers).Include(e => e.User));
-                if (orderBy != null)
-                {
-                    query = query.OrderBy(orderBy);
-                }
-                return query.ToList();
-            }
-        }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+
+	        var lecturers = lite ? repositoriesContainer.LecturerRepository.GetAll() 
+		        : repositoriesContainer.LecturerRepository.GetAll(new Query<Lecturer>().Include(e => e.SubjectLecturers).Include(e => e.User));
+	        if (orderBy is { })
+	        {
+		        lecturers = lecturers.OrderBy(orderBy);
+	        }
+	        return lecturers.ToList();
+		}
 
         public IPageableList<Lecturer> GetLecturersPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
         {
@@ -152,41 +152,34 @@ namespace Application.Infrastructure.LecturerManagement
 
 	    public bool Join(int subjectId, int lectorId, int owner)
 	    {
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				repositoriesContainer.RepositoryFor<SubjectLecturer>().Save(new SubjectLecturer()
-					                                                            {
-																					LecturerId = lectorId,
-																					SubjectId = subjectId,
-																					Owner = owner
-					                                                            });
-				repositoriesContainer.ApplyChanges();
-			}
+		    using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+		    repositoriesContainer.RepositoryFor<SubjectLecturer>().Save(new SubjectLecturer
+		    {
+			    LecturerId = lectorId,
+			    SubjectId = subjectId,
+			    Owner = owner
+		    });
+		    repositoriesContainer.ApplyChanges();
 
 		    return true;
 	    }
 
 	    public List<Lecturer> GetJoinedLector(int subjectId, int owner)
 	    {
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				return repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(
-					new Query<SubjectLecturer>(e => e.SubjectId == subjectId && e.Owner == owner)
-					.Include(e => e.Lecturer)).Select(e => e.Lecturer).ToList();
-			}
+		    using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+		    return repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(
+			    new Query<SubjectLecturer>(e => e.SubjectId == subjectId && e.Owner == owner)
+				    .Include(e => e.Lecturer)).Select(e => e.Lecturer).ToList();
 	    }
 
 	    public void DisjoinLector(int subjectId, int lectorId, int? owner)
 	    {
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				var relation =
-					repositoriesContainer.RepositoryFor<SubjectLecturer>().GetBy(
-						new Query<SubjectLecturer>(e => e.Owner == owner && e.LecturerId == lectorId && e.SubjectId == subjectId));
+		    using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+		    var relation = repositoriesContainer.RepositoryFor<SubjectLecturer>().GetBy(
+				    new Query<SubjectLecturer>(e => e.Owner == owner && e.LecturerId == lectorId && e.SubjectId == subjectId));
 
-				repositoriesContainer.RepositoryFor<SubjectLecturer>().Delete(relation);
-				repositoriesContainer.ApplyChanges();
-			}
+		    repositoriesContainer.RepositoryFor<SubjectLecturer>().Delete(relation);
+		    repositoriesContainer.ApplyChanges();
 	    }
 
 	    public void DisjoinOwnerLector(int subjectId, int lectorId)

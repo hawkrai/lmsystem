@@ -4,10 +4,7 @@ using LMPlatform.UI.Services.Modules.Messages;
 
 namespace LMPlatform.UI.Services.Messages
 {
-    using System.Collections;
-    using System.Collections.Generic;
-
-    using LMPlatform.UI.Services.Modules;
+	using Modules;
 
     [ServiceContract]
     public interface IMessagesService

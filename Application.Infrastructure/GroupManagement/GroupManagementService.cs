@@ -13,19 +13,25 @@ namespace Application.Infrastructure.GroupManagement
     {
         public Group GetGroup(int groupId)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.GroupsRepository.GetBy(new Query<Group>(e => e.Id == groupId).Include(e => e.Students.Select(x => x.LecturesVisitMarks))
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.GroupsRepository.GetBy(
+		        new Query<Group>(e => e.Id == groupId)
+					.Include(e => e.Students.Select(x => x.LecturesVisitMarks))
 					.Include(e => e.Students.Select(x => x.User)));
-            }
+        }
+
+        public Group GetGroupWithLiteStudents(int groupId)
+        {
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.GroupsRepository.GetBy(
+		        new Query<Group>(e => e.Id == groupId)
+			        .Include(e => e.Students));
         }
 
         public List<Group> GetGroups(IQuery<Group> query = null)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.GroupsRepository.GetAll(query).ToList();
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.GroupsRepository.GetAll(query).ToList();
         }
 
         public IPageableList<Group> GetGroupsPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
@@ -373,19 +379,20 @@ namespace Application.Infrastructure.GroupManagement
 
 	    public List<Group> GetLecturesGroups(int id)
 	    {
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				var subjects = repositoriesContainer.RepositoryFor<SubjectLecturer>().GetAll(new Query<SubjectLecturer>(e => e.LecturerId == id).Include(e => e.Subject.SubjectGroups.Select(x => x.Group)));
+		    using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+		    var subjects = repositoriesContainer.RepositoryFor<SubjectLecturer>()
+			    .GetAll(new Query<SubjectLecturer>(e => e.LecturerId == id)
+				    .Include(e => e.Subject.SubjectGroups
+					    .Select(x => x.Group)));
 
-				var groups = new List<Group>();
+		    var groups = new List<Group>();
 
-				foreach (var subject in subjects)
-				{
-					groups.AddRange(subject.Subject.SubjectGroups.Select(e => e.Group));
-				}
+		    foreach (var subject in subjects)
+		    {
+			    groups.AddRange(subject.Subject.SubjectGroups.Select(e => e.Group));
+		    }
 
-				return groups;
-			}
+		    return groups;
 	    }
     }
 }

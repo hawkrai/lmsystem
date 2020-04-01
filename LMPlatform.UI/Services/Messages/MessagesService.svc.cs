@@ -6,48 +6,50 @@ using Application.Infrastructure.MessageManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.Services.Modules;
 using LMPlatform.UI.Services.Modules.Messages;
-using LMPlatform.UI.ViewModels.MessageViewModels;
 using Newtonsoft.Json;
+using Application.Core.Extensions;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Services.Messages
 {
-    using Application.Core.Extensions;
-
-    using WebMatrix.WebData;
-
     public class MessagesService : IMessagesService
     {
         private readonly LazyDependency<IMessageManagementService> _messageManagementService =
             new LazyDependency<IMessageManagementService>();
 
-        public IMessageManagementService MessageManagementService
-        {
-            get { return _messageManagementService.Value; }
-        }
+        public IMessageManagementService MessageManagementService => _messageManagementService.Value;
 
         public MessagesResult GetMessages()
         {
             try
             {
                 var userId = WebSecurity.CurrentUserId;
-                var model = MessageManagementService.GetUserMessages(userId).DistinctBy(m => m.MessageId).ToList();
+                var model = MessageManagementService.GetUserMessages(userId)
+	                .DistinctBy(m => m.MessageId)
+	                .ToList();
                 var result = new MessagesResult
                     {
-						InboxMessages = model.Where(m => m.AuthorId != userId).OrderByDescending(e => e.Date).Select(e => new MessagesViewData(e)).ToList(),
-						OutboxMessages = model.Where(m => m.AuthorId == userId).OrderByDescending(e => e.Date).Select(e => new MessagesViewData(e)).ToList(),
+						InboxMessages = model.Where(m => m.AuthorId != userId)
+							.OrderByDescending(e => e.Date)
+							.Select(e => new MessagesViewData(e))
+							.ToList(),
+						OutboxMessages = model.Where(m => m.AuthorId == userId)
+							.OrderByDescending(e => e.Date)
+							.Select(e => new MessagesViewData(e))
+							.ToList(),
                         Message = "Сообщения успешно загружены",
                         Code = "200"
                     };
 
                 return result;
             }
-            catch (Exception e)
+            catch
             {
-                return new MessagesResult
-                    {
-                        Message = "Произошла ошибка при получении сообщений",
-                        Code = "500"
-                    };
+				return new MessagesResult
+				{
+					Message = "Произошла ошибка при получении сообщений",
+					Code = "500"
+				};
             }
         }
 
@@ -72,7 +74,7 @@ namespace LMPlatform.UI.Services.Messages
                     Code = "200"
                 };
             }
-            catch (Exception e)
+            catch
             {
                 return new DisplayMessageResult
                 {
@@ -82,19 +84,19 @@ namespace LMPlatform.UI.Services.Messages
             }
         }
 
-        public RecipientsResult GetRecipients()
-        {
-            return new RecipientsResult()
-                       {
-                           Recipients = new List<RecipientViewData>()
-                                            {
-                                                new RecipientViewData(0, "Jack"),
-                                                new RecipientViewData(1, "Mike")
-                                            },
-                           Message = "Успешно",
-                           Code = "200"
-                       };
-        }
+		public RecipientsResult GetRecipients()
+		{
+			return new RecipientsResult
+			{
+				Recipients = new List<RecipientViewData>
+				{
+					new RecipientViewData(0, "Jack"),
+					new RecipientViewData(1, "Mike")
+				},
+				Message = "Успешно",
+				Code = "200"
+			};
+		}
 
         public ResultViewData Save(string subject, string body, string recipients, string attachments)
         {
@@ -128,10 +130,10 @@ namespace LMPlatform.UI.Services.Messages
                 ////}
                 ////else
                 ////{
-                foreach (var recipientId in recipientsList)
+                var userMessages = recipientsList.Select(recipientId => new UserMessages(recipientId, fromId, msg.Id));
+                foreach (var userMsg in userMessages)
                 {
-                    var userMsg = new UserMessages(recipientId, fromId, msg.Id);
-                    MessageManagementService.SaveUserMessages(userMsg);
+	                MessageManagementService.SaveUserMessages(userMsg);
                 }
                 ////}
 
@@ -141,7 +143,7 @@ namespace LMPlatform.UI.Services.Messages
                     Code = "200"
                 };
             }
-            catch (Exception e)
+            catch
             {
                 return new ResultViewData
                 {
@@ -164,7 +166,7 @@ namespace LMPlatform.UI.Services.Messages
                     Code = "200"
                 };
             }
-            catch (Exception e)
+            catch
             {
                 return new ResultViewData
                 {

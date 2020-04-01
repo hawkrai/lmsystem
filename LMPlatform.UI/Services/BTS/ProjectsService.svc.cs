@@ -6,7 +6,6 @@ using Application.Infrastructure.BTS;
 using LMPlatform.UI.Services.Modules.BTS;
 using WebMatrix.WebData;
 using System.Web.Http;
-using System.IO;
 using LMPlatform.Models;
 
 namespace LMPlatform.UI.Services.BTS
@@ -14,11 +13,18 @@ namespace LMPlatform.UI.Services.BTS
     [Authorize(Roles = "student, lector")]
     public class ProjectsService : IProjectsService
     {
+	    private readonly LazyDependency<IProjectManagementService> projectManagementService = new LazyDependency<IProjectManagementService>();
+        private readonly LazyDependency<IMatrixManagmentService> matrixManagementService = new LazyDependency<IMatrixManagmentService>();
+
+        private IProjectManagementService ProjectManagementService => projectManagementService.Value;
+
+        private IMatrixManagmentService MatrixManagmentService => matrixManagementService.Value;
+
         public ProjectsResult Index(int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null)
         {
             var projects = ProjectManagementService.GetUserProjects(WebSecurity.CurrentUserId, pageSize, pageNumber, sortingPropertyName, desc, searchString)
                 .Select(e => new ProjectViewData(e)).ToList();
-            int totalCount = ProjectManagementService.GetUserProjectsCount(WebSecurity.CurrentUserId, searchString);
+            var totalCount = ProjectManagementService.GetUserProjectsCount(WebSecurity.CurrentUserId, searchString);
             return new ProjectsResult
             {
                 Projects = projects,
@@ -28,13 +34,14 @@ namespace LMPlatform.UI.Services.BTS
 
         public ProjectResult Show(string id, bool withDetails)
         {
-            int intId = Convert.ToInt32(id);
+            var intId = Convert.ToInt32(id);
             ProjectViewData project;
             if (withDetails)
             {
                 project = new ProjectViewData(ProjectManagementService
                     .GetProjectWithData(intId, withBugsAndMembers: true), withBugs: true, withMembers: true);
-            } else
+            }
+            else
             {
                 project = new ProjectViewData(ProjectManagementService.GetProjectWithData(intId));
             }
@@ -46,10 +53,10 @@ namespace LMPlatform.UI.Services.BTS
 
         public UserProjectParticipationsResult ProjectParticipationsByUser(string id, int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null)
         {
-            int convertedUserId = Convert.ToInt32(id);
+            var convertedUserId = Convert.ToInt32(id);
             var projects = ProjectManagementService.GetUserProjectParticipations(convertedUserId, pageSize, pageNumber, sortingPropertyName, desc, searchString)
                 .Select(e => new UserProjectParticipationViewData(e, convertedUserId)).ToList();
-            int totalCount = ProjectManagementService.GetUserProjectParticipationsCount(convertedUserId, searchString);
+            var totalCount = ProjectManagementService.GetUserProjectParticipationsCount(convertedUserId, searchString);
             return new UserProjectParticipationsResult
             {
                 Projects = projects,
@@ -61,7 +68,7 @@ namespace LMPlatform.UI.Services.BTS
         {
             var students = ProjectManagementService.GetStudentsGroupParticipations(int.Parse(id), pageSize, pageNumber)
                 .Select(e => new StudentParticipationViewData(e)).ToList();
-            int totalCount = ProjectManagementService.GetStudentsGroupParticipationsCount(int.Parse(id));
+            var totalCount = ProjectManagementService.GetStudentsGroupParticipationsCount(int.Parse(id));
             return new StudentsParticipationsResult
             {
                 ProjectsStudents = students,
@@ -88,7 +95,7 @@ namespace LMPlatform.UI.Services.BTS
                 AttachmentType = (AttachmentType)Enum.Parse(typeof(AttachmentType), projectFile.AttachmentType)
             };
             attachment = ProjectManagementService.SaveAttachment(int.Parse(id), attachment);
-            return new ProjectFileResult()
+            return new ProjectFileResult
             {
                 ProjectFile = new ProjectFileViewData(attachment)
             };
@@ -97,7 +104,7 @@ namespace LMPlatform.UI.Services.BTS
         public ProjectFilesResult GetAttachments(string id)
         {
             var attachments = ProjectManagementService.GetAttachments(int.Parse(id));
-            return new ProjectFilesResult()
+            return new ProjectFilesResult
             {
                 ProjectFiles = attachments.Select(e => new ProjectFileViewData(e)).ToList()
             };
@@ -110,7 +117,7 @@ namespace LMPlatform.UI.Services.BTS
 
         public void GenerateMatrix(string id, ProjectMatrixViewData matrix)
         {
-            int projectId = int.Parse(id);
+            var projectId = int.Parse(id);
             MatrixManagmentService.ClearRequirements(projectId);
             MatrixManagmentService.FillRequirements(projectId, matrix.RequirementsFileName);
             MatrixManagmentService.FillRequirementsCoverage(projectId, matrix.TestsFileName);
@@ -118,33 +125,15 @@ namespace LMPlatform.UI.Services.BTS
 
         public ProjectMatrixResult GetMatrix(string id)
         {
-            var requirements = MatrixManagmentService.GetRequirements(int.Parse(id)).Select(e => new ProjectMatrixRequirementViewData(e)).ToList();
-            return new ProjectMatrixResult()
+            var requirements = MatrixManagmentService.GetRequirements(int.Parse(id))
+	            .Select(e => new ProjectMatrixRequirementViewData(e)).ToList();
+            return new ProjectMatrixResult
             {
-                Project = new ProjectMatrixViewData()
+                Project = new ProjectMatrixViewData
                 {
                     Requirements = requirements
                 }
             };
-        }
-
-        private readonly LazyDependency<IProjectManagementService> projectManagementService = new LazyDependency<IProjectManagementService>();
-        private readonly LazyDependency<IMatrixManagmentService> matrixManagementService = new LazyDependency<IMatrixManagmentService>();
-
-        private IProjectManagementService ProjectManagementService
-        {
-            get
-            {
-                return projectManagementService.Value;
-            }
-        }
-
-        private IMatrixManagmentService MatrixManagmentService
-        {
-            get
-            {
-                return matrixManagementService.Value;
-            }
         }
     }
 }

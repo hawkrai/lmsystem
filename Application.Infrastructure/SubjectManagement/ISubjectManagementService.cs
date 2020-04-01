@@ -5,14 +5,15 @@ using LMPlatform.Models;
 namespace Application.Infrastructure.SubjectManagement
 {
     using System;
-
-    using Application.Infrastructure.Models;
+    using Models;
 
     public interface ISubjectManagementService
     {
         List<Subject> GetUserSubjects(int userId);
 
         List<Subject> GetGroupSubjects(int groupId);
+
+        List<Subject> GetGroupSubjectsLite(int groupId);
 
         Subject GetSubject(int id);
 
@@ -40,7 +41,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         bool IsWorkingSubject(int userId, int subjectId);
 
-        SubjectNews GetNews(int id, int subjecttId);
+        SubjectNews GetNews(int id, int subjectId);
 
 	    IList<SubGroup> GetSubGroups(int subjectId, int groupId);
 
@@ -48,9 +49,9 @@ namespace Application.Infrastructure.SubjectManagement
 
         Lectures GetLectures(int id);
 
-        Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, Int32 userId);
+        Lectures SaveLectures(Lectures lectures, IList<Attachment> attachments, int userId);
 
-        Labs SaveLabs(Labs labs, IList<Attachment> attachments, Int32 userId);
+        Labs SaveLabs(Labs labs, IList<Attachment> attachments, int userId);
 
 		UserLabFiles SaveUserLabFiles(UserLabFiles userLabFiles, IList<Attachment> attachments);
 
@@ -58,7 +59,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         Practical GetPractical(int id);
 
-        Practical SavePractical(Practical practical, IList<Attachment> attachments, Int32 userId);
+        Practical SavePractical(Practical practical, IList<Attachment> attachments, int userId);
 
         void SaveDateLectures(int subjectId, DateTime date);
 
@@ -116,7 +117,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         int StudentAttendance(int userId);
 
-	    List<Subject> GetSubjectsByLectorOwner(int userId);
+	    List<Subject> GetSubjectsByLectorOwner(int userId, bool lite = false);
 
 	    IList<SubGroup> GetSubGroupsV2(int subjectId, int groupId);
 
@@ -134,7 +135,7 @@ namespace Application.Infrastructure.SubjectManagement
 
 		List<ProfileCalendarModel> GetGroupsLabEvents(int groupId, int userId);
 
-		void UpdateUserLabFile(string userFileId, bool isReceived);
+		void UpdateUserLabFile(int userFileId, bool isReceived);
 
 		UserLabFiles GetUserLabFile(string path);
 

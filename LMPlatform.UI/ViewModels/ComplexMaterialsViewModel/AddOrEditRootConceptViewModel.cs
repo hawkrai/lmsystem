@@ -171,7 +171,7 @@ namespace LMPlatform.UI.ViewModels.ComplexMaterialsViewModel
 
         public IList<SelectListItem> GetBroElements(Int32 author, Int32 parentId)
         {
-            var brothers = ConceptManagementService.GetElementsByParentId(author, parentId).Where(c=>c.Id!=this.Id);
+            var brothers = ConceptManagementService.GetElementsByParentId(parentId, author).Where(c=>c.Id!=this.Id);
             var res = new List<SelectListItem>();
             foreach (var b in brothers)
             {

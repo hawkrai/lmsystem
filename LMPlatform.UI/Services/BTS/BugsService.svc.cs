@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
+﻿using System.Linq;
 using Application.Core;
 using Application.Infrastructure.BugManagement;
 using LMPlatform.UI.Services.Modules.BTS;
@@ -17,19 +12,13 @@ namespace LMPlatform.UI.Services.BTS
     {
         private readonly LazyDependency<IBugManagementService> bugManagementService = new LazyDependency<IBugManagementService>();
 
-        public IBugManagementService BugManagementService
-        {
-            get
-            {
-                return bugManagementService.Value;
-            }
-        }
+        public IBugManagementService BugManagementService => bugManagementService.Value;
 
         public BugsResult Index(int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null)
         {
             var bugs = BugManagementService.GetUserBugs(WebSecurity.CurrentUserId, pageSize, pageNumber, sortingPropertyName, desc, searchString)
                 .Select(e => new BugViewData(e)).ToList();
-            int totalCount = BugManagementService.GetUserBugsCount(WebSecurity.CurrentUserId, searchString);
+            var totalCount = BugManagementService.GetUserBugsCount(WebSecurity.CurrentUserId, searchString);
             return new BugsResult
             {
                 Bugs = bugs,
@@ -37,12 +26,11 @@ namespace LMPlatform.UI.Services.BTS
             };
         }
 
-        public BugsResult ProjectBugs(string projectId, int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null)
+        public BugsResult ProjectBugs(int projectId, int pageSize, int pageNumber, string sortingPropertyName, bool desc = false, string searchString = null)
         {
-            int convertedProjectId = Convert.ToInt32(projectId);
-            var bugs = BugManagementService.GetProjectBugs(convertedProjectId, pageSize, pageNumber, sortingPropertyName, desc, searchString)
+            var bugs = BugManagementService.GetProjectBugs(projectId, pageSize, pageNumber, sortingPropertyName, desc, searchString)
                 .Select(e => new BugViewData(e)).ToList();
-            int totalCount = BugManagementService.GetProjectBugsCount(convertedProjectId, searchString);
+            var totalCount = BugManagementService.GetProjectBugsCount(projectId, searchString);
             return new BugsResult
             {
                 Bugs = bugs,

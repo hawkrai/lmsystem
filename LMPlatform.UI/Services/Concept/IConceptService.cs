@@ -1,11 +1,6 @@
 ﻿using LMPlatform.UI.Services.Modules.Concept;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Text;
 
 namespace LMPlatform.UI.Services.Concept
 {
@@ -15,52 +10,51 @@ namespace LMPlatform.UI.Services.Concept
     {
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/CreateRootConcept")]
-        ConceptResult SaveRootConcept(string name, string container, string subject);
+        ConceptResult SaveRootConcept(string name, string container, int subject);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/AttachSiblings")]
-        ConceptResult AttachSiblings(string source, string left, string right);
+        ConceptResult AttachSiblings(int source, int left, int right);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConcept?elementId={elementId}")]
-        ConceptViewData GetConcept(String elementId);
+        ConceptViewData GetConcept(int elementId);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetRootConcepts")]
-        ConceptResult GetRootConcepts(String subjectId);
+        ConceptResult GetRootConcepts(int subjectId);
 
-		[OperationContract]
+        [OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetRootConceptsMobile")]
-		ConceptResult GetRootConceptsMobile(string subjectId, string userId, string identityKey);
+		ConceptResult GetRootConceptsMobile(int subjectId, int userId, string identityKey);
 
 		[OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConceptTitleInfo?subjectId={subjectId}")]
-        ConceptPageTitleData GetConceptTitleInfo(String subjectId);
+        ConceptPageTitleData GetConceptTitleInfo(int subjectId);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConcepts")]
-        ConceptResult GetConcepts(String parentId);
+        ConceptResult GetConcepts(int parentId);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConceptTree?elementId={elementId}")]
-        ConceptViewData GetConceptTree(String elementId);
+        ConceptViewData GetConceptTree(int elementId);
 
-		[OperationContract]
+        [OperationContract]
 		[WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConceptTreeMobile?elementId={elementId}")]
-		ConceptViewData GetConceptTreeMobile(String elementId);
-
+		ConceptViewData GetConceptTreeMobile(int elementId);
 
 		[OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Remove")]
-        ConceptResult Remove(String id);
+        ConceptResult Remove(int id);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetNextConceptData?elementId={elementId}")]
-        AttachViewData GetNextConceptData(String elementId);
+        AttachViewData GetNextConceptData(int elementId);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetPrevConceptData?elementId={elementId}")]
-        AttachViewData GetPrevConceptData(String elementId);
+        AttachViewData GetPrevConceptData(int elementId);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/GetConceptViews?conceptId={conceptId}&groupId={groupId}")]

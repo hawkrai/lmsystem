@@ -1,8 +1,9 @@
-﻿namespace LMPlatform.UI.Services.Modules.Materials
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+
+namespace LMPlatform.UI.Services.Modules.Materials
 {
-    using System.Collections.Generic;
-    using System.Runtime.Serialization;
-    using LMPlatform.Models;
+    using Models;
  
     [DataContract]
     public class FoldersViewData

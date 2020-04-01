@@ -1,37 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
+using LMPlatform.UI.Services.Modules.Files;
+using System.Configuration;
+using Application.Core;
+using Application.Infrastructure.FilesManagement;
 
 namespace LMPlatform.UI.Services.Files
 {
-    using System.Configuration;
-
-    using Application.Core;
-    using Application.Infrastructure.FilesManagement;
-    using Application.Infrastructure.MessageManagement;
-
-    using LMPlatform.UI.Services.Modules.Lectures;
-    using LMPlatform.UI.Services.Modules.Messages;
-
     public class FilesService : IFilesService
     {
-        private readonly LazyDependency<IFilesManagementService> _filesManagementService =
-                                                new LazyDependency<IFilesManagementService>();
+        private readonly LazyDependency<IFilesManagementService> _filesManagementService = 
+	        new LazyDependency<IFilesManagementService>();
 
-        public IFilesManagementService FilesManagementService
-        {
-            get { return _filesManagementService.Value; }
-        }
+        public IFilesManagementService FilesManagementService => _filesManagementService.Value;
 
         public AttachmentResult GetFiles()
         {
             try
             {
                 var attachments = FilesManagementService.GetAttachments(null).ToList();
-                string storageRoot = ConfigurationManager.AppSettings["FileUploadPath"];
+                var storageRoot = ConfigurationManager.AppSettings["FileUploadPath"];
                 var result = new AttachmentResult
                 {
                     Files = attachments,
@@ -42,7 +30,7 @@ namespace LMPlatform.UI.Services.Files
 
                 return result;
             }
-            catch (Exception e)
+            catch
             {
                 return new AttachmentResult
                 {

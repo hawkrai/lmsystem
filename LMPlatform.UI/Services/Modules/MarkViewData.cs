@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using LMPlatform.Models;
 
 namespace LMPlatform.UI.Services.Modules
 {

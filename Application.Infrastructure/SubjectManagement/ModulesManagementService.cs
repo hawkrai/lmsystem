@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Application.Core.Data;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
-using System;
 
 namespace Application.Infrastructure.SubjectManagement
 {
@@ -17,15 +15,12 @@ namespace Application.Infrastructure.SubjectManagement
             }
         }
 
-        public IEnumerable<Module> GetModules(Int32 subjectId)
+        public IEnumerable<Module> GetModules(int subjectId)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.ModulesRepository.GetAll().Where(
-                    s=>
-                        s.SubjectModules.Any(sm=>sm.SubjectId==subjectId)
-                        ).ToList();
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.ModulesRepository.GetAll().Where(
+		        s => s.SubjectModules.Any(sm=>sm.SubjectId==subjectId)
+	        ).ToList();
         }
     }
 }

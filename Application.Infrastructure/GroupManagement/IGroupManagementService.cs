@@ -10,6 +10,8 @@ namespace Application.Infrastructure.GroupManagement
 
         List<Group> GetGroups(IQuery<Group> query = null);
 
+        Group GetGroupWithLiteStudents(int groupId);
+
         IPageableList<Group> GetGroupsPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 
         Group AddGroup(Group group);

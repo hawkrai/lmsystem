@@ -77,12 +77,12 @@ namespace LMPlatform.UI.Services.Search
         public Stream SearchLecturers(string text)
         {
             if (string.IsNullOrEmpty(text))
-                return null;            
+                return null;
 
             var searchMethod = new LecturerSearchMethod();
 
             if(!searchMethod.IsIndexExist())
-                searchMethod.AddToIndex(_lecturerRepository.Value.GetLecturers());                    
+                searchMethod.AddToIndex(_lecturerRepository.Value.GetLecturers());
 
             var searchResult = searchMethod.Search(text);
 
@@ -94,7 +94,7 @@ namespace LMPlatform.UI.Services.Search
 
         private Stream GetResultStream(object obj)
         {
-            string jsonClient = new JavaScriptSerializer().Serialize(obj);
+            var jsonClient = new JavaScriptSerializer().Serialize(obj);
             WebOperationContext.Current.OutgoingResponse.ContentType = "application/json; charset=utf-8";
             return new MemoryStream(Encoding.UTF8.GetBytes(jsonClient));
         }
