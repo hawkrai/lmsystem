@@ -1000,20 +1000,5 @@ namespace LMPlatform.UI.Controllers
 		public IDpManagementService DpManagementService => ApplicationService<IDpManagementService>();
 
 		#endregion
-
-		private static ActionResult StatusCode(HttpStatusCode statusCode, string description = null)
-		{
-			return new HttpStatusCodeResult(statusCode, description);
-		}
-
-		private static ActionResult JsonResponse<T>(T obj)
-		{
-			return new JsonResult
-			{
-				Data = obj,
-				MaxJsonLength = int.MaxValue,
-				JsonRequestBehavior = JsonRequestBehavior.AllowGet
-			};
-		}
     }
 }
