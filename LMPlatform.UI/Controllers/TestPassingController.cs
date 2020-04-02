@@ -109,11 +109,15 @@ namespace LMPlatform.UI.Controllers
 		}
 
 		[HttpGet]
-		public JsonResult GetNextQuestionJson(int testId, int questionNumber, int userId)
+		public JsonResult GetNextQuestionJson(int testId, int questionNumber, int userId, bool includeAnswers)
 		{
 			var result = this.TestPassingService.GetNextQuestion(testId, userId, questionNumber);
 			Question question = null;
-			if (result.Question != null) question = result.Question.Clone() as Question;
+			if (result.Question != null)
+			{
+				question = result.Question.Clone() as Question;
+				question.Answers = includeAnswers ? question.Answers : null;
+			}
 			return JsonResponse(new
 			{
 				Question = question,
