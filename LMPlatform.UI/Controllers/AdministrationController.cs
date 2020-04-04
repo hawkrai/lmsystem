@@ -609,13 +609,16 @@ namespace LMPlatform.UI.Controllers
 		{
 			var activityModel = new UserActivityViewModel();
 
-			var serialized = activityModel.UserActivityJson;
-
-			var jsonSerializer = new JavaScriptSerializer();
-
-			var deserialized = jsonSerializer.DeserializeObject(serialized);
+			var responseObj = new
+			{
+                activityModel.ServiceAccountsCount,
+                activityModel.TotalLecturersCount,
+                activityModel.TotalStudentsCount,
+                activityModel.TotalUsersCount,
+                activityModel.UserActivityJson,
+			};
 			
-			return JsonResponse(deserialized);
+			return JsonResponse(responseObj);
 		}
 
 		[HttpGet]
