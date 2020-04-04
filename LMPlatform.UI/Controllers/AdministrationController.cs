@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -13,15 +12,9 @@ using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.UserManagement;
-using AutoMapper;
-using iTextSharp.text.pdf.parser.clipper;
-using LMPlatform.UI.ViewModels;
 using LMPlatform.UI.ViewModels.AccountViewModels;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
-using LMPlatform.UI.ViewModels.LmsViewModels;
 using Mvc.JQuery.Datatables;
-using Org.BouncyCastle.Asn1.Ocsp;
-using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
@@ -896,7 +889,7 @@ namespace LMPlatform.UI.Controllers
 			return StatusCode(HttpStatusCode.BadRequest);
 		}
 
-		[HttpPost]
+		[HttpDelete]
 		public ActionResult DeleteStudentJson(int id)
 		{
 			try
@@ -923,7 +916,7 @@ namespace LMPlatform.UI.Controllers
 			}
 		}
 
-		[HttpPost]
+		[HttpDelete]
 		public ActionResult DeleteLecturerJson(int id)
 		{
 			try
@@ -958,7 +951,7 @@ namespace LMPlatform.UI.Controllers
 			}
 		}
 
-		[HttpPost]
+		[HttpDelete]
 		public ActionResult DeleteGroupJson(int id)
 		{
 			try
