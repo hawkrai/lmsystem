@@ -1029,6 +1029,32 @@ namespace LMPlatform.UI.Controllers
 			return StatusCode(HttpStatusCode.BadRequest);
 		}
 
+		[HttpGet]
+		public ActionResult ListOfStudentsByGroupJson(int id)
+		{
+			try
+			{
+				var students = StudentManagementService.GetGroupStudents(id)
+					.OrderBy(student => student.FullName)
+					.ToList();
+
+				var response = new
+				{
+					Group = students.Count > 0 ? students[0].Group.Name : null,
+					Students = students.Select(s => new
+					{
+						Name = s.FullName,
+						IsConfirmed = s.Confirmed ?? false
+					})
+				};
+				return JsonResponse(response);
+			}
+			catch(Exception ex)
+			{
+				return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+			}
+		}
+
 		#endregion
 
 		#region Dependencies
