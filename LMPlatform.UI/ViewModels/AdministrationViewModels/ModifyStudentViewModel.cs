@@ -32,9 +32,8 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 			if (student != null)
 			{
 				this.Group = student.GroupId == 0
-					? this.StudentManagementService.GetStudent(student.Id).GroupId
-						.ToString(CultureInfo.InvariantCulture)
-					: student.GroupId.ToString(CultureInfo.InvariantCulture);
+					? this.StudentManagementService.GetStudent(student.Id).Group.Name
+					: student.Group.Name;
 
 				this.Id = student.Id;
 				this.Name = student.FirstName;
