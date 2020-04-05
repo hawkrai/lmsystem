@@ -1005,6 +1005,30 @@ namespace LMPlatform.UI.Controllers
 			return StatusCode(HttpStatusCode.BadRequest);
 		}
 
+		[HttpGet]
+		public ActionResult ListOfSubjectsByStudentJson(int id)
+		{
+			var groups = SubjectManagementService.GetSubjectsByStudent(id).OrderBy(subject => subject.Name).ToList();
+			var stud = StudentManagementService.GetStudent(id);
+
+			if (groups != null && stud != null)
+			{
+				var model = ListSubjectViewModel.FormSubjects(groups, stud.FullName);
+				var response = new
+				{
+					Student = model.Name,
+					Subjects = model.Subjects.Select(s => new
+					{
+						SubjectName = s.Name,
+						Lecturers = s.SubjectLecturers?.Select(prof => prof.Lecturer.FullName)
+					})
+				};
+				return JsonResponse(response);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
 		#endregion
 
 		#region Dependencies
