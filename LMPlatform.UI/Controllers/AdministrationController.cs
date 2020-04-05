@@ -1055,6 +1055,30 @@ namespace LMPlatform.UI.Controllers
 			}
 		}
 
+		[HttpPost]
+		public ActionResult EditStudentJson(ModifyStudentViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
+					if (user == null || user.Id == model.Id)
+					{
+						model.ModifyStudent();
+						return StatusCode(HttpStatusCode.Created, "Студент сохранен");
+					}
+
+					return StatusCode(HttpStatusCode.BadRequest, "Пользователь с таким именем уже существует");
+				}
+				catch (Exception ex)
+				{
+					return StatusCode(HttpStatusCode.InternalServerError, ex.Message);
+				}
+			}
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
 		#endregion
 
 		#region Dependencies
