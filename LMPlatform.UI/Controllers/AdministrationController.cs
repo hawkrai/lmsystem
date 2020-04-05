@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using System.Web.Security;
 using Application.Core.UI.Controllers;
 using Application.Core.UI.HtmlHelpers;
@@ -701,7 +700,7 @@ namespace LMPlatform.UI.Controllers
 
 			if (lecturer != null)
 			{
-				var model = new ModifyLecturerViewModel(lecturer);
+				var model = LecturerViewModel.FormLecturers(lecturer, null);
 				return JsonResponse(model);
 			}
 
