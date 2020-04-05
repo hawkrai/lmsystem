@@ -978,6 +978,33 @@ namespace LMPlatform.UI.Controllers
 			}
 		}
 
+		[HttpGet]
+		public ActionResult ListOfGroupsByLecturerJson(int id)
+		{
+			var sub = SubjectManagementService.GetSubjectsByLector(id).OrderBy(subject => subject.Name).ToList();
+			var lec = LecturerManagementService.GetLecturer(id);
+			if (sub != null && lec != null)
+			{
+				var model = ListSubjectViewModel.FormSubjects(sub, lec.FullName);
+				var response = new
+				{
+					Lecturer = model.Name,
+					Subjects = model.Subjects.Distinct().Select(s => new
+					{
+						SubjectName = s.Name,
+						Groups = s.SubjectGroups.Where(sg => sg.Group != null).Select(sg => new
+						{
+							GroupName = sg.Group.Name,
+							StudentsCount = sg.Group.Students.Count
+						})
+					})
+				};
+				return JsonResponse(response);
+			}
+
+			return StatusCode(HttpStatusCode.BadRequest);
+		}
+
 		#endregion
 
 		#region Dependencies
