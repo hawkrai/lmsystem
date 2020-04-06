@@ -819,7 +819,7 @@ namespace Application.Infrastructure.SubjectManagement
 			}
 		}
 
-	    public void DeleteNonReceivedUserFiles(int groupId)
+	    public void DeleteNonReceivedUserFiles(int groupId, int subjectId)
 	    {
 	        using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
 	        {
@@ -829,7 +829,7 @@ namespace Application.Infrastructure.SubjectManagement
 	            foreach (var studentId in studentsIds)
 	            {
 	                var model = repositoriesContainer.RepositoryFor<UserLabFiles>().
-	                    GetAll(new Query<UserLabFiles>(e => e.UserId == studentId && !e.IsReceived));
+	                    GetAll(new Query<UserLabFiles>(e => e.UserId == studentId && !e.IsReceived && e.SubjectId == subjectId));
 	                repositoriesContainer.RepositoryFor<UserLabFiles>().Delete(model);
                 }
 

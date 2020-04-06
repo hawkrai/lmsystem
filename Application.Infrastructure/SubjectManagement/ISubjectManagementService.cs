@@ -34,7 +34,7 @@ namespace Application.Infrastructure.SubjectManagement
 
         void DeleteLabs(int id);
 
-        void DeleteNonReceivedUserFiles(int groupId);
+        void DeleteNonReceivedUserFiles(int groupId, int subjId);
 
         void DeletePracticals(int id);
 
