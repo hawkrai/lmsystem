@@ -11,5 +11,11 @@ namespace LMPlatform.UI.Services.Files
 		[OperationContract]
 		[WebInvoke(UriTemplate = "/GetFiles/", RequestFormat = WebMessageFormat.Json, Method = "GET")]
 		AttachmentResult GetFiles();
+
+		[OperationContract]
+		[WebInvoke(
+			UriTemplate = "/GetFilesWithPagination?filter={namePart}&filesPerPage={filesPerPage}&page={pageNumber}",
+			RequestFormat = WebMessageFormat.Json, Method = "GET")]
+		AttachmentResult GetFilesWithPagination(string namePart, int filesPerPage, int pageNumber);
 	}
 }

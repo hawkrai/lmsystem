@@ -40,6 +40,19 @@ namespace Application.Infrastructure.FilesManagement
 		        : repositoriesContainer.AttachmentRepository.GetAll(new Query<Attachment>(e => e.PathName == path)).ToList();
         }
 
+        public IList<Attachment> GetAttachments(string filter, int filesPerPage, int page)
+        {
+	        var isFilterEmpty = string.IsNullOrWhiteSpace(filter);
+
+            using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.AttachmentRepository
+		        .GetAll(new Query<Attachment>(a => isFilterEmpty || a.Name.ToLower().Contains(filter.ToLower())))
+		        .OrderBy(a => a.Name)
+		        .Skip(filesPerPage * (page - 1))
+		        .Take(filesPerPage)
+		        .ToList();
+        }
+
         public void DeleteFileAttachment(Attachment attachment)
         {
             var filePath = _storageRoot + attachment.PathName + "//" + attachment.FileName;
