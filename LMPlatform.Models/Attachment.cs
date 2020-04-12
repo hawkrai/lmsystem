@@ -1,4 +1,5 @@
-﻿using Application.Core.Data;
+﻿using System;
+using Application.Core.Data;
 
 namespace LMPlatform.Models
 {
@@ -11,5 +12,11 @@ namespace LMPlatform.Models
 		public string PathName { get; set; }
 
 		public AttachmentType AttachmentType { get; set; }
+
+		public DateTime? CreationDate { get; set; }
+
+		public int? UserId { get; set; }
+
+		public User Author { get; set; }
 	}
 }
