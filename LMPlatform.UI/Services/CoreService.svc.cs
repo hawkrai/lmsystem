@@ -351,7 +351,7 @@ namespace LMPlatform.UI.Services
             try
             {
                 var id = int.Parse(subjectId);
-                var groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id)));
+                var groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id && x.IsActiveOnCurrentGroup)));
                 return new GroupsResult
                 {
                     Groups = groups.Select(e => new GroupsViewData() { GroupId = e.Id, GroupName = e.Name }).ToList(),
