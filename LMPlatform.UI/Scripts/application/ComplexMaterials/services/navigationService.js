@@ -4,6 +4,7 @@
         var defValue = '***ЭУМК не выбран***';
         var title = defValue;
         var $container = angular.element("#material-header");
+        var $subjLink = angular.element("#subjectLink");
         var breadCrumbsArray = [];
         var initedHeader = false;
         var currentSubjectId = 0;
@@ -122,12 +123,16 @@
                 if (!initedHeader) {
                     $container.html("")
                     if (currentSubjectId) {
-                        var str = "<a href='/Subject?subjectId=" + currentSubjectId + "'>" + title + "</a>";
+                        var str = "<a href='/Subject?subjectId=" + currentSubjectId + "' style='color:black'>" + title + "</a>";
                         if (currentLecturer != undefined) {
                             str = str + "<small> Преподаватель - <a href=\"/Profile/Page/" + currentLecturer.UserName + "\">" + currentLecturer.FullName + "</a></small>";
                         }
                         var link = $(str);
                         link.appendTo($container);
+
+                        str = "<a href='/Subject?subjectId=" + currentSubjectId + "' linkNavbar><i class='fa fa-arrow-left'></i>В предмет</a>";
+                        var backLink = $(str);
+                        backLink.appendTo($subjLink);
                     }
                     else {
                         $container.html(title);

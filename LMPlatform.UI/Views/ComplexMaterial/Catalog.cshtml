@@ -1,4 +1,5 @@
-﻿@if (User.IsInRole("lector"))
+﻿
+@if (User.IsInRole("lector"))
 {
     <div ng-init="user='lector'"></div>
 }
@@ -75,20 +76,20 @@ else
             color: #000;
         }
 </style>
-<section style=" margin-bottom:25px">
-    <ul class="breadcrumbs">
-        <li ng-repeat="crumb in navigationService.getBreadcrumbs()">
-            <a ng-click="goToBredCrumb($event)" data-idfolder="{{crumb.Id}}" class="link ng-scope">{{crumb.Name}}</a>
-        </li>
-    </ul>
-</section>
-<div style="min-height:66px; ">
-    <ol>
-        <li ng-repeat="recomendation in recomendations">
-            <a ng-click="recomendation.IsTest ? openTest(recomendation.Id) : openFolderConcept(recomendation.Id)"><b>{{recomendation.Text}}</b></a>
-        </li>
-    </ol>
-</div>
+@*<section style=" margin-bottom:25px">
+        <ul class="breadcrumbs">
+            <li ng-repeat="crumb in navigationService.getBreadcrumbs()">
+                <a ng-click="goToBredCrumb($event)" data-idfolder="{{crumb.Id}}" class="link ng-scope">{{crumb.Name}}</a>
+            </li>
+        </ul>
+    </section>
+    <div style="min-height:66px; ">
+        <ol>
+            <li ng-repeat="recomendation in recomendations">
+                <a ng-click="recomendation.IsTest ? openTest(recomendation.Id) : openFolderConcept(recomendation.Id)"><b>{{recomendation.Text}}</b></a>
+            </li>
+        </ol>
+    </div>*@
 <div id="buttonActionSection" style="min-height:36px; ">
     <a id="openSelectedItem" style="margin-right:30px;" ng-show="isShowOpenItemButton()" class="btn btn-success btn-sm" ng-click="openConcept()"><i style="margin-right:10px;" class="glyphicon glyphicon-play-circle"></i>Просмотреть</a>
     @if (User.IsInRole("lector"))
@@ -99,7 +100,7 @@ else
         <a id="addNewComplexFolderMaterial" ng-show="isShowAddFolderButton()" class="btn btn-primary btn-sm" ng-click="addNewFolderComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-folder-close"></i>Добавить составной модуль</a>
         <a id="editSelectedItem" ng-show="isShowEditItemButton()" class="btn btn-warning btn-sm" ng-click="editRootComplexMaterial()"><i style="margin-right:10px;" class="glyphicon glyphicon-pencil"></i>Редактировать</a>
         <a id="deleteSelectedItem" ng-show="isShowDeleteItemButton()" class="btn btn-danger btn-sm" ng-click="deleteConcept()"><i style="margin-right:10px;" class="glyphicon glyphicon-remove"></i>Удалить</a>
-        <a id="recomendations" ng-show="isShowRecomendationsButton()" ng-click="showRecomendations()" class="btn btn-primary btn-sm">Рекомендуемые материалы для изучения</a>
+        @*<a id="recomendations" ng-show="isShowRecomendationsButton()" ng-click="showRecomendations()" class="btn btn-primary btn-sm">Рекомендуемые материалы для изучения</a>*@
     }
     @*<a id="openMapItem" style="margin-left:30px;"  class="btn btn-info btn-sm" ng-click=""><i style="margin-right:10px;" class="glyphicon glyphicon-picture"></i>Открыть карту</a>*@
 
@@ -109,20 +110,22 @@ else
 <a ng-click="openMemo()" class="link" style="float:right;">Положение об ЭУМК</a>
 <a ng-show="isShowMapButton()" class="link" ng-click="openMap()" style="float:right;">Карта ЭУМК</a>
 <hr>
-<div class="bs-docs-section catalog" delete-context-menu data-pid="@ViewBag.Pid" style="height: 500px; margin-top:50px;">
-    <div class="bs-glyphicons">
-        <ul class="bs-glyphicons-list">
-            <li title="{{folder.Name}}" id="{{folder.Id}}" style="width: 100px; height: 100px" ng-class="{'selected-elem': folder.selected}" ng-click="selectElement($event)" ng-repeat=" folder in folders" class="folder" context-menu-folder ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}">
-                <span class="glyphicon" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}"
-                      ng-class="{'published-folder':folder.Published==true, 'not-published-folder':folder.Published!=true, 'glyphicon-book':folder.IsGroup&&folder.ParentId==0, 'glyphicon-folder-open':folder.IsGroup&&folder.ParentId!=0, 'glyphicon-file':!folder.IsGroup}"></span>
-                <span class="glyphicon-class nameFolder" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}" style="color: #000">{{folder.ShortName}}</span>
-            </li>
-        </ul>
+
+    <div class="bs-docs-section catalog" delete-context-menu data-pid="@ViewBag.Pid" style="height: 500px; margin-top:50px;">
+        <div class="bs-glyphicons">
+            <ul class="bs-glyphicons-list">
+                <li title="{{folder.Name}}" id="{{folder.Id}}" style="width: 100px; height: 100px" ng-class="{'selected-elem': folder.selected}" ng-click="selectElement($event)" ng-repeat=" folder in folders" class="navLink" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}">
+                    <span class="glyphicon" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}"
+                          ng-class="{'published-folder':folder.Published==true, 'not-published-folder':folder.Published!=true, 'glyphicon-book':folder.IsGroup&&folder.ParentId==0, 'glyphicon-folder-open':folder.IsGroup&&folder.ParentId!=0, 'glyphicon-file':!folder.IsGroup}"></span>
+                    <span class="glyphicon-class nameFolder" ng-dblclick="openFolder($event)" data-idfolder="{{folder.Id}}" style="color: #000">{{folder.ShortName}}</span>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
-<div class="loading">
-    <span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
-</div>
+
+    <div class="loading">
+        <span us-spinner="{radius:40, width:8, length: 16}" spinner-key="spinner-1" spinner-start-active="true"></span>
+    </div>
 
 
 

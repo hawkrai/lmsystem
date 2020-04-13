@@ -18,7 +18,7 @@
 
 @section headerTitle
 {
-    <h1 id="material-header">Модуль электронных учебно-методических комплексов</h1>
+    <h1 id="material-header"></h1>
 }
 
 @section navleft
@@ -32,6 +32,7 @@
     @*<li style="cursor:pointer;" ng-show="isBackspaceShow()" ng-click="backspaceFolder()"><a class="linkNavbar"><i class="fa fa-arrow-left"></i>Назад</a></li>*@
     <li><a href="/Lms" class="linkNavbar"><i class="fa fa-reply fa-tab"></i>В главное меню</a></li>
     <li style="cursor:pointer;" ng-show="isBackspaceShow()" ng-click="goToHome()"><a class="linkNavbar"><i class="fa fa-arrow-left"></i>К списку ЭУМК</a></li>
-    <li><a class="linkNavbar" href="@Url.Action("Subjects", "Subject")"><i class="fa fa-refresh fa-tab"></i>Сменить предмет</a></li>
+    <li><a class="linkNavbar" href="@Url.Action("GetSubjectsForCM", "Subject")"><i class="fa fa-refresh fa-tab"></i>Сменить предмет</a></li>
+    <li id="subjectLink"></li>
 }
 <div ng-view></div>

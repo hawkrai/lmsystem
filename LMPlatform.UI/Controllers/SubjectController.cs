@@ -25,6 +25,7 @@ namespace LMPlatform.UI.Controllers
     using Application.Core;
     using Application.Infrastructure.FilesManagement;
 	using System;
+    using LMPlatform.Data.Repositories;
 
     [Authorize(Roles = "student, lector")]
     public class SubjectController : BasicController 
@@ -326,6 +327,13 @@ namespace LMPlatform.UI.Controllers
             var model = new SubjectManagementViewModel(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
             var subjects = model.Subjects;
             return View(subjects);
+        }
+
+        public ActionResult GetSubjectsForCM()
+        {
+            var model = new SubjectManagementViewModel(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
+            var subjects = model.Subjects.Where(x => SubjectModuleRepository.GetCMSubjectIds().Contains(x.SubjectId)).ToList();
+            return View("Subjects", subjects);
         }
 
         [HttpPost]
