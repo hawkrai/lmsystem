@@ -564,6 +564,8 @@
       <DependentUpon>NewsService.svc</DependentUpon>
     </Compile>
     <Compile Include="Services\Parental\IParentalService.cs" />
+    <Compile Include="Services\Parental\Models\ParentalResult.cs" />
+    <Compile Include="Services\Parental\Models\ParentalUser.cs" />
     <Compile Include="Services\Parental\ParentalService.svc.cs">
       <DependentUpon>ParentalService.svc</DependentUpon>
     </Compile>
