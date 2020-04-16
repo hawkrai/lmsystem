@@ -14,6 +14,10 @@ namespace LMPlatform.UI.Services.Messages
         MessagesResult GetMessages();
 
         [OperationContract]
+        [WebInvoke(UriTemplate = "/GetMessages?userId={userId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+        MessagesResult GetMessagesByUserId(int userId);
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "/GetMessage/{id}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
         DisplayMessageResult GetMessage(string id);
 

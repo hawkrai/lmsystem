@@ -21,36 +21,40 @@ namespace LMPlatform.UI.Services.Messages
 
         public MessagesResult GetMessages()
         {
-            try
-            {
-                var userId = WebSecurity.CurrentUserId;
-                var model = MessageManagementService.GetUserMessages(userId)
-	                .DistinctBy(m => m.MessageId)
-	                .ToList();
-                var result = new MessagesResult
-                    {
-						InboxMessages = model.Where(m => m.AuthorId != userId)
-							.OrderByDescending(e => e.Date)
-							.Select(e => new MessagesViewData(e))
-							.ToList(),
-						OutboxMessages = model.Where(m => m.AuthorId == userId)
-							.OrderByDescending(e => e.Date)
-							.Select(e => new MessagesViewData(e))
-							.ToList(),
-                        Message = "Сообщения успешно загружены",
-                        Code = "200"
-                    };
+	        return this.GetMessagesByUserId(WebSecurity.CurrentUserId);
+        }
 
-                return result;
-            }
-            catch
-            {
-				return new MessagesResult
-				{
-					Message = "Произошла ошибка при получении сообщений",
-					Code = "500"
-				};
-            }
+        public MessagesResult GetMessagesByUserId(int userId)
+        {
+	        try
+	        {
+		        var model = MessageManagementService.GetUserMessages(userId)
+			        .DistinctBy(m => m.MessageId)
+			        .ToList();
+		        var result = new MessagesResult
+		        {
+			        InboxMessages = model.Where(m => m.AuthorId != userId)
+				        .OrderByDescending(e => e.Date)
+				        .Select(e => new MessagesViewData(e))
+				        .ToList(),
+			        OutboxMessages = model.Where(m => m.AuthorId == userId)
+				        .OrderByDescending(e => e.Date)
+				        .Select(e => new MessagesViewData(e))
+				        .ToList(),
+			        Message = "Сообщения успешно загружены",
+			        Code = "200"
+		        };
+
+		        return result;
+	        }
+	        catch
+	        {
+		        return new MessagesResult
+		        {
+			        Message = "Произошла ошибка при получении сообщений",
+			        Code = "500"
+		        };
+	        }
         }
 
         public DisplayMessageResult GetMessage(string id)
