@@ -59,36 +59,40 @@ namespace LMPlatform.UI.Services.Messages
 
         public DisplayMessageResult GetMessage(string id)
         {
-            try
-            {
-                var userId = WebSecurity.CurrentUserId;
-                var msgId = int.Parse(id);
-
-                var msg = MessageManagementService.GetUserMessage(msgId, userId);
-
-                if (msg.RecipientId == userId && !msg.IsRead)
-                {
-                    MessageManagementService.SetRead(msg.Id);
-                }
-
-                return new DisplayMessageResult
-                {
-                    DisplayMessage = new DisplayMessageViewData(msg),
-                    Message = "Сообщение успешно загружено",
-                    Code = "200"
-                };
-            }
-            catch
-            {
-                return new DisplayMessageResult
-                {
-                    Message = "Произошла ошибка при получении сообщения",
-                    Code = "500"
-                };
-            }
+	        return this.GetUserMessage(id, WebSecurity.CurrentUserId);
         }
 
-		public RecipientsResult GetRecipients()
+        public DisplayMessageResult GetUserMessage(string id, int userId)
+        {
+	        try
+	        {
+		        var msgId = int.Parse(id);
+
+		        var msg = MessageManagementService.GetUserMessage(msgId, userId);
+
+		        if (msg.RecipientId == userId && !msg.IsRead)
+		        {
+			        MessageManagementService.SetRead(msg.Id);
+		        }
+
+		        return new DisplayMessageResult
+		        {
+			        DisplayMessage = new DisplayMessageViewData(msg),
+			        Message = "Сообщение успешно загружено",
+			        Code = "200"
+		        };
+	        }
+	        catch
+	        {
+		        return new DisplayMessageResult
+		        {
+			        Message = "Произошла ошибка при получении сообщения",
+			        Code = "500"
+		        };
+	        }
+        }
+
+        public RecipientsResult GetRecipients()
 		{
 			return new RecipientsResult
 			{
@@ -104,11 +108,15 @@ namespace LMPlatform.UI.Services.Messages
 
         public ResultViewData Save(string subject, string body, string recipients, string attachments)
         {
+	        return this.SaveFromUserId(subject, body, recipients, attachments, WebSecurity.CurrentUserId);
+        }
+
+        public ResultViewData SaveFromUserId(string subject, string body, string recipients, string attachments, int fromId)
+        {
             try
             {
                 var attachmentsList = JsonConvert.DeserializeObject<List<Attachment>>(attachments).ToList();
                 var recipientsList = JsonConvert.DeserializeObject<List<int>>(recipients).ToList();
-                var fromId = WebSecurity.CurrentUserId;
 
                 if (!string.IsNullOrEmpty(subject) && subject.Length > 50)
                 {
@@ -159,10 +167,14 @@ namespace LMPlatform.UI.Services.Messages
 
         public ResultViewData Delete(int messageId)
         {
+	        return this.DeleteUserMessage(messageId, WebSecurity.CurrentUserId);
+        }
+
+        public ResultViewData DeleteUserMessage(int messageId, int userId)
+        {
             try
             {
-                var userId = WebSecurity.CurrentUserId;
-                var result = MessageManagementService.DeleteMessage(messageId, userId);
+                var result = this.MessageManagementService.DeleteMessage(messageId, userId);
 
                 return new ResultViewData
                 {
