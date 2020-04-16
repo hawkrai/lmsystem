@@ -1062,14 +1062,8 @@ namespace LMPlatform.UI.Controllers
 			{
 				try
 				{
-					var user = UsersManagementService.GetUserByName(model.Name, model.Surname, model.Patronymic);
-					if (user == null || user.Id == model.Id)
-					{
-						model.ModifyStudent();
-						return StatusCode(HttpStatusCode.Created, "Студент сохранен");
-					}
-
-					return StatusCode(HttpStatusCode.BadRequest, "Пользователь с таким именем уже существует");
+					model.ModifyStudent();
+					return StatusCode(HttpStatusCode.Created, "Студент сохранен");
 				}
 				catch (Exception ex)
 				{
