@@ -2,6 +2,8 @@
 {
 	public class ProfileVewModel
 	{
+		public int Id { get; set; }
+
 		public string Name { get; set; }
 
 		public string UserType { get; set; }
