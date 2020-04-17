@@ -19,22 +19,22 @@ namespace LMPlatform.UI.Services.Parental.Models
         public int Id;
 
         [DataMember]
-        public Dictionary<int, int> userLecturePass;
+        public Dictionary<int, int> UserLecturePass;
 
         [DataMember]
-        public Dictionary<int, int> userLabPass;
+        public Dictionary<int, int> UserLabPass;
 
         [DataMember]
-        public Dictionary<int, double> userAvgLabMarks;
+        public Dictionary<int, double> UserAvgLabMarks;
 
         [DataMember]
-        public Dictionary<int, double> userAvgTestMarks;
+        public Dictionary<int, double> UserAvgTestMarks;
 
         [DataMember]
-        public Dictionary<int, int> userLabCount;
+        public Dictionary<int, int> UserLabCount;
 
         [DataMember]
-        public Dictionary<int, int> userTestCount;
+        public Dictionary<int, int> UserTestCount;
 
         [DataMember]
         public double Rating;
@@ -57,22 +57,22 @@ namespace LMPlatform.UI.Services.Parental.Models
             #region Init
             FIO = student.FullName;
             Id = student.Id;
-            this.userLecturePass = new Dictionary<int, int>();
-            this.userLabPass = new Dictionary<int, int>();
-            this.userAvgLabMarks = new Dictionary<int, double>();
-            this.userAvgTestMarks = new Dictionary<int, double>();
-            this.userLabCount = new Dictionary<int, int>();
-            this.userTestCount = new Dictionary<int, int>();
+            this.UserLecturePass = new Dictionary<int, int>();
+            this.UserLabPass = new Dictionary<int, int>();
+            this.UserAvgLabMarks = new Dictionary<int, double>();
+            this.UserAvgTestMarks = new Dictionary<int, double>();
+            this.UserLabCount = new Dictionary<int, int>();
+            this.UserTestCount = new Dictionary<int, int>();
             this.subjects = subjects;
 
             foreach (var subject in subjects)
             {
-                this.userLecturePass.Add(subject.Id, 0);
-                this.userLabPass.Add(subject.Id, 0);
-                this.userAvgLabMarks.Add(subject.Id, 0);
-                this.userLabCount.Add(subject.Id, 0);
-                this.userAvgTestMarks.Add(subject.Id, 0);
-                this.userTestCount.Add(subject.Id, 0);
+                this.UserLecturePass.Add(subject.Id, 0);
+                this.UserLabPass.Add(subject.Id, 0);
+                this.UserAvgLabMarks.Add(subject.Id, 0);
+                this.UserLabCount.Add(subject.Id, 0);
+                this.UserAvgTestMarks.Add(subject.Id, 0);
+                this.UserTestCount.Add(subject.Id, 0);
             }
             initLecturePass(student);
             initLabPass(student);
@@ -80,10 +80,10 @@ namespace LMPlatform.UI.Services.Parental.Models
             initAvgTestMarks(student);
             foreach (var subject in subjects)
             {
-                if (this.userLabCount[subject.Id] != 0)
-                    this.userAvgLabMarks[subject.Id] /= this.userLabCount[subject.Id];
-                if (this.userTestCount[subject.Id] != 0)
-                    this.userAvgTestMarks[subject.Id] /= this.userTestCount[subject.Id];
+                if (this.UserLabCount[subject.Id] != 0)
+                    this.UserAvgLabMarks[subject.Id] /= this.UserLabCount[subject.Id];
+                if (this.UserTestCount[subject.Id] != 0)
+                    this.UserAvgTestMarks[subject.Id] /= this.UserTestCount[subject.Id];
             }
             #endregion
         }
@@ -100,7 +100,7 @@ namespace LMPlatform.UI.Services.Parental.Models
                         {
                             int mark;
                             int.TryParse(lecture.Mark, out mark);
-                            this.userLecturePass[lecture.LecturesScheduleVisiting.SubjectId] += mark;
+                            this.UserLecturePass[lecture.LecturesScheduleVisiting.SubjectId] += mark;
                         }
                     }
                 }
@@ -118,7 +118,7 @@ namespace LMPlatform.UI.Services.Parental.Models
                     {
                         int pass;
                         Int32.TryParse(lab.Mark, out pass);
-                        this.userLabPass[lab.ScheduleProtectionLab.SubGroup.SubjectGroup.SubjectId] += pass;
+                        this.UserLabPass[lab.ScheduleProtectionLab.SubGroup.SubjectGroup.SubjectId] += pass;
                     }
                 }
             }
@@ -132,9 +132,8 @@ namespace LMPlatform.UI.Services.Parental.Models
                 {
                     double mark;
                     double.TryParse(lab.Mark, out mark);
-                    this.userAvgLabMarks[lab.Lab.SubjectId] += mark;
-                    this.userLabCount[lab.Lab.SubjectId]++;
-
+                    this.UserAvgLabMarks[lab.Lab.SubjectId] += mark;
+                    this.UserLabCount[lab.Lab.SubjectId]++;
                 }
             }
         }
@@ -151,8 +150,8 @@ namespace LMPlatform.UI.Services.Parental.Models
                     {
                         if (test.Points != null)
                         {
-                            this.userAvgTestMarks[sub.Id] += (double)test.Points;
-                            this.userTestCount[sub.Id]++;
+                            this.UserAvgTestMarks[sub.Id] += (double)test.Points;
+                            this.UserTestCount[sub.Id]++;
                         }
                     }
                 }

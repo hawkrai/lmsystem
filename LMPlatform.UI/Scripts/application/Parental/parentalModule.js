@@ -227,14 +227,14 @@ controllersApp.controller("StatCtrl", ['$scope', '$http', '$modal', function ($s
             PractHoursView: false
         };
 
-        for (var i = 0; i < student.userLecturePass.length; i++) {
-            if (student.userLecturePass[i].Key == id) {
-                studentStat.LecHours = student.userLecturePass[i].Value;
-                studentStat.LabHours = student.userLabPass[i].Value;
+        for (var i = 0; i < student.UserLecturePass.length; i++) {
+            if (student.UserLecturePass[i].Key == id) {
+                studentStat.LecHours = student.UserLecturePass[i].Value;
+                studentStat.LabHours = student.UserLabPass[i].Value;
                 studentStat.TotalHours = studentStat.LecHours + studentStat.LabHours;
-                studentStat.LabMark = Math.round(student.userAvgLabMarks[i].Value * 100) / 100;
-                studentStat.LabsCount = student.userLabCount[i].Value;
-                studentStat.TestMark = Math.round(student.userAvgTestMarks[i].Value * 100) / 100;
+                studentStat.LabMark = Math.round(student.UserAvgLabMarks[i].Value * 100) / 100;
+                studentStat.LabsCount = student.UserLabCount[i].Value;
+                studentStat.TestMark = Math.round(student.UserAvgTestMarks[i].Value * 100) / 100;
                 break;
             }
         }
