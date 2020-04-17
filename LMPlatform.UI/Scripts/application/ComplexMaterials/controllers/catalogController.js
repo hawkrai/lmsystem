@@ -22,6 +22,7 @@
 
             var adjustment;
             var subjectId = getParameterByName("subjectId");
+            $scope.subjectId = subjectId;
 
             var rootConceptId = 0;
             var parentId = $location.search()["parent"]
