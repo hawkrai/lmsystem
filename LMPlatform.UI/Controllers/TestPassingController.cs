@@ -128,7 +128,8 @@ namespace LMPlatform.UI.Controllers
 				result.Number,
 				result.Seconds,
 				result.SetTimeForAllTest,
-				result.ForSelfStudy
+				result.ForSelfStudy,
+				IncompleteQuestionsNumbers = result.QuestionsStatuses.Where(qs => qs.Value == PassedQuestionResult.NotPassed).Select(qs => qs.Key)
 			}) as JsonResult;
 		}
 
