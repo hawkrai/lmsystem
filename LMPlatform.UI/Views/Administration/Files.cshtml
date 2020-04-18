@@ -42,7 +42,7 @@
             <tr ng-repeat="file in $data">
                 <td>{{$index + 1}}</td>
                 <td>
-                    <a href="/api/Upload/DowloadFile?fileName={{attach.PathName}}/{{attach.FileName}}">
+                    <a href="/api/Upload/DowloadFile?fileName={{file.PathName}}/{{file.FileName}}">
                         <span class="glyphicon glyphicon-paperclip"></span>
                         {{file.Name}}
                     </a>
