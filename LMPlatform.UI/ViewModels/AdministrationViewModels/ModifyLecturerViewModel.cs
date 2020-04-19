@@ -2,9 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Security;
 using Application.Core;
-using Application.Core.Constants;
 using Application.Core.Data;
 using Application.Infrastructure.DPManagement;
 using Application.Infrastructure.DTO;
@@ -12,12 +10,9 @@ using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
-using LMPlatform.UI.Attributes;
-using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 {
-    [PasswordRequiredIfResetAttribute]
     public class ModifyLecturerViewModel
     {
         private readonly LazyDependency<ISubjectManagementService> _subjectManagementService = new LazyDependency<ISubjectManagementService>();
@@ -100,26 +95,10 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
         [Display(Name = "Логин")]
         public string UserName { get; set; }
 
-        [Display(Name = "Сбросить пароль")]
-        public bool IsPasswordReset { get; set; }
-
-        [StringLength(100, ErrorMessage = "Пароль должен быть не менее {2} символов.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Новый пароль")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Подтверждение пароля")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Пароль и подтвержденный пароль не совпадают.")]
-        public string ConfirmPassword { get; set; }
-
         [Display(Name = "Эл. почта")]
         public string Email { get; set; }
 
-        public string FullName
-        {
-            get { return string.Format("{0} {1} {2}", Surname, Name, Patronymic); }
-        }
+        public string FullName => $"{this.Surname} {this.Name} {this.Patronymic}";
 
         [Display(Name = "Секретарь")]
         public bool IsSecretary { get; set; }

@@ -7,12 +7,9 @@ using Application.Core;
 using Application.Infrastructure.GroupManagement;
 using Application.Infrastructure.StudentManagement;
 using LMPlatform.Models;
-using LMPlatform.UI.Attributes;
-using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 {
-	[PasswordRequiredIfReset]
 	public class ModifyStudentViewModel
 	{
 		private readonly LazyDependency<IGroupManagementService> _groupManagementService =
@@ -31,10 +28,12 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 		{
 			if (student != null)
 			{
-				this.Group = student.GroupId == 0
-					? this.StudentManagementService.GetStudent(student.Id).Group.Name
-					: student.Group.Name;
+				var group = student.GroupId == 0
+					? this.StudentManagementService.GetStudent(student.Id).Group
+					: student.Group;
 
+				this.Group = group.Id;
+				this.GroupName = group.Name;
 				this.Id = student.Id;
 				this.Name = student.FirstName;
 				this.Surname = student.LastName;
@@ -72,22 +71,10 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 		[Display(Name = "Логин")]
 		public string UserName { get; set; }
 
-		[Display(Name = "Сбросить пароль")]
-		public bool IsPasswordReset { get; set; }
-
-		[StringLength(100, ErrorMessage = "Пароль должен быть не менее {2} символов.", MinimumLength = 6)]
-		[DataType(DataType.Password)]
-		[Display(Name = "Новый пароль")]
-		public string Password { get; set; }
-
-		[DataType(DataType.Password)]
-		[Display(Name = "Подтверждение пароля")]
-		[System.ComponentModel.DataAnnotations.Compare("Password",
-			ErrorMessage = "Пароль и подтвержденный пароль не совпадают.")]
-		public string ConfirmPassword { get; set; }
+		public string GroupName { get; set; }
 
 		[Display(Name = "Группа")]
-		public string Group { get; set; }
+		public int Group { get; set; }
 
 		[Display(Name = "Эл. почта")]
 		public string Email { get; set; }
@@ -116,8 +103,6 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 
 		public void ModifyStudent()
 		{
-			var groupId = int.Parse(this.Group);
-
 			this.StudentManagementService.UpdateStudent(
 				new Student
 				{
@@ -127,9 +112,9 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 					MiddleName = this.Patronymic,
 					Email = this.Email,
 					Confirmed = true,
-					GroupId = groupId,
-					Group = this.GroupManagementService.GetGroup(groupId),
-					User = new User()
+					GroupId = this.Group,
+					Group = this.GroupManagementService.GetGroup(this.Group),
+					User = new User
 					{
 						Avatar = this.Avatar,
 						UserName = this.UserName,
@@ -140,13 +125,6 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
 						Id = this.Id
 					}
 				});
-		}
-
-		public bool ResetPassword()
-		{
-			var token = WebSecurity.GeneratePasswordResetToken(this.UserName, 1);
-			var result = WebSecurity.ResetPassword(token, this.Password);
-			return result;
 		}
 	}
 }
