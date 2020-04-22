@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Activation;
-using System.ServiceModel.Web;
-using System.Text;
 
 namespace LMPlatform.UI.Services.Parental
 {
@@ -16,10 +10,8 @@ namespace LMPlatform.UI.Services.Parental
     using Application.Infrastructure.SubjectManagement;
     using LMPlatform.Data.Repositories;
     using LMPlatform.Models;
-    using LMPlatform.UI.Services.Modules;
     using LMPlatform.UI.Services.Modules.Parental;
     using LMPlatform.UI.Services.Parental.Models;
-    using WebMatrix.WebData;
 
     public class ParentalService : IParentalService
     {

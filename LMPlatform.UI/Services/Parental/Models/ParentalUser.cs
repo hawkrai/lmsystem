@@ -11,39 +11,39 @@ namespace LMPlatform.UI.Services.Parental.Models
     [DataContract]
     public class ParentalUser
     {
+        
+        [DataMember]
+        public string FIO { get; set; }
 
         [DataMember]
-        public string FIO;
+        public int Id { get; set; }
 
         [DataMember]
-        public int Id;
+        public Dictionary<int, int> UserLecturePass { get; set; }
 
         [DataMember]
-        public Dictionary<int, int> UserLecturePass;
+        public Dictionary<int, int> UserLabPass { get; set; }
 
         [DataMember]
-        public Dictionary<int, int> UserLabPass;
+        public Dictionary<int, double> UserAvgLabMarks { get; set; }
 
         [DataMember]
-        public Dictionary<int, double> UserAvgLabMarks;
+        public Dictionary<int, double> UserAvgTestMarks { get; set; }
 
         [DataMember]
-        public Dictionary<int, double> UserAvgTestMarks;
+        public Dictionary<int, int> UserLabCount { get; set; }
 
         [DataMember]
-        public Dictionary<int, int> UserLabCount;
+        public Dictionary<int, int> UserTestCount { get; set; }
 
         [DataMember]
-        public Dictionary<int, int> UserTestCount;
+        public double Rating { get; set; }
 
-        [DataMember]
-        public double Rating;
-
-        private List<Subject> subjects;
+        private List<Subject> Subjects;
 
         private readonly LazyDependency<ITestPassingService> _testPassingService = new LazyDependency<ITestPassingService>();
 
-        public ITestPassingService TestPassingService
+        private ITestPassingService TestPassingService
         {
             get
             {
@@ -63,7 +63,7 @@ namespace LMPlatform.UI.Services.Parental.Models
             this.UserAvgTestMarks = new Dictionary<int, double>();
             this.UserLabCount = new Dictionary<int, int>();
             this.UserTestCount = new Dictionary<int, int>();
-            this.subjects = subjects;
+            this.Subjects = subjects;
 
             foreach (var subject in subjects)
             {
@@ -74,10 +74,10 @@ namespace LMPlatform.UI.Services.Parental.Models
                 this.UserAvgTestMarks.Add(subject.Id, 0);
                 this.UserTestCount.Add(subject.Id, 0);
             }
-            initLecturePass(student);
-            initLabPass(student);
-            initAvgLabMarks(student);
-            initAvgTestMarks(student);
+            InitLecturePass(student);
+            InitLabPass(student);
+            InitAvgLabMarks(student);
+            InitAvgTestMarks(student);
             foreach (var subject in subjects)
             {
                 if (this.UserLabCount[subject.Id] != 0)
@@ -88,9 +88,9 @@ namespace LMPlatform.UI.Services.Parental.Models
             #endregion
         }
 
-        private void initLecturePass(Student student)
+        private void InitLecturePass(Student student)
         {
-            if (student.LecturesVisitMarks != null) ;
+            if (student.LecturesVisitMarks != null)
             {
                 foreach (var lecture in student.LecturesVisitMarks)
                 {
@@ -107,7 +107,7 @@ namespace LMPlatform.UI.Services.Parental.Models
             }
         }
 
-        private void initLabPass(Student student)
+        private void InitLabPass(Student student)
         {
             if (student.ScheduleProtectionLabMarks != null)
             {
@@ -124,7 +124,7 @@ namespace LMPlatform.UI.Services.Parental.Models
             }
         }
 
-        private void initAvgLabMarks(Student student)
+        private void InitAvgLabMarks(Student student)
         {
             if (student.StudentLabMarks != null)
             {
@@ -138,10 +138,10 @@ namespace LMPlatform.UI.Services.Parental.Models
             }
         }
 
-        private void initAvgTestMarks(Student student)
+        private void InitAvgTestMarks(Student student)
         {
 
-            foreach (var sub in subjects)
+            foreach (var sub in Subjects)
             {
                 var tests = TestPassingService.GetStidentResults(sub.Id, student.Id);
                 if (tests != null)
