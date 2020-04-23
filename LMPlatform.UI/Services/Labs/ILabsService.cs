@@ -104,6 +104,6 @@ namespace LMPlatform.UI.Services.Labs
         // OK
         [OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/CheckPlagiarismSubjects")]
-		ResultPSubjectViewData CheckPlagiarismSubjects(string subjectId, string type, string threshold, bool isCp);
+		ResultPSubjectViewData CheckPlagiarismSubjects(string subjectId, int type, int threshold, bool isCp);
     }
 }

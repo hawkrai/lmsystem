@@ -117,14 +117,6 @@ namespace LMPlatform.UI.ViewModels.AccountViewModels
 			}).OrderBy(e => e.Text).ToList();
 		}
 
-		public void RegistrationUser(IList<string> roles)
-		{
-			AccountRegistrationService.CreateAccount(UserName, Password, roles);
-			if (roles.Contains("student")) SaveStudent();
-
-			if (roles.Contains("lector")) SaveLecturer();
-		}
-
         public IList<SelectListItem> GetSecretQuestions()
         {
             var items = new List<SelectListItem>

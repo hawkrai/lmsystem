@@ -749,7 +749,7 @@ namespace LMPlatform.UI.Services.Labs
 			}
 		}
 
-		public ResultPSubjectViewData CheckPlagiarismSubjects(string subjectId, string type, string threshold, bool isCp = false) 
+		public ResultPSubjectViewData CheckPlagiarismSubjects(string subjectId, int type, int threshold, bool isCp = false) 
 		{
 			try
 			{
