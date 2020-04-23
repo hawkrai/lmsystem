@@ -169,6 +169,7 @@
     <Compile Include="Repositories\RepositoryContracts\TestQuestionPassResultsRepository.cs" />
     <Compile Include="Repositories\StudentsRepository.cs" />
     <Compile Include="Repositories\SubGroupRepository.cs" />
+    <Compile Include="Repositories\SubjectModuleRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
     <Compile Include="Repositories\TestsRepository.cs" />
     <Compile Include="Repositories\TestUnlockRepository.cs" />
