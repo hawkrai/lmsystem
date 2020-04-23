@@ -4,10 +4,7 @@ using LMPlatform.UI.Services.Modules.Messages;
 
 namespace LMPlatform.UI.Services.Messages
 {
-    using System.Collections;
-    using System.Collections.Generic;
-
-    using LMPlatform.UI.Services.Modules;
+	using Modules;
 
     [ServiceContract]
     public interface IMessagesService
@@ -17,8 +14,16 @@ namespace LMPlatform.UI.Services.Messages
         MessagesResult GetMessages();
 
         [OperationContract]
+        [WebInvoke(UriTemplate = "/GetMessages?userId={userId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+        MessagesResult GetMessagesByUserId(int userId);
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "/GetMessage/{id}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
         DisplayMessageResult GetMessage(string id);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/GetMessage/{id}?userId={userId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
+        DisplayMessageResult GetUserMessage(string id, int userId);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "/GetRecipients/", RequestFormat = WebMessageFormat.Json, Method = "GET")]
@@ -29,7 +34,15 @@ namespace LMPlatform.UI.Services.Messages
         ResultViewData Save(string subject, string body, string recipients, string attachments);
 
         [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/SaveFrom")]
+        ResultViewData SaveFromUserId(string subject, string body, string recipients, string attachments, int fromId);
+
+        [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/Delete")]
         ResultViewData Delete(int messageId);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/DeleteUserMessage")]
+        ResultViewData DeleteUserMessage(int messageId, int userId);
     }
 }

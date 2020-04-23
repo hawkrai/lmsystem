@@ -1,9 +1,5 @@
-﻿using LMPlatform.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Web;
 
 namespace LMPlatform.UI.Services.Modules.Concept
 {
@@ -20,6 +16,6 @@ namespace LMPlatform.UI.Services.Modules.Concept
         public IEnumerable<ConceptViewData> Children { get; set; }
 
         [DataMember]
-        public String SubjectName { get; set; }
+        public string SubjectName { get; set; }
     }
 }

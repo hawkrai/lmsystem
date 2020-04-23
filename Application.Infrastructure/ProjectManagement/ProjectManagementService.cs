@@ -7,14 +7,13 @@ using LMPlatform.Models;
 using System;
 using Application.Infrastructure.FilesManagement;
 using LMPlatform.Models.BTS;
+using WebMatrix.WebData;
 
 namespace Application.Infrastructure.ProjectManagement
 {
-    using Application.Core;
-    using Application.Infrastructure.BugManagement;
-    using Application.Infrastructure.UserManagement;
-
-    using WebMatrix.WebData;
+    using Core;
+    using BugManagement;
+    using UserManagement;
 
     public class ProjectManagementService : IProjectManagementService
     {
@@ -22,58 +21,45 @@ namespace Application.Infrastructure.ProjectManagement
         {
 			if (searchString != null && searchString.Length < 3)
                 searchString = null;
-            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.ProjectsRepository.GetUserProjects(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
-            }
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+			return repositoriesContainer.ProjectsRepository.GetUserProjects(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
         }
 
         public int GetUserProjectsCount(int userId, string searchString)
         {
             if(searchString != null && searchString.Length < 3)
                 searchString = null;
-            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.ProjectsRepository.GetUserProjectsCount(userId, searchString);
-            }
+            using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+            return repositoriesContainer.ProjectsRepository.GetUserProjectsCount(userId, searchString);
         }
 
         public Project GetProjectWithData(int id, bool withBugsAndMembers = false)
         {
-            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.ProjectsRepository.GetProjectWithData(id, withBugsAndMembers);
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.ProjectsRepository.GetProjectWithData(id, withBugsAndMembers);
         }
 
         public List<Project> GetUserProjectParticipations(int userId, int pageSize, int pageNumber, string sortingPropertyName, bool desc, string searchString)
         {
-            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.ProjectsRepository.GetUserProjectParticipations(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.ProjectsRepository.GetUserProjectParticipations(userId, pageSize, (pageNumber - 1) * pageSize, searchString, sortingPropertyName, desc);
         }
         public int GetUserProjectParticipationsCount(int userId, string searchString)
         {
-            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.ProjectsRepository.GetUserProjectParticipationsCount(userId, searchString);
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.ProjectsRepository.GetUserProjectParticipationsCount(userId, searchString);
         }
+
         public List<Student> GetStudentsGroupParticipations(int groupId, int pageSize, int pageNumber)
         {
-            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.ProjectsRepository.GetStudentsGroupParticipations(groupId, pageSize, (pageNumber - 1) * pageSize);
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.ProjectsRepository.GetStudentsGroupParticipations(groupId, pageSize, (pageNumber - 1) * pageSize);
         }
 
         public int GetStudentsGroupParticipationsCount(int groupId)
         {
-            using(var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.ProjectsRepository.GetStudentsGroupParticipationsCount(groupId);
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.ProjectsRepository.GetStudentsGroupParticipationsCount(groupId);
         }
 
         public Project GetProject(int projectId, bool includeBugs = false, bool includeUsers = false)
@@ -123,15 +109,12 @@ namespace Application.Infrastructure.ProjectManagement
 
         public List<ProjectComment> GetProjectComments(int projectId)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return
-                    repositoriesContainer.ProjectCommentsRepository.GetAll(new Query<ProjectComment>(e => e.ProjectId == projectId)
-                        .Include(e => e.User)
-                        .Include(e => e.User.Lecturer)
-                        .Include(e => e.User.Student)
-                    ).ToList();
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.ProjectCommentsRepository.GetAll(
+		        new Query<ProjectComment>(e => e.ProjectId == projectId)
+			        .Include(e => e.User)
+			        .Include(e => e.User.Lecturer)
+			        .Include(e => e.User.Student)).ToList();
         }
 
         public IPageableList<ProjectUser> GetProjectUsers(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null)
@@ -230,12 +213,10 @@ namespace Application.Infrastructure.ProjectManagement
 
         public ProjectMatrixRequirement CreateMatrixRequirement(ProjectMatrixRequirement requirement)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                repositoriesContainer.ProjectMatrixRequirementsRepository.Save(requirement);
-                repositoriesContainer.ApplyChanges();
-            }
-            return requirement;
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        repositoriesContainer.ProjectMatrixRequirementsRepository.Save(requirement);
+	        repositoriesContainer.ApplyChanges();
+	        return requirement;
         }
 
         public void UpdateProject(Project project)
@@ -372,66 +353,56 @@ namespace Application.Infrastructure.ProjectManagement
 
         public Attachment SaveAttachment(int projectId, Attachment attachment)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                var query = new Query<Project>(e => e.Id == projectId);
-                var project = repositoriesContainer.ProjectsRepository.GetBy(query);
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        var query = new Query<Project>(e => e.Id == projectId);
+	        var project = repositoriesContainer.ProjectsRepository.GetBy(query);
 
-                if (string.IsNullOrEmpty(project.Attachments))
-                {
-                    project.Attachments = GetGuidFileName();
-                }
+	        if (string.IsNullOrEmpty(project.Attachments))
+	        {
+		        project.Attachments = GetGuidFileName();
+	        }
 
-                FilesManagementService.SaveFile(attachment, project.Attachments);
+	        FilesManagementService.SaveFile(attachment, project.Attachments);
 
-                attachment.PathName = project.Attachments;
-                repositoriesContainer.AttachmentRepository.Save(attachment);
-            }
-            return attachment;
+	        attachment.PathName = project.Attachments;
+	        repositoriesContainer.AttachmentRepository.Save(attachment);
+	        return attachment;
         }
 
         public List<Attachment> GetAttachments(int projectId)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                var query = new Query<Project>(e => e.Id == projectId);
-                var project = repositoriesContainer.ProjectsRepository.GetBy(query);
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        var query = new Query<Project>(e => e.Id == projectId);
+	        var project = repositoriesContainer.ProjectsRepository.GetBy(query);
 
-                if (string.IsNullOrEmpty(project.Attachments))
-                {
-                    return new List<Attachment>();
-                }
-                return FilesManagementService.GetAttachments(project.Attachments).ToList();
-            }
+	        if (string.IsNullOrEmpty(project.Attachments))
+	        {
+		        return new List<Attachment>();
+	        }
+	        return FilesManagementService.GetAttachments(project.Attachments).ToList();
         }
 
         public Attachment GetAttachment(int projectId, string fileName)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                var query = new Query<Project>(e => e.Id == projectId);
-                var project = repositoriesContainer.ProjectsRepository.GetBy(query);
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        var query = new Query<Project>(e => e.Id == projectId);
+	        var project = repositoriesContainer.ProjectsRepository.GetBy(query);
 
-                if (string.IsNullOrEmpty(project.Attachments))
-                {
-                    return null;
-                }
-                return FilesManagementService.GetAttachments(project.Attachments).First(e => e.FileName == fileName);
-            }
+	        if (string.IsNullOrEmpty(project.Attachments))
+	        {
+		        return null;
+	        }
+	        return FilesManagementService.GetAttachments(project.Attachments).First(e => e.FileName == fileName);
         }
 
         public bool DeleteAttachment(int projectId, string fileName)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                var query = new Query<Project>(e => e.Id == projectId);
-                var project = repositoriesContainer.ProjectsRepository.GetBy(query);
-
-                var attachment = repositoriesContainer.AttachmentRepository.GetBy(new Query<Attachment>(e => e.PathName == project.Attachments && e.FileName == fileName));
-
-                FilesManagementService.DeleteFileAttachment(attachment);
-            }
-            return true;
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        var query = new Query<Project>(e => e.Id == projectId);
+	        var project = repositoriesContainer.ProjectsRepository.GetBy(query);
+            var attachment = repositoriesContainer.AttachmentRepository.GetBy(new Query<Attachment>(e => e.PathName == project.Attachments && e.FileName == fileName));
+            FilesManagementService.DeleteFileAttachment(attachment);
+	        return true;
         }
 
         private readonly LazyDependency<IBugManagementService> _bugManagementService = new LazyDependency<IBugManagementService>();
@@ -455,7 +426,7 @@ namespace Application.Infrastructure.ProjectManagement
 
         private string GetGuidFileName()
         {
-            return string.Format("P{0}", Guid.NewGuid().ToString("N").ToUpper());
+            return $"P{Guid.NewGuid().ToString("N").ToUpper()}";
         }
     }
 }

@@ -1,63 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
+using Application.Core;
+using Application.Core.Data;
+using Application.Infrastructure.SubjectManagement;
+using LMPlatform.UI.Services.Modules.News;
 
 namespace LMPlatform.UI.Services.News
 {
-    using System.Web.Http;
-    using System.Web.Mvc;
-
-    using Application.Core;
-    using Application.Infrastructure.SubjectManagement;
-
-    using LMPlatform.Models;
-    using LMPlatform.UI.Services.Modules;
-    using LMPlatform.UI.Services.Modules.News;
-    using LMPlatform.UI.ViewModels.SubjectModulesViewModel.ModulesViewModel;
+    using Models;
+    using Modules;
 
     public class NewsService : INewsService
     {
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
 
-        public ISubjectManagementService SubjectManagementService
-        {
-            get
-            {
-                return subjectManagementService.Value;
-            }
-        }
+        public ISubjectManagementService SubjectManagementService => subjectManagementService.Value;
 
         public NewsResult GetNews(string subjectId)
         {
             try
             {
-                var model = SubjectManagementService.GetSubject(int.Parse(subjectId)).SubjectNewses.OrderByDescending(e => e.EditDate).Select(e => new NewsViewData(e)).ToList();
+	            var id = int.Parse(subjectId);
+	            var query = new Query<Subject>(e => e.Id == id)
+		            .Include(e => e.SubjectNewses);
+                var model = SubjectManagementService.GetSubject(query).SubjectNewses
+	                .OrderByDescending(e => e.EditDate)
+	                .Select(e => new NewsViewData(e))
+	                .ToList();
 
                 return new NewsResult
-                           {
-                               News = model,
-                               Message = "Новости успешно загружены",
-                               Code = "200"
-                           };
+				{
+					News = model,
+					Message = "Новости успешно загружены",
+					Code = "200"
+				};
             }
-            catch (Exception)
+            catch
             {
-                return new NewsResult()
-                           {
-                               Message = "Произошла ошибка при получении новостей",
-                               Code = "500"
-                           };
+                return new NewsResult
+				{
+					Message = "Произошла ошибка при получении новостей",
+					Code = "500"
+				};
             }
         }
 
-	    public ResultViewData DisableNews(string subjectId)
+	    public ResultViewData DisableNews(int subjectId)
 	    {
 			try
 			{
-				SubjectManagementService.DisableNews(int.Parse(subjectId), true);
+				SubjectManagementService.DisableNews(subjectId, true);
 
 				return new ResultViewData
 				{
@@ -65,9 +57,9 @@ namespace LMPlatform.UI.Services.News
 					Code = "200"
 				};
 			}
-			catch (Exception)
+			catch
 			{
-				return new ResultViewData()
+				return new ResultViewData
 				{
 					Message = "Произошла ошибка при скрытии новостей",
 					Code = "500"
@@ -75,11 +67,11 @@ namespace LMPlatform.UI.Services.News
 			}
 	    }
 
-	    public ResultViewData EnableNews(string subjectId)
+	    public ResultViewData EnableNews(int subjectId)
 	    {
 			try
 			{
-				SubjectManagementService.DisableNews(int.Parse(subjectId), false);
+				SubjectManagementService.DisableNews(subjectId, false);
 
 				return new ResultViewData
 				{
@@ -87,9 +79,9 @@ namespace LMPlatform.UI.Services.News
 					Code = "200"
 				};
 			}
-			catch (Exception)
+			catch
 			{
-				return new ResultViewData()
+				return new ResultViewData
 				{
 					Message = "Произошла ошибка при работе с новостями",
 					Code = "500"
@@ -97,44 +89,44 @@ namespace LMPlatform.UI.Services.News
 			}
 	    }
 
-	    public ResultViewData Save(string subjectId, string id, string title, string body, bool disabled, bool isOldDate)
+	    public ResultViewData Save(int subjectId, int id, string title, string body, bool disabled, bool isOldDate)
         {
             try
             {
-                var newsIds = string.IsNullOrEmpty(id) ? 0 : int.Parse(id);
                 var date = DateTime.Now;
+                var news = SubjectManagementService.GetNews(id, subjectId);
 
-	            if ((newsIds != 0 && isOldDate) || (newsIds != 0 && disabled))
+                if (id != 0 && isOldDate || id != 0 && disabled)
 	            {
-		            date = SubjectManagementService.GetNews(newsIds, int.Parse(subjectId)).EditDate;
+		            date = news.EditDate;
 	            }
-				else if ((newsIds != 0 && !disabled))
+				else if (id != 0 && !disabled)
 	            {
-		            if (SubjectManagementService.GetNews(newsIds, int.Parse(subjectId)).Disabled)
+		            if (news.Disabled)
 		            {
 			            date = DateTime.Now;
 		            }
 	            }
 
                 var model = new SubjectNews
-                                {
-                                    Id = newsIds,
-                                    SubjectId = int.Parse(subjectId),
-                                    Body = body,
-                                    EditDate = date,
-                                    Title = title,
-									Disabled = disabled
-                                };
+                {
+                    Id = id,
+                    SubjectId = subjectId,
+                    Body = body,
+                    EditDate = date,
+                    Title = title,
+					Disabled = disabled
+                };
                 SubjectManagementService.SaveNews(model);
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Новость успешно сохранена",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при сохранении новости",
                     Code = "500"
@@ -142,25 +134,25 @@ namespace LMPlatform.UI.Services.News
             }
         }
 
-        public ResultViewData Delete(string id, string subjectId)
+        public ResultViewData Delete(int id, int subjectId)
         {
             try
             {
                 var model = new SubjectNews
                 {
-                    Id = string.IsNullOrEmpty(id) ? 0 : int.Parse(id),
-                    SubjectId = int.Parse(subjectId),
+                    Id = id,
+                    SubjectId = subjectId,
                 };
                 SubjectManagementService.DeleteNews(model);
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Новость успешно удалена",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при удалении новости",
                     Code = "500"

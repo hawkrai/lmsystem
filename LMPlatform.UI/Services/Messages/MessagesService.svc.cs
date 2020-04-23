@@ -6,103 +6,117 @@ using Application.Infrastructure.MessageManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.Services.Modules;
 using LMPlatform.UI.Services.Modules.Messages;
-using LMPlatform.UI.ViewModels.MessageViewModels;
 using Newtonsoft.Json;
+using Application.Core.Extensions;
+using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Services.Messages
 {
-    using Application.Core.Extensions;
-
-    using WebMatrix.WebData;
-
     public class MessagesService : IMessagesService
     {
         private readonly LazyDependency<IMessageManagementService> _messageManagementService =
             new LazyDependency<IMessageManagementService>();
 
-        public IMessageManagementService MessageManagementService
-        {
-            get { return _messageManagementService.Value; }
-        }
+        public IMessageManagementService MessageManagementService => _messageManagementService.Value;
 
         public MessagesResult GetMessages()
         {
-            try
-            {
-                var userId = WebSecurity.CurrentUserId;
-                var model = MessageManagementService.GetUserMessages(userId).DistinctBy(m => m.MessageId).ToList();
-                var result = new MessagesResult
-                    {
-						InboxMessages = model.Where(m => m.AuthorId != userId).OrderByDescending(e => e.Date).Select(e => new MessagesViewData(e)).ToList(),
-						OutboxMessages = model.Where(m => m.AuthorId == userId).OrderByDescending(e => e.Date).Select(e => new MessagesViewData(e)).ToList(),
-                        Message = "Сообщения успешно загружены",
-                        Code = "200"
-                    };
+	        return this.GetMessagesByUserId(WebSecurity.CurrentUserId);
+        }
 
-                return result;
-            }
-            catch (Exception e)
-            {
-                return new MessagesResult
-                    {
-                        Message = "Произошла ошибка при получении сообщений",
-                        Code = "500"
-                    };
-            }
+        public MessagesResult GetMessagesByUserId(int userId)
+        {
+	        try
+	        {
+		        var model = MessageManagementService.GetUserMessages(userId)
+			        .DistinctBy(m => m.MessageId)
+			        .ToList();
+		        var result = new MessagesResult
+		        {
+			        InboxMessages = model.Where(m => m.AuthorId != userId)
+				        .OrderByDescending(e => e.Date)
+				        .Select(e => new MessagesViewData(e))
+				        .ToList(),
+			        OutboxMessages = model.Where(m => m.AuthorId == userId)
+				        .OrderByDescending(e => e.Date)
+				        .Select(e => new MessagesViewData(e))
+				        .ToList(),
+			        Message = "Сообщения успешно загружены",
+			        Code = "200"
+		        };
+
+		        return result;
+	        }
+	        catch
+	        {
+		        return new MessagesResult
+		        {
+			        Message = "Произошла ошибка при получении сообщений",
+			        Code = "500"
+		        };
+	        }
         }
 
         public DisplayMessageResult GetMessage(string id)
         {
-            try
-            {
-                var userId = WebSecurity.CurrentUserId;
-                var msgId = int.Parse(id);
+	        return this.GetUserMessage(id, WebSecurity.CurrentUserId);
+        }
 
-                var msg = MessageManagementService.GetUserMessage(msgId, userId);
+        public DisplayMessageResult GetUserMessage(string id, int userId)
+        {
+	        try
+	        {
+		        var msgId = int.Parse(id);
 
-                if (msg.RecipientId == userId && !msg.IsRead)
-                {
-                    MessageManagementService.SetRead(msg.Id);
-                }
+		        var msg = MessageManagementService.GetUserMessage(msgId, userId);
 
-                return new DisplayMessageResult
-                {
-                    DisplayMessage = new DisplayMessageViewData(msg),
-                    Message = "Сообщение успешно загружено",
-                    Code = "200"
-                };
-            }
-            catch (Exception e)
-            {
-                return new DisplayMessageResult
-                {
-                    Message = "Произошла ошибка при получении сообщения",
-                    Code = "500"
-                };
-            }
+		        if (msg.RecipientId == userId && !msg.IsRead)
+		        {
+			        MessageManagementService.SetRead(msg.Id);
+		        }
+
+		        return new DisplayMessageResult
+		        {
+			        DisplayMessage = new DisplayMessageViewData(msg),
+			        Message = "Сообщение успешно загружено",
+			        Code = "200"
+		        };
+	        }
+	        catch
+	        {
+		        return new DisplayMessageResult
+		        {
+			        Message = "Произошла ошибка при получении сообщения",
+			        Code = "500"
+		        };
+	        }
         }
 
         public RecipientsResult GetRecipients()
-        {
-            return new RecipientsResult()
-                       {
-                           Recipients = new List<RecipientViewData>()
-                                            {
-                                                new RecipientViewData(0, "Jack"),
-                                                new RecipientViewData(1, "Mike")
-                                            },
-                           Message = "Успешно",
-                           Code = "200"
-                       };
-        }
+		{
+			return new RecipientsResult
+			{
+				Recipients = new List<RecipientViewData>
+				{
+					new RecipientViewData(0, "Jack"),
+					new RecipientViewData(1, "Mike")
+				},
+				Message = "Успешно",
+				Code = "200"
+			};
+		}
 
         public ResultViewData Save(string subject, string body, string recipients, string attachments)
+        {
+	        return this.SaveFromUserId(subject, body, recipients, attachments, WebSecurity.CurrentUserId);
+        }
+
+        public ResultViewData SaveFromUserId(string subject, string body, string recipients, string attachments, int fromId)
         {
             try
             {
                 var attachmentsList = JsonConvert.DeserializeObject<List<Attachment>>(attachments).ToList();
                 var recipientsList = JsonConvert.DeserializeObject<List<int>>(recipients).ToList();
-                var fromId = WebSecurity.CurrentUserId;
 
                 if (!string.IsNullOrEmpty(subject) && subject.Length > 50)
                 {
@@ -128,10 +142,10 @@ namespace LMPlatform.UI.Services.Messages
                 ////}
                 ////else
                 ////{
-                foreach (var recipientId in recipientsList)
+                var userMessages = recipientsList.Select(recipientId => new UserMessages(recipientId, fromId, msg.Id));
+                foreach (var userMsg in userMessages)
                 {
-                    var userMsg = new UserMessages(recipientId, fromId, msg.Id);
-                    MessageManagementService.SaveUserMessages(userMsg);
+	                MessageManagementService.SaveUserMessages(userMsg);
                 }
                 ////}
 
@@ -141,7 +155,7 @@ namespace LMPlatform.UI.Services.Messages
                     Code = "200"
                 };
             }
-            catch (Exception e)
+            catch
             {
                 return new ResultViewData
                 {
@@ -153,10 +167,14 @@ namespace LMPlatform.UI.Services.Messages
 
         public ResultViewData Delete(int messageId)
         {
+	        return this.DeleteUserMessage(messageId, WebSecurity.CurrentUserId);
+        }
+
+        public ResultViewData DeleteUserMessage(int messageId, int userId)
+        {
             try
             {
-                var userId = WebSecurity.CurrentUserId;
-                var result = MessageManagementService.DeleteMessage(messageId, userId);
+                var result = this.MessageManagementService.DeleteMessage(messageId, userId);
 
                 return new ResultViewData
                 {
@@ -164,7 +182,7 @@ namespace LMPlatform.UI.Services.Messages
                     Code = "200"
                 };
             }
-            catch (Exception e)
+            catch
             {
                 return new ResultViewData
                 {

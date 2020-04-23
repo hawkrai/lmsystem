@@ -12,10 +12,7 @@ namespace LMPlatform.UI.ViewModels.AdministrationViewModels
     public string Group { get; set; }
 
     [DisplayName("Полное имя")]
-    public string FullName 
-    {
-        get { return string.Format("{0} {1} {2}", LastName, FirstName, MiddleName); } 
-    }
+    public string FullName => $"{LastName} {FirstName} {MiddleName}";
 
     [DisplayName("Логин")]
     public string Login { get; set; }

@@ -1,13 +1,12 @@
-﻿namespace LMPlatform.UI.Services.Modules.Lectures
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using Application.Core;
+using Application.Infrastructure.FilesManagement;
+using Application.Infrastructure.SubjectManagement;
+
+namespace LMPlatform.UI.Services.Modules.Lectures
 {
-    using System.Collections.Generic;
-    using System.Runtime.Serialization;
-
-    using Application.Core;
-    using Application.Infrastructure.FilesManagement;
-    using Application.Infrastructure.SubjectManagement;
-
-    using LMPlatform.Models;
+    using Models;
 
     [DataContract]
     public class LecturesViewData
@@ -15,21 +14,9 @@
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
         private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
 
-        public IFilesManagementService FilesManagementService
-        {
-            get
-            {
-                return filesManagementService.Value;
-            }
-        }
+        public IFilesManagementService FilesManagementService => filesManagementService.Value;
 
-        public ISubjectManagementService SubjectManagementService
-        {
-            get
-            {
-                return subjectManagementService.Value;
-            }
-        }
+        public ISubjectManagementService SubjectManagementService => subjectManagementService.Value;
 
         public LecturesViewData(Lectures lectures)
         {
@@ -61,10 +48,6 @@
         public string PathFile { get; set; }
 
         [DataMember]
-        public IList<Attachment> Attachments
-        {
-            get;
-            set;
-        } 
+        public IList<Attachment> Attachments { get; set; } 
     }
 }

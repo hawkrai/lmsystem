@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using Application.Core.Data;
+﻿using Application.Core.Data;
 
 namespace LMPlatform.Models.BTS
 {

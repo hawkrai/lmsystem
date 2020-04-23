@@ -1,7 +1,6 @@
 ﻿using System.ServiceModel;
 using System.ServiceModel.Web;
 using LMPlatform.UI.Services.Modules.BTS;
-using System.IO;
 
 namespace LMPlatform.UI.Services.BTS
 {

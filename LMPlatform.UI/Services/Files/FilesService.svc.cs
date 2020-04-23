@@ -1,55 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
+using LMPlatform.UI.Services.Modules.Files;
+using System.Configuration;
+using Application.Core;
+using Application.Infrastructure.FilesManagement;
 
 namespace LMPlatform.UI.Services.Files
 {
-    using System.Configuration;
+	public class FilesService : IFilesService
+	{
+		private readonly LazyDependency<IFilesManagementService> _filesManagementService =
+			new LazyDependency<IFilesManagementService>();
 
-    using Application.Core;
-    using Application.Infrastructure.FilesManagement;
-    using Application.Infrastructure.MessageManagement;
+		public IFilesManagementService FilesManagementService => this._filesManagementService.Value;
 
-    using LMPlatform.UI.Services.Modules.Lectures;
-    using LMPlatform.UI.Services.Modules.Messages;
+		public AttachmentResult GetFiles()
+		{
+			try
+			{
+				var attachments = this.FilesManagementService.GetAttachments(null).ToList();
+				var storageRoot = ConfigurationManager.AppSettings["FileUploadPath"];
+				var result = new AttachmentResult
+				{
+					Files = attachments,
+					ServerPath = storageRoot,
+					Message = "Данные успешно загружены",
+					Code = "200"
+				};
 
-    public class FilesService : IFilesService
-    {
-        private readonly LazyDependency<IFilesManagementService> _filesManagementService =
-                                                new LazyDependency<IFilesManagementService>();
+				return result;
+			}
+			catch
+			{
+				return new AttachmentResult
+				{
+					Message = "Произошла ошибка при получении данных",
+					Code = "500"
+				};
+			}
+		}
 
-        public IFilesManagementService FilesManagementService
-        {
-            get { return _filesManagementService.Value; }
-        }
+		public AttachmentResult GetFilesWithPagination(string namePart, int filesPerPage, int pageNumber)
+		{
+			try
+			{
+				var attachments = this.FilesManagementService.GetAttachments(namePart, filesPerPage, pageNumber)
+					.ToList();
+				var storageRoot = ConfigurationManager.AppSettings["FileUploadPath"];
+				var result = new AttachmentResult
+				{
+					Files = attachments,
+					ServerPath = storageRoot,
+					Message = "Данные успешно загружены",
+					Code = "200"
+				};
 
-        public AttachmentResult GetFiles()
-        {
-            try
-            {
-                var attachments = FilesManagementService.GetAttachments(null).ToList();
-                string storageRoot = ConfigurationManager.AppSettings["FileUploadPath"];
-                var result = new AttachmentResult
-                {
-                    Files = attachments,
-                    ServerPath = storageRoot,
-                    Message = "Данные успешно загружены",
-                    Code = "200"
-                };
-
-                return result;
-            }
-            catch (Exception e)
-            {
-                return new AttachmentResult
-                {
-                    Message = "Произошла ошибка при получении данных",
-                    Code = "500"
-                };
-            }
-        }
-    }
+				return result;
+			}
+			catch
+			{
+				return new AttachmentResult
+				{
+					Message = "Произошла ошибка при получении данных",
+					Code = "500"
+				};
+			}
+		}
+	}
 }

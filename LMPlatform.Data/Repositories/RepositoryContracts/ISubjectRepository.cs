@@ -7,7 +7,9 @@ namespace LMPlatform.Data.Repositories.RepositoryContracts
     public interface ISubjectRepository : IRepositoryBase<Subject>
     {
         List<Subject> GetSubjects(int groupId = 0, int lecturerId = 0);
-
+        
+        List<Subject> GetSubjectsLite(int? groupId = null);
+        
         SubjectNews SaveNews(SubjectNews news);
 
         void DeleteNews(SubjectNews news);

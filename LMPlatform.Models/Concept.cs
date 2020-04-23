@@ -1,26 +1,18 @@
 ﻿using Application.Core.Data;
 using LMPlatform.Models.KnowledgeTesting;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMPlatform.Models
 {
-
-    public class ConceptQuestions: ModelBase
+	public class ConceptQuestions: ModelBase
     {
-        public Int32 Id { get; set; }
-        public Int32 ConceptId { get; set; }
-        public Int32 QuestionId { get; set; }
-
+        public int Id { get; set; }
+        public int ConceptId { get; set; }
+        public int QuestionId { get; set; }
         public virtual Concept Concept { get; set; }
-
         public virtual Question Question { get; set; }
     }
+
     public class Concept: ModelBase
     {
         public Concept()
@@ -28,7 +20,7 @@ namespace LMPlatform.Models
             
         }
 
-        public Concept(String name, User author, Subject subject, Boolean isGroup, Boolean published)
+        public Concept(string name, User author, Subject subject, bool isGroup, bool published)
         {
             Name = name;
             Author = author;
@@ -40,67 +32,51 @@ namespace LMPlatform.Models
         }
 
         public virtual ICollection<ConceptQuestions> ConceptQuestions { get; set; }
-  
-        public string Name
-        {
-            get;
-            set;
-        }
 
-        public string Container
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
+
+        public string Container { get; set; }
 
         public virtual Concept Parent { get; set; }
-        public virtual Int32? ParentId { get; set; }
+
+        public virtual int? ParentId { get; set; }
+
         public virtual ICollection<Concept> Children { get; set; }
-        
-        public Boolean IsGroup { get; set; }
 
-        public Boolean ReadOnly { get; set; }
+        public bool IsGroup { get; set; }
 
-        public virtual Int32? NextConcept { get; set; }
+        public bool ReadOnly { get; set; }
 
-        public virtual Int32? PrevConcept { get; set; }
+        public virtual int? NextConcept { get; set; }
+
+        public virtual int? PrevConcept { get; set; }
 
         public virtual User Author { get; set; }
 
         public virtual Subject Subject { get; set; }
 
-        public Boolean Published { get; set; }
+        public bool Published { get; set; }
 
-        public int SubjectId
-        {
-            get;
-            set;
-        }
+        public int SubjectId { get; set; }
 
-        public int UserId
-        {
-            get;
-            set;
-        }
+        public int UserId { get; set; }
 
-        public virtual Int32? LectureId { get; set; }
+        public virtual int? LectureId { get; set; }
 
-        public virtual Int32? PracticalId { get; set; }
+        public virtual int? PracticalId { get; set; }
 
-        public virtual Int32? LabId { get; set; }
+        public virtual int? LabId { get; set; }
 
         public List<Concept> GetAllChildren()
         {
-            var list = new List<Concept>();
-            if (this.Children != null)
-            {
-                foreach (var child in Children)
-                {
-                    list.AddRange(child.GetAllChildren());
-                }
-                list.AddRange(this.Children);
-            }
-            return list;
+	        var list = new List<Concept>();
+	        if (Children != null)
+	        {
+		        foreach (var child in Children) list.AddRange(child.GetAllChildren());
+		        list.AddRange(Children);
+	        }
+
+	        return list;
         }
     }
 }

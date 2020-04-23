@@ -6,11 +6,11 @@ namespace Application.Infrastructure.StudentManagement
 {
     public interface IStudentManagementService
     {
-        Student GetStudent(int userId);
+        Student GetStudent(int userId, bool lite = false);
 
         IEnumerable<Student> GetGroupStudents(int groupId);
 
-        IEnumerable<Student> GetStudents();
+        IEnumerable<Student> GetStudents(IQuery<Student> query = null);
 
         IPageableList<Student> GetStudentsPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 

@@ -44,12 +44,13 @@ namespace Application.SearchEngine.SearchMethods
         public void AddToIndex(IEnumerable<Student> students)
         {
             var analyzer = new StandardAnalyzer(Version.LUCENE_30);
-            using (var writer = new IndexWriter(Directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
+            using var writer = new IndexWriter(Directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
+            foreach (var student in students)
             {
-                foreach (var student in students)
-                    AddToIndex(student, writer);
-                analyzer.Close();
+	            AddToIndex(student, writer);
             }
+
+            analyzer.Close();
         }
 
         public void AddToIndex(Student student)

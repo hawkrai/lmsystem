@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
 using Application.Core;
+using Application.Core.Data;
 using Application.Infrastructure.SubjectManagement;
 using LMPlatform.Models;
 using LMPlatform.UI.Services.Modules;
 using LMPlatform.UI.Services.Modules.CoreModels;
-using LMPlatform.UI.Services.Modules.Labs;
 using LMPlatform.UI.Services.Modules.Practicals;
 using Newtonsoft.Json;
 using WebMatrix.WebData;
-using Application.Infrastructure.ConceptManagement;
 
 namespace LMPlatform.UI.Services.Practicals
 {
@@ -22,21 +17,21 @@ namespace LMPlatform.UI.Services.Practicals
     {
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
 
-        public ISubjectManagementService SubjectManagementService
-        {
-            get
-            {
-                return subjectManagementService.Value;
-            }
-        }
+        public ISubjectManagementService SubjectManagementService => subjectManagementService.Value;
+
+        private const int PracticalModuleId = 13;
 
         public PracticalsResult GetLabs(string subjectId)
         {
             try
             {
-                var sub = SubjectManagementService.GetSubject(int.Parse(subjectId));
+	            var id = int.Parse(subjectId);
+	            var query = new Query<Subject>(s => s.Id == id)
+	                .Include(s => s.SubjectModules)
+	                .Include(s => s.Practicals);
+                var sub = SubjectManagementService.GetSubject(query);
                 var model = new List<PracticalsViewData>();
-                if (sub.SubjectModules.Any(e => e.ModuleId == 13))
+                if (sub.SubjectModules.Any(e => e.ModuleId == PracticalModuleId))
                 {
                     model = sub.Practicals.Select(e => new PracticalsViewData(e)).ToList();
                 }
@@ -48,9 +43,9 @@ namespace LMPlatform.UI.Services.Practicals
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new PracticalsResult()
+                return new PracticalsResult
                 {
                     Message = "Произошла ошибка при получении практических занятий",
                     Code = "500"
@@ -58,31 +53,30 @@ namespace LMPlatform.UI.Services.Practicals
             }
         }
 
-        public ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string shortName, string pathFile, string attachments)
+        public ResultViewData Save(int subjectId, int id, string theme, int duration, int order, string shortName, string pathFile, string attachments)
         {
             try
             {
                 var attachmentsModel = JsonConvert.DeserializeObject<List<Attachment>>(attachments).ToList();
-                var subject = int.Parse(subjectId);
                 SubjectManagementService.SavePractical(new Practical
                 {
-                    SubjectId = subject,
-                    Duration = int.Parse(duration),
+                    SubjectId = subjectId,
+                    Duration = duration,
                     Theme = theme,
-                    Order = int.Parse(order),
+                    Order = order,
                     ShortName = shortName,
                     Attachments = pathFile,
-                    Id = int.Parse(id)
+                    Id = id
                 }, attachmentsModel, WebSecurity.CurrentUserId);
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Практическое занятие успешно сохранено",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при сохранении практического занятия",
                     Code = "500"
@@ -90,12 +84,12 @@ namespace LMPlatform.UI.Services.Practicals
             }
         }
 
-        public ResultViewData Delete(string id, string subjectId)
+        public ResultViewData Delete(int id, int subjectId)
         {
             try
             {
-                SubjectManagementService.DeletePracticals(int.Parse(id));
-                return new ResultViewData()
+                SubjectManagementService.DeletePracticals(id);
+                return new ResultViewData
                 {
                     Message = "Практическое занятие успешно удалено",
                     Code = "200"
@@ -103,7 +97,7 @@ namespace LMPlatform.UI.Services.Practicals
             }
             catch (Exception e)
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при удалении практического занятия" + e.Message,
                     Code = "500"
@@ -111,25 +105,25 @@ namespace LMPlatform.UI.Services.Practicals
             }
         }
 
-        public ResultViewData SaveScheduleProtectionDate(string groupId, string date, string subjectId)
+        public ResultViewData SaveScheduleProtectionDate(int groupId, string date, int subjectId)
         {
             try
             {
                 SubjectManagementService.SaveScheduleProtectionPracticalDate(new ScheduleProtectionPractical
                 {
-                    GroupId = int.Parse(groupId),
+                    GroupId = groupId,
                     Date = DateTime.Parse(date),
-                    SubjectId = int.Parse(subjectId)
+                    SubjectId = subjectId
                 });
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Дата успешно добавлены",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при добавлении даты",
                     Code = "500"
@@ -158,15 +152,15 @@ namespace LMPlatform.UI.Services.Practicals
                     }).ToList());
                 }
 
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Данные успешно изменены",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при изменении данных",
                     Code = "500"
@@ -189,15 +183,15 @@ namespace LMPlatform.UI.Services.Practicals
                     }).ToList());
                 }
 
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Данные успешно изменены",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при изменении данных",
                     Code = "500"
@@ -205,21 +199,21 @@ namespace LMPlatform.UI.Services.Practicals
             }
         }
 
-        public ResultViewData DeleteVisitingDate(string id)
+        public ResultViewData DeleteVisitingDate(int id)
         {
             try
             {
-                SubjectManagementService.DeletePracticalsVisitingDate(int.Parse(id));
+                SubjectManagementService.DeletePracticalsVisitingDate(id);
 
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Дата успешно удалена",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при удалении даты",
                     Code = "500"

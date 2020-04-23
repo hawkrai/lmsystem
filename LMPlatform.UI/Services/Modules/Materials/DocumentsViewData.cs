@@ -1,22 +1,21 @@
-﻿namespace LMPlatform.UI.Services.Modules.Materials
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+
+namespace LMPlatform.UI.Services.Modules.Materials
 {
-    using System.Collections.Generic;
-    using System.Runtime.Serialization;
-    using LMPlatform.Models;
- 
-    [DataContract]
+	[DataContract]
     public class DocumentsViewData
     {
-        private List<Materials> dc;
+        private List<Models.Materials> dc;
 
-        public DocumentsViewData(Materials materials)
+        public DocumentsViewData(Models.Materials materials)
         {
             Id = materials.Id;
             Name = materials.Name;
             Text = materials.Text;
         }
 
-        public DocumentsViewData(List<Materials> dc)
+        public DocumentsViewData(List<Models.Materials> dc)
         {
             // TODO: Complete member initialization
             this.dc = dc;

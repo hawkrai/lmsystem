@@ -29,14 +29,20 @@ namespace Application.Infrastructure.WatchingTimeManagement
         {
             var attachments = FilesManagementService.GetAttachments(container);
             if (attachments.Count == 0)
-                return 0;
-            string path = ConfigurationManager.AppSettings["FileUploadPath"] + attachments[0].PathName + "\\" + attachments[0].FileName;
+            {
+	            return 0;
+            }
+
+            var path = ConfigurationManager.AppSettings["FileUploadPath"] + attachments[0].PathName + "\\" + attachments[0].FileName;
             if (!File.Exists(path))
-                return 0;
+            {
+	            return 0;
+            }
+
             try
             {
-                PdfReader pdfReader = new PdfReader(path);
-                int numberOfPages = pdfReader.NumberOfPages;
+                var pdfReader = new PdfReader(path);
+                var numberOfPages = pdfReader.NumberOfPages;
                 return numberOfPages * 30; //30 сек страница временно тут
             }
             catch
@@ -77,11 +83,9 @@ namespace Application.Infrastructure.WatchingTimeManagement
 
         public List<WatchingTime> GetAllRecords(int conceptId, int? studentId = null)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                return repositoriesContainer.WatchingTimeRepository.GetAll(new Query<WatchingTime>().AddFilterClause(u => u.ConceptId == conceptId && u.UserId == (studentId ?? u.UserId))).ToList();
-                //return repositoriesContainer.WatchingTimeRepository.GetAll(new Query<WatchingTime>().AddFilterClause(u => u.Concept.Id == conceptId)).ToList();
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        return repositoriesContainer.WatchingTimeRepository.GetAll(new Query<WatchingTime>().AddFilterClause(u => u.ConceptId == conceptId && u.UserId == (studentId ?? u.UserId))).ToList();
+	        //return repositoriesContainer.WatchingTimeRepository.GetAll(new Query<WatchingTime>().AddFilterClause(u => u.Concept.Id == conceptId)).ToList();
         }
     }
 }

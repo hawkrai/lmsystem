@@ -21,24 +21,21 @@ namespace Application.Infrastructure.BTS
 
         public void FillRequirements(int projectId, string requirementsFileName)
         {
-            string path = GetFilePath(projectId, requirementsFileName);
-            string requirementsText = ReadWordDocument(path);
-
-            Dictionary<string, string> requirements = GetRequirements(requirementsText);
+            var path = GetFilePath(projectId, requirementsFileName);
+            var requirementsText = ReadWordDocument(path);
+            var requirements = GetRequirements(requirementsText);
             CreateRequirements(requirements, projectId);
         }
 
         public void ClearRequirements(int projectId)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                repositoriesContainer.ProjectMatrixRequirementsRepository.DeleteAll(projectId);
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        repositoriesContainer.ProjectMatrixRequirementsRepository.DeleteAll(projectId);
         }
 
         public void FillRequirementsCoverage(int projectId, string testsFileName)
         {
-            string path = GetFilePath(projectId, testsFileName);
+            var path = GetFilePath(projectId, testsFileName);
             path = path.Replace("//", "\\");
             var readedSheets = ReadExcelDocument(path);
             var filteredSheets = FilterRequirements(readedSheets);
@@ -47,11 +44,9 @@ namespace Application.Infrastructure.BTS
 
         public List<ProjectMatrixRequirement> GetRequirements(int projectId)
         {
-            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-            {
-                var query = new Query<ProjectMatrixRequirement>(e => e.ProjectId == projectId);
-                return repositoriesContainer.ProjectMatrixRequirementsRepository.GetAll(query).ToList();
-            }
+	        using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	        var query = new Query<ProjectMatrixRequirement>(e => e.ProjectId == projectId);
+	        return repositoriesContainer.ProjectMatrixRequirementsRepository.GetAll(query).ToList();
         }
 
         private void CoverRequirements(Dictionary<string, List<string>> sheetsWithNumbers)
@@ -80,8 +75,8 @@ namespace Application.Infrastructure.BTS
 
         private Dictionary<string, List<string>> FilterRequirements(Dictionary<string, List<string>> sheets)
         {
-            Dictionary<string, List<string>> filteredSheets = new Dictionary<string, List<string>>();
-            Regex regex = new Regex(RequirementExcelRegex);
+            var filteredSheets = new Dictionary<string, List<string>>();
+            var regex = new Regex(RequirementExcelRegex);
 
             foreach (var sheet in sheets)
             {
@@ -98,24 +93,22 @@ namespace Application.Infrastructure.BTS
                         filteredSheets[sheet.Key].Add(match.Groups[1].Value);
                     }
                 }
-
             }
-
             return filteredSheets;
         }
 
         private Dictionary<string, List<string>> ReadExcelDocument(string path)
         {
-            Excel.Application app = new Excel.Application();
+            var app = new Excel.Application();
             var workbooks = app.Workbooks;
             var document = workbooks.Open(path);
-            Dictionary<string, List<string>> readedSheets = new Dictionary<string, List<string>>();
+            var readedSheets = new Dictionary<string, List<string>>();
 
             var sheets = document.Sheets;
             foreach (var sheet in sheets)
             {
                 var worksheet = (Excel.Worksheet)sheet;
-                string name = worksheet.Name;
+                var name = worksheet.Name;
                 var cells = ReadExcelCells(worksheet);
                 readedSheets[name] = cells;
             }
@@ -161,19 +154,16 @@ namespace Application.Infrastructure.BTS
 
         private string ReadWordDocument(string path)
         {
-            Word.Application app = new Word.Application();
+            var app = new Word.Application();
             var document = app.Documents.Open(path);
-
             var range = document.Range();
-            string text = range.Text;
-
+            var text = range.Text;
             document.Save();
             document.Close();
             app.Quit();
             Marshal.ReleaseComObject(range);
             Marshal.ReleaseComObject(document);
             Marshal.ReleaseComObject(app);
-
             return text;
         }
 
@@ -185,9 +175,9 @@ namespace Application.Infrastructure.BTS
 
         private Dictionary<string, string> GetRequirements(string text)
         {
-            Regex regex = new Regex(RequirementWordRegex);
-
+            var regex = new Regex(RequirementWordRegex);
             var result = new Dictionary<string, string>();
+
             foreach (Match match in regex.Matches(text))
             {
                 result[match.Groups[1].Value] = match.Groups[3].Value;
@@ -198,16 +188,16 @@ namespace Application.Infrastructure.BTS
 
         private void CreateRequirements(Dictionary<string, string> requirements, int projectId)
         {
-            foreach(var requirementPair in requirements)
-            {
-                var requirement = new ProjectMatrixRequirement
-                {
-                    Number = requirementPair.Key,
-                    Name = requirementPair.Value,
-                    ProjectId = projectId
-                };
-                ProjectManagementService.CreateMatrixRequirement(requirement);
-            }
+	        var projectMatrixRequirements = requirements.Select(requirementPair => new ProjectMatrixRequirement
+	        {
+		        Number = requirementPair.Key,
+		        Name = requirementPair.Value,
+		        ProjectId = projectId
+	        });
+            foreach (var requirement in projectMatrixRequirements)
+	        {
+		        ProjectManagementService.CreateMatrixRequirement(requirement);
+	        }
         }
 
         private IProjectManagementService ProjectManagementService

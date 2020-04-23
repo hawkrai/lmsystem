@@ -1,40 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
+﻿using System.ServiceModel;
+using LMPlatform.UI.Services.Modules;
+using LMPlatform.UI.Services.Modules.CoreModels;
+using LMPlatform.UI.Services.Modules.Lectures;
+using System.ServiceModel.Web;
 
 namespace LMPlatform.UI.Services
 {
-    using System.ServiceModel.Web;
-
-    using LMPlatform.UI.Services.Modules;
-    using LMPlatform.UI.Services.Modules.CoreModels;
-    using LMPlatform.UI.Services.Modules.Labs;
-    using LMPlatform.UI.Services.Modules.Lectures;
-
 	[ServiceContract]
     public interface ICoreService
     {
-        [OperationContract]
+		//
+	    [OperationContract]
 		[WebInvoke(UriTemplate = "/GetGroups?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
         GroupsResult GetGroups(string subjectId, string groupId);
 
+		// OK
 		[OperationContract]
         [WebInvoke(UriTemplate = "/GetOnlyGroups/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
         GroupsResult GetOnlyGroups(string subjectId);
 
+		//
         [OperationContract]
         [WebInvoke(UriTemplate = "/GetAllGroupsLite/", RequestFormat = WebMessageFormat.Json, Method = "GET")]
         GroupsResult GetAllGroupsLite();
 
+		//
 		[WebInvoke(UriTemplate = "/GetGroupsV2/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
 		GroupsResult GetGroupsV2(string subjectId);
 
+		//
         [WebInvoke(UriTemplate = "/GetGroupsV3/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
         GroupsResult GetGroupsV3(string subjectId);
 
+		//
         [OperationContract]
 		[WebInvoke(UriTemplate = "/GetLecturesMarkVisitingV2?subjectId={subjectId}&groupId={groupId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
 		LecturesMarkVisitingResult GetLecturesMarkVisitingV2(int subjectId, int groupId);
@@ -65,7 +63,7 @@ namespace LMPlatform.UI.Services
 
 		[OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/JoinLector")]
-	    ResultViewData JoinLector(string subjectId, string lectorId);
+	    ResultViewData JoinLector(int subjectId, int lectorId);
 
 		[OperationContract]
 		[WebInvoke(UriTemplate = "/GetJoinedLector/{subjectId}", RequestFormat = WebMessageFormat.Json, Method = "GET")]
@@ -73,8 +71,8 @@ namespace LMPlatform.UI.Services
 
 	    [OperationContract]
 		[WebInvoke(UriTemplate = "/DisjoinLector/", RequestFormat = WebMessageFormat.Json, Method = "POST")]
-	    ResultViewData DisjoinLector(string subjectId, string lectorId);
-        
+	    ResultViewData DisjoinLector(int subjectId, int lectorId);
+
         //TODO: Find way to reemove /All
         [OperationContract]
         [WebInvoke(UriTemplate = "/GetLecturers/All", RequestFormat = WebMessageFormat.Json, Method = "GET")]

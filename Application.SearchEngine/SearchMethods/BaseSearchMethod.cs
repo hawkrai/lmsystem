@@ -46,12 +46,10 @@ namespace Application.SearchEngine.SearchMethods
         public void DeleteIndex(int id)
         {
             var analyzer = new StandardAnalyzer(Version.LUCENE_30);
-            using (var writer = new IndexWriter(Directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
-            {
-                var searchQuery = new TermQuery(new Term(SearchingFields.Id.ToString(), id.ToString()));
-                writer.DeleteDocuments(searchQuery);
-                analyzer.Close();
-            }
+            using var writer = new IndexWriter(Directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
+            var searchQuery = new TermQuery(new Term(SearchingFields.Id.ToString(), id.ToString()));
+            writer.DeleteDocuments(searchQuery);
+            analyzer.Close();
         }
 
         public bool DeleteIndex()
