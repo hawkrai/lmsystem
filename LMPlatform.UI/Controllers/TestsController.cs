@@ -21,10 +21,11 @@ namespace LMPlatform.UI.Controllers
     using System.Web;
     using System.Web.Http;
     using Application.Infrastructure.ConceptManagement;
+    using LMPlatform.UI.Attributes;
     using LMPlatform.UI.Services.Modules.Concept;
     using LMPlatform.UI.ViewModels.SubjectViewModels;
 
-    [Authorize]
+    [JwtAuth]
     public class TestsController : BasicController
     {
         public string TestContentPath
@@ -32,7 +33,7 @@ namespace LMPlatform.UI.Controllers
             get { return ConfigurationManager.AppSettings["TestContentPath"]; }
         }
 
-        [Authorize(Roles = "lector"), HttpGet]
+        [JwtAuth(Roles = "lector"), HttpGet]
         public ActionResult KnowledgeTesting(int subjectId)
         {
             if (!User.IsInRole("lector"))

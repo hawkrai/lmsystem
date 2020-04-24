@@ -10,12 +10,13 @@ using Application.Infrastructure.ProjectManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Models;
+using LMPlatform.UI.Attributes;
 using LMPlatform.UI.ViewModels.BTSViewModels;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
-    [Authorize(Roles = "student, lector")]
+    [JwtAuth(Roles = "student, lector")]
     public class BTSController : BasicController
     {
         private static int _currentProjectId;

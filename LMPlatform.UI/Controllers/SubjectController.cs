@@ -26,8 +26,9 @@ namespace LMPlatform.UI.Controllers
     using Application.Infrastructure.FilesManagement;
 	using System;
     using LMPlatform.Data.Repositories;
+    using LMPlatform.UI.Attributes;
 
-    [Authorize(Roles = "student, lector")]
+    [JwtAuth(Roles = "student, lector")]
     public class SubjectController : BasicController 
     {
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();

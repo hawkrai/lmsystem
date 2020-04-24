@@ -330,6 +330,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\GreaterThanAttribute.cs" />
+    <Compile Include="Attributes\JwtAuthAttribute.cs" />
     <Compile Include="Attributes\RequiredIfResetAttribute.cs" />
     <Compile Include="Attributes\SubjectNameAttribute.cs" />
     <Compile Include="Bootstrapper.cs" />

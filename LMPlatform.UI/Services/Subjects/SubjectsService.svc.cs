@@ -5,10 +5,11 @@ using Application.Core.Data;
 using LMPlatform.Models;
 using LMPlatform.UI.Services.Modules;
 using LMPlatform.UI.Services.Modules.Parental;
+using LMPlatform.UI.Attributes;
 
 namespace LMPlatform.UI.Services.Subjects
 {
-    [Authorize(Roles = "lector")]
+    [JwtAuth(Roles = "lector")]
     public class SubjectsService : ISubjectsService
     {
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();

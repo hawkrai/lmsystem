@@ -19,8 +19,9 @@ namespace LMPlatform.UI.Controllers
 	using Application.Core.SLExcel;
 	using Application.Core;
 	using Application.Infrastructure.TestQuestionPassingManagement;
+    using LMPlatform.UI.Attributes;
 
-	public class TestPassingController : BasicController
+    public class TestPassingController : BasicController
 	{
 		#region Dependencies
 
@@ -48,7 +49,7 @@ namespace LMPlatform.UI.Controllers
 
 		#endregion
 
-		[Authorize]
+		[JwtAuth]
 		[HttpGet]
 		public ActionResult StudentsTesting(int subjectId)
 		{
@@ -77,7 +78,7 @@ namespace LMPlatform.UI.Controllers
 			return JsonResponse(description) as JsonResult;
 		}
 
-		[Authorize]
+		[JwtAuth]
 		[HttpGet]
 		public JsonResult GetAvailableTests(int subjectId)
 		{
@@ -209,7 +210,7 @@ namespace LMPlatform.UI.Controllers
 			}
 		}
 
-		[Authorize]
+		[JwtAuth]
 		[HttpGet]
 		public JsonResult GetStudentResults(int subjectId)
 		{
@@ -239,7 +240,7 @@ namespace LMPlatform.UI.Controllers
 			return this.Json("Ok");
 		}
 
-		[Authorize]
+		[JwtAuth]
 		[HttpGet]
 		public JsonResult GetResults(int groupId, int subjectId)
 		{
@@ -279,7 +280,7 @@ namespace LMPlatform.UI.Controllers
 			return JsonResponse(result) as JsonResult;
 		}
 
-		[Authorize]
+		[JwtAuth]
 		[HttpGet]
 		public JsonResult GetControlItems(int subjectId)
 		{
@@ -339,7 +340,7 @@ namespace LMPlatform.UI.Controllers
 			return JsonResponse(groups) as JsonResult;
 		}
 
-		[Authorize]
+		[JwtAuth]
 		[HttpGet]
 		public void GetResultsExcel(int groupId, int subjectId, bool forSelfStudy)
 		{
