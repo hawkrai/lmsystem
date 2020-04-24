@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -23,9 +23,12 @@ namespace Application.Infrastructure.UserManagement
     using LMPlatform.Data.Repositories.RepositoryContracts;
     using LMPlatform.Models;
     using CPManagement;
+    using System.Data.Entity;
+
     public class UsersManagementService : IUsersManagementService
     {
         private readonly LazyDependency<IUsersRepository> _usersRepository = new LazyDependency<IUsersRepository>();
+        private readonly LazyDependency<IMembershipRepository> _membershipRepository = new LazyDependency<IMembershipRepository>();
         private readonly LazyDependency<IAccountManagementService> _accountManagementService = new LazyDependency<IAccountManagementService>();
         private readonly LazyDependency<IProjectManagementService> _projectManagementService = new LazyDependency<IProjectManagementService>();
 
@@ -41,6 +44,14 @@ namespace Application.Infrastructure.UserManagement
             get
             {
                 return _usersRepository.Value;
+            }
+        }
+
+        public IMembershipRepository MembershipRepository
+        {
+            get
+            {
+                return _membershipRepository.Value;
             }
         }
 
@@ -255,6 +266,30 @@ namespace Application.Infrastructure.UserManagement
             attendanceList.Add(now);
             user.AttendanceList = attendanceList;
             UsersRepository.Save(user, u => u.LastLogin == now);
+        }
+
+        public Role GetUserRole(User user)
+        {
+            var roles = MembershipRepository.GetAll(new Query<LMPlatform.Models.Membership>(m => m.Id == user.Id)).Include(m => m.Roles).Single().Roles.Single();
+            return roles;
+        }
+
+        public Role GetUserRole(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Role GetUserRole(string userName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public (User, Role) Login(string userName, string password)
+        {
+            var user = this.GetUser(userName);
+            if (user is null) return (null, null);
+            var role = GetUserRole(user);
+            return (user, role);
         }
     }
 }

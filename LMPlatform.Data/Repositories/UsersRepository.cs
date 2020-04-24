@@ -12,4 +12,11 @@
         {
         }
     }
+
+    public class MembershipRepository : RepositoryBase<LmPlatformModelsContext, Membership>, IMembershipRepository
+    {
+        public MembershipRepository(LmPlatformModelsContext dataContext) : base(dataContext)
+        {
+        }
+    }
 }
