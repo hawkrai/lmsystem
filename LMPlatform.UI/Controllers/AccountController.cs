@@ -103,7 +103,7 @@ namespace LMPlatform.UI.Controllers
                     var token = new JwtBuilder()
                         .WithAlgorithm(new HMACSHA256Algorithm())
                         .WithSecret(tokenSecret)
-                        .AddClaim(ClaimName.ExpirationTime, DateTimeOffset.UtcNow.AddMinutes(tokenLifeTime).ToUnixTimeSeconds())
+                        .AddClaim(ClaimName.ExpirationTime, DateTimeOffset.UtcNow.AddHours(tokenLifeTime).ToUnixTimeSeconds())
                         .AddClaims(claims.Select(c => new KeyValuePair<string, object>(c.Type, c.Value)))
                         .Encode();
 
