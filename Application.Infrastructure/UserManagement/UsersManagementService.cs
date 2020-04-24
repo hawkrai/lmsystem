@@ -1,7 +1,9 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
+using System.Web.Helpers;
 using Application.Core.Data;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Models.DP;
@@ -85,7 +87,10 @@ namespace Application.Infrastructure.UserManagement
 				if (IsExistsUser(userName))
 				{
 					return UsersRepository.GetAll(new Query<User>()
-							.Include(u => u.Student).Include(e => e.Student.Group).Include(u => u.Lecturer).Include(u => u.Membership.Roles))
+                        .Include(u => u.Student)
+                        .Include(e => e.Student.Group)
+                        .Include(u => u.Lecturer)
+                        .Include(u => u.Membership.Roles))
 						.Single(e => e.UserName == userName);
 				}
 	        }
@@ -268,27 +273,11 @@ namespace Application.Infrastructure.UserManagement
             UsersRepository.Save(user, u => u.LastLogin == now);
         }
 
-        public Role GetUserRole(User user)
-        {
-            var roles = MembershipRepository.GetAll(new Query<LMPlatform.Models.Membership>(m => m.Id == user.Id)).Include(m => m.Roles).Single().Roles.Single();
-            return roles;
-        }
-
-        public Role GetUserRole(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Role GetUserRole(string userName)
-        {
-            throw new NotImplementedException();
-        }
-
         public (User, Role) Login(string userName, string password)
         {
             var user = this.GetUser(userName);
-            if (user is null) return (null, null);
-            var role = GetUserRole(user);
+            if (user is null || !Crypto.VerifyHashedPassword(user.Membership.Password, password)) return default;
+            var role = user.Membership.Roles.Single();
             return (user, role);
         }
     }

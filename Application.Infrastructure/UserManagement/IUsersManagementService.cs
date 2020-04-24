@@ -28,12 +28,6 @@ namespace Application.Infrastructure.UserManagement
 
         void UpdateUser(User user);
 
-        Role GetUserRole(User user);
-
-        Role GetUserRole(int id);
-
-        Role GetUserRole(string userName);
-
         (User, Role) Login(string userName, string password);
     }
 }
