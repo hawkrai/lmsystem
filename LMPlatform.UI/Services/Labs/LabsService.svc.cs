@@ -61,7 +61,8 @@ namespace LMPlatform.UI.Services.Labs
         {
             try
             {
-				var query = new Query<Subject>(s => s.Id == int.Parse(subjectId))
+                var subId = int.Parse(subjectId);
+				var query = new Query<Subject>(s => s.Id == subId)
 					.Include(s => s.Labs);
                 var model = SubjectManagementService.GetSubject(query).Labs
 	                .OrderBy(e => e.Order)
