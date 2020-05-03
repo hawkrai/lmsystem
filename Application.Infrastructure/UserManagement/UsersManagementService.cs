@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
+using System.Web.Helpers;
 using Application.Core.Data;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Models.DP;
@@ -23,9 +25,12 @@ namespace Application.Infrastructure.UserManagement
     using LMPlatform.Data.Repositories.RepositoryContracts;
     using LMPlatform.Models;
     using CPManagement;
+    using System.Data.Entity;
+
     public class UsersManagementService : IUsersManagementService
     {
         private readonly LazyDependency<IUsersRepository> _usersRepository = new LazyDependency<IUsersRepository>();
+        private readonly LazyDependency<IMembershipRepository> _membershipRepository = new LazyDependency<IMembershipRepository>();
         private readonly LazyDependency<IAccountManagementService> _accountManagementService = new LazyDependency<IAccountManagementService>();
         private readonly LazyDependency<IProjectManagementService> _projectManagementService = new LazyDependency<IProjectManagementService>();
 
@@ -41,6 +46,14 @@ namespace Application.Infrastructure.UserManagement
             get
             {
                 return _usersRepository.Value;
+            }
+        }
+
+        public IMembershipRepository MembershipRepository
+        {
+            get
+            {
+                return _membershipRepository.Value;
             }
         }
 
@@ -74,7 +87,10 @@ namespace Application.Infrastructure.UserManagement
 				if (IsExistsUser(userName))
 				{
 					return UsersRepository.GetAll(new Query<User>()
-							.Include(u => u.Student).Include(e => e.Student.Group).Include(u => u.Lecturer).Include(u => u.Membership.Roles))
+                        .Include(u => u.Student)
+                        .Include(e => e.Student.Group)
+                        .Include(u => u.Lecturer)
+                        .Include(u => u.Membership.Roles))
 						.Single(e => e.UserName == userName);
 				}
 	        }
@@ -255,6 +271,14 @@ namespace Application.Infrastructure.UserManagement
             attendanceList.Add(now);
             user.AttendanceList = attendanceList;
             UsersRepository.Save(user, u => u.LastLogin == now);
+        }
+
+        public (User, Role) Login(string userName, string password)
+        {
+            var user = this.GetUser(userName);
+            if (user is null || !Crypto.VerifyHashedPassword(user.Membership.Password, password)) return default;
+            var role = user.Membership.Roles.Single();
+            return (user, role);
         }
     }
 }

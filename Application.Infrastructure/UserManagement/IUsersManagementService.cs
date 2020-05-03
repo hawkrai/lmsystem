@@ -28,5 +28,6 @@ namespace Application.Infrastructure.UserManagement
 
         void UpdateUser(User user);
 
+        (User, Role) Login(string userName, string password);
     }
 }

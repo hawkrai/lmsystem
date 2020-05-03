@@ -11,13 +11,14 @@ using Application.Core.UI.HtmlHelpers;
 using Application.Infrastructure.MessageManagement;
 using Application.Infrastructure.UserManagement;
 using LMPlatform.Models;
+using LMPlatform.UI.Attributes;
 using LMPlatform.UI.ViewModels.MessageViewModels;
 using Mvc.JQuery.Datatables;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
-    [Authorize]
+    [JwtAuth]
     public class MessageController : BasicController
     {
         public ActionResult Index()

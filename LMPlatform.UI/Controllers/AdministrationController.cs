@@ -12,13 +12,14 @@ using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.StudentManagement;
 using Application.Infrastructure.SubjectManagement;
 using Application.Infrastructure.UserManagement;
+using LMPlatform.UI.Attributes;
 using LMPlatform.UI.ViewModels.AccountViewModels;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using Mvc.JQuery.Datatables;
 
 namespace LMPlatform.UI.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [JwtAuth(Roles = "admin")]
     public class AdministrationController : BasicController
     {
         public ActionResult Index()

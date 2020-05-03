@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Configuration;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace LMPlatform.UI
@@ -19,6 +20,15 @@ namespace LMPlatform.UI
 				"ProfilePage",
 				"Profile/Page/{userLogin}",
 				new {controller = "Profile", action = "Page"});
+
+			if (bool.Parse(ConfigurationManager.AppSettings["jwt:enabled"]))
+			{
+				routes.MapRoute(
+					"JwtLogin",
+					"Account/Login",
+					defaults: new { controller = "Account", action = "LoginJWT" },
+					constraints: new { httpMethod = new HttpMethodConstraint("POST") });
+			}
 
 			routes.MapRoute(
 				"Default",

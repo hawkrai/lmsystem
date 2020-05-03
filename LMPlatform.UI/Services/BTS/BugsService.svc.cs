@@ -3,11 +3,11 @@ using Application.Core;
 using Application.Infrastructure.BugManagement;
 using LMPlatform.UI.Services.Modules.BTS;
 using WebMatrix.WebData;
-using System.Web.Http;
+using LMPlatform.UI.Attributes;
 
 namespace LMPlatform.UI.Services.BTS
 {
-    [Authorize(Roles = "student, lector")]
+    [JwtAuth(Roles = "student, lector")]
     public class BugsService : IBugsService
     {
         private readonly LazyDependency<IBugManagementService> bugManagementService = new LazyDependency<IBugManagementService>();
