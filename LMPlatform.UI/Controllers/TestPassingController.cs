@@ -203,10 +203,10 @@ namespace LMPlatform.UI.Controllers
 				return this.PartialView("GetNextQuestion", nextQuestion);
 			}
 			catch (Exception ex)
-			{
-				this.ViewBag.Message = ex.StackTrace;
-				return this.PartialView("Error", ex.StackTrace);
-			}
+	        {
+				ViewBag.Message = ex.Message + ex.StackTrace;
+				return PartialView("Error", ex.Message + ex.StackTrace);
+	        }
 		}
 
 		[Authorize]
