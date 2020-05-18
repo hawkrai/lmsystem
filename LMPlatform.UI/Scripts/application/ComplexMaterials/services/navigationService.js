@@ -3,7 +3,7 @@
     .factory('navigationService', ['complexMaterialsDataService', '$http', function (complexMaterialsDataService, $http) {
         var defValue = '***ЭУМК не выбран***';
         var title = defValue;
-        var $container = angular.element("#material-header");
+        var $container = angular.element("#complex-header");
         var $subjLink = angular.element("#subjectLink");
         var breadCrumbsArray = [];
         var initedHeader = false;
@@ -123,7 +123,7 @@
                 if (!initedHeader) {
                     $container.html("")
                     if (currentSubjectId) {
-                        var str = "<a href='/Subject?subjectId=" + currentSubjectId + "' style='color:black'>" + title + "</a>";
+                        var str = "<span>" + title + "</span>";
                         if (currentLecturer != undefined) {
                             str = str + "<small> Преподаватель - <a href=\"/Profile/Page/" + currentLecturer.UserName + "\">" + currentLecturer.FullName + "</a></small>";
                         }
