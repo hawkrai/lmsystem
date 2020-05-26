@@ -145,7 +145,7 @@ namespace LMPlatform.UI.ViewModels.SubjectViewModels
 
 		public SubGroupEditingViewModel(int subjectId, int groupId = 0)
 		{
-			var groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == subjectId)).Include(e => e.Students));
+			var groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == subjectId && x.IsActiveOnCurrentGroup)).Include(e => e.Students));
 			FillGroupsList(groups);
 
             if (groupId == 0)

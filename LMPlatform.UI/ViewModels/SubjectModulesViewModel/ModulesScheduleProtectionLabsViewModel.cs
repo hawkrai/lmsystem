@@ -92,7 +92,7 @@
 
             this.ScheduleProtectionLabs = subject.Labs.Select(e => new ScheduleProtectionLabsDataViewModel(e, int.Parse(SubGroupId))).ToList();
 
-            var groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == subjectId)).Include(e => e.Students));
+            var groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == subjectId && x.IsActiveOnCurrentGroup)).Include(e => e.Students));
             FillGroupsList(groups);
         }
     }
