@@ -58,7 +58,7 @@ namespace LMPlatform.UI.ViewModels.ComplexMaterialsViewModel
         {
             this.conceptId = conceptId;
             var concept = ConceptManagementService.GetById(conceptId);
-            groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == concept.SubjectId)));
+            groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == concept.SubjectId && x.IsActiveOnCurrentGroup)));
             viewRecords = new List<ViewsWorm>();
             var list = new List<WatchingTime>();
             list = WatchingTimeService.GetAllRecords(conceptId);

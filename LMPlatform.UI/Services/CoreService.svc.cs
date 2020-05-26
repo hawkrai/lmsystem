@@ -604,7 +604,7 @@ namespace LMPlatform.UI.Services
 				}
 				else
 				{
-					query = (Query<Group>)new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id))
+					query = (Query<Group>)new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id && x.IsActiveOnCurrentGroup))
 						.Include(e => e.Students.Select(x => x.LecturesVisitMarks))
 						.Include(e => e.Students.Select(x => x.StudentPracticalMarks)).Include(e => e.Students.Select(x => x.User))
 						.Include(e => e.Students.Select(x => x.ScheduleProtectionPracticalMarks))

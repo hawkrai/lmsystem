@@ -121,7 +121,8 @@
             },
             _updateTitleContainer: function () {
                 if (!initedHeader) {
-                    $container.html("")
+                    $container.html("");
+                    $subjLink.html("");
                     if (currentSubjectId) {
                         var str = "<span>" + title + "</span>";
                         if (currentLecturer != undefined) {
