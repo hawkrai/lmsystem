@@ -127,7 +127,8 @@ namespace Application.Core.UI.HtmlHelpers
                     iTotalDisplayRecords = allItemCount,
                     sEcho = param.sEcho,
                     aaData = source.ToArray()
-                }
+                },
+                MaxJsonLength = Int32.MaxValue
             };
         }
 

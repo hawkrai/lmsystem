@@ -1691,7 +1691,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
         };
 
         $scope.commentImage = function (comment, studentIndex, markIndex, name) {
-            var id = name + studentIndex + markIndex;
+            var id = name + studentIndex + "_" + markIndex;
             var elem = document.getElementById(id);
 
             if (elem !== null) {
@@ -2881,7 +2881,7 @@ angular.module('mainApp.controllers', ['ui.bootstrap', 'xeditable', 'textAngular
 
 
         $scope.commentImage = function (comment, studentIndex, markIndex, name) {
-            var id = name + studentIndex + markIndex;
+	        var id = name + studentIndex + "_" + markIndex;
             var elem = document.getElementById(id);
 
             if (elem !== null) {

@@ -136,6 +136,11 @@ namespace Application.Infrastructure.UserManagement
                 .Include(u => u.Student).Include(u => u.Lecturer).Include(u => u.Membership.Roles));
         }
 
+        public void UpdateUser(User user)
+        {
+            UsersRepository.Save(user);
+        }
+
         public bool IsExistsUser(string userName)
         {
             if (UsersRepository.GetAll().Any(e => e.UserName == userName))

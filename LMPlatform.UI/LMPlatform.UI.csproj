@@ -338,6 +338,7 @@
     <Compile Include="Attributes\RequiredIfResetAttribute.cs" />
     <Compile Include="Attributes\SubjectNameAttribute.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
@@ -391,9 +392,11 @@
     <Content Include="Content\NeuralNetwork\createNeuralNetwork.html" />
     <Content Include="Content\ng-table.min.css" />
     <Content Include="Content\select.css" />
+    <Content Include="Images\appstore-badge.png" />
     <Content Include="Images\book.png" />
     <Content Include="Images\Excel.png" />
     <Content Include="Images\ExcelDownload.png" />
+    <Content Include="Images\google-play-badge.png" />
     <Content Include="Images\LMS_Banner.jpg" />
     <Content Include="Images\login_bk.jpg" />
     <Content Include="Images\students-icon.svg" />
@@ -1976,6 +1979,7 @@
     <Content Include="Views\Shared\Subjects\Modules\Repo\_RepoModule.cshtml" />
     <Content Include="Views\Tests\Subjects.cshtml" />
     <Content Include="Views\Tests\_AnswerTemplates.cshtml" />
+    <Content Include="Views\About\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

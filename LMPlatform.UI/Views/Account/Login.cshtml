@@ -68,14 +68,14 @@
 				</p>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					@Html.TextBoxFor(m => m.UserName, new {@class = "form-control", @placeholder = "Пользователь", @autofocus = "", @style = "margin-top: 0px;border: 0;height: 45px"})
+					@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Пользователь", @autofocus = "", @style = "margin-top: 0px;border: 0;height: 45px" })
 				</div>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					@Html.PasswordFor(m => m.Password, new {@class = "form-control", @placeholder = "Пароль", @autofocus = "", @style = "margin-top: 0px;border: 0;height: 45px"})
+					@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Пароль", @autofocus = "", @style = "margin-top: 0px;border: 0;height: 45px" })
 				</div>
 				<div style="margin-bottom: 10px">
-					<input type="submit" class="btn bg-blue btn-block" value="Войти"/>
+					<input type="submit" class="btn bg-blue btn-block" value="Войти" />
 				</div>
 				<div style="margin-bottom: 10px">
 					<a class="btn bg-blue btn-block" href=@Url.Action("Register")>
@@ -85,6 +85,11 @@
 				<p>
 					<a href="#" id="Parental" data-url="@Url.Action("Index", "Parental")">
 						<strong>Контроль успеваемости</strong>
+					</a>
+				</p>
+				<p>
+					<a href="#" id="reset-password">
+						<strong>Забыли пароль?</strong>
 					</a>
 				</p>
 			</div>
@@ -194,6 +199,11 @@
 		$("#Parental").on('click', function() {
 			showDialog();
 		});
+
+		$("#reset-password").on('click', function() {
+			resetPassword();
+		});
+
 	});
 	openPartialPage = function() {
 		if (event.keyCode == 13) {
@@ -207,6 +217,152 @@
 
 	};
 
+	function resetPassword() {
+		var form =
+			'<form>' +
+				'<div>' +
+				'<span style="color: red" id="reset-error"></span>' +
+				'</div>' +
+				'<div>' +
+				'</div>' +
+				'<div>' +
+				'<span>Введите имя пользователя для сброса пароля:</span>' +
+				'</div>' +
+				'<div>' +
+				'<input id="reset-user-name" type="text" class="form-control"/>' +
+				'</div>' +
+				'<div>' +
+				'<p></p>' +
+				'<span>Выберите секретный вопрос:</span>' +
+				'</div>' +
+				'<div>' +
+				'<select id="reset-question" class="form-control">' +
+				'<option value="1">Девичья фамилия матери?</option>' +
+				'<option value="2">Кличка любимого животного?</option>' +
+				'<option value="3">Ваше хобби?</option>' +
+				'<select>' +
+				'</div>' +
+				'<div>' +
+				'<p></p>' +
+				'<span>Введите ответ на секретнвый вопрос:</span>' +
+				'</div>' +
+				'<div>' +
+				'<input id="reset-answer" type="text" class="form-control"/>' +
+				'</div>' +
+			'</form>';
+		bootbox.dialog({
+			message: form,
+			backdrop: true,
+			keyboard: true,
+			title: "Сброс пароля",
+			buttons: {
+				main: {
+					label: "Сбросить",
+					className: "btn-primary btn-submit btn-sm",
+					closeButton: false,
+					callback: function() {
+						var userName = $('#reset-user-name').val();
+						var questionId = $('#reset-question').val();
+						var answer = $('#reset-answer').val();
+						$.ajax({
+							type: 'GET',
+							url: "/Account/VerifySecretQuestion?userName=" + userName + "&questionId=" + questionId + "&answer=" + answer,
+							dataType: "json",
+							contentType: "application/json"
+
+						}).success(function(data) {
+							if (data === "OK") {
+								bootbox.hideAll();
+								showResetPassword(userName);
+
+							} else {
+								$("#reset-error").html(data);
+							}
+						});
+
+						return false;
+					}
+				}
+			}
+		});
+	};
+
+	function showResetPassword(userName) {
+		var form =
+			'<form>' +
+				'<div>' +
+				'<span style="color: red" id="reset-error"></span>' +
+				'</div>' +
+				'<div>' +
+				'</div>' +
+				'<div>' +
+				'<span>Новый пароль:</span>' +
+				'</div>' +
+				'<div>' +
+				'<input id="reset-new-password" type="password" class="form-control"/>' +
+				'</div>' +
+				'<div>' +
+				'<p></p>' +
+				'<span>Подтверждение пароля:</span>' +
+				'</div>' +
+				'<div>' +
+				'<input id="reset-check-new-password" type="password" class="form-control"/>' +
+				'</div>' +
+				'</form>';
+		bootbox.dialog({
+			message: form,
+			backdrop: true,
+			keyboard: true,
+			title: "Новый пароль",
+			buttons: {
+				main: {
+					label: "Сохранить",
+					className: "btn-primary btn-submit btn-sm",
+					closeButton: false,
+					callback: function() {
+						var password = $('#reset-new-password').val();
+						var checkPassword = $('#reset-check-new-password').val();
+
+						if (password !== checkPassword) {
+							$("#reset-error").html("Пароль и подтвержденный пароль не совпадают.");
+							return false;
+						}
+
+						$.ajax({
+							type: 'GET',
+							url: "/Account/ResetPassword?userName=" + userName + "&password=" + password,
+							dataType: "json",
+							contentType: "application/json"
+
+						}).success(function(data) {
+							if (data === "OK") {
+								bootbox.hideAll();
+								bootbox.dialog({
+									message: 'Пароль успешно изменен',
+									backdrop: true,
+									keyboard: true,
+									title: "Пароль изменен",
+									buttons: {
+										main: {
+											label: "OK",
+											className: "btn-primary btn-submit btn-sm"
+										}
+									}
+								});
+
+							} else {
+								$("#reset-error").html(data);
+							}
+						});
+
+						return false;
+					}
+				}
+			}
+		});
+	}
+
+	
 	function showDialog() {
 
 		var form =

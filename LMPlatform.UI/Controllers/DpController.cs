@@ -124,14 +124,14 @@ namespace LMPlatform.UI.Controllers
                     }
                 };
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new System.Web.Mvc.JsonResult()
                 {
                     Data = new
                     {
                         Message = "Произошла ошибка при сохранении новости",
-                        Error = true
+                        Error = e.InnerException.InnerException.Message
                     }
                 };
             }

@@ -199,8 +199,8 @@ namespace LMPlatform.UI.Controllers
 	        }
 	        catch (Exception ex)
 	        {
-				ViewBag.Message = ex.StackTrace;
-				return PartialView("Error", ex.StackTrace);
+				ViewBag.Message = ex.Message + ex.StackTrace;
+				return PartialView("Error", ex.Message + ex.StackTrace);
 	        }
         }
 

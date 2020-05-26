@@ -25,5 +25,8 @@ namespace Application.Infrastructure.UserManagement
         IEnumerable<User> GetUsers(bool includeRole = false);
 
         void UpdateLastLoginDate(string userName);
-	}
+
+        void UpdateUser(User user);
+
+    }
 }
