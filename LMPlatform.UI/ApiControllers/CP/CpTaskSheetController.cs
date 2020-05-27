@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Application.Core;
@@ -13,6 +14,11 @@ namespace LMPlatform.UI.ApiControllers.CP
         public object Get(int courseProjectId)
         {
             return CpManagementService.GetTaskSheet(courseProjectId);
+        }
+
+        public IEnumerable<TaskSheetData> Get()
+        {
+            return CpManagementService.GetTaskSheets();
         }
 
         public HttpResponseMessage Post([FromBody]TaskSheetData taskSheet)

@@ -32,6 +32,8 @@ namespace Application.Infrastructure.CPManagement
 
         void AssignProject(int userId, int projectId, int studentId);
 
+        IEnumerable<AssignedCourseProject> GetAssignedProjects();
+
         void DeleteAssignment(int userId, int id);
 
         PagedList<StudentData> GetStudentsByCourseProjectId(GetPagedListParams parms);
@@ -55,6 +57,8 @@ namespace Application.Infrastructure.CPManagement
         void DeletePercenageAndVisitStatsForUser(int id);
 
         TaskSheetData GetTaskSheet(int courseProjectId);
+
+        IEnumerable<TaskSheetData> GetTaskSheets();
 
         void SaveTaskSheet(int userId, TaskSheetData taskSheet);
 
