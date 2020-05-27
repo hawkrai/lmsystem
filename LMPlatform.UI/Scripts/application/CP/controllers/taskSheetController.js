@@ -13,6 +13,12 @@
             $scope.projects = [];
             $scope.project = { Id: null };
 
+            $scope.groups = [];
+            $scope.group = {
+                Id: null,
+                Name: ""
+            };
+
             $scope.taskSheetHtml = "";
 
             function getParameterByName(name) {
@@ -27,6 +33,11 @@
             projectService.getCourseProjectCorrelation(subjectId)
                 .success(function (data) {
                     $scope.projects = data;
+                });
+
+            projectService.getGroups(subjectId)
+                .success(function (data) {
+                    $scope.groups = data;
                 });
 
             $scope.selectProject = function (project) {
@@ -67,6 +78,11 @@
 
                 $scope.templates = [];
                 $scope.template = { Id: null };
+
+                $scope.tasks = [];
+
+                $scope.multipleChoice = {}; // encapsulate your model inside an object.
+                $scope.multipleChoice.selectedGroups = [];
 
                 function updateTemplates() {
                     projectService.getDiplomProjectTaskSheetTemplateCorrelation(subjectId)
@@ -113,6 +129,9 @@
                     $scope.taskSheet = data;
                 });
 
+                taskSheets.query(function (data) {
+                    $scope.tasks = data;
+                });
 
                 $scope.saveTaskSheetTemplate = function () {
 
@@ -143,6 +162,38 @@
                         }, $scope.handleError);
 
                     $modalInstance.close();
+                };
+
+                $scope.applyTaskSheetTemplate = function () {
+                    if ($scope.multipleChoice.selectedGroups.length > 0) {
+                        angular.forEach($scope.projects, function (value, key) {
+                            var flag = $scope.multipleChoice.selectedGroups.findIndex(x => x.Id === value.GroupId) != -1
+                            if (flag) {
+
+                                var task = $scope.tasks.find(function (p) {
+                                    return p.CourseProjectId === this.Id;
+                                }, value);
+
+                                task.InputData = $scope.taskSheet.InputData;
+                                task.RpzContent = $scope.taskSheet.RpzContent;
+                                task.DrawMaterials = $scope.taskSheet.DrawMaterials;
+                                task.Consultants = $scope.taskSheet.Consultants;
+                                task.Faculty = $scope.taskSheet.Faculty;
+                                task.HeadCathedra = $scope.taskSheet.HeadCathedra;
+                                task.Univer = $scope.taskSheet.Univer;
+                                task.DateEnd = $scope.taskSheet.DateEnd;
+                                task.DateStart = $scope.taskSheet.DateStart;
+
+                                taskSheets.save(task);
+                                $scope.selectProject();
+                            };
+                        });
+
+                        alertify.success('Шаблон применен');
+                        $modalInstance.close();
+                    } else {
+                        alertify.error('Выберите группу')
+                    }
                 };
 
                 $scope.closeDialog = function () {

@@ -198,6 +198,28 @@ namespace Application.Infrastructure.CPManagement
             }
         }
 
+        public IEnumerable<AssignedCourseProject> GetAssignedProjects()
+        {
+            var projects = Context.AssignedCourseProjects;
+            List<AssignedCourseProject> list = new List<AssignedCourseProject>();
+
+            foreach (var item in projects)
+            {
+                list.Add(new AssignedCourseProject
+                {
+                    Id = item.Id,
+                    StudentId = item.StudentId,
+                    CourseProjectId = item.CourseProjectId,
+                    ApproveDate = item.ApproveDate,
+                    Mark = item.Mark,
+                    CourseProject = item.CourseProject,
+                    Student = item.Student
+                });
+            }
+
+            return list;
+        }
+
         public void DeleteAssignment(int userId, int id)
         {
             AuthorizationHelper.ValidateLecturerAccess(Context, userId);
@@ -468,6 +490,31 @@ namespace Application.Infrastructure.CPManagement
             dp.DateEnd = taskSheet.DateEnd;
 
             Context.SaveChanges();
+        }
+
+        public IEnumerable<TaskSheetData> GetTaskSheets()
+        {
+            var dp = Context.CourseProjects;
+            List<TaskSheetData> list = new List<TaskSheetData>();
+            foreach (var item in dp)
+            {
+                list.Add(new TaskSheetData
+                {
+                    InputData = item.InputData,
+                    Consultants = item.Consultants,
+                    CourseProjectId = item.CourseProjectId,
+                    DrawMaterials = item.DrawMaterials,
+                    RpzContent = item.RpzContent,
+                    Faculty = item.Faculty,
+                    HeadCathedra = item.HeadCathedra,
+                    Univer = item.Univer,
+                    DateEnd = item.DateEnd,
+                    DateStart = item.DateStart
+
+                });
+            }
+
+            return list;
         }
 
         public SubjectData GetSubject(int id)

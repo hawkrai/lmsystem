@@ -58,8 +58,9 @@ namespace Application.Infrastructure.CPManagement
             return groups.OrderBy(x => x.Name).Select(x => new Correlation
                 {
                     Id = x.Id,
-                    Name = x.Name
-                }).ToList();
+                    Name = x.Name,
+                    GroupId = x.Id
+            }).ToList();
         }
 
         /// <summary>
@@ -99,7 +100,13 @@ namespace Application.Infrastructure.CPManagement
 
        private List<Correlation> GetCourseProjectTaskSheetTemplateCorrelation(int subjectId, int? id)
         {
+            var lecturerId = Context.AssignedCourseProjects
+                            .Where(x => x.CourseProject.SubjectId == subjectId)
+                            .Select(x => x.CourseProject.LecturerId)
+                            .FirstOrDefault();
+
             return Context.CourseProjectTaskSheetTemplates
+                    .Where(x => x.LecturerId == lecturerId)
                     .Select(x => new Correlation
                     {
                         Id = x.Id,
@@ -120,8 +127,9 @@ namespace Application.Infrastructure.CPManagement
             return projects.Select(x => new Correlation
                 {
                     Id = x.CourseProjectId,
-                    Name = x.Theme
-                }).OrderBy(x => x.Name).ToList();
+                    Name = x.Theme,
+                    GroupId = x.AssignedCourseProjects.Where(y => y.CourseProjectId == x.CourseProjectId).Select(z => z.Student.GroupId).FirstOrDefault()
+            }).OrderBy(x => x.Name).ToList();
         }
 
         private List<Correlation> GetCourseLecturerCorrelation(int subjectId, int? id)

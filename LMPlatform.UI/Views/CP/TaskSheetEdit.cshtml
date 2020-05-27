@@ -1,4 +1,6 @@
-﻿<style type="text/css">
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<style type="text/css">
     .taskSheetEdit textarea {
         max-width: 1000px;
         max-height: 700px;
@@ -13,7 +15,8 @@
         <h4 class="modal-title">Редактирование листа задания</h4>
     </div>
     <div class="modal-body">
-        <div class="col-md-12" style="float: left; clear: both; padding-left: 0; width:100%;padding-right:0px">
+        <div class="col-md-12" style="float: left; clear: both; padding-left: 0; width:100%;padding-right:0px;padding-bottom:5px">
+            <label class="control-label" for="Name">Используемый шаблон</label>
             <div style="width:100%;">
                 <ui-select on-select="selectTemplate($item)" ng-model="template.Id" theme="bootstrap">
                     <ui-select-match placeholder="Шаблон">{{$select.selected.Name}}</ui-select-match>
@@ -22,9 +25,20 @@
                     </ui-select-choices>
                 </ui-select>
             </div>
-            <div style="width:100%">
+            <div style="width:100%; margin-top:10px;">
                 <input type="text" style="float:left;width:75%;" ng-model="template.Name" placeholder="Название шаблона" />
-                <button ng-click="saveTaskSheetTemplate()" style="margin: 5px 0 5px 5px;float:left;width:24%;margin-left:1%" ng-disabled="!selectedTemplateId && !template.Name" type="submit" class="btn btn-primary btn-sm">Сохранить шаблон</button>
+                <button ng-click="saveTaskSheetTemplate()" style="float:left;width:24%;margin-left:5px;height:35px;" ng-disabled="!selectedTemplateId && !template.Name" type="submit" class="btn btn-primary btn-sm">Сохранить шаблон</button>
+            </div>
+            <div style="width:100%">
+                <div style="float:left;width:75%;height:150%; margin-top:5px">
+                    <ui-select multiple ng-model="multipleChoice.selectedGroups" theme="bootstrap" sortable="true" close-on-select="false">
+                        <ui-select-match placeholder="Группы">{{$item.Name}}</ui-select-match>
+                        <ui-select-choices repeat="group in groups | filter: $select.search">
+                            <div ng-bind-html="group.Name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <button ng-click="applyTaskSheetTemplate()" style="float:left;width:24%;height:35px;margin-top:5px; margin-left: 5px; background-color: chocolate!important; border-color: chocolate!important;" ng-disabled="!selectedTemplateId && !template.Name" type="submit" class="btn btn-primary btn-sm">Применить шаблон</button>
             </div>
         </div>
         <br />

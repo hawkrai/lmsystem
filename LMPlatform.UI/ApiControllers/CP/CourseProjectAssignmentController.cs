@@ -1,7 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Web.Http;
 using Application.Core;
 using Application.Infrastructure.CPManagement;
+using LMPlatform.Models.CP;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.ApiControllers.CP
@@ -14,6 +16,11 @@ namespace LMPlatform.UI.ApiControllers.CP
         private ICPManagementService CpManagementService
         {
             get { return _cpManagementService.Value; }
+        }
+
+        public IEnumerable<AssignedCourseProject> Get()
+        {
+            return CpManagementService.GetAssignedProjects();
         }
 
         public void Post([FromBody]AssignProjectUpdateModel updateModel)
