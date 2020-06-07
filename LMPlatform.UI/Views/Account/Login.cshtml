@@ -195,19 +195,20 @@
 
 
 <script>
-	$(function() {
-		$("#Parental").on('click', function() {
+	$(function () {
+		$("#Parental").on('click', function () {
 			showDialog();
 		});
 
-		$("#reset-password").on('click', function() {
+		$("#reset-password").on('click', function () {
 			resetPassword();
 		});
 
 	});
-	openPartialPage = function() {
+	openPartialPage = function () {
 		if (event.keyCode == 13) {
 			var groupName = $('#groupValidation').val();
+
 			window.location.href = "/Parental/Index/" + groupName;
 			document.location.href = "/Parental/Index/" + groupName;
 
@@ -220,35 +221,35 @@
 	function resetPassword() {
 		var form =
 			'<form>' +
-				'<div>' +
-				'<span style="color: red" id="reset-error"></span>' +
-				'</div>' +
-				'<div>' +
-				'</div>' +
-				'<div>' +
-				'<span>Введите имя пользователя для сброса пароля:</span>' +
-				'</div>' +
-				'<div>' +
-				'<input id="reset-user-name" type="text" class="form-control"/>' +
-				'</div>' +
-				'<div>' +
-				'<p></p>' +
-				'<span>Выберите секретный вопрос:</span>' +
-				'</div>' +
-				'<div>' +
-				'<select id="reset-question" class="form-control">' +
-				'<option value="1">Девичья фамилия матери?</option>' +
-				'<option value="2">Кличка любимого животного?</option>' +
-				'<option value="3">Ваше хобби?</option>' +
-				'<select>' +
-				'</div>' +
-				'<div>' +
-				'<p></p>' +
-				'<span>Введите ответ на секретнвый вопрос:</span>' +
-				'</div>' +
-				'<div>' +
-				'<input id="reset-answer" type="text" class="form-control"/>' +
-				'</div>' +
+			'<div>' +
+			'<span style="color: red" id="reset-error"></span>' +
+			'</div>' +
+			'<div>' +
+			'</div>' +
+			'<div>' +
+			'<span>Введите имя пользователя для сброса пароля:</span>' +
+			'</div>' +
+			'<div>' +
+			'<input id="reset-user-name" type="text" class="form-control"/>' +
+			'</div>' +
+			'<div>' +
+			'<p></p>' +
+			'<span>Выберите секретный вопрос:</span>' +
+			'</div>' +
+			'<div>' +
+			'<select id="reset-question" class="form-control">' +
+			'<option value="1">Девичья фамилия матери?</option>' +
+			'<option value="2">Кличка любимого животного?</option>' +
+			'<option value="3">Ваше хобби?</option>' +
+			'<select>' +
+			'</div>' +
+			'<div>' +
+			'<p></p>' +
+			'<span>Введите ответ на секретнвый вопрос:</span>' +
+			'</div>' +
+			'<div>' +
+			'<input id="reset-answer" type="text" class="form-control"/>' +
+			'</div>' +
 			'</form>';
 		bootbox.dialog({
 			message: form,
@@ -260,7 +261,7 @@
 					label: "Сбросить",
 					className: "btn-primary btn-submit btn-sm",
 					closeButton: false,
-					callback: function() {
+					callback: function () {
 						var userName = $('#reset-user-name').val();
 						var questionId = $('#reset-question').val();
 						var answer = $('#reset-answer').val();
@@ -270,7 +271,7 @@
 							dataType: "json",
 							contentType: "application/json"
 
-						}).success(function(data) {
+						}).success(function (data) {
 							if (data === "OK") {
 								bootbox.hideAll();
 								showResetPassword(userName);
@@ -290,25 +291,25 @@
 	function showResetPassword(userName) {
 		var form =
 			'<form>' +
-				'<div>' +
-				'<span style="color: red" id="reset-error"></span>' +
-				'</div>' +
-				'<div>' +
-				'</div>' +
-				'<div>' +
-				'<span>Новый пароль:</span>' +
-				'</div>' +
-				'<div>' +
-				'<input id="reset-new-password" type="password" class="form-control"/>' +
-				'</div>' +
-				'<div>' +
-				'<p></p>' +
-				'<span>Подтверждение пароля:</span>' +
-				'</div>' +
-				'<div>' +
-				'<input id="reset-check-new-password" type="password" class="form-control"/>' +
-				'</div>' +
-				'</form>';
+			'<div>' +
+			'<span style="color: red" id="reset-error"></span>' +
+			'</div>' +
+			'<div>' +
+			'</div>' +
+			'<div>' +
+			'<span>Новый пароль:</span>' +
+			'</div>' +
+			'<div>' +
+			'<input id="reset-new-password" type="password" class="form-control"/>' +
+			'</div>' +
+			'<div>' +
+			'<p></p>' +
+			'<span>Подтверждение пароля:</span>' +
+			'</div>' +
+			'<div>' +
+			'<input id="reset-check-new-password" type="password" class="form-control"/>' +
+			'</div>' +
+			'</form>';
 		bootbox.dialog({
 			message: form,
 			backdrop: true,
@@ -319,7 +320,7 @@
 					label: "Сохранить",
 					className: "btn-primary btn-submit btn-sm",
 					closeButton: false,
-					callback: function() {
+					callback: function () {
 						var password = $('#reset-new-password').val();
 						var checkPassword = $('#reset-check-new-password').val();
 
@@ -334,7 +335,7 @@
 							dataType: "json",
 							contentType: "application/json"
 
-						}).success(function(data) {
+						}).success(function (data) {
 							if (data === "OK") {
 								bootbox.hideAll();
 								bootbox.dialog({
@@ -362,18 +363,24 @@
 		});
 	}
 
-	
+
 	function showDialog() {
 
 		var form =
 			'<form>' +
-				'<div>' +
-				'<span>Введите номер группы:</span>' +
-				'</div>' +
-				'<div>' +
-				'<input id="groupValidation" onkeydown="openPartialPage();" type="text" name="group"/>' +
-				'</div>' +
-				'</form>';
+			'<div>' +
+			'<span>Введите номер группы:</span>' +
+			'</div>' +
+			'<div>' +
+			'<input id="groupValidation" onkeydown="openPartialPage();" type="text" name="group"/>' +
+			'</div>' +
+			'<div>' +
+			'<span>Введите ФИО студента:</span>' +
+			'</div>' +
+			'<div>' +
+			'<input id="FIOValidation" onkeydown="openPartialPage();" type="text" name="group"/>' +
+			'</div>' +
+			'</form>';
 
 		bootbox.dialog({
 			message: form,
@@ -384,9 +391,12 @@
 				main: {
 					label: "Войти",
 					className: "btn-primary btn-submit btn-sm",
-					callback: function() {
+					callback: function () {
 						var groupName = $('#groupValidation').val();
-						window.location.href = "/Parental/Index/" + groupName;
+						var FIO = $('#FIOValidation').val();
+						window.location.href = "/Parental/Index?id=" + groupName + "&FIO=" + FIO;
+
+						//       window.location.href = "/Parental/Index/" + groupName;
 					}
 				}
 			}
