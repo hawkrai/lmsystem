@@ -14,26 +14,72 @@ namespace LMPlatform.UI.Controllers
 {
     using Application.Core.UI.Controllers;
     using Application.Infrastructure.GroupManagement;
+    using Application.Infrastructure.StudentManagement;
     using Application.Infrastructure.UserManagement;
 
     [AllowAnonymous]
     public class ParentalController : BasicController
     {
         [AllowAnonymous]
-        public ActionResult Index(string id)
+        public ActionResult Index(string id, string FIO)
         {
-            var group = GroupManagementService.GetGroupByName(id);
-            
-            if (group != null)
+            if (id == null || id == "")
             {
-                var model = new ParentalViewModel()
+                if (FIO == null || FIO == "")
                 {
-                    Group = group
-                };
-                return View(model);
+                    return RedirectToAction("GroupNotFound");
+                }
+                else
+                {
+                    Student student = StudentManagementService.GetStudents().FirstOrDefault(s => s.FullName.Equals(FIO));
+                    if (student == null)
+                    {
+                        return RedirectToAction("GroupNotFound");
+                    }
+                    else
+                    {
+                        var model = new ParentalViewModel()
+                        {
+                            Group = GroupManagementService.GetGroup(student.GroupId)
+                        };
+                        return View(model);
+                    }
+                }
             }
+            else
+            {
+                var group = GroupManagementService.GetGroupByName(id);
 
-            return RedirectToAction("GroupNotFound");
+                if (group != null)
+                {
+                    var model = new ParentalViewModel()
+                    {
+                        Group = group
+                    };
+                    return View(model);
+                }
+                else
+                {
+                    if (FIO == null || FIO == "")
+                    {
+                        Student student = StudentManagementService.GetStudents().FirstOrDefault(s => s.FullName.Equals(FIO));
+                        if (student == null)
+                        {
+                            return RedirectToAction("GroupNotFound");
+                        }
+                        else
+                        {
+                            var model = new ParentalViewModel()
+                            {
+                                Group = GroupManagementService.GetGroup(student.GroupId)
+                            };
+                            return View(model);
+                        }
+                    }
+                    else
+                        return RedirectToAction("GroupNotFound");
+                }
+            }
         }
 
         public ActionResult Front()
@@ -57,9 +103,9 @@ namespace LMPlatform.UI.Controllers
             var subjects = SubjectManagementService.GetGroupSubjects(groupId);
 
             var model = new ParentalViewModel(group)
-                {
-                    Subjects = subjects
-                };
+            {
+                Subjects = subjects
+            };
             return PartialView("_ParentalSideNavPartial", model);
         }
 
@@ -85,6 +131,15 @@ namespace LMPlatform.UI.Controllers
                 return ApplicationService<IGroupManagementService>();
             }
         }
+
+        public IStudentManagementService StudentManagementService
+        {
+            get
+            {
+                return ApplicationService<IStudentManagementService>();
+            }
+        }
+
 
         public ISubjectManagementService SubjectManagementService
         {
