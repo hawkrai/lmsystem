@@ -19,7 +19,7 @@ namespace LMPlatform.UI.Services.Modules.BTS
         public string FileName { get; set; }
 
         [DataMember]
-        public string PathName { get; set; }       
+        public string PathName { get; set; }
 
         public ProjectFileViewData(Attachment attachment)
         {

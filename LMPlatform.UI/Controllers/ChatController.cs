@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Application.Core.Constants;
 using Application.Core.UI.Controllers;
 using LMPlatform.Models;
+using LMPlatform.UI.Attributes;
 //using TwitterBootstrapMVC;
 
 namespace LMPlatform.UI.Controllers
@@ -16,7 +17,7 @@ namespace LMPlatform.UI.Controllers
         // GET: /Chat/
         public static bool EnabledChat { get; set; }
       
-        [Authorize]
+        [JwtAuth]
         public ActionResult Index()
         {
             if (User.IsInRole(Constants.Roles.Admin))
@@ -33,7 +34,7 @@ namespace LMPlatform.UI.Controllers
             }
         }
         
-        [Authorize(Roles = "admin")]
+        [JwtAuth(Roles = "admin")]
         [HttpPost]
         public JsonResult EnablChat(string Switcher)
         {

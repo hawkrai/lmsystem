@@ -11,6 +11,7 @@ namespace LMPlatform.Data.Infrastructure
 		public static IUnityContainerWrapper Initialize(IUnityContainerWrapper containerWrapper)
 		{
 			containerWrapper.Register<IUsersRepository, UsersRepository>();
+            containerWrapper.Register<IMembershipRepository, MembershipRepository>();
             containerWrapper.Register<IBugsRepository, BugsRepository>();
             containerWrapper.Register<IGroupsRepository, GroupsRepository>();
             containerWrapper.Register<IProjectsRepository, ProjectsRepository>();

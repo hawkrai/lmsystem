@@ -10,7 +10,7 @@ namespace Application.Infrastructure.LecturerManagement
     {
         Lecturer GetLecturer(int userId);
 
-        List<Lecturer> GetLecturers(Expression<Func<Lecturer, string>> order = null);
+        List<Lecturer> GetLecturers(Expression<Func<Lecturer, string>> order = null, bool lite = false);
 
         IPageableList<Lecturer> GetLecturersPageable(string searchString = null, IPageInfo pageInfo = null, IEnumerable<ISortCriteria> sortCriterias = null);
 

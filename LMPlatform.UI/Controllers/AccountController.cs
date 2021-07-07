@@ -1,22 +1,29 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
+using System.Web.ClientServices;
 using System.Web.Mvc;
 using System.Web.Security;
 using Application.Core.Data;
 using Application.Core.UI.Controllers;
 using Application.Infrastructure.LecturerManagement;
 using Application.Infrastructure.UserManagement;
+using JWT.Algorithms;
+using JWT.Builder;
 using LMPlatform.Data.Infrastructure;
 using LMPlatform.Data.Repositories;
 using LMPlatform.Models;
+using LMPlatform.UI.Helpers;
 using LMPlatform.UI.ViewModels.AdministrationViewModels;
 using WebMatrix.WebData;
 
 namespace LMPlatform.UI.Controllers
 {
     using LMPlatform.UI.ViewModels.AccountViewModels;
+    using System.Collections.Generic;
+    using System.Configuration;
 
     public class AccountController : BasicController
     {
@@ -41,9 +48,9 @@ namespace LMPlatform.UI.Controllers
             {
                 if (User.IsInRole("admin"))
                 {
-                    result = RedirectToAction("Management");                
+                    result = RedirectToAction("Management");
                 }
-                
+
                 if (!IsLecturerActive(model.UserName))
                 {
                     ModelState.AddModelError(string.Empty, "Данныe имя пользователя и пароль больше не действительны");
@@ -69,11 +76,71 @@ namespace LMPlatform.UI.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        public ActionResult LoginJWT(LoginViewModel model, string returnUrl)
+        {
+            ActionResult result;
+
+            if (ModelState.IsValid && UsersManagementService.Login(model.UserName, model.Password) is (User user, Role role))
+            {
+                if (!IsLecturerActive(model.UserName))
+                {
+                    ModelState.AddModelError(string.Empty, "Данныe имя пользователя и пароль больше не действительны");
+                    result = View("Login", model);
+                }
+                else
+                {
+                    var claims = new List<Claim> 
+                    {
+                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                        new Claim(ClaimsIdentity.DefaultRoleClaimType, role.RoleName),
+                        new Claim("id", user.Id.ToString())
+                    };
+                    this.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
+
+                    var tokenLifeTime = int.Parse(ConfigurationManager.AppSettings["jwt:tokenLifeTimeInHours"]);
+                    var tokenSecret = ConfigurationManager.AppSettings["jwt:secret"];
+                    var token = new JwtBuilder()
+                        .WithAlgorithm(new HMACSHA256Algorithm())
+                        .WithSecret(tokenSecret)
+                        .AddClaim(ClaimName.ExpirationTime, DateTimeOffset.UtcNow.AddHours(tokenLifeTime).ToUnixTimeSeconds())
+                        .AddClaims(claims.Select(c => new KeyValuePair<string, object>(c.Type, c.Value)))
+                        .Encode();
+
+                    if (User.IsInRole("admin"))
+                    {
+                        result = RedirectToAction("Management");
+                    }
+                    else
+                    {
+                        UsersManagementService.UpdateLastLoginDate(model.UserName);
+
+                        result = _RedirectToLocal(returnUrl);
+                    }
+                    this.Response.Cookies.Add(new HttpCookie("Authorization", token) { Expires = DateTime.UtcNow.AddMonths(1) });
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Имя пользователя или пароль не являются корректными");
+
+                result = View("Login", model);
+            }
+
+            return result;
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             var loginViewModel = new LoginViewModel();
             loginViewModel.LogOut();
+            var authCookie = this.Response.Cookies["Authorization"];
+            if (authCookie is {})
+            {
+                authCookie.Expires = DateTime.Now.AddDays(-5);
+            }
 
             return RedirectToAction("Login", "Account");
         }

@@ -1,56 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
 using Application.Core.Data;
-using Application.Core.Extensions;
 using Application.Infrastructure.GroupManagement;
-using LMPlatform.UI.Services.Modules.CoreModels;
+using Application.Infrastructure.SubjectManagement;
+using LMPlatform.UI.Services.Modules.Lectures;
+using System.Globalization;
+using Newtonsoft.Json;
+using WebMatrix.WebData;
+using Application.Core;
 
 namespace LMPlatform.UI.Services.Lectures
 {
-    using System.Globalization;
-
-    using Application.Core;
-    using Application.Infrastructure.SubjectManagement;
-
-    using LMPlatform.Models;
-    using LMPlatform.UI.Services.Modules;
-    using LMPlatform.UI.Services.Modules.Lectures;
-    using LMPlatform.UI.Services.Modules.News;
-
-    using Newtonsoft.Json;
-    using Application.Infrastructure.ConceptManagement;
-    using WebMatrix.WebData;
+    using Models;
+    using Modules;
 
     public class LecturesService : ILecturesService
     {
         private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
         private readonly LazyDependency<IGroupManagementService> groupManagementService = new LazyDependency<IGroupManagementService>();
 
-        public IGroupManagementService GroupManagementService
-        {
-            get
-            {
-                return groupManagementService.Value;
-            }
-        }
+        public IGroupManagementService GroupManagementService => groupManagementService.Value;
 
-        public ISubjectManagementService SubjectManagementService
-        {
-            get
-            {
-                return subjectManagementService.Value;
-            }
-        }
+        public ISubjectManagementService SubjectManagementService => subjectManagementService.Value;
 
         public LecturesResult GetLectures(string subjectId)
         {
             try
             {
-                var model = SubjectManagementService.GetSubject(int.Parse(subjectId)).Lectures.Select(e => new LecturesViewData(e)).ToList();
+	            var id = int.Parse(subjectId);
+	            var lecturesQuery = new Query<Subject>(e => e.Id == id).Include(e => e.Lectures);
+                var model = SubjectManagementService.GetSubject(lecturesQuery).Lectures.Select(e => new LecturesViewData(e)).ToList();
 
                 return new LecturesResult
                 {
@@ -59,9 +39,9 @@ namespace LMPlatform.UI.Services.Lectures
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new LecturesResult()
+                return new LecturesResult
                 {
                     Message = "Произошла ошибка при получении лекций",
                     Code = "500"
@@ -73,10 +53,13 @@ namespace LMPlatform.UI.Services.Lectures
         {
             try
             {
-                var entities =
-                    SubjectManagementService.GetSubject(int.Parse(subjectId))
-                        .LecturesScheduleVisitings.ToList().OrderBy(e => e.Date)
-                        .ToList();
+	            var id = int.Parse(subjectId); 
+				var lecturesScheduleVisitingsQuery = new Query<Subject>(e => e.Id == id)
+					.Include(e => e.LecturesScheduleVisitings);
+
+                var entities = SubjectManagementService.GetSubject(lecturesScheduleVisitingsQuery)
+                        .LecturesScheduleVisitings
+                        .OrderBy(e => e.Date);
                 var model = entities.Select(e => new CalendarViewData(e)).ToList();
 
                 return new CalendarResult
@@ -86,9 +69,9 @@ namespace LMPlatform.UI.Services.Lectures
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new CalendarResult()
+                return new CalendarResult
                 {
                     Message = "Произошла ошибка при получении рассписания лекций",
                     Code = "500"
@@ -96,23 +79,22 @@ namespace LMPlatform.UI.Services.Lectures
             }
         }
 
-        public ResultViewData Save(string subjectId, string id, string theme, string duration, string order, string pathFile, string attachments)
+        public ResultViewData Save(int subjectId, int id, string theme, int duration, int order, string pathFile, string attachments)
         {
             try
             {
                 var attachmentsModel = JsonConvert.DeserializeObject<List<Attachment>>(attachments).ToList();
-                var subject = int.Parse(subjectId);
                 SubjectManagementService.SaveLectures(new Lectures
                 {
-                    SubjectId = subject,
-                    Duration = int.Parse(duration),
+                    SubjectId = subjectId,
+                    Duration = duration,
                     Theme = theme,
-                    Order = int.Parse(order),
+                    Order = order,
                     Attachments = pathFile,
-                    Id = int.Parse(id)
+                    Id = id
                 }, attachmentsModel, WebSecurity.CurrentUserId);
 
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Лекция успешно сохранена",
                     Code = "200"
@@ -120,7 +102,7 @@ namespace LMPlatform.UI.Services.Lectures
             }
             catch (Exception e)
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при сохранении лекции." + e.Message,
                     Code = "500"
@@ -128,12 +110,12 @@ namespace LMPlatform.UI.Services.Lectures
             }
         }
 
-        public ResultViewData Delete(string id, string subjectId)
+        public ResultViewData Delete(int id, int subjectId)
         {
             try
             {
-                SubjectManagementService.DeleteLection(new Lectures { Id = int.Parse(id) });
-                return new ResultViewData()
+                SubjectManagementService.DeleteLection(new Lectures { Id = id });
+                return new ResultViewData
                 {
                     Message = "Лекция успешно удалена",
                     Code = "200"
@@ -141,7 +123,7 @@ namespace LMPlatform.UI.Services.Lectures
             }
             catch (Exception e)
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при удалении лекции." + e.Message,
                     Code = "500"
@@ -149,20 +131,20 @@ namespace LMPlatform.UI.Services.Lectures
             }
         }
 
-        public ResultViewData SaveDateLectures(string subjectId, string date)
+        public ResultViewData SaveDateLectures(int subjectId, string date)
         {
             try
             {
-				SubjectManagementService.SaveDateLectures(int.Parse(subjectId), DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture));
-                return new ResultViewData()
+				SubjectManagementService.SaveDateLectures(subjectId, DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture));
+                return new ResultViewData
                 {
                     Message = "Дата успешно добавлена",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при добавлении даты",
                     Code = "500"
@@ -170,30 +152,28 @@ namespace LMPlatform.UI.Services.Lectures
             }
         }
 
-        public StudentMarkForDateResult GetMarksCalendarData(string dateId, string subjectId, string groupId)
+        public StudentMarkForDateResult GetMarksCalendarData(int dateId, int subjectId, int groupId)
         {
             try
             {
-                var subjectIntId = int.Parse(subjectId);
-                var dateIntId = int.Parse(dateId);
                 var visitingDate =
                     SubjectManagementService.GetScheduleVisitings(
-                        new Query<LecturesScheduleVisiting>(e => e.SubjectId == subjectIntId && e.Id == dateIntId)).FirstOrDefault();
+                        new Query<LecturesScheduleVisiting>(e => e.SubjectId == subjectId && e.Id == dateId)).FirstOrDefault();
 
-                var group = GroupManagementService.GetGroup(int.Parse(groupId));
+                var group = GroupManagementService.GetGroup(groupId);
                 var model = new List<StudentMarkForDateViewData>();
                 foreach (var student in group.Students.OrderBy(e => e.FullName))
                 {
                     if (student.LecturesVisitMarks.Any(e => e.LecturesScheduleVisitingId == visitingDate.Id))
-                    {
-                        model.Add(new StudentMarkForDateViewData
-                                      {
-                                          MarkId = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Id,
-                                          StudentId = student.Id,
-										  Login = student.User.UserName,
-                                          StudentName = student.FullName,
-                                          Mark = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Mark
-                                      });
+                    { 
+	                    model.Add(new StudentMarkForDateViewData
+						{
+							MarkId = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Id,
+							StudentId = student.Id,
+							Login = student.User.UserName,
+							StudentName = student.FullName,
+							Mark = student.LecturesVisitMarks.FirstOrDefault(e => e.LecturesScheduleVisitingId == visitingDate.Id).Mark
+						});
                     }
                     else
                     {
@@ -208,18 +188,18 @@ namespace LMPlatform.UI.Services.Lectures
                     }
                 }
 
-                return new StudentMarkForDateResult()
+                return new StudentMarkForDateResult
                 {
-                    DateId = dateIntId,
+                    DateId = dateId,
                     Date = visitingDate.Date.ToShortDateString(),
                     StudentMarkForDate = model,
                     Message = "Данные успешно загружены",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new StudentMarkForDateResult()
+                return new StudentMarkForDateResult
                 {
                     Message = "Произошла ошибка",
                     Code = "500"
@@ -233,23 +213,25 @@ namespace LMPlatform.UI.Services.Lectures
             {
                 foreach (var student in lecturesMarks)
                 {
-                    SubjectManagementService.SaveMarksCalendarData(student.Marks.Select(e => new LecturesVisitMark
-                                                                                     {
-                                                                                         Id = e.MarkId,
-                                                                                         Mark = e.Mark,
-                                                                                         LecturesScheduleVisitingId = e.LecuresVisitId,
-                                                                                         StudentId = student.StudentId
-                                                                                     }).ToList());   
+                    SubjectManagementService.SaveMarksCalendarData(student.Marks
+					.Select(e => 
+						new LecturesVisitMark
+						{
+							Id = e.MarkId,
+							Mark = e.Mark,
+							LecturesScheduleVisitingId = e.LecuresVisitId,
+							StudentId = student.StudentId
+						}).ToList());
                 }
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Данные успешно добавлены",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при добавлении данных",
                     Code = "500"
@@ -261,7 +243,9 @@ namespace LMPlatform.UI.Services.Lectures
 		{
 			try
 			{
-				SubjectManagementService.SaveMarksCalendarData(new List<LecturesVisitMark> { new LecturesVisitMark
+				SubjectManagementService.SaveMarksCalendarData(new List<LecturesVisitMark> 
+				{
+					new LecturesVisitMark
 					{
 						Id = markId,
 						Mark = mark,
@@ -270,15 +254,15 @@ namespace LMPlatform.UI.Services.Lectures
 					}
 				});
 
-				return new ResultViewData()
+				return new ResultViewData
 				{
 					Message = "Данные успешно добавлены",
 					Code = "200"
 				};
 			}
-			catch (Exception)
+			catch
 			{
-				return new ResultViewData()
+				return new ResultViewData
 				{
 					Message = "Произошла ошибка при добавлении данных",
 					Code = "500"
@@ -286,21 +270,21 @@ namespace LMPlatform.UI.Services.Lectures
 			}
 		}
 
-        public ResultViewData DeleteVisitingDate(string id)
+        public ResultViewData DeleteVisitingDate(int id)
         {
             try
             {
-                SubjectManagementService.DeleteLectionVisitingDate(int.Parse(id));
+                SubjectManagementService.DeleteLectionVisitingDate(id);
 
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Дата успешно удалена",
                     Code = "200"
                 };
             }
-            catch (Exception)
+            catch
             {
-                return new ResultViewData()
+                return new ResultViewData
                 {
                     Message = "Произошла ошибка при удалении даты",
                     Code = "500"
@@ -308,21 +292,21 @@ namespace LMPlatform.UI.Services.Lectures
             }
         }
 
-		public ResultViewData DeleteVisitingDates(List<string> dateIds)
+		public ResultViewData DeleteVisitingDates(List<int> dateIds)
 		{
 			try
 			{
-				dateIds.ForEach(e => SubjectManagementService.DeleteLectionVisitingDate(int.Parse(e)));
+				dateIds.ForEach(e => SubjectManagementService.DeleteLectionVisitingDate(e));
 
-				return new ResultViewData()
+				return new ResultViewData
 				{
 					Message = "Даты успешно удалены",
 					Code = "200"
 				};
 			}
-			catch (Exception)
+			catch
 			{
-				return new ResultViewData()
+				return new ResultViewData
 				{
 					Message = "Произошла ошибка при удалении дат",
 					Code = "500"

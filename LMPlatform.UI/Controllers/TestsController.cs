@@ -21,10 +21,11 @@ namespace LMPlatform.UI.Controllers
     using System.Web;
     using System.Web.Http;
     using Application.Infrastructure.ConceptManagement;
+    using LMPlatform.UI.Attributes;
     using LMPlatform.UI.Services.Modules.Concept;
     using LMPlatform.UI.ViewModels.SubjectViewModels;
 
-    [Authorize]
+    [JwtAuth]
     public class TestsController : BasicController
     {
         public string TestContentPath
@@ -32,7 +33,7 @@ namespace LMPlatform.UI.Controllers
             get { return ConfigurationManager.AppSettings["TestContentPath"]; }
         }
 
-        [Authorize(Roles = "lector"), HttpGet]
+        [JwtAuth(Roles = "lector"), HttpGet]
         public ActionResult KnowledgeTesting(int subjectId)
         {
             if (!User.IsInRole("lector"))
@@ -362,22 +363,26 @@ namespace LMPlatform.UI.Controllers
 
         public JsonResult GetSubGroups(int groupId, int subjectId, int testId)
         {
-            IEnumerable<TestUnlockInfo> testUnlocks = TestsManagementService.GetTestUnlocksForTest(groupId, testId);
+            var testUnlocks = this.TestsManagementService.GetTestUnlocksForTest(groupId, testId);
 
-	        var test = SubjectsManagementService.GetSubGroups(subjectId, groupId);
+            var test = this.SubjectsManagementService.GetSubGroupsV3(subjectId, groupId);
 
-			var subgroups = test.Select(subGroup => new
+            var subgroups = test.Select(subGroup => new
             {
-                Name = subGroup.Name,
-				Students = subGroup.SubjectStudents.Where(e => e.Student.GroupId == groupId && (e.Student.Confirmed == null || e.Student.Confirmed.Value)).Select(student => new
-                {
-                    Id = student.StudentId,
-                    Name = student.Student.FullName,
-					Unlocked = testUnlocks.FirstOrDefault(e => e.StudentId == student.StudentId) != null ? testUnlocks.Single(unlock => unlock.StudentId == student.StudentId).Unlocked : false
-                }).OrderBy(student => student.Name).ToArray()
+                subGroup.Name,
+                Students = subGroup.SubjectStudents.Where(e =>
+                    e.Student.GroupId == groupId && (e.Student.Confirmed == null || e.Student.Confirmed.Value)).Select(
+                    student => new
+                    {
+                        Id = student.StudentId,
+                        Name = student.Student.FullName,
+                        Unlocked = testUnlocks.FirstOrDefault(e => e.StudentId == student.StudentId) != null
+                            ? testUnlocks.Single(unlock => unlock.StudentId == student.StudentId).Unlocked
+                            : false
+                    }).OrderBy(student => student.Name).ToArray()
             }).ToArray();
 
-            return Json(subgroups, JsonRequestBehavior.AllowGet);
+            return this.Json(subgroups, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Subjects(int subjectId)

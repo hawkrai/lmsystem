@@ -1,8 +1,8 @@
-﻿namespace LMPlatform.UI.Services.Modules.Lectures
-{
-    using System.Collections.Generic;
-    using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
+namespace LMPlatform.UI.Services.Modules.Lectures
+{
     [DataContract]
     public class StudentMarkForDateResult : ResultViewData
     {

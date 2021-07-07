@@ -476,6 +476,12 @@ namespace LMPlatform.Data.Infrastructure
                 .HasForeignKey(e => e.PracticalId)
                 .WillCascadeOnDelete(false);
 
+			modelBuilder.Entity<Attachment>()
+				.HasOptional(a => a.Author)
+				.WithMany(u => u.Attachments)
+				.HasForeignKey(a => a.UserId)
+				.WillCascadeOnDelete(false);
+
             MapKnowledgeTestingEntities(modelBuilder);
             MapBTSEntities(modelBuilder);
             MapDpEntities(modelBuilder);

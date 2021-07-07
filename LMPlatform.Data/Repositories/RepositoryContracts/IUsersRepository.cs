@@ -7,4 +7,8 @@
     public interface IUsersRepository : IRepositoryBase<User>
     {
     }
+
+    public interface IMembershipRepository : IRepositoryBase<Membership>
+    {
+    }
 }

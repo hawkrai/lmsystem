@@ -13,7 +13,7 @@ namespace LMPlatform.UI.Services.Search
 
         [OperationContract]
         [WebGet]
-        Stream SearchProjects(string text);        
+        Stream SearchProjects(string text);
 
         [OperationContract]
         [WebGet]

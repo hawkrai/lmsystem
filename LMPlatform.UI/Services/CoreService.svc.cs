@@ -1,102 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
 using Application.Infrastructure.FilesManagement;
 using Application.Infrastructure.KnowledgeTestsManagement;
 using LMPlatform.UI.Services.Modules;
 using LMPlatform.UI.Services.Modules.Lectures;
 using WebMatrix.WebData;
+using System.Globalization;
+using Application.Core;
+using Application.Core.Data;
+using Application.Core.Extensions;
+using Application.Infrastructure.GroupManagement;
+using Application.Infrastructure.LecturerManagement;
+using Application.Infrastructure.StudentManagement;
+using Application.Infrastructure.SubjectManagement;
+using LMPlatform.Models;
+using LMPlatform.UI.Services.Modules.CoreModels;
+using LMPlatform.UI.Services.Modules.Labs;
+using LMPlatform.UI.Services.Modules.Parental;
+using LMPlatform.UI.Services.Modules.Practicals;
 
 namespace LMPlatform.UI.Services
 {
-	using System.Data.Entity.ModelConfiguration.Conventions;
-	using System.Globalization;
-
-	using Application.Core;
-	using Application.Core.Data;
-	using Application.Core.Extensions;
-	using Application.Infrastructure.GroupManagement;
-	using Application.Infrastructure.LecturerManagement;
-	using Application.Infrastructure.StudentManagement;
-	using Application.Infrastructure.SubjectManagement;
-
-	using LMPlatform.Models;
-	using LMPlatform.UI.Services.Lectures;
-	using LMPlatform.UI.Services.Modules.CoreModels;
-	using LMPlatform.UI.Services.Modules.Labs;
-	using LMPlatform.UI.Services.Modules.Parental;
-	using LMPlatform.UI.Services.Modules.Practicals;
-
 	public class CoreService : ICoreService
 	{
 		private readonly LazyDependency<IGroupManagementService> groupManagementService = new LazyDependency<IGroupManagementService>();
 
-		public IGroupManagementService GroupManagementService
-		{
-			get
-			{
-				return groupManagementService.Value;
-			}
-		}
+		public IGroupManagementService GroupManagementService => groupManagementService.Value;
 
 		private readonly LazyDependency<IStudentManagementService> studentManagementService = new LazyDependency<IStudentManagementService>();
 
-		public IStudentManagementService StudentManagementService
-		{
-			get
-			{
-				return studentManagementService.Value;
-			}
-		}
+		public IStudentManagementService StudentManagementService => studentManagementService.Value;
 
 		private readonly LazyDependency<ITestPassingService> testPassingService = new LazyDependency<ITestPassingService>();
 
-		public ITestPassingService TestPassingService
-		{
-			get
-			{
-				return testPassingService.Value;
-			}
-		}
+		public ITestPassingService TestPassingService => testPassingService.Value;
 
 		private readonly LazyDependency<ISubjectManagementService> subjectManagementService = new LazyDependency<ISubjectManagementService>();
 
-		public ISubjectManagementService SubjectManagementService
-		{
-			get
-			{
-				return subjectManagementService.Value;
-			}
-		}
+		public ISubjectManagementService SubjectManagementService => subjectManagementService.Value;
 
 		private readonly LazyDependency<IFilesManagementService> filesManagementService = new LazyDependency<IFilesManagementService>();
 
-		public IFilesManagementService FilesManagementService
-		{
-			get
-			{
-				return filesManagementService.Value;
-			}
-		}
+		public IFilesManagementService FilesManagementService => filesManagementService.Value;
 
 		private readonly LazyDependency<ILecturerManagementService> lecturerManagementService = new LazyDependency<ILecturerManagementService>();
 
-		public ILecturerManagementService LecturerManagementService
-		{
-			get
-			{
-				return lecturerManagementService.Value;
-			}
-		}
+		public ILecturerManagementService LecturerManagementService => lecturerManagementService.Value;
 
-		public ResultViewData DisjoinLector(string subjectId, string lectorId)
+		public ResultViewData DisjoinLector(int subjectId, int lectorId)
 		{
 			try
 			{
-				this.LecturerManagementService.DisjoinLector(int.Parse(subjectId), int.Parse(lectorId), CurrentUserId);
+				this.LecturerManagementService.DisjoinLector(subjectId, lectorId, CurrentUserId);
 
 				return new ResultViewData
 				{
@@ -106,7 +62,7 @@ namespace LMPlatform.UI.Services
 			}
 			catch (Exception ex)
 			{
-				return new LectorResult()
+				return new LectorResult
 				{
 					Message = ex.Message + "\n" + ex.StackTrace,
 					Code = "500"
@@ -118,7 +74,8 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				var lectors = this.LecturerManagementService.GetJoinedLector(int.Parse(subjectId), this.CurrentUserId);
+				var id = int.Parse(subjectId);
+				var lectors = this.LecturerManagementService.GetJoinedLector(id, this.CurrentUserId);
 
 				return new LectorResult
 				{
@@ -129,7 +86,7 @@ namespace LMPlatform.UI.Services
 			}
 			catch (Exception ex)
 			{
-				return new LectorResult()
+				return new LectorResult
 				{
 					Message = ex.Message + "\n" + ex.StackTrace,
 					Code = "500"
@@ -137,11 +94,11 @@ namespace LMPlatform.UI.Services
 			}
 		}
 
-		public ResultViewData JoinLector(string subjectId, string lectorId)
+		public ResultViewData JoinLector(int subjectId, int lectorId)
 		{
 			try
 			{
-				this.LecturerManagementService.Join(int.Parse(subjectId), int.Parse(lectorId), CurrentUserId);
+				this.LecturerManagementService.Join(subjectId, lectorId, CurrentUserId);
 
 				return new ResultViewData
 				{
@@ -151,7 +108,7 @@ namespace LMPlatform.UI.Services
 			}
 			catch (Exception ex)
 			{
-				return new LectorResult()
+				return new LectorResult
 				{
 					Message = ex.Message + "\n" + ex.StackTrace,
 					Code = "500"
@@ -163,7 +120,9 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				var lectors = this.LecturerManagementService.GetLecturers().Where(e => e.Id != this.CurrentUserId && !e.SubjectLecturers.Any(x => x.SubjectId == int.Parse(subjectId) && x.Owner == this.CurrentUserId));
+				var lectors = this.LecturerManagementService.GetLecturers()
+					.Where(e => e.Id != this.CurrentUserId && !e.SubjectLecturers
+						            .Any(x => x.SubjectId == int.Parse(subjectId) && x.Owner == this.CurrentUserId));
 
 				return new LectorResult
 				{
@@ -174,7 +133,7 @@ namespace LMPlatform.UI.Services
 			}
 			catch (Exception ex)
 			{
-				return new LectorResult()
+				return new LectorResult
 				{
 					Message = ex.Message + "\n" + ex.StackTrace,
 					Code = "500"
@@ -186,18 +145,22 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				var subjects = this.SubjectManagementService.GetSubjectsByLectorOwner(this.CurrentUserId);
+				var subjects = this.SubjectManagementService.GetSubjectsByLectorOwner(this.CurrentUserId, lite: true);
 
 				return new SubjectsResult
 				{
-					Subjects = subjects.Select(e => new SubjectViewData { Id = e.Id, Name = e.Name }).ToList(),
+					Subjects = subjects.Select(e => new SubjectViewData
+					{
+						Id = e.Id,
+						Name = e.Name
+					}).ToList(),
 					Message = "Предметы успешно загружены",
 					Code = "200"
 				};
 			}
 			catch (Exception ex)
 			{
-				return new SubjectsResult()
+				return new SubjectsResult
 				{
 					Message = ex.Message + "\n" + ex.StackTrace,
 					Code = "500"
@@ -209,7 +172,8 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				this.StudentManagementService.СonfirmationStudent(int.Parse(studentId));
+				var id = int.Parse(studentId);
+				this.StudentManagementService.СonfirmationStudent(id);
 
 				return new StudentsResult
 				{
@@ -219,7 +183,7 @@ namespace LMPlatform.UI.Services
 			}
 			catch (Exception ex)
 			{
-				return new StudentsResult()
+				return new StudentsResult
 				{
 					Message = ex.Message + "\n" + ex.StackTrace,
 					Code = "500"
@@ -231,7 +195,8 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				this.StudentManagementService.UnConfirmationStudent(int.Parse(studentId));
+				var id = int.Parse(studentId);
+				this.StudentManagementService.UnConfirmationStudent(id);
 
 				return new StudentsResult
 				{
@@ -241,7 +206,7 @@ namespace LMPlatform.UI.Services
 			}
 			catch (Exception ex)
 			{
-				return new StudentsResult()
+				return new StudentsResult
 				{
 					Message = ex.Message + "\n" + ex.StackTrace,
 					Code = "500"
@@ -253,18 +218,27 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				var students = this.GroupManagementService.GetGroup(int.Parse(groupId)).Students.OrderBy(e => e.FullName);
+				var id = int.Parse(groupId);
+				var students = this.GroupManagementService.GetGroups(
+					new Query<Group>(g => g.Id == id).Include(g => g.Students))
+					.Single().Students
+					.OrderBy(e => e.FullName);
 
 				return new StudentsResult
 				{
-					Students = students.Select(e => new StudentsViewData() { StudentId = e.Id, FullName = e.FullName, Confirmed  = e.Confirmed == null || e.Confirmed.Value != false}).ToList(),
+					Students = students.Select(e => new StudentsViewData
+					{
+						StudentId = e.Id,
+						FullName = e.FullName,
+						Confirmed  = e.Confirmed == null || e.Confirmed.Value
+					}).ToList(),
 					Message = "Студенты успешно загружены",
 					Code = "200"
 				};
 			}
 			catch (Exception ex)
 			{
-				return new StudentsResult()
+				return new StudentsResult
 				{
 					Message = ex.Message + "\n" + ex.StackTrace,
 					Code = "500"
@@ -272,20 +246,20 @@ namespace LMPlatform.UI.Services
 			}
 		}
 
-
-        public StudentsResult GetStudentsByStudentGroupId(string groupId, string subjectId)
+		public StudentsResult GetStudentsByStudentGroupId(string groupId, string subjectId)
         {
             try
             {
                 var subGroups = this.SubjectManagementService.GetSubGroupsV3(int.Parse(subjectId), int.Parse(groupId));
-                List<StudentsViewData> Students = new List<StudentsViewData>();
-                int subGroupIndex = 0;
+                var students = new List<StudentsViewData>();
+                var subGroupIndex = 0;
                 foreach (var subGroup in subGroups)
                 {
-                    Students.AddRange(subGroup.SubjectStudents.Select(e => new StudentsViewData() {
+                    students.AddRange(subGroup.SubjectStudents.Select(e => new StudentsViewData
+                    {
                         StudentId = e.Student.Id,
                         FullName = e.Student.FullName,
-                        Confirmed = e.Student.Confirmed == null || e.Student.Confirmed.Value != false,
+                        Confirmed = e.Student.Confirmed == null || e.Student.Confirmed.Value,
                         SubgroupId = subGroupIndex,
                         Login = e.Student.User.UserName
                     }));
@@ -294,14 +268,14 @@ namespace LMPlatform.UI.Services
 
                 return new StudentsResult
                 {
-                    Students = Students,
+                    Students = students,
                     Message = "Студенты успешно загружены",
                     Code = "200"
                 };
             }
             catch (Exception ex)
             {
-                return new StudentsResult()
+                return new StudentsResult
                 {
                     Message = ex.Message + "\n" + ex.StackTrace,
                     Code = "500"
@@ -354,14 +328,18 @@ namespace LMPlatform.UI.Services
                 var groups = GroupManagementService.GetGroups(new Query<Group>(e => e.SubjectGroups.Any(x => x.SubjectId == id && x.IsActiveOnCurrentGroup)));
                 return new GroupsResult
                 {
-                    Groups = groups.Select(e => new GroupsViewData() { GroupId = e.Id, GroupName = e.Name }).ToList(),
+                    Groups = groups.Select(e => new GroupsViewData
+                    {
+	                    GroupId = e.Id,
+	                    GroupName = e.Name
+                    }).ToList(),
                     Message = "Группы успешно загружены",
                     Code = "200"
                 };
             }
             catch (Exception ex)
             {
-                return new GroupsResult()
+                return new GroupsResult
                 {
                     Message = ex.Message + "\n" + ex.StackTrace,
                     Code = "500"
@@ -473,6 +451,7 @@ namespace LMPlatform.UI.Services
                 };
             }
         }
+
         public LecturesMarkVisitingResult GetLecturesMarkVisitingV2(int subjectId, int groupId)
 		{
 			try
@@ -555,16 +534,17 @@ namespace LMPlatform.UI.Services
 		{
 			try
 			{
-				var groups = this.GroupManagementService.GetLecturesGroups(int.Parse(userId));
+				var id = int.Parse(userId);
+				var groups = this.GroupManagementService.GetLecturesGroups(id);
 
 				var groupsViewModel = new List<GroupsViewData>();
 
-				foreach (var @group in groups.DistinctBy(e => e.Id))
+				foreach (var group in groups.DistinctBy(e => e.Id))
 				{
-					groupsViewModel.Add(new GroupsViewData()
+					groupsViewModel.Add(new GroupsViewData
 					{
-						GroupId = @group.Id,
-						GroupName = @group.Name
+						GroupId = group.Id,
+						GroupName = group.Name
 					});
 				}
 
@@ -577,7 +557,7 @@ namespace LMPlatform.UI.Services
 			}
 			catch (Exception ex)
 			{
-				return new GroupsResult()
+				return new GroupsResult
 				{
 					Message = ex.Message + "\n" + ex.StackTrace,
 					Code = "500"
@@ -867,19 +847,15 @@ namespace LMPlatform.UI.Services
 
         public LectorResult GetLecturers()
         {
-            var lecturers = LecturerManagementService.GetLecturers(e => e.LastName).Select(e => new LectorViewData(e)).ToList();
-            return new LectorResult()
+            var lecturers = LecturerManagementService.GetLecturers(e => e.LastName, lite: true)
+	            .Select(e => new LectorViewData(e))
+	            .ToList();
+            return new LectorResult
             {
                 Lectors = lecturers
             };
         }
 
-        protected int CurrentUserId
-		{
-			get
-			{
-				return int.Parse(WebSecurity.CurrentUserId.ToString(CultureInfo.InvariantCulture));
-			}
-		}
+        protected int CurrentUserId => WebSecurity.CurrentUserId;
 	}
 }

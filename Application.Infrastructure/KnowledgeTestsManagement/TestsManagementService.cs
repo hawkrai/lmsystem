@@ -107,21 +107,22 @@ namespace Application.Infrastructure.KnowledgeTestsManagement
 			}
 		}
 
-		public IEnumerable<Test> GetTestsForSubject(int? subjectId)
+		public IEnumerable<Test> GetTestsForSubject(int? subjectId, bool lite = false)
 		{
-			IEnumerable<Test> searchResults;
-			using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-			{
-				var query = new Query<Test>().Include(test => test.TestUnlocks);
+			using var repositoriesContainer = new LmPlatformRepositoriesContainer();
 
-				if (subjectId.HasValue)
+			var query = lite ? new Query<Test>() : new Query<Test>().Include(test => test.TestUnlocks);
+
+			if (subjectId.HasValue)
+			{
+				query.AddFilterClause(test => test.SubjectId == subjectId.Value);
+				if (!lite)
 				{
-					query.AddFilterClause(test => test.SubjectId == subjectId.Value);
 					query.Include(t => t.Questions);
 				}
-
-				searchResults = repositoriesContainer.TestsRepository.GetAll(query).ToList();
 			}
+
+			var searchResults = repositoriesContainer.TestsRepository.GetAll(query).ToList();
 
 			return searchResults;
 		}

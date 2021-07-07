@@ -17,10 +17,10 @@ using WebMatrix.WebData;
 namespace LMPlatform.UI.Controllers
 {
 	using Application.Infrastructure.StudentManagement;
+    using LMPlatform.UI.Attributes;
+    using ViewModels.AdministrationViewModels;
 
-	using ViewModels.AdministrationViewModels;
-
-    [Authorize(Roles = "student, lector")]
+    [JwtAuth(Roles = "student, lector")]
     public class LmsController : BasicController
     {
 		public ActionResult Index(string userLogin = "")

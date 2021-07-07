@@ -1,31 +1,28 @@
 ﻿using LMPlatform.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Infrastructure.ConceptManagement
 {
     public interface IConceptManagementService
     {
-        Concept GetById(Int32 id);
-        Concept GetByIdFixed(Int32 id);
-        Concept GetTreeConceptByElementId(Int32 elementId);
-        IEnumerable<Concept> GetRootElements(Int32 authorId, Boolean onlyVisible=false);
-        IEnumerable<Concept> GetRootElementsBySubject(Int32 subjectId);
+	    Concept GetLiteById(int id);
+        Concept GetById(int id);
+        Concept GetByIdFixed(int id, bool withPrev = true, bool withNext = true);
+        Concept GetTreeConceptByElementId(int elementId);
+        IEnumerable<Concept> GetRootElements(int authorId, bool onlyVisible=false);
+        IEnumerable<Concept> GetRootElementsBySubject(int subjectId);
         IEnumerable<Concept> GetRootTreeElementsBySubject(int subjectId);
-        IEnumerable<Concept> GetElementsByParentId(Int32 authorId, Int32 parentId);
-        IEnumerable<Concept> GetElementsByParentId(Int32 parentId);
+        IEnumerable<Concept> GetElementsByParentId(int parentId, int authorId);
+        IEnumerable<Concept> GetElementsByParentId(int parentId);
         IEnumerable<Concept> GetElementsBySubjectId(int subjectId);
-        Concept CreateRootConcept(String name, Int32 authorId, Int32 subjectId);
+        Concept CreateRootConcept(string name, int authorId, int subjectId);
         Concept SaveConcept(Concept concept, IList<Attachment> attachments);
         Concept SaveConcept(Concept concept);
-        Concept UpdateRootConcept(Int32 id, String name, bool published);
-        void Remove(Int32 id, Boolean removeChildren);
-        Concept AttachSiblings(Int32 sourceId, Int32 rightId, Int32 leftId);
-        void AttachFolderToLectSection(String folderName, Int32 userId, Int32 subjectId);
-        void AttachFolderToLabSection(String folderName, Int32 userId, Int32 subjectId);
-        Boolean IsTestModule(String moduleName);
+        Concept UpdateRootConcept(int id, string name, bool published);
+        void Remove(int id, bool removeChildren);
+        Concept AttachSiblings(int sourceId, int rightId, int leftId);
+        void AttachFolderToLectSection(string folderName, int userId, int subjectId);
+        void AttachFolderToLabSection(string folderName, int userId, int subjectId);
+        bool IsTestModule(string moduleName);
     }
 }

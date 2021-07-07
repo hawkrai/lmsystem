@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Runtime.Serialization;
 
 namespace LMPlatform.UI.Services.Modules.Parental
 {
-    using System.Runtime.Serialization;
-
-    using LMPlatform.Models;
+    using Models;
 
     [DataContract]
     public class SubjectViewData
     {
 	    public SubjectViewData()
 	    {
-		    
 	    }
 
         public SubjectViewData(Subject subject)

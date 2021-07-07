@@ -104,51 +104,47 @@ namespace LMPlatform.Data.Repositories
         {
             try
             {
+	            var context = DataContext.Set<UserMessages>();
+
+                var reciepMsg = context.FirstOrDefault(e => e.MessageId == messageId && e.RecipientId == userId);
+
+                if (reciepMsg != null)
                 {
-                    var context = DataContext.Set<UserMessages>();
-
-                    var reciepMsg = context.FirstOrDefault(e => e.MessageId == messageId && e.RecipientId == userId);
-
-                    if (reciepMsg != null)
+                    if (reciepMsg.DeletedById == reciepMsg.AuthorId)
                     {
-                        if (reciepMsg.DeletedById == reciepMsg.AuthorId)
-                        {
-                            context.Remove(reciepMsg);
-                        }
-                        else
-                        {
-                            reciepMsg.DeletedById = userId;
-                        }
+                        context.Remove(reciepMsg);
                     }
-
-                    var authorMsg = context.Where(e => e.MessageId == messageId && e.AuthorId == userId);
-
-                    foreach (var msg in authorMsg)
+                    else
                     {
-                        if (msg.DeletedById == msg.RecipientId)
-                        {
-                            context.Remove(msg);
-                        }
-                        else
-                        {
-                            msg.DeletedById = userId;
-                        }
+                        reciepMsg.DeletedById = userId;
                     }
+                }
 
-                    DataContext.SaveChanges();
+                var authorMsg = context.Where(e => e.MessageId == messageId && e.AuthorId == userId);
 
-                    if (!context.Any(e => e.MessageId == messageId))
+                foreach (var msg in authorMsg)
+                {
+                    if (msg.DeletedById == msg.RecipientId)
                     {
-                        var msg = GetBy(new Query<Message>(m => m.Id == messageId).Include(m => m.Attachments));
-                        if (msg.Attachments.Any())
-                        {
-                            using (var repositoriesContainer = new LmPlatformRepositoriesContainer())
-                            {
-                                repositoriesContainer.AttachmentRepository.Delete(msg.Attachments);
-                                repositoriesContainer.MessageRepository.Delete(msg);
-                                repositoriesContainer.ApplyChanges();
-                            }
-                        }
+                        context.Remove(msg);
+                    }
+                    else
+                    {
+                        msg.DeletedById = userId;
+                    }
+                }
+
+                DataContext.SaveChanges();
+
+                if (!context.Any(e => e.MessageId == messageId))
+                {
+                    var msg = GetBy(new Query<Message>(m => m.Id == messageId).Include(m => m.Attachments));
+                    if (msg.Attachments.Any())
+                    {
+	                    using var repositoriesContainer = new LmPlatformRepositoriesContainer();
+	                    repositoriesContainer.AttachmentRepository.Delete(msg.Attachments);
+	                    repositoriesContainer.MessageRepository.Delete(msg);
+	                    repositoriesContainer.ApplyChanges();
                     }
                 }
             }
